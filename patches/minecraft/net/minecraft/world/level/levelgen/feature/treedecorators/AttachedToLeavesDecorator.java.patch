@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/levelgen/feature/treedecorators/AttachedToLeavesDecorator.java
++++ b/net/minecraft/world/level/levelgen/feature/treedecorators/AttachedToLeavesDecorator.java
+@@ -50,7 +_,7 @@
+ 
+       for(BlockPos blockpos : Util.m_214611_(p_226000_.m_226069_(), randomsource)) {
+          Direction direction = Util.m_214621_(this.f_225985_, randomsource);
+-         BlockPos blockpos1 = blockpos.m_121945_(direction);
++         BlockPos blockpos1 = blockpos.relative(direction);
+          if (!set.contains(blockpos1) && randomsource.m_188501_() < this.f_225980_ && this.m_226001_(p_226000_, blockpos, direction)) {
+             BlockPos blockpos2 = blockpos1.m_7918_(-this.f_225981_, -this.f_225982_, -this.f_225981_);
+             BlockPos blockpos3 = blockpos1.m_7918_(this.f_225981_, this.f_225982_, this.f_225981_);
+@@ -67,7 +_,7 @@
+ 
+    private boolean m_226001_(TreeDecorator.Context p_226002_, BlockPos p_226003_, Direction p_226004_) {
+       for(int i = 1; i <= this.f_225984_; ++i) {
+-         BlockPos blockpos = p_226003_.m_5484_(p_226004_, i);
++         BlockPos blockpos = p_226003_.relative(p_226004_, i);
+          if (!p_226002_.m_226059_(blockpos)) {
+             return false;
+          }

@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/level/chunk/storage/SectionStorage.java
++++ b/net/minecraft/world/level/chunk/storage/SectionStorage.java
+@@ -94,8 +_,8 @@
+    }
+ 
+    protected boolean m_156630_(long p_156631_) {
+-      int i = SectionPos.m_123223_(SectionPos.m_123225_(p_156631_));
+-      return this.f_156618_.m_151562_(i);
++      long i = SectionPos.sectionToBlockCoord(SectionPos.m_123225_(p_156631_));
++      return this.f_156618_.isOutsideBuildHeight(i);
+    }
+ 
+    protected R m_63827_(long p_63828_) {
+@@ -199,7 +_,7 @@
+    }
+ 
+    private static long m_156627_(ChunkPos p_156628_, int p_156629_) {
+-      return SectionPos.m_123209_(p_156628_.f_45578_, p_156629_, p_156628_.f_45579_);
++      return SectionPos.asLong(p_156628_.f_45578_, p_156629_, p_156628_.f_45579_);
+    }
+ 
+    protected void m_5839_(long p_63813_) {

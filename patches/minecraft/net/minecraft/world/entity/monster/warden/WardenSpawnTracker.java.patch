@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/entity/monster/warden/WardenSpawnTracker.java
++++ b/net/minecraft/world/entity/monster/warden/WardenSpawnTracker.java
+@@ -95,12 +_,12 @@
+    }
+ 
+    private static boolean m_219574_(ServerLevel p_219575_, BlockPos p_219576_) {
+-      AABB aabb = AABB.m_165882_(Vec3.m_82512_(p_219576_), 48.0D, 48.0D, 48.0D);
++      AABB aabb = AABB.m_165882_(Vec3.atCenterOf(p_219576_), 48.0D, 48.0D, 48.0D);
+       return !p_219575_.m_45976_(Warden.class, aabb).isEmpty();
+    }
+ 
+    private static List<ServerPlayer> m_219594_(ServerLevel p_219595_, BlockPos p_219596_) {
+-      Vec3 vec3 = Vec3.m_82512_(p_219596_);
++      Vec3 vec3 = Vec3.atCenterOf(p_219596_);
+       Predicate<ServerPlayer> predicate = (p_219592_) -> {
+          return p_219592_.m_20182_().m_82509_(vec3, 16.0D);
+       };

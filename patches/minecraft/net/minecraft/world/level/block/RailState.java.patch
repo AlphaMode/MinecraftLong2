@@ -1,0 +1,191 @@
+--- a/net/minecraft/world/level/block/RailState.java
++++ b/net/minecraft/world/level/block/RailState.java
+@@ -35,44 +_,44 @@
+       this.f_55419_.clear();
+       switch (p_55428_) {
+          case NORTH_SOUTH:
+-            this.f_55419_.add(this.f_55415_.m_122012_());
+-            this.f_55419_.add(this.f_55415_.m_122019_());
++            this.f_55419_.add(this.f_55415_.north());
++            this.f_55419_.add(this.f_55415_.south());
+             break;
+          case EAST_WEST:
+-            this.f_55419_.add(this.f_55415_.m_122024_());
+-            this.f_55419_.add(this.f_55415_.m_122029_());
++            this.f_55419_.add(this.f_55415_.west());
++            this.f_55419_.add(this.f_55415_.east());
+             break;
+          case ASCENDING_EAST:
+-            this.f_55419_.add(this.f_55415_.m_122024_());
+-            this.f_55419_.add(this.f_55415_.m_122029_().m_7494_());
++            this.f_55419_.add(this.f_55415_.west());
++            this.f_55419_.add(this.f_55415_.east().above());
+             break;
+          case ASCENDING_WEST:
+-            this.f_55419_.add(this.f_55415_.m_122024_().m_7494_());
+-            this.f_55419_.add(this.f_55415_.m_122029_());
++            this.f_55419_.add(this.f_55415_.west().above());
++            this.f_55419_.add(this.f_55415_.east());
+             break;
+          case ASCENDING_NORTH:
+-            this.f_55419_.add(this.f_55415_.m_122012_().m_7494_());
+-            this.f_55419_.add(this.f_55415_.m_122019_());
++            this.f_55419_.add(this.f_55415_.north().above());
++            this.f_55419_.add(this.f_55415_.south());
+             break;
+          case ASCENDING_SOUTH:
+-            this.f_55419_.add(this.f_55415_.m_122012_());
+-            this.f_55419_.add(this.f_55415_.m_122019_().m_7494_());
++            this.f_55419_.add(this.f_55415_.north());
++            this.f_55419_.add(this.f_55415_.south().above());
+             break;
+          case SOUTH_EAST:
+-            this.f_55419_.add(this.f_55415_.m_122029_());
+-            this.f_55419_.add(this.f_55415_.m_122019_());
++            this.f_55419_.add(this.f_55415_.east());
++            this.f_55419_.add(this.f_55415_.south());
+             break;
+          case SOUTH_WEST:
+-            this.f_55419_.add(this.f_55415_.m_122024_());
+-            this.f_55419_.add(this.f_55415_.m_122019_());
++            this.f_55419_.add(this.f_55415_.west());
++            this.f_55419_.add(this.f_55415_.south());
+             break;
+          case NORTH_WEST:
+-            this.f_55419_.add(this.f_55415_.m_122024_());
+-            this.f_55419_.add(this.f_55415_.m_122012_());
++            this.f_55419_.add(this.f_55415_.west());
++            this.f_55419_.add(this.f_55415_.north());
+             break;
+          case NORTH_EAST:
+-            this.f_55419_.add(this.f_55415_.m_122029_());
+-            this.f_55419_.add(this.f_55415_.m_122012_());
++            this.f_55419_.add(this.f_55415_.east());
++            this.f_55419_.add(this.f_55415_.north());
+       }
+ 
+    }
+@@ -90,7 +_,7 @@
+    }
+ 
+    private boolean m_55429_(BlockPos p_55430_) {
+-      return BaseRailBlock.m_49364_(this.f_55414_, p_55430_) || BaseRailBlock.m_49364_(this.f_55414_, p_55430_.m_7494_()) || BaseRailBlock.m_49364_(this.f_55414_, p_55430_.m_7495_());
++      return BaseRailBlock.m_49364_(this.f_55414_, p_55430_) || BaseRailBlock.m_49364_(this.f_55414_, p_55430_.above()) || BaseRailBlock.m_49364_(this.f_55414_, p_55430_.below());
+    }
+ 
+    @Nullable
+@@ -99,12 +_,12 @@
+       if (BaseRailBlock.m_49416_(blockstate)) {
+          return new RailState(this.f_55414_, p_55439_, blockstate);
+       } else {
+-         BlockPos $$1 = p_55439_.m_7494_();
++         BlockPos $$1 = p_55439_.above();
+          blockstate = this.f_55414_.m_8055_($$1);
+          if (BaseRailBlock.m_49416_(blockstate)) {
+             return new RailState(this.f_55414_, $$1, blockstate);
+          } else {
+-            $$1 = p_55439_.m_7495_();
++            $$1 = p_55439_.below();
+             blockstate = this.f_55414_.m_8055_($$1);
+             return BaseRailBlock.m_49416_(blockstate) ? new RailState(this.f_55414_, $$1, blockstate) : null;
+          }
+@@ -118,7 +_,7 @@
+    private boolean m_55443_(BlockPos p_55444_) {
+       for(int i = 0; i < this.f_55419_.size(); ++i) {
+          BlockPos blockpos = this.f_55419_.get(i);
+-         if (blockpos.m_123341_() == p_55444_.m_123341_() && blockpos.m_123343_() == p_55444_.m_123343_()) {
++         if (blockpos.getX() == p_55444_.getX() && blockpos.getZ() == p_55444_.getZ()) {
+             return true;
+          }
+       }
+@@ -130,7 +_,7 @@
+       int i = 0;
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         if (this.m_55429_(this.f_55415_.m_121945_(direction))) {
++         if (this.m_55429_(this.f_55415_.relative(direction))) {
+             ++i;
+          }
+       }
+@@ -144,10 +_,10 @@
+ 
+    private void m_55441_(RailState p_55442_) {
+       this.f_55419_.add(p_55442_.f_55415_);
+-      BlockPos blockpos = this.f_55415_.m_122012_();
+-      BlockPos blockpos1 = this.f_55415_.m_122019_();
+-      BlockPos blockpos2 = this.f_55415_.m_122024_();
+-      BlockPos blockpos3 = this.f_55415_.m_122029_();
++      BlockPos blockpos = this.f_55415_.north();
++      BlockPos blockpos1 = this.f_55415_.south();
++      BlockPos blockpos2 = this.f_55415_.west();
++      BlockPos blockpos3 = this.f_55415_.east();
+       boolean flag = this.m_55443_(blockpos);
+       boolean flag1 = this.m_55443_(blockpos1);
+       boolean flag2 = this.m_55443_(blockpos2);
+@@ -180,21 +_,21 @@
+       }
+ 
+       if (railshape == RailShape.NORTH_SOUTH) {
+-         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos.m_7494_())) {
++         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos.above())) {
+             railshape = RailShape.ASCENDING_NORTH;
+          }
+ 
+-         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos1.m_7494_())) {
++         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos1.above())) {
+             railshape = RailShape.ASCENDING_SOUTH;
+          }
+       }
+ 
+       if (railshape == RailShape.EAST_WEST) {
+-         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos3.m_7494_())) {
++         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos3.above())) {
+             railshape = RailShape.ASCENDING_EAST;
+          }
+ 
+-         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos2.m_7494_())) {
++         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos2.above())) {
+             railshape = RailShape.ASCENDING_WEST;
+          }
+       }
+@@ -218,10 +_,10 @@
+    }
+ 
+    public RailState m_55431_(boolean p_55432_, boolean p_55433_, RailShape p_55434_) {
+-      BlockPos blockpos = this.f_55415_.m_122012_();
+-      BlockPos blockpos1 = this.f_55415_.m_122019_();
+-      BlockPos blockpos2 = this.f_55415_.m_122024_();
+-      BlockPos blockpos3 = this.f_55415_.m_122029_();
++      BlockPos blockpos = this.f_55415_.north();
++      BlockPos blockpos1 = this.f_55415_.south();
++      BlockPos blockpos2 = this.f_55415_.west();
++      BlockPos blockpos3 = this.f_55415_.east();
+       boolean flag = this.m_55446_(blockpos);
+       boolean flag1 = this.m_55446_(blockpos1);
+       boolean flag2 = this.m_55446_(blockpos2);
+@@ -306,21 +_,21 @@
+       }
+ 
+       if (railshape == RailShape.NORTH_SOUTH) {
+-         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos.m_7494_())) {
++         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos.above())) {
+             railshape = RailShape.ASCENDING_NORTH;
+          }
+ 
+-         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos1.m_7494_())) {
++         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos1.above())) {
+             railshape = RailShape.ASCENDING_SOUTH;
+          }
+       }
+ 
+       if (railshape == RailShape.EAST_WEST) {
+-         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos3.m_7494_())) {
++         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos3.above())) {
+             railshape = RailShape.ASCENDING_EAST;
+          }
+ 
+-         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos2.m_7494_())) {
++         if (BaseRailBlock.m_49364_(this.f_55414_, blockpos2.above())) {
+             railshape = RailShape.ASCENDING_WEST;
+          }
+       }

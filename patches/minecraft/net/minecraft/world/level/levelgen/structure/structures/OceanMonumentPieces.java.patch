@@ -1,0 +1,49 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentPieces.java
+@@ -141,8 +_,8 @@
+       private OceanMonumentPieces.RoomDefinition f_228644_;
+       private final List<OceanMonumentPieces.OceanMonumentPiece> f_228645_ = Lists.newArrayList();
+ 
+-      public MonumentBuilding(RandomSource p_228648_, int p_228649_, int p_228650_, Direction p_228651_) {
+-         super(StructurePieceType.f_210107_, p_228651_, 0, m_163541_(p_228649_, 39, p_228650_, p_228651_, 58, 23, 58));
++      public MonumentBuilding(RandomSource p_228648_, long p_228649_, long p_228650_, Direction p_228651_) {
++         super(StructurePieceType.f_210107_, p_228651_, 0, m_163541_((int) p_228649_, 39, (int) p_228650_, p_228651_, 58, 23, 58));
+          this.m_73519_(p_228651_);
+          List<OceanMonumentPieces.RoomDefinition> list = this.m_228672_(p_228648_);
+          this.f_228643_.f_228939_ = true;
+@@ -171,12 +_,12 @@
+          BlockPos blockpos = this.m_163582_(9, 0, 22);
+ 
+          for(OceanMonumentPieces.OceanMonumentPiece oceanmonumentpieces$oceanmonumentpiece : this.f_228645_) {
+-            oceanmonumentpieces$oceanmonumentpiece.m_73547_().m_162373_(blockpos);
++            oceanmonumentpieces$oceanmonumentpiece.m_73547_().move(blockpos);
+          }
+ 
+-         BoundingBox boundingbox = BoundingBox.m_162375_(this.m_163582_(1, 1, 1), this.m_163582_(23, 8, 21));
+-         BoundingBox boundingbox1 = BoundingBox.m_162375_(this.m_163582_(34, 1, 1), this.m_163582_(56, 8, 21));
+-         BoundingBox boundingbox2 = BoundingBox.m_162375_(this.m_163582_(22, 13, 22), this.m_163582_(35, 17, 35));
++         BoundingBox boundingbox = BoundingBox.fromCorners(this.m_163582_(1, 1, 1), this.m_163582_(23, 8, 21));
++         BoundingBox boundingbox1 = BoundingBox.fromCorners(this.m_163582_(34, 1, 1), this.m_163582_(56, 8, 21));
++         BoundingBox boundingbox2 = BoundingBox.fromCorners(this.m_163582_(22, 13, 22), this.m_163582_(35, 17, 35));
+          int i = p_228648_.m_188502_();
+          this.f_228645_.add(new OceanMonumentPieces.OceanMonumentWingRoom(p_228651_, boundingbox, i++));
+          this.f_228645_.add(new OceanMonumentPieces.OceanMonumentWingRoom(p_228651_, boundingbox1, i++));
+@@ -1433,15 +_,15 @@
+          int j = this.m_73525_(p_228867_, p_228868_);
+          int k = this.m_73392_(p_228869_, p_228870_);
+          int l = this.m_73525_(p_228869_, p_228870_);
+-         return p_228866_.m_71019_(Math.min(i, k), Math.min(j, l), Math.max(i, k), Math.max(j, l));
++         return p_228866_.intersects(Math.min(i, k), Math.min(j, l), Math.max(i, k), Math.max(j, l));
+       }
+ 
+       protected boolean m_228843_(WorldGenLevel p_228844_, BoundingBox p_228845_, int p_228846_, int p_228847_, int p_228848_) {
+          BlockPos blockpos = this.m_163582_(p_228846_, p_228847_, p_228848_);
+-         if (p_228845_.m_71051_(blockpos)) {
++         if (p_228845_.isInside(blockpos)) {
+             ElderGuardian elderguardian = EntityType.f_20563_.m_20615_(p_228844_.m_6018_());
+             elderguardian.m_5634_(elderguardian.m_21233_());
+-            elderguardian.m_7678_((double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_(), (double)blockpos.m_123343_() + 0.5D, 0.0F, 0.0F);
++            elderguardian.m_7678_((double)blockpos.getX() + 0.5D, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
+             elderguardian.m_6518_(p_228844_, p_228844_.m_6436_(elderguardian.m_20183_()), MobSpawnType.STRUCTURE, (SpawnGroupData)null, (CompoundTag)null);
+             p_228844_.m_47205_(elderguardian);
+             return true;

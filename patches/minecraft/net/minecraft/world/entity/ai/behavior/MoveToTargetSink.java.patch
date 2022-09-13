@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
++++ b/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
+@@ -91,7 +_,7 @@
+ 
+       if (path != null && this.f_23569_ != null) {
+          WalkTarget walktarget = brain.m_21952_(MemoryModuleType.f_26370_).get();
+-         if (walktarget.m_26420_().m_6675_().m_123331_(this.f_23569_) > 4.0D && this.m_23592_(p_23618_, walktarget, p_23617_.m_46467_())) {
++         if (walktarget.m_26420_().m_6675_().distSqr(this.f_23569_) > 4.0D && this.m_23592_(p_23618_, walktarget, p_23617_.m_46467_())) {
+             this.f_23569_ = walktarget.m_26420_().m_6675_();
+             this.m_6735_(p_23617_, p_23618_, p_23619_);
+          }
+@@ -118,7 +_,7 @@
+             return true;
+          }
+ 
+-         Vec3 vec3 = DefaultRandomPos.m_148412_((PathfinderMob)p_23593_, 10, 7, Vec3.m_82539_(blockpos), (double)((float)Math.PI / 2F));
++         Vec3 vec3 = DefaultRandomPos.m_148412_((PathfinderMob)p_23593_, 10, 7, Vec3.atBottomCenterOf(blockpos), (double)((float)Math.PI / 2F));
+          if (vec3 != null) {
+             this.f_23568_ = p_23593_.m_21573_().m_26524_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, 0);
+             return this.f_23568_ != null;
+@@ -129,6 +_,6 @@
+    }
+ 
+    private boolean m_23589_(Mob p_23590_, WalkTarget p_23591_) {
+-      return p_23591_.m_26420_().m_6675_().m_123333_(p_23590_.m_20183_()) <= p_23591_.m_26422_();
++      return p_23591_.m_26420_().m_6675_().distManhattan(p_23590_.m_20183_()) <= p_23591_.m_26422_();
+    }
+ }

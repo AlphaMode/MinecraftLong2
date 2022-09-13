@@ -1,0 +1,50 @@
+--- a/net/minecraft/world/level/block/piston/PistonStructureResolver.java
++++ b/net/minecraft/world/level/block/piston/PistonStructureResolver.java
+@@ -27,10 +_,10 @@
+       this.f_60411_ = p_60421_;
+       if (p_60421_) {
+          this.f_60413_ = p_60420_;
+-         this.f_60412_ = p_60419_.m_121945_(p_60420_);
++         this.f_60412_ = p_60419_.relative(p_60420_);
+       } else {
+          this.f_60413_ = p_60420_.m_122424_();
+-         this.f_60412_ = p_60419_.m_5484_(p_60420_, 2);
++         this.f_60412_ = p_60419_.relative(p_60420_, 2);
+       }
+ 
+    }
+@@ -90,7 +_,7 @@
+             return false;
+          } else {
+             while(m_155937_(blockstate)) {
+-               BlockPos blockpos = p_60434_.m_5484_(this.f_60413_.m_122424_(), i);
++               BlockPos blockpos = p_60434_.relative(this.f_60413_.m_122424_(), i);
+                BlockState blockstate1 = blockstate;
+                blockstate = this.f_60409_.m_8055_(blockpos);
+                if (blockstate.m_60795_() || !m_155939_(blockstate1, blockstate) || !PistonBaseBlock.m_60204_(blockstate, this.f_60409_, blockpos, this.f_60413_, false, this.f_60413_.m_122424_()) || blockpos.equals(this.f_60410_)) {
+@@ -106,14 +_,14 @@
+             int l = 0;
+ 
+             for(int i1 = i - 1; i1 >= 0; --i1) {
+-               this.f_60414_.add(p_60434_.m_5484_(this.f_60413_.m_122424_(), i1));
++               this.f_60414_.add(p_60434_.relative(this.f_60413_.m_122424_(), i1));
+                ++l;
+             }
+ 
+             int j1 = 1;
+ 
+             while(true) {
+-               BlockPos blockpos1 = p_60434_.m_5484_(this.f_60413_, j1);
++               BlockPos blockpos1 = p_60434_.relative(this.f_60413_, j1);
+                int j = this.f_60414_.indexOf(blockpos1);
+                if (j > -1) {
+                   this.m_60423_(l, j);
+@@ -172,7 +_,7 @@
+ 
+       for(Direction direction : Direction.values()) {
+          if (direction.m_122434_() != this.f_60413_.m_122434_()) {
+-            BlockPos blockpos = p_60432_.m_121945_(direction);
++            BlockPos blockpos = p_60432_.relative(direction);
+             BlockState blockstate1 = this.f_60409_.m_8055_(blockpos);
+             if (m_155939_(blockstate1, blockstate) && !this.m_60433_(blockpos, direction)) {
+                return false;

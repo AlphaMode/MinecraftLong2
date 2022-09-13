@@ -1,0 +1,57 @@
+--- a/net/minecraft/world/level/block/entity/BellBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/BellBlockEntity.java
+@@ -109,7 +_,7 @@
+ 
+       if (!this.f_58857_.f_46443_) {
+          for(LivingEntity livingentity : this.f_58817_) {
+-            if (livingentity.m_6084_() && !livingentity.m_213877_() && blockpos.m_203195_(livingentity.m_20182_(), 32.0D)) {
++            if (livingentity.m_6084_() && !livingentity.m_213877_() && blockpos.closerToCenterThan(livingentity.m_20182_(), 32.0D)) {
+                livingentity.m_6274_().m_21879_(MemoryModuleType.f_26325_, this.f_58857_.m_46467_());
+             }
+          }
+@@ -119,7 +_,7 @@
+ 
+    private static boolean m_155199_(BlockPos p_155200_, List<LivingEntity> p_155201_) {
+       for(LivingEntity livingentity : p_155201_) {
+-         if (livingentity.m_6084_() && !livingentity.m_213877_() && p_155200_.m_203195_(livingentity.m_20182_(), 32.0D) && livingentity.m_6095_().m_204039_(EntityTypeTags.f_13121_)) {
++         if (livingentity.m_6084_() && !livingentity.m_213877_() && p_155200_.closerToCenterThan(livingentity.m_20182_(), 32.0D) && livingentity.m_6095_().m_204039_(EntityTypeTags.f_13121_)) {
+             return true;
+          }
+       }
+@@ -136,15 +_,15 @@
+    private static void m_155207_(Level p_155208_, BlockPos p_155209_, List<LivingEntity> p_155210_) {
+       MutableInt mutableint = new MutableInt(16700985);
+       int i = (int)p_155210_.stream().filter((p_155216_) -> {
+-         return p_155209_.m_203195_(p_155216_.m_20182_(), 48.0D);
++         return p_155209_.closerToCenterThan(p_155216_.m_20182_(), 48.0D);
+       }).count();
+       p_155210_.stream().filter((p_155213_) -> {
+          return m_155196_(p_155209_, p_155213_);
+       }).forEach((p_155195_) -> {
+          float f = 1.0F;
+-         double d0 = Math.sqrt((p_155195_.m_20185_() - (double)p_155209_.m_123341_()) * (p_155195_.m_20185_() - (double)p_155209_.m_123341_()) + (p_155195_.m_20189_() - (double)p_155209_.m_123343_()) * (p_155195_.m_20189_() - (double)p_155209_.m_123343_()));
+-         double d1 = (double)((float)p_155209_.m_123341_() + 0.5F) + 1.0D / d0 * (p_155195_.m_20185_() - (double)p_155209_.m_123341_());
+-         double d2 = (double)((float)p_155209_.m_123343_() + 0.5F) + 1.0D / d0 * (p_155195_.m_20189_() - (double)p_155209_.m_123343_());
++         double d0 = Math.sqrt((p_155195_.m_20185_() - (double)p_155209_.getX()) * (p_155195_.m_20185_() - (double)p_155209_.getX()) + (p_155195_.m_20189_() - (double)p_155209_.getZ()) * (p_155195_.m_20189_() - (double)p_155209_.getZ()));
++         double d1 = (double)((float)p_155209_.getX() + 0.5F) + 1.0D / d0 * (p_155195_.m_20185_() - (double)p_155209_.getX());
++         double d2 = (double)((float)p_155209_.getZ() + 0.5F) + 1.0D / d0 * (p_155195_.m_20189_() - (double)p_155209_.getZ());
+          int j = Mth.m_14045_((i - 21) / -2, 3, 15);
+ 
+          for(int k = 0; k < j; ++k) {
+@@ -152,14 +_,14 @@
+             double d3 = (double)FastColor.ARGB32.m_13665_(l) / 255.0D;
+             double d4 = (double)FastColor.ARGB32.m_13667_(l) / 255.0D;
+             double d5 = (double)FastColor.ARGB32.m_13669_(l) / 255.0D;
+-            p_155208_.m_7106_(ParticleTypes.f_123811_, d1, (double)((float)p_155209_.m_123342_() + 0.5F), d2, d3, d4, d5);
++            p_155208_.m_7106_(ParticleTypes.f_123811_, d1, (double)((float)p_155209_.getY() + 0.5F), d2, d3, d4, d5);
+          }
+ 
+       });
+    }
+ 
+    private static boolean m_155196_(BlockPos p_155197_, LivingEntity p_155198_) {
+-      return p_155198_.m_6084_() && !p_155198_.m_213877_() && p_155197_.m_203195_(p_155198_.m_20182_(), 48.0D) && p_155198_.m_6095_().m_204039_(EntityTypeTags.f_13121_);
++      return p_155198_.m_6084_() && !p_155198_.m_213877_() && p_155197_.closerToCenterThan(p_155198_.m_20182_(), 48.0D) && p_155198_.m_6095_().m_204039_(EntityTypeTags.f_13121_);
+    }
+ 
+    private static void m_58840_(LivingEntity p_58841_) {

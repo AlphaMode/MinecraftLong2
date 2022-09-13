@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/level/block/BeehiveBlock.java
++++ b/net/minecraft/world/level/block/BeehiveBlock.java
+@@ -191,14 +_,14 @@
+          if (d0 >= 1.0D && !p_49606_.m_204336_(BlockTags.f_13049_)) {
+             double d1 = voxelshape.m_83288_(Direction.Axis.Y);
+             if (d1 > 0.0D) {
+-               this.m_49612_(p_49604_, p_49605_, voxelshape, (double)p_49605_.m_123342_() + d1 - 0.05D);
++               this.m_49612_(p_49604_, p_49605_, voxelshape, (double)p_49605_.getY() + d1 - 0.05D);
+             } else {
+-               BlockPos blockpos = p_49605_.m_7495_();
++               BlockPos blockpos = p_49605_.below();
+                BlockState blockstate = p_49604_.m_8055_(blockpos);
+                VoxelShape voxelshape1 = blockstate.m_60812_(p_49604_, blockpos);
+                double d2 = voxelshape1.m_83297_(Direction.Axis.Y);
+                if ((d2 < 1.0D || !blockstate.m_60838_(p_49604_, blockpos)) && blockstate.m_60819_().m_76178_()) {
+-                  this.m_49612_(p_49604_, p_49605_, voxelshape, (double)p_49605_.m_123342_() - 0.05D);
++                  this.m_49612_(p_49604_, p_49605_, voxelshape, (double)p_49605_.getY() - 0.05D);
+                }
+             }
+          }
+@@ -207,7 +_,7 @@
+    }
+ 
+    private void m_49612_(Level p_49613_, BlockPos p_49614_, VoxelShape p_49615_, double p_49616_) {
+-      this.m_49576_(p_49613_, (double)p_49614_.m_123341_() + p_49615_.m_83288_(Direction.Axis.X), (double)p_49614_.m_123341_() + p_49615_.m_83297_(Direction.Axis.X), (double)p_49614_.m_123343_() + p_49615_.m_83288_(Direction.Axis.Z), (double)p_49614_.m_123343_() + p_49615_.m_83297_(Direction.Axis.Z), p_49616_);
++      this.m_49576_(p_49613_, (double)p_49614_.getX() + p_49615_.m_83288_(Direction.Axis.X), (double)p_49614_.getX() + p_49615_.m_83297_(Direction.Axis.X), (double)p_49614_.getZ() + p_49615_.m_83288_(Direction.Axis.Z), (double)p_49614_.getZ() + p_49615_.m_83297_(Direction.Axis.Z), p_49616_);
+    }
+ 
+    private void m_49576_(Level p_49577_, double p_49578_, double p_49579_, double p_49580_, double p_49581_, double p_49582_) {
+@@ -254,7 +_,7 @@
+                CompoundTag compoundtag1 = new CompoundTag();
+                compoundtag1.m_128405_("honey_level", i);
+                itemstack.m_41700_("BlockStateTag", compoundtag1);
+-               ItemEntity itementity = new ItemEntity(p_49608_, (double)p_49609_.m_123341_(), (double)p_49609_.m_123342_(), (double)p_49609_.m_123343_(), itemstack);
++               ItemEntity itementity = new ItemEntity(p_49608_, (double)p_49609_.getX(), (double)p_49609_.getY(), (double)p_49609_.getZ(), itemstack);
+                itementity.m_32060_();
+                p_49608_.m_7967_(itementity);
+             }

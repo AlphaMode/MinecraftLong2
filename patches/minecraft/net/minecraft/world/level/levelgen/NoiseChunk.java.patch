@@ -1,0 +1,392 @@
+--- a/net/minecraft/world/level/levelgen/NoiseChunk.java
++++ b/net/minecraft/world/level/levelgen/NoiseChunk.java
+@@ -8,6 +_,9 @@
+ import java.util.List;
+ import java.util.Map;
+ import javax.annotation.Nullable;
++
++import it.unimi.dsi.fastutil.longs.Long2LongMap;
++import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
+ import net.minecraft.core.QuartPos;
+ import net.minecraft.core.SectionPos;
+ import net.minecraft.server.level.ColumnPos;
+@@ -22,17 +_,17 @@
+ 
+ public class NoiseChunk implements DensityFunction.ContextProvider, DensityFunction.FunctionContext {
+    private final NoiseSettings f_188717_;
+-   final int f_188718_;
+-   final int f_188719_;
+-   final int f_188720_;
+-   private final int f_188721_;
+-   private final int f_188722_;
+-   final int f_188723_;
+-   final int f_188724_;
++   final long f_188718_;
++   final long f_188719_;
++   final long f_188720_;
++   private final long f_188721_;
++   private final long f_188722_;
++   final long f_188723_;
++   final long f_188724_;
+    final List<NoiseChunk.NoiseInterpolator> f_188725_;
+    final List<NoiseChunk.CacheAllInCell> f_209160_;
+    private final Map<DensityFunction, DensityFunction> f_209161_ = new HashMap<>();
+-   private final Long2IntMap f_198238_ = new Long2IntOpenHashMap();
++   private final Long2LongMap f_198238_ = new Long2LongOpenHashMap();
+    private final Aquifer f_188728_;
+    private final DensityFunction f_209162_;
+    private final NoiseChunk.BlockStateFiller f_209163_;
+@@ -42,17 +_,17 @@
+    private final DensityFunctions.BeardifierOrMarker f_209166_;
+    private long f_209167_ = ChunkPos.f_45577_;
+    private Blender.BlendingOutput f_209168_ = new Blender.BlendingOutput(1.0D, 0.0D);
+-   final int f_209169_;
+-   final int f_209170_;
+-   final int f_209171_;
++   final long f_209169_;
++   final long f_209170_;
++   final long f_209171_;
+    boolean f_209172_;
+    boolean f_209173_;
+-   private int f_209150_;
+-   int f_209151_;
+-   private int f_209152_;
+-   int f_209153_;
+-   int f_209154_;
+-   int f_209155_;
++   private long f_209150_;
++   long f_209151_;
++   private long f_209152_;
++   long f_209153_;
++   long f_209154_;
++   long f_209155_;
+    long f_209156_;
+    long f_209157_;
+    int f_209158_;
+@@ -80,37 +_,37 @@
+    public static NoiseChunk m_224352_(ChunkAccess p_224353_, RandomState p_224354_, DensityFunctions.BeardifierOrMarker p_224355_, NoiseGeneratorSettings p_224356_, Aquifer.FluidPicker p_224357_, Blender p_224358_) {
+       NoiseSettings noisesettings = p_224356_.f_64439_().m_224530_(p_224353_);
+       ChunkPos chunkpos = p_224353_.m_7697_();
+-      int i = 16 / noisesettings.m_189213_();
+-      return new NoiseChunk(i, p_224354_, chunkpos.m_45604_(), chunkpos.m_45605_(), noisesettings, p_224355_, p_224356_, p_224357_, p_224358_);
++      long i = 16 / noisesettings.getCellWidth();
++      return new NoiseChunk(i, p_224354_, chunkpos.getMinBlockX(), chunkpos.getMinBlockZ(), noisesettings, p_224355_, p_224356_, p_224357_, p_224358_);
+    }
+ 
+-   public NoiseChunk(int p_224343_, RandomState p_224344_, int p_224345_, int p_224346_, NoiseSettings p_224347_, DensityFunctions.BeardifierOrMarker p_224348_, NoiseGeneratorSettings p_224349_, Aquifer.FluidPicker p_224350_, Blender p_224351_) {
++   public NoiseChunk(long p_224343_, RandomState p_224344_, long p_224345_, long p_224346_, NoiseSettings p_224347_, DensityFunctions.BeardifierOrMarker p_224348_, NoiseGeneratorSettings p_224349_, Aquifer.FluidPicker p_224350_, Blender p_224351_) {
+       this.f_188717_ = p_224347_;
+-      this.f_209170_ = p_224347_.m_189213_();
+-      this.f_209171_ = p_224347_.m_189212_();
++      this.f_209170_ = p_224347_.getCellWidth();
++      this.f_209171_ = p_224347_.getCellHeight();
+       this.f_188718_ = p_224343_;
+-      this.f_188719_ = Mth.m_14042_(p_224347_.f_64508_(), this.f_209171_);
+-      this.f_188720_ = Mth.m_14042_(p_224347_.f_158688_(), this.f_209171_);
++      this.f_188719_ = Mth.longFloorDiv(p_224347_.height(), this.f_209171_);
++      this.f_188720_ = Mth.longFloorDiv(p_224347_.minY(), this.f_209171_);
+       this.f_188721_ = Math.floorDiv(p_224345_, this.f_209170_);
+       this.f_188722_ = Math.floorDiv(p_224346_, this.f_209170_);
+       this.f_188725_ = Lists.newArrayList();
+       this.f_209160_ = Lists.newArrayList();
+-      this.f_188723_ = QuartPos.m_175400_(p_224345_);
+-      this.f_188724_ = QuartPos.m_175400_(p_224346_);
+-      this.f_209169_ = QuartPos.m_175400_(p_224343_ * this.f_209170_);
++      this.f_188723_ = QuartPos.fromBlock(p_224345_);
++      this.f_188724_ = QuartPos.fromBlock(p_224346_);
++      this.f_209169_ = QuartPos.fromBlock(p_224343_ * this.f_209170_);
+       this.f_188731_ = p_224351_;
+       this.f_209166_ = p_224348_;
+       this.f_209164_ = new NoiseChunk.FlatCache(new NoiseChunk.BlendAlpha(), false);
+       this.f_209165_ = new NoiseChunk.FlatCache(new NoiseChunk.BlendOffset(), false);
+ 
+       for(int i = 0; i <= this.f_209169_; ++i) {
+-         int j = this.f_188723_ + i;
+-         int k = QuartPos.m_175402_(j);
++         long j = this.f_188723_ + i;
++         long k = QuartPos.toBlock(j);
+ 
+          for(int l = 0; l <= this.f_209169_; ++l) {
+-            int i1 = this.f_188724_ + l;
+-            int j1 = QuartPos.m_175402_(i1);
+-            Blender.BlendingOutput blender$blendingoutput = p_224351_.m_207242_(k, j1);
++            long i1 = this.f_188724_ + l;
++            long j1 = QuartPos.toBlock(i1);
++            Blender.BlendingOutput blender$blendingoutput = p_224351_.blendOffsetAndFactor(k, j1);
+             this.f_209164_.f_209327_[i][l] = blender$blendingoutput.f_209729_();
+             this.f_209165_.f_209327_[i][l] = blender$blendingoutput.f_209730_();
+          }
+@@ -121,9 +_,9 @@
+       if (!p_224349_.m_158567_()) {
+          this.f_188728_ = Aquifer.m_188374_(p_224350_);
+       } else {
+-         int k1 = SectionPos.m_123171_(p_224345_);
+-         int l1 = SectionPos.m_123171_(p_224346_);
+-         this.f_188728_ = Aquifer.m_223880_(this, new ChunkPos(k1, l1), noiserouter1, p_224344_.m_224581_(), p_224347_.f_158688_(), p_224347_.f_64508_(), p_224350_);
++         int k1 = SectionPos.m_235865_(p_224345_);
++         int l1 = SectionPos.m_235865_(p_224346_);
++         this.f_188728_ = Aquifer.create(this, new ChunkPos(k1, l1), noiserouter1, p_224344_.m_224581_(), p_224347_.minY(), p_224347_.height(), p_224350_);
+       }
+ 
+       ImmutableList.Builder<NoiseChunk.BlockStateFiller> builder = ImmutableList.builder();
+@@ -148,30 +_,30 @@
+       return this.f_209163_.m_207387_(this);
+    }
+ 
+-   public int m_207115_() {
++   public long blockX() {
+       return this.f_209150_ + this.f_209153_;
+    }
+ 
+-   public int m_207114_() {
++   public long blockY() {
+       return this.f_209151_ + this.f_209154_;
+    }
+ 
+-   public int m_207113_() {
++   public long blockZ() {
+       return this.f_209152_ + this.f_209155_;
+    }
+ 
+-   public int m_198256_(int p_198257_, int p_198258_) {
+-      int i = QuartPos.m_175402_(QuartPos.m_175400_(p_198257_));
+-      int j = QuartPos.m_175402_(QuartPos.m_175400_(p_198258_));
+-      return this.f_198238_.computeIfAbsent(ColumnPos.m_143197_(i, j), this::m_198249_);
++   public long preliminarySurfaceLevel(long p_198257_, long p_198258_) {
++      long i = QuartPos.toBlock(QuartPos.fromBlock(p_198257_));
++      long j = QuartPos.toBlock(QuartPos.fromBlock(p_198258_));
++      return this.f_198238_.computeIfAbsent(ColumnPos.asLong(i, j), this::computePreliminarySurfaceLevel);
+    }
+ 
+-   private int m_198249_(long p_198250_) {
++   private long computePreliminarySurfaceLevel(long p_198250_) {
+       int i = ColumnPos.m_214969_(p_198250_);
+       int j = ColumnPos.m_214971_(p_198250_);
+-      int k = this.f_188717_.f_158688_();
++      long k = this.f_188717_.minY();
+ 
+-      for(int l = k + this.f_188717_.f_64508_(); l >= k; l -= this.f_209171_) {
++      for(long l = k + this.f_188717_.height(); l >= k; l -= this.f_209171_) {
+          if (this.f_209162_.m_207386_(new DensityFunction.SinglePointContext(i, l, j)) > 0.390625D) {
+             return l;
+          }
+@@ -184,12 +_,12 @@
+       return this.f_188731_;
+    }
+ 
+-   private void m_209220_(boolean p_209221_, int p_209222_) {
++   private void fillSlice(boolean p_209221_, long p_209222_) {
+       this.f_209150_ = p_209222_ * this.f_209170_;
+       this.f_209153_ = 0;
+ 
+       for(int i = 0; i < this.f_188718_ + 1; ++i) {
+-         int j = this.f_188722_ + i;
++         long j = this.f_188722_ + i;
+          this.f_209152_ = j * this.f_209170_;
+          this.f_209155_ = 0;
+          ++this.f_209157_;
+@@ -209,20 +_,20 @@
+       } else {
+          this.f_209172_ = true;
+          this.f_209156_ = 0L;
+-         this.m_209220_(true, this.f_188721_);
++         this.fillSlice(true, this.f_188721_);
+       }
+    }
+ 
+    public void m_188749_(int p_188750_) {
+-      this.m_209220_(false, this.f_188721_ + p_188750_ + 1);
++      this.fillSlice(false, this.f_188721_ + p_188750_ + 1);
+       this.f_209150_ = (this.f_188721_ + p_188750_) * this.f_209170_;
+    }
+ 
+    public NoiseChunk m_207263_(int p_209240_) {
+-      int i = Math.floorMod(p_209240_, this.f_209170_);
+-      int j = Math.floorDiv(p_209240_, this.f_209170_);
+-      int k = Math.floorMod(j, this.f_209170_);
+-      int l = this.f_209171_ - 1 - Math.floorDiv(j, this.f_209170_);
++      long i = Math.floorMod(p_209240_, this.f_209170_);
++      long j = Math.floorDiv(p_209240_, this.f_209170_);
++      long k = Math.floorMod(j, this.f_209170_);
++      long l = this.f_209171_ - 1 - Math.floorDiv(j, this.f_209170_);
+       this.f_209153_ = k;
+       this.f_209154_ = l;
+       this.f_209155_ = i;
+@@ -233,7 +_,7 @@
+    public void m_207207_(double[] p_209224_, DensityFunction p_209225_) {
+       this.f_209158_ = 0;
+ 
+-      for(int i = this.f_209171_ - 1; i >= 0; --i) {
++      for(long i = this.f_209171_ - 1; i >= 0; --i) {
+          this.f_209154_ = i;
+ 
+          for(int j = 0; j < this.f_209170_; ++j) {
+@@ -248,9 +_,9 @@
+ 
+    }
+ 
+-   public void m_188810_(int p_188811_, int p_188812_) {
++   public void selectCellYZ(long p_188811_, int p_188812_) {
+       this.f_188725_.forEach((p_209205_) -> {
+-         p_209205_.m_188863_(p_188811_, p_188812_);
++         p_209205_.m_188863_((int) p_188811_, p_188812_);
+       });
+       this.f_209173_ = true;
+       this.f_209151_ = (p_188811_ + this.f_188720_) * this.f_209171_;
+@@ -265,21 +_,21 @@
+       this.f_209173_ = false;
+    }
+ 
+-   public void m_209191_(int p_209192_, double p_209193_) {
++   public void updateForY(long p_209192_, double p_209193_) {
+       this.f_209154_ = p_209192_ - this.f_209151_;
+       this.f_188725_.forEach((p_209238_) -> {
+          p_209238_.m_188850_(p_209193_);
+       });
+    }
+ 
+-   public void m_209230_(int p_209231_, double p_209232_) {
++   public void updateForX(long p_209231_, double p_209232_) {
+       this.f_209153_ = p_209231_ - this.f_209150_;
+       this.f_188725_.forEach((p_209229_) -> {
+          p_209229_.m_188861_(p_209232_);
+       });
+    }
+ 
+-   public void m_209241_(int p_209242_, double p_209243_) {
++   public void updateForZ(long p_209242_, double p_209243_) {
+       this.f_209155_ = p_209242_ - this.f_209152_;
+       ++this.f_209156_;
+       this.f_188725_.forEach((p_209188_) -> {
+@@ -303,21 +_,21 @@
+       return this.f_188728_;
+    }
+ 
+-   protected int m_224362_() {
++   protected long cellWidth() {
+       return this.f_209170_;
+    }
+ 
+-   protected int m_224363_() {
++   protected long cellHeight() {
+       return this.f_209171_;
+    }
+ 
+-   Blender.BlendingOutput m_209244_(int p_209245_, int p_209246_) {
+-      long i = ChunkPos.m_45589_(p_209245_, p_209246_);
++   Blender.BlendingOutput getOrComputeBlendingOutput(long p_209245_, long p_209246_) {
++      long i = ChunkPos.asLong(p_209245_, p_209246_);
+       if (this.f_209167_ == i) {
+          return this.f_209168_;
+       } else {
+          this.f_209167_ = i;
+-         Blender.BlendingOutput blender$blendingoutput = this.f_188731_.m_207242_(p_209245_, p_209246_);
++         Blender.BlendingOutput blender$blendingoutput = this.f_188731_.blendOffsetAndFactor(p_209245_, p_209246_);
+          this.f_209168_ = blender$blendingoutput;
+          return blender$blendingoutput;
+       }
+@@ -384,7 +_,7 @@
+       }
+ 
+       public double m_207386_(DensityFunction.FunctionContext p_209264_) {
+-         return NoiseChunk.this.m_209244_(p_209264_.m_207115_(), p_209264_.m_207113_()).f_209729_();
++         return NoiseChunk.this.getOrComputeBlendingOutput(p_209264_.blockX(), p_209264_.blockZ()).f_209729_();
+       }
+ 
+       public void m_207362_(double[] p_209266_, DensityFunction.ContextProvider p_209267_) {
+@@ -414,7 +_,7 @@
+       }
+ 
+       public double m_207386_(DensityFunction.FunctionContext p_209276_) {
+-         return NoiseChunk.this.m_209244_(p_209276_.m_207115_(), p_209276_.m_207113_()).f_209730_();
++         return NoiseChunk.this.getOrComputeBlendingOutput(p_209276_.blockX(), p_209276_.blockZ()).f_209730_();
+       }
+ 
+       public void m_207362_(double[] p_209278_, DensityFunction.ContextProvider p_209279_) {
+@@ -450,9 +_,9 @@
+       }
+ 
+       public double m_207386_(DensityFunction.FunctionContext p_209290_) {
+-         int i = p_209290_.m_207115_();
+-         int j = p_209290_.m_207113_();
+-         long k = ChunkPos.m_45589_(i, j);
++         long i = p_209290_.blockX();
++         long j = p_209290_.blockZ();
++         long k = ChunkPos.asLong(i, j);
+          if (this.f_209285_ == k) {
+             return this.f_209286_;
+          } else {
+@@ -482,7 +_,7 @@
+ 
+       CacheAllInCell(DensityFunction p_209301_) {
+          this.f_209297_ = p_209301_;
+-         this.f_209298_ = new double[NoiseChunk.this.f_209170_ * NoiseChunk.this.f_209170_ * NoiseChunk.this.f_209171_];
++         this.f_209298_ = new double[(int) (NoiseChunk.this.f_209170_ * NoiseChunk.this.f_209170_ * NoiseChunk.this.f_209171_)];
+          NoiseChunk.this.f_209160_.add(this);
+       }
+ 
+@@ -492,10 +_,10 @@
+          } else if (!NoiseChunk.this.f_209172_) {
+             throw new IllegalStateException("Trying to sample interpolator outside the interpolation loop");
+          } else {
+-            int i = NoiseChunk.this.f_209153_;
+-            int j = NoiseChunk.this.f_209154_;
+-            int k = NoiseChunk.this.f_209155_;
+-            return i >= 0 && j >= 0 && k >= 0 && i < NoiseChunk.this.f_209170_ && j < NoiseChunk.this.f_209171_ && k < NoiseChunk.this.f_209170_ ? this.f_209298_[((NoiseChunk.this.f_209171_ - 1 - j) * NoiseChunk.this.f_209170_ + i) * NoiseChunk.this.f_209170_ + k] : this.f_209297_.m_207386_(p_209303_);
++            long i = NoiseChunk.this.f_209153_;
++            long j = NoiseChunk.this.f_209154_;
++            long k = NoiseChunk.this.f_209155_;
++            return i >= 0 && j >= 0 && k >= 0 && i < NoiseChunk.this.f_209170_ && j < NoiseChunk.this.f_209171_ && k < NoiseChunk.this.f_209170_ ? this.f_209298_[(int) (((NoiseChunk.this.f_209171_ - 1 - j) * NoiseChunk.this.f_209170_ + i) * NoiseChunk.this.f_209170_ + k)] : this.f_209297_.m_207386_(p_209303_);
+          }
+       }
+ 
+@@ -569,15 +_,15 @@
+ 
+       FlatCache(DensityFunction p_209330_, boolean p_209331_) {
+          this.f_209326_ = p_209330_;
+-         this.f_209327_ = new double[NoiseChunk.this.f_209169_ + 1][NoiseChunk.this.f_209169_ + 1];
++         this.f_209327_ = new double[(int) (NoiseChunk.this.f_209169_ + 1)][(int) (NoiseChunk.this.f_209169_ + 1)];
+          if (p_209331_) {
+             for(int i = 0; i <= NoiseChunk.this.f_209169_; ++i) {
+-               int j = NoiseChunk.this.f_188723_ + i;
+-               int k = QuartPos.m_175402_(j);
++               long j = NoiseChunk.this.f_188723_ + i;
++               long k = QuartPos.toBlock(j);
+ 
+                for(int l = 0; l <= NoiseChunk.this.f_209169_; ++l) {
+-                  int i1 = NoiseChunk.this.f_188724_ + l;
+-                  int j1 = QuartPos.m_175402_(i1);
++                  long i1 = NoiseChunk.this.f_188724_ + l;
++                  long j1 = QuartPos.toBlock(i1);
+                   this.f_209327_[i][l] = p_209330_.m_207386_(new DensityFunction.SinglePointContext(k, 0, j1));
+                }
+             }
+@@ -586,12 +_,12 @@
+       }
+ 
+       public double m_207386_(DensityFunction.FunctionContext p_209333_) {
+-         int i = QuartPos.m_175400_(p_209333_.m_207115_());
+-         int j = QuartPos.m_175400_(p_209333_.m_207113_());
+-         int k = i - NoiseChunk.this.f_188723_;
+-         int l = j - NoiseChunk.this.f_188724_;
++         long i = QuartPos.fromBlock(p_209333_.blockX());
++         long j = QuartPos.fromBlock(p_209333_.blockZ());
++         long k = i - NoiseChunk.this.f_188723_;
++         long l = j - NoiseChunk.this.f_188724_;
+          int i1 = this.f_209327_.length;
+-         return k >= 0 && l >= 0 && k < i1 && l < i1 ? this.f_209327_[k][l] : this.f_209326_.m_207386_(p_209333_);
++         return k >= 0 && l >= 0 && k < i1 && l < i1 ? this.f_209327_[(int) k][(int) l] : this.f_209326_.m_207386_(p_209333_);
+       }
+ 
+       public void m_207362_(double[] p_209335_, DensityFunction.ContextProvider p_209336_) {
+@@ -641,8 +_,8 @@
+ 
+       NoiseInterpolator(DensityFunction p_209345_) {
+          this.f_188830_ = p_209345_;
+-         this.f_188828_ = this.m_188854_(NoiseChunk.this.f_188719_, NoiseChunk.this.f_188718_);
+-         this.f_188829_ = this.m_188854_(NoiseChunk.this.f_188719_, NoiseChunk.this.f_188718_);
++         this.f_188828_ = this.m_188854_((int) NoiseChunk.this.f_188719_, (int) NoiseChunk.this.f_188718_);
++         this.f_188829_ = this.m_188854_((int) NoiseChunk.this.f_188719_, (int) NoiseChunk.this.f_188718_);
+          NoiseChunk.this.f_188725_.add(this);
+       }
+ 

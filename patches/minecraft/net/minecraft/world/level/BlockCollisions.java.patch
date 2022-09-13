@@ -1,0 +1,43 @@
+--- a/net/minecraft/world/level/BlockCollisions.java
++++ b/net/minecraft/world/level/BlockCollisions.java
+@@ -48,10 +_,10 @@
+    }
+ 
+    @Nullable
+-   private BlockGetter m_186411_(int p_186412_, int p_186413_) {
+-      int i = SectionPos.m_123171_(p_186412_);
+-      int j = SectionPos.m_123171_(p_186413_);
+-      long k = ChunkPos.m_45589_(i, j);
++   private BlockGetter getChunk(long p_186412_, long p_186413_) {
++      int i = SectionPos.m_235865_(p_186412_);
++      int j = SectionPos.m_235865_(p_186413_);
++      long k = ChunkPos.asLong(i, j);
+       if (this.f_186399_ != null && this.f_186400_ == k) {
+          return this.f_186399_;
+       } else {
+@@ -65,20 +_,20 @@
+    protected VoxelShape computeNext() {
+       while(true) {
+          if (this.f_186394_.m_122304_()) {
+-            int i = this.f_186394_.m_122305_();
+-            int j = this.f_186394_.m_122306_();
+-            int k = this.f_186394_.m_122307_();
++            long i = this.f_186394_.nextX();
++            long j = this.f_186394_.nextY();
++            long k = this.f_186394_.nextZ();
+             int l = this.f_186394_.m_122308_();
+             if (l == 3) {
+                continue;
+             }
+ 
+-            BlockGetter blockgetter = this.m_186411_(i, k);
++            BlockGetter blockgetter = this.getChunk(i, k);
+             if (blockgetter == null) {
+                continue;
+             }
+ 
+-            this.f_186395_.m_122178_(i, j, k);
++            this.f_186395_.m_122169_(i, j, k);
+             BlockState blockstate = blockgetter.m_8055_(this.f_186395_);
+             if (this.f_186398_ && !blockstate.m_60828_(blockgetter, this.f_186395_) || l == 1 && !blockstate.m_60779_() || l == 2 && !blockstate.m_60713_(Blocks.f_50110_)) {
+                continue;

@@ -1,0 +1,26 @@
+--- a/net/minecraft/world/entity/monster/Evoker.java
++++ b/net/minecraft/world/entity/monster/Evoker.java
+@@ -172,7 +_,7 @@
+          double d0 = 0.0D;
+ 
+          do {
+-            BlockPos blockpos1 = blockpos.m_7495_();
++            BlockPos blockpos1 = blockpos.below();
+             BlockState blockstate = Evoker.this.f_19853_.m_8055_(blockpos1);
+             if (blockstate.m_60783_(Evoker.this.f_19853_, blockpos1, Direction.UP)) {
+                if (!Evoker.this.f_19853_.m_46859_(blockpos)) {
+@@ -187,11 +_,11 @@
+                break;
+             }
+ 
+-            blockpos = blockpos.m_7495_();
+-         } while(blockpos.m_123342_() >= Mth.m_14107_(p_32675_) - 1);
++            blockpos = blockpos.below();
++         } while(blockpos.getY() >= Mth.m_14107_(p_32675_) - 1);
+ 
+          if (flag) {
+-            Evoker.this.f_19853_.m_7967_(new EvokerFangs(Evoker.this.f_19853_, p_32673_, (double)blockpos.m_123342_() + d0, p_32674_, p_32677_, p_32678_, Evoker.this));
++            Evoker.this.f_19853_.m_7967_(new EvokerFangs(Evoker.this.f_19853_, p_32673_, (double)blockpos.getY() + d0, p_32674_, p_32677_, p_32678_, Evoker.this));
+          }
+ 
+       }

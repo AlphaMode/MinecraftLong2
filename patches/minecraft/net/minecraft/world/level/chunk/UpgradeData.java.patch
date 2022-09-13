@@ -1,0 +1,55 @@
+--- a/net/minecraft/world/level/chunk/UpgradeData.java
++++ b/net/minecraft/world/level/chunk/UpgradeData.java
+@@ -133,19 +_,19 @@
+          boolean flag3 = set.contains(Direction.NORTH);
+          boolean flag4 = set.size() == 1;
+          ChunkPos chunkpos = p_63344_.m_7697_();
+-         int k = chunkpos.m_45604_() + (!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 1);
+-         int l = chunkpos.m_45604_() + (!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 14);
+-         int i1 = chunkpos.m_45605_() + (!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 1);
+-         int j1 = chunkpos.m_45605_() + (!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 14);
++         long k = chunkpos.getMinBlockX() + (!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 1);
++         long l = chunkpos.getMinBlockX() + (!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 14);
++         long i1 = chunkpos.getMinBlockZ() + (!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 1);
++         long j1 = chunkpos.getMinBlockZ() + (!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 14);
+          Direction[] adirection = Direction.values();
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-         for(BlockPos blockpos : BlockPos.m_121976_(k, level.m_141937_(), i1, l, level.m_151558_() - 1, j1)) {
++         for(BlockPos blockpos : BlockPos.betweenClosed(k, level.getMinBuildHeight(), i1, l, level.getMaxBuildHeight() - 1, j1)) {
+             BlockState blockstate = level.m_8055_(blockpos);
+             BlockState blockstate1 = blockstate;
+ 
+             for(Direction direction : adirection) {
+-               blockpos$mutableblockpos.m_122159_(blockpos, direction);
++               blockpos$mutableblockpos.setWithOffset(blockpos, direction);
+                blockstate1 = m_63335_(blockstate1, direction, level, blockpos, blockpos$mutableblockpos);
+             }
+ 
+@@ -177,13 +_,13 @@
+                int k = j & 15;
+                int l = j >> 8 & 15;
+                int i1 = j >> 4 & 15;
+-               blockpos$mutableblockpos.m_122178_(chunkpos.m_45604_() + k, levelchunksection.m_63017_() + l, chunkpos.m_45605_() + i1);
+-               BlockState blockstate = palettedcontainer.m_63085_(j);
++               blockpos$mutableblockpos.m_122169_(chunkpos.getMinBlockX() + k, levelchunksection.m_63017_() + l, chunkpos.getMinBlockZ() + i1);
++               BlockState blockstate = palettedcontainer.get(j);
+                BlockState blockstate1 = blockstate;
+ 
+                for(Direction direction : adirection) {
+-                  blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, direction);
+-                  if (SectionPos.m_123171_(blockpos$mutableblockpos.m_123341_()) == chunkpos.f_45578_ && SectionPos.m_123171_(blockpos$mutableblockpos.m_123343_()) == chunkpos.f_45579_) {
++                  blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, direction);
++                  if (SectionPos.m_235865_(blockpos$mutableblockpos.getX()) == chunkpos.f_45578_ && SectionPos.m_235865_(blockpos$mutableblockpos.getZ()) == chunkpos.f_45579_) {
+                      blockstate1 = m_63335_(blockstate1, direction, levelaccessor, blockpos$mutableblockpos, blockpos$mutableblockpos1);
+                   }
+                }
+@@ -335,7 +_,7 @@
+                      p_63430_.m_7731_(blockpos, blockstate.m_61124_(BlockStateProperties.f_61414_, Integer.valueOf(j)), 18);
+                      if (i != 7) {
+                         for(Direction direction : f_63363_) {
+-                           blockpos$mutableblockpos.m_122159_(blockpos, direction);
++                           blockpos$mutableblockpos.setWithOffset(blockpos, direction);
+                            BlockState blockstate1 = p_63430_.m_8055_(blockpos$mutableblockpos);
+                            if (blockstate1.m_61138_(BlockStateProperties.f_61414_) && blockstate.m_61143_(BlockStateProperties.f_61414_) > i) {
+                               objectset1.add(blockpos$mutableblockpos.m_7949_());

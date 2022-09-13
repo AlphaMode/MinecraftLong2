@@ -1,0 +1,94 @@
+--- a/net/minecraft/world/level/levelgen/feature/LargeDripstoneFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/LargeDripstoneFeature.java
+@@ -33,17 +_,17 @@
+          Optional<Column> optional = Column.m_158175_(worldgenlevel, blockpos, largedripstoneconfiguration.f_160945_, DripstoneUtils::m_159664_, DripstoneUtils::m_159649_);
+          if (optional.isPresent() && optional.get() instanceof Column.Range) {
+             Column.Range column$range = (Column.Range)optional.get();
+-            if (column$range.m_158214_() < 4) {
++            if (column$range.height() < 4) {
+                return false;
+             } else {
+-               int i = (int)((float)column$range.m_158214_() * largedripstoneconfiguration.f_160948_);
++               int i = (int)((float)column$range.height() * largedripstoneconfiguration.f_160948_);
+                int j = Mth.m_14045_(i, largedripstoneconfiguration.f_160946_.m_142739_(), largedripstoneconfiguration.f_160946_.m_142737_());
+                int k = Mth.m_216287_(randomsource, largedripstoneconfiguration.f_160946_.m_142739_(), j);
+-               LargeDripstoneFeature.LargeDripstone largedripstonefeature$largedripstone = m_225138_(blockpos.m_175288_(column$range.m_158212_() - 1), false, randomsource, k, largedripstoneconfiguration.f_160949_, largedripstoneconfiguration.f_160947_);
+-               LargeDripstoneFeature.LargeDripstone largedripstonefeature$largedripstone1 = m_225138_(blockpos.m_175288_(column$range.m_158213_() + 1), true, randomsource, k, largedripstoneconfiguration.f_160950_, largedripstoneconfiguration.f_160947_);
++               LargeDripstoneFeature.LargeDripstone largedripstonefeature$largedripstone = m_225138_(blockpos.atY(column$range.ceiling() - 1), false, randomsource, k, largedripstoneconfiguration.f_160949_, largedripstoneconfiguration.f_160947_);
++               LargeDripstoneFeature.LargeDripstone largedripstonefeature$largedripstone1 = m_225138_(blockpos.atY(column$range.floor() + 1), true, randomsource, k, largedripstoneconfiguration.f_160950_, largedripstoneconfiguration.f_160947_);
+                LargeDripstoneFeature.WindOffsetter largedripstonefeature$windoffsetter;
+                if (largedripstonefeature$largedripstone.m_159996_(largedripstoneconfiguration) && largedripstonefeature$largedripstone1.m_159996_(largedripstoneconfiguration)) {
+-                  largedripstonefeature$windoffsetter = new LargeDripstoneFeature.WindOffsetter(blockpos.m_123342_(), randomsource, largedripstoneconfiguration.f_160951_);
++                  largedripstonefeature$windoffsetter = new LargeDripstoneFeature.WindOffsetter(blockpos.getY(), randomsource, largedripstoneconfiguration.f_160951_);
+                } else {
+                   largedripstonefeature$windoffsetter = LargeDripstoneFeature.WindOffsetter.m_160007_();
+                }
+@@ -71,10 +_,10 @@
+    }
+ 
+    private void m_159961_(WorldGenLevel p_159962_, BlockPos p_159963_, Column.Range p_159964_, LargeDripstoneFeature.WindOffsetter p_159965_) {
+-      p_159962_.m_7731_(p_159965_.m_160008_(p_159963_.m_175288_(p_159964_.m_158212_() - 1)), Blocks.f_50090_.m_49966_(), 2);
+-      p_159962_.m_7731_(p_159965_.m_160008_(p_159963_.m_175288_(p_159964_.m_158213_() + 1)), Blocks.f_50074_.m_49966_(), 2);
++      p_159962_.m_7731_(p_159965_.m_160008_(p_159963_.atY(p_159964_.ceiling() - 1)), Blocks.f_50090_.m_49966_(), 2);
++      p_159962_.m_7731_(p_159965_.m_160008_(p_159963_.atY(p_159964_.floor() + 1)), Blocks.f_50074_.m_49966_(), 2);
+ 
+-      for(BlockPos.MutableBlockPos blockpos$mutableblockpos = p_159963_.m_175288_(p_159964_.m_158213_() + 2).m_122032_(); blockpos$mutableblockpos.m_123342_() < p_159964_.m_158212_() - 1; blockpos$mutableblockpos.m_122173_(Direction.UP)) {
++      for(BlockPos.MutableBlockPos blockpos$mutableblockpos = p_159963_.atY(p_159964_.floor() + 2).m_122032_(); blockpos$mutableblockpos.getY() < p_159964_.ceiling() - 1; blockpos$mutableblockpos.m_122173_(Direction.UP)) {
+          BlockPos blockpos = p_159965_.m_160008_(blockpos$mutableblockpos);
+          if (DripstoneUtils.m_159628_(p_159962_, blockpos) || p_159962_.m_8055_(blockpos).m_60713_(Blocks.f_152537_)) {
+             p_159962_.m_7731_(blockpos, Blocks.f_50318_.m_49966_(), 2);
+@@ -102,12 +_,12 @@
+          return this.m_159987_(0.0F);
+       }
+ 
+-      private int m_159998_() {
+-         return this.f_159976_ ? this.f_159975_.m_123342_() : this.f_159975_.m_123342_() - this.m_159986_();
++      private long getMinY() {
++         return this.f_159976_ ? this.f_159975_.getY() : this.f_159975_.getY() - this.m_159986_();
+       }
+ 
+-      private int m_159999_() {
+-         return !this.f_159976_ ? this.f_159975_.m_123342_() : this.f_159975_.m_123342_() + this.m_159986_();
++      private long getMaxY() {
++         return !this.f_159976_ ? this.f_159975_.getY() : this.f_159975_.getY() + this.m_159986_();
+       }
+ 
+       boolean m_159989_(WorldGenLevel p_159990_, LargeDripstoneFeature.WindOffsetter p_159991_) {
+@@ -151,9 +_,9 @@
+ 
+                      BlockPos.MutableBlockPos blockpos$mutableblockpos = this.f_159975_.m_7918_(i, 0, j).m_122032_();
+                      boolean flag = false;
+-                     int l = this.f_159976_ ? p_225146_.m_6924_(Heightmap.Types.WORLD_SURFACE_WG, blockpos$mutableblockpos.m_123341_(), blockpos$mutableblockpos.m_123343_()) : Integer.MAX_VALUE;
++                     long l = this.f_159976_ ? p_225146_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, blockpos$mutableblockpos.getX(), blockpos$mutableblockpos.getZ()) : Integer.MAX_VALUE;
+ 
+-                     for(int i1 = 0; i1 < k && blockpos$mutableblockpos.m_123342_() < l; ++i1) {
++                     for(int i1 = 0; i1 < k && blockpos$mutableblockpos.getY() < l; ++i1) {
+                         BlockPos blockpos = p_225148_.m_160008_(blockpos$mutableblockpos);
+                         if (DripstoneUtils.m_159659_(p_225146_, blockpos)) {
+                            flag = true;
+@@ -178,11 +_,11 @@
+    }
+ 
+    static final class WindOffsetter {
+-      private final int f_160000_;
++      private final long f_160000_;
+       @Nullable
+       private final Vec3 f_160001_;
+ 
+-      WindOffsetter(int p_225150_, RandomSource p_225151_, FloatProvider p_225152_) {
++      WindOffsetter(long p_225150_, RandomSource p_225151_, FloatProvider p_225152_) {
+          this.f_160000_ = p_225150_;
+          float f = p_225152_.m_214084_(p_225151_);
+          float f1 = Mth.m_216283_(p_225151_, 0.0F, (float)Math.PI);
+@@ -202,9 +_,9 @@
+          if (this.f_160001_ == null) {
+             return p_160009_;
+          } else {
+-            int i = this.f_160000_ - p_160009_.m_123342_();
++            long i = this.f_160000_ - p_160009_.getY();
+             Vec3 vec3 = this.f_160001_.m_82490_((double)i);
+-            return p_160009_.m_7637_(vec3.f_82479_, 0.0D, vec3.f_82481_);
++            return p_160009_.offset(vec3.f_82479_, 0.0D, vec3.f_82481_);
+          }
+       }
+    }

@@ -1,0 +1,121 @@
+--- a/net/minecraft/world/level/block/ChorusFlowerBlock.java
++++ b/net/minecraft/world/level/block/ChorusFlowerBlock.java
+@@ -40,20 +_,20 @@
+    }
+ 
+    public void m_213898_(BlockState p_220980_, ServerLevel p_220981_, BlockPos p_220982_, RandomSource p_220983_) {
+-      BlockPos blockpos = p_220982_.m_7494_();
+-      if (p_220981_.m_46859_(blockpos) && blockpos.m_123342_() < p_220981_.m_151558_()) {
++      BlockPos blockpos = p_220982_.above();
++      if (p_220981_.m_46859_(blockpos) && blockpos.getY() < p_220981_.getMaxBuildHeight()) {
+          int i = p_220980_.m_61143_(f_51647_);
+          if (i < 5) {
+             boolean flag = false;
+             boolean flag1 = false;
+-            BlockState blockstate = p_220981_.m_8055_(p_220982_.m_7495_());
++            BlockState blockstate = p_220981_.m_8055_(p_220982_.below());
+             if (blockstate.m_60713_(Blocks.f_50259_)) {
+                flag = true;
+             } else if (blockstate.m_60713_(this.f_51648_)) {
+                int j = 1;
+ 
+                for(int k = 0; k < 4; ++k) {
+-                  BlockState blockstate1 = p_220981_.m_8055_(p_220982_.m_6625_(j + 1));
++                  BlockState blockstate1 = p_220981_.m_8055_(p_220982_.below(j + 1));
+                   if (!blockstate1.m_60713_(this.f_51648_)) {
+                      if (blockstate1.m_60713_(Blocks.f_50259_)) {
+                         flag1 = true;
+@@ -71,7 +_,7 @@
+                flag = true;
+             }
+ 
+-            if (flag && m_51697_(p_220981_, blockpos, (Direction)null) && p_220981_.m_46859_(p_220982_.m_6630_(2))) {
++            if (flag && m_51697_(p_220981_, blockpos, (Direction)null) && p_220981_.m_46859_(p_220982_.above(2))) {
+                p_220981_.m_7731_(p_220982_, this.f_51648_.m_51710_(p_220981_, p_220982_), 2);
+                this.m_51661_(p_220981_, blockpos, i);
+             } else if (i < 4) {
+@@ -84,8 +_,8 @@
+ 
+                for(int i1 = 0; i1 < l; ++i1) {
+                   Direction direction = Direction.Plane.HORIZONTAL.m_235690_(p_220983_);
+-                  BlockPos blockpos1 = p_220982_.m_121945_(direction);
+-                  if (p_220981_.m_46859_(blockpos1) && p_220981_.m_46859_(blockpos1.m_7495_()) && m_51697_(p_220981_, blockpos1, direction.m_122424_())) {
++                  BlockPos blockpos1 = p_220982_.relative(direction);
++                  if (p_220981_.m_46859_(blockpos1) && p_220981_.m_46859_(blockpos1.below()) && m_51697_(p_220981_, blockpos1, direction.m_122424_())) {
+                      this.m_51661_(p_220981_, blockpos1, i + 1);
+                      flag2 = true;
+                   }
+@@ -116,7 +_,7 @@
+ 
+    private static boolean m_51697_(LevelReader p_51698_, BlockPos p_51699_, @Nullable Direction p_51700_) {
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         if (direction != p_51700_ && !p_51698_.m_46859_(p_51699_.m_121945_(direction))) {
++         if (direction != p_51700_ && !p_51698_.m_46859_(p_51699_.relative(direction))) {
+             return false;
+          }
+       }
+@@ -126,14 +_,14 @@
+ 
+    public BlockState m_7417_(BlockState p_51687_, Direction p_51688_, BlockState p_51689_, LevelAccessor p_51690_, BlockPos p_51691_, BlockPos p_51692_) {
+       if (p_51688_ != Direction.UP && !p_51687_.m_60710_(p_51690_, p_51691_)) {
+-         p_51690_.m_186460_(p_51691_, this, 1);
++         p_51690_.scheduleTick(p_51691_, this, 1);
+       }
+ 
+       return super.m_7417_(p_51687_, p_51688_, p_51689_, p_51690_, p_51691_, p_51692_);
+    }
+ 
+    public boolean m_7898_(BlockState p_51683_, LevelReader p_51684_, BlockPos p_51685_) {
+-      BlockState blockstate = p_51684_.m_8055_(p_51685_.m_7495_());
++      BlockState blockstate = p_51684_.m_8055_(p_51685_.below());
+       if (!blockstate.m_60713_(this.f_51648_) && !blockstate.m_60713_(Blocks.f_50259_)) {
+          if (!blockstate.m_60795_()) {
+             return false;
+@@ -141,7 +_,7 @@
+             boolean flag = false;
+ 
+             for(Direction direction : Direction.Plane.HORIZONTAL) {
+-               BlockState blockstate1 = p_51684_.m_8055_(p_51685_.m_121945_(direction));
++               BlockState blockstate1 = p_51684_.m_8055_(p_51685_.relative(direction));
+                if (blockstate1.m_60713_(this.f_51648_)) {
+                   if (flag) {
+                      return false;
+@@ -177,13 +_,13 @@
+       }
+ 
+       for(int j = 0; j < i; ++j) {
+-         BlockPos blockpos = p_220969_.m_6630_(j + 1);
++         BlockPos blockpos = p_220969_.above(j + 1);
+          if (!m_51697_(p_220968_, blockpos, (Direction)null)) {
+             return;
+          }
+ 
+          p_220968_.m_7731_(blockpos, chorusplantblock.m_51710_(p_220968_, blockpos), 2);
+-         p_220968_.m_7731_(blockpos.m_7495_(), chorusplantblock.m_51710_(p_220968_, blockpos.m_7495_()), 2);
++         p_220968_.m_7731_(blockpos.below(), chorusplantblock.m_51710_(p_220968_, blockpos.below()), 2);
+       }
+ 
+       boolean flag = false;
+@@ -195,18 +_,18 @@
+ 
+          for(int k = 0; k < l; ++k) {
+             Direction direction = Direction.Plane.HORIZONTAL.m_235690_(p_220970_);
+-            BlockPos blockpos1 = p_220969_.m_6630_(i).m_121945_(direction);
+-            if (Math.abs(blockpos1.m_123341_() - p_220971_.m_123341_()) < p_220972_ && Math.abs(blockpos1.m_123343_() - p_220971_.m_123343_()) < p_220972_ && p_220968_.m_46859_(blockpos1) && p_220968_.m_46859_(blockpos1.m_7495_()) && m_51697_(p_220968_, blockpos1, direction.m_122424_())) {
++            BlockPos blockpos1 = p_220969_.above(i).relative(direction);
++            if (Math.abs(blockpos1.getX() - p_220971_.getX()) < p_220972_ && Math.abs(blockpos1.getZ() - p_220971_.getZ()) < p_220972_ && p_220968_.m_46859_(blockpos1) && p_220968_.m_46859_(blockpos1.below()) && m_51697_(p_220968_, blockpos1, direction.m_122424_())) {
+                flag = true;
+                p_220968_.m_7731_(blockpos1, chorusplantblock.m_51710_(p_220968_, blockpos1), 2);
+-               p_220968_.m_7731_(blockpos1.m_121945_(direction.m_122424_()), chorusplantblock.m_51710_(p_220968_, blockpos1.m_121945_(direction.m_122424_())), 2);
++               p_220968_.m_7731_(blockpos1.relative(direction.m_122424_()), chorusplantblock.m_51710_(p_220968_, blockpos1.relative(direction.m_122424_())), 2);
+                m_220967_(p_220968_, blockpos1, p_220970_, p_220971_, p_220972_, p_220973_ + 1);
+             }
+          }
+       }
+ 
+       if (!flag) {
+-         p_220968_.m_7731_(p_220969_.m_6630_(i), Blocks.f_50491_.m_49966_().m_61124_(f_51647_, Integer.valueOf(5)), 2);
++         p_220968_.m_7731_(p_220969_.above(i), Blocks.f_50491_.m_49966_().m_61124_(f_51647_, Integer.valueOf(5)), 2);
+       }
+ 
+    }

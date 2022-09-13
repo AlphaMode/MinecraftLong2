@@ -1,0 +1,47 @@
+--- a/net/minecraft/client/renderer/chunk/RenderChunk.java
++++ b/net/minecraft/client/renderer/chunk/RenderChunk.java
+@@ -51,9 +_,9 @@
+    }
+ 
+    public BlockState m_200453_(BlockPos p_200454_) {
+-      int i = p_200454_.m_123341_();
+-      int j = p_200454_.m_123342_();
+-      int k = p_200454_.m_123343_();
++      long i = p_200454_.getX();
++      long j = p_200454_.getY();
++      long k = p_200454_.getZ();
+       if (this.f_200443_) {
+          BlockState blockstate = null;
+          if (j == 60) {
+@@ -61,7 +_,7 @@
+          }
+ 
+          if (j == 70) {
+-            blockstate = DebugLevelSource.m_64148_(i, k);
++            blockstate = DebugLevelSource.getBlockStateFor(i, k);
+          }
+ 
+          return blockstate == null ? Blocks.f_50016_.m_49966_() : blockstate;
+@@ -69,11 +_,11 @@
+          return Blocks.f_50016_.m_49966_();
+       } else {
+          try {
+-            int l = this.f_200444_.m_151564_(j);
++            int l = this.f_200444_.getSectionIndex(j);
+             if (l >= 0 && l < this.f_200442_.size()) {
+                PalettedContainer<BlockState> palettedcontainer = this.f_200442_.get(l);
+                if (palettedcontainer != null) {
+-                  return palettedcontainer.m_63087_(i & 15, j & 15, k & 15);
++                  return palettedcontainer.get(i & 15, j & 15, k & 15);
+                }
+             }
+ 
+@@ -82,7 +_,7 @@
+             CrashReport crashreport = CrashReport.m_127521_(throwable, "Getting block state");
+             CrashReportCategory crashreportcategory = crashreport.m_127514_("Block being got");
+             crashreportcategory.m_128165_("Location", () -> {
+-               return CrashReportCategory.m_178942_(this.f_200444_, i, j, k);
++               return CrashReportCategory.m_178937_(this.f_200444_, i, j, k);
+             });
+             throw new ReportedException(crashreport);
+          }

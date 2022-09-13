@@ -1,0 +1,79 @@
+--- a/net/minecraft/world/entity/raid/Raid.java
++++ b/net/minecraft/world/entity/raid/Raid.java
+@@ -127,7 +_,7 @@
+       this.f_37684_ = p_37697_.m_128451_("PreRaidTicks");
+       this.f_37683_ = p_37697_.m_128451_("PostRaidTicks");
+       this.f_37678_ = p_37697_.m_128457_("TotalHealth");
+-      this.f_37674_ = new BlockPos(p_37697_.m_128451_("CX"), p_37697_.m_128451_("CY"), p_37697_.m_128451_("CZ"));
++      this.f_37674_ = new BlockPos(p_37697_.m_128454_("CX"), p_37697_.m_128454_("CY"), p_37697_.m_128454_("CZ"));
+       this.f_37686_ = p_37697_.m_128451_("NumGroups");
+       this.f_37687_ = Raid.RaidStatus.m_37803_(p_37697_.m_128461_("Status"));
+       this.f_37672_.clear();
+@@ -397,7 +_,7 @@
+    private void m_37786_() {
+       Stream<SectionPos> stream = SectionPos.m_123201_(SectionPos.m_123199_(this.f_37674_), 2);
+       stream.filter(this.f_37675_::m_8762_).map(SectionPos::m_123250_).min(Comparator.comparingDouble((p_37766_) -> {
+-         return p_37766_.m_123331_(this.f_37674_);
++         return p_37766_.distSqr(this.f_37674_);
+       })).ifPresent(this::m_37760_);
+    }
+ 
+@@ -445,7 +_,7 @@
+ 
+          for(Raider raider : set1) {
+             BlockPos blockpos = raider.m_20183_();
+-            if (!raider.m_213877_() && raider.f_19853_.m_46472_() == this.f_37675_.m_46472_() && !(this.f_37674_.m_123331_(blockpos) >= 12544.0D)) {
++            if (!raider.m_213877_() && raider.f_19853_.m_46472_() == this.f_37675_.m_46472_() && !(this.f_37674_.distSqr(blockpos) >= 12544.0D)) {
+                if (raider.f_19797_ > 600) {
+                   if (this.f_37675_.m_8791_(raider.m_20148_()) == null) {
+                      set.add(raider);
+@@ -479,7 +_,7 @@
+ 
+       for(ServerPlayer serverplayer : this.f_37675_.m_6907_()) {
+          Vec3 vec3 = serverplayer.m_20182_();
+-         Vec3 vec31 = Vec3.m_82512_(p_37744_);
++         Vec3 vec31 = Vec3.atCenterOf(p_37744_);
+          double d0 = Math.sqrt((vec31.f_82479_ - vec3.f_82479_) * (vec31.f_82479_ - vec3.f_82479_) + (vec31.f_82481_ - vec3.f_82481_) * (vec31.f_82481_ - vec3.f_82481_));
+          double d1 = vec3.f_82479_ + 13.0D / d0 * (vec31.f_82479_ - vec3.f_82479_);
+          double d2 = vec3.f_82481_ + 13.0D / d0 * (vec31.f_82481_ - vec3.f_82481_);
+@@ -546,7 +_,7 @@
+          p_37715_.m_37897_(true);
+          p_37715_.m_37863_(0);
+          if (!p_37717_ && p_37716_ != null) {
+-            p_37715_.m_6034_((double)p_37716_.m_123341_() + 0.5D, (double)p_37716_.m_123342_() + 1.0D, (double)p_37716_.m_123343_() + 0.5D);
++            p_37715_.m_6034_((double)p_37716_.getX() + 0.5D, (double)p_37716_.getY() + 1.0D, (double)p_37716_.getZ() + 0.5D);
+             p_37715_.m_6518_(this.f_37675_, this.f_37675_.m_6436_(p_37716_), MobSpawnType.EVENT, (SpawnGroupData)null, (CompoundTag)null);
+             p_37715_.m_7895_(p_37714_, false);
+             p_37715_.m_6853_(true);
+@@ -624,13 +_,13 @@
+ 
+       for(int i1 = 0; i1 < p_37709_; ++i1) {
+          float f = this.f_37675_.f_46441_.m_188501_() * ((float)Math.PI * 2F);
+-         int j = this.f_37674_.m_123341_() + Mth.m_14143_(Mth.m_14089_(f) * 32.0F * (float)i) + this.f_37675_.f_46441_.m_188503_(5);
+-         int l = this.f_37674_.m_123343_() + Mth.m_14143_(Mth.m_14031_(f) * 32.0F * (float)i) + this.f_37675_.f_46441_.m_188503_(5);
+-         int k = this.f_37675_.m_6924_(Heightmap.Types.WORLD_SURFACE, j, l);
+-         blockpos$mutableblockpos.m_122178_(j, k, l);
++         long j = this.f_37674_.getX() + Mth.m_14143_(Mth.m_14089_(f) * 32.0F * (float)i) + this.f_37675_.f_46441_.m_188503_(5);
++         long l = this.f_37674_.getZ() + Mth.m_14143_(Mth.m_14031_(f) * 32.0F * (float)i) + this.f_37675_.f_46441_.m_188503_(5);
++         long k = this.f_37675_.getHeight(Heightmap.Types.WORLD_SURFACE, j, l);
++         blockpos$mutableblockpos.m_122169_(j, k, l);
+          if (!this.f_37675_.m_8802_(blockpos$mutableblockpos) || p_37708_ >= 2) {
+             int j1 = 10;
+-            if (this.f_37675_.m_151572_(blockpos$mutableblockpos.m_123341_() - 10, blockpos$mutableblockpos.m_123343_() - 10, blockpos$mutableblockpos.m_123341_() + 10, blockpos$mutableblockpos.m_123343_() + 10) && this.f_37675_.m_143340_(blockpos$mutableblockpos) && (NaturalSpawner.m_47051_(SpawnPlacements.Type.ON_GROUND, this.f_37675_, blockpos$mutableblockpos, EntityType.f_20518_) || this.f_37675_.m_8055_(blockpos$mutableblockpos.m_7495_()).m_60713_(Blocks.f_50125_) && this.f_37675_.m_8055_(blockpos$mutableblockpos).m_60795_())) {
++            if (this.f_37675_.hasChunksAt(blockpos$mutableblockpos.getX() - 10, blockpos$mutableblockpos.getZ() - 10, blockpos$mutableblockpos.getX() + 10, blockpos$mutableblockpos.getZ() + 10) && this.f_37675_.m_143340_(blockpos$mutableblockpos) && (NaturalSpawner.m_47051_(SpawnPlacements.Type.ON_GROUND, this.f_37675_, blockpos$mutableblockpos, EntityType.f_20518_) || this.f_37675_.m_8055_(blockpos$mutableblockpos.below()).m_60713_(Blocks.f_50125_) && this.f_37675_.m_8055_(blockpos$mutableblockpos).m_60795_())) {
+                return blockpos$mutableblockpos;
+             }
+          }
+@@ -747,9 +_,9 @@
+       p_37748_.m_128350_("TotalHealth", this.f_37678_);
+       p_37748_.m_128405_("NumGroups", this.f_37686_);
+       p_37748_.m_128359_("Status", this.f_37687_.m_37800_());
+-      p_37748_.m_128405_("CX", this.f_37674_.m_123341_());
+-      p_37748_.m_128405_("CY", this.f_37674_.m_123342_());
+-      p_37748_.m_128405_("CZ", this.f_37674_.m_123343_());
++      p_37748_.m_128356_("CX", this.f_37674_.getX());
++      p_37748_.m_128356_("CY", this.f_37674_.getY());
++      p_37748_.m_128356_("CZ", this.f_37674_.getZ());
+       ListTag listtag = new ListTag();
+ 
+       for(UUID uuid : this.f_37672_) {

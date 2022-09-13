@@ -1,0 +1,36 @@
+--- a/net/minecraft/world/level/block/SpreadingSnowyDirtBlock.java
++++ b/net/minecraft/world/level/block/SpreadingSnowyDirtBlock.java
+@@ -16,7 +_,7 @@
+    }
+ 
+    private static boolean m_56823_(BlockState p_56824_, LevelReader p_56825_, BlockPos p_56826_) {
+-      BlockPos blockpos = p_56826_.m_7494_();
++      BlockPos blockpos = p_56826_.above();
+       BlockState blockstate = p_56825_.m_8055_(blockpos);
+       if (blockstate.m_60713_(Blocks.f_50125_) && blockstate.m_61143_(SnowLayerBlock.f_56581_) == 1) {
+          return true;
+@@ -29,7 +_,7 @@
+    }
+ 
+    private static boolean m_56827_(BlockState p_56828_, LevelReader p_56829_, BlockPos p_56830_) {
+-      BlockPos blockpos = p_56830_.m_7494_();
++      BlockPos blockpos = p_56830_.above();
+       return m_56823_(p_56828_, p_56829_, p_56830_) && !p_56829_.m_6425_(blockpos).m_205070_(FluidTags.f_13131_);
+    }
+ 
+@@ -37,13 +_,13 @@
+       if (!m_56823_(p_222508_, p_222509_, p_222510_)) {
+          p_222509_.m_46597_(p_222510_, Blocks.f_50493_.m_49966_());
+       } else {
+-         if (p_222509_.m_46803_(p_222510_.m_7494_()) >= 9) {
++         if (p_222509_.m_46803_(p_222510_.above()) >= 9) {
+             BlockState blockstate = this.m_49966_();
+ 
+             for(int i = 0; i < 4; ++i) {
+                BlockPos blockpos = p_222510_.m_7918_(p_222511_.m_188503_(3) - 1, p_222511_.m_188503_(5) - 3, p_222511_.m_188503_(3) - 1);
+                if (p_222509_.m_8055_(blockpos).m_60713_(Blocks.f_50493_) && m_56827_(blockstate, p_222509_, blockpos)) {
+-                  p_222509_.m_46597_(blockpos, blockstate.m_61124_(f_56637_, Boolean.valueOf(p_222509_.m_8055_(blockpos.m_7494_()).m_60713_(Blocks.f_50125_))));
++                  p_222509_.m_46597_(blockpos, blockstate.m_61124_(f_56637_, Boolean.valueOf(p_222509_.m_8055_(blockpos.above()).m_60713_(Blocks.f_50125_))));
+                }
+             }
+          }

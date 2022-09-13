@@ -1,0 +1,29 @@
+--- a/net/minecraft/server/players/PlayerList.java
++++ b/net/minecraft/server/players/PlayerList.java
+@@ -434,7 +_,7 @@
+          if (!blockstate.m_204336_(BlockTags.f_13038_) && !flag1) {
+             f1 = f;
+          } else {
+-            Vec3 vec31 = Vec3.m_82539_(blockpos).m_82546_(vec3).m_82541_();
++            Vec3 vec31 = Vec3.atBottomCenterOf(blockpos).m_82546_(vec3).m_82541_();
+             f1 = (float)Mth.m_14175_(Mth.m_14136_(vec31.f_82481_, vec31.f_82479_) * (double)(180F / (float)Math.PI) - 90.0D);
+          }
+ 
+@@ -445,7 +_,7 @@
+          serverplayer.f_8906_.m_9829_(new ClientboundGameEventPacket(ClientboundGameEventPacket.f_132153_, 0.0F));
+       }
+ 
+-      while(!serverlevel1.m_45786_(serverplayer) && serverplayer.m_20186_() < (double)serverlevel1.m_151558_()) {
++      while(!serverlevel1.m_45786_(serverplayer) && serverplayer.m_20186_() < (double)serverlevel1.getMaxBuildHeight()) {
+          serverplayer.m_6034_(serverplayer.m_20185_(), serverplayer.m_20186_() + 1.0D, serverplayer.m_20189_());
+       }
+ 
+@@ -463,7 +_,7 @@
+       serverplayer.m_143429_();
+       serverplayer.m_21153_(serverplayer.m_21223_());
+       if (flag2) {
+-         serverplayer.f_8906_.m_9829_(new ClientboundSoundPacket(SoundEvents.f_12377_, SoundSource.BLOCKS, (double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_(), 1.0F, 1.0F, serverlevel1.m_213780_().m_188505_()));
++         serverplayer.f_8906_.m_9829_(new ClientboundSoundPacket(SoundEvents.f_12377_, SoundSource.BLOCKS, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), 1.0F, 1.0F, serverlevel1.m_213780_().m_188505_()));
+       }
+ 
+       return serverplayer;

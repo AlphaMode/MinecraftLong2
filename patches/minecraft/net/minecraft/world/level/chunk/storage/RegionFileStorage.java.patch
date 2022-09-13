@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
++++ b/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
+@@ -26,7 +_,7 @@
+    }
+ 
+    private RegionFile m_63711_(ChunkPos p_63712_) throws IOException {
+-      long i = ChunkPos.m_45589_(p_63712_.m_45610_(), p_63712_.m_45612_());
++      long i = ChunkPos.asLong(p_63712_.getRegionX(), p_63712_.getRegionZ());
+       RegionFile regionfile = this.f_63699_.getAndMoveToFirst(i);
+       if (regionfile != null) {
+          return regionfile;
+@@ -36,7 +_,7 @@
+          }
+ 
+          Files.createDirectories(this.f_63700_);
+-         Path path = this.f_63700_.resolve("r." + p_63712_.m_45610_() + "." + p_63712_.m_45612_() + ".mca");
++         Path path = this.f_63700_.resolve("r." + p_63712_.getRegionX() + "." + p_63712_.getRegionZ() + ".mca");
+          RegionFile regionfile1 = new RegionFile(path, this.f_63700_, this.f_63701_);
+          this.f_63699_.putAndMoveToFirst(i, regionfile1);
+          return regionfile1;

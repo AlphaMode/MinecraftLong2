@@ -1,0 +1,179 @@
+--- a/net/minecraft/world/entity/animal/Turtle.java
++++ b/net/minecraft/world/entity/animal/Turtle.java
+@@ -142,25 +_,25 @@
+ 
+    public void m_7380_(CompoundTag p_30176_) {
+       super.m_7380_(p_30176_);
+-      p_30176_.m_128405_("HomePosX", this.m_30208_().m_123341_());
+-      p_30176_.m_128405_("HomePosY", this.m_30208_().m_123342_());
+-      p_30176_.m_128405_("HomePosZ", this.m_30208_().m_123343_());
++      p_30176_.m_128356_("HomePosX", this.m_30208_().getX());
++      p_30176_.m_128356_("HomePosY", this.m_30208_().getY());
++      p_30176_.m_128356_("HomePosZ", this.m_30208_().getZ());
+       p_30176_.m_128379_("HasEgg", this.m_30205_());
+-      p_30176_.m_128405_("TravelPosX", this.m_30209_().m_123341_());
+-      p_30176_.m_128405_("TravelPosY", this.m_30209_().m_123342_());
+-      p_30176_.m_128405_("TravelPosZ", this.m_30209_().m_123343_());
++      p_30176_.m_128356_("TravelPosX", this.m_30209_().getX());
++      p_30176_.m_128356_("TravelPosY", this.m_30209_().getY());
++      p_30176_.m_128356_("TravelPosZ", this.m_30209_().getZ());
+    }
+ 
+    public void m_7378_(CompoundTag p_30162_) {
+-      int i = p_30162_.m_128451_("HomePosX");
+-      int j = p_30162_.m_128451_("HomePosY");
+-      int k = p_30162_.m_128451_("HomePosZ");
++      long i = p_30162_.m_128454_("HomePosX");
++      long j = p_30162_.m_128454_("HomePosY");
++      long k = p_30162_.m_128454_("HomePosZ");
+       this.m_30219_(new BlockPos(i, j, k));
+       super.m_7378_(p_30162_);
+       this.m_30234_(p_30162_.m_128471_("HasEgg"));
+-      int l = p_30162_.m_128451_("TravelPosX");
+-      int i1 = p_30162_.m_128451_("TravelPosY");
+-      int j1 = p_30162_.m_128451_("TravelPosZ");
++      long l = p_30162_.m_128454_("TravelPosX");
++      long i1 = p_30162_.m_128454_("TravelPosY");
++      long j1 = p_30162_.m_128454_("TravelPosZ");
+       this.m_30223_(new BlockPos(l, i1, j1));
+    }
+ 
+@@ -172,7 +_,7 @@
+    }
+ 
+    public static boolean m_218276_(EntityType<Turtle> p_218277_, LevelAccessor p_218278_, MobSpawnType p_218279_, BlockPos p_218280_, RandomSource p_218281_) {
+-      return p_218280_.m_123342_() < p_218278_.m_5736_() + 4 && TurtleEggBlock.m_57762_(p_218278_, p_218280_) && m_186209_(p_218278_, p_218280_);
++      return p_218280_.getY() < p_218278_.m_5736_() + 4 && TurtleEggBlock.m_57762_(p_218278_, p_218280_) && m_186209_(p_218278_, p_218280_);
+    }
+ 
+    protected void m_8099_() {
+@@ -273,7 +_,7 @@
+       if (this.m_6084_() && this.m_30206_() && this.f_30129_ >= 1 && this.f_30129_ % 5 == 0) {
+          BlockPos blockpos = this.m_20183_();
+          if (TurtleEggBlock.m_57762_(this.f_19853_, blockpos)) {
+-            this.f_19853_.m_46796_(2001, blockpos, Block.m_49956_(this.f_19853_.m_8055_(blockpos.m_7495_())));
++            this.f_19853_.m_46796_(2001, blockpos, Block.m_49956_(this.f_19853_.m_8055_(blockpos.below())));
+          }
+       }
+ 
+@@ -292,7 +_,7 @@
+          this.m_19920_(0.1F, p_30218_);
+          this.m_6478_(MoverType.SELF, this.m_20184_());
+          this.m_20256_(this.m_20184_().m_82490_(0.9D));
+-         if (this.m_5448_() == null && (!this.m_30211_() || !this.m_30208_().m_203195_(this.m_20182_(), 20.0D))) {
++         if (this.m_5448_() == null && (!this.m_30211_() || !this.m_30208_().closerToCenterThan(this.m_20182_(), 20.0D))) {
+             this.m_20256_(this.m_20184_().m_82520_(0.0D, -0.005D, 0.0D));
+          }
+       } else {
+@@ -363,7 +_,7 @@
+          } else if (this.f_30248_.m_217043_().m_188503_(m_186073_(700)) != 0) {
+             return false;
+          } else {
+-            return !this.f_30248_.m_30208_().m_203195_(this.f_30248_.m_20182_(), 64.0D);
++            return !this.f_30248_.m_30208_().closerToCenterThan(this.f_30248_.m_20182_(), 64.0D);
+          }
+       }
+ 
+@@ -378,18 +_,18 @@
+       }
+ 
+       public boolean m_8045_() {
+-         return !this.f_30248_.m_30208_().m_203195_(this.f_30248_.m_20182_(), 7.0D) && !this.f_30250_ && this.f_30251_ <= this.m_183277_(600);
++         return !this.f_30248_.m_30208_().closerToCenterThan(this.f_30248_.m_20182_(), 7.0D) && !this.f_30250_ && this.f_30251_ <= this.m_183277_(600);
+       }
+ 
+       public void m_8037_() {
+          BlockPos blockpos = this.f_30248_.m_30208_();
+-         boolean flag = blockpos.m_203195_(this.f_30248_.m_20182_(), 16.0D);
++         boolean flag = blockpos.closerToCenterThan(this.f_30248_.m_20182_(), 16.0D);
+          if (flag) {
+             ++this.f_30251_;
+          }
+ 
+          if (this.f_30248_.m_21573_().m_26571_()) {
+-            Vec3 vec3 = Vec3.m_82539_(blockpos);
++            Vec3 vec3 = Vec3.atBottomCenterOf(blockpos);
+             Vec3 vec31 = DefaultRandomPos.m_148412_(this.f_30248_, 16, 3, vec3, (double)((float)Math.PI / 10F));
+             if (vec31 == null) {
+                vec31 = DefaultRandomPos.m_148412_(this.f_30248_, 8, 7, vec3, (double)((float)Math.PI / 2F));
+@@ -450,11 +_,11 @@
+       }
+ 
+       public boolean m_8036_() {
+-         return this.f_30274_.m_30205_() && this.f_30274_.m_30208_().m_203195_(this.f_30274_.m_20182_(), 9.0D) ? super.m_8036_() : false;
++         return this.f_30274_.m_30205_() && this.f_30274_.m_30208_().closerToCenterThan(this.f_30274_.m_20182_(), 9.0D) ? super.m_8036_() : false;
+       }
+ 
+       public boolean m_8045_() {
+-         return super.m_8045_() && this.f_30274_.m_30205_() && this.f_30274_.m_30208_().m_203195_(this.f_30274_.m_20182_(), 9.0D);
++         return super.m_8045_() && this.f_30274_.m_30205_() && this.f_30274_.m_30208_().closerToCenterThan(this.f_30274_.m_20182_(), 9.0D);
+       }
+ 
+       public void m_8037_() {
+@@ -466,7 +_,7 @@
+             } else if (this.f_30274_.f_30129_ > this.m_183277_(200)) {
+                Level level = this.f_30274_.f_19853_;
+                level.m_5594_((Player)null, blockpos, SoundEvents.f_12486_, SoundSource.BLOCKS, 0.3F, 0.9F + level.f_46441_.m_188501_() * 0.2F);
+-               level.m_7731_(this.f_25602_.m_7494_(), Blocks.f_50578_.m_49966_().m_61124_(TurtleEggBlock.f_57754_, Integer.valueOf(this.f_30274_.f_19796_.m_188503_(4) + 1)), 3);
++               level.m_7731_(this.f_25602_.above(), Blocks.f_50578_.m_49966_().m_61124_(TurtleEggBlock.f_57754_, Integer.valueOf(this.f_30274_.f_19796_.m_188503_(4) + 1)), 3);
+                this.f_30274_.m_30234_(false);
+                this.f_30274_.m_30236_(false);
+                this.f_30274_.m_27601_(600);
+@@ -480,7 +_,7 @@
+       }
+ 
+       protected boolean m_6465_(LevelReader p_30280_, BlockPos p_30281_) {
+-         return !p_30280_.m_46859_(p_30281_.m_7494_()) ? false : TurtleEggBlock.m_57800_(p_30280_, p_30281_);
++         return !p_30280_.m_46859_(p_30281_.above()) ? false : TurtleEggBlock.m_57800_(p_30280_, p_30281_);
+       }
+    }
+ 
+@@ -495,7 +_,7 @@
+       private void m_30288_() {
+          if (this.f_30284_.m_20069_()) {
+             this.f_30284_.m_20256_(this.f_30284_.m_20184_().m_82520_(0.0D, 0.005D, 0.0D));
+-            if (!this.f_30284_.m_30208_().m_203195_(this.f_30284_.m_20182_(), 16.0D)) {
++            if (!this.f_30284_.m_30208_().closerToCenterThan(this.f_30284_.m_20182_(), 16.0D)) {
+                this.f_30284_.m_7910_(Math.max(this.f_30284_.m_6113_() / 2.0F, 0.08F));
+             }
+ 
+@@ -539,9 +_,9 @@
+          } else {
+             BlockPos blockpos = this.m_198172_(this.f_25684_.f_19853_, this.f_25684_, 7);
+             if (blockpos != null) {
+-               this.f_25686_ = (double)blockpos.m_123341_();
+-               this.f_25687_ = (double)blockpos.m_123342_();
+-               this.f_25688_ = (double)blockpos.m_123343_();
++               this.f_25686_ = (double)blockpos.getX();
++               this.f_25687_ = (double)blockpos.getY();
++               this.f_25688_ = (double)blockpos.getZ();
+                return true;
+             } else {
+                return this.m_25702_();
+@@ -563,7 +_,7 @@
+             }
+          }
+ 
+-         return !this.f_26495_.m_8055_(p_30300_.m_7495_()).m_60795_();
++         return !this.f_26495_.m_8055_(p_30300_.below()).m_60795_();
+       }
+    }
+ 
+@@ -613,7 +_,7 @@
+ 
+       public void m_8037_() {
+          if (this.f_30329_.m_21573_().m_26571_()) {
+-            Vec3 vec3 = Vec3.m_82539_(this.f_30329_.m_30209_());
++            Vec3 vec3 = Vec3.atBottomCenterOf(this.f_30329_.m_30209_());
+             Vec3 vec31 = DefaultRandomPos.m_148412_(this.f_30329_, 16, 3, vec3, (double)((float)Math.PI / 10F));
+             if (vec31 == null) {
+                vec31 = DefaultRandomPos.m_148412_(this.f_30329_, 8, 7, vec3, (double)((float)Math.PI / 2F));
+@@ -623,7 +_,7 @@
+                int i = Mth.m_14107_(vec31.f_82479_);
+                int j = Mth.m_14107_(vec31.f_82481_);
+                int k = 34;
+-               if (!this.f_30329_.f_19853_.m_151572_(i - 34, j - 34, i + 34, j + 34)) {
++               if (!this.f_30329_.f_19853_.hasChunksAt(i - 34, j - 34, i + 34, j + 34)) {
+                   vec31 = null;
+                }
+             }

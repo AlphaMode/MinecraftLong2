@@ -1,0 +1,124 @@
+--- a/net/minecraft/world/level/block/FireBlock.java
++++ b/net/minecraft/world/level/block/FireBlock.java
+@@ -101,7 +_,7 @@
+    }
+ 
+    protected BlockState m_53470_(BlockGetter p_53471_, BlockPos p_53472_) {
+-      BlockPos blockpos = p_53472_.m_7495_();
++      BlockPos blockpos = p_53472_.below();
+       BlockState blockstate = p_53471_.m_8055_(blockpos);
+       if (!this.m_7599_(blockstate) && !blockstate.m_60783_(p_53471_, blockpos, Direction.UP)) {
+          BlockState blockstate1 = this.m_49966_();
+@@ -109,7 +_,7 @@
+          for(Direction direction : Direction.values()) {
+             BooleanProperty booleanproperty = f_53414_.get(direction);
+             if (booleanproperty != null) {
+-               blockstate1 = blockstate1.m_61124_(booleanproperty, Boolean.valueOf(this.m_7599_(p_53471_.m_8055_(p_53472_.m_121945_(direction)))));
++               blockstate1 = blockstate1.m_61124_(booleanproperty, Boolean.valueOf(this.m_7599_(p_53471_.m_8055_(p_53472_.relative(direction)))));
+             }
+          }
+ 
+@@ -120,18 +_,18 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_53454_, LevelReader p_53455_, BlockPos p_53456_) {
+-      BlockPos blockpos = p_53456_.m_7495_();
++      BlockPos blockpos = p_53456_.below();
+       return p_53455_.m_8055_(blockpos).m_60783_(p_53455_, blockpos, Direction.UP) || this.m_53485_(p_53455_, p_53456_);
+    }
+ 
+    public void m_213897_(BlockState p_221160_, ServerLevel p_221161_, BlockPos p_221162_, RandomSource p_221163_) {
+-      p_221161_.m_186460_(p_221162_, this, m_221148_(p_221161_.f_46441_));
++      p_221161_.scheduleTick(p_221162_, this, m_221148_(p_221161_.f_46441_));
+       if (p_221161_.m_46469_().m_46207_(GameRules.f_46131_)) {
+          if (!p_221160_.m_60710_(p_221161_, p_221162_)) {
+             p_221161_.m_7471_(p_221162_, false);
+          }
+ 
+-         BlockState blockstate = p_221161_.m_8055_(p_221162_.m_7495_());
++         BlockState blockstate = p_221161_.m_8055_(p_221162_.below());
+          boolean flag = blockstate.m_204336_(p_221161_.m_6042_().f_63836_());
+          int i = p_221160_.m_61143_(f_53408_);
+          if (!flag && p_221161_.m_46471_() && this.m_53428_(p_221161_, p_221162_) && p_221163_.m_188501_() < 0.2F + (float)i * 0.03F) {
+@@ -145,7 +_,7 @@
+ 
+             if (!flag) {
+                if (!this.m_53485_(p_221161_, p_221162_)) {
+-                  BlockPos blockpos = p_221162_.m_7495_();
++                  BlockPos blockpos = p_221162_.below();
+                   if (!p_221161_.m_8055_(blockpos).m_60783_(p_221161_, blockpos, Direction.UP) || i > 3) {
+                      p_221161_.m_7471_(p_221162_, false);
+                   }
+@@ -153,7 +_,7 @@
+                   return;
+                }
+ 
+-               if (i == 15 && p_221163_.m_188503_(4) == 0 && !this.m_7599_(p_221161_.m_8055_(p_221162_.m_7495_()))) {
++               if (i == 15 && p_221163_.m_188503_(4) == 0 && !this.m_7599_(p_221161_.m_8055_(p_221162_.below()))) {
+                   p_221161_.m_7471_(p_221162_, false);
+                   return;
+                }
+@@ -161,12 +_,12 @@
+ 
+             boolean flag1 = p_221161_.m_46761_(p_221162_);
+             int k = flag1 ? -50 : 0;
+-            this.m_221150_(p_221161_, p_221162_.m_122029_(), 300 + k, p_221163_, i);
+-            this.m_221150_(p_221161_, p_221162_.m_122024_(), 300 + k, p_221163_, i);
+-            this.m_221150_(p_221161_, p_221162_.m_7495_(), 250 + k, p_221163_, i);
+-            this.m_221150_(p_221161_, p_221162_.m_7494_(), 250 + k, p_221163_, i);
+-            this.m_221150_(p_221161_, p_221162_.m_122012_(), 300 + k, p_221163_, i);
+-            this.m_221150_(p_221161_, p_221162_.m_122019_(), 300 + k, p_221163_, i);
++            this.m_221150_(p_221161_, p_221162_.east(), 300 + k, p_221163_, i);
++            this.m_221150_(p_221161_, p_221162_.west(), 300 + k, p_221163_, i);
++            this.m_221150_(p_221161_, p_221162_.below(), 250 + k, p_221163_, i);
++            this.m_221150_(p_221161_, p_221162_.above(), 250 + k, p_221163_, i);
++            this.m_221150_(p_221161_, p_221162_.north(), 300 + k, p_221163_, i);
++            this.m_221150_(p_221161_, p_221162_.south(), 300 + k, p_221163_, i);
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+             for(int l = -1; l <= 1; ++l) {
+@@ -178,7 +_,7 @@
+                            k1 += (j1 - 1) * 100;
+                         }
+ 
+-                        blockpos$mutableblockpos.m_122154_(p_221162_, l, j1, i1);
++                        blockpos$mutableblockpos.setWithOffset(p_221162_, l, j1, i1);
+                         int l1 = this.m_221156_(p_221161_, blockpos$mutableblockpos);
+                         if (l1 > 0) {
+                            int i2 = (l1 + 40 + p_221161_.m_46791_().m_19028_() * 7) / (i + 30);
+@@ -201,7 +_,7 @@
+    }
+ 
+    protected boolean m_53428_(Level p_53429_, BlockPos p_53430_) {
+-      return p_53429_.m_46758_(p_53430_) || p_53429_.m_46758_(p_53430_.m_122024_()) || p_53429_.m_46758_(p_53430_.m_122029_()) || p_53429_.m_46758_(p_53430_.m_122012_()) || p_53429_.m_46758_(p_53430_.m_122019_());
++      return p_53429_.m_46758_(p_53430_) || p_53429_.m_46758_(p_53430_.west()) || p_53429_.m_46758_(p_53430_.east()) || p_53429_.m_46758_(p_53430_.north()) || p_53429_.m_46758_(p_53430_.south());
+    }
+ 
+    public int m_221164_(BlockState p_221165_) {
+@@ -238,7 +_,7 @@
+ 
+    private boolean m_53485_(BlockGetter p_53486_, BlockPos p_53487_) {
+       for(Direction direction : Direction.values()) {
+-         if (this.m_7599_(p_53486_.m_8055_(p_53487_.m_121945_(direction)))) {
++         if (this.m_7599_(p_53486_.m_8055_(p_53487_.relative(direction)))) {
+             return true;
+          }
+       }
+@@ -253,7 +_,7 @@
+          int i = 0;
+ 
+          for(Direction direction : Direction.values()) {
+-            BlockState blockstate = p_221157_.m_8055_(p_221158_.m_121945_(direction));
++            BlockState blockstate = p_221157_.m_8055_(p_221158_.relative(direction));
+             i = Math.max(this.m_221166_(blockstate), i);
+          }
+ 
+@@ -267,7 +_,7 @@
+ 
+    public void m_6807_(BlockState p_53479_, Level p_53480_, BlockPos p_53481_, BlockState p_53482_, boolean p_53483_) {
+       super.m_6807_(p_53479_, p_53480_, p_53481_, p_53482_, p_53483_);
+-      p_53480_.m_186460_(p_53481_, this, m_221148_(p_53480_.f_46441_));
++      p_53480_.scheduleTick(p_53481_, this, m_221148_(p_53480_.f_46441_));
+    }
+ 
+    private static int m_221148_(RandomSource p_221149_) {

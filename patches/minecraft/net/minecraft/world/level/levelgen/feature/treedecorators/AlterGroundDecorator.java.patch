@@ -1,0 +1,41 @@
+--- a/net/minecraft/world/level/levelgen/feature/treedecorators/AlterGroundDecorator.java
++++ b/net/minecraft/world/level/levelgen/feature/treedecorators/AlterGroundDecorator.java
+@@ -27,7 +_,7 @@
+       List<BlockPos> list2 = p_225969_.m_226068_();
+       if (list1.isEmpty()) {
+          list.addAll(list2);
+-      } else if (!list2.isEmpty() && list1.get(0).m_123342_() == list2.get(0).m_123342_()) {
++      } else if (!list2.isEmpty() && list1.get(0).getY() == list2.get(0).getY()) {
+          list.addAll(list2);
+          list.addAll(list1);
+       } else {
+@@ -35,14 +_,14 @@
+       }
+ 
+       if (!list.isEmpty()) {
+-         int i = list.get(0).m_123342_();
++         long i = list.get(0).getY();
+          list.stream().filter((p_69310_) -> {
+-            return p_69310_.m_123342_() == i;
++            return p_69310_.getY() == i;
+          }).forEach((p_225978_) -> {
+-            this.m_225970_(p_225969_, p_225978_.m_122024_().m_122012_());
+-            this.m_225970_(p_225969_, p_225978_.m_122030_(2).m_122012_());
+-            this.m_225970_(p_225969_, p_225978_.m_122024_().m_122020_(2));
+-            this.m_225970_(p_225969_, p_225978_.m_122030_(2).m_122020_(2));
++            this.m_225970_(p_225969_, p_225978_.west().north());
++            this.m_225970_(p_225969_, p_225978_.east(2).north());
++            this.m_225970_(p_225969_, p_225978_.west().south(2));
++            this.m_225970_(p_225969_, p_225978_.east(2).south(2));
+ 
+             for(int j = 0; j < 5; ++j) {
+                int k = p_225969_.m_226067_().m_188503_(64);
+@@ -70,7 +_,7 @@
+ 
+    private void m_225973_(TreeDecorator.Context p_225974_, BlockPos p_225975_) {
+       for(int i = 2; i >= -3; --i) {
+-         BlockPos blockpos = p_225975_.m_6630_(i);
++         BlockPos blockpos = p_225975_.above(i);
+          if (Feature.m_65788_(p_225974_.m_226058_(), blockpos)) {
+             p_225974_.m_226061_(blockpos, this.f_69303_.m_213972_(p_225974_.m_226067_(), p_225975_));
+             break;

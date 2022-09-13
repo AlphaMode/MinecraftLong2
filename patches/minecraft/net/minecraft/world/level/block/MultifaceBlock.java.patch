@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/block/MultifaceBlock.java
++++ b/net/minecraft/world/level/block/MultifaceBlock.java
+@@ -128,7 +_,7 @@
+ 
+       for(Direction direction : f_153806_) {
+          if (m_153900_(p_153888_, direction)) {
+-            BlockPos blockpos = p_153890_.m_121945_(direction);
++            BlockPos blockpos = p_153890_.relative(direction);
+             if (!m_153829_(p_153889_, direction, blockpos, p_153889_.m_8055_(blockpos))) {
+                return false;
+             }
+@@ -156,7 +_,7 @@
+ 
+    public boolean m_221571_(BlockGetter p_221572_, BlockState p_221573_, BlockPos p_221574_, Direction p_221575_) {
+       if (this.m_153920_(p_221575_) && (!p_221573_.m_60713_(this) || !m_153900_(p_221573_, p_221575_))) {
+-         BlockPos blockpos = p_221574_.m_121945_(p_221575_);
++         BlockPos blockpos = p_221574_.relative(p_221575_);
+          return m_153829_(p_221572_, p_221575_, blockpos, p_221572_.m_8055_(blockpos));
+       } else {
+          return false;

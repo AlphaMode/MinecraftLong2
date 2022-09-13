@@ -1,0 +1,72 @@
+--- a/net/minecraft/world/level/levelgen/feature/RootSystemFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/RootSystemFeature.java
+@@ -61,13 +_,13 @@
+       for(int i = 0; i < p_225205_.f_161108_; ++i) {
+          p_225207_.m_122173_(Direction.UP);
+          if (p_225205_.f_198355_.test(p_225203_, p_225207_) && m_160235_(p_225203_, p_225205_, p_225207_)) {
+-            BlockPos blockpos = p_225207_.m_7495_();
++            BlockPos blockpos = p_225207_.below();
+             if (p_225203_.m_6425_(blockpos).m_205070_(FluidTags.f_13132_) || !p_225203_.m_8055_(blockpos).m_60767_().m_76333_()) {
+                return false;
+             }
+ 
+             if (p_225205_.f_161102_.m_203334_().m_226357_(p_225203_, p_225204_, p_225206_, p_225207_)) {
+-               m_225222_(p_225208_, p_225208_.m_123342_() + i, p_225203_, p_225205_, p_225206_);
++               placeDirt(p_225208_, p_225208_.getY() + i, p_225203_, p_225205_, p_225206_);
+                return true;
+             }
+          }
+@@ -76,31 +_,31 @@
+       return false;
+    }
+ 
+-   private static void m_225222_(BlockPos p_225223_, int p_225224_, WorldGenLevel p_225225_, RootSystemConfiguration p_225226_, RandomSource p_225227_) {
+-      int i = p_225223_.m_123341_();
+-      int j = p_225223_.m_123343_();
++   private static void placeDirt(BlockPos p_225223_, long p_225224_, WorldGenLevel p_225225_, RootSystemConfiguration p_225226_, RandomSource p_225227_) {
++      long i = p_225223_.getX();
++      long j = p_225223_.getZ();
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = p_225223_.m_122032_();
+ 
+-      for(int k = p_225223_.m_123342_(); k < p_225224_; ++k) {
+-         m_225209_(p_225225_, p_225226_, p_225227_, i, j, blockpos$mutableblockpos.m_122178_(i, k, j));
++      for(long k = p_225223_.getY(); k < p_225224_; ++k) {
++         placeRootedDirt(p_225225_, p_225226_, p_225227_, i, j, blockpos$mutableblockpos.m_122169_(i, k, j));
+       }
+ 
+    }
+ 
+-   private static void m_225209_(WorldGenLevel p_225210_, RootSystemConfiguration p_225211_, RandomSource p_225212_, int p_225213_, int p_225214_, BlockPos.MutableBlockPos p_225215_) {
++   private static void placeRootedDirt(WorldGenLevel p_225210_, RootSystemConfiguration p_225211_, RandomSource p_225212_, long p_225213_, long p_225214_, BlockPos.MutableBlockPos p_225215_) {
+       int i = p_225211_.f_161104_;
+       Predicate<BlockState> predicate = (p_204762_) -> {
+          return p_204762_.m_204336_(p_225211_.f_161105_);
+       };
+ 
+       for(int j = 0; j < p_225211_.f_161107_; ++j) {
+-         p_225215_.m_122154_(p_225215_, p_225212_.m_188503_(i) - p_225212_.m_188503_(i), 0, p_225212_.m_188503_(i) - p_225212_.m_188503_(i));
++         p_225215_.setWithOffset(p_225215_, p_225212_.m_188503_(i) - p_225212_.m_188503_(i), 0, p_225212_.m_188503_(i) - p_225212_.m_188503_(i));
+          if (predicate.test(p_225210_.m_8055_(p_225215_))) {
+             p_225210_.m_7731_(p_225215_, p_225211_.f_161106_.m_213972_(p_225212_, p_225215_), 2);
+          }
+ 
+-         p_225215_.m_142451_(p_225213_);
+-         p_225215_.m_142443_(p_225214_);
++         p_225215_.setX(p_225213_);
++         p_225215_.setZ(p_225214_);
+       }
+ 
+    }
+@@ -110,10 +_,10 @@
+       int j = p_225218_.f_161110_;
+ 
+       for(int k = 0; k < p_225218_.f_161112_; ++k) {
+-         p_225221_.m_122154_(p_225220_, p_225219_.m_188503_(i) - p_225219_.m_188503_(i), p_225219_.m_188503_(j) - p_225219_.m_188503_(j), p_225219_.m_188503_(i) - p_225219_.m_188503_(i));
++         p_225221_.setWithOffset(p_225220_, p_225219_.m_188503_(i) - p_225219_.m_188503_(i), p_225219_.m_188503_(j) - p_225219_.m_188503_(j), p_225219_.m_188503_(i) - p_225219_.m_188503_(i));
+          if (p_225217_.m_46859_(p_225221_)) {
+             BlockState blockstate = p_225218_.f_161111_.m_213972_(p_225219_, p_225221_);
+-            if (blockstate.m_60710_(p_225217_, p_225221_) && p_225217_.m_8055_(p_225221_.m_7494_()).m_60783_(p_225217_, p_225221_, Direction.DOWN)) {
++            if (blockstate.m_60710_(p_225217_, p_225221_) && p_225217_.m_8055_(p_225221_.above()).m_60783_(p_225217_, p_225221_, Direction.DOWN)) {
+                p_225217_.m_7731_(p_225221_, blockstate, 2);
+             }
+          }

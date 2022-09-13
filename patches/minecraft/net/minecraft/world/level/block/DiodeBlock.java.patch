@@ -1,0 +1,65 @@
+--- a/net/minecraft/world/level/block/DiodeBlock.java
++++ b/net/minecraft/world/level/block/DiodeBlock.java
+@@ -32,7 +_,7 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_52538_, LevelReader p_52539_, BlockPos p_52540_) {
+-      return m_49936_(p_52539_, p_52540_.m_7495_());
++      return m_49936_(p_52539_, p_52540_.below());
+    }
+ 
+    public void m_213897_(BlockState p_221065_, ServerLevel p_221066_, BlockPos p_221067_, RandomSource p_221068_) {
+@@ -72,7 +_,7 @@
+          p_52526_.m_7471_(p_52527_, false);
+ 
+          for(Direction direction : Direction.values()) {
+-            p_52526_.m_46672_(p_52527_.m_121945_(direction), this);
++            p_52526_.m_46672_(p_52527_.relative(direction), this);
+          }
+ 
+       }
+@@ -106,7 +_,7 @@
+ 
+    protected int m_7312_(Level p_52544_, BlockPos p_52545_, BlockState p_52546_) {
+       Direction direction = p_52546_.m_61143_(f_54117_);
+-      BlockPos blockpos = p_52545_.m_121945_(direction);
++      BlockPos blockpos = p_52545_.relative(direction);
+       int i = p_52544_.m_46681_(blockpos, direction);
+       if (i >= 15) {
+          return i;
+@@ -120,7 +_,7 @@
+       Direction direction = p_52550_.m_61143_(f_54117_);
+       Direction direction1 = direction.m_122427_();
+       Direction direction2 = direction.m_122428_();
+-      return Math.max(this.m_52551_(p_52548_, p_52549_.m_121945_(direction1), direction1), this.m_52551_(p_52548_, p_52549_.m_121945_(direction2), direction2));
++      return Math.max(this.m_52551_(p_52548_, p_52549_.relative(direction1), direction1), this.m_52551_(p_52548_, p_52549_.relative(direction2), direction2));
+    }
+ 
+    protected int m_52551_(LevelReader p_52552_, BlockPos p_52553_, Direction p_52554_) {
+@@ -146,7 +_,7 @@
+ 
+    public void m_6402_(Level p_52506_, BlockPos p_52507_, BlockState p_52508_, LivingEntity p_52509_, ItemStack p_52510_) {
+       if (this.m_7320_(p_52506_, p_52507_, p_52508_)) {
+-         p_52506_.m_186460_(p_52507_, this, 1);
++         p_52506_.scheduleTick(p_52507_, this, 1);
+       }
+ 
+    }
+@@ -164,7 +_,7 @@
+ 
+    protected void m_52580_(Level p_52581_, BlockPos p_52582_, BlockState p_52583_) {
+       Direction direction = p_52583_.m_61143_(f_54117_);
+-      BlockPos blockpos = p_52582_.m_121945_(direction.m_122424_());
++      BlockPos blockpos = p_52582_.relative(direction.m_122424_());
+       p_52581_.m_46586_(blockpos, this, p_52582_);
+       p_52581_.m_46590_(blockpos, this, direction);
+    }
+@@ -183,7 +_,7 @@
+ 
+    public boolean m_52573_(BlockGetter p_52574_, BlockPos p_52575_, BlockState p_52576_) {
+       Direction direction = p_52576_.m_61143_(f_54117_).m_122424_();
+-      BlockState blockstate = p_52574_.m_8055_(p_52575_.m_121945_(direction));
++      BlockState blockstate = p_52574_.m_8055_(p_52575_.relative(direction));
+       return m_52586_(blockstate) && blockstate.m_61143_(f_54117_) != direction;
+    }
+ 

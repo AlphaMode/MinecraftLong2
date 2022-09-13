@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/ai/behavior/UseBonemeal.java
++++ b/net/minecraft/world/entity/ai/behavior/UseBonemeal.java
+@@ -53,7 +_,7 @@
+       for(int j = -1; j <= 1; ++j) {
+          for(int k = -1; k <= 1; ++k) {
+             for(int l = -1; l <= 1; ++l) {
+-               blockpos$mutableblockpos.m_122154_(p_24494_.m_20183_(), j, k, l);
++               blockpos$mutableblockpos.setWithOffset(p_24494_.m_20183_(), j, k, l);
+                if (this.m_24485_(blockpos$mutableblockpos, p_24493_)) {
+                   ++i;
+                   if (p_24493_.f_46441_.m_188503_(i) == 0) {
+@@ -95,7 +_,7 @@
+ 
+    protected void m_6725_(ServerLevel p_24512_, Villager p_24513_, long p_24514_) {
+       BlockPos blockpos = this.f_24464_.get();
+-      if (p_24514_ >= this.f_24461_ && blockpos.m_203195_(p_24513_.m_20182_(), 1.0D)) {
++      if (p_24514_ >= this.f_24461_ && blockpos.closerToCenterThan(p_24513_.m_20182_(), 1.0D)) {
+          ItemStack itemstack = ItemStack.f_41583_;
+          SimpleContainer simplecontainer = p_24513_.m_35311_();
+          int i = simplecontainer.m_6643_();

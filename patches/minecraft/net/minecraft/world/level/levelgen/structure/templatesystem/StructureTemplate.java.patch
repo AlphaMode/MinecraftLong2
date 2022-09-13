@@ -1,0 +1,264 @@
+--- a/net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate.java
++++ b/net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate.java
+@@ -87,12 +_,12 @@
+          List<StructureTemplate.StructureBlockInfo> list = Lists.newArrayList();
+          List<StructureTemplate.StructureBlockInfo> list1 = Lists.newArrayList();
+          List<StructureTemplate.StructureBlockInfo> list2 = Lists.newArrayList();
+-         BlockPos blockpos1 = new BlockPos(Math.min(p_163804_.m_123341_(), blockpos.m_123341_()), Math.min(p_163804_.m_123342_(), blockpos.m_123342_()), Math.min(p_163804_.m_123343_(), blockpos.m_123343_()));
+-         BlockPos blockpos2 = new BlockPos(Math.max(p_163804_.m_123341_(), blockpos.m_123341_()), Math.max(p_163804_.m_123342_(), blockpos.m_123342_()), Math.max(p_163804_.m_123343_(), blockpos.m_123343_()));
++         BlockPos blockpos1 = new BlockPos(Math.min(p_163804_.getX(), blockpos.getX()), Math.min(p_163804_.getY(), blockpos.getY()), Math.min(p_163804_.getZ(), blockpos.getZ()));
++         BlockPos blockpos2 = new BlockPos(Math.max(p_163804_.getX(), blockpos.getX()), Math.max(p_163804_.getY(), blockpos.getY()), Math.max(p_163804_.getZ(), blockpos.getZ()));
+          this.f_74484_ = p_163805_;
+ 
+          for(BlockPos blockpos3 : BlockPos.m_121940_(blockpos1, blockpos2)) {
+-            BlockPos blockpos4 = blockpos3.m_121996_(blockpos1);
++            BlockPos blockpos4 = blockpos3.subtract(blockpos1);
+             BlockState blockstate = p_163803_.m_8055_(blockpos3);
+             if (p_163807_ == null || !blockstate.m_60713_(p_163807_)) {
+                BlockEntity blockentity = p_163803_.m_7702_(blockpos3);
+@@ -131,12 +_,12 @@
+    }
+ 
+    private static List<StructureTemplate.StructureBlockInfo> m_74614_(List<StructureTemplate.StructureBlockInfo> p_74615_, List<StructureTemplate.StructureBlockInfo> p_74616_, List<StructureTemplate.StructureBlockInfo> p_74617_) {
+-      Comparator<StructureTemplate.StructureBlockInfo> comparator = Comparator.<StructureTemplate.StructureBlockInfo>comparingInt((p_74641_) -> {
+-         return p_74641_.f_74675_.m_123342_();
+-      }).thenComparingInt((p_74637_) -> {
+-         return p_74637_.f_74675_.m_123341_();
+-      }).thenComparingInt((p_74572_) -> {
+-         return p_74572_.f_74675_.m_123343_();
++      Comparator<StructureTemplate.StructureBlockInfo> comparator = Comparator.<StructureTemplate.StructureBlockInfo>comparingLong((p_74641_) -> {
++         return p_74641_.f_74675_.getY();
++      }).thenComparingLong((p_74637_) -> {
++         return p_74637_.f_74675_.getX();
++      }).thenComparingLong((p_74572_) -> {
++         return p_74572_.f_74675_.getZ();
+       });
+       p_74615_.sort(comparator);
+       p_74617_.sort(comparator);
+@@ -155,12 +_,12 @@
+       this.f_74483_.clear();
+ 
+       for(Entity entity : list) {
+-         Vec3 vec3 = new Vec3(entity.m_20185_() - (double)p_74502_.m_123341_(), entity.m_20186_() - (double)p_74502_.m_123342_(), entity.m_20189_() - (double)p_74502_.m_123343_());
++         Vec3 vec3 = new Vec3(entity.m_20185_() - (double)p_74502_.getX(), entity.m_20186_() - (double)p_74502_.getY(), entity.m_20189_() - (double)p_74502_.getZ());
+          CompoundTag compoundtag = new CompoundTag();
+          entity.m_20223_(compoundtag);
+          BlockPos blockpos;
+          if (entity instanceof Painting) {
+-            blockpos = ((Painting)entity).m_31748_().m_121996_(p_74502_);
++            blockpos = ((Painting)entity).m_31748_().subtract(p_74502_);
+          } else {
+             blockpos = new BlockPos(vec3);
+          }
+@@ -181,8 +_,8 @@
+          return objectarraylist;
+       } else {
+          for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : p_230337_.m_74387_(this.f_74482_, p_230336_).m_74653_(p_230338_)) {
+-            BlockPos blockpos = p_230339_ ? m_74563_(p_230337_, structuretemplate$structureblockinfo.f_74675_).m_121955_(p_230336_) : structuretemplate$structureblockinfo.f_74675_;
+-            if (boundingbox == null || boundingbox.m_71051_(blockpos)) {
++            BlockPos blockpos = p_230339_ ? m_74563_(p_230337_, structuretemplate$structureblockinfo.f_74675_).offset(p_230336_) : structuretemplate$structureblockinfo.f_74675_;
++            if (boundingbox == null || boundingbox.isInside(blockpos)) {
+                objectarraylist.add(new StructureTemplate.StructureBlockInfo(blockpos, structuretemplate$structureblockinfo.f_74676_.m_60717_(p_230337_.m_74404_()), structuretemplate$structureblockinfo.f_74677_));
+             }
+          }
+@@ -194,7 +_,7 @@
+    public BlockPos m_74566_(StructurePlaceSettings p_74567_, BlockPos p_74568_, StructurePlaceSettings p_74569_, BlockPos p_74570_) {
+       BlockPos blockpos = m_74563_(p_74567_, p_74568_);
+       BlockPos blockpos1 = m_74563_(p_74569_, p_74570_);
+-      return blockpos.m_121996_(blockpos1);
++      return blockpos.subtract(blockpos1);
+    }
+ 
+    public static BlockPos m_74563_(StructurePlaceSettings p_74564_, BlockPos p_74565_) {
+@@ -211,16 +_,16 @@
+             List<BlockPos> list1 = Lists.newArrayListWithCapacity(p_230332_.m_74413_() ? list.size() : 0);
+             List<BlockPos> list2 = Lists.newArrayListWithCapacity(p_230332_.m_74413_() ? list.size() : 0);
+             List<Pair<BlockPos, CompoundTag>> list3 = Lists.newArrayListWithCapacity(list.size());
+-            int i = Integer.MAX_VALUE;
+-            int j = Integer.MAX_VALUE;
+-            int k = Integer.MAX_VALUE;
+-            int l = Integer.MIN_VALUE;
+-            int i1 = Integer.MIN_VALUE;
+-            int j1 = Integer.MIN_VALUE;
++            long i = java.lang.Long.MAX_VALUE;
++            long j = java.lang.Long.MAX_VALUE;
++            long k = java.lang.Long.MAX_VALUE;
++            long l = java.lang.Long.MIN_VALUE;
++            long i1 = java.lang.Long.MIN_VALUE;
++            long j1 = java.lang.Long.MIN_VALUE;
+ 
+             for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : m_74517_(p_230329_, p_230330_, p_230331_, p_230332_, list)) {
+                BlockPos blockpos = structuretemplate$structureblockinfo.f_74675_;
+-               if (boundingbox == null || boundingbox.m_71051_(blockpos)) {
++               if (boundingbox == null || boundingbox.isInside(blockpos)) {
+                   FluidState fluidstate = p_230332_.m_74413_() ? p_230329_.m_6425_(blockpos) : null;
+                   BlockState blockstate = structuretemplate$structureblockinfo.f_74676_.m_60715_(p_230332_.m_74401_()).m_60717_(p_230332_.m_74404_());
+                   if (structuretemplate$structureblockinfo.f_74677_ != null) {
+@@ -230,12 +_,12 @@
+                   }
+ 
+                   if (p_230329_.m_7731_(blockpos, blockstate, p_230334_)) {
+-                     i = Math.min(i, blockpos.m_123341_());
+-                     j = Math.min(j, blockpos.m_123342_());
+-                     k = Math.min(k, blockpos.m_123343_());
+-                     l = Math.max(l, blockpos.m_123341_());
+-                     i1 = Math.max(i1, blockpos.m_123342_());
+-                     j1 = Math.max(j1, blockpos.m_123343_());
++                     i = Math.min(i, blockpos.getX());
++                     j = Math.min(j, blockpos.getY());
++                     k = Math.min(k, blockpos.getZ());
++                     l = Math.max(l, blockpos.getX());
++                     i1 = Math.max(i1, blockpos.getY());
++                     j1 = Math.max(j1, blockpos.getZ());
+                      list3.add(Pair.of(blockpos, structuretemplate$structureblockinfo.f_74677_));
+                      if (structuretemplate$structureblockinfo.f_74677_ != null) {
+                         BlockEntity blockentity1 = p_230329_.m_7702_(blockpos);
+@@ -274,7 +_,7 @@
+                   FluidState fluidstate2 = p_230329_.m_6425_(blockpos3);
+ 
+                   for(int i2 = 0; i2 < adirection.length && !fluidstate2.m_76170_(); ++i2) {
+-                     BlockPos blockpos1 = blockpos3.m_121945_(adirection[i2]);
++                     BlockPos blockpos1 = blockpos3.relative(adirection[i2]);
+                      FluidState fluidstate1 = p_230329_.m_6425_(blockpos1);
+                      if (fluidstate1.m_76170_() && !list2.contains(blockpos1)) {
+                         fluidstate2 = fluidstate1;
+@@ -295,17 +_,17 @@
+ 
+             if (i <= l) {
+                if (!p_230332_.m_74410_()) {
+-                  DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape(l - i + 1, i1 - j + 1, j1 - k + 1);
+-                  int k1 = i;
+-                  int l1 = j;
+-                  int j2 = k;
++                  DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape((int) (l - i + 1), (int) (i1 - j + 1), (int) (j1 - k + 1));
++                  long k1 = i;
++                  long l1 = j;
++                  long j2 = k;
+ 
+                   for(Pair<BlockPos, CompoundTag> pair1 : list3) {
+                      BlockPos blockpos2 = pair1.getFirst();
+-                     discretevoxelshape.m_142703_(blockpos2.m_123341_() - k1, blockpos2.m_123342_() - l1, blockpos2.m_123343_() - j2);
++                     discretevoxelshape.fill(blockpos2.getX() - k1, blockpos2.getY() - l1, blockpos2.getZ() - j2);
+                   }
+ 
+-                  m_74510_(p_230329_, p_230334_, discretevoxelshape, k1, l1, j2);
++                  updateShapeAtEdge(p_230329_, p_230334_, discretevoxelshape, k1, l1, j2);
+                }
+ 
+                for(Pair<BlockPos, CompoundTag> pair : list3) {
+@@ -340,10 +_,10 @@
+       }
+    }
+ 
+-   public static void m_74510_(LevelAccessor p_74511_, int p_74512_, DiscreteVoxelShape p_74513_, int p_74514_, int p_74515_, int p_74516_) {
++   public static void updateShapeAtEdge(LevelAccessor p_74511_, int p_74512_, DiscreteVoxelShape p_74513_, long p_74514_, long p_74515_, long p_74516_) {
+       p_74513_.m_82810_((p_74494_, p_74495_, p_74496_, p_74497_) -> {
+          BlockPos blockpos = new BlockPos(p_74514_ + p_74495_, p_74515_ + p_74496_, p_74516_ + p_74497_);
+-         BlockPos blockpos1 = blockpos.m_121945_(p_74494_);
++         BlockPos blockpos1 = blockpos.relative(p_74494_);
+          BlockState blockstate = p_74511_.m_8055_(blockpos);
+          BlockState blockstate1 = p_74511_.m_8055_(blockpos1);
+          BlockState blockstate2 = blockstate.m_60728_(p_74494_, blockstate1, p_74511_, blockpos, blockpos1);
+@@ -363,7 +_,7 @@
+       List<StructureTemplate.StructureBlockInfo> list = Lists.newArrayList();
+ 
+       for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : p_74522_) {
+-         BlockPos blockpos = m_74563_(p_74521_, structuretemplate$structureblockinfo.f_74675_).m_121955_(p_74519_);
++         BlockPos blockpos = m_74563_(p_74521_, structuretemplate$structureblockinfo.f_74675_).offset(p_74519_);
+          StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo1 = new StructureTemplate.StructureBlockInfo(blockpos, structuretemplate$structureblockinfo.f_74676_, structuretemplate$structureblockinfo.f_74677_ != null ? structuretemplate$structureblockinfo.f_74677_.m_6426_() : null);
+ 
+          for(Iterator<StructureProcessor> iterator = p_74521_.m_74411_().iterator(); structuretemplate$structureblockinfo1 != null && iterator.hasNext(); structuretemplate$structureblockinfo1 = iterator.next().m_7382_(p_74518_, p_74519_, p_74520_, structuretemplate$structureblockinfo, structuretemplate$structureblockinfo1, p_74521_)) {
+@@ -379,11 +_,11 @@
+ 
+    private void m_74523_(ServerLevelAccessor p_74524_, BlockPos p_74525_, Mirror p_74526_, Rotation p_74527_, BlockPos p_74528_, @Nullable BoundingBox p_74529_, boolean p_74530_) {
+       for(StructureTemplate.StructureEntityInfo structuretemplate$structureentityinfo : this.f_74483_) {
+-         BlockPos blockpos = m_74593_(structuretemplate$structureentityinfo.f_74684_, p_74526_, p_74527_, p_74528_).m_121955_(p_74525_);
+-         if (p_74529_ == null || p_74529_.m_71051_(blockpos)) {
++         BlockPos blockpos = m_74593_(structuretemplate$structureentityinfo.f_74684_, p_74526_, p_74527_, p_74528_).offset(p_74525_);
++         if (p_74529_ == null || p_74529_.isInside(blockpos)) {
+             CompoundTag compoundtag = structuretemplate$structureentityinfo.f_74685_.m_6426_();
+             Vec3 vec3 = m_74578_(structuretemplate$structureentityinfo.f_74683_, p_74526_, p_74527_, p_74528_);
+-            Vec3 vec31 = vec3.m_82520_((double)p_74525_.m_123341_(), (double)p_74525_.m_123342_(), (double)p_74525_.m_123343_());
++            Vec3 vec31 = vec3.m_82520_((double)p_74525_.getX(), (double)p_74525_.getY(), (double)p_74525_.getZ());
+             ListTag listtag = new ListTag();
+             listtag.add(DoubleTag.m_128500_(vec31.f_82479_));
+             listtag.add(DoubleTag.m_128500_(vec31.f_82480_));
+@@ -424,9 +_,9 @@
+    }
+ 
+    public static BlockPos m_74593_(BlockPos p_74594_, Mirror p_74595_, Rotation p_74596_, BlockPos p_74597_) {
+-      int i = p_74594_.m_123341_();
+-      int j = p_74594_.m_123342_();
+-      int k = p_74594_.m_123343_();
++      long i = p_74594_.getX();
++      long j = p_74594_.getY();
++      long k = p_74594_.getZ();
+       boolean flag = true;
+       switch (p_74595_) {
+          case LEFT_RIGHT:
+@@ -439,8 +_,8 @@
+             flag = false;
+       }
+ 
+-      int l = p_74597_.m_123341_();
+-      int i1 = p_74597_.m_123343_();
++      long l = p_74597_.getX();
++      long i1 = p_74597_.getZ();
+       switch (p_74596_) {
+          case COUNTERCLOCKWISE_90:
+             return new BlockPos(l - i1 + k, j, l + i1 - i);
+@@ -469,8 +_,8 @@
+             flag = false;
+       }
+ 
+-      int i = p_74582_.m_123341_();
+-      int j = p_74582_.m_123343_();
++      long i = p_74582_.getX();
++      long j = p_74582_.getZ();
+       switch (p_74581_) {
+          case COUNTERCLOCKWISE_90:
+             return new Vec3((double)(i - j) + d2, d1, (double)(i + j + 1) - d0);
+@@ -523,7 +_,7 @@
+       Vec3i vec3i = p_163815_.m_7918_(-1, -1, -1);
+       BlockPos blockpos = m_74593_(BlockPos.f_121853_, p_163814_, p_163812_, p_163813_);
+       BlockPos blockpos1 = m_74593_(BlockPos.f_121853_.m_121955_(vec3i), p_163814_, p_163812_, p_163813_);
+-      return BoundingBox.m_162375_(blockpos, blockpos1).m_162373_(p_163811_);
++      return BoundingBox.fromCorners(blockpos, blockpos1).move(p_163811_);
+    }
+ 
+    public CompoundTag m_74618_(CompoundTag p_74619_) {
+@@ -545,7 +_,7 @@
+          for(int j = 0; j < list1.size(); ++j) {
+             StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo = list1.get(j);
+             CompoundTag compoundtag = new CompoundTag();
+-            compoundtag.m_128365_("pos", this.m_74625_(structuretemplate$structureblockinfo.f_74675_.m_123341_(), structuretemplate$structureblockinfo.f_74675_.m_123342_(), structuretemplate$structureblockinfo.f_74675_.m_123343_()));
++            compoundtag.m_128365_("pos", this.newLongList(structuretemplate$structureblockinfo.f_74675_.getX(), structuretemplate$structureblockinfo.f_74675_.getY(), structuretemplate$structureblockinfo.f_74675_.getZ()));
+             int k = structuretemplate$simplepalette.m_74669_(structuretemplate$structureblockinfo.f_74676_);
+             compoundtag.m_128405_("state", k);
+             if (structuretemplate$structureblockinfo.f_74677_ != null) {
+@@ -591,7 +_,7 @@
+       for(StructureTemplate.StructureEntityInfo structuretemplate$structureentityinfo : this.f_74483_) {
+          CompoundTag compoundtag1 = new CompoundTag();
+          compoundtag1.m_128365_("pos", this.m_74623_(structuretemplate$structureentityinfo.f_74683_.f_82479_, structuretemplate$structureentityinfo.f_74683_.f_82480_, structuretemplate$structureentityinfo.f_74683_.f_82481_));
+-         compoundtag1.m_128365_("blockPos", this.m_74625_(structuretemplate$structureentityinfo.f_74684_.m_123341_(), structuretemplate$structureentityinfo.f_74684_.m_123342_(), structuretemplate$structureentityinfo.f_74684_.m_123343_()));
++         compoundtag1.m_128365_("blockPos", this.newLongList(structuretemplate$structureentityinfo.f_74684_.getX(), structuretemplate$structureentityinfo.f_74684_.getY(), structuretemplate$structureentityinfo.f_74684_.getZ()));
+          if (structuretemplate$structureentityinfo.f_74685_ != null) {
+             compoundtag1.m_128365_("nbt", structuretemplate$structureentityinfo.f_74685_);
+          }
+@@ -673,6 +_,16 @@
+ 
+       for(int i : p_74626_) {
+          listtag.add(IntTag.m_128679_(i));
++      }
++
++      return listtag;
++   }
++
++   private ListTag newLongList(long... p_74626_) {
++      ListTag listtag = new ListTag();
++
++      for(long i : p_74626_) {
++         listtag.add(net.minecraft.nbt.LongTag.m_128882_(i));
+       }
+ 
+       return listtag;

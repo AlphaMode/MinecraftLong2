@@ -1,0 +1,65 @@
+--- a/net/minecraft/world/level/block/entity/StructureBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/StructureBlockEntity.java
+@@ -60,9 +_,9 @@
+       p_187524_.m_128359_("name", this.m_59895_());
+       p_187524_.m_128359_("author", this.f_59813_);
+       p_187524_.m_128359_("metadata", this.f_59814_);
+-      p_187524_.m_128405_("posX", this.f_59815_.m_123341_());
+-      p_187524_.m_128405_("posY", this.f_59815_.m_123342_());
+-      p_187524_.m_128405_("posZ", this.f_59815_.m_123343_());
++      p_187524_.m_128356_("posX", this.f_59815_.getX());
++      p_187524_.m_128356_("posY", this.f_59815_.getY());
++      p_187524_.m_128356_("posZ", this.f_59815_.getZ());
+       p_187524_.m_128405_("sizeX", this.f_59816_.m_123341_());
+       p_187524_.m_128405_("sizeY", this.f_59816_.m_123342_());
+       p_187524_.m_128405_("sizeZ", this.f_59816_.m_123343_());
+@@ -82,9 +_,9 @@
+       this.m_59868_(p_155800_.m_128461_("name"));
+       this.f_59813_ = p_155800_.m_128461_("author");
+       this.f_59814_ = p_155800_.m_128461_("metadata");
+-      int i = Mth.m_14045_(p_155800_.m_128451_("posX"), -48, 48);
+-      int j = Mth.m_14045_(p_155800_.m_128451_("posY"), -48, 48);
+-      int k = Mth.m_14045_(p_155800_.m_128451_("posZ"), -48, 48);
++      long i = Mth.m_14053_(p_155800_.m_128454_("posX"), -48, 48);
++      long j = Mth.m_14053_(p_155800_.m_128454_("posY"), -48, 48);
++      long k = Mth.m_14053_(p_155800_.m_128454_("posZ"), -48, 48);
+       this.f_59815_ = new BlockPos(i, j, k);
+       int l = Mth.m_14045_(p_155800_.m_128451_("sizeX"), 0, 48);
+       int i1 = Mth.m_14045_(p_155800_.m_128451_("sizeY"), 0, 48);
+@@ -261,15 +_,15 @@
+       } else {
+          BlockPos blockpos = this.m_58899_();
+          int i = 80;
+-         BlockPos blockpos1 = new BlockPos(blockpos.m_123341_() - 80, this.f_58857_.m_141937_(), blockpos.m_123343_() - 80);
+-         BlockPos blockpos2 = new BlockPos(blockpos.m_123341_() + 80, this.f_58857_.m_151558_() - 1, blockpos.m_123343_() + 80);
++         BlockPos blockpos1 = new BlockPos(blockpos.getX() - 80, this.f_58857_.getMinBuildHeight(), blockpos.getZ() - 80);
++         BlockPos blockpos2 = new BlockPos(blockpos.getX() + 80, this.f_58857_.getMaxBuildHeight() - 1, blockpos.getZ() + 80);
+          Stream<BlockPos> stream = this.m_155791_(blockpos1, blockpos2);
+          return m_155794_(blockpos, stream).filter((p_155790_) -> {
+             int j = p_155790_.m_162399_() - p_155790_.m_162395_();
+             int k = p_155790_.m_162400_() - p_155790_.m_162396_();
+             int l = p_155790_.m_162401_() - p_155790_.m_162398_();
+             if (j > 1 && k > 1 && l > 1) {
+-               this.f_59815_ = new BlockPos(p_155790_.m_162395_() - blockpos.m_123341_() + 1, p_155790_.m_162396_() - blockpos.m_123342_() + 1, p_155790_.m_162398_() - blockpos.m_123343_() + 1);
++               this.f_59815_ = new BlockPos(p_155790_.m_162395_() - blockpos.getX() + 1, p_155790_.m_162396_() - blockpos.getY() + 1, p_155790_.m_162398_() - blockpos.getZ() + 1);
+                this.f_59816_ = new Vec3i(j - 1, k - 1, l - 1);
+                this.m_6596_();
+                BlockState blockstate = this.f_58857_.m_8055_(blockpos);
+@@ -317,7 +_,7 @@
+ 
+    public boolean m_59889_(boolean p_59890_) {
+       if (this.f_59819_ == StructureMode.SAVE && !this.f_58857_.f_46443_ && this.f_59812_ != null) {
+-         BlockPos blockpos = this.m_58899_().m_121955_(this.f_59815_);
++         BlockPos blockpos = this.m_58899_().offset(this.f_59815_);
+          ServerLevel serverlevel = (ServerLevel)this.f_58857_;
+          StructureTemplateManager structuretemplatemanager = serverlevel.m_215082_();
+ 
+@@ -392,7 +_,7 @@
+             structureplacesettings.m_74394_().m_74383_(new BlockRotProcessor(Mth.m_14036_(this.f_59824_, 0.0F, 1.0F))).m_230324_(m_222888_(this.f_59825_));
+          }
+ 
+-         BlockPos blockpos1 = blockpos.m_121955_(this.f_59815_);
++         BlockPos blockpos1 = blockpos.offset(this.f_59815_);
+          p_59850_.m_230328_(p_59848_, blockpos1, blockpos1, structureplacesettings, m_222888_(this.f_59825_), 2);
+          return true;
+       }

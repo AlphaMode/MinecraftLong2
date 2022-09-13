@@ -1,0 +1,42 @@
+--- a/net/minecraft/world/ticks/LevelTicks.java
++++ b/net/minecraft/world/ticks/LevelTicks.java
+@@ -230,7 +_,7 @@
+ 
+       for(int i1 = i; i1 <= k; ++i1) {
+          for(int j1 = j; j1 <= l; ++j1) {
+-            long k1 = ChunkPos.m_45589_(i1, j1);
++            long k1 = ChunkPos.asLong(i1, j1);
+             LevelChunkTicks<T> levelchunkticks = this.f_193202_.get(k1);
+             if (levelchunkticks != null) {
+                p_193238_.m_193288_(k1, levelchunkticks);
+@@ -242,7 +_,7 @@
+ 
+    public void m_193234_(BoundingBox p_193235_) {
+       Predicate<ScheduledTick<T>> predicate = (p_193241_) -> {
+-         return p_193235_.m_71051_(p_193241_.f_193377_());
++         return p_193235_.isInside(p_193241_.f_193377_());
+       };
+       this.m_193236_(p_193235_, (p_193276_, p_193277_) -> {
+          ScheduledTick<T> scheduledtick = p_193277_.m_193189_();
+@@ -261,10 +_,10 @@
+       this.f_193205_.removeIf(predicate);
+    }
+ 
+-   public void m_193242_(BoundingBox p_193243_, Vec3i p_193244_) {
++   public void copyArea(BoundingBox p_193243_, me.alphamode.mclong.core.Vec3l p_193244_) {
+       List<ScheduledTick<T>> list = new ArrayList<>();
+       Predicate<ScheduledTick<T>> predicate = (p_200922_) -> {
+-         return p_193243_.m_71051_(p_200922_.f_193377_());
++         return p_193243_.isInside(p_200922_.f_193377_());
+       };
+       this.f_193206_.stream().filter(predicate).forEach(list::add);
+       this.f_193205_.stream().filter(predicate).forEach(list::add);
+@@ -275,7 +_,7 @@
+       long i = longsummarystatistics.getMin();
+       long j = longsummarystatistics.getMax();
+       list.forEach((p_193260_) -> {
+-         this.m_183393_(new ScheduledTick<>(p_193260_.f_193376_(), p_193260_.f_193377_().m_121955_(p_193244_), p_193260_.f_193378_(), p_193260_.f_193379_(), p_193260_.f_193380_() - i + j + 1L));
++         this.m_183393_(new ScheduledTick<>(p_193260_.f_193376_(), p_193260_.f_193377_().offset(p_193244_), p_193260_.f_193378_(), p_193260_.f_193379_(), p_193260_.f_193380_() - i + j + 1L));
+       });
+    }
+ 

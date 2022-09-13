@@ -1,0 +1,54 @@
+--- a/net/minecraft/world/level/pathfinder/AmphibiousNodeEvaluator.java
++++ b/net/minecraft/world/level/pathfinder/AmphibiousNodeEvaluator.java
+@@ -39,13 +_,13 @@
+ 
+    @Nullable
+    public Target m_7568_(double p_164662_, double p_164663_, double p_164664_) {
+-      return this.m_230615_(this.m_5676_(Mth.m_14107_(p_164662_), Mth.m_14107_(p_164663_ + 0.5D), Mth.m_14107_(p_164664_)));
++      return this.m_230615_(this.getNode(Mth.m_14107_(p_164662_), Mth.m_14107_(p_164663_ + 0.5D), Mth.m_14107_(p_164664_)));
+    }
+ 
+    public int m_6065_(Node[] p_164676_, Node p_164677_) {
+       int i = super.m_6065_(p_164676_, p_164677_);
+-      BlockPathTypes blockpathtypes = this.m_77567_(this.f_77313_, p_164677_.f_77271_, p_164677_.f_77272_ + 1, p_164677_.f_77273_);
+-      BlockPathTypes blockpathtypes1 = this.m_77567_(this.f_77313_, p_164677_.f_77271_, p_164677_.f_77272_, p_164677_.f_77273_);
++      BlockPathTypes blockpathtypes = this.getCachedBlockType(this.f_77313_, p_164677_.f_77271_, p_164677_.f_77272_ + 1, p_164677_.f_77273_);
++      BlockPathTypes blockpathtypes1 = this.getCachedBlockType(this.f_77313_, p_164677_.f_77271_, p_164677_.f_77272_, p_164677_.f_77273_);
+       int j;
+       if (this.f_77313_.m_21439_(blockpathtypes) >= 0.0F && blockpathtypes1 != BlockPathTypes.STICKY_HONEY) {
+          j = Mth.m_14143_(Math.max(1.0F, this.f_77313_.f_19793_));
+@@ -54,8 +_,8 @@
+       }
+ 
+       double d0 = this.m_142213_(new BlockPos(p_164677_.f_77271_, p_164677_.f_77272_, p_164677_.f_77273_));
+-      Node node = this.m_164725_(p_164677_.f_77271_, p_164677_.f_77272_ + 1, p_164677_.f_77273_, Math.max(0, j - 1), d0, Direction.UP, blockpathtypes1);
+-      Node node1 = this.m_164725_(p_164677_.f_77271_, p_164677_.f_77272_ - 1, p_164677_.f_77273_, j, d0, Direction.DOWN, blockpathtypes1);
++      Node node = this.findAcceptedNode(p_164677_.f_77271_, p_164677_.f_77272_ + 1, p_164677_.f_77273_, Math.max(0, j - 1), d0, Direction.UP, blockpathtypes1);
++      Node node1 = this.findAcceptedNode(p_164677_.f_77271_, p_164677_.f_77272_ - 1, p_164677_.f_77273_, j, d0, Direction.DOWN, blockpathtypes1);
+       if (this.m_230610_(node, p_164677_)) {
+          p_164676_[i++] = node;
+       }
+@@ -79,19 +_,19 @@
+    }
+ 
+    protected double m_142213_(BlockPos p_164674_) {
+-      return this.f_77313_.m_20069_() ? (double)p_164674_.m_123342_() + 0.5D : super.m_142213_(p_164674_);
++      return this.f_77313_.m_20069_() ? (double)p_164674_.getY() + 0.5D : super.m_142213_(p_164674_);
+    }
+ 
+    protected boolean m_141974_() {
+       return true;
+    }
+ 
+-   public BlockPathTypes m_8086_(BlockGetter p_164666_, int p_164667_, int p_164668_, int p_164669_) {
++   public BlockPathTypes getBlockPathType(BlockGetter p_164666_, long p_164667_, long p_164668_, long p_164669_) {
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+-      BlockPathTypes blockpathtypes = m_77643_(p_164666_, blockpos$mutableblockpos.m_122178_(p_164667_, p_164668_, p_164669_));
++      BlockPathTypes blockpathtypes = m_77643_(p_164666_, blockpos$mutableblockpos.m_122169_(p_164667_, p_164668_, p_164669_));
+       if (blockpathtypes == BlockPathTypes.WATER) {
+          for(Direction direction : Direction.values()) {
+-            BlockPathTypes blockpathtypes1 = m_77643_(p_164666_, blockpos$mutableblockpos.m_122178_(p_164667_, p_164668_, p_164669_).m_122173_(direction));
++            BlockPathTypes blockpathtypes1 = m_77643_(p_164666_, blockpos$mutableblockpos.m_122169_(p_164667_, p_164668_, p_164669_).m_122173_(direction));
+             if (blockpathtypes1 == BlockPathTypes.BLOCKED) {
+                return BlockPathTypes.WATER_BORDER;
+             }

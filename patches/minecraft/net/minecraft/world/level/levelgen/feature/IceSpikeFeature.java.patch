@@ -1,0 +1,44 @@
+--- a/net/minecraft/world/level/levelgen/feature/IceSpikeFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/IceSpikeFeature.java
+@@ -19,17 +_,17 @@
+       RandomSource randomsource = p_159882_.m_225041_();
+ 
+       WorldGenLevel worldgenlevel;
+-      for(worldgenlevel = p_159882_.m_159774_(); worldgenlevel.m_46859_(blockpos) && blockpos.m_123342_() > worldgenlevel.m_141937_() + 2; blockpos = blockpos.m_7495_()) {
++      for(worldgenlevel = p_159882_.m_159774_(); worldgenlevel.m_46859_(blockpos) && blockpos.getY() > worldgenlevel.getMinBuildHeight() + 2; blockpos = blockpos.below()) {
+       }
+ 
+       if (!worldgenlevel.m_8055_(blockpos).m_60713_(Blocks.f_50127_)) {
+          return false;
+       } else {
+-         blockpos = blockpos.m_6630_(randomsource.m_188503_(4));
++         blockpos = blockpos.above(randomsource.m_188503_(4));
+          int i = randomsource.m_188503_(4) + 7;
+          int j = i / 4 + randomsource.m_188503_(2);
+          if (j > 1 && randomsource.m_188503_(60) == 0) {
+-            blockpos = blockpos.m_6630_(10 + randomsource.m_188503_(30));
++            blockpos = blockpos.above(10 + randomsource.m_188503_(30));
+          }
+ 
+          for(int k = 0; k < i; ++k) {
+@@ -73,17 +_,17 @@
+                   j2 = randomsource.m_188503_(5);
+                }
+ 
+-               while(blockpos1.m_123342_() > 50) {
++               while(blockpos1.getY() > 50) {
+                   BlockState blockstate1 = worldgenlevel.m_8055_(blockpos1);
+                   if (!blockstate1.m_60795_() && !m_159759_(blockstate1) && !blockstate1.m_60713_(Blocks.f_50127_) && !blockstate1.m_60713_(Blocks.f_50126_) && !blockstate1.m_60713_(Blocks.f_50354_)) {
+                      break;
+                   }
+ 
+                   this.m_5974_(worldgenlevel, blockpos1, Blocks.f_50354_.m_49966_());
+-                  blockpos1 = blockpos1.m_7495_();
++                  blockpos1 = blockpos1.below();
+                   --j2;
+                   if (j2 <= 0) {
+-                     blockpos1 = blockpos1.m_6625_(randomsource.m_188503_(5) + 1);
++                     blockpos1 = blockpos1.below(randomsource.m_188503_(5) + 1);
+                      j2 = randomsource.m_188503_(5);
+                   }
+                }

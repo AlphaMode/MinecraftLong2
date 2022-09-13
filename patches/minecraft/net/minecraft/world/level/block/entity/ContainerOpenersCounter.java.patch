@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/level/block/entity/ContainerOpenersCounter.java
++++ b/net/minecraft/world/level/block/entity/ContainerOpenersCounter.java
+@@ -43,9 +_,9 @@
+    }
+ 
+    private int m_155457_(Level p_155458_, BlockPos p_155459_) {
+-      int i = p_155459_.m_123341_();
+-      int j = p_155459_.m_123342_();
+-      int k = p_155459_.m_123343_();
++      long i = p_155459_.getX();
++      long j = p_155459_.getY();
++      long k = p_155459_.getZ();
+       float f = 5.0F;
+       AABB aabb = new AABB((double)((float)i - 5.0F), (double)((float)j - 5.0F), (double)((float)k - 5.0F), (double)((float)(i + 1) + 5.0F), (double)((float)(j + 1) + 5.0F), (double)((float)(k + 1) + 5.0F));
+       return p_155458_.m_142425_(EntityTypeTest.m_156916_(Player.class), aabb, this::m_142718_).size();
+@@ -80,6 +_,6 @@
+    }
+ 
+    private static void m_155480_(Level p_155481_, BlockPos p_155482_, BlockState p_155483_) {
+-      p_155481_.m_186460_(p_155482_, p_155483_.m_60734_(), 5);
++      p_155481_.scheduleTick(p_155482_, p_155483_.m_60734_(), 5);
+    }
+ }

@@ -1,0 +1,214 @@
+--- a/net/minecraft/world/level/levelgen/SurfaceSystem.java
++++ b/net/minecraft/world/level/levelgen/SurfaceSystem.java
+@@ -66,17 +_,17 @@
+    public void m_224648_(RandomState p_224649_, BiomeManager p_224650_, Registry<Biome> p_224651_, boolean p_224652_, WorldGenerationContext p_224653_, final ChunkAccess p_224654_, NoiseChunk p_224655_, SurfaceRules.RuleSource p_224656_) {
+       final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+       final ChunkPos chunkpos = p_224654_.m_7697_();
+-      int i = chunkpos.m_45604_();
+-      int j = chunkpos.m_45605_();
++      long i = chunkpos.getMinBlockX();
++      long j = chunkpos.getMinBlockZ();
+       BlockColumn blockcolumn = new BlockColumn() {
+-         public BlockState m_183556_(int p_190006_) {
+-            return p_224654_.m_8055_(blockpos$mutableblockpos.m_142448_(p_190006_));
++         public BlockState getBlock(long p_190006_) {
++            return p_224654_.m_8055_(blockpos$mutableblockpos.setY(p_190006_));
+          }
+ 
+-         public void m_183639_(int p_190008_, BlockState p_190009_) {
++         public void setBlock(long p_190008_, BlockState p_190009_) {
+             LevelHeightAccessor levelheightaccessor = p_224654_.m_183618_();
+-            if (p_190008_ >= levelheightaccessor.m_141937_() && p_190008_ < levelheightaccessor.m_151558_()) {
+-               p_224654_.m_6978_(blockpos$mutableblockpos.m_142448_(p_190008_), p_190009_, false);
++            if (p_190008_ >= levelheightaccessor.getMinBuildHeight() && p_190008_ < levelheightaccessor.getMaxBuildHeight()) {
++               p_224654_.m_6978_(blockpos$mutableblockpos.setY(p_190008_), p_190009_, false);
+                if (!p_190009_.m_60819_().m_76178_()) {
+                   p_224654_.m_8113_(blockpos$mutableblockpos);
+                }
+@@ -94,24 +_,24 @@
+ 
+       for(int k = 0; k < 16; ++k) {
+          for(int l = 0; l < 16; ++l) {
+-            int i1 = i + k;
+-            int j1 = j + l;
+-            int k1 = p_224654_.m_5885_(Heightmap.Types.WORLD_SURFACE_WG, k, l) + 1;
+-            blockpos$mutableblockpos.m_142451_(i1).m_142443_(j1);
+-            Holder<Biome> holder = p_224650_.m_204214_(blockpos$mutableblockpos1.m_122178_(i1, p_224652_ ? 0 : k1, j1));
++            long i1 = i + k;
++            long j1 = j + l;
++            long k1 = p_224654_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, k, l) + 1;
++            blockpos$mutableblockpos.setX(i1).setZ(j1);
++            Holder<Biome> holder = p_224650_.m_204214_(blockpos$mutableblockpos1.m_122169_(i1, p_224652_ ? 0 : k1, j1));
+             if (holder.m_203565_(Biomes.f_48194_)) {
+-               this.m_189954_(blockcolumn, i1, j1, k1, p_224654_);
++               this.erodedBadlandsExtension(blockcolumn, i1, j1, k1, p_224654_);
+             }
+ 
+-            int l1 = p_224654_.m_5885_(Heightmap.Types.WORLD_SURFACE_WG, k, l) + 1;
+-            surfacerules$context.m_189569_(i1, j1);
++            long l1 = p_224654_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, k, l) + 1;
++            surfacerules$context.updateXZ(i1, j1);
+             int i2 = 0;
+-            int j2 = Integer.MIN_VALUE;
+-            int k2 = Integer.MAX_VALUE;
+-            int l2 = p_224654_.m_141937_();
++            long j2 = Long.MIN_VALUE;
++            long k2 = Long.MAX_VALUE;
++            long l2 = p_224654_.getMinBuildHeight();
+ 
+-            for(int i3 = l1; i3 >= l2; --i3) {
+-               BlockState blockstate = blockcolumn.m_183556_(i3);
++            for(long i3 = l1; i3 >= l2; --i3) {
++               BlockState blockstate = blockcolumn.getBlock(i3);
+                if (blockstate.m_60795_()) {
+                   i2 = 0;
+                   j2 = Integer.MIN_VALUE;
+@@ -123,8 +_,8 @@
+                   if (k2 >= i3) {
+                      k2 = DimensionType.f_188294_;
+ 
+-                     for(int j3 = i3 - 1; j3 >= l2 - 1; --j3) {
+-                        BlockState blockstate1 = blockcolumn.m_183556_(j3);
++                     for(long j3 = i3 - 1; j3 >= l2 - 1; --j3) {
++                        BlockState blockstate1 = blockcolumn.getBlock(j3);
+                         if (!this.m_189952_(blockstate1)) {
+                            k2 = j3 + 1;
+                            break;
+@@ -133,31 +_,31 @@
+                   }
+ 
+                   ++i2;
+-                  int k3 = i3 - k2 + 1;
+-                  surfacerules$context.m_189576_(i2, k3, j2, i1, i3, j1);
++                  long k3 = i3 - k2 + 1;
++                  surfacerules$context.updateY(i2, k3, j2, i1, i3, j1);
+                   if (blockstate == this.f_189904_) {
+-                     BlockState blockstate2 = surfacerules$surfacerule.m_183550_(i1, i3, j1);
++                     BlockState blockstate2 = surfacerules$surfacerule.tryApply(i1, i3, j1);
+                      if (blockstate2 != null) {
+-                        blockcolumn.m_183639_(i3, blockstate2);
++                        blockcolumn.setBlock(i3, blockstate2);
+                      }
+                   }
+                }
+             }
+ 
+             if (holder.m_203565_(Biomes.f_48211_) || holder.m_203565_(Biomes.f_48172_)) {
+-               this.m_189934_(surfacerules$context.m_189583_(), holder.m_203334_(), blockcolumn, blockpos$mutableblockpos1, i1, j1, k1);
++               this.frozenOceanExtension(surfacerules$context.m_189583_(), holder.m_203334_(), blockcolumn, blockpos$mutableblockpos1, i1, j1, k1);
+             }
+          }
+       }
+ 
+    }
+ 
+-   protected int m_189927_(int p_189928_, int p_189929_) {
++   protected int getSurfaceDepth(long p_189928_, long p_189929_) {
+       double d0 = this.f_189918_.m_75380_((double)p_189928_, 0.0D, (double)p_189929_);
+-      return (int)(d0 * 2.75D + 3.0D + this.f_224635_.m_213715_(p_189928_, 0, p_189929_).m_188500_() * 0.25D);
++      return (int)(d0 * 2.75D + 3.0D + this.f_224635_.at(p_189928_, 0, p_189929_).m_188500_() * 0.25D);
+    }
+ 
+-   protected double m_202189_(int p_202190_, int p_202191_) {
++   protected double getSurfaceSecondary(long p_202190_, long p_202191_) {
+       return this.f_189892_.m_75380_((double)p_202190_, 0.0D, (double)p_202191_);
+    }
+ 
+@@ -170,16 +_,16 @@
+    public Optional<BlockState> m_189971_(SurfaceRules.RuleSource p_189972_, CarvingContext p_189973_, Function<BlockPos, Holder<Biome>> p_189974_, ChunkAccess p_189975_, NoiseChunk p_189976_, BlockPos p_189977_, boolean p_189978_) {
+       SurfaceRules.Context surfacerules$context = new SurfaceRules.Context(this, p_189973_.m_224851_(), p_189975_, p_189976_, p_189974_, p_189973_.m_190651_().m_175515_(Registry.f_122885_), p_189973_);
+       SurfaceRules.SurfaceRule surfacerules$surfacerule = p_189972_.apply(surfacerules$context);
+-      int i = p_189977_.m_123341_();
+-      int j = p_189977_.m_123342_();
+-      int k = p_189977_.m_123343_();
+-      surfacerules$context.m_189569_(i, k);
+-      surfacerules$context.m_189576_(1, 1, p_189978_ ? j + 1 : Integer.MIN_VALUE, i, j, k);
+-      BlockState blockstate = surfacerules$surfacerule.m_183550_(i, j, k);
++      long i = p_189977_.getX();
++      long j = p_189977_.getY();
++      long k = p_189977_.getZ();
++      surfacerules$context.updateXZ(i, k);
++      surfacerules$context.updateY(1, 1, p_189978_ ? j + 1 : Integer.MIN_VALUE, i, j, k);
++      BlockState blockstate = surfacerules$surfacerule.tryApply(i, j, k);
+       return Optional.ofNullable(blockstate);
+    }
+ 
+-   private void m_189954_(BlockColumn p_189955_, int p_189956_, int p_189957_, int p_189958_, LevelHeightAccessor p_189959_) {
++   private void erodedBadlandsExtension(BlockColumn p_189955_, long p_189956_, long p_189957_, long p_189958_, LevelHeightAccessor p_189959_) {
+       double d0 = 0.2D;
+       double d1 = Math.min(Math.abs(this.f_189910_.m_75380_((double)p_189956_, 0.0D, (double)p_189957_) * 8.25D), this.f_189908_.m_75380_((double)p_189956_ * 0.2D, 0.0D, (double)p_189957_ * 0.2D) * 15.0D);
+       if (!(d1 <= 0.0D)) {
+@@ -189,8 +_,8 @@
+          double d5 = 64.0D + Math.min(d1 * d1 * 2.5D, Math.ceil(d4 * 50.0D) + 24.0D);
+          int i = Mth.m_14107_(d5);
+          if (p_189958_ <= i) {
+-            for(int j = i; j >= p_189959_.m_141937_(); --j) {
+-               BlockState blockstate = p_189955_.m_183556_(j);
++            for(int j = i; j >= p_189959_.getMinBuildHeight(); --j) {
++               BlockState blockstate = p_189955_.getBlock(j);
+                if (blockstate.m_60713_(this.f_189904_.m_60734_())) {
+                   break;
+                }
+@@ -200,15 +_,15 @@
+                }
+             }
+ 
+-            for(int k = i; k >= p_189959_.m_141937_() && p_189955_.m_183556_(k).m_60795_(); --k) {
+-               p_189955_.m_183639_(k, this.f_189904_);
++            for(int k = i; k >= p_189959_.getMinBuildHeight() && p_189955_.getBlock(k).m_60795_(); --k) {
++               p_189955_.setBlock(k, this.f_189904_);
+             }
+ 
+          }
+       }
+    }
+ 
+-   private void m_189934_(int p_189935_, Biome p_189936_, BlockColumn p_189937_, BlockPos.MutableBlockPos p_189938_, int p_189939_, int p_189940_, int p_189941_) {
++   private void frozenOceanExtension(int p_189935_, Biome p_189936_, BlockColumn p_189937_, BlockPos.MutableBlockPos p_189938_, long p_189939_, long p_189940_, long p_189941_) {
+       double d0 = 1.28D;
+       double d1 = Math.min(Math.abs(this.f_189913_.m_75380_((double)p_189939_, 0.0D, (double)p_189940_) * 8.25D), this.f_189911_.m_75380_((double)p_189939_ * 1.28D, 0.0D, (double)p_189940_ * 1.28D) * 15.0D);
+       if (!(d1 <= 1.8D)) {
+@@ -216,7 +_,7 @@
+          double d4 = 1.5D;
+          double d5 = Math.abs(this.f_189912_.m_75380_((double)p_189939_ * 1.17D, 0.0D, (double)p_189940_ * 1.17D) * 1.5D);
+          double d6 = Math.min(d1 * d1 * 1.2D, Math.ceil(d5 * 40.0D) + 14.0D);
+-         if (p_189936_.m_198908_(p_189938_.m_122178_(p_189939_, 63, p_189940_))) {
++         if (p_189936_.m_198908_(p_189938_.m_122169_(p_189939_, 63, p_189940_))) {
+             d6 -= 2.0D;
+          }
+ 
+@@ -230,18 +_,18 @@
+          }
+ 
+          double d7 = d6;
+-         RandomSource randomsource = this.f_224635_.m_213715_(p_189939_, 0, p_189940_);
++         RandomSource randomsource = this.f_224635_.at(p_189939_, 0, p_189940_);
+          int i = 2 + randomsource.m_188503_(4);
+          int j = this.f_189905_ + 18 + randomsource.m_188503_(10);
+          int k = 0;
+ 
+-         for(int l = Math.max(p_189941_, (int)d6 + 1); l >= p_189935_; --l) {
+-            if (p_189937_.m_183556_(l).m_60795_() && l < (int)d7 && randomsource.m_188500_() > 0.01D || p_189937_.m_183556_(l).m_60767_() == Material.f_76305_ && l > (int)d2 && l < this.f_189905_ && d2 != 0.0D && randomsource.m_188500_() > 0.15D) {
++         for(long l = Math.max(p_189941_, (int)d6 + 1); l >= p_189935_; --l) {
++            if (p_189937_.getBlock(l).m_60795_() && l < (int)d7 && randomsource.m_188500_() > 0.01D || p_189937_.getBlock(l).m_60767_() == Material.f_76305_ && l > (int)d2 && l < this.f_189905_ && d2 != 0.0D && randomsource.m_188500_() > 0.15D) {
+                if (k <= i && l > j) {
+-                  p_189937_.m_183639_(l, f_189902_);
++                  p_189937_.setBlock(l, f_189902_);
+                   ++k;
+                } else {
+-                  p_189937_.m_183639_(l, f_189901_);
++                  p_189937_.setBlock(l, f_189901_);
+                }
+             }
+          }
+@@ -296,8 +_,8 @@
+ 
+    }
+ 
+-   protected BlockState m_189930_(int p_189931_, int p_189932_, int p_189933_) {
++   protected BlockState getBand(long p_189931_, long p_189932_, long p_189933_) {
+       int i = (int)Math.round(this.f_189907_.m_75380_((double)p_189931_, 0.0D, (double)p_189933_) * 4.0D);
+-      return this.f_189906_[(p_189932_ + i + this.f_189906_.length) % this.f_189906_.length];
++      return this.f_189906_[(int) ((p_189932_ + i + this.f_189906_.length) % this.f_189906_.length)];
+    }
+ }

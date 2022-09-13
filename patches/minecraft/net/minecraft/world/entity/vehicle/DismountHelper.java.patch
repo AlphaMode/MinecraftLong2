@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/entity/vehicle/DismountHelper.java
++++ b/net/minecraft/world/entity/vehicle/DismountHelper.java
+@@ -56,7 +_,7 @@
+       while(i < p_38465_) {
+          VoxelShape voxelshape = p_38466_.apply(blockpos$mutableblockpos);
+          if (!voxelshape.m_83281_()) {
+-            return (double)(p_38464_.m_123342_() + i) + voxelshape.m_83288_(Direction.Axis.Y);
++            return (double)(p_38464_.getY() + i) + voxelshape.m_83288_(Direction.Axis.Y);
+          }
+ 
+          ++i;
+@@ -72,14 +_,14 @@
+          return null;
+       } else {
+          double d0 = p_38443_.m_45564_(m_38446_(p_38443_, p_38444_), () -> {
+-            return m_38446_(p_38443_, p_38444_.m_7495_());
++            return m_38446_(p_38443_, p_38444_.below());
+          });
+          if (!m_38439_(d0)) {
+             return null;
+-         } else if (p_38445_ && d0 <= 0.0D && p_38442_.m_20630_(p_38443_.m_8055_(p_38444_.m_7495_()))) {
++         } else if (p_38445_ && d0 <= 0.0D && p_38442_.m_20630_(p_38443_.m_8055_(p_38444_.below()))) {
+             return null;
+          } else {
+-            Vec3 vec3 = Vec3.m_82514_(p_38444_, d0);
++            Vec3 vec3 = Vec3.upFromBottomCenterOf(p_38444_, d0);
+             AABB aabb = p_38442_.m_20680_().m_20393_(vec3);
+ 
+             for(VoxelShape voxelshape : p_38443_.m_186434_((Entity)null, aabb)) {

@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/levelgen/feature/TwistingVinesFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/TwistingVinesFeature.java
+@@ -31,7 +_,7 @@
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+          for(int l = 0; l < i * i; ++l) {
+-            blockpos$mutableblockpos.m_122190_(blockpos).m_122184_(Mth.m_216271_(randomsource, -i, i), Mth.m_216271_(randomsource, -j, j), Mth.m_216271_(randomsource, -i, i));
++            blockpos$mutableblockpos.set(blockpos).m_122184_(Mth.m_216271_(randomsource, -i, i), Mth.m_216271_(randomsource, -j, j), Mth.m_216271_(randomsource, -i, i));
+             if (m_67293_(worldgenlevel, blockpos$mutableblockpos) && !m_67296_(worldgenlevel, blockpos$mutableblockpos)) {
+                int i1 = Mth.m_216271_(randomsource, 1, k);
+                if (randomsource.m_188503_(6) == 0) {
+@@ -67,7 +_,7 @@
+    public static void m_225300_(LevelAccessor p_225301_, RandomSource p_225302_, BlockPos.MutableBlockPos p_225303_, int p_225304_, int p_225305_, int p_225306_) {
+       for(int i = 1; i <= p_225304_; ++i) {
+          if (p_225301_.m_46859_(p_225303_)) {
+-            if (i == p_225304_ || !p_225301_.m_46859_(p_225303_.m_7494_())) {
++            if (i == p_225304_ || !p_225301_.m_46859_(p_225303_.above())) {
+                p_225301_.m_7731_(p_225303_, Blocks.f_50704_.m_49966_().m_61124_(GrowingPlantHeadBlock.f_53924_, Integer.valueOf(Mth.m_216271_(p_225302_, p_225305_, p_225306_))), 2);
+                break;
+             }
+@@ -84,7 +_,7 @@
+       if (!p_67297_.m_46859_(p_67298_)) {
+          return true;
+       } else {
+-         BlockState blockstate = p_67297_.m_8055_(p_67298_.m_7495_());
++         BlockState blockstate = p_67297_.m_8055_(p_67298_.below());
+          return !blockstate.m_60713_(Blocks.f_50134_) && !blockstate.m_60713_(Blocks.f_50690_) && !blockstate.m_60713_(Blocks.f_50692_);
+       }
+    }

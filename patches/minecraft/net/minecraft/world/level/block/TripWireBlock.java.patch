@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/block/TripWireBlock.java
++++ b/net/minecraft/world/level/block/TripWireBlock.java
+@@ -49,7 +_,7 @@
+    public BlockState m_5573_(BlockPlaceContext p_57606_) {
+       BlockGetter blockgetter = p_57606_.m_43725_();
+       BlockPos blockpos = p_57606_.m_8083_();
+-      return this.m_49966_().m_61124_(f_57593_, Boolean.valueOf(this.m_57641_(blockgetter.m_8055_(blockpos.m_122012_()), Direction.NORTH))).m_61124_(f_57594_, Boolean.valueOf(this.m_57641_(blockgetter.m_8055_(blockpos.m_122029_()), Direction.EAST))).m_61124_(f_57595_, Boolean.valueOf(this.m_57641_(blockgetter.m_8055_(blockpos.m_122019_()), Direction.SOUTH))).m_61124_(f_57596_, Boolean.valueOf(this.m_57641_(blockgetter.m_8055_(blockpos.m_122024_()), Direction.WEST)));
++      return this.m_49966_().m_61124_(f_57593_, Boolean.valueOf(this.m_57641_(blockgetter.m_8055_(blockpos.north()), Direction.NORTH))).m_61124_(f_57594_, Boolean.valueOf(this.m_57641_(blockgetter.m_8055_(blockpos.east()), Direction.EAST))).m_61124_(f_57595_, Boolean.valueOf(this.m_57641_(blockgetter.m_8055_(blockpos.south()), Direction.SOUTH))).m_61124_(f_57596_, Boolean.valueOf(this.m_57641_(blockgetter.m_8055_(blockpos.west()), Direction.WEST)));
+    }
+ 
+    public BlockState m_7417_(BlockState p_57645_, Direction p_57646_, BlockState p_57647_, LevelAccessor p_57648_, BlockPos p_57649_, BlockPos p_57650_) {
+@@ -80,7 +_,7 @@
+    private void m_57610_(Level p_57611_, BlockPos p_57612_, BlockState p_57613_) {
+       for(Direction direction : new Direction[]{Direction.SOUTH, Direction.WEST}) {
+          for(int i = 1; i < 42; ++i) {
+-            BlockPos blockpos = p_57612_.m_5484_(direction, i);
++            BlockPos blockpos = p_57612_.relative(direction, i);
+             BlockState blockstate = p_57611_.m_8055_(blockpos);
+             if (blockstate.m_60713_(this.f_57600_)) {
+                if (blockstate.m_61143_(TripWireHookBlock.f_57667_) == direction.m_122424_()) {
+@@ -132,7 +_,7 @@
+       }
+ 
+       if (flag1) {
+-         p_57608_.m_186460_(new BlockPos(p_57609_), this, 10);
++         p_57608_.scheduleTick(new BlockPos(p_57609_), this, 10);
+       }
+ 
+    }

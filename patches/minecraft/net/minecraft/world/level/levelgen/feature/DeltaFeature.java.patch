@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/levelgen/feature/DeltaFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/DeltaFeature.java
+@@ -36,7 +_,7 @@
+       int i1 = Math.max(k, l);
+ 
+       for(BlockPos blockpos1 : BlockPos.m_121925_(blockpos, k, 0, l)) {
+-         if (blockpos1.m_123333_(blockpos) > i1) {
++         if (blockpos1.distManhattan(blockpos) > i1) {
+             break;
+          }
+ 
+@@ -65,7 +_,7 @@
+          return false;
+       } else {
+          for(Direction direction : f_65547_) {
+-            boolean flag = p_65552_.m_8055_(p_65553_.m_121945_(direction)).m_60795_();
++            boolean flag = p_65552_.m_8055_(p_65553_.relative(direction)).m_60795_();
+             if (flag && direction != Direction.UP || !flag && direction == Direction.UP) {
+                return false;
+             }

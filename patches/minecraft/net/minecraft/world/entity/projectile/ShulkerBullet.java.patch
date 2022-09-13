@@ -1,0 +1,88 @@
+--- a/net/minecraft/world/entity/projectile/ShulkerBullet.java
++++ b/net/minecraft/world/entity/projectile/ShulkerBullet.java
+@@ -50,9 +_,9 @@
+       this(EntityType.f_20522_, p_37330_);
+       this.m_5602_(p_37331_);
+       BlockPos blockpos = p_37331_.m_20183_();
+-      double d0 = (double)blockpos.m_123341_() + 0.5D;
+-      double d1 = (double)blockpos.m_123342_() + 0.5D;
+-      double d2 = (double)blockpos.m_123343_() + 0.5D;
++      double d0 = (double)blockpos.getX() + 0.5D;
++      double d1 = (double)blockpos.getY() + 0.5D;
++      double d2 = (double)blockpos.getZ() + 0.5D;
+       this.m_7678_(d0, d1, d2, this.m_146908_(), this.m_146909_());
+       this.f_37312_ = p_37332_;
+       this.f_37313_ = Direction.UP;
+@@ -111,46 +_,46 @@
+       double d0 = 0.5D;
+       BlockPos blockpos;
+       if (this.f_37312_ == null) {
+-         blockpos = this.m_20183_().m_7495_();
++         blockpos = this.m_20183_().below();
+       } else {
+          d0 = (double)this.f_37312_.m_20206_() * 0.5D;
+          blockpos = new BlockPos(this.f_37312_.m_20185_(), this.f_37312_.m_20186_() + d0, this.f_37312_.m_20189_());
+       }
+ 
+-      double d1 = (double)blockpos.m_123341_() + 0.5D;
+-      double d2 = (double)blockpos.m_123342_() + d0;
+-      double d3 = (double)blockpos.m_123343_() + 0.5D;
++      double d1 = (double)blockpos.getX() + 0.5D;
++      double d2 = (double)blockpos.getY() + d0;
++      double d3 = (double)blockpos.getZ() + 0.5D;
+       Direction direction = null;
+-      if (!blockpos.m_203195_(this.m_20182_(), 2.0D)) {
++      if (!blockpos.closerToCenterThan(this.m_20182_(), 2.0D)) {
+          BlockPos blockpos1 = this.m_20183_();
+          List<Direction> list = Lists.newArrayList();
+          if (p_37349_ != Direction.Axis.X) {
+-            if (blockpos1.m_123341_() < blockpos.m_123341_() && this.f_19853_.m_46859_(blockpos1.m_122029_())) {
++            if (blockpos1.getX() < blockpos.getX() && this.f_19853_.m_46859_(blockpos1.east())) {
+                list.add(Direction.EAST);
+-            } else if (blockpos1.m_123341_() > blockpos.m_123341_() && this.f_19853_.m_46859_(blockpos1.m_122024_())) {
++            } else if (blockpos1.getX() > blockpos.getX() && this.f_19853_.m_46859_(blockpos1.west())) {
+                list.add(Direction.WEST);
+             }
+          }
+ 
+          if (p_37349_ != Direction.Axis.Y) {
+-            if (blockpos1.m_123342_() < blockpos.m_123342_() && this.f_19853_.m_46859_(blockpos1.m_7494_())) {
++            if (blockpos1.getY() < blockpos.getY() && this.f_19853_.m_46859_(blockpos1.above())) {
+                list.add(Direction.UP);
+-            } else if (blockpos1.m_123342_() > blockpos.m_123342_() && this.f_19853_.m_46859_(blockpos1.m_7495_())) {
++            } else if (blockpos1.getY() > blockpos.getY() && this.f_19853_.m_46859_(blockpos1.below())) {
+                list.add(Direction.DOWN);
+             }
+          }
+ 
+          if (p_37349_ != Direction.Axis.Z) {
+-            if (blockpos1.m_123343_() < blockpos.m_123343_() && this.f_19853_.m_46859_(blockpos1.m_122019_())) {
++            if (blockpos1.getZ() < blockpos.getZ() && this.f_19853_.m_46859_(blockpos1.south())) {
+                list.add(Direction.SOUTH);
+-            } else if (blockpos1.m_123343_() > blockpos.m_123343_() && this.f_19853_.m_46859_(blockpos1.m_122012_())) {
++            } else if (blockpos1.getZ() > blockpos.getZ() && this.f_19853_.m_46859_(blockpos1.north())) {
+                list.add(Direction.NORTH);
+             }
+          }
+ 
+          direction = Direction.m_235672_(this.f_19796_);
+          if (list.isEmpty()) {
+-            for(int i = 5; !this.f_19853_.m_46859_(blockpos1.m_121945_(direction)) && i > 0; --i) {
++            for(int i = 5; !this.f_19853_.m_46859_(blockpos1.relative(direction)) && i > 0; --i) {
+                direction = Direction.m_235672_(this.f_19796_);
+             }
+          } else {
+@@ -233,11 +_,11 @@
+          if (this.f_37313_ != null) {
+             BlockPos blockpos = this.m_20183_();
+             Direction.Axis direction$axis = this.f_37313_.m_122434_();
+-            if (this.f_19853_.m_46575_(blockpos.m_121945_(this.f_37313_), this)) {
++            if (this.f_19853_.m_46575_(blockpos.relative(this.f_37313_), this)) {
+                this.m_37348_(direction$axis);
+             } else {
+                BlockPos blockpos1 = this.f_37312_.m_20183_();
+-               if (direction$axis == Direction.Axis.X && blockpos.m_123341_() == blockpos1.m_123341_() || direction$axis == Direction.Axis.Z && blockpos.m_123343_() == blockpos1.m_123343_() || direction$axis == Direction.Axis.Y && blockpos.m_123342_() == blockpos1.m_123342_()) {
++               if (direction$axis == Direction.Axis.X && blockpos.getX() == blockpos1.getX() || direction$axis == Direction.Axis.Z && blockpos.getZ() == blockpos1.getZ() || direction$axis == Direction.Axis.Y && blockpos.getY() == blockpos1.getY()) {
+                   this.m_37348_(direction$axis);
+                }
+             }

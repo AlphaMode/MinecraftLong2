@@ -1,0 +1,36 @@
+--- a/net/minecraft/world/level/block/piston/PistonHeadBlock.java
++++ b/net/minecraft/world/level/block/piston/PistonHeadBlock.java
+@@ -100,7 +_,7 @@
+ 
+    public void m_5707_(Level p_60265_, BlockPos p_60266_, BlockState p_60267_, Player p_60268_) {
+       if (!p_60265_.f_46443_ && p_60268_.m_150110_().f_35937_) {
+-         BlockPos blockpos = p_60266_.m_121945_(p_60267_.m_61143_(f_52588_).m_122424_());
++         BlockPos blockpos = p_60266_.relative(p_60267_.m_61143_(f_52588_).m_122424_());
+          if (this.m_60297_(p_60267_, p_60265_.m_8055_(blockpos))) {
+             p_60265_.m_46961_(blockpos, false);
+          }
+@@ -112,7 +_,7 @@
+    public void m_6810_(BlockState p_60282_, Level p_60283_, BlockPos p_60284_, BlockState p_60285_, boolean p_60286_) {
+       if (!p_60282_.m_60713_(p_60285_.m_60734_())) {
+          super.m_6810_(p_60282_, p_60283_, p_60284_, p_60285_, p_60286_);
+-         BlockPos blockpos = p_60284_.m_121945_(p_60282_.m_61143_(f_52588_).m_122424_());
++         BlockPos blockpos = p_60284_.relative(p_60282_.m_61143_(f_52588_).m_122424_());
+          if (this.m_60297_(p_60282_, p_60283_.m_8055_(blockpos))) {
+             p_60283_.m_46961_(blockpos, true);
+          }
+@@ -125,13 +_,13 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_60288_, LevelReader p_60289_, BlockPos p_60290_) {
+-      BlockState blockstate = p_60289_.m_8055_(p_60290_.m_121945_(p_60288_.m_61143_(f_52588_).m_122424_()));
++      BlockState blockstate = p_60289_.m_8055_(p_60290_.relative(p_60288_.m_61143_(f_52588_).m_122424_()));
+       return this.m_60297_(p_60288_, blockstate) || blockstate.m_60713_(Blocks.f_50110_) && blockstate.m_61143_(f_52588_) == p_60288_.m_61143_(f_52588_);
+    }
+ 
+    public void m_6861_(BlockState p_60275_, Level p_60276_, BlockPos p_60277_, Block p_60278_, BlockPos p_60279_, boolean p_60280_) {
+       if (p_60275_.m_60710_(p_60276_, p_60277_)) {
+-         p_60276_.m_46586_(p_60277_.m_121945_(p_60275_.m_61143_(f_52588_).m_122424_()), p_60278_, p_60279_);
++         p_60276_.m_46586_(p_60277_.relative(p_60275_.m_61143_(f_52588_).m_122424_()), p_60278_, p_60279_);
+       }
+ 
+    }

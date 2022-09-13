@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/level/gameevent/DynamicGameEventListener.java
++++ b/net/minecraft/world/level/gameevent/DynamicGameEventListener.java
+@@ -66,9 +_,9 @@
+ 
+    private static void m_223622_(LevelReader p_223623_, @Nullable SectionPos p_223624_, Consumer<GameEventDispatcher> p_223625_) {
+       if (p_223624_ != null) {
+-         ChunkAccess chunkaccess = p_223623_.m_6522_(p_223624_.m_123170_(), p_223624_.m_123222_(), ChunkStatus.f_62326_, false);
++         ChunkAccess chunkaccess = p_223623_.getChunk(p_223624_.x(), p_223624_.z(), ChunkStatus.f_62326_, false);
+          if (chunkaccess != null) {
+-            p_223625_.accept(chunkaccess.m_142336_(p_223624_.m_123206_()));
++            p_223625_.accept(chunkaccess.getEventDispatcher(p_223624_.y()));
+          }
+ 
+       }

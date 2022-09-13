@@ -1,0 +1,184 @@
+--- a/net/minecraft/world/level/LevelReader.java
++++ b/net/minecraft/world/level/LevelReader.java
+@@ -20,13 +_,13 @@
+ 
+ public interface LevelReader extends BlockAndTintGetter, CollisionGetter, BiomeManager.NoiseBiomeSource {
+    @Nullable
+-   ChunkAccess m_6522_(int p_46823_, int p_46824_, ChunkStatus p_46825_, boolean p_46826_);
++   ChunkAccess getChunk(long p_46823_, long p_46824_, ChunkStatus p_46825_, boolean p_46826_);
+ 
+    /** @deprecated */
+    @Deprecated
+-   boolean m_7232_(int p_46838_, int p_46839_);
++   boolean hasChunk(long p_46838_, long p_46839_);
+ 
+-   int m_6924_(Heightmap.Types p_46827_, int p_46828_, int p_46829_);
++   long getHeight(Heightmap.Types p_46827_, long p_46828_, long p_46829_);
+ 
+    int m_7445_();
+ 
+@@ -43,19 +_,19 @@
+       int l = Mth.m_14107_(p_46848_.f_82292_);
+       int i1 = Mth.m_14107_(p_46848_.f_82290_);
+       int j1 = Mth.m_14107_(p_46848_.f_82293_);
+-      return this.m_46812_(i, k, i1, j, l, j1) ? this.m_45556_(p_46848_) : Stream.empty();
++      return this.hasChunksAt(i, k, i1, j, l, j1) ? this.m_45556_(p_46848_) : Stream.empty();
+    }
+ 
+    default int m_6171_(BlockPos p_46836_, ColorResolver p_46837_) {
+-      return p_46837_.m_130045_(this.m_204166_(p_46836_).m_203334_(), (double)p_46836_.m_123341_(), (double)p_46836_.m_123343_());
+-   }
+-
+-   default Holder<Biome> m_203495_(int p_204163_, int p_204164_, int p_204165_) {
+-      ChunkAccess chunkaccess = this.m_6522_(QuartPos.m_175406_(p_204163_), QuartPos.m_175406_(p_204165_), ChunkStatus.f_62317_, false);
+-      return chunkaccess != null ? chunkaccess.m_203495_(p_204163_, p_204164_, p_204165_) : this.m_203675_(p_204163_, p_204164_, p_204165_);
+-   }
+-
+-   Holder<Biome> m_203675_(int p_204159_, int p_204160_, int p_204161_);
++      return p_46837_.m_130045_(this.m_204166_(p_46836_).m_203334_(), (double)p_46836_.getX(), (double)p_46836_.getZ());
++   }
++
++   default Holder<Biome> getNoiseBiome(long p_204163_, long p_204164_, long p_204165_) {
++      ChunkAccess chunkaccess = this.getChunk(QuartPos.toSection(p_204163_), QuartPos.toSection(p_204165_), ChunkStatus.f_62317_, false);
++      return chunkaccess != null ? chunkaccess.getNoiseBiome(p_204163_, p_204164_, p_204165_) : this.getUncachedNoiseBiome(p_204163_, p_204164_, p_204165_);
++   }
++
++   Holder<Biome> getUncachedNoiseBiome(long p_204159_, long p_204160_, long p_204161_);
+ 
+    boolean m_5776_();
+ 
+@@ -65,16 +_,16 @@
+ 
+    DimensionType m_6042_();
+ 
+-   default int m_141937_() {
++   default long getMinBuildHeight() {
+       return this.m_6042_().f_156647_();
+    }
+ 
+-   default int m_141928_() {
++   default long getHeight() {
+       return this.m_6042_().f_156648_();
+    }
+ 
+    default BlockPos m_5452_(Heightmap.Types p_46830_, BlockPos p_46831_) {
+-      return new BlockPos(p_46831_.m_123341_(), this.m_6924_(p_46830_, p_46831_.m_123341_(), p_46831_.m_123343_()), p_46831_.m_123343_());
++      return new BlockPos(p_46831_.getX(), this.getHeight(p_46830_, p_46831_.getX(), p_46831_.getZ()), p_46831_.getZ());
+    }
+ 
+    default boolean m_46859_(BlockPos p_46860_) {
+@@ -82,14 +_,14 @@
+    }
+ 
+    default boolean m_46861_(BlockPos p_46862_) {
+-      if (p_46862_.m_123342_() >= this.m_5736_()) {
++      if (p_46862_.getY() >= this.m_5736_()) {
+          return this.m_45527_(p_46862_);
+       } else {
+-         BlockPos blockpos = new BlockPos(p_46862_.m_123341_(), this.m_5736_(), p_46862_.m_123343_());
++         BlockPos blockpos = new BlockPos(p_46862_.getX(), this.m_5736_(), p_46862_.getZ());
+          if (!this.m_45527_(blockpos)) {
+             return false;
+          } else {
+-            for(BlockPos blockpos1 = blockpos.m_7495_(); blockpos1.m_123342_() > p_46862_.m_123342_(); blockpos1 = blockpos1.m_7495_()) {
++            for(BlockPos blockpos1 = blockpos.below(); blockpos1.getY() > p_46862_.getY(); blockpos1 = blockpos1.below()) {
+                BlockState blockstate = this.m_8055_(blockpos1);
+                if (blockstate.m_60739_(this, blockpos1) > 0 && !blockstate.m_60767_().m_76332_()) {
+                   return false;
+@@ -118,20 +_,20 @@
+    }
+ 
+    default ChunkAccess m_46865_(BlockPos p_46866_) {
+-      return this.m_6325_(SectionPos.m_123171_(p_46866_.m_123341_()), SectionPos.m_123171_(p_46866_.m_123343_()));
+-   }
+-
+-   default ChunkAccess m_6325_(int p_46807_, int p_46808_) {
+-      return this.m_6522_(p_46807_, p_46808_, ChunkStatus.f_62326_, true);
+-   }
+-
+-   default ChunkAccess m_46819_(int p_46820_, int p_46821_, ChunkStatus p_46822_) {
+-      return this.m_6522_(p_46820_, p_46821_, p_46822_, true);
++      return this.getChunk(SectionPos.m_235865_(p_46866_.getX()), SectionPos.m_235865_(p_46866_.getZ()));
++   }
++
++   default ChunkAccess getChunk(long p_46807_, long p_46808_) {
++      return this.getChunk(p_46807_, p_46808_, ChunkStatus.f_62326_, true);
++   }
++
++   default ChunkAccess getChunk(long p_46820_, long p_46821_, ChunkStatus p_46822_) {
++      return this.getChunk(p_46820_, p_46821_, p_46822_, true);
+    }
+ 
+    @Nullable
+    default BlockGetter m_7925_(int p_46845_, int p_46846_) {
+-      return this.m_6522_(p_46845_, p_46846_, ChunkStatus.f_62314_, false);
++      return this.getChunk(p_46845_, p_46846_, ChunkStatus.f_62314_, false);
+    }
+ 
+    default boolean m_46801_(BlockPos p_46802_) {
+@@ -166,44 +_,44 @@
+    }
+ 
+    default int m_46849_(BlockPos p_46850_, int p_46851_) {
+-      return p_46850_.m_123341_() >= -30000000 && p_46850_.m_123343_() >= -30000000 && p_46850_.m_123341_() < 30000000 && p_46850_.m_123343_() < 30000000 ? this.m_45524_(p_46850_, p_46851_) : 15;
++      return p_46850_.getX() >= -30000000 && p_46850_.getZ() >= -30000000 && p_46850_.getX() < 30000000 && p_46850_.getZ() < 30000000 ? this.m_45524_(p_46850_, p_46851_) : 15;
+    }
+ 
+    /** @deprecated */
+    @Deprecated
+-   default boolean m_151577_(int p_151578_, int p_151579_) {
+-      return this.m_7232_(SectionPos.m_123171_(p_151578_), SectionPos.m_123171_(p_151579_));
++   default boolean hasChunkAt(long p_151578_, long p_151579_) {
++      return this.hasChunk(SectionPos.m_235865_(p_151578_), SectionPos.m_235865_(p_151579_));
+    }
+ 
+    /** @deprecated */
+    @Deprecated
+    default boolean m_46805_(BlockPos p_46806_) {
+-      return this.m_151577_(p_46806_.m_123341_(), p_46806_.m_123343_());
++      return this.hasChunkAt(p_46806_.getX(), p_46806_.getZ());
+    }
+ 
+    /** @deprecated */
+    @Deprecated
+    default boolean m_46832_(BlockPos p_46833_, BlockPos p_46834_) {
+-      return this.m_46812_(p_46833_.m_123341_(), p_46833_.m_123342_(), p_46833_.m_123343_(), p_46834_.m_123341_(), p_46834_.m_123342_(), p_46834_.m_123343_());
+-   }
+-
+-   /** @deprecated */
+-   @Deprecated
+-   default boolean m_46812_(int p_46813_, int p_46814_, int p_46815_, int p_46816_, int p_46817_, int p_46818_) {
+-      return p_46817_ >= this.m_141937_() && p_46814_ < this.m_151558_() ? this.m_151572_(p_46813_, p_46815_, p_46816_, p_46818_) : false;
+-   }
+-
+-   /** @deprecated */
+-   @Deprecated
+-   default boolean m_151572_(int p_151573_, int p_151574_, int p_151575_, int p_151576_) {
+-      int i = SectionPos.m_123171_(p_151573_);
+-      int j = SectionPos.m_123171_(p_151575_);
+-      int k = SectionPos.m_123171_(p_151574_);
+-      int l = SectionPos.m_123171_(p_151576_);
++      return this.hasChunksAt(p_46833_.getX(), p_46833_.getY(), p_46833_.getZ(), p_46834_.getX(), p_46834_.getY(), p_46834_.getZ());
++   }
++
++   /** @deprecated */
++   @Deprecated
++   default boolean hasChunksAt(long p_46813_, long p_46814_, long p_46815_, long p_46816_, long p_46817_, long p_46818_) {
++      return p_46817_ >= this.getMinBuildHeight() && p_46814_ < this.getMaxBuildHeight() ? this.hasChunksAt(p_46813_, p_46815_, p_46816_, p_46818_) : false;
++   }
++
++   /** @deprecated */
++   @Deprecated
++   default boolean hasChunksAt(long p_151573_, long p_151574_, long p_151575_, long p_151576_) {
++      int i = SectionPos.m_235865_(p_151573_);
++      int j = SectionPos.m_235865_(p_151575_);
++      int k = SectionPos.m_235865_(p_151574_);
++      int l = SectionPos.m_235865_(p_151576_);
+ 
+       for(int i1 = i; i1 <= j; ++i1) {
+          for(int j1 = k; j1 <= l; ++j1) {
+-            if (!this.m_7232_(i1, j1)) {
++            if (!this.hasChunk(i1, j1)) {
+                return false;
+             }
+          }

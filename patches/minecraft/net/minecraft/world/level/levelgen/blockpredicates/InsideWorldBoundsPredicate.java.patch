@@ -1,0 +1,25 @@
+--- a/net/minecraft/world/level/levelgen/blockpredicates/InsideWorldBoundsPredicate.java
++++ b/net/minecraft/world/level/levelgen/blockpredicates/InsideWorldBoundsPredicate.java
+@@ -8,18 +_,18 @@
+ 
+ public class InsideWorldBoundsPredicate implements BlockPredicate {
+    public static final Codec<InsideWorldBoundsPredicate> f_190463_ = RecordCodecBuilder.create((p_190473_) -> {
+-      return p_190473_.group(Vec3i.m_194650_(16).optionalFieldOf("offset", BlockPos.f_121853_).forGetter((p_190475_) -> {
++      return p_190473_.group(me.alphamode.mclong.core.Vec3l.offsetCodec(16).optionalFieldOf("offset", BlockPos.f_121853_).forGetter((p_190475_) -> {
+          return p_190475_.f_190464_;
+       })).apply(p_190473_, InsideWorldBoundsPredicate::new);
+    });
+-   private final Vec3i f_190464_;
++   private final me.alphamode.mclong.core.Vec3l f_190464_;
+ 
+-   public InsideWorldBoundsPredicate(Vec3i p_190467_) {
++   public InsideWorldBoundsPredicate(me.alphamode.mclong.core.Vec3l p_190467_) {
+       this.f_190464_ = p_190467_;
+    }
+ 
+    public boolean test(WorldGenLevel p_190470_, BlockPos p_190471_) {
+-      return !p_190470_.m_151570_(p_190471_.m_121955_(this.f_190464_));
++      return !p_190470_.m_151570_(p_190471_.offset(this.f_190464_));
+    }
+ 
+    public BlockPredicateType<?> m_183575_() {

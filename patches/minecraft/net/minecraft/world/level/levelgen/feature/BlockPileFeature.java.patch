@@ -1,0 +1,30 @@
+--- a/net/minecraft/world/level/levelgen/feature/BlockPileFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/BlockPileFeature.java
+@@ -20,15 +_,15 @@
+       WorldGenLevel worldgenlevel = p_159473_.m_159774_();
+       RandomSource randomsource = p_159473_.m_225041_();
+       BlockPileConfiguration blockpileconfiguration = p_159473_.m_159778_();
+-      if (blockpos.m_123342_() < worldgenlevel.m_141937_() + 5) {
++      if (blockpos.getY() < worldgenlevel.getMinBuildHeight() + 5) {
+          return false;
+       } else {
+          int i = 2 + randomsource.m_188503_(2);
+          int j = 2 + randomsource.m_188503_(2);
+ 
+          for(BlockPos blockpos1 : BlockPos.m_121940_(blockpos.m_7918_(-i, 0, -j), blockpos.m_7918_(i, 1, j))) {
+-            int k = blockpos.m_123341_() - blockpos1.m_123341_();
+-            int l = blockpos.m_123343_() - blockpos1.m_123343_();
++            long k = blockpos.getX() - blockpos1.getX();
++            long l = blockpos.getZ() - blockpos1.getZ();
+             if ((float)(k * k + l * l) <= randomsource.m_188501_() * 10.0F - randomsource.m_188501_() * 6.0F) {
+                this.m_224948_(worldgenlevel, blockpos1, randomsource, blockpileconfiguration);
+             } else if ((double)randomsource.m_188501_() < 0.031D) {
+@@ -41,7 +_,7 @@
+    }
+ 
+    private boolean m_224944_(LevelAccessor p_224945_, BlockPos p_224946_, RandomSource p_224947_) {
+-      BlockPos blockpos = p_224946_.m_7495_();
++      BlockPos blockpos = p_224946_.below();
+       BlockState blockstate = p_224945_.m_8055_(blockpos);
+       return blockstate.m_60713_(Blocks.f_152481_) ? p_224947_.m_188499_() : blockstate.m_60783_(p_224945_, blockpos, Direction.UP);
+    }

@@ -1,0 +1,74 @@
+--- a/net/minecraft/world/level/levelgen/feature/trunkplacers/ForkingTrunkPlacer.java
++++ b/net/minecraft/world/level/levelgen/feature/trunkplacers/ForkingTrunkPlacer.java
+@@ -28,48 +_,48 @@
+    }
+ 
+    public List<FoliagePlacer.FoliageAttachment> m_213934_(LevelSimulatedReader p_226116_, BiConsumer<BlockPos, BlockState> p_226117_, RandomSource p_226118_, int p_226119_, BlockPos p_226120_, TreeConfiguration p_226121_) {
+-      m_226169_(p_226116_, p_226117_, p_226118_, p_226120_.m_7495_(), p_226121_);
++      m_226169_(p_226116_, p_226117_, p_226118_, p_226120_.below(), p_226121_);
+       List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
+       Direction direction = Direction.Plane.HORIZONTAL.m_235690_(p_226118_);
+       int i = p_226119_ - p_226118_.m_188503_(4) - 1;
+       int j = 3 - p_226118_.m_188503_(3);
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+-      int k = p_226120_.m_123341_();
+-      int l = p_226120_.m_123343_();
+-      OptionalInt optionalint = OptionalInt.empty();
++      long k = p_226120_.getX();
++      long l = p_226120_.getZ();
++      java.util.OptionalLong optionalint = java.util.OptionalLong.empty();
+ 
+       for(int i1 = 0; i1 < p_226119_; ++i1) {
+-         int j1 = p_226120_.m_123342_() + i1;
++         long j1 = p_226120_.getY() + i1;
+          if (i1 >= i && j > 0) {
+             k += direction.m_122429_();
+             l += direction.m_122431_();
+             --j;
+          }
+ 
+-         if (this.m_226187_(p_226116_, p_226117_, p_226118_, blockpos$mutableblockpos.m_122178_(k, j1, l), p_226121_)) {
+-            optionalint = OptionalInt.of(j1 + 1);
++         if (this.m_226187_(p_226116_, p_226117_, p_226118_, blockpos$mutableblockpos.m_122169_(k, j1, l), p_226121_)) {
++            optionalint = java.util.OptionalLong.of(j1 + 1);
+          }
+       }
+ 
+       if (optionalint.isPresent()) {
+-         list.add(new FoliagePlacer.FoliageAttachment(new BlockPos(k, optionalint.getAsInt(), l), 1, false));
++         list.add(new FoliagePlacer.FoliageAttachment(new BlockPos(k, optionalint.getAsLong(), l), 1, false));
+       }
+ 
+-      k = p_226120_.m_123341_();
+-      l = p_226120_.m_123343_();
++      k = p_226120_.getX();
++      l = p_226120_.getZ();
+       Direction direction1 = Direction.Plane.HORIZONTAL.m_235690_(p_226118_);
+       if (direction1 != direction) {
+          int j2 = i - p_226118_.m_188503_(2) - 1;
+          int k1 = 1 + p_226118_.m_188503_(3);
+-         optionalint = OptionalInt.empty();
++         optionalint = java.util.OptionalLong.empty();
+ 
+          for(int l1 = j2; l1 < p_226119_ && k1 > 0; --k1) {
+             if (l1 >= 1) {
+-               int i2 = p_226120_.m_123342_() + l1;
++               long i2 = p_226120_.getY() + l1;
+                k += direction1.m_122429_();
+                l += direction1.m_122431_();
+-               if (this.m_226187_(p_226116_, p_226117_, p_226118_, blockpos$mutableblockpos.m_122178_(k, i2, l), p_226121_)) {
+-                  optionalint = OptionalInt.of(i2 + 1);
++               if (this.m_226187_(p_226116_, p_226117_, p_226118_, blockpos$mutableblockpos.m_122169_(k, i2, l), p_226121_)) {
++                  optionalint = java.util.OptionalLong.of(i2 + 1);
+                }
+             }
+ 
+@@ -77,7 +_,7 @@
+          }
+ 
+          if (optionalint.isPresent()) {
+-            list.add(new FoliagePlacer.FoliageAttachment(new BlockPos(k, optionalint.getAsInt(), l), 0, false));
++            list.add(new FoliagePlacer.FoliageAttachment(new BlockPos(k, optionalint.getAsLong(), l), 0, false));
+          }
+       }
+ 

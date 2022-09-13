@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/entity/animal/IronGolem.java
++++ b/net/minecraft/world/entity/animal/IronGolem.java
+@@ -301,13 +_,13 @@
+ 
+    public boolean m_6914_(LevelReader p_28853_) {
+       BlockPos blockpos = this.m_20183_();
+-      BlockPos blockpos1 = blockpos.m_7495_();
++      BlockPos blockpos1 = blockpos.below();
+       BlockState blockstate = p_28853_.m_8055_(blockpos1);
+       if (!blockstate.m_60634_(p_28853_, blockpos1, this)) {
+          return false;
+       } else {
+          for(int i = 1; i < 3; ++i) {
+-            BlockPos blockpos2 = blockpos.m_6630_(i);
++            BlockPos blockpos2 = blockpos.above(i);
+             BlockState blockstate1 = p_28853_.m_8055_(blockpos2);
+             if (!NaturalSpawner.m_47056_(p_28853_, blockpos2, blockstate1, blockstate1.m_60819_(), EntityType.f_20460_)) {
+                return false;

@@ -1,0 +1,27 @@
+--- a/net/minecraft/world/item/BucketItem.java
++++ b/net/minecraft/world/item/BucketItem.java
+@@ -47,7 +_,7 @@
+       } else {
+          BlockPos blockpos = blockhitresult.m_82425_();
+          Direction direction = blockhitresult.m_82434_();
+-         BlockPos blockpos1 = blockpos.m_121945_(direction);
++         BlockPos blockpos1 = blockpos.relative(direction);
+          if (p_40703_.m_7966_(p_40704_, blockpos) && p_40704_.m_36204_(blockpos1, direction, itemstack)) {
+             if (this.f_40687_ == Fluids.f_76191_) {
+                BlockState blockstate1 = p_40703_.m_8055_(blockpos);
+@@ -108,11 +_,11 @@
+          boolean flag = blockstate.m_60722_(this.f_40687_);
+          boolean flag1 = blockstate.m_60795_() || flag || block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).m_6044_(p_150717_, p_150718_, blockstate, this.f_40687_);
+          if (!flag1) {
+-            return p_150719_ != null && this.m_142073_(p_150716_, p_150717_, p_150719_.m_82425_().m_121945_(p_150719_.m_82434_()), (BlockHitResult)null);
++            return p_150719_ != null && this.m_142073_(p_150716_, p_150717_, p_150719_.m_82425_().relative(p_150719_.m_82434_()), (BlockHitResult)null);
+          } else if (p_150717_.m_6042_().f_63857_() && this.f_40687_.m_205067_(FluidTags.f_13131_)) {
+-            int i = p_150718_.m_123341_();
+-            int j = p_150718_.m_123342_();
+-            int k = p_150718_.m_123343_();
++            long i = p_150718_.getX();
++            long j = p_150718_.getY();
++            long k = p_150718_.getZ();
+             p_150717_.m_5594_(p_150716_, p_150718_, SoundEvents.f_11937_, SoundSource.BLOCKS, 0.5F, 2.6F + (p_150717_.f_46441_.m_188501_() - p_150717_.f_46441_.m_188501_()) * 0.8F);
+ 
+             for(int l = 0; l < 8; ++l) {

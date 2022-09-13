@@ -1,0 +1,34 @@
+--- a/net/minecraft/world/level/block/SculkBlock.java
++++ b/net/minecraft/world/level/block/SculkBlock.java
+@@ -21,11 +_,11 @@
+       int i = p_222073_.m_222341_();
+       if (i != 0 && p_222076_.m_188503_(p_222077_.m_222280_()) == 0) {
+          BlockPos blockpos = p_222073_.m_222304_();
+-         boolean flag = blockpos.m_123314_(p_222075_, (double)p_222077_.m_222279_());
++         boolean flag = blockpos.closerThan(p_222075_, (double)p_222077_.m_222279_());
+          if (!flag && m_222064_(p_222074_, blockpos)) {
+             int j = p_222077_.m_222278_();
+             if (p_222076_.m_188503_(j) < i) {
+-               BlockPos blockpos1 = blockpos.m_7494_();
++               BlockPos blockpos1 = blockpos.above();
+                BlockState blockstate = this.m_222067_(p_222074_, blockpos1, p_222076_, p_222077_.m_222282_());
+                p_222074_.m_7731_(blockpos1, blockstate, 3);
+                p_222074_.m_5594_((Player)null, blockpos, blockstate.m_60827_().m_56777_(), SoundSource.BLOCKS, 1.0F, 1.0F);
+@@ -42,7 +_,7 @@
+ 
+    private static int m_222079_(SculkSpreader p_222080_, BlockPos p_222081_, BlockPos p_222082_, int p_222083_) {
+       int i = p_222080_.m_222279_();
+-      float f = Mth.m_14207_((float)Math.sqrt(p_222081_.m_123331_(p_222082_)) - (float)i);
++      float f = Mth.m_14207_((float)Math.sqrt(p_222081_.distSqr(p_222082_)) - (float)i);
+       int j = Mth.m_144944_(24 - i);
+       float f1 = Math.min(1.0F, f / (float)j);
+       return Math.max(1, (int)((float)p_222083_ * f1 * 0.5F));
+@@ -60,7 +_,7 @@
+    }
+ 
+    private static boolean m_222064_(LevelAccessor p_222065_, BlockPos p_222066_) {
+-      BlockState blockstate = p_222065_.m_8055_(p_222066_.m_7494_());
++      BlockState blockstate = p_222065_.m_8055_(p_222066_.above());
+       if (blockstate.m_60795_() || blockstate.m_60713_(Blocks.f_49990_) && blockstate.m_60819_().m_192917_(Fluids.f_76193_)) {
+          int i = 0;
+ 

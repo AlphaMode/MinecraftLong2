@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/level/levelgen/structure/pieces/PieceGeneratorSupplier.java
++++ b/net/minecraft/world/level/levelgen/structure/pieces/PieceGeneratorSupplier.java
+@@ -34,10 +_,10 @@
+ 
+    public static record Context<C extends FeatureConfiguration>(ChunkGenerator f_197352_, BiomeSource f_197353_, RandomState f_226941_, long f_197354_, ChunkPos f_197355_, C f_197356_, LevelHeightAccessor f_197357_, Predicate<Holder<Biome>> f_197358_, StructureTemplateManager f_226942_, RegistryAccess f_197360_) {
+       public boolean m_197380_(Heightmap.Types p_197381_) {
+-         int i = this.f_197355_.m_151390_();
+-         int j = this.f_197355_.m_151393_();
+-         int k = this.f_197352_.m_223235_(i, j, p_197381_, this.f_197357_, this.f_226941_);
+-         Holder<Biome> holder = this.f_197352_.m_62218_().m_203407_(QuartPos.m_175400_(i), QuartPos.m_175400_(k), QuartPos.m_175400_(j), this.f_226941_.m_224579_());
++         long i = this.f_197355_.getMiddleBlockX();
++         long j = this.f_197355_.getMiddleBlockZ();
++         long k = this.f_197352_.getFirstOccupiedHeight(i, j, p_197381_, this.f_197357_, this.f_226941_);
++         Holder<Biome> holder = this.f_197352_.m_62218_().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j), this.f_226941_.m_224579_());
+          return this.f_197358_.test(holder);
+       }
+    }

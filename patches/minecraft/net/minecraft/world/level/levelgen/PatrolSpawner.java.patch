@@ -1,0 +1,40 @@
+--- a/net/minecraft/world/level/levelgen/PatrolSpawner.java
++++ b/net/minecraft/world/level/levelgen/PatrolSpawner.java
+@@ -51,7 +_,7 @@
+                         int l = (24 + randomsource.m_188503_(24)) * (randomsource.m_188499_() ? -1 : 1);
+                         BlockPos.MutableBlockPos blockpos$mutableblockpos = player.m_20183_().m_122032_().m_122184_(k, 0, l);
+                         int i1 = 10;
+-                        if (!p_64570_.m_151572_(blockpos$mutableblockpos.m_123341_() - 10, blockpos$mutableblockpos.m_123343_() - 10, blockpos$mutableblockpos.m_123341_() + 10, blockpos$mutableblockpos.m_123343_() + 10)) {
++                        if (!p_64570_.hasChunksAt(blockpos$mutableblockpos.getX() - 10, blockpos$mutableblockpos.getZ() - 10, blockpos$mutableblockpos.getX() + 10, blockpos$mutableblockpos.getZ() + 10)) {
+                            return 0;
+                         } else {
+                            Holder<Biome> holder = p_64570_.m_204166_(blockpos$mutableblockpos);
+@@ -63,7 +_,7 @@
+ 
+                               for(int l1 = 0; l1 < k1; ++l1) {
+                                  ++j1;
+-                                 blockpos$mutableblockpos.m_142448_(p_64570_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos).m_123342_());
++                                 blockpos$mutableblockpos.setY(p_64570_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos).getY());
+                                  if (l1 == 0) {
+                                     if (!this.m_224532_(p_64570_, blockpos$mutableblockpos, randomsource, true)) {
+                                        break;
+@@ -72,8 +_,8 @@
+                                     this.m_224532_(p_64570_, blockpos$mutableblockpos, randomsource, false);
+                                  }
+ 
+-                                 blockpos$mutableblockpos.m_142451_(blockpos$mutableblockpos.m_123341_() + randomsource.m_188503_(5) - randomsource.m_188503_(5));
+-                                 blockpos$mutableblockpos.m_142443_(blockpos$mutableblockpos.m_123343_() + randomsource.m_188503_(5) - randomsource.m_188503_(5));
++                                 blockpos$mutableblockpos.setX(blockpos$mutableblockpos.getX() + randomsource.m_188503_(5) - randomsource.m_188503_(5));
++                                 blockpos$mutableblockpos.setZ(blockpos$mutableblockpos.getZ() + randomsource.m_188503_(5) - randomsource.m_188503_(5));
+                               }
+ 
+                               return j1;
+@@ -103,7 +_,7 @@
+                patrollingmonster.m_33068_();
+             }
+ 
+-            patrollingmonster.m_6034_((double)p_224534_.m_123341_(), (double)p_224534_.m_123342_(), (double)p_224534_.m_123343_());
++            patrollingmonster.m_6034_((double)p_224534_.getX(), (double)p_224534_.getY(), (double)p_224534_.getZ());
+             patrollingmonster.m_6518_(p_224533_, p_224533_.m_6436_(p_224534_), MobSpawnType.PATROL, (SpawnGroupData)null, (CompoundTag)null);
+             p_224533_.m_47205_(patrollingmonster);
+             return true;

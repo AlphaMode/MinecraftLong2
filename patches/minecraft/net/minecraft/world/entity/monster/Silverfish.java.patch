@@ -1,0 +1,35 @@
+--- a/net/minecraft/world/entity/monster/Silverfish.java
++++ b/net/minecraft/world/entity/monster/Silverfish.java
+@@ -107,12 +_,12 @@
+    }
+ 
+    public float m_5610_(BlockPos p_33530_, LevelReader p_33531_) {
+-      return InfestedBlock.m_54195_(p_33531_.m_8055_(p_33530_.m_7495_())) ? 10.0F : super.m_5610_(p_33530_, p_33531_);
++      return InfestedBlock.m_54195_(p_33531_.m_8055_(p_33530_.below())) ? 10.0F : super.m_5610_(p_33530_, p_33531_);
+    }
+ 
+    public static boolean m_219076_(EntityType<Silverfish> p_219077_, LevelAccessor p_219078_, MobSpawnType p_219079_, BlockPos p_219080_, RandomSource p_219081_) {
+       if (m_219019_(p_219077_, p_219078_, p_219079_, p_219080_, p_219081_)) {
+-         Player player = p_219078_.m_45924_((double)p_219080_.m_123341_() + 0.5D, (double)p_219080_.m_123342_() + 0.5D, (double)p_219080_.m_123343_() + 0.5D, 5.0D, true);
++         Player player = p_219078_.m_45924_((double)p_219080_.getX() + 0.5D, (double)p_219080_.getY() + 0.5D, (double)p_219080_.getZ() + 0.5D, 5.0D, true);
+          return player == null;
+       } else {
+          return false;
+@@ -142,7 +_,7 @@
+             RandomSource randomsource = this.f_25725_.m_217043_();
+             if (this.f_25725_.f_19853_.m_46469_().m_46207_(GameRules.f_46132_) && randomsource.m_188503_(m_186073_(10)) == 0) {
+                this.f_33555_ = Direction.m_235672_(randomsource);
+-               BlockPos blockpos = (new BlockPos(this.f_25725_.m_20185_(), this.f_25725_.m_20186_() + 0.5D, this.f_25725_.m_20189_())).m_121945_(this.f_33555_);
++               BlockPos blockpos = (new BlockPos(this.f_25725_.m_20185_(), this.f_25725_.m_20186_() + 0.5D, this.f_25725_.m_20189_())).relative(this.f_33555_);
+                BlockState blockstate = this.f_25725_.f_19853_.m_8055_(blockpos);
+                if (InfestedBlock.m_54195_(blockstate)) {
+                   this.f_33556_ = true;
+@@ -164,7 +_,7 @@
+             super.m_8056_();
+          } else {
+             LevelAccessor levelaccessor = this.f_25725_.f_19853_;
+-            BlockPos blockpos = (new BlockPos(this.f_25725_.m_20185_(), this.f_25725_.m_20186_() + 0.5D, this.f_25725_.m_20189_())).m_121945_(this.f_33555_);
++            BlockPos blockpos = (new BlockPos(this.f_25725_.m_20185_(), this.f_25725_.m_20186_() + 0.5D, this.f_25725_.m_20189_())).relative(this.f_33555_);
+             BlockState blockstate = levelaccessor.m_8055_(blockpos);
+             if (InfestedBlock.m_54195_(blockstate)) {
+                levelaccessor.m_7731_(blockpos, InfestedBlock.m_153430_(blockstate), 3);

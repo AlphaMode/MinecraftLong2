@@ -1,0 +1,60 @@
+--- a/net/minecraft/world/level/levelgen/feature/BasaltPillarFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/BasaltPillarFeature.java
+@@ -19,7 +_,7 @@
+       BlockPos blockpos = p_159446_.m_159777_();
+       WorldGenLevel worldgenlevel = p_159446_.m_159774_();
+       RandomSource randomsource = p_159446_.m_225041_();
+-      if (worldgenlevel.m_46859_(blockpos) && !worldgenlevel.m_46859_(blockpos.m_7494_())) {
++      if (worldgenlevel.m_46859_(blockpos) && !worldgenlevel.m_46859_(blockpos.above())) {
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = blockpos.m_122032_();
+          BlockPos.MutableBlockPos blockpos$mutableblockpos1 = blockpos.m_122032_();
+          boolean flag = true;
+@@ -33,18 +_,18 @@
+             }
+ 
+             worldgenlevel.m_7731_(blockpos$mutableblockpos, Blocks.f_50137_.m_49966_(), 2);
+-            flag = flag && this.m_224940_(worldgenlevel, randomsource, blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, Direction.NORTH));
+-            flag1 = flag1 && this.m_224940_(worldgenlevel, randomsource, blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, Direction.SOUTH));
+-            flag2 = flag2 && this.m_224940_(worldgenlevel, randomsource, blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, Direction.WEST));
+-            flag3 = flag3 && this.m_224940_(worldgenlevel, randomsource, blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, Direction.EAST));
++            flag = flag && this.m_224940_(worldgenlevel, randomsource, blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, Direction.NORTH));
++            flag1 = flag1 && this.m_224940_(worldgenlevel, randomsource, blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, Direction.SOUTH));
++            flag2 = flag2 && this.m_224940_(worldgenlevel, randomsource, blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, Direction.WEST));
++            flag3 = flag3 && this.m_224940_(worldgenlevel, randomsource, blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, Direction.EAST));
+             blockpos$mutableblockpos.m_122173_(Direction.DOWN);
+          }
+ 
+          blockpos$mutableblockpos.m_122173_(Direction.UP);
+-         this.m_224936_(worldgenlevel, randomsource, blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, Direction.NORTH));
+-         this.m_224936_(worldgenlevel, randomsource, blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, Direction.SOUTH));
+-         this.m_224936_(worldgenlevel, randomsource, blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, Direction.WEST));
+-         this.m_224936_(worldgenlevel, randomsource, blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, Direction.EAST));
++         this.m_224936_(worldgenlevel, randomsource, blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, Direction.NORTH));
++         this.m_224936_(worldgenlevel, randomsource, blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, Direction.SOUTH));
++         this.m_224936_(worldgenlevel, randomsource, blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, Direction.WEST));
++         this.m_224936_(worldgenlevel, randomsource, blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, Direction.EAST));
+          blockpos$mutableblockpos.m_122173_(Direction.DOWN);
+          BlockPos.MutableBlockPos blockpos$mutableblockpos2 = new BlockPos.MutableBlockPos();
+ 
+@@ -52,10 +_,10 @@
+             for(int j = -3; j < 4; ++j) {
+                int k = Mth.m_14040_(i) * Mth.m_14040_(j);
+                if (randomsource.m_188503_(10) < 10 - k) {
+-                  blockpos$mutableblockpos2.m_122190_(blockpos$mutableblockpos.m_7918_(i, 0, j));
++                  blockpos$mutableblockpos2.set(blockpos$mutableblockpos.m_7918_(i, 0, j));
+                   int l = 3;
+ 
+-                  while(worldgenlevel.m_46859_(blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos2, Direction.DOWN))) {
++                  while(worldgenlevel.m_46859_(blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos2, Direction.DOWN))) {
+                      blockpos$mutableblockpos2.m_122173_(Direction.DOWN);
+                      --l;
+                      if (l <= 0) {
+@@ -63,7 +_,7 @@
+                      }
+                   }
+ 
+-                  if (!worldgenlevel.m_46859_(blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos2, Direction.DOWN))) {
++                  if (!worldgenlevel.m_46859_(blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos2, Direction.DOWN))) {
+                      worldgenlevel.m_7731_(blockpos$mutableblockpos2, Blocks.f_50137_.m_49966_(), 2);
+                   }
+                }

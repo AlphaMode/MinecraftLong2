@@ -1,0 +1,72 @@
+--- a/net/minecraft/client/renderer/chunk/ChunkRenderDispatcher.java
++++ b/net/minecraft/client/renderer/chunk/ChunkRenderDispatcher.java
+@@ -295,7 +_,7 @@
+    @OnlyIn(Dist.CLIENT)
+    public class RenderChunk {
+       public static final int f_173716_ = 16;
+-      public final int f_173717_;
++      public final long f_173717_;
+       public final AtomicReference<ChunkRenderDispatcher.CompiledChunk> f_112784_ = new AtomicReference<>(ChunkRenderDispatcher.CompiledChunk.f_112748_);
+       final AtomicInteger f_202433_ = new AtomicInteger(0);
+       @Nullable
+@@ -319,13 +_,13 @@
+       });
+       private boolean f_112795_;
+ 
+-      public RenderChunk(int p_202436_, int p_202437_, int p_202438_, int p_202439_) {
++      public RenderChunk(long p_202436_, int p_202437_, int p_202438_, int p_202439_) {
+          this.f_173717_ = p_202436_;
+-         this.m_112801_(p_202437_, p_202438_, p_202439_);
++         this.setOrigin(p_202437_, p_202438_, p_202439_);
+       }
+ 
+       private boolean m_112822_(BlockPos p_112823_) {
+-         return ChunkRenderDispatcher.this.f_112681_.m_6522_(SectionPos.m_123171_(p_112823_.m_123341_()), SectionPos.m_123171_(p_112823_.m_123343_()), ChunkStatus.f_62326_, false) != null;
++         return ChunkRenderDispatcher.this.f_112681_.getChunk(SectionPos.m_235865_(p_112823_.getX()), SectionPos.m_235865_(p_112823_.getZ()), ChunkStatus.f_62326_, false) != null;
+       }
+ 
+       public boolean m_112798_() {
+@@ -345,13 +_,13 @@
+          return this.f_112790_.get(p_112808_);
+       }
+ 
+-      public void m_112801_(int p_112802_, int p_112803_, int p_112804_) {
++      public void setOrigin(int p_112802_, long p_112803_, int p_112804_) {
+          this.m_112846_();
+-         this.f_112793_.m_122178_(p_112802_, p_112803_, p_112804_);
++         this.f_112793_.m_122169_(p_112802_, p_112803_, p_112804_);
+          this.f_112785_ = new AABB((double)p_112802_, (double)p_112803_, (double)p_112804_, (double)(p_112802_ + 16), (double)(p_112803_ + 16), (double)(p_112804_ + 16));
+ 
+          for(Direction direction : Direction.values()) {
+-            this.f_112794_[direction.ordinal()].m_122190_(this.f_112793_).m_122175_(direction, 16);
++            this.f_112794_[direction.ordinal()].set(this.f_112793_).m_122175_(direction, 16);
+          }
+ 
+       }
+@@ -611,7 +_,7 @@
+                      }
+ 
+                      posestack.m_85836_();
+-                     posestack.m_85837_((double)(blockpos2.m_123341_() & 15), (double)(blockpos2.m_123342_() & 15), (double)(blockpos2.m_123343_() & 15));
++                     posestack.m_85837_((double)(blockpos2.getX() & 15), (double)(blockpos2.getY() & 15), (double)(blockpos2.getZ() & 15));
+                      blockrenderdispatcher.m_234355_(blockstate, blockpos2, renderchunkregion, posestack, bufferbuilder2, true, randomsource);
+                      posestack.m_85849_();
+                   }
+@@ -620,7 +_,7 @@
+                if (set.contains(RenderType.m_110466_())) {
+                   BufferBuilder bufferbuilder1 = p_234471_.m_108839_(RenderType.m_110466_());
+                   if (!bufferbuilder1.m_231164_()) {
+-                     bufferbuilder1.m_166771_(p_234468_ - (float)blockpos.m_123341_(), p_234469_ - (float)blockpos.m_123342_(), p_234470_ - (float)blockpos.m_123343_());
++                     bufferbuilder1.m_166771_(p_234468_ - (float)blockpos.getX(), p_234469_ - (float)blockpos.getY(), p_234470_ - (float)blockpos.getZ());
+                      chunkrenderdispatcher$renderchunk$rebuildtask$compileresults.f_234488_ = bufferbuilder1.m_166770_();
+                   }
+                }
+@@ -700,7 +_,7 @@
+                   BufferBuilder bufferbuilder = p_112893_.m_108839_(RenderType.m_110466_());
+                   RenderChunk.this.m_112805_(bufferbuilder);
+                   bufferbuilder.m_166775_(bufferbuilder$sortstate);
+-                  bufferbuilder.m_166771_(f - (float)RenderChunk.this.f_112793_.m_123341_(), f1 - (float)RenderChunk.this.f_112793_.m_123342_(), f2 - (float)RenderChunk.this.f_112793_.m_123343_());
++                  bufferbuilder.m_166771_(f - (float)RenderChunk.this.f_112793_.getX(), f1 - (float)RenderChunk.this.f_112793_.getY(), f2 - (float)RenderChunk.this.f_112793_.getZ());
+                   this.f_112886_.f_112754_ = bufferbuilder.m_166770_();
+                   BufferBuilder.RenderedBuffer bufferbuilder$renderedbuffer = bufferbuilder.m_231175_();
+                   if (this.f_112848_.get()) {

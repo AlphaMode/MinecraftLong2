@@ -1,0 +1,30 @@
+--- a/net/minecraft/world/level/levelgen/feature/BlueIceFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/BlueIceFeature.java
+@@ -19,15 +_,15 @@
+       BlockPos blockpos = p_159475_.m_159777_();
+       WorldGenLevel worldgenlevel = p_159475_.m_159774_();
+       RandomSource randomsource = p_159475_.m_225041_();
+-      if (blockpos.m_123342_() > worldgenlevel.m_5736_() - 1) {
++      if (blockpos.getY() > worldgenlevel.m_5736_() - 1) {
+          return false;
+-      } else if (!worldgenlevel.m_8055_(blockpos).m_60713_(Blocks.f_49990_) && !worldgenlevel.m_8055_(blockpos.m_7495_()).m_60713_(Blocks.f_49990_)) {
++      } else if (!worldgenlevel.m_8055_(blockpos).m_60713_(Blocks.f_49990_) && !worldgenlevel.m_8055_(blockpos.below()).m_60713_(Blocks.f_49990_)) {
+          return false;
+       } else {
+          boolean flag = false;
+ 
+          for(Direction direction : Direction.values()) {
+-            if (direction != Direction.DOWN && worldgenlevel.m_8055_(blockpos.m_121945_(direction)).m_60713_(Blocks.f_50354_)) {
++            if (direction != Direction.DOWN && worldgenlevel.m_8055_(blockpos.relative(direction)).m_60713_(Blocks.f_50354_)) {
+                flag = true;
+                break;
+             }
+@@ -50,7 +_,7 @@
+                   BlockState blockstate = worldgenlevel.m_8055_(blockpos1);
+                   if (blockstate.m_60767_() == Material.f_76296_ || blockstate.m_60713_(Blocks.f_49990_) || blockstate.m_60713_(Blocks.f_50354_) || blockstate.m_60713_(Blocks.f_50126_)) {
+                      for(Direction direction1 : Direction.values()) {
+-                        BlockState blockstate1 = worldgenlevel.m_8055_(blockpos1.m_121945_(direction1));
++                        BlockState blockstate1 = worldgenlevel.m_8055_(blockpos1.relative(direction1));
+                         if (blockstate1.m_60713_(Blocks.f_50568_)) {
+                            worldgenlevel.m_7731_(blockpos1, Blocks.f_50568_.m_49966_(), 2);
+                            break;

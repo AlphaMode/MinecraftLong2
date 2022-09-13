@@ -1,0 +1,233 @@
+--- a/net/minecraft/world/level/levelgen/SurfaceRules.java
++++ b/net/minecraft/world/level/levelgen/SurfaceRules.java
+@@ -148,7 +_,7 @@
+       }
+ 
+       public SurfaceRules.SurfaceRule apply(SurfaceRules.Context p_189482_) {
+-         return p_189482_.f_189535_::m_189930_;
++         return p_189482_.f_189535_::getBand;
+       }
+    }
+ 
+@@ -260,10 +_,10 @@
+       private final Function<BlockPos, Holder<Biome>> f_189542_;
+       final WorldGenerationContext f_189544_;
+       private long f_198278_ = Long.MAX_VALUE;
+-      private final int[] f_198279_ = new int[4];
++      private final long[] f_198279_ = new long[4];
+       long f_189545_ = -9223372036854775807L;
+-      int f_189546_;
+-      int f_189547_;
++      long f_189546_;
++      long f_189547_;
+       int f_189548_;
+       private long f_189549_ = this.f_189545_ - 1L;
+       private double f_202180_;
+@@ -272,10 +_,10 @@
+       long f_189553_ = -9223372036854775807L;
+       final BlockPos.MutableBlockPos f_189554_ = new BlockPos.MutableBlockPos();
+       Supplier<Holder<Biome>> f_189555_;
+-      int f_189557_;
+-      int f_189558_;
+-      int f_189559_;
+-      int f_189560_;
++      long f_189557_;
++      long f_189558_;
++      long f_189559_;
++      long f_189560_;
+ 
+       protected Context(SurfaceSystem p_224616_, RandomState p_224617_, ChunkAccess p_224618_, NoiseChunk p_224619_, Function<BlockPos, Holder<Biome>> p_224620_, Registry<Biome> p_224621_, WorldGenerationContext p_224622_) {
+          this.f_189535_ = p_224616_;
+@@ -286,18 +_,18 @@
+          this.f_189544_ = p_224622_;
+       }
+ 
+-      protected void m_189569_(int p_189570_, int p_189571_) {
++      protected void updateXZ(long p_189570_, long p_189571_) {
+          ++this.f_189545_;
+          ++this.f_189553_;
+          this.f_189546_ = p_189570_;
+          this.f_189547_ = p_189571_;
+-         this.f_189548_ = this.f_189535_.m_189927_(p_189570_, p_189571_);
++         this.f_189548_ = this.f_189535_.getSurfaceDepth(p_189570_, p_189571_);
+       }
+ 
+-      protected void m_189576_(int p_189577_, int p_189578_, int p_189579_, int p_189580_, int p_189581_, int p_189582_) {
++      protected void updateY(int p_189577_, long p_189578_, long p_189579_, long p_189580_, long p_189581_, long p_189582_) {
+          ++this.f_189553_;
+          this.f_189555_ = Suppliers.memoize(() -> {
+-            return this.f_189542_.apply(this.f_189554_.m_122178_(p_189580_, p_189581_, p_189582_));
++            return this.f_189542_.apply(this.f_189554_.m_122169_(p_189580_, p_189581_, p_189582_));
+          });
+          this.f_189557_ = p_189581_;
+          this.f_189558_ = p_189579_;
+@@ -308,32 +_,32 @@
+       protected double m_202181_() {
+          if (this.f_189549_ != this.f_189545_) {
+             this.f_189549_ = this.f_189545_;
+-            this.f_202180_ = this.f_189535_.m_202189_(this.f_189546_, this.f_189547_);
++            this.f_202180_ = this.f_189535_.getSurfaceSecondary(this.f_189546_, this.f_189547_);
+          }
+ 
+          return this.f_202180_;
+       }
+ 
+-      private static int m_198280_(int p_198281_) {
++      private static long blockCoordToSurfaceCell(long p_198281_) {
+          return p_198281_ >> 4;
+       }
+ 
+-      private static int m_198282_(int p_198283_) {
++      private static long surfaceCellToBlockCoord(long p_198283_) {
+          return p_198283_ << 4;
+       }
+ 
+       protected int m_189583_() {
+          if (this.f_189551_ != this.f_189545_) {
+             this.f_189551_ = this.f_189545_;
+-            int i = m_198280_(this.f_189546_);
+-            int j = m_198280_(this.f_189547_);
+-            long k = ChunkPos.m_45589_(i, j);
++            long i = blockCoordToSurfaceCell(this.f_189546_);
++            long j = blockCoordToSurfaceCell(this.f_189547_);
++            long k = ChunkPos.asLong(i, j);
+             if (this.f_198278_ != k) {
+                this.f_198278_ = k;
+-               this.f_198279_[0] = this.f_189541_.m_198256_(m_198282_(i), m_198282_(j));
+-               this.f_198279_[1] = this.f_189541_.m_198256_(m_198282_(i + 1), m_198282_(j));
+-               this.f_198279_[2] = this.f_189541_.m_198256_(m_198282_(i), m_198282_(j + 1));
+-               this.f_198279_[3] = this.f_189541_.m_198256_(m_198282_(i + 1), m_198282_(j + 1));
++               this.f_198279_[0] = this.f_189541_.preliminarySurfaceLevel(surfaceCellToBlockCoord(i), surfaceCellToBlockCoord(j));
++               this.f_198279_[1] = this.f_189541_.preliminarySurfaceLevel(surfaceCellToBlockCoord(i + 1), surfaceCellToBlockCoord(j));
++               this.f_198279_[2] = this.f_189541_.preliminarySurfaceLevel(surfaceCellToBlockCoord(i), surfaceCellToBlockCoord(j + 1));
++               this.f_198279_[3] = this.f_189541_.preliminarySurfaceLevel(surfaceCellToBlockCoord(i + 1), surfaceCellToBlockCoord(j + 1));
+             }
+ 
+             int l = Mth.m_14107_(Mth.m_14012_((double)((float)(this.f_189546_ & 15) / 16.0F), (double)((float)(this.f_189547_ & 15) / 16.0F), (double)this.f_198279_[0], (double)this.f_198279_[1], (double)this.f_198279_[2], (double)this.f_198279_[3]));
+@@ -365,20 +_,20 @@
+          }
+ 
+          protected boolean m_183479_() {
+-            int i = this.f_189616_.f_189546_ & 15;
+-            int j = this.f_189616_.f_189547_ & 15;
+-            int k = Math.max(j - 1, 0);
+-            int l = Math.min(j + 1, 15);
++            long i = this.f_189616_.f_189546_ & 15;
++            long j = this.f_189616_.f_189547_ & 15;
++            long k = Math.max(j - 1, 0);
++            long l = Math.min(j + 1, 15);
+             ChunkAccess chunkaccess = this.f_189616_.f_189540_;
+-            int i1 = chunkaccess.m_5885_(Heightmap.Types.WORLD_SURFACE_WG, i, k);
+-            int j1 = chunkaccess.m_5885_(Heightmap.Types.WORLD_SURFACE_WG, i, l);
++            long i1 = chunkaccess.getHeight(Heightmap.Types.WORLD_SURFACE_WG, i, k);
++            long j1 = chunkaccess.getHeight(Heightmap.Types.WORLD_SURFACE_WG, i, l);
+             if (j1 >= i1 + 4) {
+                return true;
+             } else {
+-               int k1 = Math.max(i - 1, 0);
+-               int l1 = Math.min(i + 1, 15);
+-               int i2 = chunkaccess.m_5885_(Heightmap.Types.WORLD_SURFACE_WG, k1, j);
+-               int j2 = chunkaccess.m_5885_(Heightmap.Types.WORLD_SURFACE_WG, l1, j);
++               long k1 = Math.max(i - 1, 0);
++               long l1 = Math.min(i + 1, 15);
++               long i2 = chunkaccess.getHeight(Heightmap.Types.WORLD_SURFACE_WG, k1, j);
++               long j2 = chunkaccess.getHeight(Heightmap.Types.WORLD_SURFACE_WG, l1, j);
+                return i2 >= j2 + 4;
+             }
+          }
+@@ -390,7 +_,7 @@
+          }
+ 
+          protected boolean m_183479_() {
+-            return this.f_189616_.f_189555_.get().m_203334_().m_198904_(this.f_189616_.f_189554_.m_122178_(this.f_189616_.f_189546_, this.f_189616_.f_189557_, this.f_189616_.f_189547_));
++            return this.f_189616_.f_189555_.get().m_203334_().m_198904_(this.f_189616_.f_189554_.m_122169_(this.f_189616_.f_189546_, this.f_189616_.f_189557_, this.f_189616_.f_189547_));
+          }
+       }
+    }
+@@ -522,9 +_,9 @@
+ 
+    static record SequenceRule(List<SurfaceRules.SurfaceRule> f_189685_) implements SurfaceRules.SurfaceRule {
+       @Nullable
+-      public BlockState m_183550_(int p_189694_, int p_189695_, int p_189696_) {
++      public BlockState tryApply(long p_189694_, long p_189695_, long p_189696_) {
+          for(SurfaceRules.SurfaceRule surfacerules$surfacerule : this.f_189685_) {
+-            BlockState blockstate = surfacerules$surfacerule.m_183550_(p_189694_, p_189695_, p_189696_);
++            BlockState blockstate = surfacerules$surfacerule.tryApply(p_189694_, p_189695_, p_189696_);
+             if (blockstate != null) {
+                return blockstate;
+             }
+@@ -557,7 +_,7 @@
+    }
+ 
+    static record StateRule(BlockState f_189712_) implements SurfaceRules.SurfaceRule {
+-      public BlockState m_183550_(int p_189721_, int p_189722_, int p_189723_) {
++      public BlockState tryApply(long p_189721_, long p_189722_, long p_189723_) {
+          return this.f_189712_;
+       }
+    }
+@@ -594,7 +_,7 @@
+             }
+ 
+             protected boolean m_183479_() {
+-               int i = flag ? this.f_189616_.f_189559_ : this.f_189616_.f_189560_;
++               long i = flag ? this.f_189616_.f_189559_ : this.f_189616_.f_189560_;
+                int j = StoneDepthCheck.this.f_189741_ ? this.f_189616_.f_189548_ : 0;
+                int k = StoneDepthCheck.this.f_202182_ == 0 ? 0 : (int)Mth.m_144914_(this.f_189616_.m_202181_(), -1.0D, 1.0D, 0.0D, (double)StoneDepthCheck.this.f_202182_);
+                return i <= 1 + StoneDepthCheck.this.f_189740_ + j + k;
+@@ -607,7 +_,7 @@
+ 
+    protected interface SurfaceRule {
+       @Nullable
+-      BlockState m_183550_(int p_189774_, int p_189775_, int p_189776_);
++      BlockState tryApply(long p_189774_, long p_189775_, long p_189776_);
+    }
+ 
+    static enum Temperature implements SurfaceRules.ConditionSource {
+@@ -626,8 +_,8 @@
+ 
+    static record TestRule(SurfaceRules.Condition f_189793_, SurfaceRules.SurfaceRule f_189794_) implements SurfaceRules.SurfaceRule {
+       @Nullable
+-      public BlockState m_183550_(int p_189805_, int p_189806_, int p_189807_) {
+-         return !this.f_189793_.m_183475_() ? null : this.f_189794_.m_183550_(p_189805_, p_189806_, p_189807_);
++      public BlockState tryApply(long p_189805_, long p_189806_, long p_189807_) {
++         return !this.f_189793_.m_183475_() ? null : this.f_189794_.tryApply(p_189805_, p_189806_, p_189807_);
+       }
+    }
+ 
+@@ -655,8 +_,8 @@
+       }
+ 
+       public SurfaceRules.Condition apply(final SurfaceRules.Context p_189841_) {
+-         final int i = this.f_189829_().m_142322_(p_189841_.f_189544_);
+-         final int j = this.f_189830_().m_142322_(p_189841_.f_189544_);
++         final long i = this.f_189829_().resolveY(p_189841_.f_189544_);
++         final long j = this.f_189830_().resolveY(p_189841_.f_189544_);
+          final PositionalRandomFactory positionalrandomfactory = p_189841_.f_224614_.m_224565_(this.f_189828_());
+ 
+          class VerticalGradientCondition extends SurfaceRules.LazyYCondition {
+@@ -665,14 +_,14 @@
+             }
+ 
+             protected boolean m_183479_() {
+-               int k = this.f_189616_.f_189557_;
++               long k = this.f_189616_.f_189557_;
+                if (k <= i) {
+                   return true;
+                } else if (k >= j) {
+                   return false;
+                } else {
+                   double d0 = Mth.m_144914_((double)k, (double)i, (double)j, 1.0D, 0.0D);
+-                  RandomSource randomsource = positionalrandomfactory.m_213715_(this.f_189616_.f_189546_, k, this.f_189616_.f_189547_);
++                  RandomSource randomsource = positionalrandomfactory.at(this.f_189616_.f_189546_, k, this.f_189616_.f_189547_);
+                   return (double)randomsource.m_188501_() < d0;
+                }
+             }
+@@ -722,7 +_,7 @@
+             }
+ 
+             protected boolean m_183479_() {
+-               return this.f_189616_.f_189557_ + (YConditionSource.this.f_189446_ ? this.f_189616_.f_189560_ : 0) >= YConditionSource.this.f_189444_.m_142322_(this.f_189616_.f_189544_) + this.f_189616_.f_189548_ * YConditionSource.this.f_189445_;
++               return this.f_189616_.f_189557_ + (YConditionSource.this.f_189446_ ? this.f_189616_.f_189560_ : 0) >= YConditionSource.this.f_189444_.resolveY(this.f_189616_.f_189544_) + this.f_189616_.f_189548_ * YConditionSource.this.f_189445_;
+             }
+          }
+ 

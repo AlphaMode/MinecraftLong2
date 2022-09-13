@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/entity/item/FallingBlockEntity.java
++++ b/net/minecraft/world/entity/item/FallingBlockEntity.java
+@@ -73,7 +_,7 @@
+    }
+ 
+    public static FallingBlockEntity m_201971_(Level p_201972_, BlockPos p_201973_, BlockState p_201974_) {
+-      FallingBlockEntity fallingblockentity = new FallingBlockEntity(p_201972_, (double)p_201973_.m_123341_() + 0.5D, (double)p_201973_.m_123342_(), (double)p_201973_.m_123343_() + 0.5D, p_201974_.m_61138_(BlockStateProperties.f_61362_) ? p_201974_.m_61124_(BlockStateProperties.f_61362_, Boolean.valueOf(false)) : p_201974_);
++      FallingBlockEntity fallingblockentity = new FallingBlockEntity(p_201972_, (double)p_201973_.getX() + 0.5D, (double)p_201973_.getY(), (double)p_201973_.getZ() + 0.5D, p_201974_.m_61138_(BlockStateProperties.f_61362_) ? p_201974_.m_61124_(BlockStateProperties.f_61362_, Boolean.valueOf(false)) : p_201974_);
+       p_201972_.m_7731_(p_201973_, p_201974_.m_60819_().m_76188_(), 3);
+       p_201972_.m_7967_(fallingblockentity);
+       return fallingblockentity;
+@@ -128,7 +_,7 @@
+             }
+ 
+             if (!this.f_19861_ && !flag1) {
+-               if (!this.f_19853_.f_46443_ && (this.f_31942_ > 100 && (blockpos.m_123342_() <= this.f_19853_.m_141937_() || blockpos.m_123342_() > this.f_19853_.m_151558_()) || this.f_31942_ > 600)) {
++               if (!this.f_19853_.f_46443_ && (this.f_31942_ > 100 && (blockpos.getY() <= this.f_19853_.getMinBuildHeight() || blockpos.getY() > this.f_19853_.getMaxBuildHeight()) || this.f_31942_ > 600)) {
+                   if (this.f_31943_ && this.f_19853_.m_46469_().m_46207_(GameRules.f_46137_)) {
+                      this.m_19998_(block);
+                   }
+@@ -141,7 +_,7 @@
+                if (!blockstate.m_60713_(Blocks.f_50110_)) {
+                   if (!this.f_31947_) {
+                      boolean flag2 = blockstate.m_60629_(new DirectionalPlaceContext(this.f_19853_, blockpos, Direction.DOWN, ItemStack.f_41583_, Direction.UP));
+-                     boolean flag3 = FallingBlock.m_53241_(this.f_19853_.m_8055_(blockpos.m_7495_())) && (!flag || !flag1);
++                     boolean flag3 = FallingBlock.m_53241_(this.f_19853_.m_8055_(blockpos.below())) && (!flag || !flag1);
+                      boolean flag4 = this.f_31946_.m_60710_(this.f_19853_, blockpos) && !flag3;
+                      if (flag2 && flag4) {
+                         if (this.f_31946_.m_61138_(BlockStateProperties.f_61362_) && this.f_19853_.m_6425_(blockpos).m_76152_() == Fluids.f_76193_) {

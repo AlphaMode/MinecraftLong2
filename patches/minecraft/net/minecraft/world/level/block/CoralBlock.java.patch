@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/block/CoralBlock.java
++++ b/net/minecraft/world/level/block/CoralBlock.java
+@@ -30,7 +_,7 @@
+ 
+    public BlockState m_7417_(BlockState p_52143_, Direction p_52144_, BlockState p_52145_, LevelAccessor p_52146_, BlockPos p_52147_, BlockPos p_52148_) {
+       if (!this.m_52134_(p_52146_, p_52147_)) {
+-         p_52146_.m_186460_(p_52147_, this, 60 + p_52146_.m_213780_().m_188503_(40));
++         p_52146_.scheduleTick(p_52147_, this, 60 + p_52146_.m_213780_().m_188503_(40));
+       }
+ 
+       return super.m_7417_(p_52143_, p_52144_, p_52145_, p_52146_, p_52147_, p_52148_);
+@@ -38,7 +_,7 @@
+ 
+    protected boolean m_52134_(BlockGetter p_52135_, BlockPos p_52136_) {
+       for(Direction direction : Direction.values()) {
+-         FluidState fluidstate = p_52135_.m_6425_(p_52136_.m_121945_(direction));
++         FluidState fluidstate = p_52135_.m_6425_(p_52136_.relative(direction));
+          if (fluidstate.m_205070_(FluidTags.f_13131_)) {
+             return true;
+          }
+@@ -50,7 +_,7 @@
+    @Nullable
+    public BlockState m_5573_(BlockPlaceContext p_52133_) {
+       if (!this.m_52134_(p_52133_.m_43725_(), p_52133_.m_8083_())) {
+-         p_52133_.m_43725_().m_186460_(p_52133_.m_8083_(), this, 60 + p_52133_.m_43725_().m_213780_().m_188503_(40));
++         p_52133_.m_43725_().scheduleTick(p_52133_.m_8083_(), this, 60 + p_52133_.m_43725_().m_213780_().m_188503_(40));
+       }
+ 
+       return this.m_49966_();

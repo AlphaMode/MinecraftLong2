@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/levelgen/blockpredicates/StateTestingPredicate.java
++++ b/net/minecraft/world/level/levelgen/blockpredicates/StateTestingPredicate.java
+@@ -8,20 +_,20 @@
+ import net.minecraft.world.level.block.state.BlockState;
+ 
+ public abstract class StateTestingPredicate implements BlockPredicate {
+-   protected final Vec3i f_190539_;
++   protected final me.alphamode.mclong.core.Vec3l f_190539_;
+ 
+-   protected static <P extends StateTestingPredicate> Products.P1<RecordCodecBuilder.Mu<P>, Vec3i> m_190546_(RecordCodecBuilder.Instance<P> p_190547_) {
+-      return p_190547_.group(Vec3i.m_194650_(16).optionalFieldOf("offset", Vec3i.f_123288_).forGetter((p_190549_) -> {
++   protected static <P extends StateTestingPredicate> Products.P1<RecordCodecBuilder.Mu<P>, me.alphamode.mclong.core.Vec3l> m_190546_(RecordCodecBuilder.Instance<P> p_190547_) {
++      return p_190547_.group(me.alphamode.mclong.core.Vec3l.offsetCodec(16).optionalFieldOf("offset", me.alphamode.mclong.core.Vec3l.ZERO).forGetter((p_190549_) -> {
+          return p_190549_.f_190539_;
+       }));
+    }
+ 
+-   protected StateTestingPredicate(Vec3i p_190541_) {
++   protected StateTestingPredicate(me.alphamode.mclong.core.Vec3l p_190541_) {
+       this.f_190539_ = p_190541_;
+    }
+ 
+    public final boolean test(WorldGenLevel p_190543_, BlockPos p_190544_) {
+-      return this.m_183454_(p_190543_.m_8055_(p_190544_.m_121955_(this.f_190539_)));
++      return this.m_183454_(p_190543_.m_8055_(p_190544_.offset(this.f_190539_)));
+    }
+ 
+    protected abstract boolean m_183454_(BlockState p_190545_);

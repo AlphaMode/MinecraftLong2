@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/level/block/StairBlock.java
++++ b/net/minecraft/world/level/block/StairBlock.java
+@@ -157,7 +_,7 @@
+       Direction direction = p_56872_.m_43719_();
+       BlockPos blockpos = p_56872_.m_8083_();
+       FluidState fluidstate = p_56872_.m_43725_().m_6425_(blockpos);
+-      BlockState blockstate = this.m_49966_().m_61124_(f_56841_, p_56872_.m_8125_()).m_61124_(f_56842_, direction != Direction.DOWN && (direction == Direction.UP || !(p_56872_.m_43720_().f_82480_ - (double)blockpos.m_123342_() > 0.5D)) ? Half.BOTTOM : Half.TOP).m_61124_(f_56844_, Boolean.valueOf(fluidstate.m_76152_() == Fluids.f_76193_));
++      BlockState blockstate = this.m_49966_().m_61124_(f_56841_, p_56872_.m_8125_()).m_61124_(f_56842_, direction != Direction.DOWN && (direction == Direction.UP || !(p_56872_.m_43720_().f_82480_ - (double)blockpos.getY() > 0.5D)) ? Half.BOTTOM : Half.TOP).m_61124_(f_56844_, Boolean.valueOf(fluidstate.m_76152_() == Fluids.f_76193_));
+       return blockstate.m_61124_(f_56843_, m_56976_(blockstate, p_56872_.m_43725_(), blockpos));
+    }
+ 
+@@ -171,7 +_,7 @@
+ 
+    private static StairsShape m_56976_(BlockState p_56977_, BlockGetter p_56978_, BlockPos p_56979_) {
+       Direction direction = p_56977_.m_61143_(f_56841_);
+-      BlockState blockstate = p_56978_.m_8055_(p_56979_.m_121945_(direction));
++      BlockState blockstate = p_56978_.m_8055_(p_56979_.relative(direction));
+       if (m_56980_(blockstate) && p_56977_.m_61143_(f_56842_) == blockstate.m_61143_(f_56842_)) {
+          Direction direction1 = blockstate.m_61143_(f_56841_);
+          if (direction1.m_122434_() != p_56977_.m_61143_(f_56841_).m_122434_() && m_56970_(p_56977_, p_56978_, p_56979_, direction1.m_122424_())) {
+@@ -183,7 +_,7 @@
+          }
+       }
+ 
+-      BlockState blockstate1 = p_56978_.m_8055_(p_56979_.m_121945_(direction.m_122424_()));
++      BlockState blockstate1 = p_56978_.m_8055_(p_56979_.relative(direction.m_122424_()));
+       if (m_56980_(blockstate1) && p_56977_.m_61143_(f_56842_) == blockstate1.m_61143_(f_56842_)) {
+          Direction direction2 = blockstate1.m_61143_(f_56841_);
+          if (direction2.m_122434_() != p_56977_.m_61143_(f_56841_).m_122434_() && m_56970_(p_56977_, p_56978_, p_56979_, direction2)) {
+@@ -199,7 +_,7 @@
+    }
+ 
+    private static boolean m_56970_(BlockState p_56971_, BlockGetter p_56972_, BlockPos p_56973_, Direction p_56974_) {
+-      BlockState blockstate = p_56972_.m_8055_(p_56973_.m_121945_(p_56974_));
++      BlockState blockstate = p_56972_.m_8055_(p_56973_.relative(p_56974_));
+       return !m_56980_(blockstate) || blockstate.m_61143_(f_56841_) != p_56971_.m_61143_(f_56841_) || blockstate.m_61143_(f_56842_) != p_56971_.m_61143_(f_56842_);
+    }
+ 

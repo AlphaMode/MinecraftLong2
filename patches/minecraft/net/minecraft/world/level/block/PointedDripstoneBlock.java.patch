@@ -1,0 +1,156 @@
+--- a/net/minecraft/world/level/block/PointedDripstoneBlock.java
++++ b/net/minecraft/world/level/block/PointedDripstoneBlock.java
+@@ -101,9 +_,9 @@
+             return p_154147_;
+          } else if (p_154148_ == direction.m_122424_() && !this.m_7898_(p_154147_, p_154150_, p_154151_)) {
+             if (direction == Direction.DOWN) {
+-               p_154150_.m_186460_(p_154151_, this, 2);
++               p_154150_.scheduleTick(p_154151_, this, 2);
+             } else {
+-               p_154150_.m_186460_(p_154151_, this, 1);
++               p_154150_.scheduleTick(p_154151_, this, 1);
+             }
+ 
+             return p_154147_;
+@@ -193,10 +_,10 @@
+                         BlockPos blockpos1 = m_154076_(p_221861_, blockpos, fluid);
+                         if (blockpos1 != null) {
+                            p_221861_.m_46796_(1504, blockpos, 0);
+-                           int i = blockpos.m_123342_() - blockpos1.m_123342_();
++                           int i = (int) (blockpos.getY() - blockpos1.getY());
+                            int j = 50 + i;
+                            BlockState blockstate = p_221861_.m_8055_(blockpos1);
+-                           p_221861_.m_186460_(blockpos1, blockstate.m_60734_(), j);
++                           p_221861_.scheduleTick(blockpos1, blockstate.m_60734_(), j);
+                         }
+                      }
+                   }
+@@ -285,7 +_,7 @@
+       for(BlockState blockstate = p_154098_; m_154240_(blockstate); blockstate = p_154099_.m_8055_(blockpos$mutableblockpos)) {
+          FallingBlockEntity fallingblockentity = FallingBlockEntity.m_201971_(p_154099_, blockpos$mutableblockpos, blockstate);
+          if (m_154153_(blockstate, true)) {
+-            int i = Math.max(1 + p_154100_.m_123342_() - blockpos$mutableblockpos.m_123342_(), 6);
++            long i = Math.max(1 + p_154100_.getY() - blockpos$mutableblockpos.getY(), 6);
+             float f = 1.0F * (float)i;
+             fallingblockentity.m_149656_(f, 40);
+             break;
+@@ -298,8 +_,8 @@
+ 
+    @VisibleForTesting
+    public static void m_221887_(BlockState p_221888_, ServerLevel p_221889_, BlockPos p_221890_, RandomSource p_221891_) {
+-      BlockState blockstate = p_221889_.m_8055_(p_221890_.m_6630_(1));
+-      BlockState blockstate1 = p_221889_.m_8055_(p_221890_.m_6630_(2));
++      BlockState blockstate = p_221889_.m_8055_(p_221890_.above(1));
++      BlockState blockstate1 = p_221889_.m_8055_(p_221890_.above(2));
+       if (m_154140_(blockstate, blockstate1)) {
+          BlockPos blockpos = m_154130_(p_221888_, p_221889_, p_221890_, 7, false);
+          if (blockpos != null) {
+@@ -331,8 +_,8 @@
+             return;
+          }
+ 
+-         if (m_154221_(p_154033_, blockpos$mutableblockpos, Direction.UP) && !p_154033_.m_46801_(blockpos$mutableblockpos.m_7495_())) {
+-            m_154035_(p_154033_, blockpos$mutableblockpos.m_7495_(), Direction.UP);
++         if (m_154221_(p_154033_, blockpos$mutableblockpos, Direction.UP) && !p_154033_.m_46801_(blockpos$mutableblockpos.below())) {
++            m_154035_(p_154033_, blockpos$mutableblockpos.below(), Direction.UP);
+             return;
+          }
+ 
+@@ -344,7 +_,7 @@
+    }
+ 
+    private static void m_154035_(ServerLevel p_154036_, BlockPos p_154037_, Direction p_154038_) {
+-      BlockPos blockpos = p_154037_.m_121945_(p_154038_);
++      BlockPos blockpos = p_154037_.relative(p_154038_);
+       BlockState blockstate = p_154036_.m_8055_(blockpos);
+       if (m_154143_(blockstate, p_154038_.m_122424_())) {
+          m_154230_(blockstate, p_154036_, blockpos);
+@@ -364,10 +_,10 @@
+       BlockPos blockpos1;
+       if (p_154231_.m_61143_(f_154009_) == Direction.UP) {
+          blockpos1 = p_154233_;
+-         blockpos = p_154233_.m_7494_();
++         blockpos = p_154233_.above();
+       } else {
+          blockpos = p_154233_;
+-         blockpos1 = p_154233_.m_7495_();
++         blockpos1 = p_154233_.below();
+       }
+ 
+       m_154087_(p_154232_, blockpos, Direction.DOWN, DripstoneThickness.TIP_MERGE);
+@@ -383,9 +_,9 @@
+    private static void m_154071_(Level p_154072_, BlockPos p_154073_, BlockState p_154074_, Fluid p_154075_) {
+       Vec3 vec3 = p_154074_.m_60824_(p_154072_, p_154073_);
+       double d0 = 0.0625D;
+-      double d1 = (double)p_154073_.m_123341_() + 0.5D + vec3.f_82479_;
+-      double d2 = (double)((float)(p_154073_.m_123342_() + 1) - 0.6875F) - 0.0625D;
+-      double d3 = (double)p_154073_.m_123343_() + 0.5D + vec3.f_82481_;
++      double d1 = (double)p_154073_.getX() + 0.5D + vec3.f_82479_;
++      double d2 = (double)((float)(p_154073_.getY() + 1) - 0.6875F) - 0.0625D;
++      double d3 = (double)p_154073_.getZ() + 0.5D + vec3.f_82481_;
+       Fluid fluid = m_154052_(p_154072_, p_154075_);
+       ParticleOptions particleoptions = fluid.m_205067_(FluidTags.f_13132_) ? ParticleTypes.f_175822_ : ParticleTypes.f_175824_;
+       p_154072_.m_7106_(particleoptions, d1, d2, d3, 0.0D, 0.0D, 0.0D);
+@@ -424,7 +_,7 @@
+ 
+    private static DripstoneThickness m_154092_(LevelReader p_154093_, BlockPos p_154094_, Direction p_154095_, boolean p_154096_) {
+       Direction direction = p_154095_.m_122424_();
+-      BlockState blockstate = p_154093_.m_8055_(p_154094_.m_121945_(p_154095_));
++      BlockState blockstate = p_154093_.m_8055_(p_154094_.relative(p_154095_));
+       if (m_154207_(blockstate, direction)) {
+          return !p_154096_ && blockstate.m_61143_(f_154010_) != DripstoneThickness.TIP_MERGE ? DripstoneThickness.TIP : DripstoneThickness.TIP_MERGE;
+       } else if (!m_154207_(blockstate, p_154095_)) {
+@@ -432,7 +_,7 @@
+       } else {
+          DripstoneThickness dripstonethickness = blockstate.m_61143_(f_154010_);
+          if (dripstonethickness != DripstoneThickness.TIP && dripstonethickness != DripstoneThickness.TIP_MERGE) {
+-            BlockState blockstate1 = p_154093_.m_8055_(p_154094_.m_121945_(direction));
++            BlockState blockstate1 = p_154093_.m_8055_(p_154094_.relative(direction));
+             return !m_154207_(blockstate1, p_154095_) ? DripstoneThickness.BASE : DripstoneThickness.MIDDLE;
+          } else {
+             return DripstoneThickness.FRUSTUM;
+@@ -446,7 +_,7 @@
+ 
+    private static boolean m_154194_(BlockState p_154195_, ServerLevel p_154196_, BlockPos p_154197_) {
+       Direction direction = p_154195_.m_61143_(f_154009_);
+-      BlockPos blockpos = p_154197_.m_121945_(direction);
++      BlockPos blockpos = p_154197_.relative(direction);
+       BlockState blockstate = p_154196_.m_8055_(blockpos);
+       if (!blockstate.m_60819_().m_76178_()) {
+          return false;
+@@ -466,7 +_,7 @@
+    }
+ 
+    private static boolean m_154221_(LevelReader p_154222_, BlockPos p_154223_, Direction p_154224_) {
+-      BlockPos blockpos = p_154223_.m_121945_(p_154224_.m_122424_());
++      BlockPos blockpos = p_154223_.relative(p_154224_.m_122424_());
+       BlockState blockstate = p_154222_.m_8055_(blockpos);
+       return blockstate.m_60783_(p_154222_, blockpos, p_154224_) || m_154207_(blockstate, p_154224_);
+    }
+@@ -493,7 +_,7 @@
+    }
+ 
+    private static boolean m_154203_(BlockState p_154204_, LevelReader p_154205_, BlockPos p_154206_) {
+-      return m_154240_(p_154204_) && !p_154205_.m_8055_(p_154206_.m_7494_()).m_60713_(Blocks.f_152588_);
++      return m_154240_(p_154204_) && !p_154205_.m_8055_(p_154206_.above()).m_60713_(Blocks.f_152588_);
+    }
+ 
+    public boolean m_7357_(BlockState p_154112_, BlockGetter p_154113_, BlockPos p_154114_, PathComputationType p_154115_) {
+@@ -531,7 +_,7 @@
+ 
+    private static Optional<PointedDripstoneBlock.FluidInfo> m_154181_(Level p_154182_, BlockPos p_154183_, BlockState p_154184_) {
+       return !m_154240_(p_154184_) ? Optional.empty() : m_154066_(p_154182_, p_154183_, p_154184_, 11).map((p_221876_) -> {
+-         BlockPos blockpos = p_221876_.m_7494_();
++         BlockPos blockpos = p_221876_.above();
+          BlockState blockstate = p_154182_.m_8055_(blockpos);
+          Fluid fluid;
+          if (blockstate.m_60713_(Blocks.f_220864_) && !p_154182_.m_6042_().f_63857_()) {
+@@ -571,7 +_,7 @@
+             return Optional.of(blockpos$mutableblockpos.m_7949_());
+          }
+ 
+-         if (p_202007_.m_151562_(blockpos$mutableblockpos.m_123342_()) || !p_202010_.test(blockpos$mutableblockpos, blockstate)) {
++         if (p_202007_.isOutsideBuildHeight(blockpos$mutableblockpos.getY()) || !p_202010_.test(blockpos$mutableblockpos, blockstate)) {
+             return Optional.empty();
+          }
+       }

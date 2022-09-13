@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/levelgen/feature/FossilFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/FossilFeature.java
+@@ -33,20 +_,20 @@
+       StructureTemplate structuretemplate = structuretemplatemanager.m_230359_(fossilfeatureconfiguration.f_159797_.get(i));
+       StructureTemplate structuretemplate1 = structuretemplatemanager.m_230359_(fossilfeatureconfiguration.f_159798_.get(i));
+       ChunkPos chunkpos = new ChunkPos(blockpos);
+-      BoundingBox boundingbox = new BoundingBox(chunkpos.m_45604_() - 16, worldgenlevel.m_141937_(), chunkpos.m_45605_() - 16, chunkpos.m_45608_() + 16, worldgenlevel.m_151558_(), chunkpos.m_45609_() + 16);
++      BoundingBox boundingbox = new BoundingBox((int) (chunkpos.getMinBlockX() - 16), (int) worldgenlevel.getMinBuildHeight(), (int) (chunkpos.getMinBlockZ() - 16), (int) (chunkpos.getMaxBlockX() + 16), (int) worldgenlevel.getMaxBuildHeight(), (int) (chunkpos.getMaxBlockZ() + 16));
+       StructurePlaceSettings structureplacesettings = (new StructurePlaceSettings()).m_74379_(rotation).m_74381_(boundingbox).m_230324_(randomsource);
+       Vec3i vec3i = structuretemplate.m_163808_(rotation);
+       BlockPos blockpos1 = blockpos.m_7918_(-vec3i.m_123341_() / 2, 0, -vec3i.m_123343_() / 2);
+-      int j = blockpos.m_123342_();
++      long j = blockpos.getY();
+ 
+       for(int k = 0; k < vec3i.m_123341_(); ++k) {
+          for(int l = 0; l < vec3i.m_123343_(); ++l) {
+-            j = Math.min(j, worldgenlevel.m_6924_(Heightmap.Types.OCEAN_FLOOR_WG, blockpos1.m_123341_() + k, blockpos1.m_123343_() + l));
++            j = Math.min(j, worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockpos1.getX() + k, blockpos1.getZ() + l));
+          }
+       }
+ 
+-      int i1 = Math.max(j - 15 - randomsource.m_188503_(10), worldgenlevel.m_141937_() + 10);
+-      BlockPos blockpos2 = structuretemplate.m_74583_(blockpos1.m_175288_(i1), Mirror.NONE, rotation);
++      long i1 = Math.max(j - 15 - randomsource.m_188503_(10), worldgenlevel.getMinBuildHeight() + 10);
++      BlockPos blockpos2 = structuretemplate.m_74583_(blockpos1.atY(i1), Mirror.NONE, rotation);
+       if (m_159781_(worldgenlevel, structuretemplate.m_74633_(structureplacesettings, blockpos2)) > fossilfeatureconfiguration.f_159801_) {
+          return false;
+       } else {

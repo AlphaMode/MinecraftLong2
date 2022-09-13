@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/ticks/SavedTick.java
++++ b/net/minecraft/world/ticks/SavedTick.java
+@@ -50,7 +_,7 @@
+ 
+    public static <T> Optional<SavedTick<T>> m_210669_(CompoundTag p_210670_, Function<String, Optional<T>> p_210671_) {
+       return p_210671_.apply(p_210670_.m_128461_("i")).map((p_210668_) -> {
+-         BlockPos blockpos = new BlockPos(p_210670_.m_128451_("x"), p_210670_.m_128451_("y"), p_210670_.m_128451_("z"));
++         BlockPos blockpos = new BlockPos(p_210670_.m_128454_("x"), p_210670_.m_128454_("y"), p_210670_.m_128454_("z"));
+          return new SavedTick<>(p_210668_, blockpos, p_210670_.m_128451_("t"), TickPriority.m_193446_(p_210670_.m_128451_("p")));
+       });
+    }
+@@ -58,9 +_,9 @@
+    private static CompoundTag m_193338_(String p_193339_, BlockPos p_193340_, int p_193341_, TickPriority p_193342_) {
+       CompoundTag compoundtag = new CompoundTag();
+       compoundtag.m_128359_("i", p_193339_);
+-      compoundtag.m_128405_("x", p_193340_.m_123341_());
+-      compoundtag.m_128405_("y", p_193340_.m_123342_());
+-      compoundtag.m_128405_("z", p_193340_.m_123343_());
++      compoundtag.m_128356_("x", p_193340_.getX());
++      compoundtag.m_128356_("y", p_193340_.getY());
++      compoundtag.m_128356_("z", p_193340_.getZ());
+       compoundtag.m_128405_("t", p_193341_);
+       compoundtag.m_128405_("p", p_193342_.m_193445_());
+       return compoundtag;

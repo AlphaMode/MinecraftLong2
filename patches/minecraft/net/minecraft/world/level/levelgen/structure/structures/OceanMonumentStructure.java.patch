@@ -1,0 +1,36 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentStructure.java
+@@ -27,10 +_,10 @@
+    }
+ 
+    public Optional<Structure.GenerationStub> m_214086_(Structure.GenerationContext p_228964_) {
+-      int i = p_228964_.f_226628_().m_151382_(9);
+-      int j = p_228964_.f_226628_().m_151391_(9);
++      long i = p_228964_.f_226628_().getBlockX(9);
++      long j = p_228964_.f_226628_().getBlockZ(9);
+ 
+-      for(Holder<Biome> holder : p_228964_.f_226623_().m_183399_(i, p_228964_.f_226622_().m_6337_(), j, 29, p_228964_.f_226624_().m_224579_())) {
++      for(Holder<Biome> holder : p_228964_.f_226623_().getBiomesWithin(i, p_228964_.f_226622_().m_6337_(), j, 29, p_228964_.f_226624_().m_224579_())) {
+          if (!holder.m_203656_(BiomeTags.f_215800_)) {
+             return Optional.empty();
+          }
+@@ -42,8 +_,8 @@
+    }
+ 
+    private static StructurePiece m_228960_(ChunkPos p_228961_, WorldgenRandom p_228962_) {
+-      int i = p_228961_.m_45604_() - 29;
+-      int j = p_228961_.m_45605_() - 29;
++      long i = p_228961_.getMinBlockX() - 29;
++      long j = p_228961_.getMinBlockZ() - 29;
+       Direction direction = Direction.Plane.HORIZONTAL.m_235690_(p_228962_);
+       return new OceanMonumentPieces.MonumentBuilding(p_228962_, i, j, direction);
+    }
+@@ -57,7 +_,7 @@
+          return p_228959_;
+       } else {
+          WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.m_224599_()));
+-         worldgenrandom.m_190068_(p_228958_, p_228957_.f_45578_, p_228957_.f_45579_);
++         worldgenrandom.setLargeFeatureSeed(p_228958_, p_228957_.f_45578_, p_228957_.f_45579_);
+          StructurePiece structurepiece = p_228959_.f_192741_().get(0);
+          BoundingBox boundingbox = structurepiece.m_73547_();
+          int i = boundingbox.m_162395_();

@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/level/levelgen/BitRandomSource.java
++++ b/net/minecraft/world/level/levelgen/BitRandomSource.java
+@@ -36,6 +_,13 @@
+       return k + (long)j;
+    }
+ 
++   default long nextLong(long off) {
++      int i = this.m_64707_(32);
++      int j = this.m_64707_(32);
++      long k = (long)i << 32;
++      return k + (long)j * off; // todo: is this right?
++   }
++
+    default boolean m_188499_() {
+       return this.m_64707_(1) != 0;
+    }

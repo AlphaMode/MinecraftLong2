@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
++++ b/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
+@@ -556,7 +_,7 @@
+                i1 = Mth.m_14143_(20.0F * Mth.m_14031_(2.0F * (-(float)Math.PI + ((float)Math.PI / 4F) * (float)k1)));
+             }
+ 
+-            int j1 = Math.max(this.f_19853_.m_5736_() + 10, this.f_19853_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos(l, 0, i1)).m_123342_() + j);
++            long j1 = Math.max(this.f_19853_.m_5736_() + 10, this.f_19853_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos(l, 0, i1)).getY() + j);
+             this.f_31077_[i] = new Node(l, j1, i1);
+          }
+ 
+@@ -767,7 +_,7 @@
+          }
+       } else {
+          BlockPos blockpos = this.f_19853_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EndPodiumFeature.f_65714_);
+-         double d1 = Math.max(Math.sqrt(blockpos.m_203193_(this.m_20182_())) / 4.0D, 1.0D);
++         double d1 = Math.max(Math.sqrt(blockpos.distToCenterSqr(this.m_20182_())) / 4.0D, 1.0D);
+          d0 = (double)p_31109_ / d1;
+       }
+ 
+@@ -790,7 +_,7 @@
+          }
+       } else {
+          BlockPos blockpos = this.f_19853_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EndPodiumFeature.f_65714_);
+-         float f = Math.max((float)Math.sqrt(blockpos.m_203193_(this.m_20182_())) / 4.0F, 1.0F);
++         float f = Math.max((float)Math.sqrt(blockpos.distToCenterSqr(this.m_20182_())) / 4.0F, 1.0F);
+          float f1 = 6.0F / f;
+          float f2 = this.m_146909_();
+          float f3 = 1.5F;
+@@ -807,7 +_,7 @@
+       if (p_31127_.m_7639_() instanceof Player) {
+          player = (Player)p_31127_.m_7639_();
+       } else {
+-         player = this.f_19853_.m_45941_(f_31088_, (double)p_31126_.m_123341_(), (double)p_31126_.m_123342_(), (double)p_31126_.m_123343_());
++         player = this.f_19853_.m_45941_(f_31088_, (double)p_31126_.getX(), (double)p_31126_.getY(), (double)p_31126_.getZ());
+       }
+ 
+       if (p_31125_ == this.f_31086_) {

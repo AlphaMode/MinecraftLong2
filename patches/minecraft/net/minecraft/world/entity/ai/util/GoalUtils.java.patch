@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/entity/ai/util/GoalUtils.java
++++ b/net/minecraft/world/entity/ai/util/GoalUtils.java
+@@ -14,11 +_,11 @@
+    }
+ 
+    public static boolean m_148442_(PathfinderMob p_148443_, int p_148444_) {
+-      return p_148443_.m_21536_() && p_148443_.m_21534_().m_203195_(p_148443_.m_20182_(), (double)(p_148443_.m_21535_() + (float)p_148444_) + 1.0D);
++      return p_148443_.m_21536_() && p_148443_.m_21534_().closerToCenterThan(p_148443_.m_20182_(), (double)(p_148443_.m_21535_() + (float)p_148444_) + 1.0D);
+    }
+ 
+    public static boolean m_148451_(BlockPos p_148452_, PathfinderMob p_148453_) {
+-      return p_148452_.m_123342_() < p_148453_.f_19853_.m_141937_() || p_148452_.m_123342_() > p_148453_.f_19853_.m_151558_();
++      return p_148452_.getY() < p_148453_.f_19853_.getMinBuildHeight() || p_148452_.getY() > p_148453_.f_19853_.getMaxBuildHeight();
+    }
+ 
+    public static boolean m_148454_(boolean p_148455_, PathfinderMob p_148456_, BlockPos p_148457_) {

@@ -1,0 +1,57 @@
+--- a/net/minecraft/world/level/levelgen/feature/IcebergFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/IcebergFeature.java
+@@ -20,7 +_,7 @@
+    public boolean m_142674_(FeaturePlaceContext<BlockStateConfiguration> p_159884_) {
+       BlockPos blockpos = p_159884_.m_159777_();
+       WorldGenLevel worldgenlevel = p_159884_.m_159774_();
+-      blockpos = new BlockPos(blockpos.m_123341_(), p_159884_.m_159775_().m_6337_(), blockpos.m_123343_());
++      blockpos = new BlockPos(blockpos.getX(), p_159884_.m_159775_().m_6337_(), blockpos.getZ());
+       RandomSource randomsource = p_159884_.m_225041_();
+       boolean flag = randomsource.m_188500_() > 0.7D;
+       BlockState blockstate = (p_159884_.m_159778_()).f_67547_;
+@@ -128,8 +_,8 @@
+    }
+ 
+    private void m_66048_(LevelAccessor p_66049_, BlockPos p_66050_) {
+-      if (p_66049_.m_8055_(p_66050_.m_7494_()).m_60713_(Blocks.f_50125_)) {
+-         this.m_5974_(p_66049_, p_66050_.m_7494_(), Blocks.f_50016_.m_49966_());
++      if (p_66049_.m_8055_(p_66050_.above()).m_60713_(Blocks.f_50125_)) {
++         this.m_5974_(p_66049_, p_66050_.above(), Blocks.f_50016_.m_49966_());
+       }
+ 
+    }
+@@ -173,11 +_,11 @@
+ 
+    private double m_225088_(int p_225089_, int p_225090_, BlockPos p_225091_, int p_225092_, RandomSource p_225093_) {
+       float f = 10.0F * Mth.m_14036_(p_225093_.m_188501_(), 0.2F, 0.8F) / (float)p_225092_;
+-      return (double)f + Math.pow((double)(p_225089_ - p_225091_.m_123341_()), 2.0D) + Math.pow((double)(p_225090_ - p_225091_.m_123343_()), 2.0D) - Math.pow((double)p_225092_, 2.0D);
++      return (double)f + Math.pow((double)(p_225089_ - p_225091_.getX()), 2.0D) + Math.pow((double)(p_225090_ - p_225091_.getZ()), 2.0D) - Math.pow((double)p_225092_, 2.0D);
+    }
+ 
+    private double m_66022_(int p_66023_, int p_66024_, BlockPos p_66025_, int p_66026_, int p_66027_, double p_66028_) {
+-      return Math.pow(((double)(p_66023_ - p_66025_.m_123341_()) * Math.cos(p_66028_) - (double)(p_66024_ - p_66025_.m_123343_()) * Math.sin(p_66028_)) / (double)p_66026_, 2.0D) + Math.pow(((double)(p_66023_ - p_66025_.m_123341_()) * Math.sin(p_66028_) + (double)(p_66024_ - p_66025_.m_123343_()) * Math.cos(p_66028_)) / (double)p_66027_, 2.0D) - 1.0D;
++      return Math.pow(((double)(p_66023_ - p_66025_.getX()) * Math.cos(p_66028_) - (double)(p_66024_ - p_66025_.getZ()) * Math.sin(p_66028_)) / (double)p_66026_, 2.0D) + Math.pow(((double)(p_66023_ - p_66025_.getX()) * Math.sin(p_66028_) + (double)(p_66024_ - p_66025_.getZ()) * Math.cos(p_66028_)) / (double)p_66027_, 2.0D) - 1.0D;
+    }
+ 
+    private int m_225094_(RandomSource p_225095_, int p_225096_, int p_225097_, int p_225098_) {
+@@ -208,7 +_,7 @@
+    }
+ 
+    private boolean m_66045_(BlockGetter p_66046_, BlockPos p_66047_) {
+-      return p_66046_.m_8055_(p_66047_.m_7495_()).m_60767_() == Material.f_76296_;
++      return p_66046_.m_8055_(p_66047_.below()).m_60767_() == Material.f_76296_;
+    }
+ 
+    private void m_66051_(LevelAccessor p_66052_, BlockPos p_66053_, int p_66054_, int p_66055_, boolean p_66056_, int p_66057_) {
+@@ -222,9 +_,9 @@
+                if (m_159885_(blockstate) || blockstate.m_60713_(Blocks.f_50125_)) {
+                   if (this.m_66045_(p_66052_, blockpos)) {
+                      this.m_5974_(p_66052_, blockpos, Blocks.f_50016_.m_49966_());
+-                     this.m_5974_(p_66052_, blockpos.m_7494_(), Blocks.f_50016_.m_49966_());
++                     this.m_5974_(p_66052_, blockpos.above(), Blocks.f_50016_.m_49966_());
+                   } else if (m_159885_(blockstate)) {
+-                     BlockState[] ablockstate = new BlockState[]{p_66052_.m_8055_(blockpos.m_122024_()), p_66052_.m_8055_(blockpos.m_122029_()), p_66052_.m_8055_(blockpos.m_122012_()), p_66052_.m_8055_(blockpos.m_122019_())};
++                     BlockState[] ablockstate = new BlockState[]{p_66052_.m_8055_(blockpos.west()), p_66052_.m_8055_(blockpos.east()), p_66052_.m_8055_(blockpos.north()), p_66052_.m_8055_(blockpos.south())};
+                      int i1 = 0;
+ 
+                      for(BlockState blockstate1 : ablockstate) {

@@ -1,0 +1,70 @@
+--- a/net/minecraft/world/level/block/BigDripleafBlock.java
++++ b/net/minecraft/world/level/block/BigDripleafBlock.java
+@@ -79,10 +_,10 @@
+          blockpos$mutableblockpos.m_122173_(Direction.UP);
+       }
+ 
+-      int k = p_220795_.m_123342_() + j - 1;
+-      blockpos$mutableblockpos.m_142448_(p_220795_.m_123342_());
++      long k = p_220795_.getY() + j - 1;
++      blockpos$mutableblockpos.setY(p_220795_.getY());
+ 
+-      while(blockpos$mutableblockpos.m_123342_() < k) {
++      while(blockpos$mutableblockpos.getY() < k) {
+          BigDripleafStemBlock.m_152349_(p_220793_, blockpos$mutableblockpos, p_220793_.m_6425_(blockpos$mutableblockpos), p_220796_);
+          blockpos$mutableblockpos.m_122173_(Direction.UP);
+       }
+@@ -112,7 +_,7 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_152289_, LevelReader p_152290_, BlockPos p_152291_) {
+-      BlockPos blockpos = p_152291_.m_7495_();
++      BlockPos blockpos = p_152291_.below();
+       BlockState blockstate = p_152290_.m_8055_(blockpos);
+       return blockstate.m_60713_(this) || blockstate.m_60713_(Blocks.f_152546_) || blockstate.m_204336_(BlockTags.f_184227_);
+    }
+@@ -130,7 +_,7 @@
+    }
+ 
+    public boolean m_7370_(BlockGetter p_152223_, BlockPos p_152224_, BlockState p_152225_, boolean p_152226_) {
+-      BlockState blockstate = p_152223_.m_8055_(p_152224_.m_7494_());
++      BlockState blockstate = p_152223_.m_8055_(p_152224_.above());
+       return m_152319_(blockstate);
+    }
+ 
+@@ -139,7 +_,7 @@
+    }
+ 
+    public void m_214148_(ServerLevel p_220783_, RandomSource p_220784_, BlockPos p_220785_, BlockState p_220786_) {
+-      BlockPos blockpos = p_220785_.m_7494_();
++      BlockPos blockpos = p_220785_.above();
+       BlockState blockstate = p_220783_.m_8055_(blockpos);
+       if (m_152251_(p_220783_, blockpos, blockstate)) {
+          Direction direction = p_220786_.m_61143_(f_54117_);
+@@ -187,7 +_,7 @@
+    }
+ 
+    private static boolean m_152301_(BlockPos p_152302_, Entity p_152303_) {
+-      return p_152303_.m_20096_() && p_152303_.m_20182_().f_82480_ > (double)((float)p_152302_.m_123342_() + 0.6875F);
++      return p_152303_.m_20096_() && p_152303_.m_20182_().f_82480_ > (double)((float)p_152302_.getY() + 0.6875F);
+    }
+ 
+    private void m_152282_(BlockState p_152283_, Level p_152284_, BlockPos p_152285_, Tilt p_152286_, @Nullable SoundEvent p_152287_) {
+@@ -198,7 +_,7 @@
+ 
+       int i = f_152203_.getInt(p_152286_);
+       if (i != -1) {
+-         p_152284_.m_186460_(p_152285_, this, i);
++         p_152284_.scheduleTick(p_152285_, this, i);
+       }
+ 
+    }
+@@ -229,7 +_,7 @@
+    }
+ 
+    public BlockState m_5573_(BlockPlaceContext p_152221_) {
+-      BlockState blockstate = p_152221_.m_43725_().m_8055_(p_152221_.m_8083_().m_7495_());
++      BlockState blockstate = p_152221_.m_43725_().m_8055_(p_152221_.m_8083_().below());
+       FluidState fluidstate = p_152221_.m_43725_().m_6425_(p_152221_.m_8083_());
+       boolean flag = blockstate.m_60713_(Blocks.f_152545_) || blockstate.m_60713_(Blocks.f_152546_);
+       return this.m_49966_().m_61124_(f_152200_, Boolean.valueOf(fluidstate.m_164512_(Fluids.f_76193_))).m_61124_(f_54117_, flag ? blockstate.m_61143_(f_54117_) : p_152221_.m_8125_().m_122424_());

@@ -1,0 +1,35 @@
+--- a/net/minecraft/server/level/ChunkHolder.java
++++ b/net/minecraft/server/level/ChunkHolder.java
+@@ -153,7 +_,7 @@
+    public void m_140056_(BlockPos p_140057_) {
+       LevelChunk levelchunk = this.m_140085_();
+       if (levelchunk != null) {
+-         int i = this.f_142983_.m_151564_(p_140057_.m_123342_());
++         int i = this.f_142983_.getSectionIndex(p_140057_.getY());
+          if (this.f_140011_[i] == null) {
+             this.f_140010_ = true;
+             this.f_140011_[i] = new ShortOpenHashSet();
+@@ -163,7 +_,7 @@
+       }
+    }
+ 
+-   public void m_140036_(LightLayer p_140037_, int p_140038_) {
++   public void sectionLightChanged(LightLayer p_140037_, long p_140038_) {
+       Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure> either = this.m_140080_(ChunkStatus.f_62322_).getNow((Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>)null);
+       if (either != null) {
+          ChunkAccess chunkaccess = either.left().orElse((ChunkAccess)null);
+@@ -174,11 +_,11 @@
+                int i = this.f_140014_.m_164447_();
+                int j = this.f_140014_.m_164448_();
+                if (p_140038_ >= i && p_140038_ <= j) {
+-                  int k = p_140038_ - i;
++                  long k = p_140038_ - i;
+                   if (p_140037_ == LightLayer.SKY) {
+-                     this.f_140013_.set(k);
++                     this.f_140013_.set((int) k);
+                   } else {
+-                     this.f_140012_.set(k);
++                     this.f_140012_.set((int) k);
+                   }
+ 
+                }

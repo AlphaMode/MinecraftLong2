@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/levelgen/blockpredicates/WouldSurvivePredicate.java
++++ b/net/minecraft/world/level/levelgen/blockpredicates/WouldSurvivePredicate.java
+@@ -9,22 +_,22 @@
+ 
+ public class WouldSurvivePredicate implements BlockPredicate {
+    public static final Codec<WouldSurvivePredicate> f_190565_ = RecordCodecBuilder.create((p_190577_) -> {
+-      return p_190577_.group(Vec3i.m_194650_(16).optionalFieldOf("offset", Vec3i.f_123288_).forGetter((p_190581_) -> {
++      return p_190577_.group(me.alphamode.mclong.core.Vec3l.offsetCodec(16).optionalFieldOf("offset", me.alphamode.mclong.core.Vec3l.ZERO).forGetter((p_190581_) -> {
+          return p_190581_.f_190566_;
+       }), BlockState.f_61039_.fieldOf("state").forGetter((p_190579_) -> {
+          return p_190579_.f_190567_;
+       })).apply(p_190577_, WouldSurvivePredicate::new);
+    });
+-   private final Vec3i f_190566_;
++   private final me.alphamode.mclong.core.Vec3l f_190566_;
+    private final BlockState f_190567_;
+ 
+-   protected WouldSurvivePredicate(Vec3i p_190570_, BlockState p_190571_) {
++   protected WouldSurvivePredicate(me.alphamode.mclong.core.Vec3l p_190570_, BlockState p_190571_) {
+       this.f_190566_ = p_190570_;
+       this.f_190567_ = p_190571_;
+    }
+ 
+    public boolean test(WorldGenLevel p_190574_, BlockPos p_190575_) {
+-      return this.f_190567_.m_60710_(p_190574_, p_190575_.m_121955_(this.f_190566_));
++      return this.f_190567_.m_60710_(p_190574_, p_190575_.offset(this.f_190566_));
+    }
+ 
+    public BlockPredicateType<?> m_183575_() {

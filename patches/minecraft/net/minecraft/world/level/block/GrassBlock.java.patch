@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/block/GrassBlock.java
++++ b/net/minecraft/world/level/block/GrassBlock.java
+@@ -20,7 +_,7 @@
+    }
+ 
+    public boolean m_7370_(BlockGetter p_53692_, BlockPos p_53693_, BlockState p_53694_, boolean p_53695_) {
+-      return p_53692_.m_8055_(p_53693_.m_7494_()).m_60795_();
++      return p_53692_.m_8055_(p_53693_.above()).m_60795_();
+    }
+ 
+    public boolean m_214167_(Level p_221275_, RandomSource p_221276_, BlockPos p_221277_, BlockState p_221278_) {
+@@ -28,7 +_,7 @@
+    }
+ 
+    public void m_214148_(ServerLevel p_221270_, RandomSource p_221271_, BlockPos p_221272_, BlockState p_221273_) {
+-      BlockPos blockpos = p_221272_.m_7494_();
++      BlockPos blockpos = p_221272_.above();
+       BlockState blockstate = Blocks.f_50034_.m_49966_();
+ 
+       label46:
+@@ -37,7 +_,7 @@
+ 
+          for(int j = 0; j < i / 16; ++j) {
+             blockpos1 = blockpos1.m_7918_(p_221271_.m_188503_(3) - 1, (p_221271_.m_188503_(3) - 1) * p_221271_.m_188503_(3) / 2, p_221271_.m_188503_(3) - 1);
+-            if (!p_221270_.m_8055_(blockpos1.m_7495_()).m_60713_(this) || p_221270_.m_8055_(blockpos1).m_60838_(p_221270_, blockpos1)) {
++            if (!p_221270_.m_8055_(blockpos1.below()).m_60713_(this) || p_221270_.m_8055_(blockpos1).m_60838_(p_221270_, blockpos1)) {
+                continue label46;
+             }
+          }

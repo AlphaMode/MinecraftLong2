@@ -1,0 +1,40 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/IglooPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/IglooPieces.java
+@@ -66,7 +_,7 @@
+       }
+ 
+       private static BlockPos m_227563_(ResourceLocation p_227564_, BlockPos p_227565_, int p_227566_) {
+-         return p_227565_.m_121955_(IglooPieces.f_227545_.get(p_227564_)).m_6625_(p_227566_);
++         return p_227565_.offset(IglooPieces.f_227545_.get(p_227564_)).below(p_227566_);
+       }
+ 
+       protected void m_183620_(StructurePieceSerializationContext p_227579_, CompoundTag p_227580_) {
+@@ -77,7 +_,7 @@
+       protected void m_213704_(String p_227582_, BlockPos p_227583_, ServerLevelAccessor p_227584_, RandomSource p_227585_, BoundingBox p_227586_) {
+          if ("chest".equals(p_227582_)) {
+             p_227584_.m_7731_(p_227583_, Blocks.f_50016_.m_49966_(), 3);
+-            BlockEntity blockentity = p_227584_.m_7702_(p_227583_.m_7495_());
++            BlockEntity blockentity = p_227584_.m_7702_(p_227583_.below());
+             if (blockentity instanceof ChestBlockEntity) {
+                ((ChestBlockEntity)blockentity).m_59626_(BuiltInLootTables.f_78688_, p_227585_.m_188505_());
+             }
+@@ -89,14 +_,14 @@
+          ResourceLocation resourcelocation = new ResourceLocation(this.f_163658_);
+          StructurePlaceSettings structureplacesettings = m_227575_(this.f_73657_.m_74404_(), resourcelocation);
+          BlockPos blockpos = IglooPieces.f_227545_.get(resourcelocation);
+-         BlockPos blockpos1 = this.f_73658_.m_121955_(StructureTemplate.m_74563_(structureplacesettings, new BlockPos(3 - blockpos.m_123341_(), 0, -blockpos.m_123343_())));
+-         int i = p_227568_.m_6924_(Heightmap.Types.WORLD_SURFACE_WG, blockpos1.m_123341_(), blockpos1.m_123343_());
++         BlockPos blockpos1 = this.f_73658_.offset(StructureTemplate.m_74563_(structureplacesettings, new BlockPos(3 - blockpos.getX(), 0, -blockpos.getZ())));
++         long i = p_227568_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, blockpos1.getX(), blockpos1.getZ());
+          BlockPos blockpos2 = this.f_73658_;
+-         this.f_73658_ = this.f_73658_.m_7918_(0, i - 90 - 1, 0);
++         this.f_73658_ = this.f_73658_.offset(0, i - 90 - 1, 0);
+          super.m_213694_(p_227568_, p_227569_, p_227570_, p_227571_, p_227572_, p_227573_, p_227574_);
+          if (resourcelocation.equals(IglooPieces.f_227541_)) {
+-            BlockPos blockpos3 = this.f_73658_.m_121955_(StructureTemplate.m_74563_(structureplacesettings, new BlockPos(3, 0, 5)));
+-            BlockState blockstate = p_227568_.m_8055_(blockpos3.m_7495_());
++            BlockPos blockpos3 = this.f_73658_.offset(StructureTemplate.m_74563_(structureplacesettings, new BlockPos(3, 0, 5)));
++            BlockState blockstate = p_227568_.m_8055_(blockpos3.below());
+             if (!blockstate.m_60795_() && !blockstate.m_60713_(Blocks.f_50155_)) {
+                p_227568_.m_7731_(blockpos3, Blocks.f_50127_.m_49966_(), 3);
+             }

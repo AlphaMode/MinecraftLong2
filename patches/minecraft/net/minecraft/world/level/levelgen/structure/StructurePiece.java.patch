@@ -1,0 +1,117 @@
+--- a/net/minecraft/world/level/levelgen/structure/StructurePiece.java
++++ b/net/minecraft/world/level/levelgen/structure/StructurePiece.java
+@@ -103,9 +_,9 @@
+    }
+ 
+    public boolean m_73411_(ChunkPos p_73412_, int p_73413_) {
+-      int i = p_73412_.m_45604_();
+-      int j = p_73412_.m_45605_();
+-      return this.f_73383_.m_71019_(i - p_73413_, j - p_73413_, i + 15 + p_73413_, j + 15 + p_73413_);
++      long i = p_73412_.getMinBlockX();
++      long j = p_73412_.getMinBlockZ();
++      return this.f_73383_.intersects(i - p_73413_, j - p_73413_, i + 15 + p_73413_, j + 15 + p_73413_);
+    }
+ 
+    public BlockPos m_142171_() {
+@@ -160,7 +_,7 @@
+ 
+    protected void m_73434_(WorldGenLevel p_73435_, BlockState p_73436_, int p_73437_, int p_73438_, int p_73439_, BoundingBox p_73440_) {
+       BlockPos blockpos = this.m_163582_(p_73437_, p_73438_, p_73439_);
+-      if (p_73440_.m_71051_(blockpos)) {
++      if (p_73440_.isInside(blockpos)) {
+          if (this.m_142085_(p_73435_, p_73437_, p_73438_, p_73439_, p_73440_)) {
+             if (this.f_73378_ != Mirror.NONE) {
+                p_73436_ = p_73436_.m_60715_(this.f_73378_);
+@@ -190,15 +_,15 @@
+ 
+    protected BlockState m_73398_(BlockGetter p_73399_, int p_73400_, int p_73401_, int p_73402_, BoundingBox p_73403_) {
+       BlockPos blockpos = this.m_163582_(p_73400_, p_73401_, p_73402_);
+-      return !p_73403_.m_71051_(blockpos) ? Blocks.f_50016_.m_49966_() : p_73399_.m_8055_(blockpos);
++      return !p_73403_.isInside(blockpos) ? Blocks.f_50016_.m_49966_() : p_73399_.m_8055_(blockpos);
+    }
+ 
+    protected boolean m_73414_(LevelReader p_73415_, int p_73416_, int p_73417_, int p_73418_, BoundingBox p_73419_) {
+       BlockPos blockpos = this.m_163582_(p_73416_, p_73417_ + 1, p_73418_);
+-      if (!p_73419_.m_71051_(blockpos)) {
++      if (!p_73419_.isInside(blockpos)) {
+          return false;
+       } else {
+-         return blockpos.m_123342_() < p_73415_.m_6924_(Heightmap.Types.OCEAN_FLOOR_WG, blockpos.m_123341_(), blockpos.m_123343_());
++         return blockpos.getY() < p_73415_.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockpos.getX(), blockpos.getZ());
+       }
+    }
+ 
+@@ -305,8 +_,8 @@
+ 
+    protected void m_73528_(WorldGenLevel p_73529_, BlockState p_73530_, int p_73531_, int p_73532_, int p_73533_, BoundingBox p_73534_) {
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = this.m_163582_(p_73531_, p_73532_, p_73533_);
+-      if (p_73534_.m_71051_(blockpos$mutableblockpos)) {
+-         while(this.m_163572_(p_73529_.m_8055_(blockpos$mutableblockpos)) && blockpos$mutableblockpos.m_123342_() > p_73529_.m_141937_() + 1) {
++      if (p_73534_.isInside(blockpos$mutableblockpos)) {
++         while(this.m_163572_(p_73529_.m_8055_(blockpos$mutableblockpos)) && blockpos$mutableblockpos.getY() > p_73529_.getMinBuildHeight() + 1) {
+             p_73529_.m_7731_(blockpos$mutableblockpos, p_73530_, 2);
+             blockpos$mutableblockpos.m_122173_(Direction.DOWN);
+          }
+@@ -326,7 +_,7 @@
+       Direction direction = null;
+ 
+       for(Direction direction1 : Direction.Plane.HORIZONTAL) {
+-         BlockPos blockpos = p_73409_.m_121945_(direction1);
++         BlockPos blockpos = p_73409_.relative(direction1);
+          BlockState blockstate = p_73408_.m_8055_(blockpos);
+          if (blockstate.m_60713_(Blocks.f_50087_)) {
+             return p_73410_;
+@@ -346,20 +_,20 @@
+          return p_73410_.m_61124_(HorizontalDirectionalBlock.f_54117_, direction.m_122424_());
+       } else {
+          Direction direction2 = p_73410_.m_61143_(HorizontalDirectionalBlock.f_54117_);
+-         BlockPos blockpos1 = p_73409_.m_121945_(direction2);
++         BlockPos blockpos1 = p_73409_.relative(direction2);
+          if (p_73408_.m_8055_(blockpos1).m_60804_(p_73408_, blockpos1)) {
+             direction2 = direction2.m_122424_();
+-            blockpos1 = p_73409_.m_121945_(direction2);
++            blockpos1 = p_73409_.relative(direction2);
+          }
+ 
+          if (p_73408_.m_8055_(blockpos1).m_60804_(p_73408_, blockpos1)) {
+             direction2 = direction2.m_122427_();
+-            blockpos1 = p_73409_.m_121945_(direction2);
++            blockpos1 = p_73409_.relative(direction2);
+          }
+ 
+          if (p_73408_.m_8055_(blockpos1).m_60804_(p_73408_, blockpos1)) {
+             direction2 = direction2.m_122424_();
+-            p_73409_.m_121945_(direction2);
++            p_73409_.relative(direction2);
+          }
+ 
+          return p_73410_.m_61124_(HorizontalDirectionalBlock.f_54117_, direction2);
+@@ -367,7 +_,7 @@
+    }
+ 
+    protected boolean m_226762_(ServerLevelAccessor p_226763_, BoundingBox p_226764_, RandomSource p_226765_, BlockPos p_226766_, ResourceLocation p_226767_, @Nullable BlockState p_226768_) {
+-      if (p_226764_.m_71051_(p_226766_) && !p_226763_.m_8055_(p_226766_).m_60713_(Blocks.f_50087_)) {
++      if (p_226764_.isInside(p_226766_) && !p_226763_.m_8055_(p_226766_).m_60713_(Blocks.f_50087_)) {
+          if (p_226768_ == null) {
+             p_226768_ = m_73407_(p_226763_, p_226766_, Blocks.f_50087_.m_49966_());
+          }
+@@ -386,7 +_,7 @@
+ 
+    protected boolean m_226819_(WorldGenLevel p_226820_, BoundingBox p_226821_, RandomSource p_226822_, int p_226823_, int p_226824_, int p_226825_, Direction p_226826_, ResourceLocation p_226827_) {
+       BlockPos blockpos = this.m_163582_(p_226823_, p_226824_, p_226825_);
+-      if (p_226821_.m_71051_(blockpos) && !p_226820_.m_8055_(blockpos).m_60713_(Blocks.f_50061_)) {
++      if (p_226821_.isInside(blockpos) && !p_226820_.m_8055_(blockpos).m_60713_(Blocks.f_50061_)) {
+          this.m_73434_(p_226820_, Blocks.f_50061_.m_49966_().m_61124_(DispenserBlock.f_52659_, p_226826_), p_226823_, p_226824_, p_226825_, p_226821_);
+          BlockEntity blockentity = p_226820_.m_7702_(blockpos);
+          if (blockentity instanceof DispenserBlockEntity) {
+@@ -399,8 +_,8 @@
+       }
+    }
+ 
+-   public void m_6324_(int p_73395_, int p_73396_, int p_73397_) {
+-      this.f_73383_.m_162367_(p_73395_, p_73396_, p_73397_);
++   public void move(long p_73395_, long p_73396_, long p_73397_) {
++      this.f_73383_.move(p_73395_, p_73396_, p_73397_);
+    }
+ 
+    public static BoundingBox m_192651_(Stream<StructurePiece> p_192652_) {

@@ -1,0 +1,50 @@
+--- a/net/minecraft/world/level/chunk/storage/ChunkSerializer.java
++++ b/net/minecraft/world/level/chunk/storage/ChunkSerializer.java
+@@ -75,7 +_,7 @@
+    public static final String f_223447_ = "SkyLight";
+ 
+    public static ProtoChunk m_188230_(ServerLevel p_188231_, PoiManager p_188232_, ChunkPos p_188233_, CompoundTag p_188234_) {
+-      ChunkPos chunkpos = new ChunkPos(p_188234_.m_128451_("xPos"), p_188234_.m_128451_("zPos"));
++      ChunkPos chunkpos = new ChunkPos(p_188234_.m_128454_("xPos"), p_188234_.m_128454_("zPos"));
+       if (!Objects.equals(p_188233_, chunkpos)) {
+          f_63449_.error("Chunk file at {} is in the wrong location; relocating. (Expected {}, got {})", p_188233_, p_188233_, chunkpos);
+       }
+@@ -179,7 +_,7 @@
+          BelowZeroRetrogen belowzeroretrogen = protochunk.m_183376_();
+          boolean flag3 = chunkstatus.m_62427_(ChunkStatus.f_62323_) || belowzeroretrogen != null && belowzeroretrogen.m_188466_().m_62427_(ChunkStatus.f_62323_);
+          if (!flag && flag3) {
+-            for(BlockPos blockpos : BlockPos.m_121976_(p_188233_.m_45604_(), p_188231_.m_141937_(), p_188233_.m_45605_(), p_188233_.m_45608_(), p_188231_.m_151558_() - 1, p_188233_.m_45609_())) {
++            for(BlockPos blockpos : BlockPos.betweenClosed(p_188233_.getMinBlockX(), p_188231_.getMinBuildHeight(), p_188233_.getMinBlockZ(), p_188233_.getMaxBlockX(), p_188231_.getMaxBuildHeight() - 1, p_188233_.getMaxBlockZ())) {
+                if (chunkaccess.m_8055_(blockpos).m_60791_() != 0) {
+                   protochunk.m_63277_(blockpos);
+                }
+@@ -249,7 +_,7 @@
+ 
+          for(String s1 : compoundtag4.m_128431_()) {
+             GenerationStep.Carving generationstep$carving = GenerationStep.Carving.valueOf(s1);
+-            protochunk1.m_188186_(generationstep$carving, new CarvingMask(compoundtag4.m_128467_(s1), chunkaccess.m_141937_()));
++            protochunk1.m_188186_(generationstep$carving, new CarvingMask(compoundtag4.m_128467_(s1), chunkaccess.getMinBuildHeight()));
+          }
+ 
+          return protochunk1;
+@@ -268,9 +_,9 @@
+       ChunkPos chunkpos = p_63456_.m_7697_();
+       CompoundTag compoundtag = new CompoundTag();
+       compoundtag.m_128405_("DataVersion", SharedConstants.m_183709_().getWorldVersion());
+-      compoundtag.m_128405_("xPos", chunkpos.f_45578_);
++      compoundtag.m_128356_("xPos", chunkpos.f_45578_);
+       compoundtag.m_128405_("yPos", p_63456_.m_151560_());
+-      compoundtag.m_128405_("zPos", chunkpos.f_45579_);
++      compoundtag.m_128356_("zPos", chunkpos.f_45579_);
+       compoundtag.m_128356_("LastUpdate", p_63455_.m_46467_());
+       compoundtag.m_128356_("InhabitedTime", p_63456_.m_6319_());
+       compoundtag.m_128359_("Status", p_63456_.m_6415_().m_62467_());
+@@ -484,7 +_,7 @@
+             if (along.length != 0) {
+                map.put(structure, new LongOpenHashSet(Arrays.stream(along).filter((p_208153_) -> {
+                   ChunkPos chunkpos = new ChunkPos(p_208153_);
+-                  if (chunkpos.m_45594_(p_208156_) > 8) {
++                  if (chunkpos.getChessboardDistance(p_208156_) > 8) {
+                      f_63449_.warn("Found invalid structure reference [ {} @ {} ] for chunk {}.", resourcelocation, chunkpos, p_208156_);
+                      return false;
+                   } else {

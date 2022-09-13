@@ -1,0 +1,24 @@
+--- a/net/minecraft/network/FriendlyByteBuf.java
++++ b/net/minecraft/network/FriendlyByteBuf.java
+@@ -648,7 +_,7 @@
+       float f1 = this.readFloat();
+       float f2 = this.readFloat();
+       boolean flag = this.readBoolean();
+-      return new BlockHitResult(new Vec3((double)blockpos.m_123341_() + (double)f, (double)blockpos.m_123342_() + (double)f1, (double)blockpos.m_123343_() + (double)f2), direction, blockpos, flag);
++      return new BlockHitResult(new Vec3((double)blockpos.getX() + (double)f, (double)blockpos.getY() + (double)f1, (double)blockpos.getZ() + (double)f2), direction, blockpos, flag);
+    }
+ 
+    public void m_130062_(BlockHitResult p_130063_) {
+@@ -656,9 +_,9 @@
+       this.m_130064_(blockpos);
+       this.m_130068_(p_130063_.m_82434_());
+       Vec3 vec3 = p_130063_.m_82450_();
+-      this.writeFloat((float)(vec3.f_82479_ - (double)blockpos.m_123341_()));
+-      this.writeFloat((float)(vec3.f_82480_ - (double)blockpos.m_123342_()));
+-      this.writeFloat((float)(vec3.f_82481_ - (double)blockpos.m_123343_()));
++      this.writeFloat((float)(vec3.f_82479_ - (double)blockpos.getX()));
++      this.writeFloat((float)(vec3.f_82480_ - (double)blockpos.getY()));
++      this.writeFloat((float)(vec3.f_82481_ - (double)blockpos.getZ()));
+       this.writeBoolean(p_130063_.m_82436_());
+    }
+ 

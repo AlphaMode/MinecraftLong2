@@ -1,0 +1,33 @@
+--- a/net/minecraft/world/level/levelgen/feature/VoidStartPlatformFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/VoidStartPlatformFeature.java
+@@ -17,23 +_,23 @@
+       super(p_67354_);
+    }
+ 
+-   private static int m_67355_(int p_67356_, int p_67357_, int p_67358_, int p_67359_) {
++   private static long checkerboardDistance(long p_67356_, long p_67357_, long p_67358_, long p_67359_) {
+       return Math.max(Math.abs(p_67356_ - p_67358_), Math.abs(p_67357_ - p_67359_));
+    }
+ 
+    public boolean m_142674_(FeaturePlaceContext<NoneFeatureConfiguration> p_160633_) {
+       WorldGenLevel worldgenlevel = p_160633_.m_159774_();
+       ChunkPos chunkpos = new ChunkPos(p_160633_.m_159777_());
+-      if (m_67355_(chunkpos.f_45578_, chunkpos.f_45579_, f_67351_.f_45578_, f_67351_.f_45579_) > 1) {
++      if (checkerboardDistance(chunkpos.f_45578_, chunkpos.f_45579_, f_67351_.f_45578_, f_67351_.f_45579_) > 1) {
+          return true;
+       } else {
+-         BlockPos blockpos = f_160629_.m_175288_(p_160633_.m_159777_().m_123342_() + f_160629_.m_123342_());
++         BlockPos blockpos = f_160629_.atY(p_160633_.m_159777_().getY() + f_160629_.getY());
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-         for(int i = chunkpos.m_45605_(); i <= chunkpos.m_45609_(); ++i) {
+-            for(int j = chunkpos.m_45604_(); j <= chunkpos.m_45608_(); ++j) {
+-               if (m_67355_(blockpos.m_123341_(), blockpos.m_123343_(), j, i) <= 16) {
+-                  blockpos$mutableblockpos.m_122178_(j, blockpos.m_123342_(), i);
++         for(long i = chunkpos.getMinBlockZ(); i <= chunkpos.getMaxBlockZ(); ++i) {
++            for(long j = chunkpos.getMinBlockX(); j <= chunkpos.getMaxBlockX(); ++j) {
++               if (checkerboardDistance(blockpos.getX(), blockpos.getZ(), j, i) <= 16) {
++                  blockpos$mutableblockpos.m_122169_(j, blockpos.getY(), i);
+                   if (blockpos$mutableblockpos.equals(blockpos)) {
+                      worldgenlevel.m_7731_(blockpos$mutableblockpos, Blocks.f_50652_.m_49966_(), 2);
+                   } else {

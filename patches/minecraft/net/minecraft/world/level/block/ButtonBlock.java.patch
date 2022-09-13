@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/block/ButtonBlock.java
++++ b/net/minecraft/world/level/block/ButtonBlock.java
+@@ -107,7 +_,7 @@
+    public void m_51116_(BlockState p_51117_, Level p_51118_, BlockPos p_51119_) {
+       p_51118_.m_7731_(p_51119_, p_51117_.m_61124_(f_51045_, Boolean.valueOf(true)), 3);
+       this.m_51124_(p_51117_, p_51118_, p_51119_);
+-      p_51118_.m_186460_(p_51119_, this, this.m_51115_());
++      p_51118_.scheduleTick(p_51119_, this, this.m_51115_());
+    }
+ 
+    protected void m_51067_(@Nullable Player p_51068_, LevelAccessor p_51069_, BlockPos p_51070_, boolean p_51071_) {
+@@ -170,14 +_,14 @@
+       }
+ 
+       if (flag) {
+-         p_51122_.m_186460_(new BlockPos(p_51123_), this, this.m_51115_());
++         p_51122_.scheduleTick(new BlockPos(p_51123_), this, this.m_51115_());
+       }
+ 
+    }
+ 
+    private void m_51124_(BlockState p_51125_, Level p_51126_, BlockPos p_51127_) {
+       p_51126_.m_46672_(p_51127_, this);
+-      p_51126_.m_46672_(p_51127_.m_121945_(m_53200_(p_51125_).m_122424_()), this);
++      p_51126_.m_46672_(p_51127_.relative(m_53200_(p_51125_).m_122424_()), this);
+    }
+ 
+    protected void m_7926_(StateDefinition.Builder<Block, BlockState> p_51101_) {

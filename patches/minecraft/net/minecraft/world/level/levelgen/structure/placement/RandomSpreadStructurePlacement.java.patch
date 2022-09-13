@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/levelgen/structure/placement/RandomSpreadStructurePlacement.java
++++ b/net/minecraft/world/level/levelgen/structure/placement/RandomSpreadStructurePlacement.java
+@@ -44,19 +_,19 @@
+       return this.f_204975_;
+    }
+ 
+-   public ChunkPos m_227008_(long p_227009_, int p_227010_, int p_227011_) {
+-      int i = Math.floorDiv(p_227010_, this.f_204973_);
+-      int j = Math.floorDiv(p_227011_, this.f_204973_);
++   public ChunkPos getPotentialStructureChunk(long p_227009_, long p_227010_, long p_227011_) {
++      long i = Math.floorDiv(p_227010_, this.f_204973_);
++      long j = Math.floorDiv(p_227011_, this.f_204973_);
+       WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
+-      worldgenrandom.m_190058_(p_227009_, i, j, this.m_227075_());
++      worldgenrandom.setLargeFeatureWithSalt(p_227009_, i, j, this.m_227075_());
+       int k = this.f_204973_ - this.f_204974_;
+       int l = this.f_204975_.m_227018_(worldgenrandom, k);
+       int i1 = this.f_204975_.m_227018_(worldgenrandom, k);
+       return new ChunkPos(i * this.f_204973_ + l, j * this.f_204973_ + i1);
+    }
+ 
+-   protected boolean m_214090_(ChunkGenerator p_227013_, RandomState p_227014_, long p_227015_, int p_227016_, int p_227017_) {
+-      ChunkPos chunkpos = this.m_227008_(p_227015_, p_227016_, p_227017_);
++   protected boolean isPlacementChunk(ChunkGenerator p_227013_, RandomState p_227014_, long p_227015_, long p_227016_, long p_227017_) {
++      ChunkPos chunkpos = this.getPotentialStructureChunk(p_227015_, p_227016_, p_227017_);
+       return chunkpos.f_45578_ == p_227016_ && chunkpos.f_45579_ == p_227017_;
+    }
+ 

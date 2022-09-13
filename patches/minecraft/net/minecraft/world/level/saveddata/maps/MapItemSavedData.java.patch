@@ -1,0 +1,66 @@
+--- a/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
++++ b/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
+@@ -95,7 +_,7 @@
+       for(int k = 0; k < listtag.size(); ++k) {
+          MapBanner mapbanner = MapBanner.m_77777_(listtag.m_128728_(k));
+          mapitemsaveddata.f_77897_.put(mapbanner.m_77787_(), mapbanner);
+-         mapitemsaveddata.m_77937_(mapbanner.m_77782_(), (LevelAccessor)null, mapbanner.m_77787_(), (double)mapbanner.m_77773_().m_123341_(), (double)mapbanner.m_77773_().m_123343_(), 180.0D, mapbanner.m_77783_());
++         mapitemsaveddata.m_77937_(mapbanner.m_77782_(), (LevelAccessor)null, mapbanner.m_77787_(), (double)mapbanner.m_77773_().getX(), (double)mapbanner.m_77773_().getZ(), 180.0D, mapbanner.m_77783_());
+       }
+ 
+       ListTag listtag1 = p_164808_.m_128437_("frames", 10);
+@@ -103,7 +_,7 @@
+       for(int l = 0; l < listtag1.size(); ++l) {
+          MapFrame mapframe = MapFrame.m_77872_(listtag1.m_128728_(l));
+          mapitemsaveddata.f_77898_.put(mapframe.m_77877_(), mapframe);
+-         mapitemsaveddata.m_77937_(MapDecoration.Type.FRAME, (LevelAccessor)null, "frame-" + mapframe.m_77876_(), (double)mapframe.m_77874_().m_123341_(), (double)mapframe.m_77874_().m_123343_(), (double)mapframe.m_77875_(), (Component)null);
++         mapitemsaveddata.m_77937_(MapDecoration.Type.FRAME, (LevelAccessor)null, "frame-" + mapframe.m_77876_(), (double)mapframe.m_77874_().getX(), (double)mapframe.m_77874_().getZ(), (double)mapframe.m_77875_(), (Component)null);
+       }
+ 
+       return mapitemsaveddata;
+@@ -185,7 +_,7 @@
+          }
+ 
+          MapFrame mapframe = new MapFrame(blockpos, itemframe.m_6350_().m_122416_() * 90, itemframe.m_19879_());
+-         this.m_77937_(MapDecoration.Type.FRAME, p_77919_.f_19853_, "frame-" + itemframe.m_19879_(), (double)blockpos.m_123341_(), (double)blockpos.m_123343_(), (double)(itemframe.m_6350_().m_122416_() * 90), (Component)null);
++         this.m_77937_(MapDecoration.Type.FRAME, p_77919_.f_19853_, "frame-" + itemframe.m_19879_(), (double)blockpos.getX(), (double)blockpos.getZ(), (double)(itemframe.m_6350_().m_122416_() * 90), (Component)null);
+          this.f_77898_.put(mapframe.m_77877_(), mapframe);
+       }
+ 
+@@ -224,8 +_,8 @@
+       CompoundTag compoundtag = new CompoundTag();
+       compoundtag.m_128344_("type", p_77929_.m_77853_());
+       compoundtag.m_128359_("id", p_77928_);
+-      compoundtag.m_128347_("x", (double)p_77927_.m_123341_());
+-      compoundtag.m_128347_("z", (double)p_77927_.m_123343_());
++      compoundtag.m_128347_("x", (double)p_77927_.getX());
++      compoundtag.m_128347_("z", (double)p_77927_.getZ());
+       compoundtag.m_128347_("rot", 180.0D);
+       listtag.add(compoundtag);
+       if (p_77929_.m_77857_()) {
+@@ -334,8 +_,8 @@
+    }
+ 
+    public boolean m_77934_(LevelAccessor p_77935_, BlockPos p_77936_) {
+-      double d0 = (double)p_77936_.m_123341_() + 0.5D;
+-      double d1 = (double)p_77936_.m_123343_() + 0.5D;
++      double d0 = (double)p_77936_.getX() + 0.5D;
++      double d1 = (double)p_77936_.getZ() + 0.5D;
+       int i = 1 << this.f_77890_;
+       double d2 = (d0 - (double)this.f_77885_) / (double)i;
+       double d3 = (d1 - (double)this.f_77886_) / (double)i;
+@@ -361,12 +_,12 @@
+       return false;
+    }
+ 
+-   public void m_77930_(BlockGetter p_77931_, int p_77932_, int p_77933_) {
++   public void checkBanners(BlockGetter p_77931_, long p_77932_, long p_77933_) {
+       Iterator<MapBanner> iterator = this.f_77897_.values().iterator();
+ 
+       while(iterator.hasNext()) {
+          MapBanner mapbanner = iterator.next();
+-         if (mapbanner.m_77773_().m_123341_() == p_77932_ && mapbanner.m_77773_().m_123343_() == p_77933_) {
++         if (mapbanner.m_77773_().getX() == p_77932_ && mapbanner.m_77773_().getZ() == p_77933_) {
+             MapBanner mapbanner1 = MapBanner.m_77774_(p_77931_, mapbanner.m_77773_());
+             if (!mapbanner.equals(mapbanner1)) {
+                iterator.remove();

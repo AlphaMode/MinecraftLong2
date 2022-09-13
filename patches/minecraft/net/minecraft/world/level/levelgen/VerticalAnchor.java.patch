@@ -1,0 +1,39 @@
+--- a/net/minecraft/world/level/levelgen/VerticalAnchor.java
++++ b/net/minecraft/world/level/levelgen/VerticalAnchor.java
+@@ -41,13 +_,13 @@
+       return p_158927_ instanceof VerticalAnchor.Absolute ? Either.left((VerticalAnchor.Absolute)p_158927_) : Either.right(p_158927_ instanceof VerticalAnchor.AboveBottom ? Either.left((VerticalAnchor.AboveBottom)p_158927_) : Either.right((VerticalAnchor.BelowTop)p_158927_));
+    }
+ 
+-   int m_142322_(WorldGenerationContext p_158928_);
++   long resolveY(WorldGenerationContext p_158928_);
+ 
+    public static record AboveBottom(int f_209699_) implements VerticalAnchor {
+       public static final Codec<VerticalAnchor.AboveBottom> f_158937_ = Codec.intRange(DimensionType.f_156653_, DimensionType.f_156652_).fieldOf("above_bottom").xmap(VerticalAnchor.AboveBottom::new, VerticalAnchor.AboveBottom::f_209699_).codec();
+ 
+-      public int m_142322_(WorldGenerationContext p_158942_) {
+-         return p_158942_.m_142201_() + this.f_209699_;
++      public long resolveY(WorldGenerationContext p_158942_) {
++         return p_158942_.getMinGenY() + this.f_209699_;
+       }
+ 
+       public String toString() {
+@@ -58,7 +_,7 @@
+    public static record Absolute(int f_209704_) implements VerticalAnchor {
+       public static final Codec<VerticalAnchor.Absolute> f_158944_ = Codec.intRange(DimensionType.f_156653_, DimensionType.f_156652_).fieldOf("absolute").xmap(VerticalAnchor.Absolute::new, VerticalAnchor.Absolute::f_209704_).codec();
+ 
+-      public int m_142322_(WorldGenerationContext p_158949_) {
++      public long resolveY(WorldGenerationContext p_158949_) {
+          return this.f_209704_;
+       }
+ 
+@@ -70,8 +_,8 @@
+    public static record BelowTop(int f_209709_) implements VerticalAnchor {
+       public static final Codec<VerticalAnchor.BelowTop> f_158951_ = Codec.intRange(DimensionType.f_156653_, DimensionType.f_156652_).fieldOf("below_top").xmap(VerticalAnchor.BelowTop::new, VerticalAnchor.BelowTop::f_209709_).codec();
+ 
+-      public int m_142322_(WorldGenerationContext p_158956_) {
+-         return p_158956_.m_142208_() - 1 + p_158956_.m_142201_() - this.f_209709_;
++      public long resolveY(WorldGenerationContext p_158956_) {
++         return p_158956_.getGenDepth() - 1 + p_158956_.getMinGenY() - this.f_209709_;
+       }
+ 
+       public String toString() {

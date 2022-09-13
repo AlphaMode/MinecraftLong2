@@ -1,0 +1,43 @@
+--- a/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
++++ b/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
+@@ -80,7 +_,7 @@
+             this.f_25837_.m_20334_(vec3.f_82479_, 0.3D, vec3.f_82481_);
+             if (!level.f_46443_) {
+                double d0 = 0.08D;
+-               ((ServerLevel)level).m_8767_(new ItemParticleOption(ParticleTypes.f_123752_, new ItemStack(Items.f_42521_)), (double)blockpos1.m_123341_() + 0.5D, (double)blockpos1.m_123342_() + 0.7D, (double)blockpos1.m_123343_() + 0.5D, 3, ((double)randomsource.m_188501_() - 0.5D) * 0.08D, ((double)randomsource.m_188501_() - 0.5D) * 0.08D, ((double)randomsource.m_188501_() - 0.5D) * 0.08D, (double)0.15F);
++               ((ServerLevel)level).m_8767_(new ItemParticleOption(ParticleTypes.f_123752_, new ItemStack(Items.f_42521_)), (double)blockpos1.getX() + 0.5D, (double)blockpos1.getY() + 0.7D, (double)blockpos1.getZ() + 0.5D, 3, ((double)randomsource.m_188501_() - 0.5D) * 0.08D, ((double)randomsource.m_188501_() - 0.5D) * 0.08D, ((double)randomsource.m_188501_() - 0.5D) * 0.08D, (double)0.15F);
+             }
+          }
+ 
+@@ -99,7 +_,7 @@
+                   double d3 = randomsource.m_188583_() * 0.02D;
+                   double d1 = randomsource.m_188583_() * 0.02D;
+                   double d2 = randomsource.m_188583_() * 0.02D;
+-                  ((ServerLevel)level).m_8767_(ParticleTypes.f_123759_, (double)blockpos1.m_123341_() + 0.5D, (double)blockpos1.m_123342_(), (double)blockpos1.m_123343_() + 0.5D, 1, d3, d1, d2, (double)0.15F);
++                  ((ServerLevel)level).m_8767_(ParticleTypes.f_123759_, (double)blockpos1.getX() + 0.5D, (double)blockpos1.getY(), (double)blockpos1.getZ() + 0.5D, 1, d3, d1, d2, (double)0.15F);
+                }
+ 
+                this.m_5777_(level, blockpos1);
+@@ -116,7 +_,7 @@
+       if (p_25854_.m_8055_(p_25853_).m_60713_(this.f_25836_)) {
+          return p_25853_;
+       } else {
+-         BlockPos[] ablockpos = new BlockPos[]{p_25853_.m_7495_(), p_25853_.m_122024_(), p_25853_.m_122029_(), p_25853_.m_122012_(), p_25853_.m_122019_(), p_25853_.m_7495_().m_7495_()};
++         BlockPos[] ablockpos = new BlockPos[]{p_25853_.below(), p_25853_.west(), p_25853_.east(), p_25853_.north(), p_25853_.south(), p_25853_.below().below()};
+ 
+          for(BlockPos blockpos : ablockpos) {
+             if (p_25854_.m_8055_(blockpos).m_60713_(this.f_25836_)) {
+@@ -129,11 +_,11 @@
+    }
+ 
+    protected boolean m_6465_(LevelReader p_25850_, BlockPos p_25851_) {
+-      ChunkAccess chunkaccess = p_25850_.m_6522_(SectionPos.m_123171_(p_25851_.m_123341_()), SectionPos.m_123171_(p_25851_.m_123343_()), ChunkStatus.f_62326_, false);
++      ChunkAccess chunkaccess = p_25850_.getChunk(SectionPos.m_235865_(p_25851_.getX()), SectionPos.m_235865_(p_25851_.getZ()), ChunkStatus.f_62326_, false);
+       if (chunkaccess == null) {
+          return false;
+       } else {
+-         return chunkaccess.m_8055_(p_25851_).m_60713_(this.f_25836_) && chunkaccess.m_8055_(p_25851_.m_7494_()).m_60795_() && chunkaccess.m_8055_(p_25851_.m_6630_(2)).m_60795_();
++         return chunkaccess.m_8055_(p_25851_).m_60713_(this.f_25836_) && chunkaccess.m_8055_(p_25851_.above()).m_60795_() && chunkaccess.m_8055_(p_25851_.above(2)).m_60795_();
+       }
+    }
+ }

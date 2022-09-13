@@ -1,0 +1,35 @@
+--- a/net/minecraft/world/level/block/DetectorRailBlock.java
++++ b/net/minecraft/world/level/block/DetectorRailBlock.java
+@@ -80,7 +_,7 @@
+             p_52433_.m_7731_(p_52434_, blockstate, 3);
+             this.m_52472_(p_52433_, p_52434_, blockstate, true);
+             p_52433_.m_46672_(p_52434_, this);
+-            p_52433_.m_46672_(p_52434_.m_7495_(), this);
++            p_52433_.m_46672_(p_52434_.below(), this);
+             p_52433_.m_6550_(p_52434_, p_52435_, blockstate);
+          }
+ 
+@@ -89,12 +_,12 @@
+             p_52433_.m_7731_(p_52434_, blockstate1, 3);
+             this.m_52472_(p_52433_, p_52434_, blockstate1, false);
+             p_52433_.m_46672_(p_52434_, this);
+-            p_52433_.m_46672_(p_52434_.m_7495_(), this);
++            p_52433_.m_46672_(p_52434_.below(), this);
+             p_52433_.m_6550_(p_52434_, p_52435_, blockstate1);
+          }
+ 
+          if (flag1) {
+-            p_52433_.m_186460_(p_52434_, this, 20);
++            p_52433_.scheduleTick(p_52434_, this, 20);
+          }
+ 
+          p_52433_.m_46717_(p_52434_, this);
+@@ -150,7 +_,7 @@
+ 
+    private AABB m_52470_(BlockPos p_52471_) {
+       double d0 = 0.2D;
+-      return new AABB((double)p_52471_.m_123341_() + 0.2D, (double)p_52471_.m_123342_(), (double)p_52471_.m_123343_() + 0.2D, (double)(p_52471_.m_123341_() + 1) - 0.2D, (double)(p_52471_.m_123342_() + 1) - 0.2D, (double)(p_52471_.m_123343_() + 1) - 0.2D);
++      return new AABB((double)p_52471_.getX() + 0.2D, (double)p_52471_.getY(), (double)p_52471_.getZ() + 0.2D, (double)(p_52471_.getX() + 1) - 0.2D, (double)(p_52471_.getY() + 1) - 0.2D, (double)(p_52471_.getZ() + 1) - 0.2D);
+    }
+ 
+    public BlockState m_6843_(BlockState p_52466_, Rotation p_52467_) {

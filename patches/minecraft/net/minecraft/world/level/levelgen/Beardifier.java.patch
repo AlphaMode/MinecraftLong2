@@ -1,0 +1,139 @@
+--- a/net/minecraft/world/level/levelgen/Beardifier.java
++++ b/net/minecraft/world/level/levelgen/Beardifier.java
+@@ -32,8 +_,8 @@
+    protected final ObjectListIterator<JigsawJunction> f_158066_;
+ 
+    public static Beardifier m_223937_(StructureManager p_223938_, ChunkPos p_223939_) {
+-      int i = p_223939_.m_45604_();
+-      int j = p_223939_.m_45605_();
++      long i = p_223939_.getMinBlockX();
++      long j = p_223939_.getMinBlockZ();
+       ObjectList<Beardifier.Rigid> objectlist = new ObjectArrayList<>(10);
+       ObjectList<JigsawJunction> objectlist1 = new ObjectArrayList<>(32);
+       p_223938_.m_220477_(p_223939_, (p_223941_) -> {
+@@ -47,12 +_,12 @@
+                   PoolElementStructurePiece poolelementstructurepiece = (PoolElementStructurePiece)structurepiece;
+                   StructureTemplatePool.Projection structuretemplatepool$projection = poolelementstructurepiece.m_209918_().m_210539_();
+                   if (structuretemplatepool$projection == StructureTemplatePool.Projection.RIGID) {
+-                     objectlist.add(new Beardifier.Rigid(poolelementstructurepiece.m_73547_(), terrainadjustment, poolelementstructurepiece.m_72647_()));
++                     objectlist.add(new Beardifier.Rigid(poolelementstructurepiece.m_73547_(), terrainadjustment, poolelementstructurepiece.getGroundLevelDelta()));
+                   }
+ 
+                   for(JigsawJunction jigsawjunction : poolelementstructurepiece.m_72648_()) {
+-                     int k = jigsawjunction.m_210252_();
+-                     int l = jigsawjunction.m_210258_();
++                     long k = jigsawjunction.getSourceX();
++                     long l = jigsawjunction.getSourceZ();
+                      if (k > i - 12 && l > j - 12 && k < i + 15 + 12 && l < j + 15 + 12) {
+                         objectlist1.add(jigsawjunction);
+                      }
+@@ -74,21 +_,21 @@
+    }
+ 
+    public double m_207386_(DensityFunction.FunctionContext p_208200_) {
+-      int i = p_208200_.m_207115_();
+-      int j = p_208200_.m_207114_();
+-      int k = p_208200_.m_207113_();
++      long i = p_208200_.blockX();
++      long j = p_208200_.blockY();
++      long k = p_208200_.blockZ();
+ 
+       double d0;
+       double d1;
+       for(d0 = 0.0D; this.f_158065_.hasNext(); d0 += d1) {
+          Beardifier.Rigid beardifier$rigid = this.f_158065_.next();
+          BoundingBox boundingbox = beardifier$rigid.f_223944_();
+-         int l = beardifier$rigid.f_223946_();
+-         int i1 = Math.max(0, Math.max(boundingbox.m_162395_() - i, i - boundingbox.m_162399_()));
+-         int j1 = Math.max(0, Math.max(boundingbox.m_162398_() - k, k - boundingbox.m_162401_()));
+-         int k1 = boundingbox.m_162396_() + l;
+-         int l1 = j - k1;
+-         int i3;
++         long l = beardifier$rigid.groundLevelDelta();
++         long i1 = Math.max(0, Math.max(boundingbox.m_162395_() - i, i - boundingbox.m_162399_()));
++         long j1 = Math.max(0, Math.max(boundingbox.m_162398_() - k, k - boundingbox.m_162401_()));
++         long k1 = boundingbox.m_162396_() + l;
++         long l1 = j - k1;
++         long i3;
+          switch (beardifier$rigid.f_223945_()) {
+             case NONE:
+                i3 = 0;
+@@ -104,17 +_,17 @@
+                throw new IncompatibleClassChangeError();
+          }
+ 
+-         int i2 = i3;
++         long i2 = i3;
+          switch (beardifier$rigid.f_223945_()) {
+             case NONE:
+                d1 = 0.0D;
+                break;
+             case BURY:
+-               d1 = m_158083_(i1, i2, j1);
++               d1 = getBuryContribution(i1, i2, j1);
+                break;
+             case BEARD_THIN:
+             case BEARD_BOX:
+-               d1 = m_223925_(i1, i2, j1, l1) * 0.8D;
++               d1 = getBeardContribution(i1, i2, j1, l1) * 0.8D;
+                break;
+             default:
+                throw new IncompatibleClassChangeError();
+@@ -125,10 +_,10 @@
+ 
+       while(this.f_158066_.hasNext()) {
+          JigsawJunction jigsawjunction = this.f_158066_.next();
+-         int j2 = i - jigsawjunction.m_210252_();
+-         int k2 = j - jigsawjunction.m_210257_();
+-         int l2 = k - jigsawjunction.m_210258_();
+-         d0 += m_223925_(j2, k2, l2, k2) * 0.4D;
++         long j2 = i - jigsawjunction.getSourceX();
++         long k2 = j - jigsawjunction.getSourceGroundY();
++         long l2 = k - jigsawjunction.getSourceZ();
++         d0 += getBeardContribution(j2, k2, l2, k2) * 0.4D;
+       }
+ 
+       this.f_158066_.back(Integer.MAX_VALUE);
+@@ -143,26 +_,26 @@
+       return Double.POSITIVE_INFINITY;
+    }
+ 
+-   protected static double m_158083_(int p_158084_, int p_158085_, int p_158086_) {
++   protected static double getBuryContribution(long p_158084_, long p_158085_, long p_158086_) {
+       double d0 = Mth.m_184648_((double)p_158084_, (double)p_158085_ / 2.0D, (double)p_158086_);
+       return Mth.m_144851_(d0, 0.0D, 6.0D, 1.0D, 0.0D);
+    }
+ 
+-   protected static double m_223925_(int p_223926_, int p_223927_, int p_223928_, int p_223929_) {
+-      int i = p_223926_ + 12;
+-      int j = p_223927_ + 12;
+-      int k = p_223928_ + 12;
+-      if (m_223919_(i) && m_223919_(j) && m_223919_(k)) {
++   protected static double getBeardContribution(long p_223926_, long p_223927_, long p_223928_, long p_223929_) {
++      long i = p_223926_ + 12;
++      long j = p_223927_ + 12;
++      long k = p_223928_ + 12;
++      if (isInKernelRange(i) && isInKernelRange(j) && isInKernelRange(k)) {
+          double d0 = (double)p_223929_ + 0.5D;
+          double d1 = Mth.m_211592_((double)p_223926_, d0, (double)p_223928_);
+          double d2 = -d0 * Mth.m_14193_(d1 / 2.0D) / 2.0D;
+-         return d2 * (double)f_158062_[k * 24 * 24 + i * 24 + j];
++         return d2 * (double)f_158062_[(int) (k * 24 * 24 + i * 24 + j)];
+       } else {
+          return 0.0D;
+       }
+    }
+ 
+-   private static boolean m_223919_(int p_223920_) {
++   private static boolean isInKernelRange(long p_223920_) {
+       return p_223920_ >= 0 && p_223920_ < 24;
+    }
+ 
+@@ -176,6 +_,6 @@
+    }
+ 
+    @VisibleForTesting
+-   public static record Rigid(BoundingBox f_223944_, TerrainAdjustment f_223945_, int f_223946_) {
++   public static record Rigid(BoundingBox f_223944_, TerrainAdjustment f_223945_, long f_223946_) {
+    }
+ }

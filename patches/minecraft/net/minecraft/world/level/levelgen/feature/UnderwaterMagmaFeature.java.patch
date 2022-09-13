@@ -1,0 +1,42 @@
+--- a/net/minecraft/world/level/levelgen/feature/UnderwaterMagmaFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/UnderwaterMagmaFeature.java
+@@ -26,11 +_,11 @@
+       BlockPos blockpos = p_160569_.m_159777_();
+       UnderwaterMagmaConfiguration underwatermagmaconfiguration = p_160569_.m_159778_();
+       RandomSource randomsource = p_160569_.m_225041_();
+-      OptionalInt optionalint = m_160564_(worldgenlevel, blockpos, underwatermagmaconfiguration);
++      java.util.OptionalLong optionalint = getFloorY(worldgenlevel, blockpos, underwatermagmaconfiguration);
+       if (!optionalint.isPresent()) {
+          return false;
+       } else {
+-         BlockPos blockpos1 = blockpos.m_175288_(optionalint.getAsInt());
++         BlockPos blockpos1 = blockpos.atY(optionalint.getAsLong());
+          Vec3i vec3i = new Vec3i(underwatermagmaconfiguration.f_161265_, underwatermagmaconfiguration.f_161265_, underwatermagmaconfiguration.f_161265_);
+          AABB aabb = new AABB(blockpos1.m_121996_(vec3i), blockpos1.m_121955_(vec3i));
+          return BlockPos.m_121921_(aabb).filter((p_225310_) -> {
+@@ -44,7 +_,7 @@
+       }
+    }
+ 
+-   private static OptionalInt m_160564_(WorldGenLevel p_160565_, BlockPos p_160566_, UnderwaterMagmaConfiguration p_160567_) {
++   private static java.util.OptionalLong getFloorY(WorldGenLevel p_160565_, BlockPos p_160566_, UnderwaterMagmaConfiguration p_160567_) {
+       Predicate<BlockState> predicate = (p_160586_) -> {
+          return p_160586_.m_60713_(Blocks.f_49990_);
+       };
+@@ -52,13 +_,13 @@
+          return !p_160581_.m_60713_(Blocks.f_49990_);
+       };
+       Optional<Column> optional = Column.m_158175_(p_160565_, p_160566_, p_160567_.f_161264_, predicate, predicate1);
+-      return optional.map(Column::m_142009_).orElseGet(OptionalInt::empty);
++      return optional.map(Column::getFloor).orElseGet(java.util.OptionalLong::empty);
+    }
+ 
+    private boolean m_160574_(WorldGenLevel p_160575_, BlockPos p_160576_) {
+-      if (!this.m_160561_(p_160575_, p_160576_) && !this.m_160561_(p_160575_, p_160576_.m_7495_())) {
++      if (!this.m_160561_(p_160575_, p_160576_) && !this.m_160561_(p_160575_, p_160576_.below())) {
+          for(Direction direction : Direction.Plane.HORIZONTAL) {
+-            if (this.m_160561_(p_160575_, p_160576_.m_121945_(direction))) {
++            if (this.m_160561_(p_160575_, p_160576_.relative(direction))) {
+                return false;
+             }
+          }

@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/item/context/BlockPlaceContext.java
++++ b/net/minecraft/world/item/context/BlockPlaceContext.java
+@@ -24,12 +_,12 @@
+ 
+    public BlockPlaceContext(Level p_43638_, @Nullable Player p_43639_, InteractionHand p_43640_, ItemStack p_43641_, BlockHitResult p_43642_) {
+       super(p_43638_, p_43639_, p_43640_, p_43641_, p_43642_);
+-      this.f_43629_ = p_43642_.m_82425_().m_121945_(p_43642_.m_82434_());
++      this.f_43629_ = p_43642_.m_82425_().relative(p_43642_.m_82434_());
+       this.f_43628_ = p_43638_.m_8055_(p_43642_.m_82425_()).m_60629_(this);
+    }
+ 
+    public static BlockPlaceContext m_43644_(BlockPlaceContext p_43645_, BlockPos p_43646_, Direction p_43647_) {
+-      return new BlockPlaceContext(p_43645_.m_43725_(), p_43645_.m_43723_(), p_43645_.m_43724_(), p_43645_.m_43722_(), new BlockHitResult(new Vec3((double)p_43646_.m_123341_() + 0.5D + (double)p_43647_.m_122429_() * 0.5D, (double)p_43646_.m_123342_() + 0.5D + (double)p_43647_.m_122430_() * 0.5D, (double)p_43646_.m_123343_() + 0.5D + (double)p_43647_.m_122431_() * 0.5D), p_43647_, p_43646_, false));
++      return new BlockPlaceContext(p_43645_.m_43725_(), p_43645_.m_43723_(), p_43645_.m_43724_(), p_43645_.m_43722_(), new BlockHitResult(new Vec3((double)p_43646_.getX() + 0.5D + (double)p_43647_.m_122429_() * 0.5D, (double)p_43646_.getY() + 0.5D + (double)p_43647_.m_122430_() * 0.5D, (double)p_43646_.getZ() + 0.5D + (double)p_43647_.m_122431_() * 0.5D), p_43647_, p_43646_, false));
+    }
+ 
+    public BlockPos m_8083_() {

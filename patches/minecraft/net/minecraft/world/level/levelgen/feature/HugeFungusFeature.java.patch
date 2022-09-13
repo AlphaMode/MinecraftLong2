@@ -1,0 +1,56 @@
+--- a/net/minecraft/world/level/levelgen/feature/HugeFungusFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/HugeFungusFeature.java
+@@ -28,7 +_,7 @@
+       HugeFungusConfiguration hugefungusconfiguration = p_159878_.m_159778_();
+       Block block = hugefungusconfiguration.f_65897_.m_60734_();
+       BlockPos blockpos1 = null;
+-      BlockState blockstate = worldgenlevel.m_8055_(blockpos.m_7495_());
++      BlockState blockstate = worldgenlevel.m_8055_(blockpos.below());
+       if (blockstate.m_60713_(block)) {
+          blockpos1 = blockpos;
+       }
+@@ -42,8 +_,8 @@
+          }
+ 
+          if (!hugefungusconfiguration.f_65901_) {
+-            int j = chunkgenerator.m_6331_();
+-            if (blockpos1.m_123342_() + i + 1 >= j) {
++            long j = chunkgenerator.getGenDepth();
++            if (blockpos1.getY() + i + 1 >= j) {
+                return false;
+             }
+          }
+@@ -73,10 +_,10 @@
+             boolean flag = p_225063_ && Mth.m_14040_(j) == i && Mth.m_14040_(k) == i;
+ 
+             for(int l = 0; l < p_225062_; ++l) {
+-               blockpos$mutableblockpos.m_122154_(p_225061_, j, l, k);
++               blockpos$mutableblockpos.setWithOffset(p_225061_, j, l, k);
+                if (m_65923_(p_225058_, blockpos$mutableblockpos, true)) {
+                   if (p_225060_.f_65901_) {
+-                     if (!p_225058_.m_8055_(blockpos$mutableblockpos.m_7495_()).m_60795_()) {
++                     if (!p_225058_.m_8055_(blockpos$mutableblockpos.below()).m_60795_()) {
+                         p_225058_.m_46961_(blockpos$mutableblockpos, true);
+                      }
+ 
+@@ -118,9 +_,9 @@
+                boolean flag3 = !flag1 && !flag2 && k != p_225079_;
+                boolean flag4 = flag1 && flag2;
+                boolean flag5 = k < j + 3;
+-               blockpos$mutableblockpos.m_122154_(p_225078_, i1, k, j1);
++               blockpos$mutableblockpos.setWithOffset(p_225078_, i1, k, j1);
+                if (m_65923_(p_225075_, blockpos$mutableblockpos, false)) {
+-                  if (p_225077_.f_65901_ && !p_225075_.m_8055_(blockpos$mutableblockpos.m_7495_()).m_60795_()) {
++                  if (p_225077_.f_65901_ && !p_225075_.m_8055_(blockpos$mutableblockpos.below()).m_60795_()) {
+                      p_225075_.m_46961_(blockpos$mutableblockpos, true);
+                   }
+ 
+@@ -155,7 +_,7 @@
+    }
+ 
+    private void m_225064_(LevelAccessor p_225065_, RandomSource p_225066_, BlockPos p_225067_, BlockState p_225068_, boolean p_225069_) {
+-      if (p_225065_.m_8055_(p_225067_.m_7495_()).m_60713_(p_225068_.m_60734_())) {
++      if (p_225065_.m_8055_(p_225067_.below()).m_60713_(p_225068_.m_60734_())) {
+          this.m_5974_(p_225065_, p_225067_, p_225068_);
+       } else if ((double)p_225066_.m_188501_() < 0.15D) {
+          this.m_5974_(p_225065_, p_225067_, p_225068_);

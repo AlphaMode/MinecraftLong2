@@ -1,0 +1,85 @@
+--- a/net/minecraft/client/gui/components/DebugScreenOverlay.java
++++ b/net/minecraft/client/gui/components/DebugScreenOverlay.java
+@@ -183,7 +_,7 @@
+ 
+       BlockPos blockpos = this.f_94030_.m_91288_().m_20183_();
+       if (this.f_94030_.m_91299_()) {
+-         return Lists.newArrayList("Minecraft " + SharedConstants.m_183709_().getName() + " (" + this.f_94030_.m_91388_() + "/" + ClientBrandRetriever.m_129629_() + ")", this.f_94030_.f_90977_, s, this.f_94030_.f_91060_.m_109820_(), this.f_94030_.f_91060_.m_109822_(), "P: " + this.f_94030_.f_91061_.m_107403_() + ". T: " + this.f_94030_.f_91073_.m_104813_(), this.f_94030_.f_91073_.m_46464_(), "", String.format(Locale.ROOT, "Chunk-relative: %d %d %d", blockpos.m_123341_() & 15, blockpos.m_123342_() & 15, blockpos.m_123343_() & 15));
++         return Lists.newArrayList("Minecraft " + SharedConstants.m_183709_().getName() + " (" + this.f_94030_.m_91388_() + "/" + ClientBrandRetriever.m_129629_() + ")", this.f_94030_.f_90977_, s, this.f_94030_.f_91060_.m_109820_(), this.f_94030_.f_91060_.m_109822_(), "P: " + this.f_94030_.f_91061_.m_107403_() + ". T: " + this.f_94030_.f_91073_.m_104813_(), this.f_94030_.f_91073_.m_46464_(), "", String.format(Locale.ROOT, "Chunk-relative: %d %d %d", blockpos.getX() & 15, blockpos.getY() & 15, blockpos.getZ() & 15));
+       } else {
+          Entity entity = this.f_94030_.m_91288_();
+          Direction direction = entity.m_6350_();
+@@ -222,8 +_,8 @@
+          list.add(this.f_94030_.f_91073_.m_46472_().m_135782_() + " FC: " + longset.size());
+          list.add("");
+          list.add(String.format(Locale.ROOT, "XYZ: %.3f / %.5f / %.3f", this.f_94030_.m_91288_().m_20185_(), this.f_94030_.m_91288_().m_20186_(), this.f_94030_.m_91288_().m_20189_()));
+-         list.add(String.format(Locale.ROOT, "Block: %d %d %d [%d %d %d]", blockpos.m_123341_(), blockpos.m_123342_(), blockpos.m_123343_(), blockpos.m_123341_() & 15, blockpos.m_123342_() & 15, blockpos.m_123343_() & 15));
+-         list.add(String.format(Locale.ROOT, "Chunk: %d %d %d [%d %d in r.%d.%d.mca]", chunkpos.f_45578_, SectionPos.m_123171_(blockpos.m_123342_()), chunkpos.f_45579_, chunkpos.m_45613_(), chunkpos.m_45614_(), chunkpos.m_45610_(), chunkpos.m_45612_()));
++         list.add(String.format(Locale.ROOT, "Block: %d %d %d [%d %d %d]", blockpos.getX(), blockpos.getY(), blockpos.getZ(), blockpos.getX() & 15, blockpos.getY() & 15, blockpos.getZ() & 15));
++         list.add(String.format(Locale.ROOT, "Chunk: %d %d %d [%d %d in r.%d.%d.mca]", chunkpos.f_45578_, SectionPos.m_235865_(blockpos.getY()), chunkpos.f_45579_, chunkpos.getRegionLocalX(), chunkpos.getRegionLocalZ(), chunkpos.getRegionX(), chunkpos.getRegionZ()));
+          list.add(String.format(Locale.ROOT, "Facing: %s (%s) (%.1f / %.1f)", direction, s1, Mth.m_14177_(entity.m_146908_()), Mth.m_14177_(entity.m_146909_())));
+          LevelChunk levelchunk = this.m_94085_();
+          if (levelchunk.m_6430_()) {
+@@ -238,7 +_,7 @@
+ 
+             for(Heightmap.Types heightmap$types : Heightmap.Types.values()) {
+                if (heightmap$types.m_64297_()) {
+-                  stringbuilder.append(" ").append(f_94029_.get(heightmap$types)).append(": ").append(levelchunk.m_5885_(heightmap$types, blockpos.m_123341_(), blockpos.m_123343_()));
++                  stringbuilder.append(" ").append(f_94029_.get(heightmap$types)).append(": ").append(levelchunk.getHeight(heightmap$types, blockpos.getX(), blockpos.getZ()));
+                }
+             }
+ 
+@@ -250,7 +_,7 @@
+                if (heightmap$types1.m_64298_()) {
+                   stringbuilder.append(" ").append(f_94029_.get(heightmap$types1)).append(": ");
+                   if (levelchunk1 != null) {
+-                     stringbuilder.append(levelchunk1.m_5885_(heightmap$types1, blockpos.m_123341_(), blockpos.m_123343_()));
++                     stringbuilder.append(levelchunk1.getHeight(heightmap$types1, blockpos.getX(), blockpos.getZ()));
+                   } else {
+                      stringbuilder.append("??");
+                   }
+@@ -258,7 +_,7 @@
+             }
+ 
+             list.add(stringbuilder.toString());
+-            if (blockpos.m_123342_() >= this.f_94030_.f_91073_.m_141937_() && blockpos.m_123342_() < this.f_94030_.f_91073_.m_151558_()) {
++            if (blockpos.getY() >= this.f_94030_.f_91073_.getMinBuildHeight() && blockpos.getY() < this.f_94030_.f_91073_.getMaxBuildHeight()) {
+                list.add("Biome: " + m_205374_(this.f_94030_.f_91073_.m_204166_(blockpos)));
+                long l = 0L;
+                float f2 = 0.0F;
+@@ -338,7 +_,7 @@
+       if (this.f_94036_ == null) {
+          ServerLevel serverlevel = this.m_94081_();
+          if (serverlevel != null) {
+-            this.f_94036_ = serverlevel.m_7726_().m_8431_(this.f_94034_.f_45578_, this.f_94034_.f_45579_, ChunkStatus.f_62326_, false).thenApply((p_205369_) -> {
++            this.f_94036_ = serverlevel.m_7726_().getChunkFuture(this.f_94034_.f_45578_, this.f_94034_.f_45579_, ChunkStatus.f_62326_, false).thenApply((p_205369_) -> {
+                return p_205369_.map((p_205371_) -> {
+                   return (LevelChunk)p_205371_;
+                }, (p_205363_) -> {
+@@ -357,7 +_,7 @@
+ 
+    private LevelChunk m_94085_() {
+       if (this.f_94035_ == null) {
+-         this.f_94035_ = this.f_94030_.f_91073_.m_6325_(this.f_94034_.f_45578_, this.f_94034_.f_45579_);
++         this.f_94035_ = this.f_94030_.f_91073_.getChunk(this.f_94034_.f_45578_, this.f_94034_.f_45579_);
+       }
+ 
+       return this.f_94035_;
+@@ -376,7 +_,7 @@
+             BlockPos blockpos = ((BlockHitResult)this.f_94032_).m_82425_();
+             BlockState blockstate = this.f_94030_.f_91073_.m_8055_(blockpos);
+             list.add("");
+-            list.add(ChatFormatting.UNDERLINE + "Targeted Block: " + blockpos.m_123341_() + ", " + blockpos.m_123342_() + ", " + blockpos.m_123343_());
++            list.add(ChatFormatting.UNDERLINE + "Targeted Block: " + blockpos.getX() + ", " + blockpos.getY() + ", " + blockpos.getZ());
+             list.add(String.valueOf((Object)Registry.f_122824_.m_7981_(blockstate.m_60734_())));
+ 
+             for(Map.Entry<Property<?>, Comparable<?>> entry : blockstate.m_61148_().entrySet()) {
+@@ -392,7 +_,7 @@
+             BlockPos blockpos1 = ((BlockHitResult)this.f_94033_).m_82425_();
+             FluidState fluidstate = this.f_94030_.f_91073_.m_6425_(blockpos1);
+             list.add("");
+-            list.add(ChatFormatting.UNDERLINE + "Targeted Fluid: " + blockpos1.m_123341_() + ", " + blockpos1.m_123342_() + ", " + blockpos1.m_123343_());
++            list.add(ChatFormatting.UNDERLINE + "Targeted Fluid: " + blockpos1.getX() + ", " + blockpos1.getY() + ", " + blockpos1.getZ());
+             list.add(String.valueOf((Object)Registry.f_122822_.m_7981_(fluidstate.m_76152_())));
+ 
+             for(Map.Entry<Property<?>, Comparable<?>> entry1 : fluidstate.m_61148_().entrySet()) {

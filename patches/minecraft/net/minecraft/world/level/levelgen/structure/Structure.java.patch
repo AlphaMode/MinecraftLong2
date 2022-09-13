@@ -1,0 +1,73 @@
+--- a/net/minecraft/world/level/levelgen/structure/Structure.java
++++ b/net/minecraft/world/level/levelgen/structure/Structure.java
+@@ -93,36 +_,36 @@
+ 
+    protected static Optional<Structure.GenerationStub> m_226585_(Structure.GenerationContext p_226586_, Heightmap.Types p_226587_, Consumer<StructurePiecesBuilder> p_226588_) {
+       ChunkPos chunkpos = p_226586_.f_226628_();
+-      int i = chunkpos.m_151390_();
+-      int j = chunkpos.m_151393_();
+-      int k = p_226586_.f_226622_().m_223235_(i, j, p_226587_, p_226586_.f_226629_(), p_226586_.f_226624_());
++      long i = chunkpos.getMiddleBlockX();
++      long j = chunkpos.getMiddleBlockZ();
++      long k = p_226586_.f_226622_().getFirstOccupiedHeight(i, j, p_226587_, p_226586_.f_226629_(), p_226586_.f_226624_());
+       return Optional.of(new Structure.GenerationStub(new BlockPos(i, k, j), p_226588_));
+    }
+ 
+    private static boolean m_226589_(Structure.GenerationStub p_226590_, ChunkGenerator p_226591_, RandomState p_226592_, Predicate<Holder<Biome>> p_226593_) {
+       BlockPos blockpos = p_226590_.f_226669_();
+-      return p_226593_.test(p_226591_.m_62218_().m_203407_(QuartPos.m_175400_(blockpos.m_123341_()), QuartPos.m_175400_(blockpos.m_123342_()), QuartPos.m_175400_(blockpos.m_123343_()), p_226592_.m_224579_()));
++      return p_226593_.test(p_226591_.m_62218_().getNoiseBiome(QuartPos.fromBlock(blockpos.getX()), QuartPos.fromBlock(blockpos.getY()), QuartPos.fromBlock(blockpos.getZ()), p_226592_.m_224579_()));
+    }
+ 
+    public void m_214110_(WorldGenLevel p_226560_, StructureManager p_226561_, ChunkGenerator p_226562_, RandomSource p_226563_, BoundingBox p_226564_, ChunkPos p_226565_, PiecesContainer p_226566_) {
+    }
+ 
+-   private static int[] m_226613_(Structure.GenerationContext p_226614_, int p_226615_, int p_226616_, int p_226617_, int p_226618_) {
++   private static long[] getCornerHeights(Structure.GenerationContext p_226614_, long p_226615_, long p_226616_, long p_226617_, int p_226618_) {
+       ChunkGenerator chunkgenerator = p_226614_.f_226622_();
+       LevelHeightAccessor levelheightaccessor = p_226614_.f_226629_();
+       RandomState randomstate = p_226614_.f_226624_();
+-      return new int[]{chunkgenerator.m_223235_(p_226615_, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.m_223235_(p_226615_, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.m_223235_(p_226615_ + p_226616_, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.m_223235_(p_226615_ + p_226616_, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate)};
++      return new long[]{chunkgenerator.getFirstOccupiedHeight(p_226615_, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_ + p_226616_, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_ + p_226616_, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate)};
+    }
+ 
+-   protected static int m_226572_(Structure.GenerationContext p_226573_, int p_226574_, int p_226575_) {
++   protected static long getLowestY(Structure.GenerationContext p_226573_, int p_226574_, int p_226575_) {
+       ChunkPos chunkpos = p_226573_.f_226628_();
+-      int i = chunkpos.m_45604_();
+-      int j = chunkpos.m_45605_();
+-      return m_226576_(p_226573_, i, j, p_226574_, p_226575_);
++      long i = chunkpos.getMinBlockX();
++      long j = chunkpos.getMinBlockZ();
++      return getLowestY(p_226573_, i, j, p_226574_, p_226575_);
+    }
+ 
+-   protected static int m_226576_(Structure.GenerationContext p_226577_, int p_226578_, int p_226579_, int p_226580_, int p_226581_) {
+-      int[] aint = m_226613_(p_226577_, p_226578_, p_226580_, p_226579_, p_226581_);
++   protected static long getLowestY(Structure.GenerationContext p_226577_, long p_226578_, long p_226579_, int p_226580_, int p_226581_) {
++      long[] aint = getCornerHeights(p_226577_, p_226578_, p_226580_, p_226579_, p_226581_);
+       return Math.min(Math.min(aint[0], aint[1]), Math.min(aint[2], aint[3]));
+    }
+ 
+@@ -141,9 +_,9 @@
+       }
+ 
+       ChunkPos chunkpos = p_226583_.f_226628_();
+-      int k = chunkpos.m_151382_(7);
+-      int l = chunkpos.m_151391_(7);
+-      return new BlockPos(k, m_226576_(p_226583_, k, l, i, j), l);
++      long k = chunkpos.getBlockX(7);
++      long l = chunkpos.getBlockZ(7);
++      return new BlockPos(k, getLowestY(p_226583_, k, l, i, j), l);
+    }
+ 
+    public abstract Optional<Structure.GenerationStub> m_214086_(Structure.GenerationContext p_226571_);
+@@ -157,7 +_,7 @@
+ 
+       private static WorldgenRandom m_226653_(long p_226654_, ChunkPos p_226655_) {
+          WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
+-         worldgenrandom.m_190068_(p_226654_, p_226655_.f_45578_, p_226655_.f_45579_);
++         worldgenrandom.setLargeFeatureSeed(p_226654_, p_226655_.f_45578_, p_226655_.f_45579_);
+          return worldgenrandom;
+       }
+    }

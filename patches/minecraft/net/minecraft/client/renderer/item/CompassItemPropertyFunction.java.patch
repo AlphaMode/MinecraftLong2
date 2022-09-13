@@ -1,0 +1,16 @@
+--- a/net/minecraft/client/renderer/item/CompassItemPropertyFunction.java
++++ b/net/minecraft/client/renderer/item/CompassItemPropertyFunction.java
+@@ -73,11 +_,11 @@
+    }
+ 
+    private boolean m_234951_(Entity p_234952_, @Nullable GlobalPos p_234953_) {
+-      return p_234953_ != null && p_234953_.m_122640_() == p_234952_.f_19853_.m_46472_() && !(p_234953_.m_122646_().m_203193_(p_234952_.m_20182_()) < (double)1.0E-5F);
++      return p_234953_ != null && p_234953_.m_122640_() == p_234952_.f_19853_.m_46472_() && !(p_234953_.m_122646_().distToCenterSqr(p_234952_.m_20182_()) < (double)1.0E-5F);
+    }
+ 
+    private double m_234948_(Entity p_234949_, BlockPos p_234950_) {
+-      Vec3 vec3 = Vec3.m_82512_(p_234950_);
++      Vec3 vec3 = Vec3.atCenterOf(p_234950_);
+       return Math.atan2(vec3.m_7094_() - p_234949_.m_20189_(), vec3.m_7096_() - p_234949_.m_20185_()) / (double)((float)Math.PI * 2F);
+    }
+ 

@@ -1,0 +1,24 @@
+--- a/net/minecraft/client/particle/ParticleEngine.java
++++ b/net/minecraft/client/particle/ParticleEngine.java
+@@ -437,7 +_,7 @@
+                      double d7 = d4 * d1 + p_172273_;
+                      double d8 = d5 * d2 + p_172274_;
+                      double d9 = d6 * d3 + p_172275_;
+-                     this.m_107344_(new TerrainParticle(this.f_107287_, (double)p_107356_.m_123341_() + d7, (double)p_107356_.m_123342_() + d8, (double)p_107356_.m_123343_() + d9, d4 - 0.5D, d5 - 0.5D, d6 - 0.5D, p_107357_, p_107356_));
++                     this.m_107344_(new TerrainParticle(this.f_107287_, (double)p_107356_.getX() + d7, (double)p_107356_.getY() + d8, (double)p_107356_.getZ() + d9, d4 - 0.5D, d5 - 0.5D, d6 - 0.5D, p_107357_, p_107356_));
+                   }
+                }
+             }
+@@ -449,9 +_,9 @@
+    public void m_107367_(BlockPos p_107368_, Direction p_107369_) {
+       BlockState blockstate = this.f_107287_.m_8055_(p_107368_);
+       if (blockstate.m_60799_() != RenderShape.INVISIBLE) {
+-         int i = p_107368_.m_123341_();
+-         int j = p_107368_.m_123342_();
+-         int k = p_107368_.m_123343_();
++         long i = p_107368_.getX();
++         long j = p_107368_.getY();
++         long k = p_107368_.getZ();
+          float f = 0.1F;
+          AABB aabb = blockstate.m_60808_(this.f_107287_, p_107368_).m_83215_();
+          double d0 = (double)i + this.f_107292_.m_188500_() * (aabb.f_82291_ - aabb.f_82288_ - (double)0.2F) + (double)0.1F + aabb.f_82288_;

@@ -1,0 +1,65 @@
+--- a/net/minecraft/world/level/block/TripWireHookBlock.java
++++ b/net/minecraft/world/level/block/TripWireHookBlock.java
+@@ -61,7 +_,7 @@
+ 
+    public boolean m_7898_(BlockState p_57721_, LevelReader p_57722_, BlockPos p_57723_) {
+       Direction direction = p_57721_.m_61143_(f_57667_);
+-      BlockPos blockpos = p_57723_.m_121945_(direction.m_122424_());
++      BlockPos blockpos = p_57723_.relative(direction.m_122424_());
+       BlockState blockstate = p_57722_.m_8055_(blockpos);
+       return direction.m_122434_().m_122479_() && blockstate.m_60783_(p_57722_, blockpos, direction);
+    }
+@@ -104,7 +_,7 @@
+       BlockState[] ablockstate = new BlockState[42];
+ 
+       for(int j = 1; j < 42; ++j) {
+-         BlockPos blockpos = p_57687_.m_5484_(direction, j);
++         BlockPos blockpos = p_57687_.relative(direction, j);
+          BlockState blockstate = p_57686_.m_8055_(blockpos);
+          if (blockstate.m_60713_(Blocks.f_50266_)) {
+             if (blockstate.m_61143_(f_57667_) == direction.m_122424_()) {
+@@ -126,7 +_,7 @@
+             flag3 |= flag4 && flag5;
+             ablockstate[j] = blockstate;
+             if (j == p_57691_) {
+-               p_57686_.m_186460_(p_57687_, this, 10);
++               p_57686_.scheduleTick(p_57687_, this, 10);
+                flag2 &= flag4;
+             }
+          }
+@@ -136,7 +_,7 @@
+       flag3 &= flag2;
+       BlockState blockstate1 = this.m_49966_().m_61124_(f_57669_, Boolean.valueOf(flag2)).m_61124_(f_57668_, Boolean.valueOf(flag3));
+       if (i > 0) {
+-         BlockPos blockpos1 = p_57687_.m_5484_(direction, i);
++         BlockPos blockpos1 = p_57687_.relative(direction, i);
+          Direction direction1 = direction.m_122424_();
+          p_57686_.m_7731_(blockpos1, blockstate1.m_61124_(f_57667_, direction1), 3);
+          this.m_57693_(p_57686_, blockpos1, direction1);
+@@ -153,7 +_,7 @@
+ 
+       if (flag != flag2) {
+          for(int k = 1; k < i; ++k) {
+-            BlockPos blockpos2 = p_57687_.m_5484_(direction, k);
++            BlockPos blockpos2 = p_57687_.relative(direction, k);
+             BlockState blockstate2 = ablockstate[k];
+             if (blockstate2 != null) {
+                p_57686_.m_7731_(blockpos2, blockstate2.m_61124_(f_57669_, Boolean.valueOf(flag2)), 3);
+@@ -188,7 +_,7 @@
+ 
+    private void m_57693_(Level p_57694_, BlockPos p_57695_, Direction p_57696_) {
+       p_57694_.m_46672_(p_57695_, this);
+-      p_57694_.m_46672_(p_57695_.m_121945_(p_57696_.m_122424_()), this);
++      p_57694_.m_46672_(p_57695_.relative(p_57696_.m_122424_()), this);
+    }
+ 
+    public void m_6810_(BlockState p_57715_, Level p_57716_, BlockPos p_57717_, BlockState p_57718_, boolean p_57719_) {
+@@ -201,7 +_,7 @@
+ 
+          if (flag1) {
+             p_57716_.m_46672_(p_57717_, this);
+-            p_57716_.m_46672_(p_57717_.m_121945_(p_57715_.m_61143_(f_57667_).m_122424_()), this);
++            p_57716_.m_46672_(p_57717_.relative(p_57715_.m_61143_(f_57667_).m_122424_()), this);
+          }
+ 
+          super.m_6810_(p_57715_, p_57716_, p_57717_, p_57718_, p_57719_);

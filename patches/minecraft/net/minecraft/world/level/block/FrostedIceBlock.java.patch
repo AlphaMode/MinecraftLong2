@@ -1,0 +1,30 @@
+--- a/net/minecraft/world/level/block/FrostedIceBlock.java
++++ b/net/minecraft/world/level/block/FrostedIceBlock.java
+@@ -34,15 +_,15 @@
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+          for(Direction direction : Direction.values()) {
+-            blockpos$mutableblockpos.m_122159_(p_221235_, direction);
++            blockpos$mutableblockpos.setWithOffset(p_221235_, direction);
+             BlockState blockstate = p_221234_.m_8055_(blockpos$mutableblockpos);
+             if (blockstate.m_60713_(this) && !this.m_53592_(blockstate, p_221234_, blockpos$mutableblockpos)) {
+-               p_221234_.m_186460_(blockpos$mutableblockpos, this, Mth.m_216271_(p_221236_, 20, 40));
++               p_221234_.scheduleTick(blockpos$mutableblockpos, this, Mth.m_216271_(p_221236_, 20, 40));
+             }
+          }
+ 
+       } else {
+-         p_221234_.m_186460_(p_221235_, this, Mth.m_216271_(p_221236_, 20, 40));
++         p_221234_.scheduleTick(p_221235_, this, Mth.m_216271_(p_221236_, 20, 40));
+       }
+    }
+ 
+@@ -70,7 +_,7 @@
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+       for(Direction direction : Direction.values()) {
+-         blockpos$mutableblockpos.m_122159_(p_53567_, direction);
++         blockpos$mutableblockpos.setWithOffset(p_53567_, direction);
+          if (p_53566_.m_8055_(blockpos$mutableblockpos).m_60713_(this)) {
+             ++i;
+             if (i >= p_53568_) {

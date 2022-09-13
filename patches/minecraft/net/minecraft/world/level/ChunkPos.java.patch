@@ -1,0 +1,216 @@
+--- a/net/minecraft/world/level/ChunkPos.java
++++ b/net/minecraft/world/level/ChunkPos.java
+@@ -10,7 +_,7 @@
+ 
+ public class ChunkPos {
+    private static final int f_199440_ = 1056;
+-   public static final long f_45577_ = m_45589_(1875066, 1875066);
++   public static final long f_45577_ = asLong(1875066, 1875066);
+    public static final ChunkPos f_186419_ = new ChunkPos(0, 0);
+    private static final long f_151375_ = 32L;
+    private static final long f_151376_ = 4294967295L;
+@@ -18,20 +_,26 @@
+    public static final int f_220335_ = 32;
+    private static final int f_151378_ = 31;
+    public static final int f_220336_ = 31;
+-   public final int f_45578_;
+-   public final int f_45579_;
++   public final long f_45578_;
++   public final long f_45579_;
+    private static final int f_151379_ = 1664525;
+    private static final int f_151380_ = 1013904223;
+    private static final int f_151381_ = -559038737;
+ 
++   public ChunkPos(long p_45582_, long p_45583_) {
++      this.f_45578_ = p_45582_;
++      this.f_45579_ = p_45583_;
++   }
++
++   @Deprecated
+    public ChunkPos(int p_45582_, int p_45583_) {
+       this.f_45578_ = p_45582_;
+       this.f_45579_ = p_45583_;
+    }
+ 
+    public ChunkPos(BlockPos p_45587_) {
+-      this.f_45578_ = SectionPos.m_123171_(p_45587_.m_123341_());
+-      this.f_45579_ = SectionPos.m_123171_(p_45587_.m_123343_());
++      this.f_45578_ = SectionPos.m_235865_(p_45587_.getX());
++      this.f_45579_ = SectionPos.m_235865_(p_45587_.getZ());
+    }
+ 
+    public ChunkPos(long p_45585_) {
+@@ -39,24 +_,24 @@
+       this.f_45579_ = (int)(p_45585_ >> 32);
+    }
+ 
+-   public static ChunkPos m_220337_(int p_220338_, int p_220339_) {
++   public static ChunkPos minFromRegion(long p_220338_, long p_220339_) {
+       return new ChunkPos(p_220338_ << 5, p_220339_ << 5);
+    }
+ 
+-   public static ChunkPos m_220340_(int p_220341_, int p_220342_) {
++   public static ChunkPos maxFromRegion(long p_220341_, long p_220342_) {
+       return new ChunkPos((p_220341_ << 5) + 31, (p_220342_ << 5) + 31);
+    }
+ 
+    public long m_45588_() {
+-      return m_45589_(this.f_45578_, this.f_45579_);
++      return asLong(this.f_45578_, this.f_45579_);
+    }
+ 
+-   public static long m_45589_(int p_45590_, int p_45591_) {
++   public static long asLong(long p_45590_, long p_45591_) {
+       return (long)p_45590_ & 4294967295L | ((long)p_45591_ & 4294967295L) << 32;
+    }
+ 
+    public static long m_151388_(BlockPos p_151389_) {
+-      return m_45589_(SectionPos.m_123171_(p_151389_.m_123341_()), SectionPos.m_123171_(p_151389_.m_123343_()));
++      return asLong(SectionPos.m_235865_(p_151389_.getX()), SectionPos.m_235865_(p_151389_.getZ()));
+    }
+ 
+    public static int m_45592_(long p_45593_) {
+@@ -68,7 +_,7 @@
+    }
+ 
+    public int hashCode() {
+-      return m_220343_(this.f_45578_, this.f_45579_);
++      return m_220343_((int) this.f_45578_, (int) this.f_45579_);
+    }
+ 
+    public static int m_220343_(int p_220344_, int p_220345_) {
+@@ -88,60 +_,60 @@
+       }
+    }
+ 
+-   public int m_151390_() {
+-      return this.m_151382_(8);
+-   }
+-
+-   public int m_151393_() {
+-      return this.m_151391_(8);
+-   }
+-
+-   public int m_45604_() {
+-      return SectionPos.m_123223_(this.f_45578_);
+-   }
+-
+-   public int m_45605_() {
+-      return SectionPos.m_123223_(this.f_45579_);
+-   }
+-
+-   public int m_45608_() {
+-      return this.m_151382_(15);
+-   }
+-
+-   public int m_45609_() {
+-      return this.m_151391_(15);
+-   }
+-
+-   public int m_45610_() {
++   public long getMiddleBlockX() {
++      return this.getBlockX(8);
++   }
++
++   public long getMiddleBlockZ() {
++      return this.getBlockZ(8);
++   }
++
++   public long getMinBlockX() {
++      return SectionPos.sectionToBlockCoord(this.f_45578_);
++   }
++
++   public long getMinBlockZ() {
++      return SectionPos.sectionToBlockCoord(this.f_45579_);
++   }
++
++   public long getMaxBlockX() {
++      return this.getBlockX(15);
++   }
++
++   public long getMaxBlockZ() {
++      return this.getBlockZ(15);
++   }
++
++   public long getRegionX() {
+       return this.f_45578_ >> 5;
+    }
+ 
+-   public int m_45612_() {
++   public long getRegionZ() {
+       return this.f_45579_ >> 5;
+    }
+ 
+-   public int m_45613_() {
++   public long getRegionLocalX() {
+       return this.f_45578_ & 31;
+    }
+ 
+-   public int m_45614_() {
++   public long getRegionLocalZ() {
+       return this.f_45579_ & 31;
+    }
+ 
+-   public BlockPos m_151384_(int p_151385_, int p_151386_, int p_151387_) {
+-      return new BlockPos(this.m_151382_(p_151385_), p_151386_, this.m_151391_(p_151387_));
+-   }
+-
+-   public int m_151382_(int p_151383_) {
+-      return SectionPos.m_175554_(this.f_45578_, p_151383_);
+-   }
+-
+-   public int m_151391_(int p_151392_) {
+-      return SectionPos.m_175554_(this.f_45579_, p_151392_);
++   public BlockPos getBlockAt(long p_151385_, long p_151386_, long p_151387_) {
++      return new BlockPos(this.getBlockX(p_151385_), p_151386_, this.getBlockZ(p_151387_));
++   }
++
++   public long getBlockX(long p_151383_) {
++      return SectionPos.sectionToBlockCoord(this.f_45578_, p_151383_);
++   }
++
++   public long getBlockZ(long p_151392_) {
++      return SectionPos.sectionToBlockCoord(this.f_45579_, p_151392_);
+    }
+ 
+    public BlockPos m_151394_(int p_151395_) {
+-      return new BlockPos(this.m_151390_(), p_151395_, this.m_151393_());
++      return new BlockPos(this.getMiddleBlockX(), p_151395_, this.getMiddleBlockZ());
+    }
+ 
+    public String toString() {
+@@ -149,10 +_,10 @@
+    }
+ 
+    public BlockPos m_45615_() {
+-      return new BlockPos(this.m_45604_(), 0, this.m_45605_());
++      return new BlockPos(this.getMinBlockX(), 0, this.getMinBlockZ());
+    }
+ 
+-   public int m_45594_(ChunkPos p_45595_) {
++   public long getChessboardDistance(ChunkPos p_45595_) {
+       return Math.max(Math.abs(this.f_45578_ - p_45595_.f_45578_), Math.abs(this.f_45579_ - p_45595_.f_45579_));
+    }
+ 
+@@ -161,8 +_,8 @@
+    }
+ 
+    public static Stream<ChunkPos> m_45599_(final ChunkPos p_45600_, final ChunkPos p_45601_) {
+-      int i = Math.abs(p_45600_.f_45578_ - p_45601_.f_45578_) + 1;
+-      int j = Math.abs(p_45600_.f_45579_ - p_45601_.f_45579_) + 1;
++      long i = Math.abs(p_45600_.f_45578_ - p_45601_.f_45578_) + 1;
++      long j = Math.abs(p_45600_.f_45579_ - p_45601_.f_45579_) + 1;
+       final int k = p_45600_.f_45578_ < p_45601_.f_45578_ ? 1 : -1;
+       final int l = p_45600_.f_45579_ < p_45601_.f_45579_ ? 1 : -1;
+       return StreamSupport.stream(new Spliterators.AbstractSpliterator<ChunkPos>((long)(i * j), 64) {
+@@ -173,8 +_,8 @@
+             if (this.f_45621_ == null) {
+                this.f_45621_ = p_45600_;
+             } else {
+-               int i1 = this.f_45621_.f_45578_;
+-               int j1 = this.f_45621_.f_45579_;
++               long i1 = this.f_45621_.f_45578_;
++               long j1 = this.f_45621_.f_45579_;
+                if (i1 == p_45601_.f_45578_) {
+                   if (j1 == p_45601_.f_45579_) {
+                      return false;

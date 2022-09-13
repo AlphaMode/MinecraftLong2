@@ -1,0 +1,26 @@
+--- a/net/minecraft/world/level/block/ChestBlock.java
++++ b/net/minecraft/world/level/block/ChestBlock.java
+@@ -201,7 +_,7 @@
+ 
+    @Nullable
+    private Direction m_51494_(BlockPlaceContext p_51495_, Direction p_51496_) {
+-      BlockState blockstate = p_51495_.m_43725_().m_8055_(p_51495_.m_8083_().m_121945_(p_51496_));
++      BlockState blockstate = p_51495_.m_43725_().m_8055_(p_51495_.m_8083_().relative(p_51496_));
+       return blockstate.m_60713_(this) && blockstate.m_61143_(f_51479_) == ChestType.SINGLE ? blockstate.m_61143_(f_51478_) : null;
+    }
+ 
+@@ -305,12 +_,12 @@
+    }
+ 
+    private static boolean m_51499_(BlockGetter p_51500_, BlockPos p_51501_) {
+-      BlockPos blockpos = p_51501_.m_7494_();
++      BlockPos blockpos = p_51501_.above();
+       return p_51500_.m_8055_(blockpos).m_60796_(p_51500_, blockpos);
+    }
+ 
+    private static boolean m_51563_(LevelAccessor p_51564_, BlockPos p_51565_) {
+-      List<Cat> list = p_51564_.m_45976_(Cat.class, new AABB((double)p_51565_.m_123341_(), (double)(p_51565_.m_123342_() + 1), (double)p_51565_.m_123343_(), (double)(p_51565_.m_123341_() + 1), (double)(p_51565_.m_123342_() + 2), (double)(p_51565_.m_123343_() + 1)));
++      List<Cat> list = p_51564_.m_45976_(Cat.class, new AABB((double)p_51565_.getX(), (double)(p_51565_.getY() + 1), (double)p_51565_.getZ(), (double)(p_51565_.getX() + 1), (double)(p_51565_.getY() + 2), (double)(p_51565_.getZ() + 1)));
+       if (!list.isEmpty()) {
+          for(Cat cat : list) {
+             if (cat.m_21825_()) {

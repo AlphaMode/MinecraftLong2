@@ -1,0 +1,121 @@
+--- a/net/minecraft/world/entity/ai/navigation/PathNavigation.java
++++ b/net/minecraft/world/entity/ai/navigation/PathNavigation.java
+@@ -36,7 +_,7 @@
+    protected int f_26498_;
+    protected int f_26499_;
+    protected Vec3 f_26500_ = Vec3.f_82478_;
+-   protected Vec3i f_26501_ = Vec3i.f_123288_;
++   protected me.alphamode.mclong.core.Vec3l f_26501_ = me.alphamode.mclong.core.Vec3l.ZERO;
+    protected long f_26502_;
+    protected long f_26503_;
+    protected double f_26504_;
+@@ -130,7 +_,7 @@
+    protected Path m_148222_(Set<BlockPos> p_148223_, int p_148224_, boolean p_148225_, int p_148226_, float p_148227_) {
+       if (p_148223_.isEmpty()) {
+          return null;
+-      } else if (this.f_26494_.m_20186_() < (double)this.f_26495_.m_141937_()) {
++      } else if (this.f_26494_.m_20186_() < (double)this.f_26495_.getMinBuildHeight()) {
+          return null;
+       } else if (!this.m_7632_()) {
+          return null;
+@@ -138,7 +_,7 @@
+          return this.f_26496_;
+       } else {
+          this.f_26495_.m_46473_().m_6180_("pathfind");
+-         BlockPos blockpos = p_148225_ ? this.f_26494_.m_20183_().m_7494_() : this.f_26494_.m_20183_();
++         BlockPos blockpos = p_148225_ ? this.f_26494_.m_20183_().above() : this.f_26494_.m_20183_();
+          int i = (int)(p_148227_ + (float)p_148224_);
+          PathNavigationRegion pathnavigationregion = new PathNavigationRegion(this.f_26495_, blockpos.m_7918_(-i, -i, -i), blockpos.m_7918_(i, i, i));
+          Path path = this.f_26512_.m_77427_(pathnavigationregion, this.f_26494_, p_148223_, p_148227_, p_148226_, this.f_26511_);
+@@ -220,16 +_,16 @@
+ 
+    protected double m_183345_(Vec3 p_186132_) {
+       BlockPos blockpos = new BlockPos(p_186132_);
+-      return this.f_26495_.m_8055_(blockpos.m_7495_()).m_60795_() ? p_186132_.f_82480_ : WalkNodeEvaluator.m_77611_(this.f_26495_, blockpos);
++      return this.f_26495_.m_8055_(blockpos.below()).m_60795_() ? p_186132_.f_82480_ : WalkNodeEvaluator.m_77611_(this.f_26495_, blockpos);
+    }
+ 
+    protected void m_7636_() {
+       Vec3 vec3 = this.m_7475_();
+       this.f_26505_ = this.f_26494_.m_20205_() > 0.75F ? this.f_26494_.m_20205_() / 2.0F : 0.75F - this.f_26494_.m_20205_() / 2.0F;
+-      Vec3i vec3i = this.f_26496_.m_77400_();
+-      double d0 = Math.abs(this.f_26494_.m_20185_() - ((double)vec3i.m_123341_() + 0.5D));
+-      double d1 = Math.abs(this.f_26494_.m_20186_() - (double)vec3i.m_123342_());
+-      double d2 = Math.abs(this.f_26494_.m_20189_() - ((double)vec3i.m_123343_() + 0.5D));
++      me.alphamode.mclong.core.Vec3l vec3i = this.f_26496_.m_77400_();
++      double d0 = Math.abs(this.f_26494_.m_20185_() - ((double)vec3i.getX() + 0.5D));
++      double d1 = Math.abs(this.f_26494_.m_20186_() - (double)vec3i.getY());
++      double d2 = Math.abs(this.f_26494_.m_20189_() - ((double)vec3i.getZ() + 0.5D));
+       boolean flag = d0 < (double)this.f_26505_ && d2 < (double)this.f_26505_ && d1 < 1.0D;
+       if (flag || this.f_26494_.m_21481_(this.f_26496_.m_77401_().f_77282_) && this.m_26559_(vec3)) {
+          this.f_26496_.m_77374_();
+@@ -242,13 +_,13 @@
+       if (this.f_26496_.m_77399_() + 1 >= this.f_26496_.m_77398_()) {
+          return false;
+       } else {
+-         Vec3 vec3 = Vec3.m_82539_(this.f_26496_.m_77400_());
++         Vec3 vec3 = Vec3.atBottomCenterOf(this.f_26496_.m_77400_());
+          if (!p_26560_.m_82509_(vec3, 2.0D)) {
+             return false;
+          } else if (this.m_183431_(p_26560_, this.f_26496_.m_77380_(this.f_26494_))) {
+             return true;
+          } else {
+-            Vec3 vec31 = Vec3.m_82539_(this.f_26496_.m_77396_(this.f_26496_.m_77399_() + 1));
++            Vec3 vec31 = Vec3.atBottomCenterOf(this.f_26496_.m_77396_(this.f_26496_.m_77399_() + 1));
+             Vec3 vec32 = vec31.m_82546_(vec3);
+             Vec3 vec33 = p_26560_.m_82546_(vec3);
+             return vec32.m_82526_(vec33) > 0.0D;
+@@ -270,12 +_,12 @@
+       }
+ 
+       if (this.f_26496_ != null && !this.f_26496_.m_77392_()) {
+-         Vec3i vec3i = this.f_26496_.m_77400_();
++         me.alphamode.mclong.core.Vec3l vec3i = this.f_26496_.m_77400_();
+          if (vec3i.equals(this.f_26501_)) {
+             this.f_26502_ += Util.m_137550_() - this.f_26503_;
+          } else {
+             this.f_26501_ = vec3i;
+-            double d0 = p_26539_.m_82554_(Vec3.m_82539_(this.f_26501_));
++            double d0 = p_26539_.m_82554_(Vec3.atBottomCenterOf(this.f_26501_));
+             this.f_26504_ = this.f_26494_.m_6113_() > 0.0F ? d0 / (double)this.f_26494_.m_6113_() * 1000.0D : 0.0D;
+          }
+ 
+@@ -294,7 +_,7 @@
+    }
+ 
+    private void m_26565_() {
+-      this.f_26501_ = Vec3i.f_123288_;
++      this.f_26501_ = me.alphamode.mclong.core.Vec3l.ZERO;
+       this.f_26502_ = 0L;
+       this.f_26504_ = 0.0D;
+       this.f_26513_ = false;
+@@ -327,9 +_,9 @@
+             Node node1 = i + 1 < this.f_26496_.m_77398_() ? this.f_26496_.m_77375_(i + 1) : null;
+             BlockState blockstate = this.f_26495_.m_8055_(new BlockPos(node.f_77271_, node.f_77272_, node.f_77273_));
+             if (blockstate.m_204336_(BlockTags.f_144269_)) {
+-               this.f_26496_.m_77377_(i, node.m_77289_(node.f_77271_, node.f_77272_ + 1, node.f_77273_));
++               this.f_26496_.m_77377_(i, node.cloneAndMove(node.f_77271_, node.f_77272_ + 1, node.f_77273_));
+                if (node1 != null && node.f_77272_ >= node1.f_77272_) {
+-                  this.f_26496_.m_77377_(i + 1, node.m_77289_(node1.f_77271_, node.f_77272_ + 1, node1.f_77273_));
++                  this.f_26496_.m_77377_(i + 1, node.cloneAndMove(node1.f_77271_, node.f_77272_ + 1, node1.f_77273_));
+                }
+             }
+          }
+@@ -347,7 +_,7 @@
+    }
+ 
+    public boolean m_6342_(BlockPos p_26545_) {
+-      BlockPos blockpos = p_26545_.m_7495_();
++      BlockPos blockpos = p_26545_.below();
+       return this.f_26495_.m_8055_(blockpos).m_60804_(this.f_26495_, blockpos);
+    }
+ 
+@@ -369,7 +_,7 @@
+       } else if (this.f_26496_ != null && !this.f_26496_.m_77392_() && this.f_26496_.m_77398_() != 0) {
+          Node node = this.f_26496_.m_77395_();
+          Vec3 vec3 = new Vec3(((double)node.f_77271_ + this.f_26494_.m_20185_()) / 2.0D, ((double)node.f_77272_ + this.f_26494_.m_20186_()) / 2.0D, ((double)node.f_77273_ + this.f_26494_.m_20189_()) / 2.0D);
+-         return p_200904_.m_203195_(vec3, (double)(this.f_26496_.m_77398_() - this.f_26496_.m_77399_()));
++         return p_200904_.closerToCenterThan(vec3, (double)(this.f_26496_.m_77398_() - this.f_26496_.m_77399_()));
+       } else {
+          return false;
+       }

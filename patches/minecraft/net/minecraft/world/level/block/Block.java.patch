@@ -1,0 +1,70 @@
+--- a/net/minecraft/world/level/block/Block.java
++++ b/net/minecraft/world/level/block/Block.java
+@@ -122,7 +_,7 @@
+    }
+ 
+    public static BlockState m_49897_(BlockState p_49898_, BlockState p_49899_, LevelAccessor p_238252_, BlockPos p_49901_) {
+-      VoxelShape voxelshape = Shapes.m_83148_(p_49898_.m_60812_(p_238252_, p_49901_), p_49899_.m_60812_(p_238252_, p_49901_), BooleanOp.f_82683_).m_83216_((double)p_49901_.m_123341_(), (double)p_49901_.m_123342_(), (double)p_49901_.m_123343_());
++      VoxelShape voxelshape = Shapes.m_83148_(p_49898_.m_60812_(p_238252_, p_49901_), p_49899_.m_60812_(p_238252_, p_49901_), BooleanOp.f_82683_).m_83216_((double)p_49901_.getX(), (double)p_49901_.getY(), (double)p_49901_.getZ());
+       if (voxelshape.m_83281_()) {
+          return p_49899_;
+       } else {
+@@ -144,7 +_,7 @@
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+       for(Direction direction : f_60441_) {
+-         blockpos$mutableblockpos.m_122159_(p_49934_, direction);
++         blockpos$mutableblockpos.setWithOffset(p_49934_, direction);
+          blockstate = blockstate.m_60728_(direction, p_49933_.m_8055_(blockpos$mutableblockpos), p_49933_, p_49934_, blockpos$mutableblockpos);
+       }
+ 
+@@ -250,12 +_,12 @@
+    }
+ 
+    public static List<ItemStack> m_49869_(BlockState p_49870_, ServerLevel p_49871_, BlockPos p_49872_, @Nullable BlockEntity p_49873_) {
+-      LootContext.Builder lootcontext$builder = (new LootContext.Builder(p_49871_)).m_230911_(p_49871_.f_46441_).m_78972_(LootContextParams.f_81460_, Vec3.m_82512_(p_49872_)).m_78972_(LootContextParams.f_81463_, ItemStack.f_41583_).m_78984_(LootContextParams.f_81462_, p_49873_);
++      LootContext.Builder lootcontext$builder = (new LootContext.Builder(p_49871_)).m_230911_(p_49871_.f_46441_).m_78972_(LootContextParams.f_81460_, Vec3.atCenterOf(p_49872_)).m_78972_(LootContextParams.f_81463_, ItemStack.f_41583_).m_78984_(LootContextParams.f_81462_, p_49873_);
+       return p_49870_.m_60724_(lootcontext$builder);
+    }
+ 
+    public static List<ItemStack> m_49874_(BlockState p_49875_, ServerLevel p_49876_, BlockPos p_49877_, @Nullable BlockEntity p_49878_, @Nullable Entity p_49879_, ItemStack p_49880_) {
+-      LootContext.Builder lootcontext$builder = (new LootContext.Builder(p_49876_)).m_230911_(p_49876_.f_46441_).m_78972_(LootContextParams.f_81460_, Vec3.m_82512_(p_49877_)).m_78972_(LootContextParams.f_81463_, p_49880_).m_78984_(LootContextParams.f_81455_, p_49879_).m_78984_(LootContextParams.f_81462_, p_49878_);
++      LootContext.Builder lootcontext$builder = (new LootContext.Builder(p_49876_)).m_230911_(p_49876_.f_46441_).m_78972_(LootContextParams.f_81460_, Vec3.atCenterOf(p_49877_)).m_78972_(LootContextParams.f_81463_, p_49880_).m_78984_(LootContextParams.f_81455_, p_49879_).m_78984_(LootContextParams.f_81462_, p_49878_);
+       return p_49875_.m_60724_(lootcontext$builder);
+    }
+ 
+@@ -300,9 +_,9 @@
+ 
+    public static void m_49840_(Level p_49841_, BlockPos p_49842_, ItemStack p_49843_) {
+       float f = EntityType.f_20461_.m_20679_() / 2.0F;
+-      double d0 = (double)((float)p_49842_.m_123341_() + 0.5F) + Mth.m_216263_(p_49841_.f_46441_, -0.25D, 0.25D);
+-      double d1 = (double)((float)p_49842_.m_123342_() + 0.5F) + Mth.m_216263_(p_49841_.f_46441_, -0.25D, 0.25D) - (double)f;
+-      double d2 = (double)((float)p_49842_.m_123343_() + 0.5F) + Mth.m_216263_(p_49841_.f_46441_, -0.25D, 0.25D);
++      double d0 = (double)((float)p_49842_.getX() + 0.5F) + Mth.m_216263_(p_49841_.f_46441_, -0.25D, 0.25D);
++      double d1 = (double)((float)p_49842_.getY() + 0.5F) + Mth.m_216263_(p_49841_.f_46441_, -0.25D, 0.25D) - (double)f;
++      double d2 = (double)((float)p_49842_.getZ() + 0.5F) + Mth.m_216263_(p_49841_.f_46441_, -0.25D, 0.25D);
+       m_152440_(p_49841_, () -> {
+          return new ItemEntity(p_49841_, d0, d1, d2, p_49843_);
+       }, p_49843_);
+@@ -314,9 +_,9 @@
+       int k = p_152438_.m_122431_();
+       float f = EntityType.f_20461_.m_20678_() / 2.0F;
+       float f1 = EntityType.f_20461_.m_20679_() / 2.0F;
+-      double d0 = (double)((float)p_152437_.m_123341_() + 0.5F) + (i == 0 ? Mth.m_216263_(p_152436_.f_46441_, -0.25D, 0.25D) : (double)((float)i * (0.5F + f)));
+-      double d1 = (double)((float)p_152437_.m_123342_() + 0.5F) + (j == 0 ? Mth.m_216263_(p_152436_.f_46441_, -0.25D, 0.25D) : (double)((float)j * (0.5F + f1))) - (double)f1;
+-      double d2 = (double)((float)p_152437_.m_123343_() + 0.5F) + (k == 0 ? Mth.m_216263_(p_152436_.f_46441_, -0.25D, 0.25D) : (double)((float)k * (0.5F + f)));
++      double d0 = (double)((float)p_152437_.getX() + 0.5F) + (i == 0 ? Mth.m_216263_(p_152436_.f_46441_, -0.25D, 0.25D) : (double)((float)i * (0.5F + f)));
++      double d1 = (double)((float)p_152437_.getY() + 0.5F) + (j == 0 ? Mth.m_216263_(p_152436_.f_46441_, -0.25D, 0.25D) : (double)((float)j * (0.5F + f1))) - (double)f1;
++      double d2 = (double)((float)p_152437_.getZ() + 0.5F) + (k == 0 ? Mth.m_216263_(p_152436_.f_46441_, -0.25D, 0.25D) : (double)((float)k * (0.5F + f)));
+       double d3 = i == 0 ? Mth.m_216263_(p_152436_.f_46441_, -0.1D, 0.1D) : (double)i * 0.1D;
+       double d4 = j == 0 ? Mth.m_216263_(p_152436_.f_46441_, 0.0D, 0.1D) : (double)j * 0.1D + 0.1D;
+       double d5 = k == 0 ? Mth.m_216263_(p_152436_.f_46441_, -0.1D, 0.1D) : (double)k * 0.1D;
+@@ -335,7 +_,7 @@
+ 
+    public void m_49805_(ServerLevel p_49806_, BlockPos p_49807_, int p_49808_) {
+       if (p_49806_.m_46469_().m_46207_(GameRules.f_46136_)) {
+-         ExperienceOrb.m_147082_(p_49806_, Vec3.m_82512_(p_49807_), p_49808_);
++         ExperienceOrb.m_147082_(p_49806_, Vec3.atCenterOf(p_49807_), p_49808_);
+       }
+ 
+    }

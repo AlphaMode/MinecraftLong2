@@ -1,0 +1,13 @@
+--- a/net/minecraft/core/dispenser/ShulkerBoxDispenseBehavior.java
++++ b/net/minecraft/core/dispenser/ShulkerBoxDispenseBehavior.java
+@@ -19,8 +_,8 @@
+       Item item = p_123588_.m_41720_();
+       if (item instanceof BlockItem) {
+          Direction direction = p_123587_.m_6414_().m_61143_(DispenserBlock.f_52659_);
+-         BlockPos blockpos = p_123587_.m_7961_().m_121945_(direction);
+-         Direction direction1 = p_123587_.m_7727_().m_46859_(blockpos.m_7495_()) ? direction : Direction.UP;
++         BlockPos blockpos = p_123587_.m_7961_().relative(direction);
++         Direction direction1 = p_123587_.m_7727_().m_46859_(blockpos.below()) ? direction : Direction.UP;
+ 
+          try {
+             this.m_123573_(((BlockItem)item).m_40576_(new DirectionalPlaceContext(p_123587_.m_7727_(), blockpos, direction, p_123588_, direction1)).m_19077_());

@@ -1,0 +1,40 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/StrongholdPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/StrongholdPieces.java
+@@ -215,7 +_,7 @@
+             this.m_73434_(p_229472_, Blocks.f_50411_.m_49966_(), 2, 1, i, p_229476_);
+          }
+ 
+-         if (!this.f_229463_ && p_229476_.m_71051_(this.m_163582_(3, 2, 3))) {
++         if (!this.f_229463_ && p_229476_.isInside(this.m_163582_(3, 2, 3))) {
+             this.f_229463_ = true;
+             this.m_213787_(p_229472_, p_229476_, p_229475_, 3, 2, 3, BuiltInLootTables.f_78763_);
+          }
+@@ -704,7 +_,7 @@
+ 
+          if (!this.f_229627_) {
+             BlockPos blockpos = this.m_163582_(5, 3, 6);
+-            if (p_229639_.m_71051_(blockpos)) {
++            if (p_229639_.isInside(blockpos)) {
+                this.f_229627_ = true;
+                p_229635_.m_7731_(blockpos, Blocks.f_50085_.m_49966_(), 2);
+                BlockEntity blockentity = p_229635_.m_7702_(blockpos);
+@@ -958,8 +_,8 @@
+       private static final int f_229756_ = 5;
+       private final boolean f_229757_;
+ 
+-      public StairsDown(StructurePieceType p_229764_, int p_229765_, int p_229766_, int p_229767_, Direction p_229768_) {
+-         super(p_229764_, p_229765_, m_163541_(p_229766_, 64, p_229767_, p_229768_, 5, 11, 5));
++      public StairsDown(StructurePieceType p_229764_, int p_229765_, long p_229766_, long p_229767_, Direction p_229768_) {
++         super(p_229764_, p_229765_, m_163541_((int) p_229766_, 64, (int) p_229767_, p_229768_, 5, 11, 5));
+          this.f_229757_ = true;
+          this.m_73519_(p_229768_);
+          this.f_229872_ = StrongholdPieces.StrongholdPiece.SmallDoorType.OPENING;
+@@ -1029,7 +_,7 @@
+       public StrongholdPieces.PortalRoom f_229798_;
+       public final List<StructurePiece> f_229799_ = Lists.newArrayList();
+ 
+-      public StartPiece(RandomSource p_229801_, int p_229802_, int p_229803_) {
++      public StartPiece(RandomSource p_229801_, long p_229802_, long p_229803_) {
+          super(StructurePieceType.f_210098_, 0, p_229802_, p_229803_, m_226760_(p_229801_));
+       }
+ 

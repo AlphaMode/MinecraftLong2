@@ -1,0 +1,35 @@
+--- a/net/minecraft/world/entity/boss/enderdragon/phases/DragonHoldingPatternPhase.java
++++ b/net/minecraft/world/entity/boss/enderdragon/phases/DragonHoldingPatternPhase.java
+@@ -59,9 +_,9 @@
+          }
+ 
+          double d0 = 64.0D;
+-         Player player = this.f_31176_.f_19853_.m_45949_(f_31224_, this.f_31176_, (double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_());
++         Player player = this.f_31176_.f_19853_.m_45949_(f_31224_, this.f_31176_, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
+          if (player != null) {
+-            d0 = blockpos.m_203193_(player.m_20182_()) / 512.0D;
++            d0 = blockpos.distToCenterSqr(player.m_20182_()) / 512.0D;
+          }
+ 
+          if (player != null && (this.f_31176_.m_217043_().m_188503_(Mth.m_14040_((int)d0) + 2) == 0 || this.f_31176_.m_217043_().m_188503_(i + 2) == 0)) {
+@@ -111,15 +_,15 @@
+ 
+    private void m_31243_() {
+       if (this.f_31225_ != null && !this.f_31225_.m_77392_()) {
+-         Vec3i vec3i = this.f_31225_.m_77400_();
++         me.alphamode.mclong.core.Vec3l vec3i = this.f_31225_.m_77400_();
+          this.f_31225_.m_77374_();
+-         double d0 = (double)vec3i.m_123341_();
+-         double d1 = (double)vec3i.m_123343_();
++         double d0 = (double)vec3i.getX();
++         double d1 = (double)vec3i.getZ();
+ 
+          double d2;
+          do {
+-            d2 = (double)((float)vec3i.m_123342_() + this.f_31176_.m_217043_().m_188501_() * 20.0F);
+-         } while(d2 < (double)vec3i.m_123342_());
++            d2 = (double)((float)vec3i.getY() + this.f_31176_.m_217043_().m_188501_() * 20.0F);
++         } while(d2 < (double)vec3i.getY());
+ 
+          this.f_31226_ = new Vec3(d0, d2, d1);
+       }

@@ -1,0 +1,102 @@
+--- a/net/minecraft/world/level/levelgen/carver/WorldCarver.java
++++ b/net/minecraft/world/level/levelgen/carver/WorldCarver.java
+@@ -58,38 +_,38 @@
+ 
+    protected boolean m_190753_(CarvingContext p_190754_, C p_190755_, ChunkAccess p_190756_, Function<BlockPos, Holder<Biome>> p_190757_, Aquifer p_190758_, double p_190759_, double p_190760_, double p_190761_, double p_190762_, double p_190763_, CarvingMask p_190764_, WorldCarver.CarveSkipChecker p_190765_) {
+       ChunkPos chunkpos = p_190756_.m_7697_();
+-      double d0 = (double)chunkpos.m_151390_();
+-      double d1 = (double)chunkpos.m_151393_();
++      double d0 = (double)chunkpos.getMiddleBlockX();
++      double d1 = (double)chunkpos.getMiddleBlockZ();
+       double d2 = 16.0D + p_190762_ * 2.0D;
+       if (!(Math.abs(p_190759_ - d0) > d2) && !(Math.abs(p_190761_ - d1) > d2)) {
+-         int i = chunkpos.m_45604_();
+-         int j = chunkpos.m_45605_();
+-         int k = Math.max(Mth.m_14107_(p_190759_ - p_190762_) - i - 1, 0);
+-         int l = Math.min(Mth.m_14107_(p_190759_ + p_190762_) - i, 15);
+-         int i1 = Math.max(Mth.m_14107_(p_190760_ - p_190763_) - 1, p_190754_.m_142201_() + 1);
++         long i = chunkpos.getMinBlockX();
++         long j = chunkpos.getMinBlockZ();
++         long k = Math.max(Mth.m_14107_(p_190759_ - p_190762_) - i - 1, 0);
++         long l = Math.min(Mth.m_14107_(p_190759_ + p_190762_) - i, 15);
++         long i1 = Math.max(Mth.m_14107_(p_190760_ - p_190763_) - 1, p_190754_.getMinGenY() + 1);
+          int j1 = p_190756_.m_187679_() ? 0 : 7;
+-         int k1 = Math.min(Mth.m_14107_(p_190760_ + p_190763_) + 1, p_190754_.m_142201_() + p_190754_.m_142208_() - 1 - j1);
+-         int l1 = Math.max(Mth.m_14107_(p_190761_ - p_190762_) - j - 1, 0);
+-         int i2 = Math.min(Mth.m_14107_(p_190761_ + p_190762_) - j, 15);
++         long k1 = Math.min(Mth.m_14107_(p_190760_ + p_190763_) + 1, p_190754_.getMinGenY() + p_190754_.getGenDepth() - 1 - j1);
++         long l1 = Math.max(Mth.m_14107_(p_190761_ - p_190762_) - j - 1, 0);
++         long i2 = Math.min(Mth.m_14107_(p_190761_ + p_190762_) - j, 15);
+          boolean flag = false;
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+          BlockPos.MutableBlockPos blockpos$mutableblockpos1 = new BlockPos.MutableBlockPos();
+ 
+-         for(int j2 = k; j2 <= l; ++j2) {
+-            int k2 = chunkpos.m_151382_(j2);
++         for(long j2 = k; j2 <= l; ++j2) {
++            long k2 = chunkpos.getBlockX(j2);
+             double d3 = ((double)k2 + 0.5D - p_190759_) / p_190762_;
+ 
+-            for(int l2 = l1; l2 <= i2; ++l2) {
+-               int i3 = chunkpos.m_151391_(l2);
++            for(long l2 = l1; l2 <= i2; ++l2) {
++               long i3 = chunkpos.getBlockZ(l2);
+                double d4 = ((double)i3 + 0.5D - p_190761_) / p_190762_;
+                if (!(d3 * d3 + d4 * d4 >= 1.0D)) {
+                   MutableBoolean mutableboolean = new MutableBoolean(false);
+ 
+-                  for(int j3 = k1; j3 > i1; --j3) {
++                  for(long j3 = k1; j3 > i1; --j3) {
+                      double d5 = ((double)j3 - 0.5D - p_190760_) / p_190763_;
+-                     if (!p_190765_.m_159425_(p_190754_, d3, d5, d4, j3) && (!p_190764_.m_187594_(j2, j3, l2) || m_159423_(p_190755_))) {
+-                        p_190764_.m_187585_(j2, j3, l2);
+-                        blockpos$mutableblockpos.m_122178_(k2, j3, i3);
++                     if (!p_190765_.shouldSkip(p_190754_, d3, d5, d4, j3) && (!p_190764_.get(j2, j3, l2) || m_159423_(p_190755_))) {
++                        p_190764_.set(j2, j3, l2);
++                        blockpos$mutableblockpos.m_122169_(k2, j3, i3);
+                         flag |= this.m_183633_(p_190754_, p_190755_, p_190756_, p_190757_, p_190764_, blockpos$mutableblockpos, blockpos$mutableblockpos1, p_190758_, mutableboolean);
+                      }
+                   }
+@@ -122,7 +_,7 @@
+             }
+ 
+             if (p_190752_.isTrue()) {
+-               p_190750_.m_122159_(p_190749_, Direction.DOWN);
++               p_190750_.setWithOffset(p_190749_, Direction.DOWN);
+                if (p_190746_.m_8055_(p_190750_).m_60713_(Blocks.f_50493_)) {
+                   p_190744_.m_190646_(p_190747_, p_190746_, p_190750_, !blockstate1.m_60819_().m_76178_()).ifPresent((p_190743_) -> {
+                      p_190746_.m_6978_(p_190750_, p_190743_, false);
+@@ -141,10 +_,10 @@
+ 
+    @Nullable
+    private BlockState m_159418_(CarvingContext p_159419_, C p_159420_, BlockPos p_159421_, Aquifer p_159422_) {
+-      if (p_159421_.m_123342_() <= p_159420_.f_159090_.m_142322_(p_159419_)) {
++      if (p_159421_.getY() <= p_159420_.f_159090_.resolveY(p_159419_)) {
+          return f_64982_.m_76188_();
+       } else {
+-         BlockState blockstate = p_159422_.m_207104_(new DensityFunction.SinglePointContext(p_159421_.m_123341_(), p_159421_.m_123342_(), p_159421_.m_123343_()), 0.0D);
++         BlockState blockstate = p_159422_.m_207104_(new DensityFunction.SinglePointContext(p_159421_.getX(), p_159421_.getY(), p_159421_.getZ()), 0.0D);
+          if (blockstate == null) {
+             return m_159423_(p_159420_) ? p_159420_.f_159092_.m_159148_() : null;
+          } else {
+@@ -172,9 +_,9 @@
+       return p_224912_.m_204341_(p_224911_.f_224830_);
+    }
+ 
+-   protected static boolean m_159367_(ChunkPos p_159368_, double p_159369_, double p_159370_, int p_159371_, int p_159372_, float p_159373_) {
+-      double d0 = (double)p_159368_.m_151390_();
+-      double d1 = (double)p_159368_.m_151393_();
++   protected static boolean canReach(ChunkPos p_159368_, double p_159369_, double p_159370_, int p_159371_, long p_159372_, float p_159373_) {
++      double d0 = (double)p_159368_.getMiddleBlockX();
++      double d1 = (double)p_159368_.getMiddleBlockZ();
+       double d2 = p_159369_ - d0;
+       double d3 = p_159370_ - d1;
+       double d4 = (double)(p_159372_ - p_159371_);
+@@ -187,6 +_,6 @@
+    }
+ 
+    public interface CarveSkipChecker {
+-      boolean m_159425_(CarvingContext p_159426_, double p_159427_, double p_159428_, double p_159429_, int p_159430_);
++      boolean shouldSkip(CarvingContext p_159426_, double p_159427_, double p_159428_, double p_159429_, long p_159430_);
+    }
+ }

@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/projectile/FishingHook.java
++++ b/net/minecraft/world/entity/projectile/FishingHook.java
+@@ -182,7 +_,7 @@
+ 
+             if (this.f_37095_ == FishingHook.FishHookState.BOBBING) {
+                Vec3 vec3 = this.m_20184_();
+-               double d0 = this.m_20186_() + vec3.f_82480_ - (double)blockpos.m_123342_() - (double)f;
++               double d0 = this.m_20186_() + vec3.f_82480_ - (double)blockpos.getY() - (double)f;
+                if (Math.abs(d0) < 0.01D) {
+                   d0 += Math.signum(d0) * 0.1D;
+                }
+@@ -268,7 +_,7 @@
+    private void m_37145_(BlockPos p_37146_) {
+       ServerLevel serverlevel = (ServerLevel)this.f_19853_;
+       int i = 1;
+-      BlockPos blockpos = p_37146_.m_7494_();
++      BlockPos blockpos = p_37146_.above();
+       if (this.f_19796_.m_188501_() < 0.25F && this.f_19853_.m_46758_(blockpos)) {
+          ++i;
+       }

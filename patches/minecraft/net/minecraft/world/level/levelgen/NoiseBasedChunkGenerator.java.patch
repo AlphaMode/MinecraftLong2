@@ -1,0 +1,305 @@
+--- a/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
++++ b/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
+@@ -110,79 +_,79 @@
+       return this.f_64318_.m_203565_(p_224222_);
+    }
+ 
+-   public int m_214096_(int p_224216_, int p_224217_, Heightmap.Types p_224218_, LevelHeightAccessor p_224219_, RandomState p_224220_) {
+-      return this.m_224239_(p_224219_, p_224220_, p_224216_, p_224217_, (MutableObject<NoiseColumn>)null, p_224218_.m_64299_()).orElse(p_224219_.m_141937_());
++   public long getBaseHeight(long p_224216_, long p_224217_, Heightmap.Types p_224218_, LevelHeightAccessor p_224219_, RandomState p_224220_) {
++      return this.iterateNoiseColumn(p_224219_, p_224220_, p_224216_, p_224217_, (MutableObject<NoiseColumn>)null, p_224218_.m_64299_()).orElse(p_224219_.getMinBuildHeight());
+    }
+ 
+-   public NoiseColumn m_214184_(int p_224211_, int p_224212_, LevelHeightAccessor p_224213_, RandomState p_224214_) {
++   public NoiseColumn getBaseColumn(long p_224211_, long p_224212_, LevelHeightAccessor p_224213_, RandomState p_224214_) {
+       MutableObject<NoiseColumn> mutableobject = new MutableObject<>();
+-      this.m_224239_(p_224213_, p_224214_, p_224211_, p_224212_, mutableobject, (Predicate<BlockState>)null);
++      this.iterateNoiseColumn(p_224213_, p_224214_, p_224211_, p_224212_, mutableobject, (Predicate<BlockState>)null);
+       return mutableobject.getValue();
+    }
+ 
+    public void m_213600_(List<String> p_224304_, RandomState p_224305_, BlockPos p_224306_) {
+       DecimalFormat decimalformat = new DecimalFormat("0.000");
+       NoiseRouter noiserouter = p_224305_.m_224578_();
+-      DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(p_224306_.m_123341_(), p_224306_.m_123342_(), p_224306_.m_123343_());
++      DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(p_224306_.getX(), p_224306_.getY(), p_224306_.getZ());
+       double d0 = noiserouter.f_209389_().m_207386_(densityfunction$singlepointcontext);
+       p_224304_.add("NoiseRouter T: " + decimalformat.format(noiserouter.f_209384_().m_207386_(densityfunction$singlepointcontext)) + " V: " + decimalformat.format(noiserouter.f_224392_().m_207386_(densityfunction$singlepointcontext)) + " C: " + decimalformat.format(noiserouter.f_209386_().m_207386_(densityfunction$singlepointcontext)) + " E: " + decimalformat.format(noiserouter.f_209387_().m_207386_(densityfunction$singlepointcontext)) + " D: " + decimalformat.format(noiserouter.f_209388_().m_207386_(densityfunction$singlepointcontext)) + " W: " + decimalformat.format(d0) + " PV: " + decimalformat.format((double)NoiseRouterData.m_224435_((float)d0)) + " AS: " + decimalformat.format(noiserouter.f_209390_().m_207386_(densityfunction$singlepointcontext)) + " N: " + decimalformat.format(noiserouter.f_209391_().m_207386_(densityfunction$singlepointcontext)));
+    }
+ 
+-   protected OptionalInt m_224239_(LevelHeightAccessor p_224240_, RandomState p_224241_, int p_224242_, int p_224243_, @Nullable MutableObject<NoiseColumn> p_224244_, @Nullable Predicate<BlockState> p_224245_) {
++   protected java.util.OptionalLong iterateNoiseColumn(LevelHeightAccessor p_224240_, RandomState p_224241_, long p_224242_, long p_224243_, @Nullable MutableObject<NoiseColumn> p_224244_, @Nullable Predicate<BlockState> p_224245_) {
+       NoiseSettings noisesettings = this.f_64318_.m_203334_().f_64439_().m_224530_(p_224240_);
+-      int i = noisesettings.m_189212_();
+-      int j = noisesettings.f_158688_();
+-      int k = Mth.m_14042_(j, i);
+-      int l = Mth.m_14042_(noisesettings.f_64508_(), i);
++      long i = noisesettings.getCellHeight();
++      long j = noisesettings.minY();
++      long k = Mth.longFloorDiv(j, i);
++      long l = Mth.longFloorDiv(noisesettings.height(), i);
+       if (l <= 0) {
+-         return OptionalInt.empty();
++         return java.util.OptionalLong.empty();
+       } else {
+          BlockState[] ablockstate;
+          if (p_224244_ == null) {
+             ablockstate = null;
+          } else {
+-            ablockstate = new BlockState[noisesettings.f_64508_()];
++            ablockstate = new BlockState[(int) noisesettings.height()];
+             p_224244_.setValue(new NoiseColumn(j, ablockstate));
+          }
+ 
+-         int i1 = noisesettings.m_189213_();
+-         int j1 = Math.floorDiv(p_224242_, i1);
+-         int k1 = Math.floorDiv(p_224243_, i1);
+-         int l1 = Math.floorMod(p_224242_, i1);
+-         int i2 = Math.floorMod(p_224243_, i1);
+-         int j2 = j1 * i1;
+-         int k2 = k1 * i1;
++         long i1 = noisesettings.getCellWidth();
++         long j1 = Math.floorDiv(p_224242_, i1);
++         long k1 = Math.floorDiv(p_224243_, i1);
++         long l1 = Math.floorMod(p_224242_, i1);
++         long i2 = Math.floorMod(p_224243_, i1);
++         long j2 = j1 * i1;
++         long k2 = k1 * i1;
+          double d0 = (double)l1 / (double)i1;
+          double d1 = (double)i2 / (double)i1;
+          NoiseChunk noisechunk = new NoiseChunk(1, p_224241_, j2, k2, noisesettings, DensityFunctions.BeardifierMarker.INSTANCE, this.f_64318_.m_203334_(), this.f_188607_, Blender.m_190153_());
+          noisechunk.m_188791_();
+          noisechunk.m_188749_(0);
+ 
+-         for(int l2 = l - 1; l2 >= 0; --l2) {
+-            noisechunk.m_188810_(l2, 0);
++         for(long l2 = l - 1; l2 >= 0; --l2) {
++            noisechunk.selectCellYZ(l2, 0);
+ 
+-            for(int i3 = i - 1; i3 >= 0; --i3) {
+-               int j3 = (k + l2) * i + i3;
++            for(long i3 = i - 1; i3 >= 0; --i3) {
++               long j3 = (k + l2) * i + i3;
+                double d2 = (double)i3 / (double)i;
+-               noisechunk.m_209191_(j3, d2);
+-               noisechunk.m_209230_(p_224242_, d0);
+-               noisechunk.m_209241_(p_224243_, d1);
++               noisechunk.updateForY(j3, d2);
++               noisechunk.updateForX(p_224242_, d0);
++               noisechunk.updateForZ(p_224243_, d1);
+                BlockState blockstate = noisechunk.m_209247_();
+                BlockState blockstate1 = blockstate == null ? this.f_64316_ : blockstate;
+                if (ablockstate != null) {
+-                  int k3 = l2 * i + i3;
+-                  ablockstate[k3] = blockstate1;
++                  long k3 = l2 * i + i3;
++                  ablockstate[(int) k3] = blockstate1;
+                }
+ 
+                if (p_224245_ != null && p_224245_.test(blockstate1)) {
+                   noisechunk.m_209248_();
+-                  return OptionalInt.of(j3 + 1);
++                  return java.util.OptionalLong.of(j3 + 1);
+                }
+             }
+          }
+ 
+          noisechunk.m_209248_();
+-         return OptionalInt.empty();
++         return java.util.OptionalLong.empty();
+       }
+    }
+ 
+@@ -204,7 +_,7 @@
+ 
+    public void m_213679_(WorldGenRegion p_224224_, long p_224225_, RandomState p_224226_, BiomeManager p_224227_, StructureManager p_224228_, ChunkAccess p_224229_, GenerationStep.Carving p_224230_) {
+       BiomeManager biomemanager = p_224227_.m_186687_((p_224281_, p_224282_, p_224283_) -> {
+-         return this.f_62137_.m_203407_(p_224281_, p_224282_, p_224283_, p_224226_.m_224579_());
++         return this.f_62137_.getNoiseBiome(p_224281_, p_224282_, p_224283_, p_224226_.m_224579_());
+       });
+       WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.m_224599_()));
+       int i = 8;
+@@ -219,16 +_,16 @@
+       for(int j = -8; j <= 8; ++j) {
+          for(int k = -8; k <= 8; ++k) {
+             ChunkPos chunkpos1 = new ChunkPos(chunkpos.f_45578_ + j, chunkpos.f_45579_ + k);
+-            ChunkAccess chunkaccess = p_224224_.m_6325_(chunkpos1.f_45578_, chunkpos1.f_45579_);
++            ChunkAccess chunkaccess = p_224224_.getChunk(chunkpos1.f_45578_, chunkpos1.f_45579_);
+             BiomeGenerationSettings biomegenerationsettings = chunkaccess.m_223014_(() -> {
+-               return this.m_223131_(this.f_62137_.m_203407_(QuartPos.m_175400_(chunkpos1.m_45604_()), 0, QuartPos.m_175400_(chunkpos1.m_45605_()), p_224226_.m_224579_()));
++               return this.m_223131_(this.f_62137_.getNoiseBiome(QuartPos.fromBlock(chunkpos1.getMinBlockX()), 0, QuartPos.fromBlock(chunkpos1.getMinBlockZ()), p_224226_.m_224579_()));
+             });
+             Iterable<Holder<ConfiguredWorldCarver<?>>> iterable = biomegenerationsettings.m_204187_(p_224230_);
+             int l = 0;
+ 
+             for(Holder<ConfiguredWorldCarver<?>> holder : iterable) {
+                ConfiguredWorldCarver<?> configuredworldcarver = holder.m_203334_();
+-               worldgenrandom.m_190068_(p_224225_ + (long)l, chunkpos1.f_45578_, chunkpos1.f_45579_);
++               worldgenrandom.setLargeFeatureSeed(p_224225_ + (long)l, chunkpos1.f_45578_, chunkpos1.f_45579_);
+                if (configuredworldcarver.m_224896_(worldgenrandom)) {
+                   configuredworldcarver.m_224898_(carvingcontext, p_224229_, biomemanager::m_204214_, worldgenrandom, aquifer, chunkpos1, carvingmask);
+                }
+@@ -242,14 +_,14 @@
+ 
+    public CompletableFuture<ChunkAccess> m_213974_(Executor p_224312_, Blender p_224313_, RandomState p_224314_, StructureManager p_224315_, ChunkAccess p_224316_) {
+       NoiseSettings noisesettings = this.f_64318_.m_203334_().f_64439_().m_224530_(p_224316_.m_183618_());
+-      int i = noisesettings.f_158688_();
+-      int j = Mth.m_14042_(i, noisesettings.m_189212_());
+-      int k = Mth.m_14042_(noisesettings.f_64508_(), noisesettings.m_189212_());
++      long i = noisesettings.minY();
++      long j = Mth.longFloorDiv(i, noisesettings.getCellHeight());
++      long k = Mth.longFloorDiv(noisesettings.height(), noisesettings.getCellHeight());
+       if (k <= 0) {
+          return CompletableFuture.completedFuture(p_224316_);
+       } else {
+-         int l = p_224316_.m_151564_(k * noisesettings.m_189212_() - 1 + i);
+-         int i1 = p_224316_.m_151564_(i);
++         int l = p_224316_.getSectionIndex(k * noisesettings.getCellHeight() - 1 + i);
++         int i1 = p_224316_.getSectionIndex(i);
+          Set<LevelChunkSection> set = Sets.newHashSet();
+ 
+          for(int j1 = l; j1 >= i1; --j1) {
+@@ -259,7 +_,7 @@
+          }
+ 
+          return CompletableFuture.supplyAsync(Util.m_183946_("wgen_fill_noise", () -> {
+-            return this.m_224284_(p_224313_, p_224315_, p_224314_, p_224316_, j, k);
++            return this.doFill(p_224313_, p_224315_, p_224314_, p_224316_, j, k);
+          }), Util.m_183991_()).whenCompleteAsync((p_224309_, p_224310_) -> {
+             for(LevelChunkSection levelchunksection1 : set) {
+                levelchunksection1.m_63006_();
+@@ -269,22 +_,22 @@
+       }
+    }
+ 
+-   private ChunkAccess m_224284_(Blender p_224285_, StructureManager p_224286_, RandomState p_224287_, ChunkAccess p_224288_, int p_224289_, int p_224290_) {
++   private ChunkAccess doFill(Blender p_224285_, StructureManager p_224286_, RandomState p_224287_, ChunkAccess p_224288_, long p_224289_, long p_224290_) {
+       NoiseChunk noisechunk = p_224288_.m_223012_((p_224255_) -> {
+          return this.m_224256_(p_224255_, p_224286_, p_224285_, p_224287_);
+       });
+       Heightmap heightmap = p_224288_.m_6005_(Heightmap.Types.OCEAN_FLOOR_WG);
+       Heightmap heightmap1 = p_224288_.m_6005_(Heightmap.Types.WORLD_SURFACE_WG);
+       ChunkPos chunkpos = p_224288_.m_7697_();
+-      int i = chunkpos.m_45604_();
+-      int j = chunkpos.m_45605_();
++      long i = chunkpos.getMinBlockX();
++      long j = chunkpos.getMinBlockZ();
+       Aquifer aquifer = noisechunk.m_188817_();
+       noisechunk.m_188791_();
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+-      int k = noisechunk.m_224362_();
+-      int l = noisechunk.m_224363_();
+-      int i1 = 16 / k;
+-      int j1 = 16 / k;
++      long k = noisechunk.cellWidth();
++      long l = noisechunk.cellHeight();
++      long i1 = 16 / k;
++      long j1 = 16 / k;
+ 
+       for(int k1 = 0; k1 < i1; ++k1) {
+          noisechunk.m_188749_(k1);
+@@ -292,48 +_,48 @@
+          for(int l1 = 0; l1 < j1; ++l1) {
+             LevelChunkSection levelchunksection = p_224288_.m_183278_(p_224288_.m_151559_() - 1);
+ 
+-            for(int i2 = p_224290_ - 1; i2 >= 0; --i2) {
+-               noisechunk.m_188810_(i2, l1);
++            for(long i2 = p_224290_ - 1; i2 >= 0; --i2) {
++               noisechunk.selectCellYZ(i2, l1);
+ 
+-               for(int j2 = l - 1; j2 >= 0; --j2) {
+-                  int k2 = (p_224289_ + i2) * l + j2;
+-                  int l2 = k2 & 15;
+-                  int i3 = p_224288_.m_151564_(k2);
+-                  if (p_224288_.m_151564_(levelchunksection.m_63017_()) != i3) {
++               for(long j2 = l - 1; j2 >= 0; --j2) {
++                  long k2 = (p_224289_ + i2) * l + j2;
++                  long l2 = k2 & 15;
++                  int i3 = p_224288_.getSectionIndex(k2);
++                  if (p_224288_.getSectionIndex(levelchunksection.m_63017_()) != i3) {
+                      levelchunksection = p_224288_.m_183278_(i3);
+                   }
+ 
+                   double d0 = (double)j2 / (double)l;
+-                  noisechunk.m_209191_(k2, d0);
++                  noisechunk.updateForY(k2, d0);
+ 
+                   for(int j3 = 0; j3 < k; ++j3) {
+-                     int k3 = i + k1 * k + j3;
+-                     int l3 = k3 & 15;
++                     long k3 = i + k1 * k + j3;
++                     long l3 = k3 & 15;
+                      double d1 = (double)j3 / (double)k;
+-                     noisechunk.m_209230_(k3, d1);
++                     noisechunk.updateForX(k3, d1);
+ 
+                      for(int i4 = 0; i4 < k; ++i4) {
+-                        int j4 = j + l1 * k + i4;
+-                        int k4 = j4 & 15;
++                        long j4 = j + l1 * k + i4;
++                        long k4 = j4 & 15;
+                         double d2 = (double)i4 / (double)k;
+-                        noisechunk.m_209241_(j4, d2);
++                        noisechunk.updateForZ(j4, d2);
+                         BlockState blockstate = noisechunk.m_209247_();
+                         if (blockstate == null) {
+                            blockstate = this.f_64316_;
+                         }
+ 
+-                        blockstate = this.m_198231_(noisechunk, k3, k2, j4, blockstate);
++                        blockstate = this.debugPreliminarySurfaceLevel(noisechunk, k3, k2, j4, blockstate);
+                         if (blockstate != f_64321_ && !SharedConstants.m_183707_(p_224288_.m_7697_())) {
+                            if (blockstate.m_60791_() != 0 && p_224288_ instanceof ProtoChunk) {
+-                              blockpos$mutableblockpos.m_122178_(k3, k2, j4);
++                              blockpos$mutableblockpos.m_122169_(k3, k2, j4);
+                               ((ProtoChunk)p_224288_).m_63277_(blockpos$mutableblockpos);
+                            }
+ 
+-                           levelchunksection.m_62991_(l3, l2, k4, blockstate, false);
+-                           heightmap.m_64249_(l3, k2, k4, blockstate);
+-                           heightmap1.m_64249_(l3, k2, k4, blockstate);
++                           levelchunksection.setBlockState(l3, l2, k4, blockstate, false);
++                           heightmap.update(l3, k2, k4, blockstate);
++                           heightmap1.update(l3, k2, k4, blockstate);
+                            if (aquifer.m_142203_() && !blockstate.m_60819_().m_76178_()) {
+-                              blockpos$mutableblockpos.m_122178_(k3, k2, j4);
++                              blockpos$mutableblockpos.m_122169_(k3, k2, j4);
+                               p_224288_.m_8113_(blockpos$mutableblockpos);
+                            }
+                         }
+@@ -350,28 +_,28 @@
+       return p_224288_;
+    }
+ 
+-   private BlockState m_198231_(NoiseChunk p_198232_, int p_198233_, int p_198234_, int p_198235_, BlockState p_198236_) {
++   private BlockState debugPreliminarySurfaceLevel(NoiseChunk p_198232_, long p_198233_, long p_198234_, long p_198235_, BlockState p_198236_) {
+       return p_198236_;
+    }
+ 
+-   public int m_6331_() {
+-      return this.f_64318_.m_203334_().f_64439_().f_64508_();
++   public long getGenDepth() {
++      return this.f_64318_.m_203334_().f_64439_().height();
+    }
+ 
+    public int m_6337_() {
+       return this.f_64318_.m_203334_().f_64444_();
+    }
+ 
+-   public int m_142062_() {
+-      return this.f_64318_.m_203334_().f_64439_().f_158688_();
++   public long getMinY() {
++      return this.f_64318_.m_203334_().f_64439_().minY();
+    }
+ 
+    public void m_6929_(WorldGenRegion p_64379_) {
+       if (!this.f_64318_.m_203334_().f_64445_()) {
+          ChunkPos chunkpos = p_64379_.m_143488_();
+-         Holder<Biome> holder = p_64379_.m_204166_(chunkpos.m_45615_().m_175288_(p_64379_.m_151558_() - 1));
++         Holder<Biome> holder = p_64379_.m_204166_(chunkpos.m_45615_().atY(p_64379_.getMaxBuildHeight() - 1));
+          WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.m_224599_()));
+-         worldgenrandom.m_64690_(p_64379_.m_7328_(), chunkpos.m_45604_(), chunkpos.m_45605_());
++         worldgenrandom.setDecorationSeed(p_64379_.m_7328_(), chunkpos.getMinBlockX(), chunkpos.getMinBlockZ());
+          NaturalSpawner.m_220450_(p_64379_, holder, chunkpos, worldgenrandom);
+       }
+    }

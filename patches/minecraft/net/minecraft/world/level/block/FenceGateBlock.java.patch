@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/block/FenceGateBlock.java
++++ b/net/minecraft/world/level/block/FenceGateBlock.java
+@@ -56,7 +_,7 @@
+       if (p_53382_.m_61143_(f_54117_).m_122427_().m_122434_() != direction$axis) {
+          return super.m_7417_(p_53382_, p_53383_, p_53384_, p_53385_, p_53386_, p_53387_);
+       } else {
+-         boolean flag = this.m_53404_(p_53384_) || this.m_53404_(p_53385_.m_8055_(p_53386_.m_121945_(p_53383_.m_122424_())));
++         boolean flag = this.m_53404_(p_53384_) || this.m_53404_(p_53385_.m_8055_(p_53386_.relative(p_53383_.m_122424_())));
+          return p_53382_.m_61124_(f_53343_, Boolean.valueOf(flag));
+       }
+    }
+@@ -96,7 +_,7 @@
+       boolean flag = level.m_46753_(blockpos);
+       Direction direction = p_53358_.m_8125_();
+       Direction.Axis direction$axis = direction.m_122434_();
+-      boolean flag1 = direction$axis == Direction.Axis.Z && (this.m_53404_(level.m_8055_(blockpos.m_122024_())) || this.m_53404_(level.m_8055_(blockpos.m_122029_()))) || direction$axis == Direction.Axis.X && (this.m_53404_(level.m_8055_(blockpos.m_122012_())) || this.m_53404_(level.m_8055_(blockpos.m_122019_())));
++      boolean flag1 = direction$axis == Direction.Axis.Z && (this.m_53404_(level.m_8055_(blockpos.west())) || this.m_53404_(level.m_8055_(blockpos.east()))) || direction$axis == Direction.Axis.X && (this.m_53404_(level.m_8055_(blockpos.north())) || this.m_53404_(level.m_8055_(blockpos.south())));
+       return this.m_49966_().m_61124_(f_54117_, direction).m_61124_(f_53341_, Boolean.valueOf(flag)).m_61124_(f_53342_, Boolean.valueOf(flag)).m_61124_(f_53343_, Boolean.valueOf(flag1));
+    }
+ 

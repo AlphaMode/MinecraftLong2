@@ -1,0 +1,58 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/NetherFortressPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/NetherFortressPieces.java
+@@ -77,8 +_,8 @@
+          this.m_73519_(p_228028_);
+       }
+ 
+-      protected BridgeCrossing(int p_228022_, int p_228023_, Direction p_228024_) {
+-         super(StructurePieceType.f_210129_, 0, StructurePiece.m_163541_(p_228022_, 64, p_228023_, p_228024_, 19, 10, 19));
++      protected BridgeCrossing(long p_228022_, long p_228023_, Direction p_228024_) {
++         super(StructurePieceType.f_210129_, 0, StructurePiece.m_163541_((int) p_228022_, 64, (int) p_228023_, p_228024_, 19, 10, 19));
+          this.m_73519_(p_228024_);
+       }
+ 
+@@ -463,7 +_,7 @@
+          this.m_73434_(p_228180_, Blocks.f_50197_.m_49966_(), 6, 0, 6, p_228184_);
+          this.m_73434_(p_228180_, Blocks.f_49991_.m_49966_(), 6, 5, 6, p_228184_);
+          BlockPos blockpos = this.m_163582_(6, 5, 6);
+-         if (p_228184_.m_71051_(blockpos)) {
++         if (p_228184_.isInside(blockpos)) {
+             p_228180_.m_186469_(blockpos, Fluids.f_76195_, 0);
+          }
+ 
+@@ -556,7 +_,7 @@
+          this.m_73441_(p_228239_, p_228243_, 0, 2, 4, 3, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+          this.m_73441_(p_228239_, p_228243_, 1, 3, 4, 1, 4, 4, blockstate, blockstate, false);
+          this.m_73441_(p_228239_, p_228243_, 3, 3, 4, 3, 4, 4, blockstate, blockstate, false);
+-         if (this.f_228230_ && p_228243_.m_71051_(this.m_163582_(3, 2, 3))) {
++         if (this.f_228230_ && p_228243_.isInside(this.m_163582_(3, 2, 3))) {
+             this.f_228230_ = false;
+             this.m_213787_(p_228239_, p_228243_, p_228242_, 3, 2, 3, BuiltInLootTables.f_78760_);
+          }
+@@ -659,7 +_,7 @@
+          this.m_73441_(p_228301_, p_228305_, 1, 2, 4, 4, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+          this.m_73441_(p_228301_, p_228305_, 1, 3, 4, 1, 4, 4, blockstate, blockstate, false);
+          this.m_73441_(p_228301_, p_228305_, 3, 3, 4, 3, 4, 4, blockstate, blockstate, false);
+-         if (this.f_228292_ && p_228305_.m_71051_(this.m_163582_(1, 2, 3))) {
++         if (this.f_228292_ && p_228305_.isInside(this.m_163582_(1, 2, 3))) {
+             this.f_228292_ = false;
+             this.m_213787_(p_228301_, p_228305_, p_228304_, 1, 2, 3, BuiltInLootTables.f_78760_);
+          }
+@@ -872,7 +_,7 @@
+          this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 4, 8, 8, p_228366_);
+          if (!this.f_228354_) {
+             BlockPos blockpos = this.m_163582_(3, 5, 5);
+-            if (p_228366_.m_71051_(blockpos)) {
++            if (p_228366_.isInside(blockpos)) {
+                this.f_228354_ = true;
+                p_228362_.m_7731_(blockpos, Blocks.f_50085_.m_49966_(), 2);
+                BlockEntity blockentity = p_228362_.m_7702_(blockpos);
+@@ -1176,7 +_,7 @@
+       public List<NetherFortressPieces.PieceWeight> f_228509_;
+       public final List<StructurePiece> f_228510_ = Lists.newArrayList();
+ 
+-      public StartPiece(RandomSource p_228512_, int p_228513_, int p_228514_) {
++      public StartPiece(RandomSource p_228512_, long p_228513_, long p_228514_) {
+          super(p_228513_, p_228514_, m_226760_(p_228512_));
+          this.f_228508_ = Lists.newArrayList();
+ 

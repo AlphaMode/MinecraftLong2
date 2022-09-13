@@ -1,0 +1,44 @@
+--- a/net/minecraft/world/item/BoneMealItem.java
++++ b/net/minecraft/world/item/BoneMealItem.java
+@@ -32,7 +_,7 @@
+    public InteractionResult m_6225_(UseOnContext p_40637_) {
+       Level level = p_40637_.m_43725_();
+       BlockPos blockpos = p_40637_.m_8083_();
+-      BlockPos blockpos1 = blockpos.m_121945_(p_40637_.m_43719_());
++      BlockPos blockpos1 = blockpos.relative(p_40637_.m_43719_());
+       if (m_40627_(p_40637_.m_43722_(), level, blockpos)) {
+          if (!level.f_46443_) {
+             level.m_46796_(1505, blockpos, 0);
+@@ -153,7 +_,7 @@
+             d1 = 1.0D;
+             d0 = 3.0D;
+          } else if (blockstate.m_60804_(p_40639_, p_40640_)) {
+-            p_40640_ = p_40640_.m_7494_();
++            p_40640_ = p_40640_.above();
+             p_40641_ *= 3;
+             d0 = 3.0D;
+             d1 = 1.0D;
+@@ -161,7 +_,7 @@
+             d1 = blockstate.m_60808_(p_40639_, p_40640_).m_83297_(Direction.Axis.Y);
+          }
+ 
+-         p_40639_.m_7106_(ParticleTypes.f_123748_, (double)p_40640_.m_123341_() + 0.5D, (double)p_40640_.m_123342_() + 0.5D, (double)p_40640_.m_123343_() + 0.5D, 0.0D, 0.0D, 0.0D);
++         p_40639_.m_7106_(ParticleTypes.f_123748_, (double)p_40640_.getX() + 0.5D, (double)p_40640_.getY() + 0.5D, (double)p_40640_.getZ() + 0.5D, 0.0D, 0.0D, 0.0D);
+          RandomSource randomsource = p_40639_.m_213780_();
+ 
+          for(int i = 0; i < p_40641_; ++i) {
+@@ -169,10 +_,10 @@
+             double d3 = randomsource.m_188583_() * 0.02D;
+             double d4 = randomsource.m_188583_() * 0.02D;
+             double d5 = 0.5D - d0;
+-            double d6 = (double)p_40640_.m_123341_() + d5 + randomsource.m_188500_() * d0 * 2.0D;
+-            double d7 = (double)p_40640_.m_123342_() + randomsource.m_188500_() * d1;
+-            double d8 = (double)p_40640_.m_123343_() + d5 + randomsource.m_188500_() * d0 * 2.0D;
+-            if (!p_40639_.m_8055_((new BlockPos(d6, d7, d8)).m_7495_()).m_60795_()) {
++            double d6 = (double)p_40640_.getX() + d5 + randomsource.m_188500_() * d0 * 2.0D;
++            double d7 = (double)p_40640_.getY() + randomsource.m_188500_() * d1;
++            double d8 = (double)p_40640_.getZ() + d5 + randomsource.m_188500_() * d0 * 2.0D;
++            if (!p_40639_.m_8055_((new BlockPos(d6, d7, d8)).below()).m_60795_()) {
+                p_40639_.m_7106_(ParticleTypes.f_123748_, d6, d7, d8, d2, d3, d4);
+             }
+          }

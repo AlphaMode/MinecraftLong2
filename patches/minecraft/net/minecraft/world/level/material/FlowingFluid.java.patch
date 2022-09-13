@@ -1,0 +1,139 @@
+--- a/net/minecraft/world/level/material/FlowingFluid.java
++++ b/net/minecraft/world/level/material/FlowingFluid.java
+@@ -52,14 +_,14 @@
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         blockpos$mutableblockpos.m_122159_(p_75988_, direction);
++         blockpos$mutableblockpos.setWithOffset(p_75988_, direction);
+          FluidState fluidstate = p_75987_.m_6425_(blockpos$mutableblockpos);
+          if (this.m_76094_(fluidstate)) {
+             float f = fluidstate.m_76182_();
+             float f1 = 0.0F;
+             if (f == 0.0F) {
+                if (!p_75987_.m_8055_(blockpos$mutableblockpos).m_60767_().m_76334_()) {
+-                  BlockPos blockpos = blockpos$mutableblockpos.m_7495_();
++                  BlockPos blockpos = blockpos$mutableblockpos.below();
+                   FluidState fluidstate1 = p_75987_.m_6425_(blockpos);
+                   if (this.m_76094_(fluidstate1)) {
+                      f = fluidstate1.m_76182_();
+@@ -82,8 +_,8 @@
+       Vec3 vec3 = new Vec3(d0, 0.0D, d1);
+       if (p_75989_.m_61143_(f_75947_)) {
+          for(Direction direction1 : Direction.Plane.HORIZONTAL) {
+-            blockpos$mutableblockpos.m_122159_(p_75988_, direction1);
+-            if (this.m_75990_(p_75987_, blockpos$mutableblockpos, direction1) || this.m_75990_(p_75987_, blockpos$mutableblockpos.m_7494_(), direction1)) {
++            blockpos$mutableblockpos.setWithOffset(p_75988_, direction1);
++            if (this.m_75990_(p_75987_, blockpos$mutableblockpos, direction1) || this.m_75990_(p_75987_, blockpos$mutableblockpos.above(), direction1)) {
+                vec3 = vec3.m_82541_().m_82520_(0.0D, -6.0D, 0.0D);
+                break;
+             }
+@@ -112,7 +_,7 @@
+    protected void m_76010_(LevelAccessor p_76011_, BlockPos p_76012_, FluidState p_76013_) {
+       if (!p_76013_.m_76178_()) {
+          BlockState blockstate = p_76011_.m_8055_(p_76012_);
+-         BlockPos blockpos = p_76012_.m_7495_();
++         BlockPos blockpos = p_76012_.below();
+          BlockState blockstate1 = p_76011_.m_8055_(blockpos);
+          FluidState fluidstate = this.m_76035_(p_76011_, blockpos, blockstate1);
+          if (this.m_75977_(p_76011_, p_76012_, blockstate, Direction.DOWN, blockpos, blockstate1, p_76011_.m_6425_(blockpos), fluidstate.m_76152_())) {
+@@ -139,7 +_,7 @@
+          for(Map.Entry<Direction, FluidState> entry : map.entrySet()) {
+             Direction direction = entry.getKey();
+             FluidState fluidstate = entry.getValue();
+-            BlockPos blockpos = p_76016_.m_121945_(direction);
++            BlockPos blockpos = p_76016_.relative(direction);
+             BlockState blockstate = p_76015_.m_8055_(blockpos);
+             if (this.m_75977_(p_76015_, p_76016_, p_76018_, direction, blockpos, blockstate, p_76015_.m_6425_(blockpos), fluidstate.m_76152_())) {
+                this.m_6364_(p_76015_, blockpos, blockstate, direction, fluidstate);
+@@ -154,7 +_,7 @@
+       int j = 0;
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         BlockPos blockpos = p_76037_.m_121945_(direction);
++         BlockPos blockpos = p_76037_.relative(direction);
+          BlockState blockstate = p_76036_.m_8055_(blockpos);
+          FluidState fluidstate = blockstate.m_60819_();
+          if (fluidstate.m_76152_().m_6212_(this) && this.m_76061_(direction, p_76036_, p_76037_, p_76038_, blockpos, blockstate)) {
+@@ -167,14 +_,14 @@
+       }
+ 
+       if (this.m_6760_() && j >= 2) {
+-         BlockState blockstate1 = p_76036_.m_8055_(p_76037_.m_7495_());
++         BlockState blockstate1 = p_76036_.m_8055_(p_76037_.below());
+          FluidState fluidstate1 = blockstate1.m_60819_();
+          if (blockstate1.m_60767_().m_76333_() || this.m_76096_(fluidstate1)) {
+             return this.m_76068_(false);
+          }
+       }
+ 
+-      BlockPos blockpos1 = p_76037_.m_7494_();
++      BlockPos blockpos1 = p_76037_.above();
+       BlockState blockstate2 = p_76036_.m_8055_(blockpos1);
+       FluidState fluidstate2 = blockstate2.m_60819_();
+       if (!fluidstate2.m_76178_() && fluidstate2.m_76152_().m_6212_(this) && this.m_76061_(Direction.UP, p_76036_, p_76037_, p_76038_, blockpos1, blockstate2)) {
+@@ -248,8 +_,8 @@
+    protected abstract void m_7456_(LevelAccessor p_76002_, BlockPos p_76003_, BlockState p_76004_);
+ 
+    private static short m_76058_(BlockPos p_76059_, BlockPos p_76060_) {
+-      int i = p_76060_.m_123341_() - p_76059_.m_123341_();
+-      int j = p_76060_.m_123343_() - p_76059_.m_123343_();
++      long i = p_76060_.getX() - p_76059_.getX();
++      long j = p_76060_.getZ() - p_76059_.getZ();
+       return (short)((i + 128 & 255) << 8 | j + 128 & 255);
+    }
+ 
+@@ -258,7 +_,7 @@
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+          if (direction != p_76030_) {
+-            BlockPos blockpos = p_76028_.m_121945_(direction);
++            BlockPos blockpos = p_76028_.relative(direction);
+             short short1 = m_76058_(p_76032_, blockpos);
+             Pair<BlockState, FluidState> pair = p_76033_.computeIfAbsent(short1, (p_192916_) -> {
+                BlockState blockstate1 = p_76027_.m_8055_(blockpos);
+@@ -268,7 +_,7 @@
+             FluidState fluidstate = pair.getSecond();
+             if (this.m_75963_(p_76027_, this.m_5615_(), p_76028_, p_76031_, direction, blockpos, blockstate, fluidstate)) {
+                boolean flag = p_76034_.computeIfAbsent(short1, (p_192912_) -> {
+-                  BlockPos blockpos1 = blockpos.m_7495_();
++                  BlockPos blockpos1 = blockpos.below();
+                   BlockState blockstate1 = p_76027_.m_8055_(blockpos1);
+                   return this.m_75956_(p_76027_, this.m_5615_(), blockpos, blockstate, blockpos1, blockstate1);
+                });
+@@ -311,7 +_,7 @@
+       int i = 0;
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         BlockPos blockpos = p_76021_.m_121945_(direction);
++         BlockPos blockpos = p_76021_.relative(direction);
+          FluidState fluidstate = p_76020_.m_6425_(blockpos);
+          if (this.m_76096_(fluidstate)) {
+             ++i;
+@@ -328,7 +_,7 @@
+       Short2BooleanMap short2booleanmap = new Short2BooleanOpenHashMap();
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         BlockPos blockpos = p_76081_.m_121945_(direction);
++         BlockPos blockpos = p_76081_.relative(direction);
+          short short1 = m_76058_(p_76081_, blockpos);
+          Pair<BlockState, FluidState> pair = short2objectmap.computeIfAbsent(short1, (p_192907_) -> {
+             BlockState blockstate1 = p_76080_.m_8055_(blockpos);
+@@ -338,7 +_,7 @@
+          FluidState fluidstate = pair.getSecond();
+          FluidState fluidstate1 = this.m_76035_(p_76080_, blockpos, blockstate);
+          if (this.m_75963_(p_76080_, fluidstate1.m_76152_(), p_76081_, p_76082_, direction, blockpos, blockstate, fluidstate)) {
+-            BlockPos blockpos1 = blockpos.m_7495_();
++            BlockPos blockpos1 = blockpos.below();
+             boolean flag = short2booleanmap.computeIfAbsent(short1, (p_192903_) -> {
+                BlockState blockstate1 = p_76080_.m_8055_(blockpos1);
+                return this.m_75956_(p_76080_, this.m_5615_(), blockpos, blockstate, blockpos1, blockstate1);
+@@ -414,7 +_,7 @@
+    }
+ 
+    private static boolean m_76088_(FluidState p_76089_, BlockGetter p_76090_, BlockPos p_76091_) {
+-      return p_76089_.m_76152_().m_6212_(p_76090_.m_6425_(p_76091_.m_7494_()).m_76152_());
++      return p_76089_.m_76152_().m_6212_(p_76090_.m_6425_(p_76091_.above()).m_76152_());
+    }
+ 
+    public float m_6098_(FluidState p_76050_, BlockGetter p_76051_, BlockPos p_76052_) {

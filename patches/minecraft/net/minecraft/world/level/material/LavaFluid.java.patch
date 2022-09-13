@@ -1,0 +1,55 @@
+--- a/net/minecraft/world/level/material/LavaFluid.java
++++ b/net/minecraft/world/level/material/LavaFluid.java
+@@ -40,18 +_,18 @@
+    }
+ 
+    public void m_213811_(Level p_230567_, BlockPos p_230568_, FluidState p_230569_, RandomSource p_230570_) {
+-      BlockPos blockpos = p_230568_.m_7494_();
++      BlockPos blockpos = p_230568_.above();
+       if (p_230567_.m_8055_(blockpos).m_60795_() && !p_230567_.m_8055_(blockpos).m_60804_(p_230567_, blockpos)) {
+          if (p_230570_.m_188503_(100) == 0) {
+-            double d0 = (double)p_230568_.m_123341_() + p_230570_.m_188500_();
+-            double d1 = (double)p_230568_.m_123342_() + 1.0D;
+-            double d2 = (double)p_230568_.m_123343_() + p_230570_.m_188500_();
++            double d0 = (double)p_230568_.getX() + p_230570_.m_188500_();
++            double d1 = (double)p_230568_.getY() + 1.0D;
++            double d2 = (double)p_230568_.getZ() + p_230570_.m_188500_();
+             p_230567_.m_7106_(ParticleTypes.f_123756_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+             p_230567_.m_7785_(d0, d1, d2, SoundEvents.f_12032_, SoundSource.BLOCKS, 0.2F + p_230570_.m_188501_() * 0.2F, 0.9F + p_230570_.m_188501_() * 0.15F, false);
+          }
+ 
+          if (p_230570_.m_188503_(200) == 0) {
+-            p_230567_.m_7785_((double)p_230568_.m_123341_(), (double)p_230568_.m_123342_(), (double)p_230568_.m_123343_(), SoundEvents.f_12030_, SoundSource.BLOCKS, 0.2F + p_230570_.m_188501_() * 0.2F, 0.9F + p_230570_.m_188501_() * 0.15F, false);
++            p_230567_.m_7785_((double)p_230568_.getX(), (double)p_230568_.getY(), (double)p_230568_.getZ(), SoundEvents.f_12030_, SoundSource.BLOCKS, 0.2F + p_230570_.m_188501_() * 0.2F, 0.9F + p_230570_.m_188501_() * 0.15F, false);
+          }
+       }
+ 
+@@ -86,8 +_,8 @@
+                   return;
+                }
+ 
+-               if (p_230572_.m_46859_(blockpos1.m_7494_()) && this.m_76245_(p_230572_, blockpos1)) {
+-                  p_230572_.m_46597_(blockpos1.m_7494_(), BaseFireBlock.m_49245_(p_230572_, blockpos1));
++               if (p_230572_.m_46859_(blockpos1.above()) && this.m_76245_(p_230572_, blockpos1)) {
++                  p_230572_.m_46597_(blockpos1.above(), BaseFireBlock.m_49245_(p_230572_, blockpos1));
+                }
+             }
+          }
+@@ -97,7 +_,7 @@
+ 
+    private boolean m_76227_(LevelReader p_76228_, BlockPos p_76229_) {
+       for(Direction direction : Direction.values()) {
+-         if (this.m_76245_(p_76228_, p_76229_.m_121945_(direction))) {
++         if (this.m_76245_(p_76228_, p_76229_.relative(direction))) {
+             return true;
+          }
+       }
+@@ -106,7 +_,7 @@
+    }
+ 
+    private boolean m_76245_(LevelReader p_76246_, BlockPos p_76247_) {
+-      return p_76247_.m_123342_() >= p_76246_.m_141937_() && p_76247_.m_123342_() < p_76246_.m_151558_() && !p_76246_.m_46805_(p_76247_) ? false : p_76246_.m_8055_(p_76247_).m_60767_().m_76335_();
++      return p_76247_.getY() >= p_76246_.getMinBuildHeight() && p_76247_.getY() < p_76246_.getMaxBuildHeight() && !p_76246_.m_46805_(p_76247_) ? false : p_76246_.m_8055_(p_76247_).m_60767_().m_76335_();
+    }
+ 
+    @Nullable

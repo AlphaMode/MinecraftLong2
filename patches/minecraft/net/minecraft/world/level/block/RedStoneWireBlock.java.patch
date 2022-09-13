@@ -1,0 +1,160 @@
+--- a/net/minecraft/world/level/block/RedStoneWireBlock.java
++++ b/net/minecraft/world/level/block/RedStoneWireBlock.java
+@@ -133,7 +_,7 @@
+    }
+ 
+    private BlockState m_55608_(BlockGetter p_55609_, BlockState p_55610_, BlockPos p_55611_) {
+-      boolean flag = !p_55609_.m_8055_(p_55611_.m_7494_()).m_60796_(p_55609_, p_55611_);
++      boolean flag = !p_55609_.m_8055_(p_55611_.above()).m_60796_(p_55609_, p_55611_);
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+          if (!p_55610_.m_61143_(f_55501_.get(direction)).m_61761_()) {
+@@ -169,18 +_,18 @@
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+          RedstoneSide redstoneside = p_55579_.m_61143_(f_55501_.get(direction));
+-         if (redstoneside != RedstoneSide.NONE && !p_55580_.m_8055_(blockpos$mutableblockpos.m_122159_(p_55581_, direction)).m_60713_(this)) {
++         if (redstoneside != RedstoneSide.NONE && !p_55580_.m_8055_(blockpos$mutableblockpos.setWithOffset(p_55581_, direction)).m_60713_(this)) {
+             blockpos$mutableblockpos.m_122173_(Direction.DOWN);
+             BlockState blockstate = p_55580_.m_8055_(blockpos$mutableblockpos);
+             if (blockstate.m_60713_(this)) {
+-               BlockPos blockpos = blockpos$mutableblockpos.m_121945_(direction.m_122424_());
++               BlockPos blockpos = blockpos$mutableblockpos.relative(direction.m_122424_());
+                p_55580_.m_213683_(direction.m_122424_(), p_55580_.m_8055_(blockpos), blockpos$mutableblockpos, blockpos, p_55582_, p_55583_);
+             }
+ 
+-            blockpos$mutableblockpos.m_122159_(p_55581_, direction).m_122173_(Direction.UP);
++            blockpos$mutableblockpos.setWithOffset(p_55581_, direction).m_122173_(Direction.UP);
+             BlockState blockstate1 = p_55580_.m_8055_(blockpos$mutableblockpos);
+             if (blockstate1.m_60713_(this)) {
+-               BlockPos blockpos1 = blockpos$mutableblockpos.m_121945_(direction.m_122424_());
++               BlockPos blockpos1 = blockpos$mutableblockpos.relative(direction.m_122424_());
+                p_55580_.m_213683_(direction.m_122424_(), p_55580_.m_8055_(blockpos1), blockpos$mutableblockpos, blockpos1, p_55582_, p_55583_);
+             }
+          }
+@@ -189,15 +_,15 @@
+    }
+ 
+    private RedstoneSide m_55518_(BlockGetter p_55519_, BlockPos p_55520_, Direction p_55521_) {
+-      return this.m_55522_(p_55519_, p_55520_, p_55521_, !p_55519_.m_8055_(p_55520_.m_7494_()).m_60796_(p_55519_, p_55520_));
++      return this.m_55522_(p_55519_, p_55520_, p_55521_, !p_55519_.m_8055_(p_55520_.above()).m_60796_(p_55519_, p_55520_));
+    }
+ 
+    private RedstoneSide m_55522_(BlockGetter p_55523_, BlockPos p_55524_, Direction p_55525_, boolean p_55526_) {
+-      BlockPos blockpos = p_55524_.m_121945_(p_55525_);
++      BlockPos blockpos = p_55524_.relative(p_55525_);
+       BlockState blockstate = p_55523_.m_8055_(blockpos);
+       if (p_55526_) {
+          boolean flag = this.m_55612_(p_55523_, blockpos, blockstate);
+-         if (flag && m_55640_(p_55523_.m_8055_(blockpos.m_7494_()))) {
++         if (flag && m_55640_(p_55523_.m_8055_(blockpos.above()))) {
+             if (blockstate.m_60783_(p_55523_, blockpos, p_55525_.m_122424_())) {
+                return RedstoneSide.UP;
+             }
+@@ -206,11 +_,11 @@
+          }
+       }
+ 
+-      return !m_55594_(blockstate, p_55525_) && (blockstate.m_60796_(p_55523_, blockpos) || !m_55640_(p_55523_.m_8055_(blockpos.m_7495_()))) ? RedstoneSide.NONE : RedstoneSide.SIDE;
++      return !m_55594_(blockstate, p_55525_) && (blockstate.m_60796_(p_55523_, blockpos) || !m_55640_(p_55523_.m_8055_(blockpos.below()))) ? RedstoneSide.NONE : RedstoneSide.SIDE;
+    }
+ 
+    public boolean m_7898_(BlockState p_55585_, LevelReader p_55586_, BlockPos p_55587_) {
+-      BlockPos blockpos = p_55587_.m_7495_();
++      BlockPos blockpos = p_55587_.below();
+       BlockState blockstate = p_55586_.m_8055_(blockpos);
+       return this.m_55612_(p_55586_, blockpos, blockstate);
+    }
+@@ -230,7 +_,7 @@
+          set.add(p_55532_);
+ 
+          for(Direction direction : Direction.values()) {
+-            set.add(p_55532_.m_121945_(direction));
++            set.add(p_55532_.relative(direction));
+          }
+ 
+          for(BlockPos blockpos : set) {
+@@ -247,14 +_,14 @@
+       int j = 0;
+       if (i < 15) {
+          for(Direction direction : Direction.Plane.HORIZONTAL) {
+-            BlockPos blockpos = p_55529_.m_121945_(direction);
++            BlockPos blockpos = p_55529_.relative(direction);
+             BlockState blockstate = p_55528_.m_8055_(blockpos);
+             j = Math.max(j, this.m_55648_(blockstate));
+-            BlockPos blockpos1 = p_55529_.m_7494_();
++            BlockPos blockpos1 = p_55529_.above();
+             if (blockstate.m_60796_(p_55528_, blockpos) && !p_55528_.m_8055_(blockpos1).m_60796_(p_55528_, blockpos1)) {
+-               j = Math.max(j, this.m_55648_(p_55528_.m_8055_(blockpos.m_7494_())));
++               j = Math.max(j, this.m_55648_(p_55528_.m_8055_(blockpos.above())));
+             } else if (!blockstate.m_60796_(p_55528_, blockpos)) {
+-               j = Math.max(j, this.m_55648_(p_55528_.m_8055_(blockpos.m_7495_())));
++               j = Math.max(j, this.m_55648_(p_55528_.m_8055_(blockpos.below())));
+             }
+          }
+       }
+@@ -271,7 +_,7 @@
+          p_55617_.m_46672_(p_55618_, this);
+ 
+          for(Direction direction : Direction.values()) {
+-            p_55617_.m_46672_(p_55618_.m_121945_(direction), this);
++            p_55617_.m_46672_(p_55618_.relative(direction), this);
+          }
+ 
+       }
+@@ -282,7 +_,7 @@
+          this.m_55530_(p_55631_, p_55632_, p_55630_);
+ 
+          for(Direction direction : Direction.Plane.VERTICAL) {
+-            p_55631_.m_46672_(p_55632_.m_121945_(direction), this);
++            p_55631_.m_46672_(p_55632_.relative(direction), this);
+          }
+ 
+          this.m_55637_(p_55631_, p_55632_);
+@@ -294,7 +_,7 @@
+          super.m_6810_(p_55568_, p_55569_, p_55570_, p_55571_, p_55572_);
+          if (!p_55569_.f_46443_) {
+             for(Direction direction : Direction.values()) {
+-               p_55569_.m_46672_(p_55570_.m_121945_(direction), this);
++               p_55569_.m_46672_(p_55570_.relative(direction), this);
+             }
+ 
+             this.m_55530_(p_55569_, p_55570_, p_55568_);
+@@ -305,15 +_,15 @@
+ 
+    private void m_55637_(Level p_55638_, BlockPos p_55639_) {
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         this.m_55616_(p_55638_, p_55639_.m_121945_(direction));
++         this.m_55616_(p_55638_, p_55639_.relative(direction));
+       }
+ 
+       for(Direction direction1 : Direction.Plane.HORIZONTAL) {
+-         BlockPos blockpos = p_55639_.m_121945_(direction1);
++         BlockPos blockpos = p_55639_.relative(direction1);
+          if (p_55638_.m_8055_(blockpos).m_60796_(p_55638_, blockpos)) {
+-            this.m_55616_(p_55638_, blockpos.m_7494_());
++            this.m_55616_(p_55638_, blockpos.above());
+          } else {
+-            this.m_55616_(p_55638_, blockpos.m_7495_());
++            this.m_55616_(p_55638_, blockpos.below());
+          }
+       }
+ 
+@@ -382,7 +_,7 @@
+          double d0 = 0.5D + (double)(0.4375F * (float)p_221927_.m_122429_()) + (double)(f2 * (float)p_221928_.m_122429_());
+          double d1 = 0.5D + (double)(0.4375F * (float)p_221927_.m_122430_()) + (double)(f2 * (float)p_221928_.m_122430_());
+          double d2 = 0.5D + (double)(0.4375F * (float)p_221927_.m_122431_()) + (double)(f2 * (float)p_221928_.m_122431_());
+-         p_221923_.m_7106_(new DustParticleOptions(new Vector3f(p_221926_), 1.0F), (double)p_221925_.m_123341_() + d0, (double)p_221925_.m_123342_() + d1, (double)p_221925_.m_123343_() + d2, 0.0D, 0.0D, 0.0D);
++         p_221923_.m_7106_(new DustParticleOptions(new Vector3f(p_221926_), 1.0F), (double)p_221925_.getX() + d0, (double)p_221925_.getY() + d1, (double)p_221925_.getZ() + d2, 0.0D, 0.0D, 0.0D);
+       }
+    }
+ 
+@@ -455,7 +_,7 @@
+ 
+    private void m_55534_(Level p_55535_, BlockPos p_55536_, BlockState p_55537_, BlockState p_55538_) {
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         BlockPos blockpos = p_55536_.m_121945_(direction);
++         BlockPos blockpos = p_55536_.relative(direction);
+          if (p_55537_.m_61143_(f_55501_.get(direction)).m_61761_() != p_55538_.m_61143_(f_55501_.get(direction)).m_61761_() && p_55535_.m_8055_(blockpos).m_60796_(p_55535_, blockpos)) {
+             p_55535_.m_46590_(blockpos, p_55538_.m_60734_(), direction.m_122424_());
+          }

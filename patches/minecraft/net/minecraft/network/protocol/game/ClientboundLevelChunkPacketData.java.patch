@@ -1,0 +1,80 @@
+--- a/net/minecraft/network/protocol/game/ClientboundLevelChunkPacketData.java
++++ b/net/minecraft/network/protocol/game/ClientboundLevelChunkPacketData.java
+@@ -44,7 +_,7 @@
+ 
+    }
+ 
+-   public ClientboundLevelChunkPacketData(FriendlyByteBuf p_195653_, int p_195654_, int p_195655_) {
++   public ClientboundLevelChunkPacketData(FriendlyByteBuf p_195653_, long p_195654_, long p_195655_) {
+       this.f_195647_ = p_195653_.m_130260_();
+       if (this.f_195647_ == null) {
+          throw new RuntimeException("Can't read heightmap in packet for [" + p_195654_ + ", " + p_195655_ + "]");
+@@ -92,21 +_,21 @@
+ 
+    }
+ 
+-   public Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> m_195657_(int p_195658_, int p_195659_) {
++   public Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> getBlockEntitiesTagsConsumer(long p_195658_, long p_195659_) {
+       return (p_195663_) -> {
+-         this.m_195674_(p_195663_, p_195658_, p_195659_);
++         this.getBlockEntitiesTags(p_195663_, p_195658_, p_195659_);
+       };
+    }
+ 
+-   private void m_195674_(ClientboundLevelChunkPacketData.BlockEntityTagOutput p_195675_, int p_195676_, int p_195677_) {
+-      int i = 16 * p_195676_;
+-      int j = 16 * p_195677_;
++   private void getBlockEntitiesTags(ClientboundLevelChunkPacketData.BlockEntityTagOutput p_195675_, long p_195676_, long p_195677_) {
++      long i = 16 * p_195676_;
++      long j = 16 * p_195677_;
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+       for(ClientboundLevelChunkPacketData.BlockEntityInfo clientboundlevelchunkpacketdata$blockentityinfo : this.f_195649_) {
+-         int k = i + SectionPos.m_123207_(clientboundlevelchunkpacketdata$blockentityinfo.f_195680_ >> 4);
+-         int l = j + SectionPos.m_123207_(clientboundlevelchunkpacketdata$blockentityinfo.f_195680_);
+-         blockpos$mutableblockpos.m_122178_(k, clientboundlevelchunkpacketdata$blockentityinfo.f_195681_, l);
++         long k = i + SectionPos.sectionRelative(clientboundlevelchunkpacketdata$blockentityinfo.f_195680_ >> 4);
++         long l = j + SectionPos.sectionRelative(clientboundlevelchunkpacketdata$blockentityinfo.f_195680_);
++         blockpos$mutableblockpos.m_122169_(k, clientboundlevelchunkpacketdata$blockentityinfo.f_195681_, l);
+          p_195675_.m_195695_(blockpos$mutableblockpos, clientboundlevelchunkpacketdata$blockentityinfo.f_195682_, clientboundlevelchunkpacketdata$blockentityinfo.f_195683_);
+       }
+ 
+@@ -121,13 +_,13 @@
+    }
+ 
+    static class BlockEntityInfo {
+-      final int f_195680_;
+-      final int f_195681_;
++      final long f_195680_;
++      final long f_195681_;
+       final BlockEntityType<?> f_195682_;
+       @Nullable
+       final CompoundTag f_195683_;
+ 
+-      private BlockEntityInfo(int p_195685_, int p_195686_, BlockEntityType<?> p_195687_, @Nullable CompoundTag p_195688_) {
++      private BlockEntityInfo(long p_195685_, long p_195686_, BlockEntityType<?> p_195687_, @Nullable CompoundTag p_195688_) {
+          this.f_195680_ = p_195685_;
+          this.f_195681_ = p_195686_;
+          this.f_195682_ = p_195687_;
+@@ -142,8 +_,8 @@
+       }
+ 
+       void m_195693_(FriendlyByteBuf p_195694_) {
+-         p_195694_.writeByte(this.f_195680_);
+-         p_195694_.writeShort(this.f_195681_);
++         p_195694_.writeLong(this.f_195680_);
++         p_195694_.writeLong(this.f_195681_);
+          p_195694_.m_236818_(Registry.f_122830_, this.f_195682_);
+          p_195694_.m_130079_(this.f_195683_);
+       }
+@@ -151,8 +_,8 @@
+       static ClientboundLevelChunkPacketData.BlockEntityInfo m_195691_(BlockEntity p_195692_) {
+          CompoundTag compoundtag = p_195692_.m_5995_();
+          BlockPos blockpos = p_195692_.m_58899_();
+-         int i = SectionPos.m_123207_(blockpos.m_123341_()) << 4 | SectionPos.m_123207_(blockpos.m_123343_());
+-         return new ClientboundLevelChunkPacketData.BlockEntityInfo(i, blockpos.m_123342_(), p_195692_.m_58903_(), compoundtag.m_128456_() ? null : compoundtag);
++         long i = SectionPos.sectionRelative(blockpos.getX()) << 4 | SectionPos.sectionRelative(blockpos.getZ());
++         return new ClientboundLevelChunkPacketData.BlockEntityInfo(i, blockpos.getY(), p_195692_.m_58903_(), compoundtag.m_128456_() ? null : compoundtag);
+       }
+    }
+ 

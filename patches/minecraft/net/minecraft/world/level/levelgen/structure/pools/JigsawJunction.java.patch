@@ -1,0 +1,74 @@
+--- a/net/minecraft/world/level/levelgen/structure/pools/JigsawJunction.java
++++ b/net/minecraft/world/level/levelgen/structure/pools/JigsawJunction.java
+@@ -5,13 +_,13 @@
+ import com.mojang.serialization.DynamicOps;
+ 
+ public class JigsawJunction {
+-   private final int f_210241_;
+-   private final int f_210242_;
+-   private final int f_210243_;
+-   private final int f_210244_;
++   private final long f_210241_;
++   private final long f_210242_;
++   private final long f_210243_;
++   private final long f_210244_;
+    private final StructureTemplatePool.Projection f_210245_;
+ 
+-   public JigsawJunction(int p_210247_, int p_210248_, int p_210249_, int p_210250_, StructureTemplatePool.Projection p_210251_) {
++   public JigsawJunction(long p_210247_, long p_210248_, long p_210249_, long p_210250_, StructureTemplatePool.Projection p_210251_) {
+       this.f_210241_ = p_210247_;
+       this.f_210242_ = p_210248_;
+       this.f_210243_ = p_210249_;
+@@ -19,19 +_,19 @@
+       this.f_210245_ = p_210251_;
+    }
+ 
+-   public int m_210252_() {
++   public long getSourceX() {
+       return this.f_210241_;
+    }
+ 
+-   public int m_210257_() {
++   public long getSourceGroundY() {
+       return this.f_210242_;
+    }
+ 
+-   public int m_210258_() {
++   public long getSourceZ() {
+       return this.f_210243_;
+    }
+ 
+-   public int m_210259_() {
++   public long getDeltaY() {
+       return this.f_210244_;
+    }
+ 
+@@ -41,12 +_,12 @@
+ 
+    public <T> Dynamic<T> m_210255_(DynamicOps<T> p_210256_) {
+       ImmutableMap.Builder<T, T> builder = ImmutableMap.builder();
+-      builder.put(p_210256_.createString("source_x"), p_210256_.createInt(this.f_210241_)).put(p_210256_.createString("source_ground_y"), p_210256_.createInt(this.f_210242_)).put(p_210256_.createString("source_z"), p_210256_.createInt(this.f_210243_)).put(p_210256_.createString("delta_y"), p_210256_.createInt(this.f_210244_)).put(p_210256_.createString("dest_proj"), p_210256_.createString(this.f_210245_.m_210604_()));
++      builder.put(p_210256_.createString("source_x"), p_210256_.createLong(this.f_210241_)).put(p_210256_.createString("source_ground_y"), p_210256_.createLong(this.f_210242_)).put(p_210256_.createString("source_z"), p_210256_.createLong(this.f_210243_)).put(p_210256_.createString("delta_y"), p_210256_.createLong(this.f_210244_)).put(p_210256_.createString("dest_proj"), p_210256_.createString(this.f_210245_.m_210604_()));
+       return new Dynamic<>(p_210256_, p_210256_.createMap(builder.build()));
+    }
+ 
+    public static <T> JigsawJunction m_210253_(Dynamic<T> p_210254_) {
+-      return new JigsawJunction(p_210254_.get("source_x").asInt(0), p_210254_.get("source_ground_y").asInt(0), p_210254_.get("source_z").asInt(0), p_210254_.get("delta_y").asInt(0), StructureTemplatePool.Projection.m_210607_(p_210254_.get("dest_proj").asString("")));
++      return new JigsawJunction(p_210254_.get("source_x").asLong(0), p_210254_.get("source_ground_y").asLong(0), p_210254_.get("source_z").asLong(0), p_210254_.get("delta_y").asLong(0), StructureTemplatePool.Projection.m_210607_(p_210254_.get("dest_proj").asString("")));
+    }
+ 
+    public boolean equals(Object p_210262_) {
+@@ -69,11 +_,11 @@
+    }
+ 
+    public int hashCode() {
+-      int i = this.f_210241_;
++      long i = this.f_210241_;
+       i = 31 * i + this.f_210242_;
+       i = 31 * i + this.f_210243_;
+       i = 31 * i + this.f_210244_;
+-      return 31 * i + this.f_210245_.hashCode();
++      return (int) (31 * i + this.f_210245_.hashCode());
+    }
+ 
+    public String toString() {

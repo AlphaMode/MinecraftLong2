@@ -1,0 +1,40 @@
+--- a/net/minecraft/world/entity/monster/Shulker.java
++++ b/net/minecraft/world/entity/monster/Shulker.java
+@@ -328,7 +_,7 @@
+          return false;
+       } else {
+          Direction direction = p_149787_.m_122424_();
+-         if (!this.f_19853_.m_46578_(p_149786_.m_121945_(p_149787_), this, direction)) {
++         if (!this.f_19853_.m_46578_(p_149786_.relative(p_149787_), this, direction)) {
+             return false;
+          } else {
+             AABB aabb = m_149790_(direction, 1.0F).m_82338_(p_149786_).m_82406_(1.0E-6D);
+@@ -353,13 +_,13 @@
+ 
+          for(int i = 0; i < 5; ++i) {
+             BlockPos blockpos1 = blockpos.m_7918_(Mth.m_216287_(this.f_19796_, -8, 8), Mth.m_216287_(this.f_19796_, -8, 8), Mth.m_216287_(this.f_19796_, -8, 8));
+-            if (blockpos1.m_123342_() > this.f_19853_.m_141937_() && this.f_19853_.m_46859_(blockpos1) && this.f_19853_.m_6857_().m_61937_(blockpos1) && this.f_19853_.m_45756_(this, (new AABB(blockpos1)).m_82406_(1.0E-6D))) {
++            if (blockpos1.getY() > this.f_19853_.getMinBuildHeight() && this.f_19853_.m_46859_(blockpos1) && this.f_19853_.m_6857_().m_61937_(blockpos1) && this.f_19853_.m_45756_(this, (new AABB(blockpos1)).m_82406_(1.0E-6D))) {
+                Direction direction = this.m_149810_(blockpos1);
+                if (direction != null) {
+                   this.m_19877_();
+                   this.m_149788_(direction);
+                   this.m_5496_(SoundEvents.f_12418_, 1.0F, 1.0F);
+-                  this.m_6034_((double)blockpos1.m_123341_() + 0.5D, (double)blockpos1.m_123342_(), (double)blockpos1.m_123343_() + 0.5D);
++                  this.m_6034_((double)blockpos1.getX() + 0.5D, (double)blockpos1.getY(), (double)blockpos1.getZ() + 0.5D);
+                   this.f_19853_.m_220407_(GameEvent.f_238175_, blockpos, GameEvent.Context.m_223717_(this));
+                   this.f_19804_.m_135381_(f_33401_, (byte)0);
+                   this.m_6710_((LivingEntity)null);
+@@ -501,9 +_,9 @@
+          double d0 = (double)((float)this.f_33399_ - p_149767_) / 6.0D;
+          d0 *= d0;
+          BlockPos blockpos = this.m_20183_();
+-         double d1 = (double)(blockpos.m_123341_() - this.f_149764_.m_123341_()) * d0;
+-         double d2 = (double)(blockpos.m_123342_() - this.f_149764_.m_123342_()) * d0;
+-         double d3 = (double)(blockpos.m_123343_() - this.f_149764_.m_123343_()) * d0;
++         double d1 = (double)(blockpos.getX() - this.f_149764_.getX()) * d0;
++         double d2 = (double)(blockpos.getY() - this.f_149764_.getY()) * d0;
++         double d3 = (double)(blockpos.getZ() - this.f_149764_.getZ()) * d0;
+          return Optional.of(new Vec3(-d1, -d2, -d3));
+       } else {
+          return Optional.empty();

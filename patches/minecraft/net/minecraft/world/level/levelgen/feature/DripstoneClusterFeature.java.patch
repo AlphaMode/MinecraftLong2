@@ -1,0 +1,133 @@
+--- a/net/minecraft/world/level/levelgen/feature/DripstoneClusterFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/DripstoneClusterFeature.java
+@@ -52,60 +_,60 @@
+    private void m_225015_(WorldGenLevel p_225016_, RandomSource p_225017_, BlockPos p_225018_, int p_225019_, int p_225020_, float p_225021_, double p_225022_, int p_225023_, float p_225024_, DripstoneClusterConfiguration p_225025_) {
+       Optional<Column> optional = Column.m_158175_(p_225016_, p_225018_, p_225025_.f_160759_, DripstoneUtils::m_159664_, DripstoneUtils::m_203130_);
+       if (optional.isPresent()) {
+-         OptionalInt optionalint = optional.get().m_142011_();
+-         OptionalInt optionalint1 = optional.get().m_142009_();
++         java.util.OptionalLong optionalint = optional.get().getCeiling();
++         java.util.OptionalLong optionalint1 = optional.get().getFloor();
+          if (optionalint.isPresent() || optionalint1.isPresent()) {
+             boolean flag = p_225017_.m_188501_() < p_225021_;
+             Column column;
+-            if (flag && optionalint1.isPresent() && this.m_159619_(p_225016_, p_225018_.m_175288_(optionalint1.getAsInt()))) {
+-               int i = optionalint1.getAsInt();
+-               column = optional.get().m_158181_(OptionalInt.of(i - 1));
+-               p_225016_.m_7731_(p_225018_.m_175288_(i), Blocks.f_49990_.m_49966_(), 2);
++            if (flag && optionalint1.isPresent() && this.m_159619_(p_225016_, p_225018_.atY(optionalint1.getAsLong()))) {
++               long i = optionalint1.getAsLong();
++               column = optional.get().withFloor(java.util.OptionalLong.of(i - 1));
++               p_225016_.m_7731_(p_225018_.atY(i), Blocks.f_49990_.m_49966_(), 2);
+             } else {
+                column = optional.get();
+             }
+ 
+-            OptionalInt optionalint2 = column.m_142009_();
++            java.util.OptionalLong optionalint2 = column.getFloor();
+             boolean flag1 = p_225017_.m_188500_() < p_225022_;
+             int j;
+-            if (optionalint.isPresent() && flag1 && !this.m_159585_(p_225016_, p_225018_.m_175288_(optionalint.getAsInt()))) {
++            if (optionalint.isPresent() && flag1 && !this.m_159585_(p_225016_, p_225018_.atY(optionalint.getAsLong()))) {
+                int k = p_225025_.f_160764_.m_214085_(p_225017_);
+-               this.m_159588_(p_225016_, p_225018_.m_175288_(optionalint.getAsInt()), k, Direction.UP);
+-               int l;
++               this.m_159588_(p_225016_, p_225018_.atY(optionalint.getAsLong()), k, Direction.UP);
++               long l;
+                if (optionalint2.isPresent()) {
+-                  l = Math.min(p_225023_, optionalint.getAsInt() - optionalint2.getAsInt());
++                  l = Math.min(p_225023_, optionalint.getAsLong() - optionalint2.getAsLong());
+                } else {
+                   l = p_225023_;
+                }
+ 
+-               j = this.m_225008_(p_225017_, p_225019_, p_225020_, p_225024_, l, p_225025_);
++               j = this.getDripstoneHeight(p_225017_, p_225019_, p_225020_, p_225024_, l, p_225025_);
+             } else {
+                j = 0;
+             }
+ 
+             boolean flag2 = p_225017_.m_188500_() < p_225022_;
+             int i3;
+-            if (optionalint2.isPresent() && flag2 && !this.m_159585_(p_225016_, p_225018_.m_175288_(optionalint2.getAsInt()))) {
++            if (optionalint2.isPresent() && flag2 && !this.m_159585_(p_225016_, p_225018_.atY(optionalint2.getAsLong()))) {
+                int i1 = p_225025_.f_160764_.m_214085_(p_225017_);
+-               this.m_159588_(p_225016_, p_225018_.m_175288_(optionalint2.getAsInt()), i1, Direction.DOWN);
++               this.m_159588_(p_225016_, p_225018_.atY(optionalint2.getAsLong()), i1, Direction.DOWN);
+                if (optionalint.isPresent()) {
+                   i3 = Math.max(0, j + Mth.m_216287_(p_225017_, -p_225025_.f_160762_, p_225025_.f_160762_));
+                } else {
+-                  i3 = this.m_225008_(p_225017_, p_225019_, p_225020_, p_225024_, p_225023_, p_225025_);
++                  i3 = this.getDripstoneHeight(p_225017_, p_225019_, p_225020_, p_225024_, p_225023_, p_225025_);
+                }
+             } else {
+                i3 = 0;
+             }
+ 
+-            int j1;
+-            int j3;
+-            if (optionalint.isPresent() && optionalint2.isPresent() && optionalint.getAsInt() - j <= optionalint2.getAsInt() + i3) {
+-               int k1 = optionalint2.getAsInt();
+-               int l1 = optionalint.getAsInt();
+-               int i2 = Math.max(l1 - j, k1 + 1);
+-               int j2 = Math.min(k1 + i3, l1 - 1);
+-               int k2 = Mth.m_216287_(p_225017_, i2, j2 + 1);
+-               int l2 = k2 - 1;
++            long j1;
++            long j3;
++            if (optionalint.isPresent() && optionalint2.isPresent() && optionalint.getAsLong() - j <= optionalint2.getAsLong() + i3) {
++               long k1 = optionalint2.getAsLong();
++               long l1 = optionalint.getAsLong();
++               long i2 = Math.max(l1 - j, k1 + 1);
++               long j2 = Math.min(k1 + i3, l1 - 1);
++               long k2 = Mth.randomBetweenInclusive(p_225017_, i2, j2 + 1);
++               long l2 = k2 - 1;
+                j3 = l1 - k2;
+                j1 = l2 - k1;
+             } else {
+@@ -113,13 +_,13 @@
+                j1 = i3;
+             }
+ 
+-            boolean flag3 = p_225017_.m_188499_() && j3 > 0 && j1 > 0 && column.m_142030_().isPresent() && j3 + j1 == column.m_142030_().getAsInt();
++            boolean flag3 = p_225017_.m_188499_() && j3 > 0 && j1 > 0 && column.getHeight().isPresent() && j3 + j1 == column.getHeight().getAsLong();
+             if (optionalint.isPresent()) {
+-               DripstoneUtils.m_190847_(p_225016_, p_225018_.m_175288_(optionalint.getAsInt() - 1), Direction.DOWN, j3, flag3);
++               DripstoneUtils.growPointedDripstone(p_225016_, p_225018_.atY(optionalint.getAsLong() - 1), Direction.DOWN, j3, flag3);
+             }
+ 
+             if (optionalint2.isPresent()) {
+-               DripstoneUtils.m_190847_(p_225016_, p_225018_.m_175288_(optionalint2.getAsInt() + 1), Direction.UP, j1, flag3);
++               DripstoneUtils.growPointedDripstone(p_225016_, p_225018_.atY(optionalint2.getAsLong() + 1), Direction.UP, j1, flag3);
+             }
+ 
+          }
+@@ -130,7 +_,7 @@
+       return p_159586_.m_8055_(p_159587_).m_60713_(Blocks.f_49991_);
+    }
+ 
+-   private int m_225008_(RandomSource p_225009_, int p_225010_, int p_225011_, float p_225012_, int p_225013_, DripstoneClusterConfiguration p_225014_) {
++   private int getDripstoneHeight(RandomSource p_225009_, int p_225010_, int p_225011_, float p_225012_, long p_225013_, DripstoneClusterConfiguration p_225014_) {
+       if (p_225009_.m_188501_() > p_225012_) {
+          return 0;
+       } else {
+@@ -143,16 +_,16 @@
+    private boolean m_159619_(WorldGenLevel p_159620_, BlockPos p_159621_) {
+       BlockState blockstate = p_159620_.m_8055_(p_159621_);
+       if (!blockstate.m_60713_(Blocks.f_49990_) && !blockstate.m_60713_(Blocks.f_152537_) && !blockstate.m_60713_(Blocks.f_152588_)) {
+-         if (p_159620_.m_8055_(p_159621_.m_7494_()).m_60819_().m_205070_(FluidTags.f_13131_)) {
++         if (p_159620_.m_8055_(p_159621_.above()).m_60819_().m_205070_(FluidTags.f_13131_)) {
+             return false;
+          } else {
+             for(Direction direction : Direction.Plane.HORIZONTAL) {
+-               if (!this.m_159582_(p_159620_, p_159621_.m_121945_(direction))) {
++               if (!this.m_159582_(p_159620_, p_159621_.relative(direction))) {
+                   return false;
+                }
+             }
+ 
+-            return this.m_159582_(p_159620_, p_159621_.m_7495_());
++            return this.m_159582_(p_159620_, p_159621_.below());
+          }
+       } else {
+          return false;

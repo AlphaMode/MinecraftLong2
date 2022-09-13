@@ -1,0 +1,66 @@
+--- a/net/minecraft/world/level/chunk/LevelChunkSection.java
++++ b/net/minecraft/world/level/chunk/LevelChunkSection.java
+@@ -43,12 +_,12 @@
+       return p_156459_ << 4;
+    }
+ 
+-   public BlockState m_62982_(int p_62983_, int p_62984_, int p_62985_) {
+-      return this.f_62972_.m_63087_(p_62983_, p_62984_, p_62985_);
++   public BlockState getBlockState(long p_62983_, long p_62984_, long p_62985_) {
++      return this.f_62972_.get(p_62983_, p_62984_, p_62985_);
+    }
+ 
+-   public FluidState m_63007_(int p_63008_, int p_63009_, int p_63010_) {
+-      return this.f_62972_.m_63087_(p_63008_, p_63009_, p_63010_).m_60819_();
++   public FluidState getFluidState(long p_63008_, long p_63009_, long p_63010_) {
++      return this.f_62972_.get(p_63008_, p_63009_, p_63010_).m_60819_();
+    }
+ 
+    public void m_62981_() {
+@@ -59,16 +_,16 @@
+       this.f_62972_.m_63120_();
+    }
+ 
+-   public BlockState m_62986_(int p_62987_, int p_62988_, int p_62989_, BlockState p_62990_) {
+-      return this.m_62991_(p_62987_, p_62988_, p_62989_, p_62990_, true);
++   public BlockState setBlockState(long p_62987_, long p_62988_, long p_62989_, BlockState p_62990_) {
++      return this.setBlockState(p_62987_, p_62988_, p_62989_, p_62990_, true);
+    }
+ 
+-   public BlockState m_62991_(int p_62992_, int p_62993_, int p_62994_, BlockState p_62995_, boolean p_62996_) {
++   public BlockState setBlockState(long p_62992_, long p_62993_, long p_62994_, BlockState p_62995_, boolean p_62996_) {
+       BlockState blockstate;
+       if (p_62996_) {
+-         blockstate = this.f_62972_.m_63091_(p_62992_, p_62993_, p_62994_, p_62995_);
++         blockstate = this.f_62972_.getAndSet(p_62992_, p_62993_, p_62994_, p_62995_);
+       } else {
+-         blockstate = this.f_62972_.m_63127_(p_62992_, p_62993_, p_62994_, p_62995_);
++         blockstate = this.f_62972_.getAndSetUnchecked(p_62992_, p_62993_, p_62994_, p_62995_);
+       }
+ 
+       FluidState fluidstate = blockstate.m_60819_();
+@@ -180,19 +_,19 @@
+       return this.f_62972_.m_63109_(p_63003_);
+    }
+ 
+-   public Holder<Biome> m_204433_(int p_204434_, int p_204435_, int p_204436_) {
+-      return this.f_187995_.m_63087_(p_204434_, p_204435_, p_204436_);
++   public Holder<Biome> getNoiseBiome(long p_204434_, long p_204435_, long p_204436_) {
++      return this.f_187995_.get(p_204434_, p_204435_, p_204436_);
+    }
+ 
+-   public void m_188003_(BiomeResolver p_188004_, Climate.Sampler p_188005_, int p_188006_, int p_188007_) {
++   public void fillBiomesFromNoise(BiomeResolver p_188004_, Climate.Sampler p_188005_, long p_188006_, long p_188007_) {
+       PalettedContainer<Holder<Biome>> palettedcontainer = this.f_187995_.m_238334_();
+-      int i = QuartPos.m_175400_(this.m_63017_());
++      long i = QuartPos.fromBlock(this.m_63017_());
+       int j = 4;
+ 
+       for(int k = 0; k < 4; ++k) {
+          for(int l = 0; l < 4; ++l) {
+             for(int i1 = 0; i1 < 4; ++i1) {
+-               palettedcontainer.m_63127_(k, l, i1, p_188004_.m_203407_(p_188006_ + k, i + l, p_188007_ + i1, p_188005_));
++               palettedcontainer.getAndSetUnchecked(k, l, i1, p_188004_.getNoiseBiome(p_188006_ + k, i + l, p_188007_ + i1, p_188005_));
+             }
+          }
+       }

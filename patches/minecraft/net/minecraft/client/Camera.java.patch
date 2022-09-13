@@ -1,0 +1,20 @@
+--- a/net/minecraft/client/Camera.java
++++ b/net/minecraft/client/Camera.java
+@@ -167,7 +_,7 @@
+          return FogType.NONE;
+       } else {
+          FluidState fluidstate = this.f_90550_.m_6425_(this.f_90553_);
+-         if (fluidstate.m_205070_(FluidTags.f_13131_) && this.f_90552_.f_82480_ < (double)((float)this.f_90553_.m_123342_() + fluidstate.m_76155_(this.f_90550_, this.f_90553_))) {
++         if (fluidstate.m_205070_(FluidTags.f_13131_) && this.f_90552_.f_82480_ < (double)((float)this.f_90553_.getY() + fluidstate.m_76155_(this.f_90550_, this.f_90553_))) {
+             return FogType.WATER;
+          } else {
+             Camera.NearPlane camera$nearplane = this.m_167684_();
+@@ -177,7 +_,7 @@
+                BlockPos blockpos = new BlockPos(vec31);
+                FluidState fluidstate1 = this.f_90550_.m_6425_(blockpos);
+                if (fluidstate1.m_205070_(FluidTags.f_13132_)) {
+-                  if (vec31.f_82480_ <= (double)(fluidstate1.m_76155_(this.f_90550_, blockpos) + (float)blockpos.m_123342_())) {
++                  if (vec31.f_82480_ <= (double)(fluidstate1.m_76155_(this.f_90550_, blockpos) + (float)blockpos.getY())) {
+                      return FogType.LAVA;
+                   }
+                } else {

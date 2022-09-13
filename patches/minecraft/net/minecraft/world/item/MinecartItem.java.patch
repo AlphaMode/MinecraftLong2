@@ -1,0 +1,41 @@
+--- a/net/minecraft/world/item/MinecartItem.java
++++ b/net/minecraft/world/item/MinecartItem.java
+@@ -26,7 +_,7 @@
+          double d0 = p_42949_.m_7096_() + (double)direction.m_122429_() * 1.125D;
+          double d1 = Math.floor(p_42949_.m_7098_()) + (double)direction.m_122430_();
+          double d2 = p_42949_.m_7094_() + (double)direction.m_122431_() * 1.125D;
+-         BlockPos blockpos = p_42949_.m_7961_().m_121945_(direction);
++         BlockPos blockpos = p_42949_.m_7961_().relative(direction);
+          BlockState blockstate = level.m_8055_(blockpos);
+          RailShape railshape = blockstate.m_60734_() instanceof BaseRailBlock ? blockstate.m_61143_(((BaseRailBlock)blockstate.m_60734_()).m_7978_()) : RailShape.NORTH_SOUTH;
+          double d3;
+@@ -37,11 +_,11 @@
+                d3 = 0.1D;
+             }
+          } else {
+-            if (!blockstate.m_60795_() || !level.m_8055_(blockpos.m_7495_()).m_204336_(BlockTags.f_13034_)) {
++            if (!blockstate.m_60795_() || !level.m_8055_(blockpos.below()).m_204336_(BlockTags.f_13034_)) {
+                return this.f_42944_.m_6115_(p_42949_, p_42950_);
+             }
+ 
+-            BlockState blockstate1 = level.m_8055_(blockpos.m_7495_());
++            BlockState blockstate1 = level.m_8055_(blockpos.below());
+             RailShape railshape1 = blockstate1.m_60734_() instanceof BaseRailBlock ? blockstate1.m_61143_(((BaseRailBlock)blockstate1.m_60734_()).m_7978_()) : RailShape.NORTH_SOUTH;
+             if (direction != Direction.DOWN && railshape1.m_61745_()) {
+                d3 = -0.4D;
+@@ -87,13 +_,13 @@
+                d0 = 0.5D;
+             }
+ 
+-            AbstractMinecart abstractminecart = AbstractMinecart.m_38119_(level, (double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_() + 0.0625D + d0, (double)blockpos.m_123343_() + 0.5D, this.f_42935_);
++            AbstractMinecart abstractminecart = AbstractMinecart.m_38119_(level, (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.0625D + d0, (double)blockpos.getZ() + 0.5D, this.f_42935_);
+             if (itemstack.m_41788_()) {
+                abstractminecart.m_6593_(itemstack.m_41786_());
+             }
+ 
+             level.m_7967_(abstractminecart);
+-            level.m_220407_(GameEvent.f_157810_, blockpos, GameEvent.Context.m_223719_(p_42943_.m_43723_(), level.m_8055_(blockpos.m_7495_())));
++            level.m_220407_(GameEvent.f_157810_, blockpos, GameEvent.Context.m_223719_(p_42943_.m_43723_(), level.m_8055_(blockpos.below())));
+          }
+ 
+          itemstack.m_41774_(1);

@@ -1,0 +1,53 @@
+--- a/net/minecraft/world/level/levelgen/carver/CanyonWorldCarver.java
++++ b/net/minecraft/world/level/levelgen/carver/CanyonWorldCarver.java
+@@ -23,9 +_,9 @@
+ 
+    public boolean m_213788_(CarvingContext p_224813_, CanyonCarverConfiguration p_224814_, ChunkAccess p_224815_, Function<BlockPos, Holder<Biome>> p_224816_, RandomSource p_224817_, Aquifer p_224818_, ChunkPos p_224819_, CarvingMask p_224820_) {
+       int i = (this.m_65073_() * 2 - 1) * 16;
+-      double d0 = (double)p_224819_.m_151382_(p_224817_.m_188503_(16));
+-      int j = p_224814_.f_159088_.m_213859_(p_224817_, p_224813_);
+-      double d1 = (double)p_224819_.m_151391_(p_224817_.m_188503_(16));
++      double d0 = (double)p_224819_.getBlockX(p_224817_.m_188503_(16));
++      long j = p_224814_.f_159088_.sample(p_224817_, p_224813_);
++      double d1 = (double)p_224819_.getBlockZ(p_224817_.m_188503_(16));
+       float f = p_224817_.m_188501_() * ((float)Math.PI * 2F);
+       float f1 = p_224814_.f_158967_.m_214084_(p_224817_);
+       double d2 = (double)p_224814_.f_159089_.m_214084_(p_224817_);
+@@ -60,12 +_,12 @@
+          f1 += (randomsource.m_188501_() - randomsource.m_188501_()) * randomsource.m_188501_() * 2.0F;
+          f += (randomsource.m_188501_() - randomsource.m_188501_()) * randomsource.m_188501_() * 4.0F;
+          if (randomsource.m_188503_(4) != 0) {
+-            if (!m_159367_(p_190596_.m_7697_(), p_190600_, p_190602_, i, p_190607_, p_190603_)) {
++            if (!canReach(p_190596_.m_7697_(), p_190600_, p_190602_, i, p_190607_, p_190603_)) {
+                return;
+             }
+ 
+             this.m_190753_(p_190594_, p_190595_, p_190596_, p_190597_, p_190599_, p_190600_, p_190601_, p_190602_, d0, d1, p_190609_, (p_159082_, p_159083_, p_159084_, p_159085_, p_159086_) -> {
+-               return this.m_159073_(p_159082_, afloat, p_159083_, p_159084_, p_159085_, p_159086_);
++               return this.shouldSkip(p_159082_, afloat, p_159083_, p_159084_, p_159085_, p_159086_);
+             });
+          }
+       }
+@@ -73,8 +_,8 @@
+    }
+ 
+    private float[] m_224808_(CarvingContext p_224809_, CanyonCarverConfiguration p_224810_, RandomSource p_224811_) {
+-      int i = p_224809_.m_142208_();
+-      float[] afloat = new float[i];
++      long i = p_224809_.getGenDepth();
++      float[] afloat = new float[(int) i];
+       float f = 1.0F;
+ 
+       for(int j = 0; j < i; ++j) {
+@@ -94,8 +_,8 @@
+       return (double)f1 * p_224802_ * (double)Mth.m_216283_(p_224801_, 0.75F, 1.0F);
+    }
+ 
+-   private boolean m_159073_(CarvingContext p_159074_, float[] p_159075_, double p_159076_, double p_159077_, double p_159078_, int p_159079_) {
+-      int i = p_159079_ - p_159074_.m_142201_();
+-      return (p_159076_ * p_159076_ + p_159078_ * p_159078_) * (double)p_159075_[i - 1] + p_159077_ * p_159077_ / 6.0D >= 1.0D;
++   private boolean shouldSkip(CarvingContext p_159074_, float[] p_159075_, double p_159076_, double p_159077_, double p_159078_, long p_159079_) {
++      long i = p_159079_ - p_159074_.getMinGenY();
++      return (p_159076_ * p_159076_ + p_159078_ * p_159078_) * (double)p_159075_[(int) (i - 1)] + p_159077_ * p_159077_ / 6.0D >= 1.0D;
+    }
+ }

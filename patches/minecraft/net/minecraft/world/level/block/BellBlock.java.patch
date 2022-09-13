@@ -1,0 +1,36 @@
+--- a/net/minecraft/world/level/block/BellBlock.java
++++ b/net/minecraft/world/level/block/BellBlock.java
+@@ -84,7 +_,7 @@
+    public boolean m_49701_(Level p_49702_, BlockState p_49703_, BlockHitResult p_49704_, @Nullable Player p_49705_, boolean p_49706_) {
+       Direction direction = p_49704_.m_82434_();
+       BlockPos blockpos = p_49704_.m_82425_();
+-      boolean flag = !p_49706_ || this.m_49739_(p_49703_, direction, p_49704_.m_82450_().f_82480_ - (double)blockpos.m_123342_());
++      boolean flag = !p_49706_ || this.m_49739_(p_49703_, direction, p_49704_.m_82450_().f_82480_ - (double)blockpos.getY());
+       if (flag) {
+          boolean flag1 = this.m_152188_(p_49705_, p_49702_, blockpos, direction);
+          if (flag1 && p_49705_ != null) {
+@@ -179,13 +_,13 @@
+             return blockstate;
+          }
+       } else {
+-         boolean flag = direction$axis == Direction.Axis.X && level.m_8055_(blockpos.m_122024_()).m_60783_(level, blockpos.m_122024_(), Direction.EAST) && level.m_8055_(blockpos.m_122029_()).m_60783_(level, blockpos.m_122029_(), Direction.WEST) || direction$axis == Direction.Axis.Z && level.m_8055_(blockpos.m_122012_()).m_60783_(level, blockpos.m_122012_(), Direction.SOUTH) && level.m_8055_(blockpos.m_122019_()).m_60783_(level, blockpos.m_122019_(), Direction.NORTH);
++         boolean flag = direction$axis == Direction.Axis.X && level.m_8055_(blockpos.west()).m_60783_(level, blockpos.west(), Direction.EAST) && level.m_8055_(blockpos.east()).m_60783_(level, blockpos.east(), Direction.WEST) || direction$axis == Direction.Axis.Z && level.m_8055_(blockpos.north()).m_60783_(level, blockpos.north(), Direction.SOUTH) && level.m_8055_(blockpos.south()).m_60783_(level, blockpos.south(), Direction.NORTH);
+          BlockState blockstate1 = this.m_49966_().m_61124_(f_49679_, direction.m_122424_()).m_61124_(f_49680_, flag ? BellAttachType.DOUBLE_WALL : BellAttachType.SINGLE_WALL);
+          if (blockstate1.m_60710_(p_49698_.m_43725_(), p_49698_.m_8083_())) {
+             return blockstate1;
+          }
+ 
+-         boolean flag1 = level.m_8055_(blockpos.m_7495_()).m_60783_(level, blockpos.m_7495_(), Direction.UP);
++         boolean flag1 = level.m_8055_(blockpos.below()).m_60783_(level, blockpos.below(), Direction.UP);
+          blockstate1 = blockstate1.m_61124_(f_49680_, flag1 ? BellAttachType.FLOOR : BellAttachType.CEILING);
+          if (blockstate1.m_60710_(p_49698_.m_43725_(), p_49698_.m_8083_())) {
+             return blockstate1;
+@@ -217,7 +_,7 @@
+ 
+    public boolean m_7898_(BlockState p_49736_, LevelReader p_49737_, BlockPos p_49738_) {
+       Direction direction = m_49768_(p_49736_).m_122424_();
+-      return direction == Direction.UP ? Block.m_49863_(p_49737_, p_49738_.m_7494_(), Direction.DOWN) : FaceAttachedHorizontalDirectionalBlock.m_53196_(p_49737_, p_49738_, direction);
++      return direction == Direction.UP ? Block.m_49863_(p_49737_, p_49738_.above(), Direction.DOWN) : FaceAttachedHorizontalDirectionalBlock.m_53196_(p_49737_, p_49738_, direction);
+    }
+ 
+    private static Direction m_49768_(BlockState p_49769_) {

@@ -1,0 +1,40 @@
+--- a/net/minecraft/world/level/block/SeaPickleBlock.java
++++ b/net/minecraft/world/level/block/SeaPickleBlock.java
+@@ -58,7 +_,7 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_56109_, LevelReader p_56110_, BlockPos p_56111_) {
+-      BlockPos blockpos = p_56111_.m_7495_();
++      BlockPos blockpos = p_56111_.below();
+       return this.m_6266_(p_56110_.m_8055_(blockpos), p_56110_, blockpos);
+    }
+ 
+@@ -109,22 +_,22 @@
+    }
+ 
+    public void m_214148_(ServerLevel p_222413_, RandomSource p_222414_, BlockPos p_222415_, BlockState p_222416_) {
+-      if (!m_56132_(p_222416_) && p_222413_.m_8055_(p_222415_.m_7495_()).m_204336_(BlockTags.f_13051_)) {
++      if (!m_56132_(p_222416_) && p_222413_.m_8055_(p_222415_.below()).m_204336_(BlockTags.f_13051_)) {
+          int i = 5;
+          int j = 1;
+          int k = 2;
+          int l = 0;
+-         int i1 = p_222415_.m_123341_() - 2;
++         long i1 = p_222415_.getX() - 2;
+          int j1 = 0;
+ 
+          for(int k1 = 0; k1 < 5; ++k1) {
+             for(int l1 = 0; l1 < j; ++l1) {
+-               int i2 = 2 + p_222415_.m_123342_() - 1;
++               long i2 = 2 + p_222415_.getY() - 1;
+ 
+-               for(int j2 = i2 - 2; j2 < i2; ++j2) {
+-                  BlockPos blockpos = new BlockPos(i1 + k1, j2, p_222415_.m_123343_() - j1 + l1);
++               for(long j2 = i2 - 2; j2 < i2; ++j2) {
++                  BlockPos blockpos = new BlockPos(i1 + k1, j2, p_222415_.getZ() - j1 + l1);
+                   if (blockpos != p_222415_ && p_222414_.m_188503_(6) == 0 && p_222413_.m_8055_(blockpos).m_60713_(Blocks.f_49990_)) {
+-                     BlockState blockstate = p_222413_.m_8055_(blockpos.m_7495_());
++                     BlockState blockstate = p_222413_.m_8055_(blockpos.below());
+                      if (blockstate.m_204336_(BlockTags.f_13051_)) {
+                         p_222413_.m_7731_(blockpos, Blocks.f_50567_.m_49966_().m_61124_(f_56074_, Integer.valueOf(p_222414_.m_188503_(4) + 1)), 3);
+                      }

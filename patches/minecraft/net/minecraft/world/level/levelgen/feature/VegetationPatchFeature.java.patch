@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/levelgen/feature/VegetationPatchFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/VegetationPatchFeature.java
+@@ -49,7 +_,7 @@
+             boolean flag3 = flag && flag1;
+             boolean flag4 = flag2 && !flag3;
+             if (!flag3 && (!flag4 || p_225312_.f_161290_ != 0.0F && !(p_225313_.m_188501_() > p_225312_.f_161290_))) {
+-               blockpos$mutableblockpos.m_122154_(p_225314_, i, 0, j);
++               blockpos$mutableblockpos.setWithOffset(p_225314_, i, 0, j);
+ 
+                for(int k = 0; p_225311_.m_7433_(blockpos$mutableblockpos, BlockBehaviour.BlockStateBase::m_60795_) && k < p_225312_.f_161287_; ++k) {
+                   blockpos$mutableblockpos.m_122173_(direction);
+@@ -61,7 +_,7 @@
+                   blockpos$mutableblockpos.m_122173_(direction1);
+                }
+ 
+-               blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, p_225312_.f_161284_.m_162107_());
++               blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, p_225312_.f_161284_.m_162107_());
+                BlockState blockstate = p_225311_.m_8055_(blockpos$mutableblockpos1);
+                if (p_225311_.m_46859_(blockpos$mutableblockpos) && blockstate.m_60783_(p_225311_, blockpos$mutableblockpos1, p_225312_.f_161284_.m_162107_().m_122424_())) {
+                   int l = p_225312_.f_161285_.m_214085_(p_225313_) + (p_225312_.f_161286_ > 0.0F && p_225313_.m_188501_() < p_225312_.f_161286_ ? 1 : 0);
+@@ -88,7 +_,7 @@
+    }
+ 
+    protected boolean m_213555_(WorldGenLevel p_225318_, VegetationPatchConfiguration p_225319_, ChunkGenerator p_225320_, RandomSource p_225321_, BlockPos p_225322_) {
+-      return p_225319_.f_161283_.m_203334_().m_226357_(p_225318_, p_225320_, p_225321_, p_225322_.m_121945_(p_225319_.f_161284_.m_162107_().m_122424_()));
++      return p_225319_.f_161283_.m_203334_().m_226357_(p_225318_, p_225320_, p_225321_, p_225322_.relative(p_225319_.f_161284_.m_162107_().m_122424_()));
+    }
+ 
+    protected boolean m_225323_(WorldGenLevel p_225324_, VegetationPatchConfiguration p_225325_, Predicate<BlockState> p_225326_, RandomSource p_225327_, BlockPos.MutableBlockPos p_225328_, int p_225329_) {

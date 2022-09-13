@@ -1,0 +1,64 @@
+--- a/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
++++ b/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
+@@ -32,21 +_,21 @@
+    }
+ 
+    protected Vec3 m_7475_() {
+-      return new Vec3(this.f_26494_.m_20185_(), (double)this.m_26493_(), this.f_26494_.m_20189_());
++      return new Vec3(this.f_26494_.m_20185_(), (double)this.getSurfaceY(), this.f_26494_.m_20189_());
+    }
+ 
+    public Path m_7864_(BlockPos p_26475_, int p_26476_) {
+       if (this.f_26495_.m_8055_(p_26475_).m_60795_()) {
+          BlockPos blockpos;
+-         for(blockpos = p_26475_.m_7495_(); blockpos.m_123342_() > this.f_26495_.m_141937_() && this.f_26495_.m_8055_(blockpos).m_60795_(); blockpos = blockpos.m_7495_()) {
+-         }
+-
+-         if (blockpos.m_123342_() > this.f_26495_.m_141937_()) {
+-            return super.m_7864_(blockpos.m_7494_(), p_26476_);
+-         }
+-
+-         while(blockpos.m_123342_() < this.f_26495_.m_151558_() && this.f_26495_.m_8055_(blockpos).m_60795_()) {
+-            blockpos = blockpos.m_7494_();
++         for(blockpos = p_26475_.below(); blockpos.getY() > this.f_26495_.getMinBuildHeight() && this.f_26495_.m_8055_(blockpos).m_60795_(); blockpos = blockpos.below()) {
++         }
++
++         if (blockpos.getY() > this.f_26495_.getMinBuildHeight()) {
++            return super.m_7864_(blockpos.above(), p_26476_);
++         }
++
++         while(blockpos.getY() < this.f_26495_.getMaxBuildHeight() && this.f_26495_.m_8055_(blockpos).m_60795_()) {
++            blockpos = blockpos.above();
+          }
+ 
+          p_26475_ = blockpos;
+@@ -56,7 +_,7 @@
+          return super.m_7864_(p_26475_, p_26476_);
+       } else {
+          BlockPos blockpos1;
+-         for(blockpos1 = p_26475_.m_7494_(); blockpos1.m_123342_() < this.f_26495_.m_151558_() && this.f_26495_.m_8055_(blockpos1).m_60767_().m_76333_(); blockpos1 = blockpos1.m_7494_()) {
++         for(blockpos1 = p_26475_.above(); blockpos1.getY() < this.f_26495_.getMaxBuildHeight() && this.f_26495_.m_8055_(blockpos1).m_60767_().m_76333_(); blockpos1 = blockpos1.above()) {
+          }
+ 
+          return super.m_7864_(blockpos1, p_26476_);
+@@ -67,9 +_,9 @@
+       return this.m_7864_(p_26465_.m_20183_(), p_26466_);
+    }
+ 
+-   private int m_26493_() {
++   private long getSurfaceY() {
+       if (this.f_26494_.m_20069_() && this.m_26576_()) {
+-         int i = this.f_26494_.m_146904_();
++         long i = this.f_26494_.getBlockY();
+          BlockState blockstate = this.f_26495_.m_8055_(new BlockPos(this.f_26494_.m_20185_(), (double)i, this.f_26494_.m_20189_()));
+          int j = 0;
+ 
+@@ -78,7 +_,7 @@
+             blockstate = this.f_26495_.m_8055_(new BlockPos(this.f_26494_.m_20185_(), (double)i, this.f_26494_.m_20189_()));
+             ++j;
+             if (j > 16) {
+-               return this.f_26494_.m_146904_();
++               return this.f_26494_.getBlockY();
+             }
+          }
+ 

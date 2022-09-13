@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/level/levelgen/feature/LakeFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/LakeFeature.java
+@@ -27,10 +_,10 @@
+       WorldGenLevel worldgenlevel = p_159958_.m_159774_();
+       RandomSource randomsource = p_159958_.m_225041_();
+       LakeFeature.Configuration lakefeature$configuration = p_159958_.m_159778_();
+-      if (blockpos.m_123342_() <= worldgenlevel.m_141937_() + 4) {
++      if (blockpos.getY() <= worldgenlevel.getMinBuildHeight() + 4) {
+          return false;
+       } else {
+-         blockpos = blockpos.m_6625_(4);
++         blockpos = blockpos.below(4);
+          boolean[] aboolean = new boolean[2048];
+          int i = randomsource.m_188503_(4) + 4;
+ 
+@@ -86,7 +_,7 @@
+                         boolean flag1 = i3 >= 4;
+                         worldgenlevel.m_7731_(blockpos1, flag1 ? f_66256_ : blockstate1, 2);
+                         if (flag1) {
+-                           worldgenlevel.m_186460_(blockpos1, f_66256_.m_60734_(), 0);
++                           worldgenlevel.scheduleTick(blockpos1, f_66256_.m_60734_(), 0);
+                            this.m_159739_(worldgenlevel, blockpos1);
+                         }
+                      }

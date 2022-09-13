@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/item/EndCrystalItem.java
++++ b/net/minecraft/world/item/EndCrystalItem.java
+@@ -26,13 +_,13 @@
+       if (!blockstate.m_60713_(Blocks.f_50080_) && !blockstate.m_60713_(Blocks.f_50752_)) {
+          return InteractionResult.FAIL;
+       } else {
+-         BlockPos blockpos1 = blockpos.m_7494_();
++         BlockPos blockpos1 = blockpos.above();
+          if (!level.m_46859_(blockpos1)) {
+             return InteractionResult.FAIL;
+          } else {
+-            double d0 = (double)blockpos1.m_123341_();
+-            double d1 = (double)blockpos1.m_123342_();
+-            double d2 = (double)blockpos1.m_123343_();
++            double d0 = (double)blockpos1.getX();
++            double d1 = (double)blockpos1.getY();
++            double d2 = (double)blockpos1.getZ();
+             List<Entity> list = level.m_45933_((Entity)null, new AABB(d0, d1, d2, d0 + 1.0D, d1 + 2.0D, d2 + 1.0D));
+             if (!list.isEmpty()) {
+                return InteractionResult.FAIL;

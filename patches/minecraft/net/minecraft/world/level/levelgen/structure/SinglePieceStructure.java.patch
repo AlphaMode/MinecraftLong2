@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/level/levelgen/structure/SinglePieceStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/SinglePieceStructure.java
+@@ -19,18 +_,18 @@
+    }
+ 
+    public Optional<Structure.GenerationStub> m_214086_(Structure.GenerationContext p_226542_) {
+-      return m_226572_(p_226542_, this.f_226534_, this.f_226535_) < p_226542_.f_226622_().m_6337_() ? Optional.empty() : m_226585_(p_226542_, Heightmap.Types.WORLD_SURFACE_WG, (p_226545_) -> {
++      return getLowestY(p_226542_, this.f_226534_, this.f_226535_) < p_226542_.f_226622_().m_6337_() ? Optional.empty() : m_226585_(p_226542_, Heightmap.Types.WORLD_SURFACE_WG, (p_226545_) -> {
+          this.m_226546_(p_226545_, p_226542_);
+       });
+    }
+ 
+    private void m_226546_(StructurePiecesBuilder p_226547_, Structure.GenerationContext p_226548_) {
+       ChunkPos chunkpos = p_226548_.f_226628_();
+-      p_226547_.m_142679_(this.f_226533_.m_226549_(p_226548_.f_226626_(), chunkpos.m_45604_(), chunkpos.m_45605_()));
++      p_226547_.m_142679_(this.f_226533_.construct(p_226548_.f_226626_(), chunkpos.getMinBlockX(), chunkpos.getMinBlockZ()));
+    }
+ 
+    @FunctionalInterface
+    protected interface PieceConstructor {
+-      StructurePiece m_226549_(WorldgenRandom p_226550_, int p_226551_, int p_226552_);
++      StructurePiece construct(WorldgenRandom p_226550_, long p_226551_, long p_226552_);
+    }
+ }

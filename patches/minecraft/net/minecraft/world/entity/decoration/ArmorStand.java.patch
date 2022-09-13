@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/entity/decoration/ArmorStand.java
++++ b/net/minecraft/world/entity/decoration/ArmorStand.java
+@@ -487,7 +_,7 @@
+       for(int i = 0; i < this.f_31538_.size(); ++i) {
+          ItemStack itemstack = this.f_31538_.get(i);
+          if (!itemstack.m_41619_()) {
+-            Block.m_49840_(this.f_19853_, this.m_20183_().m_7494_(), itemstack);
++            Block.m_49840_(this.f_19853_, this.m_20183_().above(), itemstack);
+             this.f_31538_.set(i, ItemStack.f_41583_);
+          }
+       }
+@@ -495,7 +_,7 @@
+       for(int j = 0; j < this.f_31539_.size(); ++j) {
+          ItemStack itemstack1 = this.f_31539_.get(j);
+          if (!itemstack1.m_41619_()) {
+-            Block.m_49840_(this.f_19853_, this.m_20183_().m_7494_(), itemstack1);
++            Block.m_49840_(this.f_19853_, this.m_20183_().above(), itemstack1);
+             this.f_31539_.set(j, ItemStack.f_41583_);
+          }
+       }
+@@ -759,7 +_,7 @@
+          for(BlockPos blockpos1 : BlockPos.m_121940_(new BlockPos(aabb.f_82288_, aabb.f_82289_, aabb.f_82290_), new BlockPos(aabb.f_82291_, aabb.f_82292_, aabb.f_82293_))) {
+             int j = Math.max(this.f_19853_.m_45517_(LightLayer.BLOCK, blockpos1), this.f_19853_.m_45517_(LightLayer.SKY, blockpos1));
+             if (j == 15) {
+-               return Vec3.m_82512_(blockpos1);
++               return Vec3.atCenterOf(blockpos1);
+             }
+ 
+             if (j > i) {
+@@ -768,7 +_,7 @@
+             }
+          }
+ 
+-         return Vec3.m_82512_(blockpos);
++         return Vec3.atCenterOf(blockpos);
+       } else {
+          return super.m_7371_(p_31665_);
+       }

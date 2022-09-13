@@ -1,0 +1,41 @@
+--- a/net/minecraft/world/level/levelgen/feature/DiskFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/DiskFeature.java
+@@ -18,29 +_,29 @@
+       WorldGenLevel worldgenlevel = p_224994_.m_159774_();
+       RandomSource randomsource = p_224994_.m_225041_();
+       boolean flag = false;
+-      int i = blockpos.m_123342_();
+-      int j = i + diskconfiguration.f_67621_();
+-      int k = i - diskconfiguration.f_67621_() - 1;
++      long i = blockpos.getY();
++      long j = i + diskconfiguration.f_67621_();
++      long k = i - diskconfiguration.f_67621_() - 1;
+       int l = diskconfiguration.f_67620_().m_214085_(randomsource);
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+       for(BlockPos blockpos1 : BlockPos.m_121940_(blockpos.m_7918_(-l, 0, -l), blockpos.m_7918_(l, 0, l))) {
+-         int i1 = blockpos1.m_123341_() - blockpos.m_123341_();
+-         int j1 = blockpos1.m_123343_() - blockpos.m_123343_();
++         long i1 = blockpos1.getX() - blockpos.getX();
++         long j1 = blockpos1.getZ() - blockpos.getZ();
+          if (i1 * i1 + j1 * j1 <= l * l) {
+-            flag |= this.m_224995_(diskconfiguration, worldgenlevel, randomsource, j, k, blockpos$mutableblockpos.m_122190_(blockpos1));
++            flag |= this.placeColumn(diskconfiguration, worldgenlevel, randomsource, j, k, blockpos$mutableblockpos.set(blockpos1));
+          }
+       }
+ 
+       return flag;
+    }
+ 
+-   protected boolean m_224995_(DiskConfiguration p_224996_, WorldGenLevel p_224997_, RandomSource p_224998_, int p_224999_, int p_225000_, BlockPos.MutableBlockPos p_225001_) {
++   protected boolean placeColumn(DiskConfiguration p_224996_, WorldGenLevel p_224997_, RandomSource p_224998_, long p_224999_, long p_225000_, BlockPos.MutableBlockPos p_225001_) {
+       boolean flag = false;
+       BlockState blockstate = null;
+ 
+-      for(int i = p_224999_; i > p_225000_; --i) {
+-         p_225001_.m_142448_(i);
++      for(long i = p_224999_; i > p_225000_; --i) {
++         p_225001_.setY(i);
+          if (p_224996_.f_225373_().test(p_224997_, p_225001_)) {
+             BlockState blockstate1 = p_224996_.f_225372_().m_225932_(p_224997_, p_224998_, p_225001_);
+             p_224997_.m_7731_(p_225001_, blockstate1, 2);

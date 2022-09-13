@@ -1,0 +1,54 @@
+--- a/net/minecraft/world/level/levelgen/NoiseSettings.java
++++ b/net/minecraft/world/level/levelgen/NoiseSettings.java
+@@ -8,9 +_,9 @@
+ import net.minecraft.world.level.LevelHeightAccessor;
+ import net.minecraft.world.level.dimension.DimensionType;
+ 
+-public record NoiseSettings(int f_158688_, int f_64508_, int f_64512_, int f_64513_) {
++public record NoiseSettings(long f_158688_, long f_64508_, int f_64512_, int f_64513_) {
+    public static final Codec<NoiseSettings> f_64507_ = RecordCodecBuilder.<NoiseSettings>create((p_64536_) -> {
+-      return p_64536_.group(Codec.intRange(DimensionType.f_156653_, DimensionType.f_156652_).fieldOf("min_y").forGetter(NoiseSettings::f_158688_), Codec.intRange(0, DimensionType.f_156651_).fieldOf("height").forGetter(NoiseSettings::f_64508_), Codec.intRange(1, 4).fieldOf("size_horizontal").forGetter(NoiseSettings::f_64512_), Codec.intRange(1, 4).fieldOf("size_vertical").forGetter(NoiseSettings::f_64513_)).apply(p_64536_, NoiseSettings::new);
++      return p_64536_.group(me.alphamode.mclong.core.ModdedCodec.longRange(DimensionType.f_156653_, DimensionType.f_156652_).fieldOf("min_y").forGetter(NoiseSettings::minY), me.alphamode.mclong.core.ModdedCodec.longRange(0, DimensionType.f_156651_).fieldOf("height").forGetter(NoiseSettings::height), Codec.intRange(1, 4).fieldOf("size_horizontal").forGetter(NoiseSettings::f_64512_), Codec.intRange(1, 4).fieldOf("size_vertical").forGetter(NoiseSettings::f_64513_)).apply(p_64536_, NoiseSettings::new);
+    }).comapFlatMap(NoiseSettings::m_158720_, Function.identity());
+    protected static final NoiseSettings f_224519_ = m_224525_(-64, 384, 1, 2);
+    protected static final NoiseSettings f_209630_ = m_224525_(0, 128, 1, 2);
+@@ -19,12 +_,12 @@
+    protected static final NoiseSettings f_209633_ = m_224525_(0, 256, 2, 1);
+ 
+    private static DataResult<NoiseSettings> m_158720_(NoiseSettings p_158721_) {
+-      if (p_158721_.f_158688_() + p_158721_.f_64508_() > DimensionType.f_156652_ + 1) {
++      if (p_158721_.minY() + p_158721_.height() > DimensionType.f_156652_ + 1) {
+          return DataResult.error("min_y + height cannot be higher than: " + (DimensionType.f_156652_ + 1));
+-      } else if (p_158721_.f_64508_() % 16 != 0) {
++      } else if (p_158721_.height() % 16 != 0) {
+          return DataResult.error("height has to be a multiple of 16");
+       } else {
+-         return p_158721_.f_158688_() % 16 != 0 ? DataResult.error("min_y has to be a multiple of 16") : DataResult.success(p_158721_);
++         return p_158721_.minY() % 16 != 0 ? DataResult.error("min_y has to be a multiple of 16") : DataResult.success(p_158721_);
+       }
+    }
+ 
+@@ -36,17 +_,17 @@
+       return noisesettings;
+    }
+ 
+-   public int m_189212_() {
+-      return QuartPos.m_175402_(this.f_64513_());
++   public long getCellHeight() {
++      return QuartPos.toBlock(this.f_64513_());
+    }
+ 
+-   public int m_189213_() {
+-      return QuartPos.m_175402_(this.f_64512_());
++   public long getCellWidth() {
++      return QuartPos.toBlock(this.f_64512_());
+    }
+ 
+    public NoiseSettings m_224530_(LevelHeightAccessor p_224531_) {
+-      int i = Math.max(this.f_158688_, p_224531_.m_141937_());
+-      int j = Math.min(this.f_158688_ + this.f_64508_, p_224531_.m_151558_()) - i;
++      long i = Math.max(this.f_158688_, p_224531_.getMinBuildHeight());
++      long j = Math.min(this.f_158688_ + this.f_64508_, p_224531_.getMaxBuildHeight()) - i;
+       return new NoiseSettings(i, j, this.f_64512_, this.f_64513_);
+    }
+ }

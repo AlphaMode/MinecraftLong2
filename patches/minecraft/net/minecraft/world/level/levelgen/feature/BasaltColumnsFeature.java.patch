@@ -1,0 +1,50 @@
+--- a/net/minecraft/world/level/levelgen/feature/BasaltColumnsFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/BasaltColumnsFeature.java
+@@ -39,8 +_,8 @@
+          int l = flag ? 50 : 15;
+          boolean flag1 = false;
+ 
+-         for(BlockPos blockpos1 : BlockPos.m_235641_(randomsource, l, blockpos.m_123341_() - k, blockpos.m_123342_(), blockpos.m_123343_() - k, blockpos.m_123341_() + k, blockpos.m_123342_(), blockpos.m_123343_() + k)) {
+-            int i1 = j - blockpos1.m_123333_(blockpos);
++         for(BlockPos blockpos1 : BlockPos.randomBetweenClosed(randomsource, l, blockpos.getX() - k, blockpos.getY(), blockpos.getZ() - k, blockpos.getX() + k, blockpos.getY(), blockpos.getZ() + k)) {
++            int i1 = j - blockpos1.distManhattan(blockpos);
+             if (i1 >= 0) {
+                flag1 |= this.m_65167_(worldgenlevel, i, blockpos1, i1, columnfeatureconfiguration.m_160717_().m_214085_(randomsource));
+             }
+@@ -53,8 +_,8 @@
+    private boolean m_65167_(LevelAccessor p_65168_, int p_65169_, BlockPos p_65170_, int p_65171_, int p_65172_) {
+       boolean flag = false;
+ 
+-      for(BlockPos blockpos : BlockPos.m_121976_(p_65170_.m_123341_() - p_65172_, p_65170_.m_123342_(), p_65170_.m_123343_() - p_65172_, p_65170_.m_123341_() + p_65172_, p_65170_.m_123342_(), p_65170_.m_123343_() + p_65172_)) {
+-         int i = blockpos.m_123333_(p_65170_);
++      for(BlockPos blockpos : BlockPos.betweenClosed(p_65170_.getX() - p_65172_, p_65170_.getY(), p_65170_.getZ() - p_65172_, p_65170_.getX() + p_65172_, p_65170_.getY(), p_65170_.getZ() + p_65172_)) {
++         int i = blockpos.distManhattan(p_65170_);
+          BlockPos blockpos1 = m_65163_(p_65168_, p_65169_, blockpos) ? m_65158_(p_65168_, p_65169_, blockpos.m_122032_(), i) : m_65173_(p_65168_, blockpos.m_122032_(), i);
+          if (blockpos1 != null) {
+             int j = p_65171_ - i / 2;
+@@ -80,7 +_,7 @@
+ 
+    @Nullable
+    private static BlockPos m_65158_(LevelAccessor p_65159_, int p_65160_, BlockPos.MutableBlockPos p_65161_, int p_65162_) {
+-      while(p_65161_.m_123342_() > p_65159_.m_141937_() + 1 && p_65162_ > 0) {
++      while(p_65161_.getY() > p_65159_.getMinBuildHeight() + 1 && p_65162_ > 0) {
+          --p_65162_;
+          if (m_65154_(p_65159_, p_65160_, p_65161_)) {
+             return p_65161_;
+@@ -104,7 +_,7 @@
+ 
+    @Nullable
+    private static BlockPos m_65173_(LevelAccessor p_65174_, BlockPos.MutableBlockPos p_65175_, int p_65176_) {
+-      while(p_65175_.m_123342_() < p_65174_.m_151558_() && p_65176_ > 0) {
++      while(p_65175_.getY() < p_65174_.getMaxBuildHeight() && p_65176_ > 0) {
+          --p_65176_;
+          BlockState blockstate = p_65174_.m_8055_(p_65175_);
+          if (f_65150_.contains(blockstate.m_60734_())) {
+@@ -123,6 +_,6 @@
+ 
+    private static boolean m_65163_(LevelAccessor p_65164_, int p_65165_, BlockPos p_65166_) {
+       BlockState blockstate = p_65164_.m_8055_(p_65166_);
+-      return blockstate.m_60795_() || blockstate.m_60713_(Blocks.f_49991_) && p_65166_.m_123342_() <= p_65165_;
++      return blockstate.m_60795_() || blockstate.m_60713_(Blocks.f_49991_) && p_65166_.getY() <= p_65165_;
+    }
+ }

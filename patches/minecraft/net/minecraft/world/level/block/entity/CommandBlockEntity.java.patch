@@ -1,0 +1,34 @@
+--- a/net/minecraft/world/level/block/entity/CommandBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/CommandBlockEntity.java
+@@ -33,11 +_,11 @@
+       }
+ 
+       public Vec3 m_6607_() {
+-         return Vec3.m_82512_(CommandBlockEntity.this.f_58858_);
++         return Vec3.atCenterOf(CommandBlockEntity.this.f_58858_);
+       }
+ 
+       public CommandSourceStack m_6712_() {
+-         return new CommandSourceStack(this, Vec3.m_82512_(CommandBlockEntity.this.f_58858_), Vec2.f_82462_, this.m_5991_(), 2, this.m_45439_().getString(), this.m_45439_(), this.m_5991_().m_7654_(), (Entity)null);
++         return new CommandSourceStack(this, Vec3.atCenterOf(CommandBlockEntity.this.f_58858_), Vec2.f_82462_, this.m_5991_(), 2, this.m_45439_().getString(), this.m_45439_(), this.m_5991_().m_7654_(), (Entity)null);
+       }
+    };
+ 
+@@ -102,7 +_,7 @@
+       Block block = this.m_58900_().m_60734_();
+       if (block instanceof CommandBlock) {
+          this.m_59146_();
+-         this.f_58857_.m_186460_(this.f_58858_, block, 1);
++         this.f_58857_.scheduleTick(this.f_58858_, block, 1);
+       }
+ 
+    }
+@@ -114,7 +_,7 @@
+    public boolean m_59146_() {
+       this.f_59125_ = true;
+       if (this.m_59151_()) {
+-         BlockPos blockpos = this.f_58858_.m_121945_(this.f_58857_.m_8055_(this.f_58858_).m_61143_(CommandBlock.f_51793_).m_122424_());
++         BlockPos blockpos = this.f_58858_.relative(this.f_58857_.m_8055_(this.f_58858_).m_61143_(CommandBlock.f_51793_).m_122424_());
+          if (this.f_58857_.m_8055_(blockpos).m_60734_() instanceof CommandBlock) {
+             BlockEntity blockentity = this.f_58857_.m_7702_(blockpos);
+             this.f_59125_ = blockentity instanceof CommandBlockEntity && ((CommandBlockEntity)blockentity).m_59141_().m_45436_() > 0;

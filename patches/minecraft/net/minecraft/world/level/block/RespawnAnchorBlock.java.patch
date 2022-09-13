@@ -1,0 +1,73 @@
+--- a/net/minecraft/world/level/block/RespawnAnchorBlock.java
++++ b/net/minecraft/world/level/block/RespawnAnchorBlock.java
+@@ -72,7 +_,7 @@
+             ServerPlayer serverplayer = (ServerPlayer)p_55877_;
+             if (serverplayer.m_8963_() != p_55875_.m_46472_() || !p_55876_.equals(serverplayer.m_8961_())) {
+                serverplayer.m_9158_(p_55875_.m_46472_(), p_55876_, 0.0F, false, true);
+-               p_55875_.m_6263_((Player)null, (double)p_55876_.m_123341_() + 0.5D, (double)p_55876_.m_123342_() + 0.5D, (double)p_55876_.m_123343_() + 0.5D, SoundEvents.f_12326_, SoundSource.BLOCKS, 1.0F, 1.0F);
++               p_55875_.m_6263_((Player)null, (double)p_55876_.getX() + 0.5D, (double)p_55876_.getY() + 0.5D, (double)p_55876_.getZ() + 0.5D, SoundEvents.f_12326_, SoundSource.BLOCKS, 1.0F, 1.0F);
+                return InteractionResult.SUCCESS;
+             }
+          }
+@@ -100,7 +_,7 @@
+          if (f < 2.0F) {
+             return false;
+          } else {
+-            FluidState fluidstate1 = p_55889_.m_6425_(p_55888_.m_7495_());
++            FluidState fluidstate1 = p_55889_.m_6425_(p_55888_.below());
+             return !fluidstate1.m_205070_(FluidTags.f_13131_);
+          }
+       }
+@@ -108,16 +_,16 @@
+ 
+    private void m_55890_(BlockState p_55891_, Level p_55892_, final BlockPos p_55893_) {
+       p_55892_.m_7471_(p_55893_, false);
+-      boolean flag = Direction.Plane.HORIZONTAL.m_122557_().map(p_55893_::m_121945_).anyMatch((p_55854_) -> {
++      boolean flag = Direction.Plane.HORIZONTAL.m_122557_().map(p_55893_::relative).anyMatch((p_55854_) -> {
+          return m_55887_(p_55854_, p_55892_);
+       });
+-      final boolean flag1 = flag || p_55892_.m_6425_(p_55893_.m_7494_()).m_205070_(FluidTags.f_13131_);
++      final boolean flag1 = flag || p_55892_.m_6425_(p_55893_.above()).m_205070_(FluidTags.f_13131_);
+       ExplosionDamageCalculator explosiondamagecalculator = new ExplosionDamageCalculator() {
+          public Optional<Float> m_6617_(Explosion p_55904_, BlockGetter p_55905_, BlockPos p_55906_, BlockState p_55907_, FluidState p_55908_) {
+             return p_55906_.equals(p_55893_) && flag1 ? Optional.of(Blocks.f_49990_.m_7325_()) : super.m_6617_(p_55904_, p_55905_, p_55906_, p_55907_, p_55908_);
+          }
+       };
+-      p_55892_.m_7703_((Entity)null, DamageSource.m_19334_(), explosiondamagecalculator, (double)p_55893_.m_123341_() + 0.5D, (double)p_55893_.m_123342_() + 0.5D, (double)p_55893_.m_123343_() + 0.5D, 5.0F, true, Explosion.BlockInteraction.DESTROY);
++      p_55892_.m_7703_((Entity)null, DamageSource.m_19334_(), explosiondamagecalculator, (double)p_55893_.getX() + 0.5D, (double)p_55893_.getY() + 0.5D, (double)p_55893_.getZ() + 0.5D, 5.0F, true, Explosion.BlockInteraction.DESTROY);
+    }
+ 
+    public static boolean m_55850_(Level p_55851_) {
+@@ -126,18 +_,18 @@
+ 
+    public static void m_55855_(Level p_55856_, BlockPos p_55857_, BlockState p_55858_) {
+       p_55856_.m_7731_(p_55857_, p_55858_.m_61124_(f_55833_, Integer.valueOf(p_55858_.m_61143_(f_55833_) + 1)), 3);
+-      p_55856_.m_6263_((Player)null, (double)p_55857_.m_123341_() + 0.5D, (double)p_55857_.m_123342_() + 0.5D, (double)p_55857_.m_123343_() + 0.5D, SoundEvents.f_12376_, SoundSource.BLOCKS, 1.0F, 1.0F);
++      p_55856_.m_6263_((Player)null, (double)p_55857_.getX() + 0.5D, (double)p_55857_.getY() + 0.5D, (double)p_55857_.getZ() + 0.5D, SoundEvents.f_12376_, SoundSource.BLOCKS, 1.0F, 1.0F);
+    }
+ 
+    public void m_214162_(BlockState p_221969_, Level p_221970_, BlockPos p_221971_, RandomSource p_221972_) {
+       if (p_221969_.m_61143_(f_55833_) != 0) {
+          if (p_221972_.m_188503_(100) == 0) {
+-            p_221970_.m_6263_((Player)null, (double)p_221971_.m_123341_() + 0.5D, (double)p_221971_.m_123342_() + 0.5D, (double)p_221971_.m_123343_() + 0.5D, SoundEvents.f_12375_, SoundSource.BLOCKS, 1.0F, 1.0F);
++            p_221970_.m_6263_((Player)null, (double)p_221971_.getX() + 0.5D, (double)p_221971_.getY() + 0.5D, (double)p_221971_.getZ() + 0.5D, SoundEvents.f_12375_, SoundSource.BLOCKS, 1.0F, 1.0F);
+          }
+ 
+-         double d0 = (double)p_221971_.m_123341_() + 0.5D + (0.5D - p_221972_.m_188500_());
+-         double d1 = (double)p_221971_.m_123342_() + 1.0D;
+-         double d2 = (double)p_221971_.m_123343_() + 0.5D + (0.5D - p_221972_.m_188500_());
++         double d0 = (double)p_221971_.getX() + 0.5D + (0.5D - p_221972_.m_188500_());
++         double d1 = (double)p_221971_.getY() + 1.0D;
++         double d2 = (double)p_221971_.getZ() + 0.5D + (0.5D - p_221972_.m_188500_());
+          double d3 = (double)p_221972_.m_188501_() * 0.04D;
+          p_221970_.m_7106_(ParticleTypes.f_123789_, d0, d1, d2, 0.0D, d3, 0.0D);
+       }
+@@ -168,7 +_,7 @@
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+       for(Vec3i vec3i : f_55835_) {
+-         blockpos$mutableblockpos.m_122190_(p_55846_).m_122193_(vec3i);
++         blockpos$mutableblockpos.set(p_55846_).m_122193_(vec3i);
+          Vec3 vec3 = DismountHelper.m_38441_(p_55844_, p_55845_, blockpos$mutableblockpos, p_55847_);
+          if (vec3 != null) {
+             return Optional.of(vec3);

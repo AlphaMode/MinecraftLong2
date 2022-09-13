@@ -1,0 +1,41 @@
+--- a/net/minecraft/world/level/block/BigDripleafStemBlock.java
++++ b/net/minecraft/world/level/block/BigDripleafStemBlock.java
+@@ -58,9 +_,9 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_152365_, LevelReader p_152366_, BlockPos p_152367_) {
+-      BlockPos blockpos = p_152367_.m_7495_();
++      BlockPos blockpos = p_152367_.below();
+       BlockState blockstate = p_152366_.m_8055_(blockpos);
+-      BlockState blockstate1 = p_152366_.m_8055_(p_152367_.m_7494_());
++      BlockState blockstate1 = p_152366_.m_8055_(p_152367_.above());
+       return (blockstate.m_60713_(this) || blockstate.m_204336_(BlockTags.f_184227_)) && (blockstate1.m_60713_(this) || blockstate1.m_60713_(Blocks.f_152545_));
+    }
+ 
+@@ -71,7 +_,7 @@
+ 
+    public BlockState m_7417_(BlockState p_152369_, Direction p_152370_, BlockState p_152371_, LevelAccessor p_152372_, BlockPos p_152373_, BlockPos p_152374_) {
+       if ((p_152370_ == Direction.DOWN || p_152370_ == Direction.UP) && !p_152369_.m_60710_(p_152372_, p_152373_)) {
+-         p_152372_.m_186460_(p_152373_, this, 1);
++         p_152372_.scheduleTick(p_152373_, this, 1);
+       }
+ 
+       if (p_152369_.m_61143_(f_152325_)) {
+@@ -93,7 +_,7 @@
+       if (!optional.isPresent()) {
+          return false;
+       } else {
+-         BlockPos blockpos = optional.get().m_7494_();
++         BlockPos blockpos = optional.get().above();
+          BlockState blockstate = p_152340_.m_8055_(blockpos);
+          return BigDripleafBlock.m_152251_(p_152340_, blockpos, blockstate);
+       }
+@@ -107,7 +_,7 @@
+       Optional<BlockPos> optional = BlockUtil.m_177845_(p_220803_, p_220805_, p_220806_.m_60734_(), Direction.UP, Blocks.f_152545_);
+       if (optional.isPresent()) {
+          BlockPos blockpos = optional.get();
+-         BlockPos blockpos1 = blockpos.m_7494_();
++         BlockPos blockpos1 = blockpos.above();
+          Direction direction = p_220806_.m_61143_(f_54117_);
+          m_152349_(p_220803_, blockpos, p_220803_.m_6425_(blockpos), direction);
+          BigDripleafBlock.m_152241_(p_220803_, blockpos1, p_220803_.m_6425_(blockpos1), direction);

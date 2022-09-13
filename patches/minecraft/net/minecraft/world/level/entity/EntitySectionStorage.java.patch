@@ -1,0 +1,33 @@
+--- a/net/minecraft/world/level/entity/EntitySectionStorage.java
++++ b/net/minecraft/world/level/entity/EntitySectionStorage.java
+@@ -42,8 +_,8 @@
+       int k1 = SectionPos.m_175552_(p_188363_.f_82293_ + 2.0D);
+ 
+       for(int l1 = j; l1 <= i1; ++l1) {
+-         long i2 = SectionPos.m_123209_(l1, 0, 0);
+-         long j2 = SectionPos.m_123209_(l1, -1, -1);
++         long i2 = SectionPos.asLong(l1, 0, 0);
++         long j2 = SectionPos.asLong(l1, -1, -1);
+          LongIterator longiterator = this.f_156853_.subSet(i2, j2 + 1L).iterator();
+ 
+          while(longiterator.hasNext()) {
+@@ -74,8 +_,8 @@
+    }
+ 
+    private LongSortedSet m_156858_(int p_156859_, int p_156860_) {
+-      long i = SectionPos.m_123209_(p_156859_, 0, p_156860_);
+-      long j = SectionPos.m_123209_(p_156859_, -1, p_156860_);
++      long i = SectionPos.asLong(p_156859_, 0, p_156860_);
++      long j = SectionPos.asLong(p_156859_, -1, p_156860_);
+       return this.f_156853_.subSet(i, j + 1L);
+    }
+ 
+@@ -84,7 +_,7 @@
+    }
+ 
+    private static long m_156899_(long p_156900_) {
+-      return ChunkPos.m_45589_(SectionPos.m_123213_(p_156900_), SectionPos.m_123230_(p_156900_));
++      return ChunkPos.asLong(SectionPos.m_123213_(p_156900_), SectionPos.m_123230_(p_156900_));
+    }
+ 
+    public EntitySection<T> m_156893_(long p_156894_) {

@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/block/DirtPathBlock.java
++++ b/net/minecraft/world/level/block/DirtPathBlock.java
+@@ -31,7 +_,7 @@
+ 
+    public BlockState m_7417_(BlockState p_153152_, Direction p_153153_, BlockState p_153154_, LevelAccessor p_153155_, BlockPos p_153156_, BlockPos p_153157_) {
+       if (p_153153_ == Direction.UP && !p_153152_.m_60710_(p_153155_, p_153156_)) {
+-         p_153155_.m_186460_(p_153156_, this, 1);
++         p_153155_.scheduleTick(p_153156_, this, 1);
+       }
+ 
+       return super.m_7417_(p_153152_, p_153153_, p_153154_, p_153155_, p_153156_, p_153157_);
+@@ -42,7 +_,7 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_153148_, LevelReader p_153149_, BlockPos p_153150_) {
+-      BlockState blockstate = p_153149_.m_8055_(p_153150_.m_7494_());
++      BlockState blockstate = p_153149_.m_8055_(p_153150_.above());
+       return !blockstate.m_60767_().m_76333_() || blockstate.m_60734_() instanceof FenceGateBlock;
+    }
+ 

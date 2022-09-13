@@ -1,0 +1,70 @@
+--- a/net/minecraft/world/level/chunk/CarvingMask.java
++++ b/net/minecraft/world/level/chunk/CarvingMask.java
+@@ -6,36 +_,36 @@
+ import net.minecraft.world.level.ChunkPos;
+ 
+ public class CarvingMask {
+-   private final int f_187576_;
++   private final long f_187576_;
+    private final BitSet f_187577_;
+    private CarvingMask.Mask f_196706_ = (p_196713_, p_196714_, p_196715_) -> {
+       return false;
+    };
+ 
+-   public CarvingMask(int p_187579_, int p_187580_) {
++   public CarvingMask(long p_187579_, long p_187580_) {
+       this.f_187576_ = p_187580_;
+-      this.f_187577_ = new BitSet(256 * p_187579_);
++      this.f_187577_ = new BitSet((int) (256 * p_187579_));
+    }
+ 
+    public void m_196710_(CarvingMask.Mask p_196711_) {
+       this.f_196706_ = p_196711_;
+    }
+ 
+-   public CarvingMask(long[] p_187582_, int p_187583_) {
++   public CarvingMask(long[] p_187582_, long p_187583_) {
+       this.f_187576_ = p_187583_;
+       this.f_187577_ = BitSet.valueOf(p_187582_);
+    }
+ 
+-   private int m_187598_(int p_187599_, int p_187600_, int p_187601_) {
+-      return p_187599_ & 15 | (p_187601_ & 15) << 4 | p_187600_ - this.f_187576_ << 8;
+-   }
+-
+-   public void m_187585_(int p_187586_, int p_187587_, int p_187588_) {
+-      this.f_187577_.set(this.m_187598_(p_187586_, p_187587_, p_187588_));
+-   }
+-
+-   public boolean m_187594_(int p_187595_, int p_187596_, int p_187597_) {
+-      return this.f_196706_.m_196716_(p_187595_, p_187596_, p_187597_) || this.f_187577_.get(this.m_187598_(p_187595_, p_187596_, p_187597_));
++   private int getIndex(long p_187599_, long p_187600_, long p_187601_) {
++      return (int) (p_187599_ & 15 | (p_187601_ & 15) << 4 | p_187600_ - this.f_187576_ << 8);
++   }
++
++   public void set(long p_187586_, long p_187587_, long p_187588_) {
++      this.f_187577_.set(this.getIndex(p_187586_, p_187587_, p_187588_));
++   }
++
++   public boolean get(long p_187595_, long p_187596_, long p_187597_) {
++      return this.f_196706_.test(p_187595_, p_187596_, p_187597_) || this.f_187577_.get(this.getIndex(p_187595_, p_187596_, p_187597_));
+    }
+ 
+    public Stream<BlockPos> m_187589_(ChunkPos p_187590_) {
+@@ -43,7 +_,7 @@
+          int i = p_196709_ & 15;
+          int j = p_196709_ >> 4 & 15;
+          int k = p_196709_ >> 8;
+-         return p_187590_.m_151384_(i, k + this.f_187576_, j);
++         return p_187590_.getBlockAt(i, k + this.f_187576_, j);
+       });
+    }
+ 
+@@ -52,6 +_,6 @@
+    }
+ 
+    public interface Mask {
+-      boolean m_196716_(int p_196717_, int p_196718_, int p_196719_);
++      boolean test(long p_196717_, long p_196718_, long p_196719_);
+    }
+ }

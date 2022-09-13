@@ -1,0 +1,89 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/OceanRuinPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/OceanRuinPieces.java
+@@ -70,10 +_,10 @@
+    }
+ 
+    private static void m_228987_(StructureTemplateManager p_228988_, RandomSource p_228989_, Rotation p_228990_, BlockPos p_228991_, OceanRuinStructure p_228992_, StructurePieceAccessor p_228993_) {
+-      BlockPos blockpos = new BlockPos(p_228991_.m_123341_(), 90, p_228991_.m_123343_());
+-      BlockPos blockpos1 = StructureTemplate.m_74593_(new BlockPos(15, 0, 15), Mirror.NONE, p_228990_, BlockPos.f_121853_).m_121955_(blockpos);
+-      BoundingBox boundingbox = BoundingBox.m_162375_(blockpos, blockpos1);
+-      BlockPos blockpos2 = new BlockPos(Math.min(blockpos.m_123341_(), blockpos1.m_123341_()), blockpos.m_123342_(), Math.min(blockpos.m_123343_(), blockpos1.m_123343_()));
++      BlockPos blockpos = new BlockPos(p_228991_.getX(), 90, p_228991_.getZ());
++      BlockPos blockpos1 = StructureTemplate.m_74593_(new BlockPos(15, 0, 15), Mirror.NONE, p_228990_, BlockPos.f_121853_).offset(blockpos);
++      BoundingBox boundingbox = BoundingBox.fromCorners(blockpos, blockpos1);
++      BlockPos blockpos2 = new BlockPos(Math.min(blockpos.getX(), blockpos1.getX()), blockpos.getY(), Math.min(blockpos.getZ(), blockpos1.getZ()));
+       List<BlockPos> list = m_228984_(p_228989_, blockpos2);
+       int i = Mth.m_216271_(p_228989_, 4, 8);
+ 
+@@ -82,8 +_,8 @@
+             int k = p_228989_.m_188503_(list.size());
+             BlockPos blockpos3 = list.remove(k);
+             Rotation rotation = Rotation.m_221990_(p_228989_);
+-            BlockPos blockpos4 = StructureTemplate.m_74593_(new BlockPos(5, 0, 6), Mirror.NONE, rotation, BlockPos.f_121853_).m_121955_(blockpos3);
+-            BoundingBox boundingbox1 = BoundingBox.m_162375_(blockpos3, blockpos4);
++            BlockPos blockpos4 = StructureTemplate.m_74593_(new BlockPos(5, 0, 6), Mirror.NONE, rotation, BlockPos.f_121853_).offset(blockpos3);
++            BoundingBox boundingbox1 = BoundingBox.fromCorners(blockpos3, blockpos4);
+             if (!boundingbox1.m_71049_(boundingbox)) {
+                m_229001_(p_228988_, blockpos3, rotation, p_228993_, p_228989_, p_228992_, false, 0.8F);
+             }
+@@ -170,7 +_,7 @@
+             drowned.m_20035_(p_229047_, 0.0F, 0.0F);
+             drowned.m_6518_(p_229048_, p_229048_.m_6436_(p_229047_), MobSpawnType.STRUCTURE, (SpawnGroupData)null, (CompoundTag)null);
+             p_229048_.m_47205_(drowned);
+-            if (p_229047_.m_123342_() > p_229048_.m_5736_()) {
++            if (p_229047_.getY() > p_229048_.m_5736_()) {
+                p_229048_.m_7731_(p_229047_, Blocks.f_50016_.m_49966_(), 2);
+             } else {
+                p_229048_.m_7731_(p_229047_, Blocks.f_49990_.m_49966_(), 2);
+@@ -181,29 +_,29 @@
+ 
+       public void m_213694_(WorldGenLevel p_229029_, StructureManager p_229030_, ChunkGenerator p_229031_, RandomSource p_229032_, BoundingBox p_229033_, ChunkPos p_229034_, BlockPos p_229035_) {
+          this.f_73657_.m_74394_().m_74383_(new BlockRotProcessor(this.f_229015_)).m_74383_(BlockIgnoreProcessor.f_74048_);
+-         int i = p_229029_.m_6924_(Heightmap.Types.OCEAN_FLOOR_WG, this.f_73658_.m_123341_(), this.f_73658_.m_123343_());
+-         this.f_73658_ = new BlockPos(this.f_73658_.m_123341_(), i, this.f_73658_.m_123343_());
+-         BlockPos blockpos = StructureTemplate.m_74593_(new BlockPos(this.f_73656_.m_163801_().m_123341_() - 1, 0, this.f_73656_.m_163801_().m_123343_() - 1), Mirror.NONE, this.f_73657_.m_74404_(), BlockPos.f_121853_).m_121955_(this.f_73658_);
+-         this.f_73658_ = new BlockPos(this.f_73658_.m_123341_(), this.m_229041_(this.f_73658_, p_229029_, blockpos), this.f_73658_.m_123343_());
++         long i = p_229029_.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, this.f_73658_.getX(), this.f_73658_.getZ());
++         this.f_73658_ = new BlockPos(this.f_73658_.getX(), i, this.f_73658_.getZ());
++         BlockPos blockpos = StructureTemplate.m_74593_(new BlockPos(this.f_73656_.m_163801_().m_123341_() - 1, 0, this.f_73656_.m_163801_().m_123343_() - 1), Mirror.NONE, this.f_73657_.m_74404_(), BlockPos.f_121853_).offset(this.f_73658_);
++         this.f_73658_ = new BlockPos(this.f_73658_.getX(), this.getHeight(this.f_73658_, p_229029_, blockpos), this.f_73658_.getZ());
+          super.m_213694_(p_229029_, p_229030_, p_229031_, p_229032_, p_229033_, p_229034_, p_229035_);
+       }
+ 
+-      private int m_229041_(BlockPos p_229042_, BlockGetter p_229043_, BlockPos p_229044_) {
+-         int i = p_229042_.m_123342_();
+-         int j = 512;
+-         int k = i - 1;
++      private long getHeight(BlockPos p_229042_, BlockGetter p_229043_, BlockPos p_229044_) {
++         long i = p_229042_.getY();
++         long j = 512;
++         long k = i - 1;
+          int l = 0;
+ 
+          for(BlockPos blockpos : BlockPos.m_121940_(p_229042_, p_229044_)) {
+-            int i1 = blockpos.m_123341_();
+-            int j1 = blockpos.m_123343_();
+-            int k1 = p_229042_.m_123342_() - 1;
++            long i1 = blockpos.getX();
++            long j1 = blockpos.getZ();
++            long k1 = p_229042_.getY() - 1;
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(i1, k1, j1);
+             BlockState blockstate = p_229043_.m_8055_(blockpos$mutableblockpos);
+ 
+-            for(FluidState fluidstate = p_229043_.m_6425_(blockpos$mutableblockpos); (blockstate.m_60795_() || fluidstate.m_205070_(FluidTags.f_13131_) || blockstate.m_204336_(BlockTags.f_13047_)) && k1 > p_229043_.m_141937_() + 1; fluidstate = p_229043_.m_6425_(blockpos$mutableblockpos)) {
++            for(FluidState fluidstate = p_229043_.m_6425_(blockpos$mutableblockpos); (blockstate.m_60795_() || fluidstate.m_205070_(FluidTags.f_13131_) || blockstate.m_204336_(BlockTags.f_13047_)) && k1 > p_229043_.getMinBuildHeight() + 1; fluidstate = p_229043_.m_6425_(blockpos$mutableblockpos)) {
+                --k1;
+-               blockpos$mutableblockpos.m_122178_(i1, k1, j1);
++               blockpos$mutableblockpos.m_122169_(i1, k1, j1);
+                blockstate = p_229043_.m_8055_(blockpos$mutableblockpos);
+             }
+ 
+@@ -213,7 +_,7 @@
+             }
+          }
+ 
+-         int l1 = Math.abs(p_229042_.m_123341_() - p_229044_.m_123341_());
++         long l1 = Math.abs(p_229042_.getX() - p_229044_.getX());
+          if (k - j > 2 && l > l1 - 2) {
+             i = j + 1;
+          }

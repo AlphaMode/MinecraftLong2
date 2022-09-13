@@ -1,0 +1,40 @@
+--- a/net/minecraft/world/level/levelgen/feature/GeodeFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/GeodeFeature.java
+@@ -98,16 +_,16 @@
+       Predicate<BlockState> predicate = m_204735_(geodeconfiguration.f_160813_.f_158293_);
+ 
+       for(BlockPos blockpos3 : BlockPos.m_121940_(blockpos.m_7918_(i, i, i), blockpos.m_7918_(j, j, j))) {
+-         double d8 = normalnoise.m_75380_((double)blockpos3.m_123341_(), (double)blockpos3.m_123342_(), (double)blockpos3.m_123343_()) * geodeconfiguration.f_160824_;
++         double d8 = normalnoise.m_75380_((double)blockpos3.getX(), (double)blockpos3.getY(), (double)blockpos3.getZ()) * geodeconfiguration.f_160824_;
+          double d6 = 0.0D;
+          double d7 = 0.0D;
+ 
+          for(Pair<BlockPos, Integer> pair : list) {
+-            d6 += Mth.m_14193_(blockpos3.m_123331_(pair.getFirst()) + (double)pair.getSecond().intValue()) + d8;
++            d6 += Mth.m_14193_(blockpos3.distSqr(pair.getFirst()) + (double)pair.getSecond().intValue()) + d8;
+          }
+ 
+          for(BlockPos blockpos6 : list1) {
+-            d7 += Mth.m_14193_(blockpos3.m_123331_(blockpos6) + (double)geodecracksettings.f_158327_) + d8;
++            d7 += Mth.m_14193_(blockpos3.distSqr(blockpos6) + (double)geodecracksettings.f_158327_) + d8;
+          }
+ 
+          if (!(d6 < d4)) {
+@@ -115,7 +_,7 @@
+                this.m_159742_(worldgenlevel, blockpos3, Blocks.f_50016_.m_49966_(), predicate);
+ 
+                for(Direction direction1 : f_159831_) {
+-                  BlockPos blockpos2 = blockpos3.m_121945_(direction1);
++                  BlockPos blockpos2 = blockpos3.relative(direction1);
+                   FluidState fluidstate = worldgenlevel.m_6425_(blockpos2);
+                   if (!fluidstate.m_76178_()) {
+                      worldgenlevel.m_186469_(blockpos2, fluidstate.m_76152_(), 0);
+@@ -152,7 +_,7 @@
+                blockstate1 = blockstate1.m_61124_(BlockStateProperties.f_61372_, direction);
+             }
+ 
+-            BlockPos blockpos5 = blockpos4.m_121945_(direction);
++            BlockPos blockpos5 = blockpos4.relative(direction);
+             BlockState blockstate2 = worldgenlevel.m_8055_(blockpos5);
+             if (blockstate1.m_61138_(BlockStateProperties.f_61362_)) {
+                blockstate1 = blockstate1.m_61124_(BlockStateProperties.f_61362_, Boolean.valueOf(blockstate2.m_60819_().m_76170_()));

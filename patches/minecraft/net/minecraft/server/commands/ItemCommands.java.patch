@@ -1,0 +1,29 @@
+--- a/net/minecraft/server/commands/ItemCommands.java
++++ b/net/minecraft/server/commands/ItemCommands.java
+@@ -99,7 +_,7 @@
+       if (p_180299_ >= 0 && p_180299_ < container.m_6643_()) {
+          ItemStack itemstack = m_180283_(p_180297_, p_180300_, container.m_8020_(p_180299_));
+          container.m_6836_(p_180299_, itemstack);
+-         p_180297_.m_81354_(Component.m_237110_("commands.item.block.set.success", p_180298_.m_123341_(), p_180298_.m_123342_(), p_180298_.m_123343_(), itemstack.m_41611_()), true);
++         p_180297_.m_81354_(Component.m_237110_("commands.item.block.set.success", p_180298_.getX(), p_180298_.getY(), p_180298_.getZ(), itemstack.m_41611_()), true);
+          return 1;
+       } else {
+          throw f_180237_.create(p_180299_);
+@@ -140,7 +_,7 @@
+       Container container = m_180327_(p_180292_, p_180293_, f_180236_);
+       if (p_180294_ >= 0 && p_180294_ < container.m_6643_()) {
+          container.m_6836_(p_180294_, p_180295_);
+-         p_180292_.m_81354_(Component.m_237110_("commands.item.block.set.success", p_180293_.m_123341_(), p_180293_.m_123342_(), p_180293_.m_123343_(), p_180295_.m_41611_()), true);
++         p_180292_.m_81354_(Component.m_237110_("commands.item.block.set.success", p_180293_.getX(), p_180293_.getY(), p_180293_.getZ(), p_180295_.m_41611_()), true);
+          return 1;
+       } else {
+          throw f_180237_.create(p_180294_);
+@@ -150,7 +_,7 @@
+    private static Container m_180327_(CommandSourceStack p_180328_, BlockPos p_180329_, Dynamic3CommandExceptionType p_180330_) throws CommandSyntaxException {
+       BlockEntity blockentity = p_180328_.m_81372_().m_7702_(p_180329_);
+       if (!(blockentity instanceof Container)) {
+-         throw p_180330_.create(p_180329_.m_123341_(), p_180329_.m_123342_(), p_180329_.m_123343_());
++         throw p_180330_.create(p_180329_.getX(), p_180329_.getY(), p_180329_.getZ());
+       } else {
+          return (Container)blockentity;
+       }

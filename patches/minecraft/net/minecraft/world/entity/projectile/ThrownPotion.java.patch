@@ -1,0 +1,19 @@
+--- a/net/minecraft/world/entity/projectile/ThrownPotion.java
++++ b/net/minecraft/world/entity/projectile/ThrownPotion.java
+@@ -65,13 +_,13 @@
+          boolean flag = potion == Potions.f_43599_ && list.isEmpty();
+          Direction direction = p_37541_.m_82434_();
+          BlockPos blockpos = p_37541_.m_82425_();
+-         BlockPos blockpos1 = blockpos.m_121945_(direction);
++         BlockPos blockpos1 = blockpos.relative(direction);
+          if (flag) {
+             this.m_150192_(blockpos1);
+-            this.m_150192_(blockpos1.m_121945_(direction.m_122424_()));
++            this.m_150192_(blockpos1.relative(direction.m_122424_()));
+ 
+             for(Direction direction1 : Direction.Plane.HORIZONTAL) {
+-               this.m_150192_(blockpos1.m_121945_(direction1));
++               this.m_150192_(blockpos1.relative(direction1));
+             }
+          }
+ 

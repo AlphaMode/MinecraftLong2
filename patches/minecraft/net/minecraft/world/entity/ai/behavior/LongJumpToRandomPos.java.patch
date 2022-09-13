@@ -1,0 +1,46 @@
+--- a/net/minecraft/world/entity/ai/behavior/LongJumpToRandomPos.java
++++ b/net/minecraft/world/entity/ai/behavior/LongJumpToRandomPos.java
+@@ -90,13 +_,13 @@
+       this.f_147633_ = 20;
+       this.f_147631_ = Optional.of(p_147677_.m_20182_());
+       BlockPos blockpos = p_147677_.m_20183_();
+-      int i = blockpos.m_123341_();
+-      int j = blockpos.m_123342_();
+-      int k = blockpos.m_123343_();
+-      this.f_147630_ = BlockPos.m_121886_(i - this.f_147628_, j - this.f_147627_, k - this.f_147628_, i + this.f_147628_, j + this.f_147627_, k + this.f_147628_).filter((p_217317_) -> {
++      long i = blockpos.getX();
++      long j = blockpos.getY();
++      long k = blockpos.getZ();
++      this.f_147630_ = BlockPos.betweenClosedStream(i - this.f_147628_, j - this.f_147627_, k - this.f_147628_, i + this.f_147628_, j + this.f_147627_, k + this.f_147628_).filter((p_217317_) -> {
+          return !p_217317_.equals(blockpos);
+       }).map((p_217314_) -> {
+-         return new LongJumpToRandomPos.PossibleJump(p_217314_.m_7949_(), Mth.m_14165_(blockpos.m_123331_(p_217314_)));
++         return new LongJumpToRandomPos.PossibleJump(p_217314_.m_7949_(), Mth.m_14165_(blockpos.distSqr(p_217314_)));
+       }).collect(Collectors.toCollection(Lists::newArrayList));
+    }
+ 
+@@ -132,7 +_,7 @@
+                continue;
+             }
+ 
+-            Vec3 vec3 = Vec3.m_82512_(blockpos);
++            Vec3 vec3 = Vec3.atCenterOf(blockpos);
+             Vec3 vec31 = this.m_217303_(p_217320_, vec3);
+             if (vec31 == null) {
+                continue;
+@@ -162,11 +_,11 @@
+ 
+    protected boolean m_213828_(ServerLevel p_217300_, E p_217301_, BlockPos p_217302_) {
+       BlockPos blockpos = p_217301_.m_20183_();
+-      int i = blockpos.m_123341_();
+-      int j = blockpos.m_123343_();
+-      if (i == p_217302_.m_123341_() && j == p_217302_.m_123343_()) {
++      long i = blockpos.getX();
++      long j = blockpos.getZ();
++      if (i == p_217302_.getX() && j == p_217302_.getZ()) {
+          return false;
+-      } else if (!p_217301_.m_21573_().m_6342_(p_217302_) && !this.f_217290_.test(p_217300_.m_8055_(p_217302_.m_7495_()))) {
++      } else if (!p_217301_.m_21573_().m_6342_(p_217302_) && !this.f_217290_.test(p_217300_.m_8055_(p_217302_.below()))) {
+          return false;
+       } else {
+          return p_217301_.m_21439_(WalkNodeEvaluator.m_77604_(p_217301_.f_19853_, p_217302_.m_122032_())) == 0.0F;

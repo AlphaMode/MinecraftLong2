@@ -1,0 +1,49 @@
+--- a/net/minecraft/world/level/levelgen/feature/MonsterRoomFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/MonsterRoomFeature.java
+@@ -60,7 +_,7 @@
+                   return false;
+                }
+ 
+-               if ((k2 == k || k2 == l || i3 == l1 || i3 == i2) && l2 == 0 && worldgenlevel.m_46859_(blockpos1) && worldgenlevel.m_46859_(blockpos1.m_7494_())) {
++               if ((k2 == k || k2 == l || i3 == l1 || i3 == i2) && l2 == 0 && worldgenlevel.m_46859_(blockpos1) && worldgenlevel.m_46859_(blockpos1.above())) {
+                   ++j2;
+                }
+             }
+@@ -77,7 +_,7 @@
+                      if (!blockstate.m_60713_(Blocks.f_50087_) && !blockstate.m_60713_(Blocks.f_50085_)) {
+                         this.m_159742_(worldgenlevel, blockpos2, f_66342_, predicate);
+                      }
+-                  } else if (blockpos2.m_123342_() >= worldgenlevel.m_141937_() && !worldgenlevel.m_8055_(blockpos2.m_7495_()).m_60767_().m_76333_()) {
++                  } else if (blockpos2.getY() >= worldgenlevel.getMinBuildHeight() && !worldgenlevel.m_8055_(blockpos2.below()).m_60767_().m_76333_()) {
+                      worldgenlevel.m_7731_(blockpos2, f_66342_, 2);
+                   } else if (blockstate.m_60767_().m_76333_() && !blockstate.m_60713_(Blocks.f_50087_)) {
+                      if (i4 == -1 && randomsource.m_188503_(4) != 0) {
+@@ -92,15 +_,15 @@
+ 
+          for(int l3 = 0; l3 < 2; ++l3) {
+             for(int j4 = 0; j4 < 3; ++j4) {
+-               int l4 = blockpos.m_123341_() + randomsource.m_188503_(j * 2 + 1) - j;
+-               int i5 = blockpos.m_123342_();
+-               int j5 = blockpos.m_123343_() + randomsource.m_188503_(k1 * 2 + 1) - k1;
++               long l4 = blockpos.getX() + randomsource.m_188503_(j * 2 + 1) - j;
++               long i5 = blockpos.getY();
++               long j5 = blockpos.getZ() + randomsource.m_188503_(k1 * 2 + 1) - k1;
+                BlockPos blockpos3 = new BlockPos(l4, i5, j5);
+                if (worldgenlevel.m_46859_(blockpos3)) {
+                   int j3 = 0;
+ 
+                   for(Direction direction : Direction.Plane.HORIZONTAL) {
+-                     if (worldgenlevel.m_8055_(blockpos3.m_121945_(direction)).m_60767_().m_76333_()) {
++                     if (worldgenlevel.m_8055_(blockpos3.relative(direction)).m_60767_().m_76333_()) {
+                         ++j3;
+                      }
+                   }
+@@ -119,7 +_,7 @@
+          if (blockentity instanceof SpawnerBlockEntity) {
+             ((SpawnerBlockEntity)blockentity).m_59801_().m_45462_(this.m_225153_(randomsource));
+          } else {
+-            f_66340_.error("Failed to fetch mob spawner entity at ({}, {}, {})", blockpos.m_123341_(), blockpos.m_123342_(), blockpos.m_123343_());
++            f_66340_.error("Failed to fetch mob spawner entity at ({}, {}, {})", blockpos.getX(), blockpos.getY(), blockpos.getZ());
+          }
+ 
+          return true;

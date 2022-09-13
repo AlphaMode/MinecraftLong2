@@ -1,0 +1,30 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/EndCityPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/EndCityPieces.java
+@@ -166,7 +_,7 @@
+    static EndCityPieces.EndCityPiece m_227429_(StructureTemplateManager p_227430_, EndCityPieces.EndCityPiece p_227431_, BlockPos p_227432_, String p_227433_, Rotation p_227434_, boolean p_227435_) {
+       EndCityPieces.EndCityPiece endcitypieces$endcitypiece = new EndCityPieces.EndCityPiece(p_227430_, p_227433_, p_227431_.m_226912_(), p_227434_, p_227435_);
+       BlockPos blockpos = p_227431_.m_226911_().m_74566_(p_227431_.m_226913_(), p_227432_, endcitypieces$endcitypiece.m_226913_(), BlockPos.f_121853_);
+-      endcitypieces$endcitypiece.m_6324_(blockpos.m_123341_(), blockpos.m_123342_(), blockpos.m_123343_());
++      endcitypieces$endcitypiece.move(blockpos.getX(), blockpos.getY(), blockpos.getZ());
+       return endcitypieces$endcitypiece;
+    }
+ 
+@@ -247,14 +_,14 @@
+ 
+       protected void m_213704_(String p_227505_, BlockPos p_227506_, ServerLevelAccessor p_227507_, RandomSource p_227508_, BoundingBox p_227509_) {
+          if (p_227505_.startsWith("Chest")) {
+-            BlockPos blockpos = p_227506_.m_7495_();
+-            if (p_227509_.m_71051_(blockpos)) {
++            BlockPos blockpos = p_227506_.below();
++            if (p_227509_.isInside(blockpos)) {
+                RandomizableContainerBlockEntity.m_222766_(p_227507_, p_227508_, blockpos, BuiltInLootTables.f_78741_);
+             }
+-         } else if (p_227509_.m_71051_(p_227506_) && Level.m_46741_(p_227506_)) {
++         } else if (p_227509_.isInside(p_227506_) && Level.m_46741_(p_227506_)) {
+             if (p_227505_.startsWith("Sentry")) {
+                Shulker shulker = EntityType.f_20521_.m_20615_(p_227507_.m_6018_());
+-               shulker.m_6034_((double)p_227506_.m_123341_() + 0.5D, (double)p_227506_.m_123342_(), (double)p_227506_.m_123343_() + 0.5D);
++               shulker.m_6034_((double)p_227506_.getX() + 0.5D, (double)p_227506_.getY(), (double)p_227506_.getZ() + 0.5D);
+                p_227507_.m_7967_(shulker);
+             } else if (p_227505_.startsWith("Elytra")) {
+                ItemFrame itemframe = new ItemFrame(p_227507_.m_6018_(), p_227506_, this.f_73657_.m_74404_().m_55954_(Direction.SOUTH));

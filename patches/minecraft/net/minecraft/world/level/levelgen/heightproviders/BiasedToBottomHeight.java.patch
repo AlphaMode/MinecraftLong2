@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/level/levelgen/heightproviders/BiasedToBottomHeight.java
++++ b/net/minecraft/world/level/levelgen/heightproviders/BiasedToBottomHeight.java
+@@ -33,15 +_,15 @@
+       return new BiasedToBottomHeight(p_161932_, p_161933_, p_161934_);
+    }
+ 
+-   public int m_213859_(RandomSource p_226297_, WorldGenerationContext p_226298_) {
+-      int i = this.f_161920_.m_142322_(p_226298_);
+-      int j = this.f_161921_.m_142322_(p_226298_);
++   public long sample(RandomSource p_226297_, WorldGenerationContext p_226298_) {
++      long i = this.f_161920_.resolveY(p_226298_);
++      long j = this.f_161921_.resolveY(p_226298_);
+       if (j - i - this.f_161922_ + 1 <= 0) {
+          f_161919_.warn("Empty height range: {}", (Object)this);
+          return i;
+       } else {
+-         int k = p_226297_.m_188503_(j - i - this.f_161922_ + 1);
+-         return p_226297_.m_188503_(k + this.f_161922_) + i;
++         long k = p_226297_.nextLong(j - i - this.f_161922_ + 1);
++         return p_226297_.nextLong(k + this.f_161922_) + i;
+       }
+    }
+ 

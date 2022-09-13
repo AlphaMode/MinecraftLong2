@@ -1,0 +1,39 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/SwampHutPiece.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/SwampHutPiece.java
+@@ -27,7 +_,7 @@
+    private boolean f_229949_;
+    private boolean f_229950_;
+ 
+-   public SwampHutPiece(RandomSource p_229952_, int p_229953_, int p_229954_) {
++   public SwampHutPiece(RandomSource p_229952_, long p_229953_, long p_229954_) {
+       super(StructurePieceType.f_210105_, p_229953_, 64, p_229954_, 7, 7, 9, m_226760_(p_229952_));
+    }
+ 
+@@ -87,11 +_,11 @@
+ 
+          if (!this.f_229949_) {
+             BlockPos blockpos = this.m_163582_(2, 2, 5);
+-            if (p_229965_.m_71051_(blockpos)) {
++            if (p_229965_.isInside(blockpos)) {
+                this.f_229949_ = true;
+                Witch witch = EntityType.f_20495_.m_20615_(p_229961_.m_6018_());
+                witch.m_21530_();
+-               witch.m_7678_((double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_(), (double)blockpos.m_123343_() + 0.5D, 0.0F, 0.0F);
++               witch.m_7678_((double)blockpos.getX() + 0.5D, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
+                witch.m_6518_(p_229961_, p_229961_.m_6436_(blockpos), MobSpawnType.STRUCTURE, (SpawnGroupData)null, (CompoundTag)null);
+                p_229961_.m_47205_(witch);
+             }
+@@ -104,11 +_,11 @@
+    private void m_229957_(ServerLevelAccessor p_229958_, BoundingBox p_229959_) {
+       if (!this.f_229950_) {
+          BlockPos blockpos = this.m_163582_(2, 2, 5);
+-         if (p_229959_.m_71051_(blockpos)) {
++         if (p_229959_.isInside(blockpos)) {
+             this.f_229950_ = true;
+             Cat cat = EntityType.f_20553_.m_20615_(p_229958_.m_6018_());
+             cat.m_21530_();
+-            cat.m_7678_((double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_(), (double)blockpos.m_123343_() + 0.5D, 0.0F, 0.0F);
++            cat.m_7678_((double)blockpos.getX() + 0.5D, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
+             cat.m_6518_(p_229958_, p_229958_.m_6436_(blockpos), MobSpawnType.STRUCTURE, (SpawnGroupData)null, (CompoundTag)null);
+             p_229958_.m_47205_(cat);
+          }

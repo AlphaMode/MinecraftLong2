@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/block/BasePressurePlateBlock.java
++++ b/net/minecraft/world/level/block/BasePressurePlateBlock.java
+@@ -44,7 +_,7 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_49325_, LevelReader p_49326_, BlockPos p_49327_) {
+-      BlockPos blockpos = p_49327_.m_7495_();
++      BlockPos blockpos = p_49327_.below();
+       return m_49936_(p_49326_, blockpos) || m_49863_(p_49326_, blockpos, Direction.UP);
+    }
+ 
+@@ -86,7 +_,7 @@
+       }
+ 
+       if (flag1) {
+-         p_152145_.m_186460_(new BlockPos(p_152146_), this, this.m_7342_());
++         p_152145_.scheduleTick(new BlockPos(p_152146_), this, this.m_7342_());
+       }
+ 
+    }
+@@ -107,7 +_,7 @@
+ 
+    protected void m_49291_(Level p_49292_, BlockPos p_49293_) {
+       p_49292_.m_46672_(p_49293_, this);
+-      p_49292_.m_46672_(p_49293_.m_7495_(), this);
++      p_49292_.m_46672_(p_49293_.below(), this);
+    }
+ 
+    public int m_6378_(BlockState p_49309_, BlockGetter p_49310_, BlockPos p_49311_, Direction p_49312_) {

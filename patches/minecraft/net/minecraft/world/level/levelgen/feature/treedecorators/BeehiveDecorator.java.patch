@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/level/levelgen/feature/treedecorators/BeehiveDecorator.java
++++ b/net/minecraft/world/level/levelgen/feature/treedecorators/BeehiveDecorator.java
+@@ -41,16 +_,16 @@
+       if (!(randomsource.m_188501_() >= this.f_69955_)) {
+          List<BlockPos> list = p_226019_.m_226069_();
+          List<BlockPos> list1 = p_226019_.m_226068_();
+-         int i = !list.isEmpty() ? Math.max(list.get(0).m_123342_() - 1, list1.get(0).m_123342_() + 1) : Math.min(list1.get(0).m_123342_() + 1 + randomsource.m_188503_(3), list1.get(list1.size() - 1).m_123342_());
++         long i = !list.isEmpty() ? Math.max(list.get(0).getY() - 1, list1.get(0).getY() + 1) : Math.min(list1.get(0).getY() + 1 + randomsource.m_188503_(3), list1.get(list1.size() - 1).getY());
+          List<BlockPos> list2 = list1.stream().filter((p_202300_) -> {
+-            return p_202300_.m_123342_() == i;
++            return p_202300_.getY() == i;
+          }).flatMap((p_202305_) -> {
+-            return Stream.of(f_202295_).map(p_202305_::m_121945_);
++            return Stream.of(f_202295_).map(p_202305_::relative);
+          }).collect(Collectors.toList());
+          if (!list2.isEmpty()) {
+             Collections.shuffle(list2);
+             Optional<BlockPos> optional = list2.stream().filter((p_226022_) -> {
+-               return p_226019_.m_226059_(p_226022_) && p_226019_.m_226059_(p_226022_.m_121945_(f_202294_));
++               return p_226019_.m_226059_(p_226022_) && p_226019_.m_226059_(p_226022_.relative(f_202294_));
+             }).findFirst();
+             if (!optional.isEmpty()) {
+                p_226019_.m_226061_(optional.get(), Blocks.f_50717_.m_49966_().m_61124_(BeehiveBlock.f_49563_, f_202294_));

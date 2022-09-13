@@ -1,0 +1,19 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/NetherFortressStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/NetherFortressStructure.java
+@@ -23,14 +_,14 @@
+ 
+    public Optional<Structure.GenerationStub> m_214086_(Structure.GenerationContext p_228523_) {
+       ChunkPos chunkpos = p_228523_.f_226628_();
+-      BlockPos blockpos = new BlockPos(chunkpos.m_45604_(), 64, chunkpos.m_45605_());
++      BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), 64, chunkpos.getMinBlockZ());
+       return Optional.of(new Structure.GenerationStub(blockpos, (p_228526_) -> {
+          m_228527_(p_228526_, p_228523_);
+       }));
+    }
+ 
+    private static void m_228527_(StructurePiecesBuilder p_228528_, Structure.GenerationContext p_228529_) {
+-      NetherFortressPieces.StartPiece netherfortresspieces$startpiece = new NetherFortressPieces.StartPiece(p_228529_.f_226626_(), p_228529_.f_226628_().m_151382_(2), p_228529_.f_226628_().m_151391_(2));
++      NetherFortressPieces.StartPiece netherfortresspieces$startpiece = new NetherFortressPieces.StartPiece(p_228529_.f_226626_(), p_228529_.f_226628_().getBlockX(2), p_228529_.f_226628_().getBlockZ(2));
+       p_228528_.m_142679_(netherfortresspieces$startpiece);
+       netherfortresspieces$startpiece.m_214092_(netherfortresspieces$startpiece, p_228528_, p_228529_.f_226626_());
+       List<StructurePiece> list = netherfortresspieces$startpiece.f_228510_;

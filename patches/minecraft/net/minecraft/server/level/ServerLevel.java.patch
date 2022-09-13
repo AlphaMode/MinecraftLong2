@@ -1,0 +1,232 @@
+--- a/net/minecraft/server/level/ServerLevel.java
++++ b/net/minecraft/server/level/ServerLevel.java
+@@ -237,8 +_,8 @@
+       this.f_8549_.m_5557_(p_8610_);
+    }
+ 
+-   public Holder<Biome> m_203675_(int p_203775_, int p_203776_, int p_203777_) {
+-      return this.m_7726_().m_8481_().m_62218_().m_203407_(p_203775_, p_203776_, p_203777_, this.m_7726_().m_214994_().m_224579_());
++   public Holder<Biome> getUncachedNoiseBiome(long p_203775_, long p_203776_, long p_203777_) {
++      return this.m_7726_().m_8481_().m_62218_().getNoiseBiome(p_203775_, p_203776_, p_203777_, this.m_7726_().m_214994_().m_224579_());
+    }
+ 
+    public StructureManager m_215010_() {
+@@ -379,25 +_,25 @@
+    public void m_8714_(LevelChunk p_8715_, int p_8716_) {
+       ChunkPos chunkpos = p_8715_.m_7697_();
+       boolean flag = this.m_46471_();
+-      int i = chunkpos.m_45604_();
+-      int j = chunkpos.m_45605_();
++      long i = chunkpos.getMinBlockX();
++      long j = chunkpos.getMinBlockZ();
+       ProfilerFiller profilerfiller = this.m_46473_();
+       profilerfiller.m_6180_("thunder");
+       if (flag && this.m_46470_() && this.f_46441_.m_188503_(100000) == 0) {
+-         BlockPos blockpos = this.m_143288_(this.m_46496_(i, 0, j, 15));
++         BlockPos blockpos = this.m_143288_(this.getBlockRandomPos(i, 0, j, 15));
+          if (this.m_46758_(blockpos)) {
+             DifficultyInstance difficultyinstance = this.m_6436_(blockpos);
+-            boolean flag1 = this.m_46469_().m_46207_(GameRules.f_46134_) && this.f_46441_.m_188500_() < (double)difficultyinstance.m_19056_() * 0.01D && !this.m_8055_(blockpos.m_7495_()).m_60713_(Blocks.f_152587_);
++            boolean flag1 = this.m_46469_().m_46207_(GameRules.f_46134_) && this.f_46441_.m_188500_() < (double)difficultyinstance.m_19056_() * 0.01D && !this.m_8055_(blockpos.below()).m_60713_(Blocks.f_152587_);
+             if (flag1) {
+                SkeletonHorse skeletonhorse = EntityType.f_20525_.m_20615_(this);
+                skeletonhorse.m_30923_(true);
+                skeletonhorse.m_146762_(0);
+-               skeletonhorse.m_6034_((double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_());
++               skeletonhorse.m_6034_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
+                this.m_7967_(skeletonhorse);
+             }
+ 
+             LightningBolt lightningbolt = EntityType.f_20465_.m_20615_(this);
+-            lightningbolt.m_20219_(Vec3.m_82539_(blockpos));
++            lightningbolt.m_20219_(Vec3.atBottomCenterOf(blockpos));
+             lightningbolt.m_20874_(flag1);
+             this.m_7967_(lightningbolt);
+          }
+@@ -405,8 +_,8 @@
+ 
+       profilerfiller.m_6182_("iceandsnow");
+       if (this.f_46441_.m_188503_(16) == 0) {
+-         BlockPos blockpos2 = this.m_5452_(Heightmap.Types.MOTION_BLOCKING, this.m_46496_(i, 0, j, 15));
+-         BlockPos blockpos3 = blockpos2.m_7495_();
++         BlockPos blockpos2 = this.m_5452_(Heightmap.Types.MOTION_BLOCKING, this.getBlockRandomPos(i, 0, j, 15));
++         BlockPos blockpos3 = blockpos2.below();
+          Biome biome = this.m_204166_(blockpos2).m_203334_();
+          if (biome.m_47477_(this, blockpos3)) {
+             this.m_46597_(blockpos3, Blocks.f_50126_.m_49966_());
+@@ -434,9 +_,9 @@
+                int l = levelchunksection.m_63017_();
+ 
+                for(int k = 0; k < p_8716_; ++k) {
+-                  BlockPos blockpos1 = this.m_46496_(i, l, j, 15);
++                  BlockPos blockpos1 = this.getBlockRandomPos(i, l, j, 15);
+                   profilerfiller.m_6180_("randomTick");
+-                  BlockState blockstate = levelchunksection.m_62982_(blockpos1.m_123341_() - i, blockpos1.m_123342_() - l, blockpos1.m_123343_() - j);
++                  BlockState blockstate = levelchunksection.getBlockState(blockpos1.getX() - i, blockpos1.getY() - l, blockpos1.getZ() - j);
+                   if (blockstate.m_60823_()) {
+                      blockstate.m_222972_(this, blockpos1, this.f_46441_);
+                   }
+@@ -459,10 +_,10 @@
+       Optional<BlockPos> optional = this.m_8904_().m_148658_((p_215059_) -> {
+          return p_215059_.m_203565_(PoiTypes.f_218066_);
+       }, (p_184055_) -> {
+-         return p_184055_.m_123342_() == this.m_6924_(Heightmap.Types.WORLD_SURFACE, p_184055_.m_123341_(), p_184055_.m_123343_()) - 1;
++         return p_184055_.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, p_184055_.getX(), p_184055_.getZ()) - 1;
+       }, p_143249_, 128, PoiManager.Occupancy.ANY);
+       return optional.map((p_184053_) -> {
+-         return p_184053_.m_6630_(1);
++         return p_184053_.above(1);
+       });
+    }
+ 
+@@ -472,15 +_,15 @@
+       if (optional.isPresent()) {
+          return optional.get();
+       } else {
+-         AABB aabb = (new AABB(blockpos, new BlockPos(blockpos.m_123341_(), this.m_151558_(), blockpos.m_123343_()))).m_82400_(3.0D);
++         AABB aabb = (new AABB(blockpos, new BlockPos(blockpos.getX(), this.getMaxBuildHeight(), blockpos.getZ()))).m_82400_(3.0D);
+          List<LivingEntity> list = this.m_6443_(LivingEntity.class, aabb, (p_184067_) -> {
+             return p_184067_ != null && p_184067_.m_6084_() && this.m_45527_(p_184067_.m_20183_());
+          });
+          if (!list.isEmpty()) {
+             return list.get(this.f_46441_.m_188503_(list.size())).m_20183_();
+          } else {
+-            if (blockpos.m_123342_() == this.m_141937_() - 1) {
+-               blockpos = blockpos.m_6630_(2);
++            if (blockpos.getY() == this.getMinBuildHeight() - 1) {
++               blockpos = blockpos.above(2);
+             }
+ 
+             return blockpos;
+@@ -814,9 +_,9 @@
+    public void m_6801_(int p_8612_, BlockPos p_8613_, int p_8614_) {
+       for(ServerPlayer serverplayer : this.f_8548_.m_6846_().m_11314_()) {
+          if (serverplayer != null && serverplayer.f_19853_ == this && serverplayer.m_19879_() != p_8612_) {
+-            double d0 = (double)p_8613_.m_123341_() - serverplayer.m_20185_();
+-            double d1 = (double)p_8613_.m_123342_() - serverplayer.m_20186_();
+-            double d2 = (double)p_8613_.m_123343_() - serverplayer.m_20189_();
++            double d0 = (double)p_8613_.getX() - serverplayer.m_20185_();
++            double d1 = (double)p_8613_.getY() - serverplayer.m_20186_();
++            double d2 = (double)p_8613_.getZ() - serverplayer.m_20189_();
+             if (d0 * d0 + d1 * d1 + d2 * d2 < 1024.0D) {
+                serverplayer.f_8906_.m_9829_(new ClientboundBlockDestructionPacket(p_8612_, p_8613_, p_8614_));
+             }
+@@ -838,7 +_,7 @@
+    }
+ 
+    public void m_5898_(@Nullable Player p_8684_, int p_8685_, BlockPos p_8686_, int p_8687_) {
+-      this.f_8548_.m_6846_().m_11241_(p_8684_, (double)p_8686_.m_123341_(), (double)p_8686_.m_123342_(), (double)p_8686_.m_123343_(), 64.0D, this.m_46472_(), new ClientboundLevelEventPacket(p_8685_, p_8686_, p_8687_, false));
++      this.f_8548_.m_6846_().m_11241_(p_8684_, (double)p_8686_.getX(), (double)p_8686_.getY(), (double)p_8686_.getZ(), 64.0D, this.m_46472_(), new ClientboundLevelEventPacket(p_8685_, p_8686_, p_8687_, false));
+    }
+ 
+    public int m_143344_() {
+@@ -848,12 +_,12 @@
+    public void m_214171_(GameEvent p_215041_, Vec3 p_215042_, GameEvent.Context p_215043_) {
+       int i = p_215041_.m_157827_();
+       BlockPos blockpos = new BlockPos(p_215042_);
+-      int j = SectionPos.m_123171_(blockpos.m_123341_() - i);
+-      int k = SectionPos.m_123171_(blockpos.m_123342_() - i);
+-      int l = SectionPos.m_123171_(blockpos.m_123343_() - i);
+-      int i1 = SectionPos.m_123171_(blockpos.m_123341_() + i);
+-      int j1 = SectionPos.m_123171_(blockpos.m_123342_() + i);
+-      int k1 = SectionPos.m_123171_(blockpos.m_123343_() + i);
++      int j = SectionPos.m_235865_(blockpos.getX() - i);
++      int k = SectionPos.m_235865_(blockpos.getY() - i);
++      int l = SectionPos.m_235865_(blockpos.getZ() - i);
++      int i1 = SectionPos.m_235865_(blockpos.getX() + i);
++      int j1 = SectionPos.m_235865_(blockpos.getY() + i);
++      int k1 = SectionPos.m_235865_(blockpos.getZ() + i);
+       List<GameEvent.Message> list = new ArrayList<>();
+       boolean flag = false;
+ 
+@@ -862,7 +_,7 @@
+             ChunkAccess chunkaccess = this.m_7726_().m_7131_(l1, i2);
+             if (chunkaccess != null) {
+                for(int j2 = k; j2 <= j1; ++j2) {
+-                  flag |= chunkaccess.m_142336_(j2).m_213682_(p_215041_, p_215042_, p_215043_, (p_215067_, p_215068_) -> {
++                  flag |= chunkaccess.getEventDispatcher(j2).m_213682_(p_215041_, p_215042_, p_215043_, (p_215067_, p_215068_) -> {
+                      (p_215067_.m_214054_() ? list : this.f_214996_).add(new GameEvent.Message(p_215041_, p_215042_, p_215043_, p_215067_, p_215068_));
+                   });
+                }
+@@ -982,7 +_,7 @@
+          BlockEventData blockeventdata = this.f_8556_.removeFirst();
+          if (this.m_220393_(blockeventdata.f_45529_())) {
+             if (this.m_8698_(blockeventdata)) {
+-               this.f_8548_.m_6846_().m_11241_((Player)null, (double)blockeventdata.f_45529_().m_123341_(), (double)blockeventdata.f_45529_().m_123342_(), (double)blockeventdata.f_45529_().m_123343_(), 64.0D, this.m_46472_(), new ClientboundBlockEventPacket(blockeventdata.f_45529_(), blockeventdata.f_45530_(), blockeventdata.f_45531_(), blockeventdata.f_45532_()));
++               this.f_8548_.m_6846_().m_11241_((Player)null, (double)blockeventdata.f_45529_().getX(), (double)blockeventdata.f_45529_().getY(), (double)blockeventdata.f_45529_().getZ(), 64.0D, this.m_46472_(), new ClientboundBlockEventPacket(blockeventdata.f_45529_(), blockeventdata.f_45530_(), blockeventdata.f_45531_(), blockeventdata.f_45532_()));
+             }
+          } else {
+             this.f_184048_.add(blockeventdata);
+@@ -1042,7 +_,7 @@
+          return false;
+       } else {
+          BlockPos blockpos = p_8637_.m_20183_();
+-         if (blockpos.m_203195_(new Vec3(p_8639_, p_8640_, p_8641_), p_8638_ ? 512.0D : 32.0D)) {
++         if (blockpos.closerToCenterThan(new Vec3(p_8639_, p_8640_, p_8641_), p_8638_ ? 512.0D : 32.0D)) {
+             p_8637_.f_8906_.m_9829_(p_8642_);
+             return true;
+          } else {
+@@ -1119,7 +_,7 @@
+    }
+ 
+    public void m_8733_(BlockPos p_8734_, float p_8735_) {
+-      ChunkPos chunkpos = new ChunkPos(new BlockPos(this.f_46442_.m_6789_(), 0, this.f_46442_.m_6526_()));
++      ChunkPos chunkpos = new ChunkPos(new BlockPos(this.f_46442_.getXSpawn(), 0, this.f_46442_.getZSpawn()));
+       this.f_46442_.m_7250_(p_8734_, p_8735_);
+       this.m_7726_().m_8438_(TicketType.f_9442_, chunkpos, 11, Unit.INSTANCE);
+       this.m_7726_().m_8387_(TicketType.f_9442_, new ChunkPos(p_8734_), 11, Unit.INSTANCE);
+@@ -1131,7 +_,7 @@
+       return (LongSet)(forcedchunkssaveddata != null ? LongSets.unmodifiable(forcedchunkssaveddata.m_46116_()) : LongSets.EMPTY_SET);
+    }
+ 
+-   public boolean m_8602_(int p_8603_, int p_8604_, boolean p_8605_) {
++   public boolean setChunkForced(long p_8603_, long p_8604_, boolean p_8605_) {
+       ForcedChunksSavedData forcedchunkssaveddata = this.m_8895_().m_164861_(ForcedChunksSavedData::m_151483_, ForcedChunksSavedData::new, "chunks");
+       ChunkPos chunkpos = new ChunkPos(p_8603_, p_8604_);
+       long i = chunkpos.m_45588_();
+@@ -1139,7 +_,7 @@
+       if (p_8605_) {
+          flag = forcedchunkssaveddata.m_46116_().add(i);
+          if (flag) {
+-            this.m_6325_(p_8603_, p_8604_);
++            this.getChunk(p_8603_, p_8604_);
+          }
+       } else {
+          flag = forcedchunkssaveddata.m_46116_().remove(i);
+@@ -1377,7 +_,7 @@
+ 
+       for(TickingBlockEntity tickingblockentity : this.f_151512_) {
+          BlockPos blockpos = tickingblockentity.m_142689_();
+-         csvoutput.m_13624_(blockpos.m_123341_(), blockpos.m_123342_(), blockpos.m_123343_(), tickingblockentity.m_142280_());
++         csvoutput.m_13624_(blockpos.getX(), blockpos.getY(), blockpos.getZ(), tickingblockentity.m_142280_());
+       }
+ 
+    }
+@@ -1385,7 +_,7 @@
+    @VisibleForTesting
+    public void m_8722_(BoundingBox p_8723_) {
+       this.f_8556_.removeIf((p_207568_) -> {
+-         return p_8723_.m_71051_(p_207568_.f_45529_());
++         return p_8723_.isInside(p_207568_.f_45529_());
+       });
+    }
+ 
+@@ -1451,13 +_,13 @@
+ 
+    public static void m_8617_(ServerLevel p_8618_) {
+       BlockPos blockpos = f_8562_;
+-      int i = blockpos.m_123341_();
+-      int j = blockpos.m_123342_() - 2;
+-      int k = blockpos.m_123343_();
+-      BlockPos.m_121976_(i - 2, j + 1, k - 2, i + 2, j + 3, k + 2).forEach((p_207578_) -> {
++      long i = blockpos.getX();
++      long j = blockpos.getY() - 2;
++      long k = blockpos.getZ();
++      BlockPos.betweenClosed(i - 2, j + 1, k - 2, i + 2, j + 3, k + 2).forEach((p_207578_) -> {
+          p_8618_.m_46597_(p_207578_, Blocks.f_50016_.m_49966_());
+       });
+-      BlockPos.m_121976_(i - 2, j, k - 2, i + 2, j, k + 2).forEach((p_184101_) -> {
++      BlockPos.betweenClosed(i - 2, j, k - 2, i + 2, j, k + 2).forEach((p_184101_) -> {
+          p_8618_.m_46597_(p_184101_, Blocks.f_50080_.m_49966_());
+       });
+    }

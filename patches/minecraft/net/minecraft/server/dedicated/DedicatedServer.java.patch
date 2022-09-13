@@ -1,0 +1,15 @@
+--- a/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -371,9 +_,9 @@
+          return false;
+       } else {
+          BlockPos blockpos = p_139630_.m_220360_();
+-         int i = Mth.m_14040_(p_139631_.m_123341_() - blockpos.m_123341_());
+-         int j = Mth.m_14040_(p_139631_.m_123343_() - blockpos.m_123343_());
+-         int k = Math.max(i, j);
++         long i = Mth.abs(p_139631_.getX() - blockpos.getX());
++         long j = Mth.abs(p_139631_.getZ() - blockpos.getZ());
++         long k = Math.max(i, j);
+          return k <= this.m_6396_();
+       }
+    }

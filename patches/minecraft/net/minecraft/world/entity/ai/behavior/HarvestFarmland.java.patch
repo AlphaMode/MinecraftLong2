@@ -1,0 +1,34 @@
+--- a/net/minecraft/world/entity/ai/behavior/HarvestFarmland.java
++++ b/net/minecraft/world/entity/ai/behavior/HarvestFarmland.java
+@@ -71,7 +_,7 @@
+    private boolean m_23180_(BlockPos p_23181_, ServerLevel p_23182_) {
+       BlockState blockstate = p_23182_.m_8055_(p_23181_);
+       Block block = blockstate.m_60734_();
+-      Block block1 = p_23182_.m_8055_(p_23181_.m_7495_()).m_60734_();
++      Block block1 = p_23182_.m_8055_(p_23181_.below()).m_60734_();
+       return block instanceof CropBlock && ((CropBlock)block).m_52307_(blockstate) || blockstate.m_60795_() && block1 instanceof FarmBlock;
+    }
+ 
+@@ -91,11 +_,11 @@
+    }
+ 
+    protected void m_6725_(ServerLevel p_23196_, Villager p_23197_, long p_23198_) {
+-      if (this.f_23159_ == null || this.f_23159_.m_203195_(p_23197_.m_20182_(), 1.0D)) {
++      if (this.f_23159_ == null || this.f_23159_.closerToCenterThan(p_23197_.m_20182_(), 1.0D)) {
+          if (this.f_23159_ != null && p_23198_ > this.f_23160_) {
+             BlockState blockstate = p_23196_.m_8055_(this.f_23159_);
+             Block block = blockstate.m_60734_();
+-            Block block1 = p_23196_.m_8055_(this.f_23159_.m_7495_()).m_60734_();
++            Block block1 = p_23196_.m_8055_(this.f_23159_.below()).m_60734_();
+             if (block instanceof CropBlock && ((CropBlock)block).m_52307_(blockstate)) {
+                p_23196_.m_46953_(this.f_23159_, true, p_23197_);
+             }
+@@ -131,7 +_,7 @@
+                   }
+ 
+                   if (flag) {
+-                     p_23196_.m_6263_((Player)null, (double)this.f_23159_.m_123341_(), (double)this.f_23159_.m_123342_(), (double)this.f_23159_.m_123343_(), SoundEvents.f_11839_, SoundSource.BLOCKS, 1.0F, 1.0F);
++                     p_23196_.m_6263_((Player)null, (double)this.f_23159_.getX(), (double)this.f_23159_.getY(), (double)this.f_23159_.getZ(), SoundEvents.f_11839_, SoundSource.BLOCKS, 1.0F, 1.0F);
+                      itemstack.m_41774_(1);
+                      if (itemstack.m_41619_()) {
+                         simplecontainer.m_6836_(i, ItemStack.f_41583_);

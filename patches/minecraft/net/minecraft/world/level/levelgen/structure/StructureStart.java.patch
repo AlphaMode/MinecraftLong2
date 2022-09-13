@@ -1,0 +1,31 @@
+--- a/net/minecraft/world/level/levelgen/structure/StructureStart.java
++++ b/net/minecraft/world/level/levelgen/structure/StructureStart.java
+@@ -48,7 +_,7 @@
+             f_226843_.error("Unknown stucture id: {}", (Object)s);
+             return null;
+          } else {
+-            ChunkPos chunkpos = new ChunkPos(p_226859_.m_128451_("ChunkX"), p_226859_.m_128451_("ChunkZ"));
++            ChunkPos chunkpos = new ChunkPos(p_226859_.m_128454_("ChunkX"), p_226859_.m_128454_("ChunkZ"));
+             int i = p_226859_.m_128451_("references");
+             ListTag listtag = p_226859_.m_128437_("Children", 10);
+ 
+@@ -82,7 +_,7 @@
+       if (!list.isEmpty()) {
+          BoundingBox boundingbox = (list.get(0)).f_73383_;
+          BlockPos blockpos = boundingbox.m_162394_();
+-         BlockPos blockpos1 = new BlockPos(blockpos.m_123341_(), boundingbox.m_162396_(), blockpos.m_123343_());
++         BlockPos blockpos1 = new BlockPos(blockpos.getX(), boundingbox.m_162396_(), blockpos.getZ());
+ 
+          for(StructurePiece structurepiece : list) {
+             if (structurepiece.m_73547_().m_71049_(p_226855_)) {
+@@ -98,8 +_,8 @@
+       CompoundTag compoundtag = new CompoundTag();
+       if (this.m_73603_()) {
+          compoundtag.m_128359_("id", p_192661_.f_192763_().m_175515_(Registry.f_235725_).m_7981_(this.f_226844_).toString());
+-         compoundtag.m_128405_("ChunkX", p_192662_.f_45578_);
+-         compoundtag.m_128405_("ChunkZ", p_192662_.f_45579_);
++         compoundtag.m_128356_("ChunkX", p_192662_.f_45578_);
++         compoundtag.m_128356_("ChunkZ", p_192662_.f_45579_);
+          compoundtag.m_128405_("references", this.f_73568_);
+          compoundtag.m_128365_("Children", this.f_192654_.m_192749_(p_192661_));
+          return compoundtag;

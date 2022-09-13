@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/level/levelgen/feature/BonusChestFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/BonusChestFeature.java
+@@ -3,6 +_,7 @@
+ import com.mojang.serialization.Codec;
+ import it.unimi.dsi.fastutil.ints.IntArrayList;
+ import java.util.stream.IntStream;
++
+ import net.minecraft.Util;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
+@@ -25,13 +_,13 @@
+       RandomSource randomsource = p_159477_.m_225041_();
+       WorldGenLevel worldgenlevel = p_159477_.m_159774_();
+       ChunkPos chunkpos = new ChunkPos(p_159477_.m_159777_());
+-      IntArrayList intarraylist = Util.m_214658_(IntStream.rangeClosed(chunkpos.m_45604_(), chunkpos.m_45608_()), randomsource);
+-      IntArrayList intarraylist1 = Util.m_214658_(IntStream.rangeClosed(chunkpos.m_45605_(), chunkpos.m_45609_()), randomsource);
++      it.unimi.dsi.fastutil.longs.LongArrayList intarraylist = Util.toShuffledList(java.util.stream.LongStream.rangeClosed(chunkpos.getMinBlockX(), chunkpos.getMaxBlockX()), randomsource);
++      it.unimi.dsi.fastutil.longs.LongArrayList intarraylist1 = Util.toShuffledList(java.util.stream.LongStream.rangeClosed(chunkpos.getMinBlockZ(), chunkpos.getMaxBlockZ()), randomsource);
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-      for(Integer integer : intarraylist) {
+-         for(Integer integer1 : intarraylist1) {
+-            blockpos$mutableblockpos.m_122178_(integer, 0, integer1);
++      for(Long integer : intarraylist) {
++         for(Long integer1 : intarraylist1) {
++            blockpos$mutableblockpos.m_122169_(integer, 0, integer1);
+             BlockPos blockpos = worldgenlevel.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos);
+             if (worldgenlevel.m_46859_(blockpos) || worldgenlevel.m_8055_(blockpos).m_60812_(worldgenlevel, blockpos).m_83281_()) {
+                worldgenlevel.m_7731_(blockpos, Blocks.f_50087_.m_49966_(), 2);
+@@ -39,7 +_,7 @@
+                BlockState blockstate = Blocks.f_50081_.m_49966_();
+ 
+                for(Direction direction : Direction.Plane.HORIZONTAL) {
+-                  BlockPos blockpos1 = blockpos.m_121945_(direction);
++                  BlockPos blockpos1 = blockpos.relative(direction);
+                   if (blockstate.m_60710_(worldgenlevel, blockpos1)) {
+                      worldgenlevel.m_7731_(blockpos1, blockstate, 2);
+                   }

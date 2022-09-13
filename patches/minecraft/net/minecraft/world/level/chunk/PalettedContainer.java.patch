@@ -1,0 +1,125 @@
+--- a/net/minecraft/world/level/chunk/PalettedContainer.java
++++ b/net/minecraft/world/level/chunk/PalettedContainer.java
+@@ -14,6 +_,8 @@
+ import java.util.function.Predicate;
+ import java.util.stream.LongStream;
+ import javax.annotation.Nullable;
++
++import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
+ import net.minecraft.core.IdMap;
+ import net.minecraft.network.FriendlyByteBuf;
+ import net.minecraft.util.BitStorage;
+@@ -97,12 +_,12 @@
+       return data1.f_188102_.m_6796_(p_63143_);
+    }
+ 
+-   public T m_63091_(int p_63092_, int p_63093_, int p_63094_, T p_63095_) {
++   public T getAndSet(long p_63092_, long p_63093_, long p_63094_, T p_63095_) {
+       this.m_63084_();
+ 
+       Object object;
+       try {
+-         object = this.m_63096_(this.f_188033_.m_188145_(p_63092_, p_63093_, p_63094_), p_63095_);
++         object = this.getAndSet(this.f_188033_.getIndex(p_63092_, p_63093_, p_63094_), p_63095_);
+       } finally {
+          this.m_63120_();
+       }
+@@ -110,13 +_,13 @@
+       return (T)object;
+    }
+ 
+-   public T m_63127_(int p_63128_, int p_63129_, int p_63130_, T p_63131_) {
+-      return this.m_63096_(this.f_188033_.m_188145_(p_63128_, p_63129_, p_63130_), p_63131_);
++   public T getAndSetUnchecked(long p_63128_, long p_63129_, long p_63130_, T p_63131_) {
++      return this.getAndSet(this.f_188033_.getIndex(p_63128_, p_63129_, p_63130_), p_63131_);
+    }
+ 
+-   private T m_63096_(int p_63097_, T p_63098_) {
++   private T getAndSet(long p_63097_, T p_63098_) {
+       int i = this.f_188032_.f_188102_.m_6796_(p_63098_);
+-      int j = this.f_188032_.f_188101_.m_13516_(p_63097_, i);
++      int j = this.f_188032_.f_188101_.m_13516_((int) p_63097_, i);
+       return this.f_188032_.f_188102_.m_5795_(j);
+    }
+ 
+@@ -124,33 +_,33 @@
+       this.m_63084_();
+ 
+       try {
+-         this.m_63132_(this.f_188033_.m_188145_(p_156471_, p_156472_, p_156473_), p_156474_);
++         this.set(this.f_188033_.getIndex(p_156471_, p_156472_, p_156473_), p_156474_);
+       } finally {
+          this.m_63120_();
+       }
+ 
+    }
+ 
+-   private void m_63132_(int p_63133_, T p_63134_) {
++   private void set(long p_63133_, T p_63134_) {
+       int i = this.f_188032_.f_188102_.m_6796_(p_63134_);
+-      this.f_188032_.f_188101_.m_13524_(p_63133_, i);
+-   }
+-
+-   public T m_63087_(int p_63088_, int p_63089_, int p_63090_) {
+-      return this.m_63085_(this.f_188033_.m_188145_(p_63088_, p_63089_, p_63090_));
+-   }
+-
+-   protected T m_63085_(int p_63086_) {
++      this.f_188032_.f_188101_.m_13524_((int) p_63133_, i);
++   }
++
++   public T get(long p_63088_, long p_63089_, long p_63090_) {
++      return this.get(this.f_188033_.getIndex(p_63088_, p_63089_, p_63090_));
++   }
++
++   protected T get(long p_63086_) {
+       PalettedContainer.Data<T> data = this.f_188032_;
+-      return data.f_188102_.m_5795_(data.f_188101_.m_13514_(p_63086_));
++      return data.f_188102_.m_5795_(data.f_188101_.m_13514_((int) p_63086_));
+    }
+ 
+    public void m_196879_(Consumer<T> p_196880_) {
+       Palette<T> palette = this.f_188032_.f_188102_();
+-      IntSet intset = new IntArraySet();
++      it.unimi.dsi.fastutil.longs.LongSet intset = new it.unimi.dsi.fastutil.longs.LongArraySet();
+       this.f_188032_.f_188101_.m_13519_(intset::add);
+       intset.forEach((p_238274_) -> {
+-         p_196880_.accept(palette.m_5795_(p_238274_));
++         p_196880_.accept(palette.m_5795_((int) p_238274_));
+       });
+    }
+ 
+@@ -284,12 +_,12 @@
+       if (this.f_188032_.f_188102_.m_62680_() == 1) {
+          p_63100_.m_63144_(this.f_188032_.f_188102_.m_5795_(0), this.f_188032_.f_188101_.m_13521_());
+       } else {
+-         Int2IntOpenHashMap int2intopenhashmap = new Int2IntOpenHashMap();
++         Long2IntOpenHashMap int2intopenhashmap = new Long2IntOpenHashMap();
+          this.f_188032_.f_188101_.m_13519_((p_238269_) -> {
+             int2intopenhashmap.addTo(p_238269_, 1);
+          });
+-         int2intopenhashmap.int2IntEntrySet().forEach((p_238271_) -> {
+-            p_63100_.m_63144_(this.f_188032_.f_188102_.m_5795_(p_238271_.getIntKey()), p_238271_.getIntValue());
++         int2intopenhashmap.long2IntEntrySet().forEach((p_238271_) -> {
++            p_63100_.m_63144_(this.f_188032_.f_188102_.m_5795_((int) p_238271_.getLongKey()), p_238271_.getIntValue());
+          });
+       }
+    }
+@@ -310,7 +_,7 @@
+    static record Data<T>(PalettedContainer.Configuration<T> f_188100_, BitStorage f_188101_, Palette<T> f_188102_) {
+       public void m_188111_(Palette<T> p_188112_, BitStorage p_188113_) {
+          for(int i = 0; i < p_188113_.m_13521_(); ++i) {
+-            T t = p_188112_.m_5795_(p_188113_.m_13514_(i));
++            T t = p_188112_.m_5795_((int) p_188113_.m_13514_(i));
+             this.f_188101_.m_13524_(i, this.f_188102_.m_6796_(t));
+          }
+ 
+@@ -391,7 +_,7 @@
+          return 1 << this.f_188140_ * 3;
+       }
+ 
+-      public int m_188145_(int p_188146_, int p_188147_, int p_188148_) {
++      public long getIndex(long p_188146_, long p_188147_, long p_188148_) {
+          return (p_188147_ << this.f_188140_ | p_188148_) << this.f_188140_ | p_188146_;
+       }
+ 

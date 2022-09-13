@@ -1,0 +1,62 @@
+--- a/net/minecraft/world/entity/animal/Dolphin.java
++++ b/net/minecraft/world/entity/animal/Dolphin.java
+@@ -126,17 +_,17 @@
+ 
+    public void m_7380_(CompoundTag p_28364_) {
+       super.m_7380_(p_28364_);
+-      p_28364_.m_128405_("TreasurePosX", this.m_28387_().m_123341_());
+-      p_28364_.m_128405_("TreasurePosY", this.m_28387_().m_123342_());
+-      p_28364_.m_128405_("TreasurePosZ", this.m_28387_().m_123343_());
++      p_28364_.m_128356_("TreasurePosX", this.m_28387_().getX());
++      p_28364_.m_128356_("TreasurePosY", this.m_28387_().getY());
++      p_28364_.m_128356_("TreasurePosZ", this.m_28387_().getZ());
+       p_28364_.m_128379_("GotFish", this.m_28377_());
+       p_28364_.m_128405_("Moistness", this.m_28378_());
+    }
+ 
+    public void m_7378_(CompoundTag p_28340_) {
+-      int i = p_28340_.m_128451_("TreasurePosX");
+-      int j = p_28340_.m_128451_("TreasurePosY");
+-      int k = p_28340_.m_128451_("TreasurePosZ");
++      long i = p_28340_.m_128454_("TreasurePosX");
++      long j = p_28340_.m_128454_("TreasurePosY");
++      long k = p_28340_.m_128454_("TreasurePosZ");
+       this.m_28384_(new BlockPos(i, j, k));
+       super.m_7378_(p_28340_);
+       this.m_28393_(p_28340_.m_128471_("GotFish"));
+@@ -321,7 +_,7 @@
+ 
+    protected boolean m_28380_() {
+       BlockPos blockpos = this.m_21573_().m_26567_();
+-      return blockpos != null ? blockpos.m_203195_(this.m_20182_(), 12.0D) : false;
++      return blockpos != null ? blockpos.closerToCenterThan(this.m_20182_(), 12.0D) : false;
+    }
+ 
+    public void m_7023_(Vec3 p_28383_) {
+@@ -361,7 +_,7 @@
+ 
+       public boolean m_8045_() {
+          BlockPos blockpos = this.f_28399_.m_28387_();
+-         return !(new BlockPos((double)blockpos.m_123341_(), this.f_28399_.m_20186_(), (double)blockpos.m_123343_())).m_203195_(this.f_28399_.m_20182_(), 4.0D) && !this.f_28400_ && this.f_28399_.m_20146_() >= 100;
++         return !(new BlockPos((double)blockpos.getX(), this.f_28399_.m_20186_(), (double)blockpos.getZ())).closerToCenterThan(this.f_28399_.m_20182_(), 4.0D) && !this.f_28400_ && this.f_28399_.m_20146_() >= 100;
+       }
+ 
+       public void m_8056_() {
+@@ -382,7 +_,7 @@
+ 
+       public void m_8041_() {
+          BlockPos blockpos = this.f_28399_.m_28387_();
+-         if ((new BlockPos((double)blockpos.m_123341_(), this.f_28399_.m_20186_(), (double)blockpos.m_123343_())).m_203195_(this.f_28399_.m_20182_(), 4.0D) || this.f_28400_) {
++         if ((new BlockPos((double)blockpos.getX(), this.f_28399_.m_20186_(), (double)blockpos.getZ())).closerToCenterThan(this.f_28399_.m_20182_(), 4.0D) || this.f_28400_) {
+             this.f_28399_.m_28393_(false);
+          }
+ 
+@@ -391,7 +_,7 @@
+       public void m_8037_() {
+          Level level = this.f_28399_.f_19853_;
+          if (this.f_28399_.m_28380_() || this.f_28399_.m_21573_().m_26571_()) {
+-            Vec3 vec3 = Vec3.m_82512_(this.f_28399_.m_28387_());
++            Vec3 vec3 = Vec3.atCenterOf(this.f_28399_.m_28387_());
+             Vec3 vec31 = DefaultRandomPos.m_148412_(this.f_28399_, 16, 1, vec3, (double)((float)Math.PI / 8F));
+             if (vec31 == null) {
+                vec31 = DefaultRandomPos.m_148412_(this.f_28399_, 8, 4, vec3, (double)((float)Math.PI / 2F));

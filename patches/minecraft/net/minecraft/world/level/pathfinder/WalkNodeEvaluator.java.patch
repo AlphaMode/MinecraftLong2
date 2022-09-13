@@ -1,0 +1,346 @@
+--- a/net/minecraft/world/level/pathfinder/WalkNodeEvaluator.java
++++ b/net/minecraft/world/level/pathfinder/WalkNodeEvaluator.java
+@@ -50,7 +_,7 @@
+    @Nullable
+    public Node m_7171_() {
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+-      int i = this.f_77313_.m_146904_();
++      long i = this.f_77313_.getBlockY();
+       BlockState blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos.m_122169_(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_()));
+       if (!this.f_77313_.m_203441_(blockstate.m_60819_())) {
+          if (this.m_77361_() && this.f_77313_.m_20069_()) {
+@@ -67,10 +_,10 @@
+             i = Mth.m_14107_(this.f_77313_.m_20186_() + 0.5D);
+          } else {
+             BlockPos blockpos;
+-            for(blockpos = this.f_77313_.m_20183_(); (this.f_77312_.m_8055_(blockpos).m_60795_() || this.f_77312_.m_8055_(blockpos).m_60647_(this.f_77312_, blockpos, PathComputationType.LAND)) && blockpos.m_123342_() > this.f_77313_.f_19853_.m_141937_(); blockpos = blockpos.m_7495_()) {
++            for(blockpos = this.f_77313_.m_20183_(); (this.f_77312_.m_8055_(blockpos).m_60795_() || this.f_77312_.m_8055_(blockpos).m_60647_(this.f_77312_, blockpos, PathComputationType.LAND)) && blockpos.getY() > this.f_77313_.f_19853_.getMinBuildHeight(); blockpos = blockpos.below()) {
+             }
+ 
+-            i = blockpos.m_7494_().m_123342_();
++            i = blockpos.above().getY();
+          }
+       } else {
+          while(this.f_77313_.m_203441_(blockstate.m_60819_())) {
+@@ -82,7 +_,7 @@
+       }
+ 
+       BlockPos blockpos1 = this.f_77313_.m_20183_();
+-      BlockPathTypes blockpathtypes = this.m_77567_(this.f_77313_, blockpos1.m_123341_(), i, blockpos1.m_123343_());
++      BlockPathTypes blockpathtypes = this.getCachedBlockType(this.f_77313_, blockpos1.getX(), i, blockpos1.getZ());
+       if (this.f_77313_.m_21439_(blockpathtypes) < 0.0F) {
+          AABB aabb = this.f_77313_.m_20191_();
+          if (this.m_77646_(blockpos$mutableblockpos.m_122169_(aabb.f_82288_, (double)i, aabb.f_82290_)) || this.m_77646_(blockpos$mutableblockpos.m_122169_(aabb.f_82288_, (double)i, aabb.f_82293_)) || this.m_77646_(blockpos$mutableblockpos.m_122169_(aabb.f_82291_, (double)i, aabb.f_82290_)) || this.m_77646_(blockpos$mutableblockpos.m_122169_(aabb.f_82291_, (double)i, aabb.f_82293_))) {
+@@ -90,7 +_,7 @@
+          }
+       }
+ 
+-      return this.m_230631_(new BlockPos(blockpos1.m_123341_(), i, blockpos1.m_123343_()));
++      return this.m_230631_(new BlockPos(blockpos1.getX(), i, blockpos1.getZ()));
+    }
+ 
+    @Nullable
+@@ -111,55 +_,55 @@
+ 
+    @Nullable
+    public Target m_7568_(double p_77550_, double p_77551_, double p_77552_) {
+-      return this.m_230615_(this.m_5676_(Mth.m_14107_(p_77550_), Mth.m_14107_(p_77551_), Mth.m_14107_(p_77552_)));
++      return this.m_230615_(this.getNode(Mth.m_14107_(p_77550_), Mth.m_14107_(p_77551_), Mth.m_14107_(p_77552_)));
+    }
+ 
+    public int m_6065_(Node[] p_77640_, Node p_77641_) {
+       int i = 0;
+       int j = 0;
+-      BlockPathTypes blockpathtypes = this.m_77567_(this.f_77313_, p_77641_.f_77271_, p_77641_.f_77272_ + 1, p_77641_.f_77273_);
+-      BlockPathTypes blockpathtypes1 = this.m_77567_(this.f_77313_, p_77641_.f_77271_, p_77641_.f_77272_, p_77641_.f_77273_);
++      BlockPathTypes blockpathtypes = this.getCachedBlockType(this.f_77313_, p_77641_.f_77271_, p_77641_.f_77272_ + 1, p_77641_.f_77273_);
++      BlockPathTypes blockpathtypes1 = this.getCachedBlockType(this.f_77313_, p_77641_.f_77271_, p_77641_.f_77272_, p_77641_.f_77273_);
+       if (this.f_77313_.m_21439_(blockpathtypes) >= 0.0F && blockpathtypes1 != BlockPathTypes.STICKY_HONEY) {
+          j = Mth.m_14143_(Math.max(1.0F, this.f_77313_.f_19793_));
+       }
+ 
+       double d0 = this.m_142213_(new BlockPos(p_77641_.f_77271_, p_77641_.f_77272_, p_77641_.f_77273_));
+-      Node node = this.m_164725_(p_77641_.f_77271_, p_77641_.f_77272_, p_77641_.f_77273_ + 1, j, d0, Direction.SOUTH, blockpathtypes1);
++      Node node = this.findAcceptedNode(p_77641_.f_77271_, p_77641_.f_77272_, p_77641_.f_77273_ + 1, j, d0, Direction.SOUTH, blockpathtypes1);
+       if (this.m_77626_(node, p_77641_)) {
+          p_77640_[i++] = node;
+       }
+ 
+-      Node node1 = this.m_164725_(p_77641_.f_77271_ - 1, p_77641_.f_77272_, p_77641_.f_77273_, j, d0, Direction.WEST, blockpathtypes1);
++      Node node1 = this.findAcceptedNode(p_77641_.f_77271_ - 1, p_77641_.f_77272_, p_77641_.f_77273_, j, d0, Direction.WEST, blockpathtypes1);
+       if (this.m_77626_(node1, p_77641_)) {
+          p_77640_[i++] = node1;
+       }
+ 
+-      Node node2 = this.m_164725_(p_77641_.f_77271_ + 1, p_77641_.f_77272_, p_77641_.f_77273_, j, d0, Direction.EAST, blockpathtypes1);
++      Node node2 = this.findAcceptedNode(p_77641_.f_77271_ + 1, p_77641_.f_77272_, p_77641_.f_77273_, j, d0, Direction.EAST, blockpathtypes1);
+       if (this.m_77626_(node2, p_77641_)) {
+          p_77640_[i++] = node2;
+       }
+ 
+-      Node node3 = this.m_164725_(p_77641_.f_77271_, p_77641_.f_77272_, p_77641_.f_77273_ - 1, j, d0, Direction.NORTH, blockpathtypes1);
++      Node node3 = this.findAcceptedNode(p_77641_.f_77271_, p_77641_.f_77272_, p_77641_.f_77273_ - 1, j, d0, Direction.NORTH, blockpathtypes1);
+       if (this.m_77626_(node3, p_77641_)) {
+          p_77640_[i++] = node3;
+       }
+ 
+-      Node node4 = this.m_164725_(p_77641_.f_77271_ - 1, p_77641_.f_77272_, p_77641_.f_77273_ - 1, j, d0, Direction.NORTH, blockpathtypes1);
++      Node node4 = this.findAcceptedNode(p_77641_.f_77271_ - 1, p_77641_.f_77272_, p_77641_.f_77273_ - 1, j, d0, Direction.NORTH, blockpathtypes1);
+       if (this.m_77629_(p_77641_, node1, node3, node4)) {
+          p_77640_[i++] = node4;
+       }
+ 
+-      Node node5 = this.m_164725_(p_77641_.f_77271_ + 1, p_77641_.f_77272_, p_77641_.f_77273_ - 1, j, d0, Direction.NORTH, blockpathtypes1);
++      Node node5 = this.findAcceptedNode(p_77641_.f_77271_ + 1, p_77641_.f_77272_, p_77641_.f_77273_ - 1, j, d0, Direction.NORTH, blockpathtypes1);
+       if (this.m_77629_(p_77641_, node2, node3, node5)) {
+          p_77640_[i++] = node5;
+       }
+ 
+-      Node node6 = this.m_164725_(p_77641_.f_77271_ - 1, p_77641_.f_77272_, p_77641_.f_77273_ + 1, j, d0, Direction.SOUTH, blockpathtypes1);
++      Node node6 = this.findAcceptedNode(p_77641_.f_77271_ - 1, p_77641_.f_77272_, p_77641_.f_77273_ + 1, j, d0, Direction.SOUTH, blockpathtypes1);
+       if (this.m_77629_(p_77641_, node1, node, node6)) {
+          p_77640_[i++] = node6;
+       }
+ 
+-      Node node7 = this.m_164725_(p_77641_.f_77271_ + 1, p_77641_.f_77272_, p_77641_.f_77273_ + 1, j, d0, Direction.SOUTH, blockpathtypes1);
++      Node node7 = this.findAcceptedNode(p_77641_.f_77271_ + 1, p_77641_.f_77272_, p_77641_.f_77273_ + 1, j, d0, Direction.SOUTH, blockpathtypes1);
+       if (this.m_77629_(p_77641_, node2, node, node7)) {
+          p_77640_[i++] = node7;
+       }
+@@ -215,9 +_,9 @@
+    }
+ 
+    public static double m_77611_(BlockGetter p_77612_, BlockPos p_77613_) {
+-      BlockPos blockpos = p_77613_.m_7495_();
++      BlockPos blockpos = p_77613_.below();
+       VoxelShape voxelshape = p_77612_.m_8055_(blockpos).m_60812_(p_77612_, blockpos);
+-      return (double)blockpos.m_123342_() + (voxelshape.m_83281_() ? 0.0D : voxelshape.m_83297_(Direction.Axis.Y));
++      return (double)blockpos.getY() + (voxelshape.m_83281_() ? 0.0D : voxelshape.m_83297_(Direction.Axis.Y));
+    }
+ 
+    protected boolean m_141974_() {
+@@ -225,18 +_,18 @@
+    }
+ 
+    @Nullable
+-   protected Node m_164725_(int p_164726_, int p_164727_, int p_164728_, int p_164729_, double p_164730_, Direction p_164731_, BlockPathTypes p_164732_) {
++   protected Node findAcceptedNode(long p_164726_, long p_164727_, long p_164728_, int p_164729_, double p_164730_, Direction p_164731_, BlockPathTypes p_164732_) {
+       Node node = null;
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+-      double d0 = this.m_142213_(blockpos$mutableblockpos.m_122178_(p_164726_, p_164727_, p_164728_));
++      double d0 = this.m_142213_(blockpos$mutableblockpos.m_122169_(p_164726_, p_164727_, p_164728_));
+       if (d0 - p_164730_ > 1.125D) {
+          return null;
+       } else {
+-         BlockPathTypes blockpathtypes = this.m_77567_(this.f_77313_, p_164726_, p_164727_, p_164728_);
++         BlockPathTypes blockpathtypes = this.getCachedBlockType(this.f_77313_, p_164726_, p_164727_, p_164728_);
+          float f = this.f_77313_.m_21439_(blockpathtypes);
+          double d1 = (double)this.f_77313_.m_20205_() / 2.0D;
+          if (f >= 0.0F) {
+-            node = this.m_230619_(p_164726_, p_164727_, p_164728_, blockpathtypes, f);
++            node = this.getNodeAndUpdateCostToMax(p_164726_, p_164727_, p_164728_, blockpathtypes, f);
+          }
+ 
+          if (m_230625_(p_164732_) && node != null && node.f_77281_ >= 0.0F && !this.m_77624_(node)) {
+@@ -245,7 +_,7 @@
+ 
+          if (blockpathtypes != BlockPathTypes.WALKABLE && (!this.m_141974_() || blockpathtypes != BlockPathTypes.WATER)) {
+             if ((node == null || node.f_77281_ < 0.0F) && p_164729_ > 0 && blockpathtypes != BlockPathTypes.FENCE && blockpathtypes != BlockPathTypes.UNPASSABLE_RAIL && blockpathtypes != BlockPathTypes.TRAPDOOR && blockpathtypes != BlockPathTypes.POWDER_SNOW) {
+-               node = this.m_164725_(p_164726_, p_164727_ + 1, p_164728_, p_164729_ - 1, p_164730_, p_164731_, p_164732_);
++               node = this.findAcceptedNode(p_164726_, p_164727_ + 1, p_164728_, p_164729_ - 1, p_164730_, p_164731_, p_164732_);
+                if (node != null && (node.f_77282_ == BlockPathTypes.OPEN || node.f_77282_ == BlockPathTypes.WALKABLE) && this.f_77313_.m_20205_() < 1.0F) {
+                   double d2 = (double)(p_164726_ - p_164731_.m_122429_()) + 0.5D;
+                   double d3 = (double)(p_164728_ - p_164731_.m_122431_()) + 0.5D;
+@@ -257,50 +_,50 @@
+             }
+ 
+             if (!this.m_141974_() && blockpathtypes == BlockPathTypes.WATER && !this.m_77361_()) {
+-               if (this.m_77567_(this.f_77313_, p_164726_, p_164727_ - 1, p_164728_) != BlockPathTypes.WATER) {
++               if (this.getCachedBlockType(this.f_77313_, p_164726_, p_164727_ - 1, p_164728_) != BlockPathTypes.WATER) {
+                   return node;
+                }
+ 
+-               while(p_164727_ > this.f_77313_.f_19853_.m_141937_()) {
++               while(p_164727_ > this.f_77313_.f_19853_.getMinBuildHeight()) {
+                   --p_164727_;
+-                  blockpathtypes = this.m_77567_(this.f_77313_, p_164726_, p_164727_, p_164728_);
++                  blockpathtypes = this.getCachedBlockType(this.f_77313_, p_164726_, p_164727_, p_164728_);
+                   if (blockpathtypes != BlockPathTypes.WATER) {
+                      return node;
+                   }
+ 
+-                  node = this.m_230619_(p_164726_, p_164727_, p_164728_, blockpathtypes, this.f_77313_.m_21439_(blockpathtypes));
++                  node = this.getNodeAndUpdateCostToMax(p_164726_, p_164727_, p_164728_, blockpathtypes, this.f_77313_.m_21439_(blockpathtypes));
+                }
+             }
+ 
+             if (blockpathtypes == BlockPathTypes.OPEN) {
+                int j = 0;
+-               int i = p_164727_;
++               long i = p_164727_;
+ 
+                while(blockpathtypes == BlockPathTypes.OPEN) {
+                   --p_164727_;
+-                  if (p_164727_ < this.f_77313_.f_19853_.m_141937_()) {
+-                     return this.m_230627_(p_164726_, i, p_164728_);
++                  if (p_164727_ < this.f_77313_.f_19853_.getMinBuildHeight()) {
++                     return this.getBlockedNode(p_164726_, i, p_164728_);
+                   }
+ 
+                   if (j++ >= this.f_77313_.m_6056_()) {
+-                     return this.m_230627_(p_164726_, p_164727_, p_164728_);
++                     return this.getBlockedNode(p_164726_, p_164727_, p_164728_);
+                   }
+ 
+-                  blockpathtypes = this.m_77567_(this.f_77313_, p_164726_, p_164727_, p_164728_);
++                  blockpathtypes = this.getCachedBlockType(this.f_77313_, p_164726_, p_164727_, p_164728_);
+                   f = this.f_77313_.m_21439_(blockpathtypes);
+                   if (blockpathtypes != BlockPathTypes.OPEN && f >= 0.0F) {
+-                     node = this.m_230619_(p_164726_, p_164727_, p_164728_, blockpathtypes, f);
++                     node = this.getNodeAndUpdateCostToMax(p_164726_, p_164727_, p_164728_, blockpathtypes, f);
+                      break;
+                   }
+ 
+                   if (f < 0.0F) {
+-                     return this.m_230627_(p_164726_, p_164727_, p_164728_);
++                     return this.getBlockedNode(p_164726_, p_164727_, p_164728_);
+                   }
+                }
+             }
+ 
+             if (m_230625_(blockpathtypes)) {
+-               node = this.m_5676_(p_164726_, p_164727_, p_164728_);
++               node = this.getNode(p_164726_, p_164727_, p_164728_);
+                if (node != null) {
+                   node.f_77279_ = true;
+                   node.f_77282_ = blockpathtypes;
+@@ -316,8 +_,8 @@
+    }
+ 
+    @Nullable
+-   private Node m_230619_(int p_230620_, int p_230621_, int p_230622_, BlockPathTypes p_230623_, float p_230624_) {
+-      Node node = this.m_5676_(p_230620_, p_230621_, p_230622_);
++   private Node getNodeAndUpdateCostToMax(long p_230620_, long p_230621_, long p_230622_, BlockPathTypes p_230623_, float p_230624_) {
++      Node node = this.getNode(p_230620_, p_230621_, p_230622_);
+       if (node != null) {
+          node.f_77282_ = p_230623_;
+          node.f_77281_ = Math.max(node.f_77281_, p_230624_);
+@@ -327,8 +_,8 @@
+    }
+ 
+    @Nullable
+-   private Node m_230627_(int p_230628_, int p_230629_, int p_230630_) {
+-      Node node = this.m_5676_(p_230628_, p_230629_, p_230630_);
++   private Node getBlockedNode(long p_230628_, long p_230629_, long p_230630_) {
++      Node node = this.getNode(p_230628_, p_230629_, p_230630_);
+       if (node != null) {
+          node.f_77282_ = BlockPathTypes.BLOCKED;
+          node.f_77281_ = -1.0F;
+@@ -343,11 +_,11 @@
+       });
+    }
+ 
+-   public BlockPathTypes m_7209_(BlockGetter p_77594_, int p_77595_, int p_77596_, int p_77597_, Mob p_77598_, int p_77599_, int p_77600_, int p_77601_, boolean p_77602_, boolean p_77603_) {
++   public BlockPathTypes getBlockPathType(BlockGetter p_77594_, long p_77595_, long p_77596_, long p_77597_, Mob p_77598_, int p_77599_, int p_77600_, int p_77601_, boolean p_77602_, boolean p_77603_) {
+       EnumSet<BlockPathTypes> enumset = EnumSet.noneOf(BlockPathTypes.class);
+       BlockPathTypes blockpathtypes = BlockPathTypes.BLOCKED;
+       BlockPos blockpos = p_77598_.m_20183_();
+-      blockpathtypes = this.m_77580_(p_77594_, p_77595_, p_77596_, p_77597_, p_77599_, p_77600_, p_77601_, p_77602_, p_77603_, enumset, blockpathtypes, blockpos);
++      blockpathtypes = this.getBlockPathTypes(p_77594_, p_77595_, p_77596_, p_77597_, p_77599_, p_77600_, p_77601_, p_77602_, p_77603_, enumset, blockpathtypes, blockpos);
+       if (enumset.contains(BlockPathTypes.FENCE)) {
+          return BlockPathTypes.FENCE;
+       } else if (enumset.contains(BlockPathTypes.UNPASSABLE_RAIL)) {
+@@ -369,14 +_,14 @@
+       }
+    }
+ 
+-   public BlockPathTypes m_77580_(BlockGetter p_77581_, int p_77582_, int p_77583_, int p_77584_, int p_77585_, int p_77586_, int p_77587_, boolean p_77588_, boolean p_77589_, EnumSet<BlockPathTypes> p_77590_, BlockPathTypes p_77591_, BlockPos p_77592_) {
++   public BlockPathTypes getBlockPathTypes(BlockGetter p_77581_, long p_77582_, long p_77583_, long p_77584_, int p_77585_, int p_77586_, int p_77587_, boolean p_77588_, boolean p_77589_, EnumSet<BlockPathTypes> p_77590_, BlockPathTypes p_77591_, BlockPos p_77592_) {
+       for(int i = 0; i < p_77585_; ++i) {
+          for(int j = 0; j < p_77586_; ++j) {
+             for(int k = 0; k < p_77587_; ++k) {
+-               int l = i + p_77582_;
+-               int i1 = j + p_77583_;
+-               int j1 = k + p_77584_;
+-               BlockPathTypes blockpathtypes = this.m_8086_(p_77581_, l, i1, j1);
++               long l = i + p_77582_;
++               long i1 = j + p_77583_;
++               long j1 = k + p_77584_;
++               BlockPathTypes blockpathtypes = this.getBlockPathType(p_77581_, l, i1, j1);
+                blockpathtypes = this.m_6603_(p_77581_, p_77588_, p_77589_, p_77592_, blockpathtypes);
+                if (i == 0 && j == 0 && k == 0) {
+                   p_77591_ = blockpathtypes;
+@@ -399,7 +_,7 @@
+          p_77618_ = BlockPathTypes.BLOCKED;
+       }
+ 
+-      if (p_77618_ == BlockPathTypes.RAIL && !(p_77614_.m_8055_(p_77617_).m_60734_() instanceof BaseRailBlock) && !(p_77614_.m_8055_(p_77617_.m_7495_()).m_60734_() instanceof BaseRailBlock)) {
++      if (p_77618_ == BlockPathTypes.RAIL && !(p_77614_.m_8055_(p_77617_).m_60734_() instanceof BaseRailBlock) && !(p_77614_.m_8055_(p_77617_.below()).m_60734_() instanceof BaseRailBlock)) {
+          p_77618_ = BlockPathTypes.UNPASSABLE_RAIL;
+       }
+ 
+@@ -411,26 +_,26 @@
+    }
+ 
+    private BlockPathTypes m_77572_(Mob p_77573_, BlockPos p_77574_) {
+-      return this.m_77567_(p_77573_, p_77574_.m_123341_(), p_77574_.m_123342_(), p_77574_.m_123343_());
++      return this.getCachedBlockType(p_77573_, p_77574_.getX(), p_77574_.getY(), p_77574_.getZ());
+    }
+ 
+-   protected BlockPathTypes m_77567_(Mob p_77568_, int p_77569_, int p_77570_, int p_77571_) {
+-      return this.f_77545_.computeIfAbsent(BlockPos.m_121882_(p_77569_, p_77570_, p_77571_), (p_77566_) -> {
+-         return this.m_7209_(this.f_77312_, p_77569_, p_77570_, p_77571_, p_77568_, this.f_77315_, this.f_77316_, this.f_77317_, this.m_77360_(), this.m_77357_());
++   protected BlockPathTypes getCachedBlockType(Mob p_77568_, long p_77569_, long p_77570_, long p_77571_) {
++      return this.f_77545_.computeIfAbsent(BlockPos.asLong(p_77569_, p_77570_, p_77571_), (p_77566_) -> {
++         return this.getBlockPathType(this.f_77312_, p_77569_, p_77570_, p_77571_, p_77568_, this.f_77315_, this.f_77316_, this.f_77317_, this.m_77360_(), this.m_77357_());
+       });
+    }
+ 
+-   public BlockPathTypes m_8086_(BlockGetter p_77576_, int p_77577_, int p_77578_, int p_77579_) {
++   public BlockPathTypes getBlockPathType(BlockGetter p_77576_, long p_77577_, long p_77578_, long p_77579_) {
+       return m_77604_(p_77576_, new BlockPos.MutableBlockPos(p_77577_, p_77578_, p_77579_));
+    }
+ 
+    public static BlockPathTypes m_77604_(BlockGetter p_77605_, BlockPos.MutableBlockPos p_77606_) {
+-      int i = p_77606_.m_123341_();
+-      int j = p_77606_.m_123342_();
+-      int k = p_77606_.m_123343_();
++      long i = p_77606_.getX();
++      long j = p_77606_.getY();
++      long k = p_77606_.getZ();
+       BlockPathTypes blockpathtypes = m_77643_(p_77605_, p_77606_);
+-      if (blockpathtypes == BlockPathTypes.OPEN && j >= p_77605_.m_141937_() + 1) {
+-         BlockPathTypes blockpathtypes1 = m_77643_(p_77605_, p_77606_.m_122178_(i, j - 1, k));
++      if (blockpathtypes == BlockPathTypes.OPEN && j >= p_77605_.getMinBuildHeight() + 1) {
++         BlockPathTypes blockpathtypes1 = m_77643_(p_77605_, p_77606_.m_122169_(i, j - 1, k));
+          blockpathtypes = blockpathtypes1 != BlockPathTypes.WALKABLE && blockpathtypes1 != BlockPathTypes.OPEN && blockpathtypes1 != BlockPathTypes.WATER && blockpathtypes1 != BlockPathTypes.LAVA ? BlockPathTypes.WALKABLE : BlockPathTypes.OPEN;
+          if (blockpathtypes1 == BlockPathTypes.DAMAGE_FIRE) {
+             blockpathtypes = BlockPathTypes.DAMAGE_FIRE;
+@@ -454,22 +_,22 @@
+       }
+ 
+       if (blockpathtypes == BlockPathTypes.WALKABLE) {
+-         blockpathtypes = m_77607_(p_77605_, p_77606_.m_122178_(i, j, k), blockpathtypes);
++         blockpathtypes = m_77607_(p_77605_, p_77606_.m_122169_(i, j, k), blockpathtypes);
+       }
+ 
+       return blockpathtypes;
+    }
+ 
+    public static BlockPathTypes m_77607_(BlockGetter p_77608_, BlockPos.MutableBlockPos p_77609_, BlockPathTypes p_77610_) {
+-      int i = p_77609_.m_123341_();
+-      int j = p_77609_.m_123342_();
+-      int k = p_77609_.m_123343_();
++      long i = p_77609_.getX();
++      long j = p_77609_.getY();
++      long k = p_77609_.getZ();
+ 
+       for(int l = -1; l <= 1; ++l) {
+          for(int i1 = -1; i1 <= 1; ++i1) {
+             for(int j1 = -1; j1 <= 1; ++j1) {
+                if (l != 0 || j1 != 0) {
+-                  p_77609_.m_122178_(i + l, j + i1, k + j1);
++                  p_77609_.m_122169_(i + l, j + i1, k + j1);
+                   BlockState blockstate = p_77608_.m_8055_(p_77609_);
+                   if (blockstate.m_60713_(Blocks.f_50128_)) {
+                      return BlockPathTypes.DANGER_CACTUS;

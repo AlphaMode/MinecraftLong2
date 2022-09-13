@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/level/block/RedstoneWallTorchBlock.java
++++ b/net/minecraft/world/level/block/RedstoneWallTorchBlock.java
+@@ -52,16 +_,16 @@
+       if (p_221959_.m_61143_(f_55741_)) {
+          Direction direction = p_221959_.m_61143_(f_55740_).m_122424_();
+          double d0 = 0.27D;
+-         double d1 = (double)p_221961_.m_123341_() + 0.5D + (p_221962_.m_188500_() - 0.5D) * 0.2D + 0.27D * (double)direction.m_122429_();
+-         double d2 = (double)p_221961_.m_123342_() + 0.7D + (p_221962_.m_188500_() - 0.5D) * 0.2D + 0.22D;
+-         double d3 = (double)p_221961_.m_123343_() + 0.5D + (p_221962_.m_188500_() - 0.5D) * 0.2D + 0.27D * (double)direction.m_122431_();
++         double d1 = (double)p_221961_.getX() + 0.5D + (p_221962_.m_188500_() - 0.5D) * 0.2D + 0.27D * (double)direction.m_122429_();
++         double d2 = (double)p_221961_.getY() + 0.7D + (p_221962_.m_188500_() - 0.5D) * 0.2D + 0.22D;
++         double d3 = (double)p_221961_.getZ() + 0.5D + (p_221962_.m_188500_() - 0.5D) * 0.2D + 0.27D * (double)direction.m_122431_();
+          p_221960_.m_7106_(this.f_57488_, d1, d2, d3, 0.0D, 0.0D, 0.0D);
+       }
+    }
+ 
+    protected boolean m_6918_(Level p_55748_, BlockPos p_55749_, BlockState p_55750_) {
+       Direction direction = p_55750_.m_61143_(f_55740_).m_122424_();
+-      return p_55748_.m_46616_(p_55749_.m_121945_(direction), direction);
++      return p_55748_.m_46616_(p_55749_.relative(direction), direction);
+    }
+ 
+    public int m_6378_(BlockState p_55752_, BlockGetter p_55753_, BlockPos p_55754_, Direction p_55755_) {

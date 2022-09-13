@@ -1,0 +1,33 @@
+--- a/net/minecraft/world/level/levelgen/feature/AbstractHugeMushroomFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/AbstractHugeMushroomFeature.java
+@@ -17,7 +_,7 @@
+ 
+    protected void m_224929_(LevelAccessor p_224930_, RandomSource p_224931_, BlockPos p_224932_, HugeMushroomFeatureConfiguration p_224933_, int p_224934_, BlockPos.MutableBlockPos p_224935_) {
+       for(int i = 0; i < p_224934_; ++i) {
+-         p_224935_.m_122190_(p_224932_).m_122175_(Direction.UP, i);
++         p_224935_.set(p_224932_).m_122175_(Direction.UP, i);
+          if (!p_224930_.m_8055_(p_224935_).m_60804_(p_224930_, p_224935_)) {
+             this.m_5974_(p_224930_, p_224935_, p_224933_.f_67741_.m_213972_(p_224931_, p_224932_));
+          }
+@@ -35,9 +_,9 @@
+    }
+ 
+    protected boolean m_65098_(LevelAccessor p_65099_, BlockPos p_65100_, int p_65101_, BlockPos.MutableBlockPos p_65102_, HugeMushroomFeatureConfiguration p_65103_) {
+-      int i = p_65100_.m_123342_();
+-      if (i >= p_65099_.m_141937_() + 1 && i + p_65101_ + 1 < p_65099_.m_151558_()) {
+-         BlockState blockstate = p_65099_.m_8055_(p_65100_.m_7495_());
++      long i = p_65100_.getY();
++      if (i >= p_65099_.getMinBuildHeight() + 1 && i + p_65101_ + 1 < p_65099_.getMaxBuildHeight()) {
++         BlockState blockstate = p_65099_.m_8055_(p_65100_.below());
+          if (!m_159759_(blockstate) && !blockstate.m_204336_(BlockTags.f_13057_)) {
+             return false;
+          } else {
+@@ -46,7 +_,7 @@
+ 
+                for(int l = -k; l <= k; ++l) {
+                   for(int i1 = -k; i1 <= k; ++i1) {
+-                     BlockState blockstate1 = p_65099_.m_8055_(p_65102_.m_122154_(p_65100_, l, j, i1));
++                     BlockState blockstate1 = p_65099_.m_8055_(p_65102_.setWithOffset(p_65100_, l, j, i1));
+                      if (!blockstate1.m_60795_() && !blockstate1.m_204336_(BlockTags.f_13035_)) {
+                         return false;
+                      }

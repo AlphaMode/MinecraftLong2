@@ -1,0 +1,149 @@
+--- a/net/minecraft/util/Mth.java
++++ b/net/minecraft/util/Mth.java
+@@ -83,6 +_,10 @@
+       return Math.abs(p_14041_);
+    }
+ 
++   public static long abs(long val) {
++      return Math.abs(val);
++   }
++
+    public static int m_14167_(float p_14168_) {
+       int i = (int)p_14168_;
+       return p_14168_ > (float)i ? i + 1 : i;
+@@ -165,10 +_,18 @@
+       return Math.floorDiv(p_14043_, p_14044_);
+    }
+ 
++   public static long longFloorDiv(long p_14043_, long p_14044_) {
++      return Math.floorDiv(p_14043_, p_14044_);
++   }
++
+    public static int m_216271_(RandomSource p_216272_, int p_216273_, int p_216274_) {
+       return p_216273_ >= p_216274_ ? p_216273_ : p_216272_.m_188503_(p_216274_ - p_216273_ + 1) + p_216273_;
+    }
+ 
++   public static long nextLong(RandomSource p_216272_, long p_216273_, long p_216274_) {
++      return p_216273_ >= p_216274_ ? p_216273_ : p_216272_.nextLong(p_216274_ - p_216273_ + 1) + p_216273_;
++   }
++
+    public static float m_216267_(RandomSource p_216268_, float p_216269_, float p_216270_) {
+       return p_216269_ >= p_216270_ ? p_216269_ : p_216268_.m_188501_() * (p_216270_ - p_216269_) + p_216269_;
+    }
+@@ -199,6 +_,10 @@
+       return Math.floorMod(p_14101_, p_14102_);
+    }
+ 
++   public static long positiveModulo(long p_14101_, long p_14102_) {
++      return Math.floorMod(p_14101_, p_14102_);
++   }
++
+    public static float m_14091_(float p_14092_, float p_14093_) {
+       return (p_14092_ % p_14093_ + p_14093_) % p_14093_;
+    }
+@@ -300,15 +_,34 @@
+       return i + 1;
+    }
+ 
++   public static long smallestEncompassingPowerOfTwo(long p_14126_) {
++      long i = p_14126_ - 1;
++      i |= i >> 1;
++      i |= i >> 2;
++      i |= i >> 4;
++      i |= i >> 8;
++      i |= i >> 16;
++      return i + 1;
++   }
++
+    public static boolean m_14152_(int p_14153_) {
+       return p_14153_ != 0 && (p_14153_ & p_14153_ - 1) == 0;
+    }
+ 
++   public static boolean isPowerOfTwo(long p_14153_) {
++      return p_14153_ != 0 && (p_14153_ & p_14153_ - 1) == 0;
++   }
++
+    public static int m_14163_(int p_14164_) {
+       p_14164_ = m_14152_(p_14164_) ? p_14164_ : m_14125_(p_14164_);
+       return f_13997_[(int)((long)p_14164_ * 125613361L >> 27) & 31];
+    }
+ 
++   public static long ceillog2(long p_14164_) {
++      p_14164_ = isPowerOfTwo(p_14164_) ? p_14164_ : smallestEncompassingPowerOfTwo(p_14164_);
++      return f_13997_[(int)((long)p_14164_ * 125613361L >> 27) & 31];
++   }
++
+    public static int m_14173_(int p_14174_) {
+       return m_14163_(p_14174_) - (m_14152_(p_14174_) ? 0 : 1);
+    }
+@@ -361,16 +_,27 @@
+       return new Vec3(p_144893_.f_82479_ * d0 + p_144894_.f_82479_ * d1 + p_144895_.f_82479_ * d2 + p_144896_.f_82479_ * d3, p_144893_.f_82480_ * d0 + p_144894_.f_82480_ * d1 + p_144895_.f_82480_ * d2 + p_144896_.f_82480_ * d3, p_144893_.f_82481_ * d0 + p_144894_.f_82481_ * d1 + p_144895_.f_82481_ * d2 + p_144896_.f_82481_ * d3);
+    }
+ 
++   @Deprecated
+    public static long m_14057_(Vec3i p_14058_) {
+       return m_14130_(p_14058_.m_123341_(), p_14058_.m_123342_(), p_14058_.m_123343_());
+    }
+ 
++   public static long getSeed(me.alphamode.mclong.core.Vec3l p_14058_) {
++      return getSeed(p_14058_.getX(), p_14058_.getY(), p_14058_.getZ());
++   }
++
+    public static long m_14130_(int p_14131_, int p_14132_, int p_14133_) {
+       long i = (long)(p_14131_ * 3129871) ^ (long)p_14133_ * 116129781L ^ (long)p_14132_;
+       i = i * i * 42317861L + i * 11L;
+       return i >> 16;
+    }
+ 
++   public static long getSeed(long p_14131_, long p_14132_, long p_14133_) {
++      long i = (p_14131_ * 3129871) ^ p_14133_ * 116129781L ^ p_14132_;
++      i = i * i * 42317861L + i * 11L;
++      return i >> 16;
++   }
++
+    public static UUID m_216261_(RandomSource p_216262_) {
+       long i = p_216262_.m_188505_() & -61441L | 16384L;
+       long j = p_216262_.m_188505_() & 4611686018427387903L | Long.MIN_VALUE;
+@@ -778,6 +_,10 @@
+       return p_216288_.m_188503_(p_216290_ - p_216289_ + 1) + p_216289_;
+    }
+ 
++   public static long randomBetweenInclusive(RandomSource p_216288_, long p_216289_, long p_216290_) {
++      return p_216288_.nextLong(p_216290_ - p_216289_ + 1) + p_216289_;
++   }
++
+    public static float m_216283_(RandomSource p_216284_, float p_216285_, float p_216286_) {
+       return p_216284_.m_188501_() * (p_216286_ - p_216285_) + p_216285_;
+    }
+@@ -832,6 +_,31 @@
+ 
+             return p_216251_ + i + p_216254_;
+          }) : IntStream.empty();
++      }
++   }
++
++   public static java.util.stream.LongStream outFromOrigin(long p_216251_, long p_216252_, long p_216253_, long p_216254_) {
++      if (p_216252_ > p_216253_) {
++         throw new IllegalArgumentException(String.format(Locale.ROOT, "upperbound %d expected to be > lowerBound %d", p_216253_, p_216252_));
++      } else if (p_216254_ < 1) {
++         throw new IllegalArgumentException(String.format(Locale.ROOT, "steps expected to be >= 1, was %d", p_216254_));
++      } else {
++         return p_216251_ >= p_216252_ && p_216251_ <= p_216253_ ? java.util.stream.LongStream.iterate(p_216251_, (p_216282_) -> {
++            long i = Math.abs(p_216251_ - p_216282_);
++            return p_216251_ - i >= p_216252_ || p_216251_ + i <= p_216253_;
++         }, (p_216260_) -> {
++            boolean flag = p_216260_ <= p_216251_;
++            long i = Math.abs(p_216251_ - p_216260_);
++            boolean flag1 = p_216251_ + i + p_216254_ <= p_216253_;
++            if (!flag || !flag1) {
++               long j = p_216251_ - i - (flag ? p_216254_ : 0);
++               if (j >= p_216252_) {
++                  return j;
++               }
++            }
++
++            return p_216251_ + i + p_216254_;
++         }) : java.util.stream.LongStream.empty();
+       }
+    }
+ 

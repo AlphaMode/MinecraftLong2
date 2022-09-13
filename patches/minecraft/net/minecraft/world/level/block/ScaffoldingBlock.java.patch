@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/level/block/ScaffoldingBlock.java
++++ b/net/minecraft/world/level/block/ScaffoldingBlock.java
+@@ -67,7 +_,7 @@
+ 
+    public void m_6807_(BlockState p_56062_, Level p_56063_, BlockPos p_56064_, BlockState p_56065_, boolean p_56066_) {
+       if (!p_56063_.f_46443_) {
+-         p_56063_.m_186460_(p_56064_, this, 1);
++         p_56063_.scheduleTick(p_56064_, this, 1);
+       }
+ 
+    }
+@@ -78,7 +_,7 @@
+       }
+ 
+       if (!p_56047_.m_5776_()) {
+-         p_56047_.m_186460_(p_56048_, this, 1);
++         p_56047_.scheduleTick(p_56048_, this, 1);
+       }
+ 
+       return p_56044_;
+@@ -116,7 +_,7 @@
+    }
+ 
+    private boolean m_56027_(BlockGetter p_56028_, BlockPos p_56029_, int p_56030_) {
+-      return p_56030_ > 0 && !p_56028_.m_8055_(p_56029_.m_7495_()).m_60713_(this);
++      return p_56030_ > 0 && !p_56028_.m_8055_(p_56029_.below()).m_60713_(this);
+    }
+ 
+    public static int m_56024_(BlockGetter p_56025_, BlockPos p_56026_) {
+@@ -130,7 +_,7 @@
+       }
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         BlockState blockstate1 = p_56025_.m_8055_(blockpos$mutableblockpos.m_122159_(p_56026_, direction));
++         BlockState blockstate1 = p_56025_.m_8055_(blockpos$mutableblockpos.setWithOffset(p_56026_, direction));
+          if (blockstate1.m_60713_(Blocks.f_50616_)) {
+             i = Math.min(i, blockstate1.m_61143_(f_56012_) + 1);
+             if (i == 1) {

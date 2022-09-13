@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/entity/monster/Strider.java
++++ b/net/minecraft/world/entity/monster/Strider.java
+@@ -212,7 +_,7 @@
+          if (!this.f_19853_.m_6425_(blockpos).m_205070_(FluidTags.f_13132_)) {
+             double d3 = this.f_19853_.m_45573_(blockpos);
+             if (DismountHelper.m_38439_(d3)) {
+-               Vec3 vec31 = Vec3.m_82514_(blockpos, d3);
++               Vec3 vec31 = Vec3.upFromBottomCenterOf(blockpos, d3);
+ 
+                for(Pose pose : p_33908_.m_7431_()) {
+                   AABB aabb = p_33908_.m_21270_(pose);
+@@ -300,7 +_,7 @@
+    private void m_33940_() {
+       if (this.m_20077_()) {
+          CollisionContext collisioncontext = CollisionContext.m_82750_(this);
+-         if (collisioncontext.m_6513_(LiquidBlock.f_54690_, this.m_20183_(), true) && !this.f_19853_.m_6425_(this.m_20183_().m_7494_()).m_205070_(FluidTags.f_13132_)) {
++         if (collisioncontext.m_6513_(LiquidBlock.f_54690_, this.m_20183_(), true) && !this.f_19853_.m_6425_(this.m_20183_().above()).m_205070_(FluidTags.f_13132_)) {
+             this.f_19861_ = true;
+          } else {
+             this.m_20256_(this.m_20184_().m_82490_(0.5D).m_82520_(0.0D, 0.05D, 0.0D));
+@@ -448,7 +_,7 @@
+       }
+ 
+       protected boolean m_6465_(LevelReader p_33963_, BlockPos p_33964_) {
+-         return p_33963_.m_8055_(p_33964_).m_60713_(Blocks.f_49991_) && p_33963_.m_8055_(p_33964_.m_7494_()).m_60647_(p_33963_, p_33964_, PathComputationType.LAND);
++         return p_33963_.m_8055_(p_33964_).m_60713_(Blocks.f_49991_) && p_33963_.m_8055_(p_33964_.above()).m_60647_(p_33963_, p_33964_, PathComputationType.LAND);
+       }
+    }
+ 

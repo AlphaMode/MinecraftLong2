@@ -1,0 +1,61 @@
+--- a/net/minecraft/world/level/levelgen/carver/CaveWorldCarver.java
++++ b/net/minecraft/world/level/levelgen/carver/CaveWorldCarver.java
+@@ -23,13 +_,13 @@
+    }
+ 
+    public boolean m_213788_(CarvingContext p_224885_, CaveCarverConfiguration p_224886_, ChunkAccess p_224887_, Function<BlockPos, Holder<Biome>> p_224888_, RandomSource p_224889_, Aquifer p_224890_, ChunkPos p_224891_, CarvingMask p_224892_) {
+-      int i = SectionPos.m_123223_(this.m_65073_() * 2 - 1);
++      long i = SectionPos.sectionToBlockCoord(this.m_65073_() * 2 - 1);
+       int j = p_224889_.m_188503_(p_224889_.m_188503_(p_224889_.m_188503_(this.m_6208_()) + 1) + 1);
+ 
+       for(int k = 0; k < j; ++k) {
+-         double d0 = (double)p_224891_.m_151382_(p_224889_.m_188503_(16));
+-         double d1 = (double)p_224886_.f_159088_.m_213859_(p_224889_, p_224885_);
+-         double d2 = (double)p_224891_.m_151391_(p_224889_.m_188503_(16));
++         double d0 = (double)p_224891_.getBlockX(p_224889_.m_188503_(16));
++         double d1 = (double)p_224886_.f_159088_.sample(p_224889_, p_224885_);
++         double d2 = (double)p_224891_.getBlockZ(p_224889_.m_188503_(16));
+          double d3 = (double)p_224886_.f_159155_.m_214084_(p_224889_);
+          double d4 = (double)p_224886_.f_159156_.m_214084_(p_224889_);
+          double d5 = (double)p_224886_.f_159157_.m_214084_(p_224889_);
+@@ -48,9 +_,9 @@
+             float f = p_224889_.m_188501_() * ((float)Math.PI * 2F);
+             float f3 = (p_224889_.m_188501_() - 0.5F) / 4.0F;
+             float f2 = this.m_213592_(p_224889_);
+-            int i1 = i - p_224889_.m_188503_(i / 4);
++            long i1 = i - p_224889_.nextLong(i / 4);
+             int j1 = 0;
+-            this.m_190670_(p_224885_, p_224886_, p_224887_, p_224888_, p_224889_.m_188505_(), p_224890_, d0, d1, d2, d3, d4, f2, f, f3, 0, i1, this.m_6203_(), p_224892_, worldcarver$carveskipchecker);
++            this.createTunnel(p_224885_, p_224886_, p_224887_, p_224888_, p_224889_.m_188505_(), p_224890_, d0, d1, d2, d3, d4, f2, f, f3, 0, i1, this.m_6203_(), p_224892_, worldcarver$carveskipchecker);
+          }
+       }
+ 
+@@ -80,9 +_,9 @@
+       this.m_190753_(p_190691_, p_190692_, p_190693_, p_190694_, p_190695_, p_190696_ + 1.0D, p_190697_, p_190698_, d0, d1, p_190701_, p_190702_);
+    }
+ 
+-   protected void m_190670_(CarvingContext p_190671_, CaveCarverConfiguration p_190672_, ChunkAccess p_190673_, Function<BlockPos, Holder<Biome>> p_190674_, long p_190675_, Aquifer p_190676_, double p_190677_, double p_190678_, double p_190679_, double p_190680_, double p_190681_, float p_190682_, float p_190683_, float p_190684_, int p_190685_, int p_190686_, double p_190687_, CarvingMask p_190688_, WorldCarver.CarveSkipChecker p_190689_) {
++   protected void createTunnel(CarvingContext p_190671_, CaveCarverConfiguration p_190672_, ChunkAccess p_190673_, Function<BlockPos, Holder<Biome>> p_190674_, long p_190675_, Aquifer p_190676_, double p_190677_, double p_190678_, double p_190679_, double p_190680_, double p_190681_, float p_190682_, float p_190683_, float p_190684_, int p_190685_, long p_190686_, double p_190687_, CarvingMask p_190688_, WorldCarver.CarveSkipChecker p_190689_) {
+       RandomSource randomsource = RandomSource.m_216335_(p_190675_);
+-      int i = randomsource.m_188503_(p_190686_ / 2) + p_190686_ / 4;
++      long i = randomsource.nextLong(p_190686_ / 2) + p_190686_ / 4;
+       boolean flag = randomsource.m_188503_(6) == 0;
+       float f = 0.0F;
+       float f1 = 0.0F;
+@@ -102,13 +_,13 @@
+          f1 += (randomsource.m_188501_() - randomsource.m_188501_()) * randomsource.m_188501_() * 2.0F;
+          f += (randomsource.m_188501_() - randomsource.m_188501_()) * randomsource.m_188501_() * 4.0F;
+          if (j == i && p_190682_ > 1.0F) {
+-            this.m_190670_(p_190671_, p_190672_, p_190673_, p_190674_, randomsource.m_188505_(), p_190676_, p_190677_, p_190678_, p_190679_, p_190680_, p_190681_, randomsource.m_188501_() * 0.5F + 0.5F, p_190683_ - ((float)Math.PI / 2F), p_190684_ / 3.0F, j, p_190686_, 1.0D, p_190688_, p_190689_);
+-            this.m_190670_(p_190671_, p_190672_, p_190673_, p_190674_, randomsource.m_188505_(), p_190676_, p_190677_, p_190678_, p_190679_, p_190680_, p_190681_, randomsource.m_188501_() * 0.5F + 0.5F, p_190683_ + ((float)Math.PI / 2F), p_190684_ / 3.0F, j, p_190686_, 1.0D, p_190688_, p_190689_);
++            this.createTunnel(p_190671_, p_190672_, p_190673_, p_190674_, randomsource.m_188505_(), p_190676_, p_190677_, p_190678_, p_190679_, p_190680_, p_190681_, randomsource.m_188501_() * 0.5F + 0.5F, p_190683_ - ((float)Math.PI / 2F), p_190684_ / 3.0F, j, p_190686_, 1.0D, p_190688_, p_190689_);
++            this.createTunnel(p_190671_, p_190672_, p_190673_, p_190674_, randomsource.m_188505_(), p_190676_, p_190677_, p_190678_, p_190679_, p_190680_, p_190681_, randomsource.m_188501_() * 0.5F + 0.5F, p_190683_ + ((float)Math.PI / 2F), p_190684_ / 3.0F, j, p_190686_, 1.0D, p_190688_, p_190689_);
+             return;
+          }
+ 
+          if (randomsource.m_188503_(4) != 0) {
+-            if (!m_159367_(p_190673_.m_7697_(), p_190677_, p_190679_, j, p_190686_, p_190682_)) {
++            if (!canReach(p_190673_.m_7697_(), p_190677_, p_190679_, j, p_190686_, p_190682_)) {
+                return;
+             }
+ 

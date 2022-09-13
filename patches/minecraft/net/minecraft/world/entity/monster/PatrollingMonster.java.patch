@@ -1,0 +1,32 @@
+--- a/net/minecraft/world/entity/monster/PatrollingMonster.java
++++ b/net/minecraft/world/entity/monster/PatrollingMonster.java
+@@ -163,17 +_,17 @@
+             List<PatrollingMonster> list = this.m_33093_();
+             if (this.f_33079_.m_33069_() && list.isEmpty()) {
+                this.f_33079_.m_33077_(false);
+-            } else if (flag && this.f_33079_.m_33065_().m_203195_(this.f_33079_.m_20182_(), 10.0D)) {
++            } else if (flag && this.f_33079_.m_33065_().closerToCenterThan(this.f_33079_.m_20182_(), 10.0D)) {
+                this.f_33079_.m_33068_();
+             } else {
+-               Vec3 vec3 = Vec3.m_82539_(this.f_33079_.m_33065_());
++               Vec3 vec3 = Vec3.atBottomCenterOf(this.f_33079_.m_33065_());
+                Vec3 vec31 = this.f_33079_.m_20182_();
+                Vec3 vec32 = vec31.m_82546_(vec3);
+                vec3 = vec32.m_82524_(90.0F).m_82490_(0.4D).m_82549_(vec3);
+                Vec3 vec33 = vec3.m_82546_(vec31).m_82541_().m_82490_(10.0D).m_82549_(vec31);
+                BlockPos blockpos = new BlockPos(vec33);
+                blockpos = this.f_33079_.f_19853_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos);
+-               if (!pathnavigation.m_26519_((double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_(), flag ? this.f_33081_ : this.f_33080_)) {
++               if (!pathnavigation.m_26519_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), flag ? this.f_33081_ : this.f_33080_)) {
+                   this.m_33094_();
+                   this.f_33082_ = this.f_33079_.f_19853_.m_46467_() + 200L;
+                } else if (flag) {
+@@ -195,7 +_,7 @@
+       private boolean m_33094_() {
+          RandomSource randomsource = this.f_33079_.m_217043_();
+          BlockPos blockpos = this.f_33079_.f_19853_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, this.f_33079_.m_20183_().m_7918_(-8 + randomsource.m_188503_(16), 0, -8 + randomsource.m_188503_(16)));
+-         return this.f_33079_.m_21573_().m_26519_((double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_(), this.f_33080_);
++         return this.f_33079_.m_21573_().m_26519_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), this.f_33080_);
+       }
+    }
+ }

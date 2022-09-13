@@ -1,0 +1,15 @@
+--- a/net/minecraft/client/renderer/debug/HeightMapRenderer.java
++++ b/net/minecraft/client/renderer/debug/HeightMapRenderer.java
+@@ -53,9 +_,9 @@
+ 
+                for(int k = 0; k < 16; ++k) {
+                   for(int l = 0; l < 16; ++l) {
+-                     int i1 = SectionPos.m_175554_(chunkpos.f_45578_, k);
+-                     int j1 = SectionPos.m_175554_(chunkpos.f_45579_, l);
+-                     float f = (float)((double)((float)levelaccessor.m_6924_(heightmap$types, i1, j1) + (float)heightmap$types.ordinal() * 0.09375F) - p_113579_);
++                     long i1 = SectionPos.sectionToBlockCoord(chunkpos.f_45578_, k);
++                     long j1 = SectionPos.sectionToBlockCoord(chunkpos.f_45579_, l);
++                     float f = (float)((double)((float)levelaccessor.getHeight(heightmap$types, i1, j1) + (float)heightmap$types.ordinal() * 0.09375F) - p_113579_);
+                      LevelRenderer.m_109556_(bufferbuilder, (double)((float)i1 + 0.25F) - p_113578_, (double)f, (double)((float)j1 + 0.25F) - p_113580_, (double)((float)i1 + 0.75F) - p_113578_, (double)(f + 0.09375F), (double)((float)j1 + 0.75F) - p_113580_, vector3f.m_122239_(), vector3f.m_122260_(), vector3f.m_122269_(), 1.0F);
+                   }
+                }

@@ -1,0 +1,56 @@
+--- a/net/minecraft/world/level/block/SculkSensorBlock.java
++++ b/net/minecraft/world/level/block/SculkSensorBlock.java
+@@ -146,7 +_,7 @@
+             p_154472_.m_7731_(p_154473_, p_154471_.m_61124_(f_154387_, Integer.valueOf(0)), 18);
+          }
+ 
+-         p_154472_.m_186460_(new BlockPos(p_154473_), p_154471_.m_60734_(), 1);
++         p_154472_.scheduleTick(new BlockPos(p_154473_), p_154471_.m_60734_(), 1);
+       }
+    }
+ 
+@@ -170,7 +_,7 @@
+ 
+    private static void m_154404_(Level p_154405_, BlockPos p_154406_) {
+       p_154405_.m_46672_(p_154406_, Blocks.f_152500_);
+-      p_154405_.m_46672_(p_154406_.m_121945_(Direction.UP.m_122424_()), Blocks.f_152500_);
++      p_154405_.m_46672_(p_154406_.relative(Direction.UP.m_122424_()), Blocks.f_152500_);
+    }
+ 
+    @Nullable
+@@ -216,7 +_,7 @@
+ 
+    public static void m_154407_(Level p_154408_, BlockPos p_154409_, BlockState p_154410_) {
+       p_154408_.m_7731_(p_154409_, p_154410_.m_61124_(f_154386_, SculkSensorPhase.COOLDOWN).m_61124_(f_154387_, Integer.valueOf(0)), 3);
+-      p_154408_.m_186460_(p_154409_, p_154410_.m_60734_(), 1);
++      p_154408_.scheduleTick(p_154409_, p_154410_.m_60734_(), 1);
+       if (!p_154410_.m_61143_(f_154388_)) {
+          p_154408_.m_5594_((Player)null, p_154409_, SoundEvents.f_144213_, SoundSource.BLOCKS, 1.0F, p_154408_.f_46441_.m_188501_() * 0.2F + 0.8F);
+       }
+@@ -226,11 +_,11 @@
+ 
+    public static void m_222125_(@Nullable Entity p_222126_, Level p_222127_, BlockPos p_222128_, BlockState p_222129_, int p_222130_) {
+       p_222127_.m_7731_(p_222128_, p_222129_.m_61124_(f_154386_, SculkSensorPhase.ACTIVE).m_61124_(f_154387_, Integer.valueOf(p_222130_)), 3);
+-      p_222127_.m_186460_(p_222128_, p_222129_.m_60734_(), 40);
++      p_222127_.scheduleTick(p_222128_, p_222129_.m_60734_(), 40);
+       m_154404_(p_222127_, p_222128_);
+       p_222127_.m_142346_(p_222126_, GameEvent.f_223700_, p_222128_);
+       if (!p_222129_.m_61143_(f_154388_)) {
+-         p_222127_.m_6263_((Player)null, (double)p_222128_.m_123341_() + 0.5D, (double)p_222128_.m_123342_() + 0.5D, (double)p_222128_.m_123343_() + 0.5D, SoundEvents.f_144212_, SoundSource.BLOCKS, 1.0F, p_222127_.f_46441_.m_188501_() * 0.2F + 0.8F);
++         p_222127_.m_6263_((Player)null, (double)p_222128_.getX() + 0.5D, (double)p_222128_.getY() + 0.5D, (double)p_222128_.getZ() + 0.5D, SoundEvents.f_144212_, SoundSource.BLOCKS, 1.0F, p_222127_.f_46441_.m_188501_() * 0.2F + 0.8F);
+       }
+ 
+    }
+@@ -239,9 +_,9 @@
+       if (m_154487_(p_222148_) == SculkSensorPhase.ACTIVE) {
+          Direction direction = Direction.m_235672_(p_222151_);
+          if (direction != Direction.UP && direction != Direction.DOWN) {
+-            double d0 = (double)p_222150_.m_123341_() + 0.5D + (direction.m_122429_() == 0 ? 0.5D - p_222151_.m_188500_() : (double)direction.m_122429_() * 0.6D);
+-            double d1 = (double)p_222150_.m_123342_() + 0.25D;
+-            double d2 = (double)p_222150_.m_123343_() + 0.5D + (direction.m_122431_() == 0 ? 0.5D - p_222151_.m_188500_() : (double)direction.m_122431_() * 0.6D);
++            double d0 = (double)p_222150_.getX() + 0.5D + (direction.m_122429_() == 0 ? 0.5D - p_222151_.m_188500_() : (double)direction.m_122429_() * 0.6D);
++            double d1 = (double)p_222150_.getY() + 0.25D;
++            double d2 = (double)p_222150_.getZ() + 0.5D + (direction.m_122431_() == 0 ? 0.5D - p_222151_.m_188500_() : (double)direction.m_122431_() * 0.6D);
+             double d3 = (double)p_222151_.m_188501_() * 0.04D;
+             p_222149_.m_7106_(DustColorTransitionOptions.f_175752_, d0, d1, d2, 0.0D, d3, 0.0D);
+          }

@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/block/LadderBlock.java
++++ b/net/minecraft/world/level/block/LadderBlock.java
+@@ -53,7 +_,7 @@
+ 
+    public boolean m_7898_(BlockState p_54353_, LevelReader p_54354_, BlockPos p_54355_) {
+       Direction direction = p_54353_.m_61143_(f_54337_);
+-      return this.m_54348_(p_54354_, p_54355_.m_121945_(direction.m_122424_()), direction);
++      return this.m_54348_(p_54354_, p_54355_.relative(direction.m_122424_()), direction);
+    }
+ 
+    public BlockState m_7417_(BlockState p_54363_, Direction p_54364_, BlockState p_54365_, LevelAccessor p_54366_, BlockPos p_54367_, BlockPos p_54368_) {
+@@ -71,7 +_,7 @@
+    @Nullable
+    public BlockState m_5573_(BlockPlaceContext p_54347_) {
+       if (!p_54347_.m_7058_()) {
+-         BlockState blockstate = p_54347_.m_43725_().m_8055_(p_54347_.m_8083_().m_121945_(p_54347_.m_43719_().m_122424_()));
++         BlockState blockstate = p_54347_.m_43725_().m_8055_(p_54347_.m_8083_().relative(p_54347_.m_43719_().m_122424_()));
+          if (blockstate.m_60713_(this) && blockstate.m_61143_(f_54337_) == p_54347_.m_43719_()) {
+             return null;
+          }

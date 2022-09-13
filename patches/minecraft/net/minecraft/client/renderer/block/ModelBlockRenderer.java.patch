@@ -1,0 +1,116 @@
+--- a/net/minecraft/client/renderer/block/ModelBlockRenderer.java
++++ b/net/minecraft/client/renderer/block/ModelBlockRenderer.java
+@@ -71,7 +_,7 @@
+          p_234398_.m_188584_(p_234399_);
+          List<BakedQuad> list = p_234392_.m_213637_(p_234393_, direction, p_234398_);
+          if (!list.isEmpty()) {
+-            blockpos$mutableblockpos.m_122159_(p_234394_, direction);
++            blockpos$mutableblockpos.setWithOffset(p_234394_, direction);
+             if (!p_234397_ || Block.m_152444_(p_234393_, p_234391_, p_234394_, direction, blockpos$mutableblockpos)) {
+                this.m_111012_(p_234391_, p_234393_, p_234394_, p_234395_, p_234396_, list, afloat, bitset, modelblockrenderer$ambientocclusionface, p_234400_);
+             }
+@@ -94,7 +_,7 @@
+          p_234409_.m_188584_(p_234410_);
+          List<BakedQuad> list = p_234403_.m_213637_(p_234404_, direction, p_234409_);
+          if (!list.isEmpty()) {
+-            blockpos$mutableblockpos.m_122159_(p_234405_, direction);
++            blockpos$mutableblockpos.setWithOffset(p_234405_, direction);
+             if (!p_234408_ || Block.m_152444_(p_234404_, p_234402_, p_234405_, direction, blockpos$mutableblockpos)) {
+                int i = LevelRenderer.m_109537_(p_234402_, p_234404_, blockpos$mutableblockpos);
+                this.m_111001_(p_234402_, p_234404_, p_234405_, i, p_234411_, false, p_234406_, p_234407_, list, bitset);
+@@ -207,7 +_,7 @@
+       for(BakedQuad bakedquad : p_111010_) {
+          if (p_111007_) {
+             this.m_111039_(p_111002_, p_111003_, p_111004_, bakedquad.m_111303_(), bakedquad.m_111306_(), (float[])null, p_111011_);
+-            BlockPos blockpos = p_111011_.get(0) ? p_111004_.m_121945_(bakedquad.m_111306_()) : p_111004_;
++            BlockPos blockpos = p_111011_.get(0) ? p_111004_.relative(bakedquad.m_111306_()) : p_111004_;
+             p_111005_ = LevelRenderer.m_109537_(p_111002_, p_111003_, blockpos);
+          }
+ 
+@@ -305,33 +_,33 @@
+       }
+ 
+       public void m_111167_(BlockAndTintGetter p_111168_, BlockState p_111169_, BlockPos p_111170_, Direction p_111171_, float[] p_111172_, BitSet p_111173_, boolean p_111174_) {
+-         BlockPos blockpos = p_111173_.get(0) ? p_111170_.m_121945_(p_111171_) : p_111170_;
++         BlockPos blockpos = p_111173_.get(0) ? p_111170_.relative(p_111171_) : p_111170_;
+          ModelBlockRenderer.AdjacencyInfo modelblockrenderer$adjacencyinfo = ModelBlockRenderer.AdjacencyInfo.m_111131_(p_111171_);
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+          ModelBlockRenderer.Cache modelblockrenderer$cache = ModelBlockRenderer.f_110996_.get();
+-         blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[0]);
++         blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[0]);
+          BlockState blockstate = p_111168_.m_8055_(blockpos$mutableblockpos);
+          int i = modelblockrenderer$cache.m_111221_(blockstate, p_111168_, blockpos$mutableblockpos);
+          float f = modelblockrenderer$cache.m_111226_(blockstate, p_111168_, blockpos$mutableblockpos);
+-         blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[1]);
++         blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[1]);
+          BlockState blockstate1 = p_111168_.m_8055_(blockpos$mutableblockpos);
+          int j = modelblockrenderer$cache.m_111221_(blockstate1, p_111168_, blockpos$mutableblockpos);
+          float f1 = modelblockrenderer$cache.m_111226_(blockstate1, p_111168_, blockpos$mutableblockpos);
+-         blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[2]);
++         blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[2]);
+          BlockState blockstate2 = p_111168_.m_8055_(blockpos$mutableblockpos);
+          int k = modelblockrenderer$cache.m_111221_(blockstate2, p_111168_, blockpos$mutableblockpos);
+          float f2 = modelblockrenderer$cache.m_111226_(blockstate2, p_111168_, blockpos$mutableblockpos);
+-         blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[3]);
++         blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[3]);
+          BlockState blockstate3 = p_111168_.m_8055_(blockpos$mutableblockpos);
+          int l = modelblockrenderer$cache.m_111221_(blockstate3, p_111168_, blockpos$mutableblockpos);
+          float f3 = modelblockrenderer$cache.m_111226_(blockstate3, p_111168_, blockpos$mutableblockpos);
+-         BlockState blockstate4 = p_111168_.m_8055_(blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[0]).m_122173_(p_111171_));
++         BlockState blockstate4 = p_111168_.m_8055_(blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[0]).m_122173_(p_111171_));
+          boolean flag = !blockstate4.m_60831_(p_111168_, blockpos$mutableblockpos) || blockstate4.m_60739_(p_111168_, blockpos$mutableblockpos) == 0;
+-         BlockState blockstate5 = p_111168_.m_8055_(blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[1]).m_122173_(p_111171_));
++         BlockState blockstate5 = p_111168_.m_8055_(blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[1]).m_122173_(p_111171_));
+          boolean flag1 = !blockstate5.m_60831_(p_111168_, blockpos$mutableblockpos) || blockstate5.m_60739_(p_111168_, blockpos$mutableblockpos) == 0;
+-         BlockState blockstate6 = p_111168_.m_8055_(blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[2]).m_122173_(p_111171_));
++         BlockState blockstate6 = p_111168_.m_8055_(blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[2]).m_122173_(p_111171_));
+          boolean flag2 = !blockstate6.m_60831_(p_111168_, blockpos$mutableblockpos) || blockstate6.m_60739_(p_111168_, blockpos$mutableblockpos) == 0;
+-         BlockState blockstate7 = p_111168_.m_8055_(blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[3]).m_122173_(p_111171_));
++         BlockState blockstate7 = p_111168_.m_8055_(blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[3]).m_122173_(p_111171_));
+          boolean flag3 = !blockstate7.m_60831_(p_111168_, blockpos$mutableblockpos) || blockstate7.m_60739_(p_111168_, blockpos$mutableblockpos) == 0;
+          float f4;
+          int i1;
+@@ -339,7 +_,7 @@
+             f4 = f;
+             i1 = i;
+          } else {
+-            blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[0]).m_122173_(modelblockrenderer$adjacencyinfo.f_111110_[2]);
++            blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[0]).m_122173_(modelblockrenderer$adjacencyinfo.f_111110_[2]);
+             BlockState blockstate8 = p_111168_.m_8055_(blockpos$mutableblockpos);
+             f4 = modelblockrenderer$cache.m_111226_(blockstate8, p_111168_, blockpos$mutableblockpos);
+             i1 = modelblockrenderer$cache.m_111221_(blockstate8, p_111168_, blockpos$mutableblockpos);
+@@ -351,7 +_,7 @@
+             f5 = f;
+             j1 = i;
+          } else {
+-            blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[0]).m_122173_(modelblockrenderer$adjacencyinfo.f_111110_[3]);
++            blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[0]).m_122173_(modelblockrenderer$adjacencyinfo.f_111110_[3]);
+             BlockState blockstate10 = p_111168_.m_8055_(blockpos$mutableblockpos);
+             f5 = modelblockrenderer$cache.m_111226_(blockstate10, p_111168_, blockpos$mutableblockpos);
+             j1 = modelblockrenderer$cache.m_111221_(blockstate10, p_111168_, blockpos$mutableblockpos);
+@@ -363,7 +_,7 @@
+             f6 = f;
+             k1 = i;
+          } else {
+-            blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[1]).m_122173_(modelblockrenderer$adjacencyinfo.f_111110_[2]);
++            blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[1]).m_122173_(modelblockrenderer$adjacencyinfo.f_111110_[2]);
+             BlockState blockstate11 = p_111168_.m_8055_(blockpos$mutableblockpos);
+             f6 = modelblockrenderer$cache.m_111226_(blockstate11, p_111168_, blockpos$mutableblockpos);
+             k1 = modelblockrenderer$cache.m_111221_(blockstate11, p_111168_, blockpos$mutableblockpos);
+@@ -375,14 +_,14 @@
+             f7 = f;
+             l1 = i;
+          } else {
+-            blockpos$mutableblockpos.m_122159_(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[1]).m_122173_(modelblockrenderer$adjacencyinfo.f_111110_[3]);
++            blockpos$mutableblockpos.setWithOffset(blockpos, modelblockrenderer$adjacencyinfo.f_111110_[1]).m_122173_(modelblockrenderer$adjacencyinfo.f_111110_[3]);
+             BlockState blockstate12 = p_111168_.m_8055_(blockpos$mutableblockpos);
+             f7 = modelblockrenderer$cache.m_111226_(blockstate12, p_111168_, blockpos$mutableblockpos);
+             l1 = modelblockrenderer$cache.m_111221_(blockstate12, p_111168_, blockpos$mutableblockpos);
+          }
+ 
+          int i3 = modelblockrenderer$cache.m_111221_(p_111169_, p_111168_, p_111170_);
+-         blockpos$mutableblockpos.m_122159_(p_111170_, p_111171_);
++         blockpos$mutableblockpos.setWithOffset(p_111170_, p_111171_);
+          BlockState blockstate9 = p_111168_.m_8055_(blockpos$mutableblockpos);
+          if (p_111173_.get(0) || !blockstate9.m_60804_(p_111168_, blockpos$mutableblockpos)) {
+             i3 = modelblockrenderer$cache.m_111221_(blockstate9, p_111168_, blockpos$mutableblockpos);

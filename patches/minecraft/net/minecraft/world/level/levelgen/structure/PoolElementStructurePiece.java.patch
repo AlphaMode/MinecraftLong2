@@ -1,0 +1,59 @@
+--- a/net/minecraft/world/level/levelgen/structure/PoolElementStructurePiece.java
++++ b/net/minecraft/world/level/levelgen/structure/PoolElementStructurePiece.java
+@@ -29,12 +_,12 @@
+    private static final Logger f_72600_ = LogUtils.getLogger();
+    protected final StructurePoolElement f_72597_;
+    protected BlockPos f_72598_;
+-   private final int f_72601_;
++   private final long f_72601_;
+    protected final Rotation f_72599_;
+    private final List<JigsawJunction> f_72602_ = Lists.newArrayList();
+    private final StructureTemplateManager f_226493_;
+ 
+-   public PoolElementStructurePiece(StructureTemplateManager p_226495_, StructurePoolElement p_226496_, BlockPos p_226497_, int p_226498_, Rotation p_226499_, BoundingBox p_226500_) {
++   public PoolElementStructurePiece(StructureTemplateManager p_226495_, StructurePoolElement p_226496_, BlockPos p_226497_, long p_226498_, Rotation p_226499_, BoundingBox p_226500_) {
+       super(StructurePieceType.f_210125_, 0, p_226500_);
+       this.f_226493_ = p_226495_;
+       this.f_72597_ = p_226496_;
+@@ -47,7 +_,7 @@
+       super(StructurePieceType.f_210125_, p_192407_);
+       this.f_226493_ = p_192406_.f_226956_();
+       this.f_72598_ = new BlockPos(p_192407_.m_128451_("PosX"), p_192407_.m_128451_("PosY"), p_192407_.m_128451_("PosZ"));
+-      this.f_72601_ = p_192407_.m_128451_("ground_level_delta");
++      this.f_72601_ = p_192407_.m_128454_("ground_level_delta");
+       DynamicOps<Tag> dynamicops = RegistryOps.m_206821_(NbtOps.f_128958_, p_192406_.f_192763_());
+       this.f_72597_ = StructurePoolElement.f_210468_.parse(dynamicops, p_192407_.m_128469_("pool_element")).resultOrPartial(f_72600_::error).orElseThrow(() -> {
+          return new IllegalStateException("Invalid pool element found");
+@@ -62,10 +_,10 @@
+    }
+ 
+    protected void m_183620_(StructurePieceSerializationContext p_192425_, CompoundTag p_192426_) {
+-      p_192426_.m_128405_("PosX", this.f_72598_.m_123341_());
+-      p_192426_.m_128405_("PosY", this.f_72598_.m_123342_());
+-      p_192426_.m_128405_("PosZ", this.f_72598_.m_123343_());
+-      p_192426_.m_128405_("ground_level_delta", this.f_72601_);
++      p_192426_.m_128356_("PosX", this.f_72598_.getX());
++      p_192426_.m_128356_("PosY", this.f_72598_.getY());
++      p_192426_.m_128356_("PosZ", this.f_72598_.getZ());
++      p_192426_.m_128356_("ground_level_delta", this.f_72601_);
+       DynamicOps<Tag> dynamicops = RegistryOps.m_206821_(NbtOps.f_128958_, p_192425_.f_192763_());
+       StructurePoolElement.f_210468_.encodeStart(dynamicops, this.f_72597_).resultOrPartial(f_72600_::error).ifPresent((p_163125_) -> {
+          p_192426_.m_128365_("pool_element", p_163125_);
+@@ -89,7 +_,7 @@
+    }
+ 
+    public void m_6324_(int p_72616_, int p_72617_, int p_72618_) {
+-      super.m_6324_(p_72616_, p_72617_, p_72618_);
++      super.move(p_72616_, p_72617_, p_72618_);
+       this.f_72598_ = this.f_72598_.m_7918_(p_72616_, p_72617_, p_72618_);
+    }
+ 
+@@ -109,7 +_,7 @@
+       return this.f_72598_;
+    }
+ 
+-   public int m_72647_() {
++   public long getGroundLevelDelta() {
+       return this.f_72601_;
+    }
+ 

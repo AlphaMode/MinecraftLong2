@@ -1,0 +1,44 @@
+--- a/net/minecraft/world/level/levelgen/structure/pieces/StructurePiecesBuilder.java
++++ b/net/minecraft/world/level/levelgen/structure/pieces/StructurePiecesBuilder.java
+@@ -22,25 +_,25 @@
+ 
+    /** @deprecated */
+    @Deprecated
+-   public void m_192781_(int p_192782_) {
++   public void offsetPiecesVertically(long p_192782_) {
+       for(StructurePiece structurepiece : this.f_192778_) {
+-         structurepiece.m_6324_(0, p_192782_, 0);
++         structurepiece.move(0, p_192782_, 0);
+       }
+ 
+    }
+ 
+    /** @deprecated */
+    @Deprecated
+-   public int m_226965_(int p_226966_, int p_226967_, RandomSource p_226968_, int p_226969_) {
++   public long moveBelowSeaLevel(int p_226966_, long p_226967_, RandomSource p_226968_, int p_226969_) {
+       int i = p_226966_ - p_226969_;
+       BoundingBox boundingbox = this.m_192798_();
+-      int j = boundingbox.m_71057_() + p_226967_ + 1;
++      long j = boundingbox.m_71057_() + p_226967_ + 1;
+       if (j < i) {
+-         j += p_226968_.m_188503_(i - j);
++         j += p_226968_.nextLong(i - j);
+       }
+ 
+-      int k = j - boundingbox.m_162400_();
+-      this.m_192781_(k);
++      long k = j - boundingbox.m_162400_();
++      this.offsetPiecesVertically(k);
+       return k;
+    }
+ 
+@@ -56,7 +_,7 @@
+       }
+ 
+       int k = j - boundingbox.m_162396_();
+-      this.m_192781_(k);
++      this.offsetPiecesVertically(k);
+    }
+ 
+    public PiecesContainer m_192780_() {

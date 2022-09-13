@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/ai/behavior/LocateHidingPlace.java
++++ b/net/minecraft/world/entity/ai/behavior/LocateHidingPlace.java
+@@ -32,7 +_,7 @@
+       }, (p_23425_) -> {
+          return true;
+       }, p_23413_.m_20183_(), this.f_23405_ + 1, PoiManager.Occupancy.ANY);
+-      if (optional.isPresent() && optional.get().m_203195_(p_23413_.m_20182_(), (double)this.f_23405_)) {
++      if (optional.isPresent() && optional.get().closerToCenterThan(p_23413_.m_20182_(), (double)this.f_23405_)) {
+          this.f_23406_ = optional;
+       } else {
+          this.f_23406_ = Optional.empty();
+@@ -64,7 +_,7 @@
+          brain.m_21936_(MemoryModuleType.f_26375_);
+          brain.m_21936_(MemoryModuleType.f_26374_);
+          brain.m_21879_(MemoryModuleType.f_26324_, GlobalPos.m_122643_(p_23415_.m_46472_(), optional.get()));
+-         if (!optional.get().m_203195_(p_23416_.m_20182_(), (double)this.f_23405_)) {
++         if (!optional.get().closerToCenterThan(p_23416_.m_20182_(), (double)this.f_23405_)) {
+             brain.m_21879_(MemoryModuleType.f_26370_, new WalkTarget(optional.get(), this.f_23403_, this.f_23405_));
+          }
+       }

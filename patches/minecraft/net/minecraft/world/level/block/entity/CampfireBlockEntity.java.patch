@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/level/block/entity/CampfireBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/CampfireBlockEntity.java
+@@ -50,7 +_,7 @@
+                ItemStack itemstack1 = p_155310_.f_222760_.m_213657_(container, p_155307_).map((p_155305_) -> {
+                   return p_155305_.m_5874_(container);
+                }).orElse(itemstack);
+-               Containers.m_18992_(p_155307_, (double)p_155308_.m_123341_(), (double)p_155308_.m_123342_(), (double)p_155308_.m_123343_(), itemstack1);
++               Containers.m_18992_(p_155307_, (double)p_155308_.getX(), (double)p_155308_.getY(), (double)p_155308_.getZ(), itemstack1);
+                p_155310_.f_59042_.set(i, ItemStack.f_41583_);
+                p_155307_.m_7260_(p_155308_, p_155309_, p_155309_, 3);
+                p_155307_.m_220407_(GameEvent.f_157792_, p_155308_, GameEvent.Context.m_223722_(p_155309_));
+@@ -94,9 +_,9 @@
+          if (!p_155322_.f_59042_.get(j).m_41619_() && randomsource.m_188501_() < 0.2F) {
+             Direction direction = Direction.m_122407_(Math.floorMod(j + l, 4));
+             float f = 0.3125F;
+-            double d0 = (double)p_155320_.m_123341_() + 0.5D - (double)((float)direction.m_122429_() * 0.3125F) + (double)((float)direction.m_122427_().m_122429_() * 0.3125F);
+-            double d1 = (double)p_155320_.m_123342_() + 0.5D;
+-            double d2 = (double)p_155320_.m_123343_() + 0.5D - (double)((float)direction.m_122431_() * 0.3125F) + (double)((float)direction.m_122427_().m_122431_() * 0.3125F);
++            double d0 = (double)p_155320_.getX() + 0.5D - (double)((float)direction.m_122429_() * 0.3125F) + (double)((float)direction.m_122427_().m_122429_() * 0.3125F);
++            double d1 = (double)p_155320_.getY() + 0.5D;
++            double d2 = (double)p_155320_.getZ() + 0.5D - (double)((float)direction.m_122431_() * 0.3125F) + (double)((float)direction.m_122427_().m_122431_() * 0.3125F);
+ 
+             for(int k = 0; k < 4; ++k) {
+                p_155319_.m_7106_(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 5.0E-4D, 0.0D);

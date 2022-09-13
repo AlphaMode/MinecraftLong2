@@ -1,0 +1,91 @@
+--- a/net/minecraft/world/level/block/BedBlock.java
++++ b/net/minecraft/world/level/block/BedBlock.java
+@@ -77,7 +_,7 @@
+          return InteractionResult.CONSUME;
+       } else {
+          if (p_49515_.m_61143_(f_49440_) != BedPart.HEAD) {
+-            p_49517_ = p_49517_.m_121945_(p_49515_.m_61143_(f_54117_));
++            p_49517_ = p_49517_.relative(p_49515_.m_61143_(f_54117_));
+             p_49515_ = p_49516_.m_8055_(p_49517_);
+             if (!p_49515_.m_60713_(this)) {
+                return InteractionResult.CONSUME;
+@@ -86,12 +_,12 @@
+ 
+          if (!m_49488_(p_49516_)) {
+             p_49516_.m_7471_(p_49517_, false);
+-            BlockPos blockpos = p_49517_.m_121945_(p_49515_.m_61143_(f_54117_).m_122424_());
++            BlockPos blockpos = p_49517_.relative(p_49515_.m_61143_(f_54117_).m_122424_());
+             if (p_49516_.m_8055_(blockpos).m_60713_(this)) {
+                p_49516_.m_7471_(blockpos, false);
+             }
+ 
+-            p_49516_.m_7703_((Entity)null, DamageSource.m_19334_(), (ExplosionDamageCalculator)null, (double)p_49517_.m_123341_() + 0.5D, (double)p_49517_.m_123342_() + 0.5D, (double)p_49517_.m_123343_() + 0.5D, 5.0F, true, Explosion.BlockInteraction.DESTROY);
++            p_49516_.m_7703_((Entity)null, DamageSource.m_19334_(), (ExplosionDamageCalculator)null, (double)p_49517_.getX() + 0.5D, (double)p_49517_.getY() + 0.5D, (double)p_49517_.getZ() + 0.5D, 5.0F, true, Explosion.BlockInteraction.DESTROY);
+             return InteractionResult.SUCCESS;
+          } else if (p_49515_.m_61143_(f_49441_)) {
+             if (!this.m_49490_(p_49516_, p_49517_)) {
+@@ -163,7 +_,7 @@
+       if (!p_49505_.f_46443_ && p_49508_.m_7500_()) {
+          BedPart bedpart = p_49507_.m_61143_(f_49440_);
+          if (bedpart == BedPart.FOOT) {
+-            BlockPos blockpos = p_49506_.m_121945_(m_49533_(bedpart, p_49507_.m_61143_(f_54117_)));
++            BlockPos blockpos = p_49506_.relative(m_49533_(bedpart, p_49507_.m_61143_(f_54117_)));
+             BlockState blockstate = p_49505_.m_8055_(blockpos);
+             if (blockstate.m_60713_(this) && blockstate.m_61143_(f_49440_) == BedPart.HEAD) {
+                p_49505_.m_7731_(blockpos, Blocks.f_50016_.m_49966_(), 35);
+@@ -179,7 +_,7 @@
+    public BlockState m_5573_(BlockPlaceContext p_49479_) {
+       Direction direction = p_49479_.m_8125_();
+       BlockPos blockpos = p_49479_.m_8083_();
+-      BlockPos blockpos1 = blockpos.m_121945_(direction);
++      BlockPos blockpos1 = blockpos.relative(direction);
+       Level level = p_49479_.m_43725_();
+       return level.m_8055_(blockpos1).m_60629_(p_49479_) && level.m_6857_().m_61937_(blockpos1) ? this.m_49966_().m_61124_(f_54117_, direction) : null;
+    }
+@@ -209,7 +_,7 @@
+    }
+ 
+    private static boolean m_49541_(BlockGetter p_49542_, BlockPos p_49543_) {
+-      return p_49542_.m_8055_(p_49543_.m_7495_()).m_60734_() instanceof BedBlock;
++      return p_49542_.m_8055_(p_49543_.below()).m_60734_() instanceof BedBlock;
+    }
+ 
+    public static Optional<Vec3> m_49458_(EntityType<?> p_49459_, CollisionGetter p_49460_, BlockPos p_49461_, float p_49462_) {
+@@ -231,7 +_,7 @@
+       if (optional.isPresent()) {
+          return optional;
+       } else {
+-         BlockPos blockpos = p_49466_.m_7495_();
++         BlockPos blockpos = p_49466_.below();
+          Optional<Vec3> optional1 = m_49469_(p_49464_, p_49465_, blockpos, aint, true);
+          if (optional1.isPresent()) {
+             return optional1;
+@@ -257,7 +_,7 @@
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+       for(int[] aint : p_49473_) {
+-         blockpos$mutableblockpos.m_122178_(p_49472_.m_123341_() + aint[0], p_49472_.m_123342_(), p_49472_.m_123343_() + aint[1]);
++         blockpos$mutableblockpos.m_122169_(p_49472_.getX() + aint[0], p_49472_.getY(), p_49472_.getZ() + aint[1]);
+          Vec3 vec3 = DismountHelper.m_38441_(p_49470_, p_49471_, blockpos$mutableblockpos, p_49474_);
+          if (vec3 != null) {
+             return Optional.of(vec3);
+@@ -286,7 +_,7 @@
+    public void m_6402_(Level p_49499_, BlockPos p_49500_, BlockState p_49501_, @Nullable LivingEntity p_49502_, ItemStack p_49503_) {
+       super.m_6402_(p_49499_, p_49500_, p_49501_, p_49502_, p_49503_);
+       if (!p_49499_.f_46443_) {
+-         BlockPos blockpos = p_49500_.m_121945_(p_49501_.m_61143_(f_54117_));
++         BlockPos blockpos = p_49500_.relative(p_49501_.m_61143_(f_54117_));
+          p_49499_.m_7731_(blockpos, p_49501_.m_61124_(f_49440_, BedPart.HEAD), 3);
+          p_49499_.m_6289_(p_49500_, Blocks.f_50016_);
+          p_49501_.m_60701_(p_49499_, p_49500_, 3);
+@@ -299,8 +_,8 @@
+    }
+ 
+    public long m_7799_(BlockState p_49522_, BlockPos p_49523_) {
+-      BlockPos blockpos = p_49523_.m_5484_(p_49522_.m_61143_(f_54117_), p_49522_.m_61143_(f_49440_) == BedPart.HEAD ? 0 : 1);
+-      return Mth.m_14130_(blockpos.m_123341_(), p_49523_.m_123342_(), blockpos.m_123343_());
++      BlockPos blockpos = p_49523_.relative(p_49522_.m_61143_(f_54117_), p_49522_.m_61143_(f_49440_) == BedPart.HEAD ? 0 : 1);
++      return Mth.getSeed(blockpos.getX(), p_49523_.getY(), blockpos.getZ());
+    }
+ 
+    public boolean m_7357_(BlockState p_49510_, BlockGetter p_49511_, BlockPos p_49512_, PathComputationType p_49513_) {

@@ -1,0 +1,36 @@
+--- a/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
++++ b/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
+@@ -268,25 +_,25 @@
+    }
+ 
+    private static void m_114431_(PoseStack.Pose p_114432_, VertexConsumer p_114433_, LevelReader p_114434_, BlockPos p_114435_, double p_114436_, double p_114437_, double p_114438_, float p_114439_, float p_114440_) {
+-      BlockPos blockpos = p_114435_.m_7495_();
++      BlockPos blockpos = p_114435_.below();
+       BlockState blockstate = p_114434_.m_8055_(blockpos);
+       if (blockstate.m_60799_() != RenderShape.INVISIBLE && p_114434_.m_46803_(p_114435_) > 3) {
+          if (blockstate.m_60838_(p_114434_, blockpos)) {
+-            VoxelShape voxelshape = blockstate.m_60808_(p_114434_, p_114435_.m_7495_());
++            VoxelShape voxelshape = blockstate.m_60808_(p_114434_, p_114435_.below());
+             if (!voxelshape.m_83281_()) {
+                float f = LightTexture.m_234316_(p_114434_.m_6042_(), p_114434_.m_46803_(p_114435_));
+-               float f1 = (float)(((double)p_114440_ - (p_114437_ - (double)p_114435_.m_123342_()) / 2.0D) * 0.5D * (double)f);
++               float f1 = (float)(((double)p_114440_ - (p_114437_ - (double)p_114435_.getY()) / 2.0D) * 0.5D * (double)f);
+                if (f1 >= 0.0F) {
+                   if (f1 > 1.0F) {
+                      f1 = 1.0F;
+                   }
+ 
+                   AABB aabb = voxelshape.m_83215_();
+-                  double d0 = (double)p_114435_.m_123341_() + aabb.f_82288_;
+-                  double d1 = (double)p_114435_.m_123341_() + aabb.f_82291_;
+-                  double d2 = (double)p_114435_.m_123342_() + aabb.f_82289_;
+-                  double d3 = (double)p_114435_.m_123343_() + aabb.f_82290_;
+-                  double d4 = (double)p_114435_.m_123343_() + aabb.f_82293_;
++                  double d0 = (double)p_114435_.getX() + aabb.f_82288_;
++                  double d1 = (double)p_114435_.getX() + aabb.f_82291_;
++                  double d2 = (double)p_114435_.getY() + aabb.f_82289_;
++                  double d3 = (double)p_114435_.getZ() + aabb.f_82290_;
++                  double d4 = (double)p_114435_.getZ() + aabb.f_82293_;
+                   float f2 = (float)(d0 - p_114436_);
+                   float f3 = (float)(d1 - p_114436_);
+                   float f4 = (float)(d2 - p_114437_);

@@ -1,0 +1,50 @@
+--- a/net/minecraft/world/level/block/BaseRailBlock.java
++++ b/net/minecraft/world/level/block/BaseRailBlock.java
+@@ -49,7 +_,7 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_49395_, LevelReader p_49396_, BlockPos p_49397_) {
+-      return m_49936_(p_49396_, p_49397_.m_7495_());
++      return m_49936_(p_49396_, p_49397_.below());
+    }
+ 
+    public void m_6807_(BlockState p_49408_, Level p_49409_, BlockPos p_49410_, BlockState p_49411_, boolean p_49412_) {
+@@ -81,18 +_,18 @@
+    }
+ 
+    private static boolean m_49398_(BlockPos p_49399_, Level p_49400_, RailShape p_49401_) {
+-      if (!m_49936_(p_49400_, p_49399_.m_7495_())) {
++      if (!m_49936_(p_49400_, p_49399_.below())) {
+          return true;
+       } else {
+          switch (p_49401_) {
+             case ASCENDING_EAST:
+-               return !m_49936_(p_49400_, p_49399_.m_122029_());
++               return !m_49936_(p_49400_, p_49399_.east());
+             case ASCENDING_WEST:
+-               return !m_49936_(p_49400_, p_49399_.m_122024_());
++               return !m_49936_(p_49400_, p_49399_.west());
+             case ASCENDING_NORTH:
+-               return !m_49936_(p_49400_, p_49399_.m_122012_());
++               return !m_49936_(p_49400_, p_49399_.north());
+             case ASCENDING_SOUTH:
+-               return !m_49936_(p_49400_, p_49399_.m_122019_());
++               return !m_49936_(p_49400_, p_49399_.south());
+             default:
+                return false;
+          }
+@@ -119,12 +_,12 @@
+       if (!p_49388_) {
+          super.m_6810_(p_49384_, p_49385_, p_49386_, p_49387_, p_49388_);
+          if (p_49384_.m_61143_(this.m_7978_()).m_61745_()) {
+-            p_49385_.m_46672_(p_49386_.m_7494_(), this);
++            p_49385_.m_46672_(p_49386_.above(), this);
+          }
+ 
+          if (this.f_49357_) {
+             p_49385_.m_46672_(p_49386_, this);
+-            p_49385_.m_46672_(p_49386_.m_7495_(), this);
++            p_49385_.m_46672_(p_49386_.below(), this);
+          }
+ 
+       }

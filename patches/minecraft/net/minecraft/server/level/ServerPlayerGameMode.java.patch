@@ -1,0 +1,16 @@
+--- a/net/minecraft/server/level/ServerPlayerGameMode.java
++++ b/net/minecraft/server/level/ServerPlayerGameMode.java
+@@ -123,10 +_,10 @@
+    private void m_215125_(BlockPos p_215126_, boolean p_215127_, int p_215128_, String p_215129_) {
+    }
+ 
+-   public void m_214168_(BlockPos p_215120_, ServerboundPlayerActionPacket.Action p_215121_, Direction p_215122_, int p_215123_, int p_215124_) {
+-      if (this.f_9245_.m_146892_().m_82557_(Vec3.m_82512_(p_215120_)) > ServerGamePacketListenerImpl.f_215198_) {
++   public void handleBlockBreakAction(BlockPos p_215120_, ServerboundPlayerActionPacket.Action p_215121_, Direction p_215122_, long p_215123_, int p_215124_) {
++      if (this.f_9245_.m_146892_().m_82557_(Vec3.atCenterOf(p_215120_)) > ServerGamePacketListenerImpl.f_215198_) {
+          this.m_215125_(p_215120_, false, p_215124_, "too far");
+-      } else if (p_215120_.m_123342_() >= p_215123_) {
++      } else if (p_215120_.getY() >= p_215123_) {
+          this.f_9245_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(p_215120_, this.f_9244_.m_8055_(p_215120_)));
+          this.m_215125_(p_215120_, false, p_215124_, "too high");
+       } else {

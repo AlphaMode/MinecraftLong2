@@ -1,0 +1,61 @@
+--- a/net/minecraft/world/level/block/SculkVeinBlock.java
++++ b/net/minecraft/world/level/block/SculkVeinBlock.java
+@@ -47,7 +_,7 @@
+       BlockState blockstate = Blocks.f_220856_.m_49966_();
+ 
+       for(Direction direction : p_222367_) {
+-         BlockPos blockpos = p_222365_.m_121945_(direction);
++         BlockPos blockpos = p_222365_.relative(direction);
+          if (m_153829_(p_222364_, direction, blockpos, p_222364_.m_8055_(blockpos))) {
+             blockstate = blockstate.m_61124_(m_153933_(direction), Boolean.valueOf(true));
+             flag = true;
+@@ -70,7 +_,7 @@
+       if (p_222360_.m_60713_(this)) {
+          for(Direction direction : f_153806_) {
+             BooleanProperty booleanproperty = m_153933_(direction);
+-            if (p_222360_.m_61143_(booleanproperty) && p_222359_.m_8055_(p_222361_.m_121945_(direction)).m_60713_(Blocks.f_220855_)) {
++            if (p_222360_.m_61143_(booleanproperty) && p_222359_.m_8055_(p_222361_.relative(direction)).m_60713_(Blocks.f_220855_)) {
+                p_222360_ = p_222360_.m_61124_(booleanproperty, Boolean.valueOf(false));
+             }
+          }
+@@ -99,7 +_,7 @@
+ 
+       for(Direction direction : Direction.m_235667_(p_222379_)) {
+          if (m_153900_(blockstate, direction)) {
+-            BlockPos blockpos = p_222378_.m_121945_(direction);
++            BlockPos blockpos = p_222378_.relative(direction);
+             BlockState blockstate1 = p_222377_.m_8055_(blockpos);
+             if (blockstate1.m_204336_(tagkey)) {
+                BlockState blockstate2 = Blocks.f_220855_.m_49966_();
+@@ -111,7 +_,7 @@
+ 
+                for(Direction direction2 : f_153806_) {
+                   if (direction2 != direction1) {
+-                     BlockPos blockpos1 = blockpos.m_121945_(direction2);
++                     BlockPos blockpos1 = blockpos.relative(direction2);
+                      BlockState blockstate3 = p_222377_.m_8055_(blockpos1);
+                      if (blockstate3.m_60713_(this)) {
+                         this.m_213805_(p_222377_, blockstate3, blockpos1, p_222379_);
+@@ -132,7 +_,7 @@
+          return false;
+       } else {
+          for(Direction direction : f_153806_) {
+-            if (m_153900_(p_222356_, direction) && p_222355_.m_8055_(p_222357_.m_121945_(direction)).m_204336_(BlockTags.f_215823_)) {
++            if (m_153900_(p_222356_, direction) && p_222355_.m_8055_(p_222357_.relative(direction)).m_204336_(BlockTags.f_215823_)) {
+                return true;
+             }
+          }
+@@ -175,10 +_,10 @@
+       }
+ 
+       public boolean m_213938_(BlockGetter p_222405_, BlockPos p_222406_, BlockPos p_222407_, Direction p_222408_, BlockState p_222409_) {
+-         BlockState blockstate = p_222405_.m_8055_(p_222407_.m_121945_(p_222408_));
++         BlockState blockstate = p_222405_.m_8055_(p_222407_.relative(p_222408_));
+          if (!blockstate.m_60713_(Blocks.f_220855_) && !blockstate.m_60713_(Blocks.f_220857_) && !blockstate.m_60713_(Blocks.f_50110_)) {
+-            if (p_222406_.m_123333_(p_222407_) == 2) {
+-               BlockPos blockpos = p_222406_.m_121945_(p_222408_.m_122424_());
++            if (p_222406_.distManhattan(p_222407_) == 2) {
++               BlockPos blockpos = p_222406_.relative(p_222408_.m_122424_());
+                if (p_222405_.m_8055_(blockpos).m_60783_(p_222405_, blockpos, p_222408_)) {
+                   return false;
+                }

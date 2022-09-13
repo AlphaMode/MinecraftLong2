@@ -1,0 +1,80 @@
+--- a/net/minecraft/world/level/block/SculkSpreader.java
++++ b/net/minecraft/world/level/block/SculkSpreader.java
+@@ -181,9 +_,9 @@
+    }
+ 
+    public static class ChargeCursor {
+-      private static final ObjectArrayList<Vec3i> f_222287_ = Util.m_137469_(new ObjectArrayList<>(18), (p_222338_) -> {
++      private static final ObjectArrayList<me.alphamode.mclong.core.Vec3l> f_222287_ = Util.m_137469_(new ObjectArrayList<>(18), (p_222338_) -> {
+          BlockPos.m_121990_(new BlockPos(-1, -1, -1), new BlockPos(1, 1, 1)).filter((p_222336_) -> {
+-            return (p_222336_.m_123341_() == 0 || p_222336_.m_123342_() == 0 || p_222336_.m_123343_() == 0) && !p_222336_.equals(BlockPos.f_121853_);
++            return (p_222336_.getX() == 0 || p_222336_.getY() == 0 || p_222336_.getZ() == 0) && !p_222336_.equals(BlockPos.f_121853_);
+          }).map(BlockPos::m_7949_).forEach(p_222338_::add);
+       });
+       public static final int f_222285_ = 1;
+@@ -270,7 +_,7 @@
+                   if (blockpos != null) {
+                      sculkbehaviour.m_213805_(p_222312_, blockstate, this.f_222288_, p_222314_);
+                      this.f_222288_ = blockpos.m_7949_();
+-                     if (p_222315_.m_222282_() && !this.f_222288_.m_123314_(new Vec3i(p_222313_.m_123341_(), this.f_222288_.m_123342_(), p_222313_.m_123343_()), 15.0D)) {
++                     if (p_222315_.m_222282_() && !this.f_222288_.closerThan(new me.alphamode.mclong.core.Vec3l(p_222313_.getX(), this.f_222288_.getY(), p_222313_.getZ()), 15.0D)) {
+                         this.f_222289_ = 0;
+                         return;
+                      }
+@@ -307,7 +_,7 @@
+          return sculkbehaviour1;
+       }
+ 
+-      private static List<Vec3i> m_222305_(RandomSource p_222306_) {
++      private static List<me.alphamode.mclong.core.Vec3l> m_222305_(RandomSource p_222306_) {
+          return Util.m_214611_(f_222287_, p_222306_);
+       }
+ 
+@@ -316,11 +_,11 @@
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = p_222309_.m_122032_();
+          BlockPos.MutableBlockPos blockpos$mutableblockpos1 = p_222309_.m_122032_();
+ 
+-         for(Vec3i vec3i : m_222305_(p_222310_)) {
+-            blockpos$mutableblockpos1.m_175306_(p_222309_, vec3i);
++         for(me.alphamode.mclong.core.Vec3l vec3i : m_222305_(p_222310_)) {
++            blockpos$mutableblockpos1.setWithOffset(p_222309_, vec3i);
+             BlockState blockstate = p_222308_.m_8055_(blockpos$mutableblockpos1);
+             if (blockstate.m_60734_() instanceof SculkBehaviour && m_222317_(p_222308_, p_222309_, blockpos$mutableblockpos1)) {
+-               blockpos$mutableblockpos.m_122190_(blockpos$mutableblockpos1);
++               blockpos$mutableblockpos.set(blockpos$mutableblockpos1);
+                if (SculkVeinBlock.m_222354_(p_222308_, blockstate, blockpos$mutableblockpos1)) {
+                   break;
+                }
+@@ -331,16 +_,16 @@
+       }
+ 
+       private static boolean m_222317_(LevelAccessor p_222318_, BlockPos p_222319_, BlockPos p_222320_) {
+-         if (p_222319_.m_123333_(p_222320_) == 1) {
++         if (p_222319_.distManhattan(p_222320_) == 1) {
+             return true;
+          } else {
+-            BlockPos blockpos = p_222320_.m_121996_(p_222319_);
+-            Direction direction = Direction.m_122387_(Direction.Axis.X, blockpos.m_123341_() < 0 ? Direction.AxisDirection.NEGATIVE : Direction.AxisDirection.POSITIVE);
+-            Direction direction1 = Direction.m_122387_(Direction.Axis.Y, blockpos.m_123342_() < 0 ? Direction.AxisDirection.NEGATIVE : Direction.AxisDirection.POSITIVE);
+-            Direction direction2 = Direction.m_122387_(Direction.Axis.Z, blockpos.m_123343_() < 0 ? Direction.AxisDirection.NEGATIVE : Direction.AxisDirection.POSITIVE);
+-            if (blockpos.m_123341_() == 0) {
++            BlockPos blockpos = p_222320_.subtract(p_222319_);
++            Direction direction = Direction.m_122387_(Direction.Axis.X, blockpos.getX() < 0 ? Direction.AxisDirection.NEGATIVE : Direction.AxisDirection.POSITIVE);
++            Direction direction1 = Direction.m_122387_(Direction.Axis.Y, blockpos.getY() < 0 ? Direction.AxisDirection.NEGATIVE : Direction.AxisDirection.POSITIVE);
++            Direction direction2 = Direction.m_122387_(Direction.Axis.Z, blockpos.getZ() < 0 ? Direction.AxisDirection.NEGATIVE : Direction.AxisDirection.POSITIVE);
++            if (blockpos.getX() == 0) {
+                return m_222321_(p_222318_, p_222319_, direction1) || m_222321_(p_222318_, p_222319_, direction2);
+-            } else if (blockpos.m_123342_() == 0) {
++            } else if (blockpos.getY() == 0) {
+                return m_222321_(p_222318_, p_222319_, direction) || m_222321_(p_222318_, p_222319_, direction2);
+             } else {
+                return m_222321_(p_222318_, p_222319_, direction) || m_222321_(p_222318_, p_222319_, direction1);
+@@ -349,7 +_,7 @@
+       }
+ 
+       private static boolean m_222321_(LevelAccessor p_222322_, BlockPos p_222323_, Direction p_222324_) {
+-         BlockPos blockpos = p_222323_.m_121945_(p_222324_);
++         BlockPos blockpos = p_222323_.relative(p_222324_);
+          return !p_222322_.m_8055_(blockpos).m_60783_(p_222322_, blockpos, p_222324_.m_122424_());
+       }
+    }

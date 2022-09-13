@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/level/block/EndRodBlock.java
++++ b/net/minecraft/world/level/block/EndRodBlock.java
+@@ -19,15 +_,15 @@
+ 
+    public BlockState m_5573_(BlockPlaceContext p_53087_) {
+       Direction direction = p_53087_.m_43719_();
+-      BlockState blockstate = p_53087_.m_43725_().m_8055_(p_53087_.m_8083_().m_121945_(direction.m_122424_()));
++      BlockState blockstate = p_53087_.m_43725_().m_8055_(p_53087_.m_8083_().relative(direction.m_122424_()));
+       return blockstate.m_60713_(this) && blockstate.m_61143_(f_52588_) == direction ? this.m_49966_().m_61124_(f_52588_, direction.m_122424_()) : this.m_49966_().m_61124_(f_52588_, direction);
+    }
+ 
+    public void m_214162_(BlockState p_221107_, Level p_221108_, BlockPos p_221109_, RandomSource p_221110_) {
+       Direction direction = p_221107_.m_61143_(f_52588_);
+-      double d0 = (double)p_221109_.m_123341_() + 0.55D - (double)(p_221110_.m_188501_() * 0.1F);
+-      double d1 = (double)p_221109_.m_123342_() + 0.55D - (double)(p_221110_.m_188501_() * 0.1F);
+-      double d2 = (double)p_221109_.m_123343_() + 0.55D - (double)(p_221110_.m_188501_() * 0.1F);
++      double d0 = (double)p_221109_.getX() + 0.55D - (double)(p_221110_.m_188501_() * 0.1F);
++      double d1 = (double)p_221109_.getY() + 0.55D - (double)(p_221110_.m_188501_() * 0.1F);
++      double d2 = (double)p_221109_.getZ() + 0.55D - (double)(p_221110_.m_188501_() * 0.1F);
+       double d3 = (double)(0.4F - (p_221110_.m_188501_() + p_221110_.m_188501_()) * 0.4F);
+       if (p_221110_.m_188503_(5) == 0) {
+          p_221108_.m_7106_(ParticleTypes.f_123810_, d0 + (double)direction.m_122429_() * d3, d1 + (double)direction.m_122430_() * d3, d2 + (double)direction.m_122431_() * d3, p_221110_.m_188583_() * 0.005D, p_221110_.m_188583_() * 0.005D, p_221110_.m_188583_() * 0.005D);

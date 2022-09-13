@@ -1,0 +1,50 @@
+--- a/net/minecraft/world/level/levelgen/feature/rootplacers/MangroveRootPlacer.java
++++ b/net/minecraft/world/level/levelgen/feature/rootplacers/MangroveRootPlacer.java
+@@ -34,7 +_,7 @@
+       List<BlockPos> list = Lists.newArrayList();
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = p_225843_.m_122032_();
+ 
+-      while(blockpos$mutableblockpos.m_123342_() < p_225844_.m_123342_()) {
++      while(blockpos$mutableblockpos.getY() < p_225844_.getY()) {
+          if (!this.m_213551_(p_225840_, blockpos$mutableblockpos)) {
+             return false;
+          }
+@@ -42,17 +_,17 @@
+          blockpos$mutableblockpos.m_122173_(Direction.UP);
+       }
+ 
+-      list.add(p_225844_.m_7495_());
++      list.add(p_225844_.below());
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         BlockPos blockpos = p_225844_.m_121945_(direction);
++         BlockPos blockpos = p_225844_.relative(direction);
+          List<BlockPos> list1 = Lists.newArrayList();
+          if (!this.m_225822_(p_225840_, p_225842_, blockpos, direction, p_225844_, list1, 0)) {
+             return false;
+          }
+ 
+          list.addAll(list1);
+-         list.add(p_225844_.m_121945_(direction));
++         list.add(p_225844_.relative(direction));
+       }
+ 
+       for(BlockPos blockpos1 : list) {
+@@ -81,13 +_,13 @@
+    }
+ 
+    protected List<BlockPos> m_225850_(BlockPos p_225851_, Direction p_225852_, RandomSource p_225853_, BlockPos p_225854_) {
+-      BlockPos blockpos = p_225851_.m_7495_();
+-      BlockPos blockpos1 = p_225851_.m_121945_(p_225852_);
+-      int i = p_225851_.m_123333_(p_225854_);
++      BlockPos blockpos = p_225851_.below();
++      BlockPos blockpos1 = p_225851_.relative(p_225852_);
++      int i = p_225851_.distManhattan(p_225854_);
+       int j = this.f_225814_.f_225776_();
+       float f = this.f_225814_.f_225778_();
+       if (i > j - 3 && i <= j) {
+-         return p_225853_.m_188501_() < f ? List.of(blockpos, blockpos1.m_7495_()) : List.of(blockpos);
++         return p_225853_.m_188501_() < f ? List.of(blockpos, blockpos1.below()) : List.of(blockpos);
+       } else if (i > j) {
+          return List.of(blockpos);
+       } else if (p_225853_.m_188501_() < f) {

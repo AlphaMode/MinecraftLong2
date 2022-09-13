@@ -1,0 +1,105 @@
+--- a/net/minecraft/server/commands/SpreadPlayersCommand.java
++++ b/net/minecraft/server/commands/SpreadPlayersCommand.java
+@@ -47,15 +_,15 @@
+       p_138697_.register(Commands.m_82127_("spreadplayers").requires((p_201852_) -> {
+          return p_201852_.m_6761_(2);
+       }).then(Commands.m_82129_("center", Vec2Argument.m_120822_()).then(Commands.m_82129_("spreadDistance", FloatArgumentType.floatArg(0.0F)).then(Commands.m_82129_("maxRange", FloatArgumentType.floatArg(1.0F)).then(Commands.m_82129_("respectTeams", BoolArgumentType.bool()).then(Commands.m_82129_("targets", EntityArgument.m_91460_()).executes((p_138699_) -> {
+-         return m_138702_(p_138699_.getSource(), Vec2Argument.m_120825_(p_138699_, "center"), FloatArgumentType.getFloat(p_138699_, "spreadDistance"), FloatArgumentType.getFloat(p_138699_, "maxRange"), p_138699_.getSource().m_81372_().m_151558_(), BoolArgumentType.getBool(p_138699_, "respectTeams"), EntityArgument.m_91461_(p_138699_, "targets"));
++         return spreadPlayers(p_138699_.getSource(), Vec2Argument.m_120825_(p_138699_, "center"), FloatArgumentType.getFloat(p_138699_, "spreadDistance"), FloatArgumentType.getFloat(p_138699_, "maxRange"), p_138699_.getSource().m_81372_().getMaxBuildHeight(), BoolArgumentType.getBool(p_138699_, "respectTeams"), EntityArgument.m_91461_(p_138699_, "targets"));
+       }))).then(Commands.m_82127_("under").then(Commands.m_82129_("maxHeight", IntegerArgumentType.integer()).then(Commands.m_82129_("respectTeams", BoolArgumentType.bool()).then(Commands.m_82129_("targets", EntityArgument.m_91460_()).executes((p_201850_) -> {
+-         return m_138702_(p_201850_.getSource(), Vec2Argument.m_120825_(p_201850_, "center"), FloatArgumentType.getFloat(p_201850_, "spreadDistance"), FloatArgumentType.getFloat(p_201850_, "maxRange"), IntegerArgumentType.getInteger(p_201850_, "maxHeight"), BoolArgumentType.getBool(p_201850_, "respectTeams"), EntityArgument.m_91461_(p_201850_, "targets"));
++         return spreadPlayers(p_201850_.getSource(), Vec2Argument.m_120825_(p_201850_, "center"), FloatArgumentType.getFloat(p_201850_, "spreadDistance"), FloatArgumentType.getFloat(p_201850_, "maxRange"), IntegerArgumentType.getInteger(p_201850_, "maxHeight"), BoolArgumentType.getBool(p_201850_, "respectTeams"), EntityArgument.m_91461_(p_201850_, "targets"));
+       })))))))));
+    }
+ 
+-   private static int m_138702_(CommandSourceStack p_138703_, Vec2 p_138704_, float p_138705_, float p_138706_, int p_138707_, boolean p_138708_, Collection<? extends Entity> p_138709_) throws CommandSyntaxException {
++   private static int spreadPlayers(CommandSourceStack p_138703_, Vec2 p_138704_, float p_138705_, float p_138706_, long p_138707_, boolean p_138708_, Collection<? extends Entity> p_138709_) throws CommandSyntaxException {
+       ServerLevel serverlevel = p_138703_.m_81372_();
+-      int i = serverlevel.m_141937_();
++      long i = serverlevel.getMinBuildHeight();
+       if (p_138707_ < i) {
+          throw f_201848_.create(p_138707_, i);
+       } else {
+@@ -65,8 +_,8 @@
+          double d2 = (double)(p_138704_.f_82470_ + p_138706_);
+          double d3 = (double)(p_138704_.f_82471_ + p_138706_);
+          SpreadPlayersCommand.Position[] aspreadplayerscommand$position = m_214733_(randomsource, p_138708_ ? m_138727_(p_138709_) : p_138709_.size(), d0, d1, d2, d3);
+-         m_214740_(p_138704_, (double)p_138705_, serverlevel, randomsource, d0, d1, d2, d3, p_138707_, aspreadplayerscommand$position, p_138708_);
+-         double d4 = m_138729_(p_138709_, serverlevel, aspreadplayerscommand$position, p_138707_, p_138708_);
++         spreadPositions(p_138704_, (double)p_138705_, serverlevel, randomsource, d0, d1, d2, d3, p_138707_, aspreadplayerscommand$position, p_138708_);
++         double d4 = setPlayerPositions(p_138709_, serverlevel, aspreadplayerscommand$position, p_138707_, p_138708_);
+          p_138703_.m_81354_(Component.m_237110_("commands.spreadplayers.success." + (p_138708_ ? "teams" : "entities"), aspreadplayerscommand$position.length, p_138704_.f_82470_, p_138704_.f_82471_, String.format(Locale.ROOT, "%.2f", d4)), true);
+          return aspreadplayerscommand$position.length;
+       }
+@@ -86,7 +_,7 @@
+       return set.size();
+    }
+ 
+-   private static void m_214740_(Vec2 p_214741_, double p_214742_, ServerLevel p_214743_, RandomSource p_214744_, double p_214745_, double p_214746_, double p_214747_, double p_214748_, int p_214749_, SpreadPlayersCommand.Position[] p_214750_, boolean p_214751_) throws CommandSyntaxException {
++   private static void spreadPositions(Vec2 p_214741_, double p_214742_, ServerLevel p_214743_, RandomSource p_214744_, double p_214745_, double p_214746_, double p_214747_, double p_214748_, long p_214749_, SpreadPlayersCommand.Position[] p_214750_, boolean p_214751_) throws CommandSyntaxException {
+       boolean flag = true;
+       double d0 = (double)Float.MAX_VALUE;
+ 
+@@ -134,7 +_,7 @@
+ 
+          if (!flag) {
+             for(SpreadPlayersCommand.Position spreadplayerscommand$position3 : p_214750_) {
+-               if (!spreadplayerscommand$position3.m_138773_(p_214743_, p_214749_)) {
++               if (!spreadplayerscommand$position3.isSafe(p_214743_, p_214749_)) {
+                   spreadplayerscommand$position3.m_214752_(p_214744_, p_214745_, p_214746_, p_214747_, p_214748_);
+                   flag = true;
+                }
+@@ -155,7 +_,7 @@
+       }
+    }
+ 
+-   private static double m_138729_(Collection<? extends Entity> p_138730_, ServerLevel p_138731_, SpreadPlayersCommand.Position[] p_138732_, int p_138733_, boolean p_138734_) {
++   private static double setPlayerPositions(Collection<? extends Entity> p_138730_, ServerLevel p_138731_, SpreadPlayersCommand.Position[] p_138732_, long p_138733_, boolean p_138734_) {
+       double d0 = 0.0D;
+       int i = 0;
+       Map<Team, SpreadPlayersCommand.Position> map = Maps.newHashMap();
+@@ -173,7 +_,7 @@
+             spreadplayerscommand$position = p_138732_[i++];
+          }
+ 
+-         entity.m_20324_((double)Mth.m_14107_(spreadplayerscommand$position.f_138749_) + 0.5D, (double)spreadplayerscommand$position.m_138758_(p_138731_, p_138733_), (double)Mth.m_14107_(spreadplayerscommand$position.f_138750_) + 0.5D);
++         entity.m_20324_((double)Mth.m_14107_(spreadplayerscommand$position.f_138749_) + 0.5D, (double)spreadplayerscommand$position.getSpawnY(p_138731_, p_138733_), (double)Mth.m_14107_(spreadplayerscommand$position.f_138750_) + 0.5D);
+          double d2 = Double.MAX_VALUE;
+ 
+          for(SpreadPlayersCommand.Position spreadplayerscommand$position1 : p_138732_) {
+@@ -247,17 +_,17 @@
+          return flag;
+       }
+ 
+-      public int m_138758_(BlockGetter p_138759_, int p_138760_) {
++      public long getSpawnY(BlockGetter p_138759_, long p_138760_) {
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(this.f_138749_, (double)(p_138760_ + 1), this.f_138750_);
+          boolean flag = p_138759_.m_8055_(blockpos$mutableblockpos).m_60795_();
+          blockpos$mutableblockpos.m_122173_(Direction.DOWN);
+ 
+          boolean flag2;
+-         for(boolean flag1 = p_138759_.m_8055_(blockpos$mutableblockpos).m_60795_(); blockpos$mutableblockpos.m_123342_() > p_138759_.m_141937_(); flag1 = flag2) {
++         for(boolean flag1 = p_138759_.m_8055_(blockpos$mutableblockpos).m_60795_(); blockpos$mutableblockpos.getY() > p_138759_.getMinBuildHeight(); flag1 = flag2) {
+             blockpos$mutableblockpos.m_122173_(Direction.DOWN);
+             flag2 = p_138759_.m_8055_(blockpos$mutableblockpos).m_60795_();
+             if (!flag2 && flag1 && flag) {
+-               return blockpos$mutableblockpos.m_123342_() + 1;
++               return blockpos$mutableblockpos.getY() + 1;
+             }
+ 
+             flag = flag1;
+@@ -266,11 +_,11 @@
+          return p_138760_ + 1;
+       }
+ 
+-      public boolean m_138773_(BlockGetter p_138774_, int p_138775_) {
+-         BlockPos blockpos = new BlockPos(this.f_138749_, (double)(this.m_138758_(p_138774_, p_138775_) - 1), this.f_138750_);
++      public boolean isSafe(BlockGetter p_138774_, long p_138775_) {
++         BlockPos blockpos = new BlockPos(this.f_138749_, (double)(this.getSpawnY(p_138774_, p_138775_) - 1), this.f_138750_);
+          BlockState blockstate = p_138774_.m_8055_(blockpos);
+          Material material = blockstate.m_60767_();
+-         return blockpos.m_123342_() < p_138775_ && !material.m_76332_() && material != Material.f_76309_;
++         return blockpos.getY() < p_138775_ && !material.m_76332_() && material != Material.f_76309_;
+       }
+ 
+       public void m_214752_(RandomSource p_214753_, double p_214754_, double p_214755_, double p_214756_, double p_214757_) {

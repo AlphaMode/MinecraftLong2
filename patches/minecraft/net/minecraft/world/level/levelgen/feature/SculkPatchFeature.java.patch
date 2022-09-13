@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/levelgen/feature/SculkPatchFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/SculkPatchFeature.java
+@@ -43,7 +_,7 @@
+             sculkspreader.m_222284_();
+          }
+ 
+-         BlockPos blockpos2 = blockpos.m_7495_();
++         BlockPos blockpos2 = blockpos.below();
+          if (randomsource.m_188501_() <= sculkpatchconfiguration.f_225432_() && worldgenlevel.m_8055_(blockpos2).m_60838_(worldgenlevel, blockpos2)) {
+             worldgenlevel.m_7731_(blockpos, Blocks.f_220857_.m_49966_(), 3);
+          }
+@@ -52,7 +_,7 @@
+ 
+          for(int j1 = 0; j1 < i1; ++j1) {
+             BlockPos blockpos1 = blockpos.m_7918_(randomsource.m_188503_(5) - 2, 0, randomsource.m_188503_(5) - 2);
+-            if (worldgenlevel.m_8055_(blockpos1).m_60795_() && worldgenlevel.m_8055_(blockpos1.m_7495_()).m_60783_(worldgenlevel, blockpos1.m_7495_(), Direction.UP)) {
++            if (worldgenlevel.m_8055_(blockpos1).m_60795_() && worldgenlevel.m_8055_(blockpos1.below()).m_60783_(worldgenlevel, blockpos1.below(), Direction.UP)) {
+                worldgenlevel.m_7731_(blockpos1, Blocks.f_220858_.m_49966_().m_61124_(SculkShriekerBlock.f_222154_, Boolean.valueOf(true)), 3);
+             }
+          }
+@@ -66,7 +_,7 @@
+       if (blockstate.m_60734_() instanceof SculkBehaviour) {
+          return true;
+       } else {
+-         return !blockstate.m_60795_() && (!blockstate.m_60713_(Blocks.f_49990_) || !blockstate.m_60819_().m_76170_()) ? false : Direction.m_235666_().map(p_225240_::m_121945_).anyMatch((p_225245_) -> {
++         return !blockstate.m_60795_() && (!blockstate.m_60713_(Blocks.f_49990_) || !blockstate.m_60819_().m_76170_()) ? false : Direction.m_235666_().map(p_225240_::relative).anyMatch((p_225245_) -> {
+             return p_225239_.m_8055_(p_225245_).m_60838_(p_225239_, p_225245_);
+          });
+       }

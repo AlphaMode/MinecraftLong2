@@ -1,0 +1,79 @@
+--- a/net/minecraft/world/entity/monster/Phantom.java
++++ b/net/minecraft/world/entity/monster/Phantom.java
+@@ -140,7 +_,7 @@
+    }
+ 
+    public SpawnGroupData m_6518_(ServerLevelAccessor p_33126_, DifficultyInstance p_33127_, MobSpawnType p_33128_, @Nullable SpawnGroupData p_33129_, @Nullable CompoundTag p_33130_) {
+-      this.f_33098_ = this.m_20183_().m_6630_(5);
++      this.f_33098_ = this.m_20183_().above(5);
+       this.m_33108_(0);
+       return super.m_6518_(p_33126_, p_33127_, p_33128_, p_33129_, p_33130_);
+    }
+@@ -148,7 +_,7 @@
+    public void m_7378_(CompoundTag p_33132_) {
+       super.m_7378_(p_33132_);
+       if (p_33132_.m_128441_("AX")) {
+-         this.f_33098_ = new BlockPos(p_33132_.m_128451_("AX"), p_33132_.m_128451_("AY"), p_33132_.m_128451_("AZ"));
++         this.f_33098_ = new BlockPos(p_33132_.m_128454_("AX"), p_33132_.m_128454_("AY"), p_33132_.m_128454_("AZ"));
+       }
+ 
+       this.m_33108_(p_33132_.m_128451_("Size"));
+@@ -156,9 +_,9 @@
+ 
+    public void m_7380_(CompoundTag p_33141_) {
+       super.m_7380_(p_33141_);
+-      p_33141_.m_128405_("AX", this.f_33098_.m_123341_());
+-      p_33141_.m_128405_("AY", this.f_33098_.m_123342_());
+-      p_33141_.m_128405_("AZ", this.f_33098_.m_123343_());
++      p_33141_.m_128356_("AX", this.f_33098_.getX());
++      p_33141_.m_128356_("AY", this.f_33098_.getY());
++      p_33141_.m_128356_("AZ", this.f_33098_.getZ());
+       p_33141_.m_128405_("Size", this.m_33172_());
+    }
+ 
+@@ -253,7 +_,7 @@
+       }
+ 
+       public void m_8041_() {
+-         Phantom.this.f_33098_ = Phantom.this.f_19853_.m_5452_(Heightmap.Types.MOTION_BLOCKING, Phantom.this.f_33098_).m_6630_(10 + Phantom.this.f_19796_.m_188503_(20));
++         Phantom.this.f_33098_ = Phantom.this.f_19853_.m_5452_(Heightmap.Types.MOTION_BLOCKING, Phantom.this.f_33098_).above(10 + Phantom.this.f_19796_.m_188503_(20));
+       }
+ 
+       public void m_8037_() {
+@@ -270,9 +_,9 @@
+       }
+ 
+       private void m_33212_() {
+-         Phantom.this.f_33098_ = Phantom.this.m_5448_().m_20183_().m_6630_(20 + Phantom.this.f_19796_.m_188503_(20));
+-         if (Phantom.this.f_33098_.m_123342_() < Phantom.this.f_19853_.m_5736_()) {
+-            Phantom.this.f_33098_ = new BlockPos(Phantom.this.f_33098_.m_123341_(), Phantom.this.f_19853_.m_5736_() + 1, Phantom.this.f_33098_.m_123343_());
++         Phantom.this.f_33098_ = Phantom.this.m_5448_().m_20183_().above(20 + Phantom.this.f_19796_.m_188503_(20));
++         if (Phantom.this.f_33098_.getY() < Phantom.this.f_19853_.m_5736_()) {
++            Phantom.this.f_33098_ = new BlockPos(Phantom.this.f_33098_.getX(), Phantom.this.f_19853_.m_5736_() + 1, Phantom.this.f_33098_.getZ());
+          }
+ 
+       }
+@@ -328,12 +_,12 @@
+             this.m_33231_();
+          }
+ 
+-         if (Phantom.this.f_33097_.f_82480_ < Phantom.this.m_20186_() && !Phantom.this.f_19853_.m_46859_(Phantom.this.m_20183_().m_6625_(1))) {
++         if (Phantom.this.f_33097_.f_82480_ < Phantom.this.m_20186_() && !Phantom.this.f_19853_.m_46859_(Phantom.this.m_20183_().below(1))) {
+             this.f_33221_ = Math.max(1.0F, this.f_33221_);
+             this.m_33231_();
+          }
+ 
+-         if (Phantom.this.f_33097_.f_82480_ > Phantom.this.m_20186_() && !Phantom.this.f_19853_.m_46859_(Phantom.this.m_20183_().m_6630_(1))) {
++         if (Phantom.this.f_33097_.f_82480_ > Phantom.this.m_20186_() && !Phantom.this.f_19853_.m_46859_(Phantom.this.m_20183_().above(1))) {
+             this.f_33221_ = Math.min(-1.0F, this.f_33221_);
+             this.m_33231_();
+          }
+@@ -346,7 +_,7 @@
+          }
+ 
+          this.f_33219_ += this.f_33222_ * 15.0F * ((float)Math.PI / 180F);
+-         Phantom.this.f_33097_ = Vec3.m_82528_(Phantom.this.f_33098_).m_82520_((double)(this.f_33220_ * Mth.m_14089_(this.f_33219_)), (double)(-4.0F + this.f_33221_), (double)(this.f_33220_ * Mth.m_14031_(this.f_33219_)));
++         Phantom.this.f_33097_ = Vec3.atLowerCornerOf(Phantom.this.f_33098_).m_82520_((double)(this.f_33220_ * Mth.m_14089_(this.f_33219_)), (double)(-4.0F + this.f_33221_), (double)(this.f_33220_ * Mth.m_14031_(this.f_33219_)));
+       }
+    }
+ 

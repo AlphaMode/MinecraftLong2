@@ -1,0 +1,22 @@
+--- a/net/minecraft/client/renderer/debug/VillageSectionsDebugRenderer.java
++++ b/net/minecraft/client/renderer/debug/VillageSectionsDebugRenderer.java
+@@ -42,7 +_,7 @@
+    private void m_113696_(double p_113697_, double p_113698_, double p_113699_) {
+       BlockPos blockpos = new BlockPos(p_113697_, p_113698_, p_113699_);
+       this.f_113693_.forEach((p_113708_) -> {
+-         if (blockpos.m_123314_(p_113708_.m_123250_(), 60.0D)) {
++         if (blockpos.closerThan(p_113708_.m_123250_(), 60.0D)) {
+             m_113713_(p_113708_);
+          }
+ 
+@@ -52,8 +_,8 @@
+    private static void m_113713_(SectionPos p_113714_) {
+       float f = 1.0F;
+       BlockPos blockpos = p_113714_.m_123250_();
+-      BlockPos blockpos1 = blockpos.m_7637_(-1.0D, -1.0D, -1.0D);
+-      BlockPos blockpos2 = blockpos.m_7637_(1.0D, 1.0D, 1.0D);
++      BlockPos blockpos1 = blockpos.offset(-1.0D, -1.0D, -1.0D);
++      BlockPos blockpos2 = blockpos.offset(1.0D, 1.0D, 1.0D);
+       DebugRenderer.m_113470_(blockpos1, blockpos2, 0.2F, 1.0F, 0.2F, 0.15F);
+    }
+ }

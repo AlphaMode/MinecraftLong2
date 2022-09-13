@@ -1,0 +1,50 @@
+--- a/net/minecraft/world/level/block/SugarCaneBlock.java
++++ b/net/minecraft/world/level/block/SugarCaneBlock.java
+@@ -40,15 +_,15 @@
+    }
+ 
+    public void m_213898_(BlockState p_222548_, ServerLevel p_222549_, BlockPos p_222550_, RandomSource p_222551_) {
+-      if (p_222549_.m_46859_(p_222550_.m_7494_())) {
++      if (p_222549_.m_46859_(p_222550_.above())) {
+          int i;
+-         for(i = 1; p_222549_.m_8055_(p_222550_.m_6625_(i)).m_60713_(this); ++i) {
++         for(i = 1; p_222549_.m_8055_(p_222550_.below(i)).m_60713_(this); ++i) {
+          }
+ 
+          if (i < 3) {
+             int j = p_222548_.m_61143_(f_57164_);
+             if (j == 15) {
+-               p_222549_.m_46597_(p_222550_.m_7494_(), this.m_49966_());
++               p_222549_.m_46597_(p_222550_.above(), this.m_49966_());
+                p_222549_.m_7731_(p_222550_, p_222548_.m_61124_(f_57164_, Integer.valueOf(0)), 4);
+             } else {
+                p_222549_.m_7731_(p_222550_, p_222548_.m_61124_(f_57164_, Integer.valueOf(j + 1)), 4);
+@@ -60,23 +_,23 @@
+ 
+    public BlockState m_7417_(BlockState p_57179_, Direction p_57180_, BlockState p_57181_, LevelAccessor p_57182_, BlockPos p_57183_, BlockPos p_57184_) {
+       if (!p_57179_.m_60710_(p_57182_, p_57183_)) {
+-         p_57182_.m_186460_(p_57183_, this, 1);
++         p_57182_.scheduleTick(p_57183_, this, 1);
+       }
+ 
+       return super.m_7417_(p_57179_, p_57180_, p_57181_, p_57182_, p_57183_, p_57184_);
+    }
+ 
+    public boolean m_7898_(BlockState p_57175_, LevelReader p_57176_, BlockPos p_57177_) {
+-      BlockState blockstate = p_57176_.m_8055_(p_57177_.m_7495_());
++      BlockState blockstate = p_57176_.m_8055_(p_57177_.below());
+       if (blockstate.m_60713_(this)) {
+          return true;
+       } else {
+          if (blockstate.m_204336_(BlockTags.f_144274_) || blockstate.m_60713_(Blocks.f_49992_) || blockstate.m_60713_(Blocks.f_49993_)) {
+-            BlockPos blockpos = p_57177_.m_7495_();
++            BlockPos blockpos = p_57177_.below();
+ 
+             for(Direction direction : Direction.Plane.HORIZONTAL) {
+-               BlockState blockstate1 = p_57176_.m_8055_(blockpos.m_121945_(direction));
+-               FluidState fluidstate = p_57176_.m_6425_(blockpos.m_121945_(direction));
++               BlockState blockstate1 = p_57176_.m_8055_(blockpos.relative(direction));
++               FluidState fluidstate = p_57176_.m_6425_(blockpos.relative(direction));
+                if (fluidstate.m_205070_(FluidTags.f_13131_) || blockstate1.m_60713_(Blocks.f_50449_)) {
+                   return true;
+                }

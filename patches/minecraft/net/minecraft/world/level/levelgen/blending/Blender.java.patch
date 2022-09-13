@@ -1,0 +1,241 @@
+--- a/net/minecraft/world/level/levelgen/blending/Blender.java
++++ b/net/minecraft/world/level/levelgen/blending/Blender.java
+@@ -49,10 +_,10 @@
+       }
+    };
+    private static final NormalNoise f_190138_ = NormalNoise.m_230511_(new XoroshiroRandomSource(42L), BuiltinRegistries.f_194654_.m_123013_(Noises.f_189286_));
+-   private static final int f_190139_ = QuartPos.m_175404_(7) - 1;
+-   private static final int f_190140_ = QuartPos.m_175406_(f_190139_ + 3);
++   private static final long f_190139_ = QuartPos.fromSection(7) - 1;
++   private static final long f_190140_ = QuartPos.toSection(f_190139_ + 3);
+    private static final int f_190141_ = 2;
+-   private static final int f_190142_ = QuartPos.m_175406_(5);
++   private static final long f_190142_ = QuartPos.toSection(5);
+    private static final double f_197017_ = 8.0D;
+    private final Long2ObjectOpenHashMap<BlendingData> f_224696_;
+    private final Long2ObjectOpenHashMap<BlendingData> f_224697_;
+@@ -66,23 +_,23 @@
+          return f_190137_;
+       } else {
+          ChunkPos chunkpos = p_190203_.m_143488_();
+-         if (!p_190203_.m_215159_(chunkpos, f_190140_)) {
++         if (!p_190203_.isOldChunkAround(chunkpos, f_190140_)) {
+             return f_190137_;
+          } else {
+             Long2ObjectOpenHashMap<BlendingData> long2objectopenhashmap = new Long2ObjectOpenHashMap<>();
+             Long2ObjectOpenHashMap<BlendingData> long2objectopenhashmap1 = new Long2ObjectOpenHashMap<>();
+-            int i = Mth.m_144944_(f_190140_ + 1);
++            long i = Mth.m_184643_(f_190140_ + 1);
+ 
+-            for(int j = -f_190140_; j <= f_190140_; ++j) {
+-               for(int k = -f_190140_; k <= f_190140_; ++k) {
++            for(long j = -f_190140_; j <= f_190140_; ++j) {
++               for(long k = -f_190140_; k <= f_190140_; ++k) {
+                   if (j * j + k * k <= i) {
+-                     int l = chunkpos.f_45578_ + j;
+-                     int i1 = chunkpos.f_45579_ + k;
+-                     BlendingData blendingdata = BlendingData.m_190304_(p_190203_, l, i1);
++                     long l = chunkpos.f_45578_ + j;
++                     long i1 = chunkpos.f_45579_ + k;
++                     BlendingData blendingdata = BlendingData.getOrUpdateBlendingData(p_190203_, l, i1);
+                      if (blendingdata != null) {
+-                        long2objectopenhashmap.put(ChunkPos.m_45589_(l, i1), blendingdata);
++                        long2objectopenhashmap.put(ChunkPos.asLong(l, i1), blendingdata);
+                         if (j >= -f_190142_ && j <= f_190142_ && k >= -f_190142_ && k <= f_190142_) {
+-                           long2objectopenhashmap1.put(ChunkPos.m_45589_(l, i1), blendingdata);
++                           long2objectopenhashmap1.put(ChunkPos.asLong(l, i1), blendingdata);
+                         }
+                      }
+                   }
+@@ -99,10 +_,10 @@
+       this.f_224697_ = p_202198_;
+    }
+ 
+-   public Blender.BlendingOutput m_207242_(int p_209719_, int p_209720_) {
+-      int i = QuartPos.m_175400_(p_209719_);
+-      int j = QuartPos.m_175400_(p_209720_);
+-      double d0 = this.m_190174_(i, 0, j, BlendingData::m_190285_);
++   public Blender.BlendingOutput blendOffsetAndFactor(long p_209719_, long p_209720_) {
++      long i = QuartPos.fromBlock(p_209719_);
++      long j = QuartPos.fromBlock(p_209720_);
++      double d0 = this.getBlendingDataValue(i, 0, j, BlendingData::getHeight);
+       if (d0 != Double.MAX_VALUE) {
+          return new Blender.BlendingOutput(0.0D, m_190154_(d0));
+       } else {
+@@ -110,7 +_,7 @@
+          MutableDouble mutabledouble1 = new MutableDouble(0.0D);
+          MutableDouble mutabledouble2 = new MutableDouble(Double.POSITIVE_INFINITY);
+          this.f_224696_.forEach((p_202249_, p_202250_) -> {
+-            p_202250_.m_190295_(QuartPos.m_175404_(ChunkPos.m_45592_(p_202249_)), QuartPos.m_175404_(ChunkPos.m_45602_(p_202249_)), (p_190199_, p_190200_, p_190201_) -> {
++            p_202250_.iterateHeights(QuartPos.fromSection(ChunkPos.m_45592_(p_202249_)), QuartPos.fromSection(ChunkPos.m_45602_(p_202249_)), (p_190199_, p_190200_, p_190201_) -> {
+                double d3 = Mth.m_184645_((double)(i - p_190199_), (double)(j - p_190200_));
+                if (!(d3 > (double)f_190139_)) {
+                   if (d3 < mutabledouble2.doubleValue()) {
+@@ -142,10 +_,10 @@
+    }
+ 
+    public double m_207103_(DensityFunction.FunctionContext p_209721_, double p_209722_) {
+-      int i = QuartPos.m_175400_(p_209721_.m_207115_());
+-      int j = p_209721_.m_207114_() / 8;
+-      int k = QuartPos.m_175400_(p_209721_.m_207113_());
+-      double d0 = this.m_190174_(i, j, k, BlendingData::m_190333_);
++      long i = QuartPos.fromBlock(p_209721_.blockX());
++      long j = p_209721_.blockY() / 8;
++      long k = QuartPos.fromBlock(p_209721_.blockZ());
++      double d0 = this.getBlendingDataValue(i, j, k, BlendingData::getDensity);
+       if (d0 != Double.MAX_VALUE) {
+          return d0;
+       } else {
+@@ -153,7 +_,7 @@
+          MutableDouble mutabledouble1 = new MutableDouble(0.0D);
+          MutableDouble mutabledouble2 = new MutableDouble(Double.POSITIVE_INFINITY);
+          this.f_224697_.forEach((p_202241_, p_202242_) -> {
+-            p_202242_.m_190289_(QuartPos.m_175404_(ChunkPos.m_45592_(p_202241_)), QuartPos.m_175404_(ChunkPos.m_45602_(p_202241_)), j - 1, j + 1, (p_202230_, p_202231_, p_202232_, p_202233_) -> {
++            p_202242_.iterateDensities(QuartPos.fromSection(ChunkPos.m_45592_(p_202241_)), QuartPos.fromSection(ChunkPos.m_45602_(p_202241_)), j - 1, j + 1, (p_202230_, p_202231_, p_202232_, p_202233_) -> {
+                double d3 = Mth.m_184648_((double)(i - p_202230_), (double)((j - p_202231_) * 2), (double)(k - p_202232_));
+                if (!(d3 > 2.0D)) {
+                   if (d3 < mutabledouble2.doubleValue()) {
+@@ -176,24 +_,24 @@
+       }
+    }
+ 
+-   private double m_190174_(int p_190175_, int p_190176_, int p_190177_, Blender.CellValueGetter p_190178_) {
+-      int i = QuartPos.m_175406_(p_190175_);
+-      int j = QuartPos.m_175406_(p_190177_);
++   private double getBlendingDataValue(long p_190175_, long p_190176_, long p_190177_, Blender.CellValueGetter p_190178_) {
++      long i = QuartPos.toSection(p_190175_);
++      long j = QuartPos.toSection(p_190177_);
+       boolean flag = (p_190175_ & 3) == 0;
+       boolean flag1 = (p_190177_ & 3) == 0;
+-      double d0 = this.m_190211_(p_190178_, i, j, p_190175_, p_190176_, p_190177_);
++      double d0 = this.getBlendingDataValue(p_190178_, i, j, p_190175_, p_190176_, p_190177_);
+       if (d0 == Double.MAX_VALUE) {
+          if (flag && flag1) {
+-            d0 = this.m_190211_(p_190178_, i - 1, j - 1, p_190175_, p_190176_, p_190177_);
++            d0 = this.getBlendingDataValue(p_190178_, i - 1, j - 1, p_190175_, p_190176_, p_190177_);
+          }
+ 
+          if (d0 == Double.MAX_VALUE) {
+             if (flag) {
+-               d0 = this.m_190211_(p_190178_, i - 1, j, p_190175_, p_190176_, p_190177_);
++               d0 = this.getBlendingDataValue(p_190178_, i - 1, j, p_190175_, p_190176_, p_190177_);
+             }
+ 
+             if (d0 == Double.MAX_VALUE && flag1) {
+-               d0 = this.m_190211_(p_190178_, i, j - 1, p_190175_, p_190176_, p_190177_);
++               d0 = this.getBlendingDataValue(p_190178_, i, j - 1, p_190175_, p_190176_, p_190177_);
+             }
+          }
+       }
+@@ -201,24 +_,24 @@
+       return d0;
+    }
+ 
+-   private double m_190211_(Blender.CellValueGetter p_190212_, int p_190213_, int p_190214_, int p_190215_, int p_190216_, int p_190217_) {
+-      BlendingData blendingdata = this.f_224696_.get(ChunkPos.m_45589_(p_190213_, p_190214_));
+-      return blendingdata != null ? p_190212_.m_190233_(blendingdata, p_190215_ - QuartPos.m_175404_(p_190213_), p_190216_, p_190217_ - QuartPos.m_175404_(p_190214_)) : Double.MAX_VALUE;
++   private double getBlendingDataValue(Blender.CellValueGetter p_190212_, long p_190213_, long p_190214_, long p_190215_, long p_190216_, long p_190217_) {
++      BlendingData blendingdata = this.f_224696_.get(ChunkPos.asLong(p_190213_, p_190214_));
++      return blendingdata != null ? p_190212_.get(blendingdata, p_190215_ - QuartPos.fromSection(p_190213_), p_190216_, p_190217_ - QuartPos.fromSection(p_190214_)) : Double.MAX_VALUE;
+    }
+ 
+    public BiomeResolver m_183383_(BiomeResolver p_190204_) {
+       return (p_204669_, p_204670_, p_204671_, p_204672_) -> {
+-         Holder<Biome> holder = this.m_224706_(p_204669_, p_204670_, p_204671_);
+-         return holder == null ? p_190204_.m_203407_(p_204669_, p_204670_, p_204671_, p_204672_) : holder;
++         Holder<Biome> holder = this.blendBiome(p_204669_, p_204670_, p_204671_);
++         return holder == null ? p_190204_.getNoiseBiome(p_204669_, p_204670_, p_204671_, p_204672_) : holder;
+       };
+    }
+ 
+    @Nullable
+-   private Holder<Biome> m_224706_(int p_224707_, int p_224708_, int p_224709_) {
++   private Holder<Biome> blendBiome(long p_224707_, long p_224708_, long p_224709_) {
+       MutableDouble mutabledouble = new MutableDouble(Double.POSITIVE_INFINITY);
+       MutableObject<Holder<Biome>> mutableobject = new MutableObject<>();
+       this.f_224696_.forEach((p_224716_, p_224717_) -> {
+-         p_224717_.m_224748_(QuartPos.m_175404_(ChunkPos.m_45592_(p_224716_)), p_224708_, QuartPos.m_175404_(ChunkPos.m_45602_(p_224716_)), (p_224723_, p_224724_, p_224725_) -> {
++         p_224717_.iterateBiomes(QuartPos.fromSection(ChunkPos.m_45592_(p_224716_)), p_224708_, QuartPos.fromSection(ChunkPos.m_45602_(p_224716_)), (p_224723_, p_224724_, p_224725_) -> {
+             double d2 = Mth.m_184645_((double)(p_224707_ - p_224723_), (double)(p_224709_ - p_224724_));
+             if (!(d2 > (double)f_190139_)) {
+                if (d2 < mutabledouble.doubleValue()) {
+@@ -242,24 +_,24 @@
+       ChunkPos chunkpos = p_197033_.m_7697_();
+       boolean flag = p_197033_.m_187675_();
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+-      BlockPos blockpos = new BlockPos(chunkpos.m_45604_(), 0, chunkpos.m_45605_());
++      BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), 0, chunkpos.getMinBlockZ());
+       BlendingData blendingdata = p_197033_.m_183407_();
+       if (blendingdata != null) {
+-         int i = blendingdata.m_224743_().m_141937_();
+-         int j = blendingdata.m_224743_().m_151558_() - 1;
++         long i = blendingdata.m_224743_().getMinBuildHeight();
++         long j = blendingdata.m_224743_().getMaxBuildHeight() - 1;
+          if (flag) {
+             for(int k = 0; k < 16; ++k) {
+                for(int l = 0; l < 16; ++l) {
+-                  m_197040_(p_197033_, blockpos$mutableblockpos.m_122154_(blockpos, k, i - 1, l));
+-                  m_197040_(p_197033_, blockpos$mutableblockpos.m_122154_(blockpos, k, i, l));
+-                  m_197040_(p_197033_, blockpos$mutableblockpos.m_122154_(blockpos, k, j, l));
+-                  m_197040_(p_197033_, blockpos$mutableblockpos.m_122154_(blockpos, k, j + 1, l));
++                  m_197040_(p_197033_, blockpos$mutableblockpos.setWithOffset(blockpos, k, i - 1, l));
++                  m_197040_(p_197033_, blockpos$mutableblockpos.setWithOffset(blockpos, k, i, l));
++                  m_197040_(p_197033_, blockpos$mutableblockpos.setWithOffset(blockpos, k, j, l));
++                  m_197040_(p_197033_, blockpos$mutableblockpos.setWithOffset(blockpos, k, j + 1, l));
+                }
+             }
+          }
+ 
+          for(Direction direction : Direction.Plane.HORIZONTAL) {
+-            if (p_197032_.m_6325_(chunkpos.f_45578_ + direction.m_122429_(), chunkpos.f_45579_ + direction.m_122431_()).m_187675_() != flag) {
++            if (p_197032_.getChunk(chunkpos.f_45578_ + direction.m_122429_(), chunkpos.f_45579_ + direction.m_122431_()).m_187675_() != flag) {
+                int i1 = direction == Direction.EAST ? 15 : 0;
+                int j1 = direction == Direction.WEST ? 0 : 15;
+                int k1 = direction == Direction.SOUTH ? 15 : 0;
+@@ -267,10 +_,10 @@
+ 
+                for(int i2 = i1; i2 <= j1; ++i2) {
+                   for(int j2 = k1; j2 <= l1; ++j2) {
+-                     int k2 = Math.min(j, p_197033_.m_5885_(Heightmap.Types.MOTION_BLOCKING, i2, j2)) + 1;
++                     long k2 = Math.min(j, p_197033_.getHeight(Heightmap.Types.MOTION_BLOCKING, i2, j2)) + 1;
+ 
+-                     for(int l2 = i; l2 < k2; ++l2) {
+-                        m_197040_(p_197033_, blockpos$mutableblockpos.m_122154_(blockpos, i2, l2, j2));
++                     for(long l2 = i; l2 < k2; ++l2) {
++                        m_197040_(p_197033_, blockpos$mutableblockpos.setWithOffset(blockpos, i2, l2, j2));
+                      }
+                   }
+                }
+@@ -298,9 +_,9 @@
+       ImmutableMap.Builder<Direction8, BlendingData> builder = ImmutableMap.builder();
+ 
+       for(Direction8 direction8 : Direction8.values()) {
+-         int i = chunkpos.f_45578_ + direction8.m_235697_();
+-         int j = chunkpos.f_45579_ + direction8.m_235698_();
+-         BlendingData blendingdata = p_197035_.m_6325_(i, j).m_183407_();
++         long i = chunkpos.f_45578_ + direction8.m_235697_();
++         long j = chunkpos.f_45579_ + direction8.m_235698_();
++         BlendingData blendingdata = p_197035_.getChunk(i, j).m_183407_();
+          if (blendingdata != null) {
+             builder.put(direction8, blendingdata);
+          }
+@@ -356,8 +_,8 @@
+ 
+       double d5 = d0;
+       double d2 = d1;
+-      double d3 = (double)p_224731_.m_224743_().m_141928_() / 2.0D;
+-      double d4 = (double)p_224731_.m_224743_().m_141937_() + d3;
++      double d3 = (double)p_224731_.m_224743_().getHeight() / 2.0D;
++      double d4 = (double)p_224731_.m_224743_().getMinBuildHeight() + d3;
+       return (p_224703_, p_224704_, p_224705_) -> {
+          return m_197024_(p_224703_ - 8.0D - d5, p_224704_ - d4, p_224705_ - 8.0D - d2, 8.0D, d3, 8.0D);
+       };
+@@ -374,7 +_,7 @@
+    }
+ 
+    interface CellValueGetter {
+-      double m_190233_(BlendingData p_190234_, int p_190235_, int p_190236_, int p_190237_);
++      double get(BlendingData p_190234_, long p_190235_, long p_190236_, long p_190237_);
+    }
+ 
+    public interface DistanceGetter {

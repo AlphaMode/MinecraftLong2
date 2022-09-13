@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/item/ScaffoldingBlockItem.java
++++ b/net/minecraft/world/item/ScaffoldingBlockItem.java
+@@ -40,8 +_,8 @@
+          while(i < 7) {
+             if (!level.f_46443_ && !level.m_46739_(blockpos$mutableblockpos)) {
+                Player player = p_43063_.m_43723_();
+-               int j = level.m_151558_();
+-               if (player instanceof ServerPlayer && blockpos$mutableblockpos.m_123342_() >= j) {
++               long j = level.getMaxBuildHeight();
++               if (player instanceof ServerPlayer && blockpos$mutableblockpos.getY() >= j) {
+                   ((ServerPlayer)player).m_240418_(Component.m_237110_("build.tooHigh", j - 1).m_130940_(ChatFormatting.RED), true);
+                }
+                break;

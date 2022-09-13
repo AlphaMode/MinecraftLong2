@@ -1,0 +1,75 @@
+--- a/net/minecraft/world/level/LevelHeightAccessor.java
++++ b/net/minecraft/world/level/LevelHeightAccessor.java
+@@ -4,12 +_,12 @@
+ import net.minecraft.core.SectionPos;
+ 
+ public interface LevelHeightAccessor {
+-   int m_141928_();
+-
+-   int m_141937_();
+-
+-   default int m_151558_() {
+-      return this.m_141937_() + this.m_141928_();
++   long getHeight();
++
++   long getMinBuildHeight();
++
++   default long getMaxBuildHeight() {
++      return this.getMinBuildHeight() + this.getHeight();
+    }
+ 
+    default int m_151559_() {
+@@ -17,23 +_,28 @@
+    }
+ 
+    default int m_151560_() {
+-      return SectionPos.m_123171_(this.m_141937_());
++      return SectionPos.m_235865_(this.getMinBuildHeight());
+    }
+ 
+    default int m_151561_() {
+-      return SectionPos.m_123171_(this.m_151558_() - 1) + 1;
++      return SectionPos.m_235865_(this.getMaxBuildHeight() - 1) + 1;
+    }
+ 
+    default boolean m_151570_(BlockPos p_151571_) {
+-      return this.m_151562_(p_151571_.m_123342_());
++      return this.isOutsideBuildHeight(p_151571_.getY());
+    }
+ 
++   @Deprecated
+    default boolean m_151562_(int p_151563_) {
+-      return p_151563_ < this.m_141937_() || p_151563_ >= this.m_151558_();
+-   }
+-
+-   default int m_151564_(int p_151565_) {
+-      return this.m_151566_(SectionPos.m_123171_(p_151565_));
++      return p_151563_ < this.getMinBuildHeight() || p_151563_ >= this.getMaxBuildHeight();
++   }
++
++   default boolean isOutsideBuildHeight(long p_151563_) {
++      return p_151563_ < this.getMinBuildHeight() || p_151563_ >= this.getMaxBuildHeight();
++   }
++
++   default int getSectionIndex(long p_151565_) {
++      return this.m_151566_(SectionPos.m_235865_(p_151565_));
+    }
+ 
+    default int m_151566_(int p_151567_) {
+@@ -44,13 +_,13 @@
+       return p_151569_ + this.m_151560_();
+    }
+ 
+-   static LevelHeightAccessor m_186487_(final int p_186488_, final int p_186489_) {
++   static LevelHeightAccessor create(final long p_186488_, final long p_186489_) {
+       return new LevelHeightAccessor() {
+-         public int m_141928_() {
++         public long getHeight() {
+             return p_186489_;
+          }
+ 
+-         public int m_141937_() {
++         public long getMinBuildHeight() {
+             return p_186488_;
+          }
+       };

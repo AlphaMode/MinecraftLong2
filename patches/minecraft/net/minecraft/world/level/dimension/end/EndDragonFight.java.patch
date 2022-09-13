@@ -1,0 +1,65 @@
+--- a/net/minecraft/world/level/dimension/end/EndDragonFight.java
++++ b/net/minecraft/world/level/dimension/end/EndDragonFight.java
+@@ -261,7 +_,7 @@
+    private boolean m_64104_() {
+       for(int i = -8; i <= 8; ++i) {
+          for(int j = -8; j <= 8; ++j) {
+-            LevelChunk levelchunk = this.f_64061_.m_6325_(i, j);
++            LevelChunk levelchunk = this.f_64061_.getChunk(i, j);
+ 
+             for(BlockEntity blockentity : levelchunk.m_62954_().values()) {
+                if (blockentity instanceof TheEndPortalBlockEntity) {
+@@ -278,7 +_,7 @@
+    private BlockPattern.BlockPatternMatch m_64105_() {
+       for(int i = -8; i <= 8; ++i) {
+          for(int j = -8; j <= 8; ++j) {
+-            LevelChunk levelchunk = this.f_64061_.m_6325_(i, j);
++            LevelChunk levelchunk = this.f_64061_.getChunk(i, j);
+ 
+             for(BlockEntity blockentity : levelchunk.m_62954_().values()) {
+                if (blockentity instanceof TheEndPortalBlockEntity) {
+@@ -296,10 +_,10 @@
+          }
+       }
+ 
+-      int k = this.f_64061_.m_5452_(Heightmap.Types.MOTION_BLOCKING, EndPodiumFeature.f_65714_).m_123342_();
++      long k = this.f_64061_.m_5452_(Heightmap.Types.MOTION_BLOCKING, EndPodiumFeature.f_65714_).getY();
+ 
+-      for(int l = k; l >= this.f_64061_.m_141937_(); --l) {
+-         BlockPattern.BlockPatternMatch blockpattern$blockpatternmatch1 = this.f_64063_.m_61184_(this.f_64061_, new BlockPos(EndPodiumFeature.f_65714_.m_123341_(), l, EndPodiumFeature.f_65714_.m_123343_()));
++      for(long l = k; l >= this.f_64061_.getMinBuildHeight(); --l) {
++         BlockPattern.BlockPatternMatch blockpattern$blockpatternmatch1 = this.f_64063_.m_61184_(this.f_64061_, new BlockPos(EndPodiumFeature.f_65714_.getX(), l, EndPodiumFeature.f_65714_.getZ()));
+          if (blockpattern$blockpatternmatch1 != null) {
+             if (this.f_64072_ == null) {
+                this.f_64072_ = blockpattern$blockpatternmatch1.m_61229_(3, 3, 3).m_61176_();
+@@ -315,7 +_,7 @@
+    private boolean m_64106_() {
+       for(int i = -8; i <= 8; ++i) {
+          for(int j = 8; j <= 8; ++j) {
+-            ChunkAccess chunkaccess = this.f_64061_.m_6522_(i, j, ChunkStatus.f_62326_, false);
++            ChunkAccess chunkaccess = this.f_64061_.getChunk(i, j, ChunkStatus.f_62326_, false);
+             if (!(chunkaccess instanceof LevelChunk)) {
+                return false;
+             }
+@@ -391,7 +_,7 @@
+    private void m_64093_(boolean p_64094_) {
+       EndPodiumFeature endpodiumfeature = new EndPodiumFeature(p_64094_);
+       if (this.f_64072_ == null) {
+-         for(this.f_64072_ = this.f_64061_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EndPodiumFeature.f_65714_).m_7495_(); this.f_64061_.m_8055_(this.f_64072_).m_60713_(Blocks.f_50752_) && this.f_64072_.m_123342_() > this.f_64061_.m_5736_(); this.f_64072_ = this.f_64072_.m_7495_()) {
++         for(this.f_64072_ = this.f_64061_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EndPodiumFeature.f_65714_).below(); this.f_64061_.m_8055_(this.f_64072_).m_60713_(Blocks.f_50752_) && this.f_64072_.getY() > this.f_64061_.m_5736_(); this.f_64072_ = this.f_64072_.below()) {
+          }
+       }
+ 
+@@ -461,10 +_,10 @@
+          }
+ 
+          List<EndCrystal> list1 = Lists.newArrayList();
+-         BlockPos blockpos1 = blockpos.m_6630_(1);
++         BlockPos blockpos1 = blockpos.above(1);
+ 
+          for(Direction direction : Direction.Plane.HORIZONTAL) {
+-            List<EndCrystal> list = this.f_64061_.m_45976_(EndCrystal.class, new AABB(blockpos1.m_5484_(direction, 2)));
++            List<EndCrystal> list = this.f_64061_.m_45976_(EndCrystal.class, new AABB(blockpos1.relative(direction, 2)));
+             if (list.isEmpty()) {
+                return;
+             }

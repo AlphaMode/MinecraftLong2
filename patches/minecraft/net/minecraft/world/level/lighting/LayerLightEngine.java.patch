@@ -1,0 +1,35 @@
+--- a/net/minecraft/world/level/lighting/LayerLightEngine.java
++++ b/net/minecraft/world/level/lighting/LayerLightEngine.java
+@@ -46,7 +_,7 @@
+ 
+    @Nullable
+    private BlockGetter m_75644_(int p_75645_, int p_75646_) {
+-      long i = ChunkPos.m_45589_(p_75645_, p_75646_);
++      long i = ChunkPos.asLong(p_75645_, p_75646_);
+ 
+       for(int j = 0; j < 2; ++j) {
+          if (i == this.f_75636_[j]) {
+@@ -130,7 +_,7 @@
+    }
+ 
+    protected int m_75682_(DataLayer p_75683_, long p_75684_) {
+-      return 15 - p_75683_.m_62560_(SectionPos.m_123207_(BlockPos.m_121983_(p_75684_)), SectionPos.m_123207_(BlockPos.m_122008_(p_75684_)), SectionPos.m_123207_(BlockPos.m_122015_(p_75684_)));
++      return 15 - p_75683_.get(SectionPos.sectionRelative(BlockPos.m_121983_(p_75684_)), SectionPos.sectionRelative(BlockPos.m_122008_(p_75684_)), SectionPos.sectionRelative(BlockPos.m_122015_(p_75684_)));
+    }
+ 
+    protected void m_7351_(long p_75654_, int p_75655_) {
+@@ -206,12 +_,12 @@
+    }
+ 
+    public void m_6460_(ChunkPos p_75676_, boolean p_75677_) {
+-      long i = SectionPos.m_123240_(SectionPos.m_123209_(p_75676_.f_45578_, 0, p_75676_.f_45579_));
++      long i = SectionPos.m_123240_(SectionPos.asLong(p_75676_.f_45578_, 0, p_75676_.f_45579_));
+       this.f_75632_.m_7358_(i, p_75677_);
+    }
+ 
+    public void m_75699_(ChunkPos p_75700_, boolean p_75701_) {
+-      long i = SectionPos.m_123240_(SectionPos.m_123209_(p_75700_.f_45578_, 0, p_75700_.f_45579_));
++      long i = SectionPos.m_123240_(SectionPos.asLong(p_75700_.f_45578_, 0, p_75700_.f_45579_));
+       this.f_75632_.m_75782_(i, p_75701_);
+    }
+ }

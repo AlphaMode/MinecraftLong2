@@ -1,0 +1,47 @@
+--- a/net/minecraft/world/level/levelgen/feature/treedecorators/LeaveVineDecorator.java
++++ b/net/minecraft/world/level/levelgen/feature/treedecorators/LeaveVineDecorator.java
+@@ -24,28 +_,28 @@
+       RandomSource randomsource = p_226039_.m_226067_();
+       p_226039_.m_226069_().forEach((p_226035_) -> {
+          if (randomsource.m_188501_() < this.f_226029_) {
+-            BlockPos blockpos = p_226035_.m_122024_();
++            BlockPos blockpos = p_226035_.west();
+             if (p_226039_.m_226059_(blockpos)) {
+                m_226040_(blockpos, VineBlock.f_57835_, p_226039_);
+             }
+          }
+ 
+          if (randomsource.m_188501_() < this.f_226029_) {
+-            BlockPos blockpos1 = p_226035_.m_122029_();
++            BlockPos blockpos1 = p_226035_.east();
+             if (p_226039_.m_226059_(blockpos1)) {
+                m_226040_(blockpos1, VineBlock.f_57837_, p_226039_);
+             }
+          }
+ 
+          if (randomsource.m_188501_() < this.f_226029_) {
+-            BlockPos blockpos2 = p_226035_.m_122012_();
++            BlockPos blockpos2 = p_226035_.north();
+             if (p_226039_.m_226059_(blockpos2)) {
+                m_226040_(blockpos2, VineBlock.f_57836_, p_226039_);
+             }
+          }
+ 
+          if (randomsource.m_188501_() < this.f_226029_) {
+-            BlockPos blockpos3 = p_226035_.m_122019_();
++            BlockPos blockpos3 = p_226035_.south();
+             if (p_226039_.m_226059_(blockpos3)) {
+                m_226040_(blockpos3, VineBlock.f_57834_, p_226039_);
+             }
+@@ -58,9 +_,9 @@
+       p_226043_.m_226064_(p_226041_, p_226042_);
+       int i = 4;
+ 
+-      for(BlockPos blockpos = p_226041_.m_7495_(); p_226043_.m_226059_(blockpos) && i > 0; --i) {
++      for(BlockPos blockpos = p_226041_.below(); p_226043_.m_226059_(blockpos) && i > 0; --i) {
+          p_226043_.m_226064_(blockpos, p_226042_);
+-         blockpos = blockpos.m_7495_();
++         blockpos = blockpos.below();
+       }
+ 
+    }

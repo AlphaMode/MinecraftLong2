@@ -1,0 +1,46 @@
+--- a/net/minecraft/world/level/block/entity/BeehiveBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/BeehiveBlockEntity.java
+@@ -142,7 +_,7 @@
+             }
+ 
+             BlockPos blockpos = this.m_58899_();
+-            this.f_58857_.m_6263_((Player)null, (double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_(), SoundEvents.f_11695_, SoundSource.BLOCKS, 1.0F, 1.0F);
++            this.f_58857_.m_6263_((Player)null, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), SoundEvents.f_11695_, SoundSource.BLOCKS, 1.0F, 1.0F);
+             this.f_58857_.m_220407_(GameEvent.f_157792_, blockpos, GameEvent.Context.m_223719_(p_58745_, this.m_58900_()));
+          }
+ 
+@@ -164,7 +_,7 @@
+          compoundtag.m_128365_("HivePos", NbtUtils.m_129224_(p_155138_));
+          compoundtag.m_128379_("NoGravity", true);
+          Direction direction = p_155139_.m_61143_(BeehiveBlock.f_49563_);
+-         BlockPos blockpos = p_155138_.m_121945_(direction);
++         BlockPos blockpos = p_155138_.relative(direction);
+          boolean flag = !p_155137_.m_8055_(blockpos).m_60812_(p_155137_, blockpos).m_83281_();
+          if (flag && p_155142_ != BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY) {
+             return false;
+@@ -206,9 +_,9 @@
+ 
+                      float f = entity.m_20205_();
+                      double d3 = flag ? 0.0D : 0.55D + (double)(f / 2.0F);
+-                     double d0 = (double)p_155138_.m_123341_() + 0.5D + d3 * (double)direction.m_122429_();
+-                     double d1 = (double)p_155138_.m_123342_() + 0.5D - (double)(entity.m_20206_() / 2.0F);
+-                     double d2 = (double)p_155138_.m_123343_() + 0.5D + d3 * (double)direction.m_122431_();
++                     double d0 = (double)p_155138_.getX() + 0.5D + d3 * (double)direction.m_122429_();
++                     double d1 = (double)p_155138_.getY() + 0.5D - (double)(entity.m_20206_() / 2.0F);
++                     double d2 = (double)p_155138_.getZ() + 0.5D + d3 * (double)direction.m_122431_();
+                      entity.m_7678_(d0, d1, d2, entity.m_146908_(), entity.m_146909_());
+                   }
+ 
+@@ -269,9 +_,9 @@
+    public static void m_155144_(Level p_155145_, BlockPos p_155146_, BlockState p_155147_, BeehiveBlockEntity p_155148_) {
+       m_155149_(p_155145_, p_155146_, p_155147_, p_155148_.f_58732_, p_155148_.f_58733_);
+       if (!p_155148_.f_58732_.isEmpty() && p_155145_.m_213780_().m_188500_() < 0.005D) {
+-         double d0 = (double)p_155146_.m_123341_() + 0.5D;
+-         double d1 = (double)p_155146_.m_123342_();
+-         double d2 = (double)p_155146_.m_123343_() + 0.5D;
++         double d0 = (double)p_155146_.getX() + 0.5D;
++         double d1 = (double)p_155146_.getY();
++         double d2 = (double)p_155146_.getZ() + 0.5D;
+          p_155145_.m_6263_((Player)null, d0, d1, d2, SoundEvents.f_11698_, SoundSource.BLOCKS, 1.0F, 1.0F);
+       }
+ 

@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/JigsawStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/JigsawStructure.java
+@@ -87,8 +_,8 @@
+ 
+    public Optional<Structure.GenerationStub> m_214086_(Structure.GenerationContext p_227636_) {
+       ChunkPos chunkpos = p_227636_.f_226628_();
+-      int i = this.f_227608_.m_213859_(p_227636_.f_226626_(), new WorldGenerationContext(p_227636_.f_226622_(), p_227636_.f_226629_()));
+-      BlockPos blockpos = new BlockPos(chunkpos.m_45604_(), i, chunkpos.m_45605_());
++      long i = this.f_227608_.sample(p_227636_.f_226626_(), new WorldGenerationContext(p_227636_.f_226622_(), p_227636_.f_226629_()));
++      BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), i, chunkpos.getMinBlockZ());
+       Pools.m_236490_();
+       return JigsawPlacement.m_227238_(p_227636_, this.f_227605_, this.f_227606_, this.f_227607_, blockpos, this.f_227609_, this.f_227610_, this.f_227611_);
+    }

@@ -1,0 +1,48 @@
+--- a/net/minecraft/world/level/block/entity/HopperBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/HopperBlockEntity.java
+@@ -295,7 +_,7 @@
+    @Nullable
+    private static Container m_155592_(Level p_155593_, BlockPos p_155594_, BlockState p_155595_) {
+       Direction direction = p_155595_.m_61143_(HopperBlock.f_54021_);
+-      return m_59390_(p_155593_, p_155594_.m_121945_(direction));
++      return m_59390_(p_155593_, p_155594_.relative(direction));
+    }
+ 
+    @Nullable
+@@ -311,7 +_,7 @@
+ 
+    @Nullable
+    public static Container m_59390_(Level p_59391_, BlockPos p_59392_) {
+-      return m_59347_(p_59391_, (double)p_59392_.m_123341_() + 0.5D, (double)p_59392_.m_123342_() + 0.5D, (double)p_59392_.m_123343_() + 0.5D);
++      return m_59347_(p_59391_, (double)p_59392_.getX() + 0.5D, (double)p_59392_.getY() + 0.5D, (double)p_59392_.getZ() + 0.5D);
+    }
+ 
+    @Nullable
+@@ -355,15 +_,15 @@
+    }
+ 
+    public double m_6343_() {
+-      return (double)this.f_58858_.m_123341_() + 0.5D;
++      return (double)this.f_58858_.getX() + 0.5D;
+    }
+ 
+    public double m_6358_() {
+-      return (double)this.f_58858_.m_123342_() + 0.5D;
++      return (double)this.f_58858_.getY() + 0.5D;
+    }
+ 
+    public double m_6446_() {
+-      return (double)this.f_58858_.m_123343_() + 0.5D;
++      return (double)this.f_58858_.getZ() + 0.5D;
+    }
+ 
+    public void m_59395_(int p_59396_) {
+@@ -387,7 +_,7 @@
+    }
+ 
+    public static void m_155567_(Level p_155568_, BlockPos p_155569_, BlockState p_155570_, Entity p_155571_, HopperBlockEntity p_155572_) {
+-      if (p_155571_ instanceof ItemEntity && Shapes.m_83157_(Shapes.m_83064_(p_155571_.m_20191_().m_82386_((double)(-p_155569_.m_123341_()), (double)(-p_155569_.m_123342_()), (double)(-p_155569_.m_123343_()))), p_155572_.m_59300_(), BooleanOp.f_82689_)) {
++      if (p_155571_ instanceof ItemEntity && Shapes.m_83157_(Shapes.m_83064_(p_155571_.m_20191_().m_82386_((double)(-p_155569_.getX()), (double)(-p_155569_.getY()), (double)(-p_155569_.getZ()))), p_155572_.m_59300_(), BooleanOp.f_82689_)) {
+          m_155578_(p_155568_, p_155569_, p_155570_, p_155572_, () -> {
+             return m_59331_(p_155572_, (ItemEntity)p_155571_);
+          });

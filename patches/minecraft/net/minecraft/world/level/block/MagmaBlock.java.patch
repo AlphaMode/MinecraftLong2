@@ -1,0 +1,35 @@
+--- a/net/minecraft/world/level/block/MagmaBlock.java
++++ b/net/minecraft/world/level/block/MagmaBlock.java
+@@ -34,27 +_,27 @@
+    }
+ 
+    public void m_213897_(BlockState p_221415_, ServerLevel p_221416_, BlockPos p_221417_, RandomSource p_221418_) {
+-      BubbleColumnBlock.m_152707_(p_221416_, p_221417_.m_7494_(), p_221415_);
++      BubbleColumnBlock.m_152707_(p_221416_, p_221417_.above(), p_221415_);
+    }
+ 
+    public BlockState m_7417_(BlockState p_54811_, Direction p_54812_, BlockState p_54813_, LevelAccessor p_54814_, BlockPos p_54815_, BlockPos p_54816_) {
+       if (p_54812_ == Direction.UP && p_54813_.m_60713_(Blocks.f_49990_)) {
+-         p_54814_.m_186460_(p_54815_, this, 20);
++         p_54814_.scheduleTick(p_54815_, this, 20);
+       }
+ 
+       return super.m_7417_(p_54811_, p_54812_, p_54813_, p_54814_, p_54815_, p_54816_);
+    }
+ 
+    public void m_213898_(BlockState p_221420_, ServerLevel p_221421_, BlockPos p_221422_, RandomSource p_221423_) {
+-      BlockPos blockpos = p_221422_.m_7494_();
++      BlockPos blockpos = p_221422_.above();
+       if (p_221421_.m_6425_(p_221422_).m_205070_(FluidTags.f_13131_)) {
+          p_221421_.m_5594_((Player)null, p_221422_, SoundEvents.f_11937_, SoundSource.BLOCKS, 0.5F, 2.6F + (p_221421_.f_46441_.m_188501_() - p_221421_.f_46441_.m_188501_()) * 0.8F);
+-         p_221421_.m_8767_(ParticleTypes.f_123755_, (double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_() + 0.25D, (double)blockpos.m_123343_() + 0.5D, 8, 0.5D, 0.25D, 0.5D, 0.0D);
++         p_221421_.m_8767_(ParticleTypes.f_123755_, (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.25D, (double)blockpos.getZ() + 0.5D, 8, 0.5D, 0.25D, 0.5D, 0.0D);
+       }
+ 
+    }
+ 
+    public void m_6807_(BlockState p_54823_, Level p_54824_, BlockPos p_54825_, BlockState p_54826_, boolean p_54827_) {
+-      p_54824_.m_186460_(p_54825_, this, 20);
++      p_54824_.scheduleTick(p_54825_, this, 20);
+    }
+ }

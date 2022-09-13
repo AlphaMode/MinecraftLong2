@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/levelgen/feature/ReplaceBlobsFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/ReplaceBlobsFeature.java
+@@ -21,7 +_,7 @@
+       WorldGenLevel worldgenlevel = p_160214_.m_159774_();
+       RandomSource randomsource = p_160214_.m_225041_();
+       Block block = replacesphereconfiguration.f_68037_.m_60734_();
+-      BlockPos blockpos = m_66634_(worldgenlevel, p_160214_.m_159777_().m_122032_().m_122147_(Direction.Axis.Y, worldgenlevel.m_141937_() + 1, worldgenlevel.m_151558_() - 1), block);
++      BlockPos blockpos = m_66634_(worldgenlevel, p_160214_.m_159777_().m_122032_().clamp(Direction.Axis.Y, worldgenlevel.getMinBuildHeight() + 1, worldgenlevel.getMaxBuildHeight() - 1), block);
+       if (blockpos == null) {
+          return false;
+       } else {
+@@ -32,7 +_,7 @@
+          boolean flag = false;
+ 
+          for(BlockPos blockpos1 : BlockPos.m_121925_(blockpos, i, j, k)) {
+-            if (blockpos1.m_123333_(blockpos) > l) {
++            if (blockpos1.distManhattan(blockpos) > l) {
+                break;
+             }
+ 
+@@ -49,7 +_,7 @@
+ 
+    @Nullable
+    private static BlockPos m_66634_(LevelAccessor p_66635_, BlockPos.MutableBlockPos p_66636_, Block p_66637_) {
+-      while(p_66636_.m_123342_() > p_66635_.m_141937_() + 1) {
++      while(p_66636_.getY() > p_66635_.getMinBuildHeight() + 1) {
+          BlockState blockstate = p_66635_.m_8055_(p_66636_);
+          if (blockstate.m_60713_(p_66637_)) {
+             return p_66636_;

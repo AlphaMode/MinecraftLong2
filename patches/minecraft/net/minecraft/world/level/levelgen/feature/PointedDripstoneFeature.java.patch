@@ -1,0 +1,42 @@
+--- a/net/minecraft/world/level/levelgen/feature/PointedDripstoneFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/PointedDripstoneFeature.java
+@@ -22,17 +_,17 @@
+       if (optional.isEmpty()) {
+          return false;
+       } else {
+-         BlockPos blockpos1 = blockpos.m_121945_(optional.get().m_122424_());
++         BlockPos blockpos1 = blockpos.relative(optional.get().m_122424_());
+          m_225193_(levelaccessor, randomsource, blockpos1, pointeddripstoneconfiguration);
+-         int i = randomsource.m_188501_() < pointeddripstoneconfiguration.f_191275_ && DripstoneUtils.m_159664_(levelaccessor.m_8055_(blockpos.m_121945_(optional.get()))) ? 2 : 1;
+-         DripstoneUtils.m_190847_(levelaccessor, blockpos, optional.get(), i, false);
++         int i = randomsource.m_188501_() < pointeddripstoneconfiguration.f_191275_ && DripstoneUtils.m_159664_(levelaccessor.m_8055_(blockpos.relative(optional.get()))) ? 2 : 1;
++         DripstoneUtils.growPointedDripstone(levelaccessor, blockpos, optional.get(), i, false);
+          return true;
+       }
+    }
+ 
+    private static Optional<Direction> m_225198_(LevelAccessor p_225199_, BlockPos p_225200_, RandomSource p_225201_) {
+-      boolean flag = DripstoneUtils.m_159662_(p_225199_.m_8055_(p_225200_.m_7494_()));
+-      boolean flag1 = DripstoneUtils.m_159662_(p_225199_.m_8055_(p_225200_.m_7495_()));
++      boolean flag = DripstoneUtils.m_159662_(p_225199_.m_8055_(p_225200_.above()));
++      boolean flag1 = DripstoneUtils.m_159662_(p_225199_.m_8055_(p_225200_.below()));
+       if (flag && flag1) {
+          return Optional.of(p_225201_.m_188499_() ? Direction.DOWN : Direction.UP);
+       } else if (flag) {
+@@ -47,13 +_,13 @@
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+          if (!(p_225195_.m_188501_() > p_225197_.f_191276_)) {
+-            BlockPos blockpos = p_225196_.m_121945_(direction);
++            BlockPos blockpos = p_225196_.relative(direction);
+             DripstoneUtils.m_190853_(p_225194_, blockpos);
+             if (!(p_225195_.m_188501_() > p_225197_.f_191277_)) {
+-               BlockPos blockpos1 = blockpos.m_121945_(Direction.m_235672_(p_225195_));
++               BlockPos blockpos1 = blockpos.relative(Direction.m_235672_(p_225195_));
+                DripstoneUtils.m_190853_(p_225194_, blockpos1);
+                if (!(p_225195_.m_188501_() > p_225197_.f_191278_)) {
+-                  BlockPos blockpos2 = blockpos1.m_121945_(Direction.m_235672_(p_225195_));
++                  BlockPos blockpos2 = blockpos1.relative(Direction.m_235672_(p_225195_));
+                   DripstoneUtils.m_190853_(p_225194_, blockpos2);
+                }
+             }

@@ -1,0 +1,69 @@
+--- a/net/minecraft/world/level/levelgen/structure/LegacyStructureDataHandler.java
++++ b/net/minecraft/world/level/levelgen/structure/LegacyStructureDataHandler.java
+@@ -74,7 +_,7 @@
+    public CompoundTag m_71326_(CompoundTag p_71327_) {
+       CompoundTag compoundtag = p_71327_.m_128469_("Level");
+       ChunkPos chunkpos = new ChunkPos(compoundtag.m_128451_("xPos"), compoundtag.m_128451_("zPos"));
+-      if (this.m_71311_(chunkpos.f_45578_, chunkpos.f_45579_)) {
++      if (this.isUnhandledStructureStart(chunkpos.f_45578_, chunkpos.f_45579_)) {
+          p_71327_ = this.m_71328_(p_71327_, chunkpos);
+       }
+ 
+@@ -87,10 +_,10 @@
+             int i = 8;
+             LongList longlist = new LongArrayList();
+ 
+-            for(int j = chunkpos.f_45578_ - 8; j <= chunkpos.f_45578_ + 8; ++j) {
+-               for(int k = chunkpos.f_45579_ - 8; k <= chunkpos.f_45579_ + 8; ++k) {
+-                  if (this.m_71314_(j, k, s)) {
+-                     longlist.add(ChunkPos.m_45589_(j, k));
++            for(long j = chunkpos.f_45578_ - 8; j <= chunkpos.f_45578_ + 8; ++j) {
++               for(long k = chunkpos.f_45579_ - 8; k <= chunkpos.f_45579_ + 8; ++k) {
++                  if (this.hasLegacyStart(j, k, s)) {
++                     longlist.add(ChunkPos.asLong(j, k));
+                   }
+                }
+             }
+@@ -105,20 +_,20 @@
+       return p_71327_;
+    }
+ 
+-   private boolean m_71314_(int p_71315_, int p_71316_, String p_71317_) {
++   private boolean hasLegacyStart(long p_71315_, long p_71316_, String p_71317_) {
+       if (!this.f_71301_) {
+          return false;
+       } else {
+-         return this.f_71302_.get(p_71317_) != null && this.f_71303_.get(f_71299_.get(p_71317_)).m_73369_(ChunkPos.m_45589_(p_71315_, p_71316_));
++         return this.f_71302_.get(p_71317_) != null && this.f_71303_.get(f_71299_.get(p_71317_)).m_73369_(ChunkPos.asLong(p_71315_, p_71316_));
+       }
+    }
+ 
+-   private boolean m_71311_(int p_71312_, int p_71313_) {
++   private boolean isUnhandledStructureStart(long p_71312_, long p_71313_) {
+       if (!this.f_71301_) {
+          return false;
+       } else {
+          for(String s : this.f_71305_) {
+-            if (this.f_71302_.get(s) != null && this.f_71303_.get(f_71299_.get(s)).m_73373_(ChunkPos.m_45589_(p_71312_, p_71313_))) {
++            if (this.f_71302_.get(s) != null && this.f_71303_.get(f_71299_.get(s)).m_73373_(ChunkPos.asLong(p_71312_, p_71313_))) {
+                return true;
+             }
+          }
+@@ -166,7 +_,7 @@
+ 
+             for(String s1 : compoundtag.m_128431_()) {
+                CompoundTag compoundtag1 = compoundtag.m_128469_(s1);
+-               long i = ChunkPos.m_45589_(compoundtag1.m_128451_("ChunkX"), compoundtag1.m_128451_("ChunkZ"));
++               long i = ChunkPos.asLong(compoundtag1.m_128451_("ChunkX"), compoundtag1.m_128451_("ChunkZ"));
+                ListTag listtag = compoundtag1.m_128437_("Children", 10);
+                if (!listtag.isEmpty()) {
+                   String s3 = listtag.m_128728_(0).m_128461_("id");
+@@ -192,7 +_,7 @@
+ 
+                for(String s2 : compoundtag.m_128431_()) {
+                   CompoundTag compoundtag2 = compoundtag.m_128469_(s2);
+-                  structurefeatureindexsaveddata1.m_73365_(ChunkPos.m_45589_(compoundtag2.m_128451_("ChunkX"), compoundtag2.m_128451_("ChunkZ")));
++                  structurefeatureindexsaveddata1.m_73365_(ChunkPos.asLong(compoundtag2.m_128451_("ChunkX"), compoundtag2.m_128451_("ChunkZ")));
+                }
+ 
+                structurefeatureindexsaveddata1.m_77762_();

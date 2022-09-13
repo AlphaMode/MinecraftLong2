@@ -1,0 +1,19 @@
+--- a/net/minecraft/world/level/block/WetSpongeBlock.java
++++ b/net/minecraft/world/level/block/WetSpongeBlock.java
+@@ -28,12 +_,12 @@
+    public void m_214162_(BlockState p_222682_, Level p_222683_, BlockPos p_222684_, RandomSource p_222685_) {
+       Direction direction = Direction.m_235672_(p_222685_);
+       if (direction != Direction.UP) {
+-         BlockPos blockpos = p_222684_.m_121945_(direction);
++         BlockPos blockpos = p_222684_.relative(direction);
+          BlockState blockstate = p_222683_.m_8055_(blockpos);
+          if (!p_222682_.m_60815_() || !blockstate.m_60783_(p_222683_, blockpos, direction.m_122424_())) {
+-            double d0 = (double)p_222684_.m_123341_();
+-            double d1 = (double)p_222684_.m_123342_();
+-            double d2 = (double)p_222684_.m_123343_();
++            double d0 = (double)p_222684_.getX();
++            double d1 = (double)p_222684_.getY();
++            double d2 = (double)p_222684_.getZ();
+             if (direction == Direction.DOWN) {
+                d1 -= 0.05D;
+                d0 += p_222685_.m_188500_();

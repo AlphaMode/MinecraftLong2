@@ -1,0 +1,95 @@
+--- a/net/minecraft/world/level/levelgen/DensityFunctions.java
++++ b/net/minecraft/world/level/levelgen/DensityFunctions.java
+@@ -501,11 +_,11 @@
+          this.f_208627_ = new SimplexNoise(randomsource);
+       }
+ 
+-      private static float m_224062_(SimplexNoise p_224063_, int p_224064_, int p_224065_) {
+-         int i = p_224064_ / 2;
+-         int j = p_224065_ / 2;
+-         int k = p_224064_ % 2;
+-         int l = p_224065_ % 2;
++      private static float getHeightValue(SimplexNoise p_224063_, long p_224064_, long p_224065_) {
++         long i = p_224064_ / 2;
++         long j = p_224065_ / 2;
++         long k = p_224064_ % 2;
++         long l = p_224065_ % 2;
+          float f = 100.0F - Mth.m_14116_((float)(p_224064_ * p_224064_ + p_224065_ * p_224065_)) * 8.0F;
+          f = Mth.m_14036_(f, -100.0F, 80.0F);
+ 
+@@ -528,7 +_,7 @@
+       }
+ 
+       public double m_207386_(DensityFunction.FunctionContext p_208633_) {
+-         return ((double)m_224062_(this.f_208627_, p_208633_.m_207115_() / 8, p_208633_.m_207113_() / 8) - 8.0D) / 128.0D;
++         return ((double)getHeightValue(this.f_208627_, p_208633_.blockX() / 8, p_208633_.blockZ() / 8) - 8.0D) / 128.0D;
+       }
+ 
+       public double m_207402_() {
+@@ -790,7 +_,7 @@
+       public static final KeyDispatchDataCodec<DensityFunctions.Noise> f_208785_ = DensityFunctions.m_224028_(f_208784_);
+ 
+       public double m_207386_(DensityFunction.FunctionContext p_208800_) {
+-         return this.f_208787_.m_224006_((double)p_208800_.m_207115_() * this.f_208788_, (double)p_208800_.m_207114_() * this.f_208789_, (double)p_208800_.m_207113_() * this.f_208788_);
++         return this.f_208787_.m_224006_((double)p_208800_.blockX() * this.f_208788_, (double)p_208800_.blockY() * this.f_208789_, (double)p_208800_.blockZ() * this.f_208788_);
+       }
+ 
+       public void m_207362_(double[] p_224079_, DensityFunction.ContextProvider p_224080_) {
+@@ -879,7 +_,7 @@
+       static final KeyDispatchDataCodec<DensityFunctions.Shift> f_208858_ = DensityFunctions.m_224024_(DensityFunction.NoiseHolder.f_223996_, DensityFunctions.Shift::new, DensityFunctions.Shift::m_214040_);
+ 
+       public double m_207386_(DensityFunction.FunctionContext p_208864_) {
+-         return this.m_208917_((double)p_208864_.m_207115_(), (double)p_208864_.m_207114_(), (double)p_208864_.m_207113_());
++         return this.m_208917_((double)p_208864_.blockX(), (double)p_208864_.blockY(), (double)p_208864_.blockZ());
+       }
+ 
+       public DensityFunction m_207456_(DensityFunction.Visitor p_224087_) {
+@@ -899,7 +_,7 @@
+       static final KeyDispatchDataCodec<DensityFunctions.ShiftA> f_208878_ = DensityFunctions.m_224024_(DensityFunction.NoiseHolder.f_223996_, DensityFunctions.ShiftA::new, DensityFunctions.ShiftA::m_214040_);
+ 
+       public double m_207386_(DensityFunction.FunctionContext p_208884_) {
+-         return this.m_208917_((double)p_208884_.m_207115_(), 0.0D, (double)p_208884_.m_207113_());
++         return this.m_208917_((double)p_208884_.blockX(), 0.0D, (double)p_208884_.blockZ());
+       }
+ 
+       public DensityFunction m_207456_(DensityFunction.Visitor p_224093_) {
+@@ -919,7 +_,7 @@
+       static final KeyDispatchDataCodec<DensityFunctions.ShiftB> f_208898_ = DensityFunctions.m_224024_(DensityFunction.NoiseHolder.f_223996_, DensityFunctions.ShiftB::new, DensityFunctions.ShiftB::m_214040_);
+ 
+       public double m_207386_(DensityFunction.FunctionContext p_208904_) {
+-         return this.m_208917_((double)p_208904_.m_207113_(), (double)p_208904_.m_207115_(), 0.0D);
++         return this.m_208917_((double)p_208904_.blockZ(), (double)p_208904_.blockX(), 0.0D);
+       }
+ 
+       public DensityFunction m_207456_(DensityFunction.Visitor p_224099_) {
+@@ -962,9 +_,9 @@
+       public static final KeyDispatchDataCodec<DensityFunctions.ShiftedNoise> f_208923_ = DensityFunctions.m_224028_(f_208931_);
+ 
+       public double m_207386_(DensityFunction.FunctionContext p_208945_) {
+-         double d0 = (double)p_208945_.m_207115_() * this.f_208927_ + this.f_208924_.m_207386_(p_208945_);
+-         double d1 = (double)p_208945_.m_207114_() * this.f_208928_ + this.f_208925_.m_207386_(p_208945_);
+-         double d2 = (double)p_208945_.m_207113_() * this.f_208927_ + this.f_208926_.m_207386_(p_208945_);
++         double d0 = (double)p_208945_.blockX() * this.f_208927_ + this.f_208924_.m_207386_(p_208945_);
++         double d1 = (double)p_208945_.blockY() * this.f_208928_ + this.f_208925_.m_207386_(p_208945_);
++         double d2 = (double)p_208945_.blockZ() * this.f_208927_ + this.f_208926_.m_207386_(p_208945_);
+          return this.f_208930_.m_224006_(d0, d1, d2);
+       }
+ 
+@@ -1194,7 +_,7 @@
+ 
+       public double m_207219_(DensityFunction.FunctionContext p_208440_, double p_208441_) {
+          double d0 = this.f_208428_.f_208463_.get(p_208441_);
+-         return d0 * Math.abs(this.f_208427_.m_224006_((double)p_208440_.m_207115_() / d0, (double)p_208440_.m_207114_() / d0, (double)p_208440_.m_207113_() / d0));
++         return d0 * Math.abs(this.f_208427_.m_224006_((double)p_208440_.blockX() / d0, (double)p_208440_.blockY() / d0, (double)p_208440_.blockZ() / d0));
+       }
+ 
+       public DensityFunction m_207456_(DensityFunction.Visitor p_208443_) {
+@@ -1245,7 +_,7 @@
+       public static final KeyDispatchDataCodec<DensityFunctions.YClampedGradient> f_208480_ = DensityFunctions.m_224028_(f_208485_);
+ 
+       public double m_207386_(DensityFunction.FunctionContext p_208496_) {
+-         return Mth.m_144851_((double)p_208496_.m_207114_(), (double)this.f_208481_, (double)this.f_208482_, this.f_208483_, this.f_208484_);
++         return Mth.m_144851_((double)p_208496_.blockY(), (double)this.f_208481_, (double)this.f_208482_, this.f_208483_, this.f_208484_);
+       }
+ 
+       public double m_207402_() {

@@ -1,0 +1,34 @@
+--- a/net/minecraft/network/protocol/game/ClientboundExplodePacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundExplodePacket.java
+@@ -46,9 +_,9 @@
+       int j = Mth.m_14107_(this.f_132106_);
+       int k = Mth.m_14107_(this.f_132107_);
+       this.f_132109_ = p_178845_.m_236845_((p_178850_) -> {
+-         int l = p_178850_.readByte() + i;
+-         int i1 = p_178850_.readByte() + j;
+-         int j1 = p_178850_.readByte() + k;
++         long l = p_178850_.readLong() + i;
++         long i1 = p_178850_.readLong() + j;
++         long j1 = p_178850_.readLong() + k;
+          return new BlockPos(l, i1, j1);
+       });
+       this.f_132110_ = p_178845_.readFloat();
+@@ -65,12 +_,12 @@
+       int j = Mth.m_14107_(this.f_132106_);
+       int k = Mth.m_14107_(this.f_132107_);
+       p_132129_.m_236828_(this.f_132109_, (p_178855_, p_178856_) -> {
+-         int l = p_178856_.m_123341_() - i;
+-         int i1 = p_178856_.m_123342_() - j;
+-         int j1 = p_178856_.m_123343_() - k;
+-         p_178855_.writeByte(l);
+-         p_178855_.writeByte(i1);
+-         p_178855_.writeByte(j1);
++         long l = p_178856_.getX() - i;
++         long i1 = p_178856_.getY() - j;
++         long j1 = p_178856_.getZ() - k;
++         p_178855_.writeLong(l);
++         p_178855_.writeLong(i1);
++         p_178855_.writeLong(j1);
+       });
+       p_132129_.writeFloat(this.f_132110_);
+       p_132129_.writeFloat(this.f_132111_);

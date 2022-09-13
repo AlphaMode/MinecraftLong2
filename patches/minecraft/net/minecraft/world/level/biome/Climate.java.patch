@@ -1,0 +1,53 @@
+--- a/net/minecraft/world/level/biome/Climate.java
++++ b/net/minecraft/world/level/biome/Climate.java
+@@ -401,10 +_,10 @@
+    }
+ 
+    public static record Sampler(DensityFunction f_207845_, DensityFunction f_207846_, DensityFunction f_207847_, DensityFunction f_207848_, DensityFunction f_207849_, DensityFunction f_207850_, List<Climate.ParameterPoint> f_207851_) {
+-      public Climate.TargetPoint m_183445_(int p_186975_, int p_186976_, int p_186977_) {
+-         int i = QuartPos.m_175402_(p_186975_);
+-         int j = QuartPos.m_175402_(p_186976_);
+-         int k = QuartPos.m_175402_(p_186977_);
++      public Climate.TargetPoint sample(long p_186975_, long p_186976_, long p_186977_) {
++         long i = QuartPos.toBlock(p_186975_);
++         long j = QuartPos.toBlock(p_186976_);
++         long k = QuartPos.toBlock(p_186977_);
+          DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(i, j, k);
+          return Climate.m_186781_((float)this.f_207845_.m_207386_(densityfunction$singlepointcontext), (float)this.f_207846_.m_207386_(densityfunction$singlepointcontext), (float)this.f_207847_.m_207386_(densityfunction$singlepointcontext), (float)this.f_207848_.m_207386_(densityfunction$singlepointcontext), (float)this.f_207849_.m_207386_(densityfunction$singlepointcontext), (float)this.f_207850_.m_207386_(densityfunction$singlepointcontext));
+       }
+@@ -418,7 +_,7 @@
+       Climate.SpawnFinder.Result f_186978_;
+ 
+       SpawnFinder(List<Climate.ParameterPoint> p_207872_, Climate.Sampler p_207873_) {
+-         this.f_186978_ = m_207879_(p_207872_, p_207873_, 0, 0);
++         this.f_186978_ = getSpawnPositionAndFitness(p_207872_, p_207873_, 0, 0);
+          this.m_207874_(p_207872_, p_207873_, 2048.0F, 512.0F);
+          this.m_207874_(p_207872_, p_207873_, 512.0F, 32.0F);
+       }
+@@ -429,9 +_,9 @@
+          BlockPos blockpos = this.f_186978_.f_186992_();
+ 
+          while(f1 <= p_207877_) {
+-            int i = blockpos.m_123341_() + (int)(Math.sin((double)f) * (double)f1);
+-            int j = blockpos.m_123343_() + (int)(Math.cos((double)f) * (double)f1);
+-            Climate.SpawnFinder.Result climate$spawnfinder$result = m_207879_(p_207875_, p_207876_, i, j);
++            long i = blockpos.getX() + (int)(Math.sin((double)f) * (double)f1);
++            long j = blockpos.getZ() + (int)(Math.cos((double)f) * (double)f1);
++            Climate.SpawnFinder.Result climate$spawnfinder$result = getSpawnPositionAndFitness(p_207875_, p_207876_, i, j);
+             if (climate$spawnfinder$result.f_186993_() < this.f_186978_.f_186993_()) {
+                this.f_186978_ = climate$spawnfinder$result;
+             }
+@@ -445,11 +_,11 @@
+ 
+       }
+ 
+-      private static Climate.SpawnFinder.Result m_207879_(List<Climate.ParameterPoint> p_207880_, Climate.Sampler p_207881_, int p_207882_, int p_207883_) {
++      private static Climate.SpawnFinder.Result getSpawnPositionAndFitness(List<Climate.ParameterPoint> p_207880_, Climate.Sampler p_207881_, long p_207882_, long p_207883_) {
+          double d0 = Mth.m_144952_(2500.0D);
+          int i = 2;
+          long j = (long)((double)Mth.m_14207_(10000.0F) * Math.pow((double)(Mth.m_184643_((long)p_207882_) + Mth.m_184643_((long)p_207883_)) / d0, 2.0D));
+-         Climate.TargetPoint climate$targetpoint = p_207881_.m_183445_(QuartPos.m_175400_(p_207882_), 0, QuartPos.m_175400_(p_207883_));
++         Climate.TargetPoint climate$targetpoint = p_207881_.sample(QuartPos.fromBlock(p_207882_), 0, QuartPos.fromBlock(p_207883_));
+          Climate.TargetPoint climate$targetpoint1 = new Climate.TargetPoint(climate$targetpoint.f_187003_(), climate$targetpoint.f_187004_(), climate$targetpoint.f_187005_(), climate$targetpoint.f_187006_(), 0L, climate$targetpoint.f_187008_());
+          long k = Long.MAX_VALUE;
+ 

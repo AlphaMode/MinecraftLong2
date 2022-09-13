@@ -1,0 +1,43 @@
+--- a/net/minecraft/world/level/block/SmallDripleafBlock.java
++++ b/net/minecraft/world/level/block/SmallDripleafBlock.java
+@@ -41,7 +_,7 @@
+    }
+ 
+    protected boolean m_6266_(BlockState p_154636_, BlockGetter p_154637_, BlockPos p_154638_) {
+-      return p_154636_.m_204336_(BlockTags.f_144278_) || p_154637_.m_6425_(p_154638_.m_7494_()).m_164512_(Fluids.f_76193_) && super.m_6266_(p_154636_, p_154637_, p_154638_);
++      return p_154636_.m_204336_(BlockTags.f_144278_) || p_154637_.m_6425_(p_154638_.above()).m_164512_(Fluids.f_76193_) && super.m_6266_(p_154636_, p_154637_, p_154638_);
+    }
+ 
+    @Nullable
+@@ -52,7 +_,7 @@
+ 
+    public void m_6402_(Level p_154599_, BlockPos p_154600_, BlockState p_154601_, LivingEntity p_154602_, ItemStack p_154603_) {
+       if (!p_154599_.m_5776_()) {
+-         BlockPos blockpos = p_154600_.m_7494_();
++         BlockPos blockpos = p_154600_.above();
+          BlockState blockstate = DoublePlantBlock.m_182453_(p_154599_, blockpos, this.m_49966_().m_61124_(f_52858_, DoubleBlockHalf.UPPER).m_61124_(f_154577_, p_154601_.m_61143_(f_154577_)));
+          p_154599_.m_7731_(blockpos, blockstate, 3);
+       }
+@@ -67,7 +_,7 @@
+       if (p_154615_.m_61143_(f_52858_) == DoubleBlockHalf.UPPER) {
+          return super.m_7898_(p_154615_, p_154616_, p_154617_);
+       } else {
+-         BlockPos blockpos = p_154617_.m_7495_();
++         BlockPos blockpos = p_154617_.below();
+          BlockState blockstate = p_154616_.m_8055_(blockpos);
+          return this.m_6266_(blockstate, p_154616_, blockpos);
+       }
+@@ -95,11 +_,11 @@
+ 
+    public void m_214148_(ServerLevel p_222433_, RandomSource p_222434_, BlockPos p_222435_, BlockState p_222436_) {
+       if (p_222436_.m_61143_(DoublePlantBlock.f_52858_) == DoubleBlockHalf.LOWER) {
+-         BlockPos blockpos = p_222435_.m_7494_();
++         BlockPos blockpos = p_222435_.above();
+          p_222433_.m_7731_(blockpos, p_222433_.m_6425_(blockpos).m_76188_(), 18);
+          BigDripleafBlock.m_220792_(p_222433_, p_222434_, p_222435_, p_222436_.m_61143_(f_154577_));
+       } else {
+-         BlockPos blockpos1 = p_222435_.m_7495_();
++         BlockPos blockpos1 = p_222435_.below();
+          this.m_214148_(p_222433_, p_222434_, blockpos1, p_222433_.m_8055_(blockpos1));
+       }
+ 

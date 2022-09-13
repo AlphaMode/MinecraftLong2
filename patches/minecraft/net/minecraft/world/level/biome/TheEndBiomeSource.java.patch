@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/biome/TheEndBiomeSource.java
++++ b/net/minecraft/world/level/biome/TheEndBiomeSource.java
+@@ -39,17 +_,17 @@
+       return f_48617_;
+    }
+ 
+-   public Holder<Biome> m_203407_(int p_204292_, int p_204293_, int p_204294_, Climate.Sampler p_204295_) {
+-      int i = QuartPos.m_175402_(p_204292_);
+-      int j = QuartPos.m_175402_(p_204293_);
+-      int k = QuartPos.m_175402_(p_204294_);
+-      int l = SectionPos.m_123171_(i);
+-      int i1 = SectionPos.m_123171_(k);
++   public Holder<Biome> getNoiseBiome(long p_204292_, long p_204293_, long p_204294_, Climate.Sampler p_204295_) {
++      long i = QuartPos.toBlock(p_204292_);
++      long j = QuartPos.toBlock(p_204293_);
++      long k = QuartPos.toBlock(p_204294_);
++      int l = SectionPos.m_235865_(i);
++      int i1 = SectionPos.m_235865_(k);
+       if ((long)l * (long)l + (long)i1 * (long)i1 <= 4096L) {
+          return this.f_48621_;
+       } else {
+-         int j1 = (SectionPos.m_123171_(i) * 2 + 1) * 8;
+-         int k1 = (SectionPos.m_123171_(k) * 2 + 1) * 8;
++         int j1 = (SectionPos.m_235865_(i) * 2 + 1) * 8;
++         int k1 = (SectionPos.m_235865_(k) * 2 + 1) * 8;
+          double d0 = p_204295_.f_207848_().m_207386_(new DensityFunction.SinglePointContext(j1, j, k1));
+          if (d0 > 0.25D) {
+             return this.f_48622_;

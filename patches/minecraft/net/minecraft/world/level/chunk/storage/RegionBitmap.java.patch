@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/level/chunk/storage/RegionBitmap.java
++++ b/net/minecraft/world/level/chunk/storage/RegionBitmap.java
+@@ -9,8 +_,8 @@
+ public class RegionBitmap {
+    private final BitSet f_63608_ = new BitSet();
+ 
+-   public void m_63612_(int p_63613_, int p_63614_) {
+-      this.f_63608_.set(p_63613_, p_63613_ + p_63614_);
++   public void force(long p_63613_, long p_63614_) {
++      this.f_63608_.set((int) p_63613_, (int) (p_63613_ + p_63614_));
+    }
+ 
+    public void m_63615_(int p_63616_, int p_63617_) {
+@@ -24,7 +_,7 @@
+          int j = this.f_63608_.nextClearBit(i);
+          int k = this.f_63608_.nextSetBit(j);
+          if (k == -1 || k - j >= p_63611_) {
+-            this.m_63612_(j, p_63611_);
++            this.force(j, p_63611_);
+             return j;
+          }
+ 

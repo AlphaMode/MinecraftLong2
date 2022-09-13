@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/level/storage/loot/predicates/LocationCheck.java
++++ b/net/minecraft/world/level/storage/loot/predicates/LocationCheck.java
+@@ -25,7 +_,7 @@
+ 
+    public boolean test(LootContext p_81731_) {
+       Vec3 vec3 = p_81731_.m_78953_(LootContextParams.f_81460_);
+-      return vec3 != null && this.f_81716_.m_52617_(p_81731_.m_78952_(), vec3.m_7096_() + (double)this.f_81717_.m_123341_(), vec3.m_7098_() + (double)this.f_81717_.m_123342_(), vec3.m_7094_() + (double)this.f_81717_.m_123343_());
++      return vec3 != null && this.f_81716_.m_52617_(p_81731_.m_78952_(), vec3.m_7096_() + (double)this.f_81717_.getX(), vec3.m_7098_() + (double)this.f_81717_.getY(), vec3.m_7094_() + (double)this.f_81717_.getZ());
+    }
+ 
+    public static LootItemCondition.Builder m_81725_(LocationPredicate.Builder p_81726_) {
+@@ -43,16 +_,16 @@
+    public static class Serializer implements net.minecraft.world.level.storage.loot.Serializer<LocationCheck> {
+       public void m_6170_(JsonObject p_81749_, LocationCheck p_81750_, JsonSerializationContext p_81751_) {
+          p_81749_.add("predicate", p_81750_.f_81716_.m_52616_());
+-         if (p_81750_.f_81717_.m_123341_() != 0) {
+-            p_81749_.addProperty("offsetX", p_81750_.f_81717_.m_123341_());
+-         }
+-
+-         if (p_81750_.f_81717_.m_123342_() != 0) {
+-            p_81749_.addProperty("offsetY", p_81750_.f_81717_.m_123342_());
+-         }
+-
+-         if (p_81750_.f_81717_.m_123343_() != 0) {
+-            p_81749_.addProperty("offsetZ", p_81750_.f_81717_.m_123343_());
++         if (p_81750_.f_81717_.getX() != 0) {
++            p_81749_.addProperty("offsetX", p_81750_.f_81717_.getX());
++         }
++
++         if (p_81750_.f_81717_.getY() != 0) {
++            p_81749_.addProperty("offsetY", p_81750_.f_81717_.getY());
++         }
++
++         if (p_81750_.f_81717_.getZ() != 0) {
++            p_81749_.addProperty("offsetZ", p_81750_.f_81717_.getZ());
+          }
+ 
+       }

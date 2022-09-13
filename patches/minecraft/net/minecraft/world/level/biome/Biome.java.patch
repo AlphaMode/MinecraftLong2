@@ -1,0 +1,57 @@
+--- a/net/minecraft/world/level/biome/Biome.java
++++ b/net/minecraft/world/level/biome/Biome.java
+@@ -102,9 +_,9 @@
+ 
+    private float m_47528_(BlockPos p_47529_) {
+       float f = this.f_47437_.f_47682_.m_8117_(p_47529_, this.m_47554_());
+-      if (p_47529_.m_123342_() > 80) {
+-         float f1 = (float)(f_47435_.m_75449_((double)((float)p_47529_.m_123341_() / 8.0F), (double)((float)p_47529_.m_123343_() / 8.0F), false) * 8.0D);
+-         return f - (f1 + (float)p_47529_.m_123342_() - 80.0F) * 0.05F / 40.0F;
++      if (p_47529_.getY() > 80) {
++         float f1 = (float)(f_47435_.m_75449_((double)((float)p_47529_.getX() / 8.0F), (double)((float)p_47529_.getZ() / 8.0F), false) * 8.0D);
++         return f - (f1 + (float)p_47529_.getY() - 80.0F) * 0.05F / 40.0F;
+       } else {
+          return f;
+       }
+@@ -137,7 +_,7 @@
+       if (this.m_198906_(p_47482_)) {
+          return false;
+       } else {
+-         if (p_47482_.m_123342_() >= p_47481_.m_141937_() && p_47482_.m_123342_() < p_47481_.m_151558_() && p_47481_.m_45517_(LightLayer.BLOCK, p_47482_) < 10) {
++         if (p_47482_.getY() >= p_47481_.getMinBuildHeight() && p_47482_.getY() < p_47481_.getMaxBuildHeight() && p_47481_.m_45517_(LightLayer.BLOCK, p_47482_) < 10) {
+             BlockState blockstate = p_47481_.m_8055_(p_47482_);
+             FluidState fluidstate = p_47481_.m_6425_(p_47482_);
+             if (fluidstate.m_76152_() == Fluids.f_76193_ && blockstate.m_60734_() instanceof LiquidBlock) {
+@@ -145,7 +_,7 @@
+                   return true;
+                }
+ 
+-               boolean flag = p_47481_.m_46801_(p_47482_.m_122024_()) && p_47481_.m_46801_(p_47482_.m_122029_()) && p_47481_.m_46801_(p_47482_.m_122012_()) && p_47481_.m_46801_(p_47482_.m_122019_());
++               boolean flag = p_47481_.m_46801_(p_47482_.west()) && p_47481_.m_46801_(p_47482_.east()) && p_47481_.m_46801_(p_47482_.north()) && p_47481_.m_46801_(p_47482_.south());
+                if (!flag) {
+                   return true;
+                }
+@@ -176,7 +_,7 @@
+       if (this.m_198906_(p_47521_)) {
+          return false;
+       } else {
+-         if (p_47521_.m_123342_() >= p_47520_.m_141937_() && p_47521_.m_123342_() < p_47520_.m_151558_() && p_47520_.m_45517_(LightLayer.BLOCK, p_47521_) < 10) {
++         if (p_47521_.getY() >= p_47520_.getMinBuildHeight() && p_47521_.getY() < p_47520_.getMaxBuildHeight() && p_47520_.m_45517_(LightLayer.BLOCK, p_47521_) < 10) {
+             BlockState blockstate = p_47520_.m_8055_(p_47521_);
+             if (blockstate.m_60795_() && Blocks.f_50125_.m_49966_().m_60710_(p_47520_, p_47521_)) {
+                return true;
+@@ -362,11 +_,11 @@
+       },
+       FROZEN("frozen") {
+          public float m_8117_(BlockPos p_47774_, float p_47775_) {
+-            double d0 = Biome.f_47436_.m_75449_((double)p_47774_.m_123341_() * 0.05D, (double)p_47774_.m_123343_() * 0.05D, false) * 7.0D;
+-            double d1 = Biome.f_47433_.m_75449_((double)p_47774_.m_123341_() * 0.2D, (double)p_47774_.m_123343_() * 0.2D, false);
++            double d0 = Biome.f_47436_.m_75449_((double)p_47774_.getX() * 0.05D, (double)p_47774_.getZ() * 0.05D, false) * 7.0D;
++            double d1 = Biome.f_47433_.m_75449_((double)p_47774_.getX() * 0.2D, (double)p_47774_.getZ() * 0.2D, false);
+             double d2 = d0 + d1;
+             if (d2 < 0.3D) {
+-               double d3 = Biome.f_47433_.m_75449_((double)p_47774_.m_123341_() * 0.09D, (double)p_47774_.m_123343_() * 0.09D, false);
++               double d3 = Biome.f_47433_.m_75449_((double)p_47774_.getX() * 0.09D, (double)p_47774_.getZ() * 0.09D, false);
+                if (d3 < 0.8D) {
+                   return 0.2F;
+                }

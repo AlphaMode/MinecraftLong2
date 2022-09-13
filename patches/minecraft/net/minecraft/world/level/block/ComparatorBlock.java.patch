@@ -1,0 +1,26 @@
+--- a/net/minecraft/world/level/block/ComparatorBlock.java
++++ b/net/minecraft/world/level/block/ComparatorBlock.java
+@@ -74,12 +_,12 @@
+    protected int m_7312_(Level p_51896_, BlockPos p_51897_, BlockState p_51898_) {
+       int i = super.m_7312_(p_51896_, p_51897_, p_51898_);
+       Direction direction = p_51898_.m_61143_(f_54117_);
+-      BlockPos blockpos = p_51897_.m_121945_(direction);
++      BlockPos blockpos = p_51897_.relative(direction);
+       BlockState blockstate = p_51896_.m_8055_(blockpos);
+       if (blockstate.m_60807_()) {
+          i = blockstate.m_60674_(p_51896_, blockpos);
+       } else if (i < 15 && blockstate.m_60796_(p_51896_, blockpos)) {
+-         blockpos = blockpos.m_121945_(direction);
++         blockpos = blockpos.relative(direction);
+          blockstate = p_51896_.m_8055_(blockpos);
+          ItemFrame itemframe = this.m_51864_(p_51896_, direction, blockpos);
+          int j = Math.max(itemframe == null ? Integer.MIN_VALUE : itemframe.m_31824_(), blockstate.m_60807_() ? blockstate.m_60674_(p_51896_, blockpos) : Integer.MIN_VALUE);
+@@ -93,7 +_,7 @@
+ 
+    @Nullable
+    private ItemFrame m_51864_(Level p_51865_, Direction p_51866_, BlockPos p_51867_) {
+-      List<ItemFrame> list = p_51865_.m_6443_(ItemFrame.class, new AABB((double)p_51867_.m_123341_(), (double)p_51867_.m_123342_(), (double)p_51867_.m_123343_(), (double)(p_51867_.m_123341_() + 1), (double)(p_51867_.m_123342_() + 1), (double)(p_51867_.m_123343_() + 1)), (p_51890_) -> {
++      List<ItemFrame> list = p_51865_.m_6443_(ItemFrame.class, new AABB((double)p_51867_.getX(), (double)p_51867_.getY(), (double)p_51867_.getZ(), (double)(p_51867_.getX() + 1), (double)(p_51867_.getY() + 1), (double)(p_51867_.getZ() + 1)), (p_51890_) -> {
+          return p_51890_ != null && p_51890_.m_6350_() == p_51866_;
+       });
+       return list.size() == 1 ? list.get(0) : null;

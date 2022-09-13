@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/level/levelgen/LegacyRandomSource.java
++++ b/net/minecraft/world/level/levelgen/LegacyRandomSource.java
+@@ -61,6 +_,12 @@
+          return new LegacyRandomSource(j);
+       }
+ 
++      public RandomSource at(long p_224198_, long p_224199_, long p_224200_) {
++         long i = Mth.getSeed(p_224198_, p_224199_, p_224200_);
++         long j = i ^ this.f_188586_;
++         return new LegacyRandomSource(j);
++      }
++
+       public RandomSource m_214111_(String p_224202_) {
+          int i = p_224202_.hashCode();
+          return new LegacyRandomSource((long)i ^ this.f_188586_);

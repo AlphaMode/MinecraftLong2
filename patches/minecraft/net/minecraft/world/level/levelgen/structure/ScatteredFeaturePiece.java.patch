@@ -1,0 +1,79 @@
+--- a/net/minecraft/world/level/levelgen/structure/ScatteredFeaturePiece.java
++++ b/net/minecraft/world/level/levelgen/structure/ScatteredFeaturePiece.java
+@@ -12,10 +_,10 @@
+    protected final int f_72787_;
+    protected final int f_72788_;
+    protected final int f_72789_;
+-   protected int f_72790_ = -1;
++   protected long f_72790_ = -1;
+ 
+-   protected ScatteredFeaturePiece(StructurePieceType p_209920_, int p_209921_, int p_209922_, int p_209923_, int p_209924_, int p_209925_, int p_209926_, Direction p_209927_) {
+-      super(p_209920_, 0, StructurePiece.m_163541_(p_209921_, p_209922_, p_209923_, p_209927_, p_209924_, p_209925_, p_209926_));
++   protected ScatteredFeaturePiece(StructurePieceType p_209920_, long p_209921_, int p_209922_, long p_209923_, int p_209924_, int p_209925_, int p_209926_, Direction p_209927_) {
++      super(p_209920_, 0, StructurePiece.m_163541_((int) p_209921_, p_209922_, (int) p_209923_, p_209927_, p_209924_, p_209925_, p_209926_));
+       this.f_72787_ = p_209924_;
+       this.f_72788_ = p_209925_;
+       this.f_72789_ = p_209926_;
+@@ -27,14 +_,14 @@
+       this.f_72787_ = p_209930_.m_128451_("Width");
+       this.f_72788_ = p_209930_.m_128451_("Height");
+       this.f_72789_ = p_209930_.m_128451_("Depth");
+-      this.f_72790_ = p_209930_.m_128451_("HPos");
++      this.f_72790_ = p_209930_.m_128454_("HPos");
+    }
+ 
+    protected void m_183620_(StructurePieceSerializationContext p_192471_, CompoundTag p_192472_) {
+       p_192472_.m_128405_("Width", this.f_72787_);
+       p_192472_.m_128405_("Height", this.f_72788_);
+       p_192472_.m_128405_("Depth", this.f_72789_);
+-      p_192472_.m_128405_("HPos", this.f_72790_);
++      p_192472_.m_128356_("HPos", this.f_72790_);
+    }
+ 
+    protected boolean m_72803_(LevelAccessor p_72804_, BoundingBox p_72805_, int p_72806_) {
+@@ -48,8 +_,8 @@
+          for(int k = this.f_73383_.m_162398_(); k <= this.f_73383_.m_162401_(); ++k) {
+             for(int l = this.f_73383_.m_162395_(); l <= this.f_73383_.m_162399_(); ++l) {
+                blockpos$mutableblockpos.m_122178_(l, 64, k);
+-               if (p_72805_.m_71051_(blockpos$mutableblockpos)) {
+-                  i += p_72804_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos).m_123342_();
++               if (p_72805_.isInside(blockpos$mutableblockpos)) {
++                  i += p_72804_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos).getY();
+                   ++j;
+                }
+             }
+@@ -59,7 +_,7 @@
+             return false;
+          } else {
+             this.f_72790_ = i / j;
+-            this.f_73383_.m_162367_(0, this.f_72790_ - this.f_73383_.m_162396_() + p_72806_, 0);
++            this.f_73383_.move(0, this.f_72790_ - this.f_73383_.m_162396_() + p_72806_, 0);
+             return true;
+          }
+       }
+@@ -69,14 +_,14 @@
+       if (this.f_72790_ >= 0) {
+          return true;
+       } else {
+-         int i = p_192468_.m_151558_();
++         long i = p_192468_.getMaxBuildHeight();
+          boolean flag = false;
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+          for(int j = this.f_73383_.m_162398_(); j <= this.f_73383_.m_162401_(); ++j) {
+             for(int k = this.f_73383_.m_162395_(); k <= this.f_73383_.m_162399_(); ++k) {
+                blockpos$mutableblockpos.m_122178_(k, 0, j);
+-               i = Math.min(i, p_192468_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos).m_123342_());
++               i = Math.min(i, p_192468_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos).getY());
+                flag = true;
+             }
+          }
+@@ -85,7 +_,7 @@
+             return false;
+          } else {
+             this.f_72790_ = i;
+-            this.f_73383_.m_162367_(0, this.f_72790_ - this.f_73383_.m_162396_() + p_192469_, 0);
++            this.f_73383_.move(0, this.f_72790_ - this.f_73383_.m_162396_() + p_192469_, 0);
+             return true;
+          }
+       }

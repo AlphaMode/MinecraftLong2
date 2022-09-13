@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/level/block/LeverBlock.java
++++ b/net/minecraft/world/level/block/LeverBlock.java
+@@ -103,9 +_,9 @@
+    private static void m_54657_(BlockState p_54658_, LevelAccessor p_54659_, BlockPos p_54660_, float p_54661_) {
+       Direction direction = p_54658_.m_61143_(f_54117_).m_122424_();
+       Direction direction1 = m_53200_(p_54658_).m_122424_();
+-      double d0 = (double)p_54660_.m_123341_() + 0.5D + 0.1D * (double)direction.m_122429_() + 0.2D * (double)direction1.m_122429_();
+-      double d1 = (double)p_54660_.m_123342_() + 0.5D + 0.1D * (double)direction.m_122430_() + 0.2D * (double)direction1.m_122430_();
+-      double d2 = (double)p_54660_.m_123343_() + 0.5D + 0.1D * (double)direction.m_122431_() + 0.2D * (double)direction1.m_122431_();
++      double d0 = (double)p_54660_.getX() + 0.5D + 0.1D * (double)direction.m_122429_() + 0.2D * (double)direction1.m_122429_();
++      double d1 = (double)p_54660_.getY() + 0.5D + 0.1D * (double)direction.m_122430_() + 0.2D * (double)direction1.m_122430_();
++      double d2 = (double)p_54660_.getZ() + 0.5D + 0.1D * (double)direction.m_122431_() + 0.2D * (double)direction1.m_122431_();
+       p_54659_.m_7106_(new DustParticleOptions(DustParticleOptions.f_175788_, p_54661_), d0, d1, d2, 0.0D, 0.0D, 0.0D);
+    }
+ 
+@@ -140,7 +_,7 @@
+ 
+    private void m_54680_(BlockState p_54681_, Level p_54682_, BlockPos p_54683_) {
+       p_54682_.m_46672_(p_54683_, this);
+-      p_54682_.m_46672_(p_54683_.m_121945_(m_53200_(p_54681_).m_122424_()), this);
++      p_54682_.m_46672_(p_54683_.relative(m_53200_(p_54681_).m_122424_()), this);
+    }
+ 
+    protected void m_7926_(StateDefinition.Builder<Block, BlockState> p_54663_) {

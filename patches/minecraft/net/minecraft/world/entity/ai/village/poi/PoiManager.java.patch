@@ -1,0 +1,71 @@
+--- a/net/minecraft/world/entity/ai/village/poi/PoiManager.java
++++ b/net/minecraft/world/entity/ai/village/poi/PoiManager.java
+@@ -72,14 +_,14 @@
+          return this.m_27117_(p_27167_, p_217938_, p_27170_);
+       }).filter((p_217971_) -> {
+          BlockPos blockpos = p_217971_.m_27257_();
+-         return Math.abs(blockpos.m_123341_() - p_27168_.m_123341_()) <= p_27169_ && Math.abs(blockpos.m_123343_() - p_27168_.m_123343_()) <= p_27169_;
++         return Math.abs(blockpos.getX() - p_27168_.getX()) <= p_27169_ && Math.abs(blockpos.getZ() - p_27168_.getZ()) <= p_27169_;
+       });
+    }
+ 
+    public Stream<PoiRecord> m_27181_(Predicate<Holder<PoiType>> p_27182_, BlockPos p_27183_, int p_27184_, PoiManager.Occupancy p_27185_) {
+       int i = p_27184_ * p_27184_;
+       return this.m_27166_(p_27182_, p_27183_, p_27184_, p_27185_).filter((p_217906_) -> {
+-         return p_217906_.m_27257_().m_123331_(p_27183_) <= (double)i;
++         return p_217906_.m_27257_().distSqr(p_27183_) <= (double)i;
+       });
+    }
+ 
+@@ -106,7 +_,7 @@
+ 
+    public Stream<Pair<Holder<PoiType>, BlockPos>> m_217994_(Predicate<Holder<PoiType>> p_217995_, Predicate<BlockPos> p_217996_, BlockPos p_217997_, int p_217998_, PoiManager.Occupancy p_217999_) {
+       return this.m_217983_(p_217995_, p_217996_, p_217997_, p_217998_, p_217999_).sorted(Comparator.comparingDouble((p_217915_) -> {
+-         return p_217915_.getSecond().m_123331_(p_217997_);
++         return p_217915_.getSecond().distSqr(p_217997_);
+       }));
+    }
+ 
+@@ -116,13 +_,13 @@
+ 
+    public Optional<BlockPos> m_27192_(Predicate<Holder<PoiType>> p_27193_, BlockPos p_27194_, int p_27195_, PoiManager.Occupancy p_27196_) {
+       return this.m_27181_(p_27193_, p_27194_, p_27195_, p_27196_).map(PoiRecord::m_27257_).min(Comparator.comparingDouble((p_217977_) -> {
+-         return p_217977_.m_123331_(p_27194_);
++         return p_217977_.distSqr(p_27194_);
+       }));
+    }
+ 
+    public Optional<Pair<Holder<PoiType>, BlockPos>> m_218002_(Predicate<Holder<PoiType>> p_218003_, BlockPos p_218004_, int p_218005_, PoiManager.Occupancy p_218006_) {
+       return this.m_27181_(p_218003_, p_218004_, p_218005_, p_218006_).min(Comparator.comparingDouble((p_217909_) -> {
+-         return p_217909_.m_27257_().m_123331_(p_218004_);
++         return p_217909_.m_27257_().distSqr(p_218004_);
+       })).map((p_217959_) -> {
+          return Pair.of(p_217959_.m_218018_(), p_217959_.m_27257_());
+       });
+@@ -130,7 +_,7 @@
+ 
+    public Optional<BlockPos> m_148658_(Predicate<Holder<PoiType>> p_148659_, Predicate<BlockPos> p_148660_, BlockPos p_148661_, int p_148662_, PoiManager.Occupancy p_148663_) {
+       return this.m_27181_(p_148659_, p_148661_, p_148662_, p_148663_).map(PoiRecord::m_27257_).filter(p_148660_).min(Comparator.comparingDouble((p_217918_) -> {
+-         return p_217918_.m_123331_(p_148661_);
++         return p_217918_.distSqr(p_148661_);
+       }));
+    }
+ 
+@@ -231,7 +_,7 @@
+ 
+    private void m_27069_(LevelChunkSection p_27070_, SectionPos p_27071_, BiConsumer<BlockPos, Holder<PoiType>> p_27072_) {
+       p_27071_.m_123253_().forEach((p_217902_) -> {
+-         BlockState blockstate = p_27070_.m_62982_(SectionPos.m_123207_(p_217902_.m_123341_()), SectionPos.m_123207_(p_217902_.m_123342_()), SectionPos.m_123207_(p_217902_.m_123343_()));
++         BlockState blockstate = p_27070_.getBlockState(SectionPos.sectionRelative(p_217902_.getX()), SectionPos.sectionRelative(p_217902_.getY()), SectionPos.sectionRelative(p_217902_.getZ()));
+          PoiTypes.m_218075_(blockstate).ifPresent((p_217931_) -> {
+             p_27072_.accept(p_217902_, p_217931_);
+          });
+@@ -248,7 +_,7 @@
+       }).filter((p_217961_) -> {
+          return this.f_27030_.add(p_217961_.m_45588_());
+       }).forEach((p_217889_) -> {
+-         p_27057_.m_46819_(p_217889_.f_45578_, p_217889_.f_45579_, ChunkStatus.f_62314_);
++         p_27057_.getChunk(p_217889_.f_45578_, p_217889_.f_45579_, ChunkStatus.f_62314_);
+       });
+    }
+ 

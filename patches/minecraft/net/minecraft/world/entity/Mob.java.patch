@@ -1,0 +1,41 @@
+--- a/net/minecraft/world/entity/Mob.java
++++ b/net/minecraft/world/entity/Mob.java
+@@ -386,9 +_,9 @@
+             compoundtag2.m_128362_("UUID", uuid);
+          } else if (this.f_21357_ instanceof HangingEntity) {
+             BlockPos blockpos = ((HangingEntity)this.f_21357_).m_31748_();
+-            compoundtag2.m_128405_("X", blockpos.m_123341_());
+-            compoundtag2.m_128405_("Y", blockpos.m_123342_());
+-            compoundtag2.m_128405_("Z", blockpos.m_123343_());
++            compoundtag2.m_128356_("X", blockpos.getX());
++            compoundtag2.m_128356_("Y", blockpos.getY());
++            compoundtag2.m_128356_("Z", blockpos.getZ());
+          }
+ 
+          p_21484_.m_128365_("Leash", compoundtag2);
+@@ -769,7 +_,7 @@
+    }
+ 
+    public static boolean m_217057_(EntityType<? extends Mob> p_217058_, LevelAccessor p_217059_, MobSpawnType p_217060_, BlockPos p_217061_, RandomSource p_217062_) {
+-      BlockPos blockpos = p_217061_.m_7495_();
++      BlockPos blockpos = p_217061_.below();
+       return p_217060_ == MobSpawnType.SPAWNER || p_217059_.m_8055_(blockpos).m_60643_(p_217059_, blockpos, p_217058_);
+    }
+ 
+@@ -1103,7 +_,7 @@
+       if (this.f_21341_ == -1.0F) {
+          return true;
+       } else {
+-         return this.f_21360_.m_123331_(p_21445_) < (double)(this.f_21341_ * this.f_21341_);
++         return this.f_21360_.distSqr(p_21445_) < (double)(this.f_21341_ * this.f_21341_);
+       }
+    }
+ 
+@@ -1403,6 +_,6 @@
+    }
+ 
+    public Iterable<BlockPos> m_238383_() {
+-      return ImmutableSet.of(new BlockPos(this.m_20191_().f_82288_, (double)this.m_146904_(), this.m_20191_().f_82290_), new BlockPos(this.m_20191_().f_82288_, (double)this.m_146904_(), this.m_20191_().f_82293_), new BlockPos(this.m_20191_().f_82291_, (double)this.m_146904_(), this.m_20191_().f_82290_), new BlockPos(this.m_20191_().f_82291_, (double)this.m_146904_(), this.m_20191_().f_82293_));
++      return ImmutableSet.of(new BlockPos(this.m_20191_().f_82288_, (double)this.getBlockY(), this.m_20191_().f_82290_), new BlockPos(this.m_20191_().f_82288_, (double)this.getBlockY(), this.m_20191_().f_82293_), new BlockPos(this.m_20191_().f_82291_, (double)this.getBlockY(), this.m_20191_().f_82290_), new BlockPos(this.m_20191_().f_82291_, (double)this.getBlockY(), this.m_20191_().f_82293_));
+    }
+ }

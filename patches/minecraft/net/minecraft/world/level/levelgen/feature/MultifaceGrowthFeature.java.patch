@@ -1,0 +1,25 @@
+--- a/net/minecraft/world/level/levelgen/feature/MultifaceGrowthFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/MultifaceGrowthFeature.java
+@@ -30,11 +_,11 @@
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = blockpos.m_122032_();
+ 
+             for(Direction direction : list) {
+-               blockpos$mutableblockpos.m_122190_(blockpos);
++               blockpos$mutableblockpos.set(blockpos);
+                List<Direction> list1 = multifacegrowthconfiguration.m_225401_(randomsource, direction.m_122424_());
+ 
+                for(int i = 0; i < multifacegrowthconfiguration.f_225383_; ++i) {
+-                  blockpos$mutableblockpos.m_122159_(blockpos, direction);
++                  blockpos$mutableblockpos.setWithOffset(blockpos, direction);
+                   BlockState blockstate = worldgenlevel.m_8055_(blockpos$mutableblockpos);
+                   if (!m_225166_(blockstate) && !blockstate.m_60713_(multifacegrowthconfiguration.f_225382_)) {
+                      break;
+@@ -55,7 +_,7 @@
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = p_225159_.m_122032_();
+ 
+       for(Direction direction : p_225163_) {
+-         BlockState blockstate = p_225158_.m_8055_(blockpos$mutableblockpos.m_122159_(p_225159_, direction));
++         BlockState blockstate = p_225158_.m_8055_(blockpos$mutableblockpos.setWithOffset(p_225159_, direction));
+          if (blockstate.m_204341_(p_225161_.f_225388_)) {
+             BlockState blockstate1 = p_225161_.f_225382_.m_153940_(p_225160_, p_225158_, p_225159_, direction);
+             if (blockstate1 == null) {

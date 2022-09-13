@@ -1,0 +1,34 @@
+--- a/net/minecraft/world/level/NoiseColumn.java
++++ b/net/minecraft/world/level/NoiseColumn.java
+@@ -5,23 +_,23 @@
+ import net.minecraft.world.level.chunk.BlockColumn;
+ 
+ public final class NoiseColumn implements BlockColumn {
+-   private final int f_151621_;
++   private final long f_151621_;
+    private final BlockState[] f_47149_;
+ 
+-   public NoiseColumn(int p_151623_, BlockState[] p_151624_) {
++   public NoiseColumn(long p_151623_, BlockState[] p_151624_) {
+       this.f_151621_ = p_151623_;
+       this.f_47149_ = p_151624_;
+    }
+ 
+-   public BlockState m_183556_(int p_186552_) {
+-      int i = p_186552_ - this.f_151621_;
+-      return i >= 0 && i < this.f_47149_.length ? this.f_47149_[i] : Blocks.f_50016_.m_49966_();
++   public BlockState getBlock(long p_186552_) {
++      long i = p_186552_ - this.f_151621_;
++      return i >= 0 && i < this.f_47149_.length ? this.f_47149_[(int) i] : Blocks.f_50016_.m_49966_();
+    }
+ 
+-   public void m_183639_(int p_186554_, BlockState p_186555_) {
+-      int i = p_186554_ - this.f_151621_;
++   public void setBlock(long p_186554_, BlockState p_186555_) {
++      long i = p_186554_ - this.f_151621_;
+       if (i >= 0 && i < this.f_47149_.length) {
+-         this.f_47149_[i] = p_186555_;
++         this.f_47149_[(int) i] = p_186555_;
+       } else {
+          throw new IllegalArgumentException("Outside of column height: " + p_186554_);
+       }

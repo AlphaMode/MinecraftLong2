@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/StrongholdStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/StrongholdStructure.java
+@@ -27,9 +_,9 @@
+       StrongholdPieces.StartPiece strongholdpieces$startpiece;
+       do {
+          p_229946_.m_192796_();
+-         p_229947_.f_226626_().m_190068_(p_229947_.f_226627_() + (long)(i++), p_229947_.f_226628_().f_45578_, p_229947_.f_226628_().f_45579_);
++         p_229947_.f_226626_().setLargeFeatureSeed(p_229947_.f_226627_() + (long)(i++), p_229947_.f_226628_().f_45578_, p_229947_.f_226628_().f_45579_);
+          StrongholdPieces.m_229416_();
+-         strongholdpieces$startpiece = new StrongholdPieces.StartPiece(p_229947_.f_226626_(), p_229947_.f_226628_().m_151382_(2), p_229947_.f_226628_().m_151391_(2));
++         strongholdpieces$startpiece = new StrongholdPieces.StartPiece(p_229947_.f_226626_(), p_229947_.f_226628_().getBlockX(2), p_229947_.f_226628_().getBlockZ(2));
+          p_229946_.m_142679_(strongholdpieces$startpiece);
+          strongholdpieces$startpiece.m_214092_(strongholdpieces$startpiece, p_229946_, p_229947_.f_226626_());
+          List<StructurePiece> list = strongholdpieces$startpiece.f_229799_;
+@@ -40,7 +_,7 @@
+             structurepiece.m_214092_(strongholdpieces$startpiece, p_229946_, p_229947_.f_226626_());
+          }
+ 
+-         p_229946_.m_226965_(p_229947_.f_226622_().m_6337_(), p_229947_.f_226622_().m_142062_(), p_229947_.f_226626_(), 10);
++         p_229946_.moveBelowSeaLevel(p_229947_.f_226622_().m_6337_(), p_229947_.f_226622_().getMinY(), p_229947_.f_226626_(), 10);
+       } while(p_229946_.m_192797_() || strongholdpieces$startpiece.f_229798_ == null);
+ 
+    }

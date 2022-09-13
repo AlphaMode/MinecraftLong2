@@ -1,0 +1,31 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionStructure.java
+@@ -28,7 +_,7 @@
+    public Optional<Structure.GenerationStub> m_214086_(Structure.GenerationContext p_230235_) {
+       Rotation rotation = Rotation.m_221990_(p_230235_.f_226626_());
+       BlockPos blockpos = this.m_226582_(p_230235_, rotation);
+-      return blockpos.m_123342_() < 60 ? Optional.empty() : Optional.of(new Structure.GenerationStub(blockpos, (p_230240_) -> {
++      return blockpos.getY() < 60 ? Optional.empty() : Optional.of(new Structure.GenerationStub(blockpos, (p_230240_) -> {
+          this.m_230241_(p_230240_, p_230235_, blockpos, rotation);
+       }));
+    }
+@@ -41,16 +_,16 @@
+ 
+    public void m_214110_(WorldGenLevel p_230227_, StructureManager p_230228_, ChunkGenerator p_230229_, RandomSource p_230230_, BoundingBox p_230231_, ChunkPos p_230232_, PiecesContainer p_230233_) {
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+-      int i = p_230227_.m_141937_();
++      long i = p_230227_.getMinBuildHeight();
+       BoundingBox boundingbox = p_230233_.m_192756_();
+       int j = boundingbox.m_162396_();
+ 
+       for(int k = p_230231_.m_162395_(); k <= p_230231_.m_162399_(); ++k) {
+          for(int l = p_230231_.m_162398_(); l <= p_230231_.m_162401_(); ++l) {
+             blockpos$mutableblockpos.m_122178_(k, j, l);
+-            if (!p_230227_.m_46859_(blockpos$mutableblockpos) && boundingbox.m_71051_(blockpos$mutableblockpos) && p_230233_.m_192751_(blockpos$mutableblockpos)) {
++            if (!p_230227_.m_46859_(blockpos$mutableblockpos) && boundingbox.isInside(blockpos$mutableblockpos) && p_230233_.m_192751_(blockpos$mutableblockpos)) {
+                for(int i1 = j - 1; i1 > i; --i1) {
+-                  blockpos$mutableblockpos.m_142448_(i1);
++                  blockpos$mutableblockpos.setY(i1);
+                   if (!p_230227_.m_46859_(blockpos$mutableblockpos) && !p_230227_.m_8055_(blockpos$mutableblockpos).m_60767_().m_76332_()) {
+                      break;
+                   }

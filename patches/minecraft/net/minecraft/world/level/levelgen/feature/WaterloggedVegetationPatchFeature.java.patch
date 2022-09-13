@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/level/levelgen/feature/WaterloggedVegetationPatchFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/WaterloggedVegetationPatchFeature.java
+@@ -42,12 +_,12 @@
+    }
+ 
+    private static boolean m_160650_(WorldGenLevel p_160651_, BlockPos p_160652_, BlockPos.MutableBlockPos p_160653_, Direction p_160654_) {
+-      p_160653_.m_122159_(p_160652_, p_160654_);
++      p_160653_.setWithOffset(p_160652_, p_160654_);
+       return !p_160651_.m_8055_(p_160653_).m_60783_(p_160651_, p_160653_, p_160654_.m_122424_());
+    }
+ 
+    protected boolean m_213555_(WorldGenLevel p_225347_, VegetationPatchConfiguration p_225348_, ChunkGenerator p_225349_, RandomSource p_225350_, BlockPos p_225351_) {
+-      if (super.m_213555_(p_225347_, p_225348_, p_225349_, p_225350_, p_225351_.m_7495_())) {
++      if (super.m_213555_(p_225347_, p_225348_, p_225349_, p_225350_, p_225351_.below())) {
+          BlockState blockstate = p_225347_.m_8055_(p_225351_);
+          if (blockstate.m_61138_(BlockStateProperties.f_61362_) && !blockstate.m_61143_(BlockStateProperties.f_61362_)) {
+             p_225347_.m_7731_(p_225351_, blockstate.m_61124_(BlockStateProperties.f_61362_, Boolean.valueOf(true)), 2);

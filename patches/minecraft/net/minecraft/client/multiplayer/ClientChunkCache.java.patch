@@ -1,0 +1,133 @@
+--- a/net/minecraft/client/multiplayer/ClientChunkCache.java
++++ b/net/minecraft/client/multiplayer/ClientChunkCache.java
+@@ -46,7 +_,7 @@
+       return this.f_104409_;
+    }
+ 
+-   private static boolean m_104438_(@Nullable LevelChunk p_104439_, int p_104440_, int p_104441_) {
++   private static boolean isValidChunk(@Nullable LevelChunk p_104439_, long p_104440_, long p_104441_) {
+       if (p_104439_ == null) {
+          return false;
+       } else {
+@@ -55,11 +_,11 @@
+       }
+    }
+ 
+-   public void m_104455_(int p_104456_, int p_104457_) {
+-      if (this.f_104410_.m_104500_(p_104456_, p_104457_)) {
+-         int i = this.f_104410_.m_104481_(p_104456_, p_104457_);
++   public void drop(long p_104456_, long p_104457_) {
++      if (this.f_104410_.inRange(p_104456_, p_104457_)) {
++         int i = this.f_104410_.getIndex(p_104456_, p_104457_);
+          LevelChunk levelchunk = this.f_104410_.m_104479_(i);
+-         if (m_104438_(levelchunk, p_104456_, p_104457_)) {
++         if (isValidChunk(levelchunk, p_104456_, p_104457_)) {
+             this.f_104410_.m_104487_(i, levelchunk, (LevelChunk)null);
+          }
+ 
+@@ -67,10 +_,10 @@
+    }
+ 
+    @Nullable
+-   public LevelChunk m_7587_(int p_104451_, int p_104452_, ChunkStatus p_104453_, boolean p_104454_) {
+-      if (this.f_104410_.m_104500_(p_104451_, p_104452_)) {
+-         LevelChunk levelchunk = this.f_104410_.m_104479_(this.f_104410_.m_104481_(p_104451_, p_104452_));
+-         if (m_104438_(levelchunk, p_104451_, p_104452_)) {
++   public LevelChunk getChunk(long p_104451_, long p_104452_, ChunkStatus p_104453_, boolean p_104454_) {
++      if (this.f_104410_.inRange(p_104451_, p_104452_)) {
++         LevelChunk levelchunk = this.f_104410_.m_104479_(this.f_104410_.getIndex(p_104451_, p_104452_));
++         if (isValidChunk(levelchunk, p_104451_, p_104452_)) {
+             return levelchunk;
+          }
+       }
+@@ -83,15 +_,15 @@
+    }
+ 
+    @Nullable
+-   public LevelChunk m_194116_(int p_194117_, int p_194118_, FriendlyByteBuf p_194119_, CompoundTag p_194120_, Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> p_194121_) {
+-      if (!this.f_104410_.m_104500_(p_194117_, p_194118_)) {
++   public LevelChunk replaceWithPacketData(long p_194117_, long p_194118_, FriendlyByteBuf p_194119_, CompoundTag p_194120_, Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> p_194121_) {
++      if (!this.f_104410_.inRange(p_194117_, p_194118_)) {
+          f_104407_.warn("Ignoring chunk since it's not in the view range: {}, {}", p_194117_, p_194118_);
+          return null;
+       } else {
+-         int i = this.f_104410_.m_104481_(p_194117_, p_194118_);
++         int i = this.f_104410_.getIndex(p_194117_, p_194118_);
+          LevelChunk levelchunk = this.f_104410_.f_104466_.get(i);
+          ChunkPos chunkpos = new ChunkPos(p_194117_, p_194118_);
+-         if (!m_104438_(levelchunk, p_194117_, p_194118_)) {
++         if (!isValidChunk(levelchunk, p_194117_, p_194118_)) {
+             levelchunk = new LevelChunk(this.f_104411_, chunkpos);
+             levelchunk.m_187971_(p_194119_, p_194120_, p_194121_);
+             this.f_104410_.m_104484_(i, levelchunk);
+@@ -107,7 +_,7 @@
+    public void m_201698_(BooleanSupplier p_202421_, boolean p_202422_) {
+    }
+ 
+-   public void m_104459_(int p_104460_, int p_104461_) {
++   public void updateViewCenter(long p_104460_, long p_104461_) {
+       this.f_104410_.f_104469_ = p_104460_;
+       this.f_104410_.f_104470_ = p_104461_;
+    }
+@@ -124,8 +_,8 @@
+             LevelChunk levelchunk = this.f_104410_.f_104466_.get(k);
+             if (levelchunk != null) {
+                ChunkPos chunkpos = levelchunk.m_7697_();
+-               if (clientchunkcache$storage.m_104500_(chunkpos.f_45578_, chunkpos.f_45579_)) {
+-                  clientchunkcache$storage.m_104484_(clientchunkcache$storage.m_104481_(chunkpos.f_45578_, chunkpos.f_45579_), levelchunk);
++               if (clientchunkcache$storage.inRange(chunkpos.f_45578_, chunkpos.f_45579_)) {
++                  clientchunkcache$storage.m_104484_(clientchunkcache$storage.getIndex(chunkpos.f_45578_, chunkpos.f_45579_), levelchunk);
+                }
+             }
+          }
+@@ -148,7 +_,7 @@
+    }
+ 
+    public void m_6506_(LightLayer p_104436_, SectionPos p_104437_) {
+-      Minecraft.m_91087_().f_91060_.m_109770_(p_104437_.m_123170_(), p_104437_.m_123206_(), p_104437_.m_123222_());
++      Minecraft.m_91087_().f_91060_.setSectionDirty(p_104437_.x(), p_104437_.y(), p_104437_.z());
+    }
+ 
+    @OnlyIn(Dist.CLIENT)
+@@ -156,8 +_,8 @@
+       final AtomicReferenceArray<LevelChunk> f_104466_;
+       final int f_104467_;
+       private final int f_104468_;
+-      volatile int f_104469_;
+-      volatile int f_104470_;
++      volatile long f_104469_;
++      volatile long f_104470_;
+       int f_104471_;
+ 
+       Storage(int p_104474_) {
+@@ -166,7 +_,7 @@
+          this.f_104466_ = new AtomicReferenceArray<>(this.f_104468_ * this.f_104468_);
+       }
+ 
+-      int m_104481_(int p_104482_, int p_104483_) {
++      int getIndex(long p_104482_, long p_104483_) {
+          return Math.floorMod(p_104483_, this.f_104468_) * this.f_104468_ + Math.floorMod(p_104482_, this.f_104468_);
+       }
+ 
+@@ -192,7 +_,7 @@
+          return p_104489_;
+       }
+ 
+-      boolean m_104500_(int p_104501_, int p_104502_) {
++      boolean inRange(long p_104501_, long p_104502_) {
+          return Math.abs(p_104501_ - this.f_104469_) <= this.f_104467_ && Math.abs(p_104502_ - this.f_104470_) <= this.f_104467_;
+       }
+ 
+@@ -208,9 +_,9 @@
+             try {
+                int i = ClientChunkCache.this.f_104410_.f_104467_;
+ 
+-               for(int j = this.f_104470_ - i; j <= this.f_104470_ + i; ++j) {
+-                  for(int k = this.f_104469_ - i; k <= this.f_104469_ + i; ++k) {
+-                     LevelChunk levelchunk = ClientChunkCache.this.f_104410_.f_104466_.get(ClientChunkCache.this.f_104410_.m_104481_(k, j));
++               for(long j = this.f_104470_ - i; j <= this.f_104470_ + i; ++j) {
++                  for(long k = this.f_104469_ - i; k <= this.f_104469_ + i; ++k) {
++                     LevelChunk levelchunk = ClientChunkCache.this.f_104410_.f_104466_.get(ClientChunkCache.this.f_104410_.getIndex(k, j));
+                      if (levelchunk != null) {
+                         ChunkPos chunkpos = levelchunk.m_7697_();
+                         fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + levelchunk.m_6430_() + "\n").getBytes(StandardCharsets.UTF_8));

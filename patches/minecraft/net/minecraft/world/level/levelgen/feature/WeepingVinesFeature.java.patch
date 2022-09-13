@@ -1,0 +1,47 @@
+--- a/net/minecraft/world/level/levelgen/feature/WeepingVinesFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/WeepingVinesFeature.java
+@@ -26,7 +_,7 @@
+       if (!worldgenlevel.m_46859_(blockpos)) {
+          return false;
+       } else {
+-         BlockState blockstate = worldgenlevel.m_8055_(blockpos.m_7494_());
++         BlockState blockstate = worldgenlevel.m_8055_(blockpos.above());
+          if (!blockstate.m_60713_(Blocks.f_50134_) && !blockstate.m_60713_(Blocks.f_50451_)) {
+             return false;
+          } else {
+@@ -43,12 +_,12 @@
+       BlockPos.MutableBlockPos blockpos$mutableblockpos1 = new BlockPos.MutableBlockPos();
+ 
+       for(int i = 0; i < 200; ++i) {
+-         blockpos$mutableblockpos.m_122154_(p_225362_, p_225361_.m_188503_(6) - p_225361_.m_188503_(6), p_225361_.m_188503_(2) - p_225361_.m_188503_(5), p_225361_.m_188503_(6) - p_225361_.m_188503_(6));
++         blockpos$mutableblockpos.setWithOffset(p_225362_, p_225361_.m_188503_(6) - p_225361_.m_188503_(6), p_225361_.m_188503_(2) - p_225361_.m_188503_(5), p_225361_.m_188503_(6) - p_225361_.m_188503_(6));
+          if (p_225360_.m_46859_(blockpos$mutableblockpos)) {
+             int j = 0;
+ 
+             for(Direction direction : f_67372_) {
+-               BlockState blockstate = p_225360_.m_8055_(blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, direction));
++               BlockState blockstate = p_225360_.m_8055_(blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, direction));
+                if (blockstate.m_60713_(Blocks.f_50134_) || blockstate.m_60713_(Blocks.f_50451_)) {
+                   ++j;
+                }
+@@ -70,9 +_,9 @@
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+       for(int i = 0; i < 100; ++i) {
+-         blockpos$mutableblockpos.m_122154_(p_225366_, p_225365_.m_188503_(8) - p_225365_.m_188503_(8), p_225365_.m_188503_(2) - p_225365_.m_188503_(7), p_225365_.m_188503_(8) - p_225365_.m_188503_(8));
++         blockpos$mutableblockpos.setWithOffset(p_225366_, p_225365_.m_188503_(8) - p_225365_.m_188503_(8), p_225365_.m_188503_(2) - p_225365_.m_188503_(7), p_225365_.m_188503_(8) - p_225365_.m_188503_(8));
+          if (p_225364_.m_46859_(blockpos$mutableblockpos)) {
+-            BlockState blockstate = p_225364_.m_8055_(blockpos$mutableblockpos.m_7494_());
++            BlockState blockstate = p_225364_.m_8055_(blockpos$mutableblockpos.above());
+             if (blockstate.m_60713_(Blocks.f_50134_) || blockstate.m_60713_(Blocks.f_50451_)) {
+                int j = Mth.m_216271_(p_225365_, 1, 8);
+                if (p_225365_.m_188503_(6) == 0) {
+@@ -95,7 +_,7 @@
+    public static void m_225352_(LevelAccessor p_225353_, RandomSource p_225354_, BlockPos.MutableBlockPos p_225355_, int p_225356_, int p_225357_, int p_225358_) {
+       for(int i = 0; i <= p_225356_; ++i) {
+          if (p_225353_.m_46859_(p_225355_)) {
+-            if (i == p_225356_ || !p_225353_.m_46859_(p_225355_.m_7495_())) {
++            if (i == p_225356_ || !p_225353_.m_46859_(p_225355_.below())) {
+                p_225353_.m_7731_(p_225355_, Blocks.f_50702_.m_49966_().m_61124_(GrowingPlantHeadBlock.f_53924_, Integer.valueOf(Mth.m_216271_(p_225354_, p_225357_, p_225358_))), 2);
+                break;
+             }

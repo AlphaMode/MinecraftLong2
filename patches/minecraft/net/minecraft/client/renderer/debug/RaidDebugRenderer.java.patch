@@ -1,0 +1,31 @@
+--- a/net/minecraft/client/renderer/debug/RaidDebugRenderer.java
++++ b/net/minecraft/client/renderer/debug/RaidDebugRenderer.java
+@@ -29,7 +_,7 @@
+       BlockPos blockpos = this.m_113665_().m_90588_();
+ 
+       for(BlockPos blockpos1 : this.f_113648_) {
+-         if (blockpos.m_123314_(blockpos1, 160.0D)) {
++         if (blockpos.closerThan(blockpos1, 160.0D)) {
+             m_113657_(blockpos1);
+          }
+       }
+@@ -37,15 +_,15 @@
+    }
+ 
+    private static void m_113657_(BlockPos p_113658_) {
+-      DebugRenderer.m_113470_(p_113658_.m_7637_(-0.5D, -0.5D, -0.5D), p_113658_.m_7637_(1.5D, 1.5D, 1.5D), 1.0F, 0.0F, 0.0F, 0.15F);
++      DebugRenderer.m_113470_(p_113658_.offset(-0.5D, -0.5D, -0.5D), p_113658_.offset(1.5D, 1.5D, 1.5D), 1.0F, 0.0F, 0.0F, 0.15F);
+       int i = -65536;
+       m_113659_("Raid center", p_113658_, -65536);
+    }
+ 
+    private static void m_113659_(String p_113660_, BlockPos p_113661_, int p_113662_) {
+-      double d0 = (double)p_113661_.m_123341_() + 0.5D;
+-      double d1 = (double)p_113661_.m_123342_() + 1.3D;
+-      double d2 = (double)p_113661_.m_123343_() + 0.5D;
++      double d0 = (double)p_113661_.getX() + 0.5D;
++      double d1 = (double)p_113661_.getY() + 1.3D;
++      double d2 = (double)p_113661_.getZ() + 0.5D;
+       DebugRenderer.m_113490_(p_113660_, d0, d1, d2, p_113662_, 0.04F, true, 0.0F, true);
+    }
+ 

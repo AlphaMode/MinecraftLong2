@@ -1,0 +1,32 @@
+--- a/net/minecraft/world/level/levelgen/feature/BlockBlobFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/BlockBlobFeature.java
+@@ -18,16 +_,16 @@
+       RandomSource randomsource = p_159471_.m_225041_();
+ 
+       BlockStateConfiguration blockstateconfiguration;
+-      for(blockstateconfiguration = p_159471_.m_159778_(); blockpos.m_123342_() > worldgenlevel.m_141937_() + 3; blockpos = blockpos.m_7495_()) {
+-         if (!worldgenlevel.m_46859_(blockpos.m_7495_())) {
+-            BlockState blockstate = worldgenlevel.m_8055_(blockpos.m_7495_());
++      for(blockstateconfiguration = p_159471_.m_159778_(); blockpos.getY() > worldgenlevel.getMinBuildHeight() + 3; blockpos = blockpos.below()) {
++         if (!worldgenlevel.m_46859_(blockpos.below())) {
++            BlockState blockstate = worldgenlevel.m_8055_(blockpos.below());
+             if (m_159759_(blockstate) || m_159747_(blockstate)) {
+                break;
+             }
+          }
+       }
+ 
+-      if (blockpos.m_123342_() <= worldgenlevel.m_141937_() + 3) {
++      if (blockpos.getY() <= worldgenlevel.getMinBuildHeight() + 3) {
+          return false;
+       } else {
+          for(int l = 0; l < 3; ++l) {
+@@ -37,7 +_,7 @@
+             float f = (float)(i + j + k) * 0.333F + 0.5F;
+ 
+             for(BlockPos blockpos1 : BlockPos.m_121940_(blockpos.m_7918_(-i, -j, -k), blockpos.m_7918_(i, j, k))) {
+-               if (blockpos1.m_123331_(blockpos) <= (double)(f * f)) {
++               if (blockpos1.distSqr(blockpos) <= (double)(f * f)) {
+                   worldgenlevel.m_7731_(blockpos1, blockstateconfiguration.f_67547_, 4);
+                }
+             }

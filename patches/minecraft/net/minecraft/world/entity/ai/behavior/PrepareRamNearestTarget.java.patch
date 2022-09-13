@@ -1,0 +1,40 @@
+--- a/net/minecraft/world/entity/ai/behavior/PrepareRamNearestTarget.java
++++ b/net/minecraft/world/entity/ai/behavior/PrepareRamNearestTarget.java
+@@ -103,9 +_,9 @@
+ 
+    private Vec3 m_147754_(BlockPos p_147755_, BlockPos p_147756_) {
+       double d0 = 0.5D;
+-      double d1 = 0.5D * (double)Mth.m_14205_((double)(p_147756_.m_123341_() - p_147755_.m_123341_()));
+-      double d2 = 0.5D * (double)Mth.m_14205_((double)(p_147756_.m_123343_() - p_147755_.m_123343_()));
+-      return Vec3.m_82539_(p_147756_).m_82520_(d1, 0.0D, d2);
++      double d1 = 0.5D * (double)Mth.m_14205_((double)(p_147756_.getX() - p_147755_.getX()));
++      double d2 = 0.5D * (double)Mth.m_14205_((double)(p_147756_.getZ() - p_147755_.getZ()));
++      return Vec3.atBottomCenterOf(p_147756_).m_82520_(d1, 0.0D, d2);
+    }
+ 
+    private Optional<BlockPos> m_147742_(PathfinderMob p_147743_, LivingEntity p_147744_) {
+@@ -117,7 +_,7 @@
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = blockpos.m_122032_();
+ 
+          for(Direction direction : Direction.Plane.HORIZONTAL) {
+-            blockpos$mutableblockpos.m_122190_(blockpos);
++            blockpos$mutableblockpos.set(blockpos);
+ 
+             for(int i = 0; i < this.f_147716_; ++i) {
+                if (!this.m_147745_(p_147743_, blockpos$mutableblockpos.m_122173_(direction))) {
+@@ -126,13 +_,13 @@
+                }
+             }
+ 
+-            if (blockpos$mutableblockpos.m_123333_(blockpos) >= this.f_147715_) {
++            if (blockpos$mutableblockpos.distManhattan(blockpos) >= this.f_147715_) {
+                list.add(blockpos$mutableblockpos.m_7949_());
+             }
+          }
+ 
+          PathNavigation pathnavigation = p_147743_.m_21573_();
+-         return list.stream().sorted(Comparator.comparingDouble(p_147743_.m_20183_()::m_123331_)).filter((p_147753_) -> {
++         return list.stream().sorted(Comparator.comparingDouble(p_147743_.m_20183_()::distSqr)).filter((p_147753_) -> {
+             Path path = pathnavigation.m_7864_(p_147753_, 0);
+             return path != null && path.m_77403_();
+          }).findFirst();

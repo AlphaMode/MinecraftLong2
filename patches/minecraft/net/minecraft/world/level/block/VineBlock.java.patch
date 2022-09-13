@@ -1,0 +1,103 @@
+--- a/net/minecraft/world/level/block/VineBlock.java
++++ b/net/minecraft/world/level/block/VineBlock.java
+@@ -102,14 +_,14 @@
+       if (p_57890_ == Direction.DOWN) {
+          return false;
+       } else {
+-         BlockPos blockpos = p_57889_.m_121945_(p_57890_);
++         BlockPos blockpos = p_57889_.relative(p_57890_);
+          if (m_57853_(p_57888_, blockpos, p_57890_)) {
+             return true;
+          } else if (p_57890_.m_122434_() == Direction.Axis.Y) {
+             return false;
+          } else {
+             BooleanProperty booleanproperty = f_57838_.get(p_57890_);
+-            BlockState blockstate = p_57888_.m_8055_(p_57889_.m_7494_());
++            BlockState blockstate = p_57888_.m_8055_(p_57889_.above());
+             return blockstate.m_60713_(this) && blockstate.m_61143_(booleanproperty);
+          }
+       }
+@@ -120,7 +_,7 @@
+    }
+ 
+    private BlockState m_57901_(BlockState p_57902_, BlockGetter p_57903_, BlockPos p_57904_) {
+-      BlockPos blockpos = p_57904_.m_7494_();
++      BlockPos blockpos = p_57904_.above();
+       if (p_57902_.m_61143_(f_57833_)) {
+          p_57902_ = p_57902_.m_61124_(f_57833_, Boolean.valueOf(m_57853_(p_57903_, blockpos, Direction.DOWN)));
+       }
+@@ -158,29 +_,29 @@
+    public void m_213898_(BlockState p_222655_, ServerLevel p_222656_, BlockPos p_222657_, RandomSource p_222658_) {
+       if (p_222658_.m_188503_(4) == 0) {
+          Direction direction = Direction.m_235672_(p_222658_);
+-         BlockPos blockpos = p_222657_.m_7494_();
++         BlockPos blockpos = p_222657_.above();
+          if (direction.m_122434_().m_122479_() && !p_222655_.m_61143_(m_57883_(direction))) {
+             if (this.m_57850_(p_222656_, p_222657_)) {
+-               BlockPos blockpos4 = p_222657_.m_121945_(direction);
++               BlockPos blockpos4 = p_222657_.relative(direction);
+                BlockState blockstate4 = p_222656_.m_8055_(blockpos4);
+                if (blockstate4.m_60795_()) {
+                   Direction direction3 = direction.m_122427_();
+                   Direction direction4 = direction.m_122428_();
+                   boolean flag = p_222655_.m_61143_(m_57883_(direction3));
+                   boolean flag1 = p_222655_.m_61143_(m_57883_(direction4));
+-                  BlockPos blockpos2 = blockpos4.m_121945_(direction3);
+-                  BlockPos blockpos3 = blockpos4.m_121945_(direction4);
++                  BlockPos blockpos2 = blockpos4.relative(direction3);
++                  BlockPos blockpos3 = blockpos4.relative(direction4);
+                   if (flag && m_57853_(p_222656_, blockpos2, direction3)) {
+                      p_222656_.m_7731_(blockpos4, this.m_49966_().m_61124_(m_57883_(direction3), Boolean.valueOf(true)), 2);
+                   } else if (flag1 && m_57853_(p_222656_, blockpos3, direction4)) {
+                      p_222656_.m_7731_(blockpos4, this.m_49966_().m_61124_(m_57883_(direction4), Boolean.valueOf(true)), 2);
+                   } else {
+                      Direction direction1 = direction.m_122424_();
+-                     if (flag && p_222656_.m_46859_(blockpos2) && m_57853_(p_222656_, p_222657_.m_121945_(direction3), direction1)) {
++                     if (flag && p_222656_.m_46859_(blockpos2) && m_57853_(p_222656_, p_222657_.relative(direction3), direction1)) {
+                         p_222656_.m_7731_(blockpos2, this.m_49966_().m_61124_(m_57883_(direction1), Boolean.valueOf(true)), 2);
+-                     } else if (flag1 && p_222656_.m_46859_(blockpos3) && m_57853_(p_222656_, p_222657_.m_121945_(direction4), direction1)) {
++                     } else if (flag1 && p_222656_.m_46859_(blockpos3) && m_57853_(p_222656_, p_222657_.relative(direction4), direction1)) {
+                         p_222656_.m_7731_(blockpos3, this.m_49966_().m_61124_(m_57883_(direction1), Boolean.valueOf(true)), 2);
+-                     } else if ((double)p_222658_.m_188501_() < 0.05D && m_57853_(p_222656_, blockpos4.m_7494_(), Direction.UP)) {
++                     } else if ((double)p_222658_.m_188501_() < 0.05D && m_57853_(p_222656_, blockpos4.above(), Direction.UP)) {
+                         p_222656_.m_7731_(blockpos4, this.m_49966_().m_61124_(f_57833_, Boolean.valueOf(true)), 2);
+                      }
+                   }
+@@ -190,7 +_,7 @@
+ 
+             }
+          } else {
+-            if (direction == Direction.UP && p_222657_.m_123342_() < p_222656_.m_151558_() - 1) {
++            if (direction == Direction.UP && p_222657_.getY() < p_222656_.getMaxBuildHeight() - 1) {
+                if (this.m_57887_(p_222656_, p_222657_, direction)) {
+                   p_222656_.m_7731_(p_222657_, p_222655_.m_61124_(f_57833_, Boolean.valueOf(true)), 2);
+                   return;
+@@ -204,7 +_,7 @@
+                   BlockState blockstate3 = p_222655_;
+ 
+                   for(Direction direction2 : Direction.Plane.HORIZONTAL) {
+-                     if (p_222658_.m_188499_() || !m_57853_(p_222656_, blockpos.m_121945_(direction2), direction2)) {
++                     if (p_222658_.m_188499_() || !m_57853_(p_222656_, blockpos.relative(direction2), direction2)) {
+                         blockstate3 = blockstate3.m_61124_(m_57883_(direction2), Boolean.valueOf(false));
+                      }
+                   }
+@@ -217,8 +_,8 @@
+                }
+             }
+ 
+-            if (p_222657_.m_123342_() > p_222656_.m_141937_()) {
+-               BlockPos blockpos1 = p_222657_.m_7495_();
++            if (p_222657_.getY() > p_222656_.getMinBuildHeight()) {
++               BlockPos blockpos1 = p_222657_.below();
+                BlockState blockstate = p_222656_.m_8055_(blockpos1);
+                if (blockstate.m_60795_() || blockstate.m_60713_(this)) {
+                   BlockState blockstate1 = blockstate.m_60795_() ? this.m_49966_() : blockstate;
+@@ -252,7 +_,7 @@
+ 
+    private boolean m_57850_(BlockGetter p_57851_, BlockPos p_57852_) {
+       int i = 4;
+-      Iterable<BlockPos> iterable = BlockPos.m_121976_(p_57852_.m_123341_() - 4, p_57852_.m_123342_() - 1, p_57852_.m_123343_() - 4, p_57852_.m_123341_() + 4, p_57852_.m_123342_() + 1, p_57852_.m_123343_() + 4);
++      Iterable<BlockPos> iterable = BlockPos.betweenClosed(p_57852_.getX() - 4, p_57852_.getY() - 1, p_57852_.getZ() - 4, p_57852_.getX() + 4, p_57852_.getY() + 1, p_57852_.getZ() + 4);
+       int j = 5;
+ 
+       for(BlockPos blockpos : iterable) {

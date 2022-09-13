@@ -1,0 +1,53 @@
+--- a/net/minecraft/server/level/PlayerRespawnLogic.java
++++ b/net/minecraft/server/level/PlayerRespawnLogic.java
+@@ -13,28 +_,28 @@
+ 
+ public class PlayerRespawnLogic {
+    @Nullable
+-   protected static BlockPos m_183928_(ServerLevel p_183929_, int p_183930_, int p_183931_) {
++   protected static BlockPos getOverworldRespawnPos(ServerLevel p_183929_, long p_183930_, long p_183931_) {
+       boolean flag = p_183929_.m_6042_().f_63856_();
+-      LevelChunk levelchunk = p_183929_.m_6325_(SectionPos.m_123171_(p_183930_), SectionPos.m_123171_(p_183931_));
+-      int i = flag ? p_183929_.m_7726_().m_8481_().m_142051_(p_183929_) : levelchunk.m_5885_(Heightmap.Types.MOTION_BLOCKING, p_183930_ & 15, p_183931_ & 15);
+-      if (i < p_183929_.m_141937_()) {
++      LevelChunk levelchunk = p_183929_.getChunk(SectionPos.m_235865_(p_183930_), SectionPos.m_235865_(p_183931_));
++      long i = flag ? p_183929_.m_7726_().m_8481_().getSpawnHeight(p_183929_) : levelchunk.getHeight(Heightmap.Types.MOTION_BLOCKING, p_183930_ & 15, p_183931_ & 15);
++      if (i < p_183929_.getMinBuildHeight()) {
+          return null;
+       } else {
+-         int j = levelchunk.m_5885_(Heightmap.Types.WORLD_SURFACE, p_183930_ & 15, p_183931_ & 15);
+-         if (j <= i && j > levelchunk.m_5885_(Heightmap.Types.OCEAN_FLOOR, p_183930_ & 15, p_183931_ & 15)) {
++         long j = levelchunk.getHeight(Heightmap.Types.WORLD_SURFACE, p_183930_ & 15, p_183931_ & 15);
++         if (j <= i && j > levelchunk.getHeight(Heightmap.Types.OCEAN_FLOOR, p_183930_ & 15, p_183931_ & 15)) {
+             return null;
+          } else {
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-            for(int k = i + 1; k >= p_183929_.m_141937_(); --k) {
+-               blockpos$mutableblockpos.m_122178_(p_183930_, k, p_183931_);
++            for(long k = i + 1; k >= p_183929_.getMinBuildHeight(); --k) {
++               blockpos$mutableblockpos.m_122169_(p_183930_, k, p_183931_);
+                BlockState blockstate = p_183929_.m_8055_(blockpos$mutableblockpos);
+                if (!blockstate.m_60819_().m_76178_()) {
+                   break;
+                }
+ 
+                if (Block.m_49918_(blockstate.m_60812_(p_183929_, blockpos$mutableblockpos), Direction.UP)) {
+-                  return blockpos$mutableblockpos.m_7494_().m_7949_();
++                  return blockpos$mutableblockpos.above().m_7949_();
+                }
+             }
+ 
+@@ -48,9 +_,9 @@
+       if (SharedConstants.m_183707_(p_183934_)) {
+          return null;
+       } else {
+-         for(int i = p_183934_.m_45604_(); i <= p_183934_.m_45608_(); ++i) {
+-            for(int j = p_183934_.m_45605_(); j <= p_183934_.m_45609_(); ++j) {
+-               BlockPos blockpos = m_183928_(p_183933_, i, j);
++         for(long i = p_183934_.getMinBlockX(); i <= p_183934_.getMaxBlockX(); ++i) {
++            for(long j = p_183934_.getMinBlockZ(); j <= p_183934_.getMaxBlockZ(); ++j) {
++               BlockPos blockpos = getOverworldRespawnPos(p_183933_, i, j);
+                if (blockpos != null) {
+                   return blockpos;
+                }

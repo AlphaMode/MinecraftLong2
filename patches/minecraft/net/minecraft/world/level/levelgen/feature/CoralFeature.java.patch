@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/levelgen/feature/CoralFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/CoralFeature.java
+@@ -35,7 +_,7 @@
+    protected abstract boolean m_214196_(LevelAccessor p_224966_, RandomSource p_224967_, BlockPos p_224968_, BlockState p_224969_);
+ 
+    protected boolean m_224973_(LevelAccessor p_224974_, RandomSource p_224975_, BlockPos p_224976_, BlockState p_224977_) {
+-      BlockPos blockpos = p_224976_.m_7494_();
++      BlockPos blockpos = p_224976_.above();
+       BlockState blockstate = p_224974_.m_8055_(p_224976_);
+       if ((blockstate.m_60713_(Blocks.f_49990_) || blockstate.m_204336_(BlockTags.f_13064_)) && p_224974_.m_8055_(blockpos).m_60713_(Blocks.f_49990_)) {
+          p_224974_.m_7731_(p_224976_, p_224977_, 3);
+@@ -51,7 +_,7 @@
+ 
+          for(Direction direction : Direction.Plane.HORIZONTAL) {
+             if (p_224975_.m_188501_() < 0.2F) {
+-               BlockPos blockpos1 = p_224976_.m_121945_(direction);
++               BlockPos blockpos1 = p_224976_.relative(direction);
+                if (p_224974_.m_8055_(blockpos1).m_60713_(Blocks.f_49990_)) {
+                   Registry.f_122824_.m_203431_(BlockTags.f_13052_).flatMap((p_224965_) -> {
+                      return p_224965_.m_213653_(p_224975_);

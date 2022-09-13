@@ -1,0 +1,81 @@
+--- a/net/minecraft/world/level/chunk/storage/IOWorker.java
++++ b/net/minecraft/world/level/chunk/storage/IOWorker.java
+@@ -42,24 +_,24 @@
+       this.f_63517_ = new ProcessorMailbox<>(new StrictQueue.FixedPriorityQueue(IOWorker.Priority.values().length), Util.m_183992_(), "IOWorker-" + p_196932_);
+    }
+ 
+-   public boolean m_223471_(ChunkPos p_223472_, int p_223473_) {
++   public boolean isOldChunkAround(ChunkPos p_223472_, long p_223473_) {
+       ChunkPos chunkpos = new ChunkPos(p_223472_.f_45578_ - p_223473_, p_223472_.f_45579_ - p_223473_);
+       ChunkPos chunkpos1 = new ChunkPos(p_223472_.f_45578_ + p_223473_, p_223472_.f_45579_ + p_223473_);
+ 
+-      for(int i = chunkpos.m_45610_(); i <= chunkpos1.m_45610_(); ++i) {
+-         for(int j = chunkpos.m_45612_(); j <= chunkpos1.m_45612_(); ++j) {
+-            BitSet bitset = this.m_223463_(i, j).join();
++      for(long i = chunkpos.getRegionX(); i <= chunkpos1.getRegionX(); ++i) {
++         for(long j = chunkpos.getRegionZ(); j <= chunkpos1.getRegionZ(); ++j) {
++            BitSet bitset = this.getOrCreateOldDataForRegion(i, j).join();
+             if (!bitset.isEmpty()) {
+-               ChunkPos chunkpos2 = ChunkPos.m_220337_(i, j);
+-               int k = Math.max(chunkpos.f_45578_ - chunkpos2.f_45578_, 0);
+-               int l = Math.max(chunkpos.f_45579_ - chunkpos2.f_45579_, 0);
+-               int i1 = Math.min(chunkpos1.f_45578_ - chunkpos2.f_45578_, 31);
+-               int j1 = Math.min(chunkpos1.f_45579_ - chunkpos2.f_45579_, 31);
++               ChunkPos chunkpos2 = ChunkPos.minFromRegion(i, j);
++               long k = Math.max(chunkpos.f_45578_ - chunkpos2.f_45578_, 0);
++               long l = Math.max(chunkpos.f_45579_ - chunkpos2.f_45579_, 0);
++               long i1 = Math.min(chunkpos1.f_45578_ - chunkpos2.f_45578_, 31);
++               long j1 = Math.min(chunkpos1.f_45579_ - chunkpos2.f_45579_, 31);
+ 
+-               for(int k1 = k; k1 <= i1; ++k1) {
+-                  for(int l1 = l; l1 <= j1; ++l1) {
+-                     int i2 = l1 * 32 + k1;
+-                     if (bitset.get(i2)) {
++               for(long k1 = k; k1 <= i1; ++k1) {
++                  for(long l1 = l; l1 <= j1; ++l1) {
++                     long i2 = l1 * 32 + k1;
++                     if (bitset.get((int) i2)) {
+                         return true;
+                      }
+                   }
+@@ -71,12 +_,12 @@
+       return false;
+    }
+ 
+-   private CompletableFuture<BitSet> m_223463_(int p_223464_, int p_223465_) {
+-      long i = ChunkPos.m_45589_(p_223464_, p_223465_);
++   private CompletableFuture<BitSet> getOrCreateOldDataForRegion(long p_223464_, long p_223465_) {
++      long i = ChunkPos.asLong(p_223464_, p_223465_);
+       synchronized(this.f_223459_) {
+          CompletableFuture<BitSet> completablefuture = this.f_223459_.getAndMoveToFirst(i);
+          if (completablefuture == null) {
+-            completablefuture = this.m_223489_(p_223464_, p_223465_);
++            completablefuture = this.createOldDataForRegion(p_223464_, p_223465_);
+             this.f_223459_.putAndMoveToFirst(i, completablefuture);
+             if (this.f_223459_.size() > 1024) {
+                this.f_223459_.removeLast();
+@@ -87,10 +_,10 @@
+       }
+    }
+ 
+-   private CompletableFuture<BitSet> m_223489_(int p_223490_, int p_223491_) {
++   private CompletableFuture<BitSet> createOldDataForRegion(long p_223490_, long p_223491_) {
+       return CompletableFuture.supplyAsync(() -> {
+-         ChunkPos chunkpos = ChunkPos.m_220337_(p_223490_, p_223491_);
+-         ChunkPos chunkpos1 = ChunkPos.m_220340_(p_223490_, p_223491_);
++         ChunkPos chunkpos = ChunkPos.minFromRegion(p_223490_, p_223491_);
++         ChunkPos chunkpos1 = ChunkPos.maxFromRegion(p_223490_, p_223491_);
+          BitSet bitset = new BitSet();
+          ChunkPos.m_45599_(chunkpos, chunkpos1).forEach((p_223480_) -> {
+             CollectFields collectfields = new CollectFields(new FieldSelector(IntTag.f_128670_, "DataVersion"), new FieldSelector(CompoundTag.f_128326_, "blending_data"));
+@@ -105,8 +_,8 @@
+             Tag tag = collectfields.m_197713_();
+             if (tag instanceof CompoundTag compoundtag) {
+                if (this.m_223484_(compoundtag)) {
+-                  int i = p_223480_.m_45614_() * 32 + p_223480_.m_45613_();
+-                  bitset.set(i);
++                  long i = p_223480_.getRegionLocalZ() * 32 + p_223480_.getRegionLocalX();
++                  bitset.set((int) i);
+                }
+             }
+ 

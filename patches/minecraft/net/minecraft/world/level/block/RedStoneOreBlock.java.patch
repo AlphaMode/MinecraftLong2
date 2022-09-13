@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/level/block/RedStoneOreBlock.java
++++ b/net/minecraft/world/level/block/RedStoneOreBlock.java
+@@ -93,13 +_,13 @@
+       RandomSource randomsource = p_55455_.f_46441_;
+ 
+       for(Direction direction : Direction.values()) {
+-         BlockPos blockpos = p_55456_.m_121945_(direction);
++         BlockPos blockpos = p_55456_.relative(direction);
+          if (!p_55455_.m_8055_(blockpos).m_60804_(p_55455_, blockpos)) {
+             Direction.Axis direction$axis = direction.m_122434_();
+             double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.m_122429_() : (double)randomsource.m_188501_();
+             double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.m_122430_() : (double)randomsource.m_188501_();
+             double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.m_122431_() : (double)randomsource.m_188501_();
+-            p_55455_.m_7106_(DustParticleOptions.f_123656_, (double)p_55456_.m_123341_() + d1, (double)p_55456_.m_123342_() + d2, (double)p_55456_.m_123343_() + d3, 0.0D, 0.0D, 0.0D);
++            p_55455_.m_7106_(DustParticleOptions.f_123656_, (double)p_55456_.getX() + d1, (double)p_55456_.getY() + d2, (double)p_55456_.getZ() + d3, 0.0D, 0.0D, 0.0D);
+          }
+       }
+ 

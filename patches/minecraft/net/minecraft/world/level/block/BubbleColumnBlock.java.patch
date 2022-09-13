@@ -1,0 +1,60 @@
+--- a/net/minecraft/world/level/block/BubbleColumnBlock.java
++++ b/net/minecraft/world/level/block/BubbleColumnBlock.java
+@@ -37,15 +_,15 @@
+    }
+ 
+    public void m_7892_(BlockState p_50976_, Level p_50977_, BlockPos p_50978_, Entity p_50979_) {
+-      BlockState blockstate = p_50977_.m_8055_(p_50978_.m_7494_());
++      BlockState blockstate = p_50977_.m_8055_(p_50978_.above());
+       if (blockstate.m_60795_()) {
+          p_50979_.m_6845_(p_50976_.m_61143_(f_50956_));
+          if (!p_50977_.f_46443_) {
+             ServerLevel serverlevel = (ServerLevel)p_50977_;
+ 
+             for(int i = 0; i < 2; ++i) {
+-               serverlevel.m_8767_(ParticleTypes.f_123769_, (double)p_50978_.m_123341_() + p_50977_.f_46441_.m_188500_(), (double)(p_50978_.m_123342_() + 1), (double)p_50978_.m_123343_() + p_50977_.f_46441_.m_188500_(), 1, 0.0D, 0.0D, 0.0D, 1.0D);
+-               serverlevel.m_8767_(ParticleTypes.f_123795_, (double)p_50978_.m_123341_() + p_50977_.f_46441_.m_188500_(), (double)(p_50978_.m_123342_() + 1), (double)p_50978_.m_123343_() + p_50977_.f_46441_.m_188500_(), 1, 0.0D, 0.01D, 0.0D, 0.2D);
++               serverlevel.m_8767_(ParticleTypes.f_123769_, (double)p_50978_.getX() + p_50977_.f_46441_.m_188500_(), (double)(p_50978_.getY() + 1), (double)p_50978_.getZ() + p_50977_.f_46441_.m_188500_(), 1, 0.0D, 0.0D, 0.0D, 1.0D);
++               serverlevel.m_8767_(ParticleTypes.f_123795_, (double)p_50978_.getX() + p_50977_.f_46441_.m_188500_(), (double)(p_50978_.getY() + 1), (double)p_50978_.getZ() + p_50977_.f_46441_.m_188500_(), 1, 0.0D, 0.01D, 0.0D, 0.2D);
+             }
+          }
+       } else {
+@@ -55,7 +_,7 @@
+    }
+ 
+    public void m_213897_(BlockState p_220888_, ServerLevel p_220889_, BlockPos p_220890_, RandomSource p_220891_) {
+-      m_152702_(p_220889_, p_220890_, p_220888_, p_220889_.m_8055_(p_220890_.m_7495_()));
++      m_152702_(p_220889_, p_220890_, p_220888_, p_220889_.m_8055_(p_220890_.below()));
+    }
+ 
+    public FluidState m_5888_(BlockState p_51016_) {
+@@ -98,9 +_,9 @@
+    }
+ 
+    public void m_214162_(BlockState p_220893_, Level p_220894_, BlockPos p_220895_, RandomSource p_220896_) {
+-      double d0 = (double)p_220895_.m_123341_();
+-      double d1 = (double)p_220895_.m_123342_();
+-      double d2 = (double)p_220895_.m_123343_();
++      double d0 = (double)p_220895_.getX();
++      double d1 = (double)p_220895_.getY();
++      double d2 = (double)p_220895_.getZ();
+       if (p_220893_.m_61143_(f_50956_)) {
+          p_220894_.m_7107_(ParticleTypes.f_123773_, d0 + 0.5D, d1 + 0.8D, d2, 0.0D, 0.0D, 0.0D);
+          if (p_220896_.m_188503_(200) == 0) {
+@@ -119,14 +_,14 @@
+    public BlockState m_7417_(BlockState p_50990_, Direction p_50991_, BlockState p_50992_, LevelAccessor p_50993_, BlockPos p_50994_, BlockPos p_50995_) {
+       p_50993_.m_186469_(p_50994_, Fluids.f_76193_, Fluids.f_76193_.m_6718_(p_50993_));
+       if (!p_50990_.m_60710_(p_50993_, p_50994_) || p_50991_ == Direction.DOWN || p_50991_ == Direction.UP && !p_50992_.m_60713_(Blocks.f_50628_) && m_152715_(p_50992_)) {
+-         p_50993_.m_186460_(p_50994_, this, 5);
++         p_50993_.scheduleTick(p_50994_, this, 5);
+       }
+ 
+       return super.m_7417_(p_50990_, p_50991_, p_50992_, p_50993_, p_50994_, p_50995_);
+    }
+ 
+    public boolean m_7898_(BlockState p_50986_, LevelReader p_50987_, BlockPos p_50988_) {
+-      BlockState blockstate = p_50987_.m_8055_(p_50988_.m_7495_());
++      BlockState blockstate = p_50987_.m_8055_(p_50988_.below());
+       return blockstate.m_60713_(Blocks.f_50628_) || blockstate.m_60713_(Blocks.f_50450_) || blockstate.m_60713_(Blocks.f_50135_);
+    }
+ 

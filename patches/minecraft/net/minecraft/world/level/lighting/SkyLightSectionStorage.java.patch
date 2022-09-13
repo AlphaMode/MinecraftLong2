@@ -1,0 +1,99 @@
+--- a/net/minecraft/world/level/lighting/SkyLightSectionStorage.java
++++ b/net/minecraft/world/level/lighting/SkyLightSectionStorage.java
+@@ -47,7 +_,7 @@
+             }
+          }
+ 
+-         return datalayer.m_62560_(SectionPos.m_123207_(BlockPos.m_121983_(p_164458_)), SectionPos.m_123207_(BlockPos.m_122008_(p_164458_)), SectionPos.m_123207_(BlockPos.m_122015_(p_164458_)));
++         return datalayer.get(SectionPos.sectionRelative(BlockPos.m_121983_(p_164458_)), SectionPos.sectionRelative(BlockPos.m_122008_(p_164458_)), SectionPos.sectionRelative(BlockPos.m_122015_(p_164458_)));
+       } else {
+          return p_164459_ && !this.m_75892_(i) ? 0 : 15;
+       }
+@@ -67,7 +_,7 @@
+          if (this.f_75864_.contains(j)) {
+             this.m_75896_(p_75885_);
+             if (k > (this.f_75732_).f_75900_) {
+-               long l = SectionPos.m_123209_(SectionPos.m_123213_(p_75885_), k - 1, SectionPos.m_123230_(p_75885_));
++               long l = SectionPos.asLong(SectionPos.m_123213_(p_75885_), k - 1, SectionPos.m_123230_(p_75885_));
+                this.m_75894_(l);
+             }
+ 
+@@ -126,7 +_,7 @@
+       if (p_75878_ && this.f_75864_.add(p_75877_)) {
+          int i = (this.f_75732_).f_75901_.get(p_75877_);
+          if (i != (this.f_75732_).f_75900_) {
+-            long j = SectionPos.m_123209_(SectionPos.m_123213_(p_75877_), i - 1, SectionPos.m_123230_(p_75877_));
++            long j = SectionPos.asLong(SectionPos.m_123213_(p_75877_), i - 1, SectionPos.m_123230_(p_75877_));
+             this.m_75896_(j);
+             this.m_75881_();
+          }
+@@ -189,9 +_,9 @@
+                      }
+ 
+                      Arrays.fill(this.m_75758_(i, true).m_7877_(), (byte)-1);
+-                     int i3 = SectionPos.m_123223_(SectionPos.m_123213_(i));
+-                     int k3 = SectionPos.m_123223_(SectionPos.m_123225_(i));
+-                     int i4 = SectionPos.m_123223_(SectionPos.m_123230_(i));
++                     long i3 = SectionPos.sectionToBlockCoord(SectionPos.m_123213_(i));
++                     long k3 = SectionPos.sectionToBlockCoord(SectionPos.m_123225_(i));
++                     long i4 = SectionPos.sectionToBlockCoord(SectionPos.m_123230_(i));
+ 
+                      for(Direction direction : f_75860_) {
+                         long j1 = SectionPos.m_123191_(i, direction);
+@@ -202,20 +_,20 @@
+                                  long j2;
+                                  switch (direction) {
+                                     case NORTH:
+-                                       i2 = BlockPos.m_121882_(i3 + k1, k3 + l1, i4);
+-                                       j2 = BlockPos.m_121882_(i3 + k1, k3 + l1, i4 - 1);
++                                       i2 = BlockPos.asLong(i3 + k1, k3 + l1, i4);
++                                       j2 = BlockPos.asLong(i3 + k1, k3 + l1, i4 - 1);
+                                        break;
+                                     case SOUTH:
+-                                       i2 = BlockPos.m_121882_(i3 + k1, k3 + l1, i4 + 16 - 1);
+-                                       j2 = BlockPos.m_121882_(i3 + k1, k3 + l1, i4 + 16);
++                                       i2 = BlockPos.asLong(i3 + k1, k3 + l1, i4 + 16 - 1);
++                                       j2 = BlockPos.asLong(i3 + k1, k3 + l1, i4 + 16);
+                                        break;
+                                     case WEST:
+-                                       i2 = BlockPos.m_121882_(i3, k3 + k1, i4 + l1);
+-                                       j2 = BlockPos.m_121882_(i3 - 1, k3 + k1, i4 + l1);
++                                       i2 = BlockPos.asLong(i3, k3 + k1, i4 + l1);
++                                       j2 = BlockPos.asLong(i3 - 1, k3 + k1, i4 + l1);
+                                        break;
+                                     default:
+-                                       i2 = BlockPos.m_121882_(i3 + 16 - 1, k3 + k1, i4 + l1);
+-                                       j2 = BlockPos.m_121882_(i3 + 16, k3 + k1, i4 + l1);
++                                       i2 = BlockPos.asLong(i3 + 16 - 1, k3 + k1, i4 + l1);
++                                       j2 = BlockPos.asLong(i3 + 16, k3 + k1, i4 + l1);
+                                  }
+ 
+                                  p_75873_.m_75576_(i2, j2, p_75873_.m_6359_(i2, j2, 0), true);
+@@ -226,15 +_,15 @@
+ 
+                      for(int j4 = 0; j4 < 16; ++j4) {
+                         for(int k4 = 0; k4 < 16; ++k4) {
+-                           long l4 = BlockPos.m_121882_(SectionPos.m_175554_(SectionPos.m_123213_(i), j4), SectionPos.m_123223_(SectionPos.m_123225_(i)), SectionPos.m_175554_(SectionPos.m_123230_(i), k4));
+-                           long i5 = BlockPos.m_121882_(SectionPos.m_175554_(SectionPos.m_123213_(i), j4), SectionPos.m_123223_(SectionPos.m_123225_(i)) - 1, SectionPos.m_175554_(SectionPos.m_123230_(i), k4));
++                           long l4 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.m_123213_(i), j4), SectionPos.sectionToBlockCoord(SectionPos.m_123225_(i)), SectionPos.sectionToBlockCoord(SectionPos.m_123230_(i), k4));
++                           long i5 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.m_123213_(i), j4), SectionPos.sectionToBlockCoord(SectionPos.m_123225_(i)) - 1, SectionPos.sectionToBlockCoord(SectionPos.m_123230_(i), k4));
+                            p_75873_.m_75576_(l4, i5, p_75873_.m_6359_(l4, i5, 0), true);
+                         }
+                      }
+                   } else {
+                      for(int k = 0; k < 16; ++k) {
+                         for(int l = 0; l < 16; ++l) {
+-                           long i1 = BlockPos.m_121882_(SectionPos.m_175554_(SectionPos.m_123213_(i), k), SectionPos.m_175554_(SectionPos.m_123225_(i), 15), SectionPos.m_175554_(SectionPos.m_123230_(i), l));
++                           long i1 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.m_123213_(i), k), SectionPos.sectionToBlockCoord(SectionPos.m_123225_(i), 15), SectionPos.sectionToBlockCoord(SectionPos.m_123230_(i), l));
+                            p_75873_.m_75576_(Long.MAX_VALUE, i1, 0, true);
+                         }
+                      }
+@@ -249,7 +_,7 @@
+                if (this.f_75861_.remove(k2) && this.m_75791_(k2)) {
+                   for(int l2 = 0; l2 < 16; ++l2) {
+                      for(int j3 = 0; j3 < 16; ++j3) {
+-                        long l3 = BlockPos.m_121882_(SectionPos.m_175554_(SectionPos.m_123213_(k2), l2), SectionPos.m_175554_(SectionPos.m_123225_(k2), 15), SectionPos.m_175554_(SectionPos.m_123230_(k2), j3));
++                        long l3 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.m_123213_(k2), l2), SectionPos.sectionToBlockCoord(SectionPos.m_123225_(k2), 15), SectionPos.sectionToBlockCoord(SectionPos.m_123230_(k2), j3));
+                         p_75873_.m_75576_(Long.MAX_VALUE, l3, 15, false);
+                      }
+                   }

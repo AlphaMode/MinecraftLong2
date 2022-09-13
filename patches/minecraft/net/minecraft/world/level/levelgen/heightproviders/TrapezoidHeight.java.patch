@@ -1,0 +1,31 @@
+--- a/net/minecraft/world/level/levelgen/heightproviders/TrapezoidHeight.java
++++ b/net/minecraft/world/level/levelgen/heightproviders/TrapezoidHeight.java
+@@ -38,20 +_,20 @@
+       return m_162009_(p_162007_, p_162008_, 0);
+    }
+ 
+-   public int m_213859_(RandomSource p_226305_, WorldGenerationContext p_226306_) {
+-      int i = this.f_161995_.m_142322_(p_226306_);
+-      int j = this.f_161996_.m_142322_(p_226306_);
++   public long sample(RandomSource p_226305_, WorldGenerationContext p_226306_) {
++      long i = this.f_161995_.resolveY(p_226306_);
++      long j = this.f_161996_.resolveY(p_226306_);
+       if (i > j) {
+          f_161994_.warn("Empty height range: {}", (Object)this);
+          return i;
+       } else {
+-         int k = j - i;
++         long k = j - i;
+          if (this.f_161997_ >= k) {
+-            return Mth.m_216287_(p_226305_, i, j);
++            return Mth.randomBetweenInclusive(p_226305_, i, j);
+          } else {
+-            int l = (k - this.f_161997_) / 2;
+-            int i1 = k - l;
+-            return i + Mth.m_216287_(p_226305_, 0, i1) + Mth.m_216287_(p_226305_, 0, l);
++            long l = (k - this.f_161997_) / 2;
++            long i1 = k - l;
++            return i + Mth.randomBetweenInclusive(p_226305_, 0, i1) + Mth.randomBetweenInclusive(p_226305_, 0, l);
+          }
+       }
+    }

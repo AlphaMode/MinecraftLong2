@@ -1,0 +1,81 @@
+--- a/net/minecraft/world/level/block/DoorBlock.java
++++ b/net/minecraft/world/level/block/DoorBlock.java
+@@ -109,8 +_,8 @@
+    public BlockState m_5573_(BlockPlaceContext p_52739_) {
+       BlockPos blockpos = p_52739_.m_8083_();
+       Level level = p_52739_.m_43725_();
+-      if (blockpos.m_123342_() < level.m_151558_() - 1 && level.m_8055_(blockpos.m_7494_()).m_60629_(p_52739_)) {
+-         boolean flag = level.m_46753_(blockpos) || level.m_46753_(blockpos.m_7494_());
++      if (blockpos.getY() < level.getMaxBuildHeight() - 1 && level.m_8055_(blockpos.above()).m_60629_(p_52739_)) {
++         boolean flag = level.m_46753_(blockpos) || level.m_46753_(blockpos.above());
+          return this.m_49966_().m_61124_(f_52726_, p_52739_.m_8125_()).m_61124_(f_52728_, this.m_52804_(p_52739_)).m_61124_(f_52729_, Boolean.valueOf(flag)).m_61124_(f_52727_, Boolean.valueOf(flag)).m_61124_(f_52730_, DoubleBlockHalf.LOWER);
+       } else {
+          return null;
+@@ -118,23 +_,23 @@
+    }
+ 
+    public void m_6402_(Level p_52749_, BlockPos p_52750_, BlockState p_52751_, LivingEntity p_52752_, ItemStack p_52753_) {
+-      p_52749_.m_7731_(p_52750_.m_7494_(), p_52751_.m_61124_(f_52730_, DoubleBlockHalf.UPPER), 3);
++      p_52749_.m_7731_(p_52750_.above(), p_52751_.m_61124_(f_52730_, DoubleBlockHalf.UPPER), 3);
+    }
+ 
+    private DoorHingeSide m_52804_(BlockPlaceContext p_52805_) {
+       BlockGetter blockgetter = p_52805_.m_43725_();
+       BlockPos blockpos = p_52805_.m_8083_();
+       Direction direction = p_52805_.m_8125_();
+-      BlockPos blockpos1 = blockpos.m_7494_();
++      BlockPos blockpos1 = blockpos.above();
+       Direction direction1 = direction.m_122428_();
+-      BlockPos blockpos2 = blockpos.m_121945_(direction1);
++      BlockPos blockpos2 = blockpos.relative(direction1);
+       BlockState blockstate = blockgetter.m_8055_(blockpos2);
+-      BlockPos blockpos3 = blockpos1.m_121945_(direction1);
++      BlockPos blockpos3 = blockpos1.relative(direction1);
+       BlockState blockstate1 = blockgetter.m_8055_(blockpos3);
+       Direction direction2 = direction.m_122427_();
+-      BlockPos blockpos4 = blockpos.m_121945_(direction2);
++      BlockPos blockpos4 = blockpos.relative(direction2);
+       BlockState blockstate2 = blockgetter.m_8055_(blockpos4);
+-      BlockPos blockpos5 = blockpos1.m_121945_(direction2);
++      BlockPos blockpos5 = blockpos1.relative(direction2);
+       BlockState blockstate3 = blockgetter.m_8055_(blockpos5);
+       int i = (blockstate.m_60838_(blockgetter, blockpos2) ? -1 : 0) + (blockstate1.m_60838_(blockgetter, blockpos3) ? -1 : 0) + (blockstate2.m_60838_(blockgetter, blockpos4) ? 1 : 0) + (blockstate3.m_60838_(blockgetter, blockpos5) ? 1 : 0);
+       boolean flag = blockstate.m_60713_(this) && blockstate.m_61143_(f_52730_) == DoubleBlockHalf.LOWER;
+@@ -144,8 +_,8 @@
+             int j = direction.m_122429_();
+             int k = direction.m_122431_();
+             Vec3 vec3 = p_52805_.m_43720_();
+-            double d0 = vec3.f_82479_ - (double)blockpos.m_123341_();
+-            double d1 = vec3.f_82481_ - (double)blockpos.m_123343_();
++            double d0 = vec3.f_82479_ - (double)blockpos.getX();
++            double d1 = vec3.f_82481_ - (double)blockpos.getZ();
+             return (j >= 0 || !(d1 < 0.5D)) && (j <= 0 || !(d1 > 0.5D)) && (k >= 0 || !(d0 > 0.5D)) && (k <= 0 || !(d0 < 0.5D)) ? DoorHingeSide.LEFT : DoorHingeSide.RIGHT;
+          } else {
+             return DoorHingeSide.LEFT;
+@@ -180,7 +_,7 @@
+    }
+ 
+    public void m_6861_(BlockState p_52776_, Level p_52777_, BlockPos p_52778_, Block p_52779_, BlockPos p_52780_, boolean p_52781_) {
+-      boolean flag = p_52777_.m_46753_(p_52778_) || p_52777_.m_46753_(p_52778_.m_121945_(p_52776_.m_61143_(f_52730_) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN));
++      boolean flag = p_52777_.m_46753_(p_52778_) || p_52777_.m_46753_(p_52778_.relative(p_52776_.m_61143_(f_52730_) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN));
+       if (!this.m_49966_().m_60713_(p_52779_) && flag != p_52776_.m_61143_(f_52729_)) {
+          if (flag != p_52776_.m_61143_(f_52727_)) {
+             this.m_52759_(p_52777_, p_52778_, flag);
+@@ -193,7 +_,7 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_52783_, LevelReader p_52784_, BlockPos p_52785_) {
+-      BlockPos blockpos = p_52785_.m_7495_();
++      BlockPos blockpos = p_52785_.below();
+       BlockState blockstate = p_52784_.m_8055_(blockpos);
+       return p_52783_.m_61143_(f_52730_) == DoubleBlockHalf.LOWER ? blockstate.m_60783_(p_52784_, blockpos, Direction.UP) : blockstate.m_60713_(this);
+    }
+@@ -215,7 +_,7 @@
+    }
+ 
+    public long m_7799_(BlockState p_52793_, BlockPos p_52794_) {
+-      return Mth.m_14130_(p_52794_.m_123341_(), p_52794_.m_6625_(p_52793_.m_61143_(f_52730_) == DoubleBlockHalf.LOWER ? 0 : 1).m_123342_(), p_52794_.m_123343_());
++      return Mth.getSeed(p_52794_.getX(), p_52794_.below(p_52793_.m_61143_(f_52730_) == DoubleBlockHalf.LOWER ? 0 : 1).getY(), p_52794_.getZ());
+    }
+ 
+    protected void m_7926_(StateDefinition.Builder<Block, BlockState> p_52803_) {

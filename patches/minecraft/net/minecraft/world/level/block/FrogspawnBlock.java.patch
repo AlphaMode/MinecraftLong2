@@ -1,0 +1,39 @@
+--- a/net/minecraft/world/level/block/FrogspawnBlock.java
++++ b/net/minecraft/world/level/block/FrogspawnBlock.java
+@@ -41,11 +_,11 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_221209_, LevelReader p_221210_, BlockPos p_221211_) {
+-      return m_221187_(p_221210_, p_221211_.m_7495_());
++      return m_221187_(p_221210_, p_221211_.below());
+    }
+ 
+    public void m_6807_(BlockState p_221227_, Level p_221228_, BlockPos p_221229_, BlockState p_221230_, boolean p_221231_) {
+-      p_221228_.m_186460_(p_221229_, this, m_221185_(p_221228_.m_213780_()));
++      p_221228_.scheduleTick(p_221229_, this, m_221185_(p_221228_.m_213780_()));
+    }
+ 
+    private static int m_221185_(RandomSource p_221186_) {
+@@ -73,7 +_,7 @@
+ 
+    private static boolean m_221187_(BlockGetter p_221188_, BlockPos p_221189_) {
+       FluidState fluidstate = p_221188_.m_6425_(p_221189_);
+-      FluidState fluidstate1 = p_221188_.m_6425_(p_221189_.m_7494_());
++      FluidState fluidstate1 = p_221188_.m_6425_(p_221189_.above());
+       return fluidstate.m_76152_() == Fluids.f_76193_ && fluidstate1.m_76152_() == Fluids.f_76191_;
+    }
+ 
+@@ -92,10 +_,10 @@
+ 
+       for(int j = 1; j <= i; ++j) {
+          Tadpole tadpole = EntityType.f_217013_.m_20615_(p_221221_);
+-         double d0 = (double)p_221222_.m_123341_() + this.m_221224_(p_221223_);
+-         double d1 = (double)p_221222_.m_123343_() + this.m_221224_(p_221223_);
++         double d0 = (double)p_221222_.getX() + this.m_221224_(p_221223_);
++         double d1 = (double)p_221222_.getZ() + this.m_221224_(p_221223_);
+          int k = p_221223_.m_216339_(1, 361);
+-         tadpole.m_7678_(d0, (double)p_221222_.m_123342_() - 0.5D, d1, (float)k, 0.0F);
++         tadpole.m_7678_(d0, (double)p_221222_.getY() - 0.5D, d1, (float)k, 0.0F);
+          tadpole.m_21530_();
+          p_221221_.m_7967_(tadpole);
+       }

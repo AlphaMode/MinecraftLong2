@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/storage/WritableLevelData.java
++++ b/net/minecraft/world/level/storage/WritableLevelData.java
+@@ -3,18 +_,18 @@
+ import net.minecraft.core.BlockPos;
+ 
+ public interface WritableLevelData extends LevelData {
+-   void m_6395_(int p_78651_);
+-
+-   void m_6397_(int p_78652_);
+-
+-   void m_6400_(int p_78653_);
++   void setXSpawn(long p_78651_);
++
++   void setYSpawn(long p_78652_);
++
++   void setZSpawn(long p_78653_);
+ 
+    void m_7113_(float p_78648_);
+ 
+    default void m_7250_(BlockPos p_78649_, float p_78650_) {
+-      this.m_6395_(p_78649_.m_123341_());
+-      this.m_6397_(p_78649_.m_123342_());
+-      this.m_6400_(p_78649_.m_123343_());
++      this.setXSpawn(p_78649_.getX());
++      this.setYSpawn(p_78649_.getY());
++      this.setZSpawn(p_78649_.getZ());
+       this.m_7113_(p_78650_);
+    }
+ }

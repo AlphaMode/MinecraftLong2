@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/redstone/CollectingNeighborUpdater.java
++++ b/net/minecraft/world/level/redstone/CollectingNeighborUpdater.java
+@@ -52,7 +_,7 @@
+             this.f_230638_.push(p_230662_);
+          }
+       } else if (this.f_230640_ - 1 == this.f_230637_) {
+-         f_230635_.error("Too many chained neighbor updates. Skipping the rest. First skipped position: " + p_230661_.m_123344_());
++         f_230635_.error("Too many chained neighbor updates. Skipping the rest. First skipped position: " + p_230661_.toShortString());
+       }
+ 
+       if (!flag) {
+@@ -111,7 +_,7 @@
+       }
+ 
+       public boolean m_213563_(Level p_230701_) {
+-         BlockPos blockpos = this.f_230692_.m_121945_(NeighborUpdater.f_230761_[this.f_230695_++]);
++         BlockPos blockpos = this.f_230692_.relative(NeighborUpdater.f_230761_[this.f_230695_++]);
+          BlockState blockstate = p_230701_.m_8055_(blockpos);
+          blockstate.m_60690_(p_230701_, blockpos, this.f_230693_, this.f_230692_, false);
+          if (this.f_230695_ < NeighborUpdater.f_230761_.length && NeighborUpdater.f_230761_[this.f_230695_] == this.f_230694_) {

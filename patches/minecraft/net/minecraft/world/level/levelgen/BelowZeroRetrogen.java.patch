@@ -1,0 +1,53 @@
+--- a/net/minecraft/world/level/levelgen/BelowZeroRetrogen.java
++++ b/net/minecraft/world/level/levelgen/BelowZeroRetrogen.java
+@@ -41,11 +_,11 @@
+    });
+    private static final Set<ResourceKey<Biome>> f_196980_ = Set.of(Biomes.f_151785_, Biomes.f_151784_);
+    public static final LevelHeightAccessor f_188456_ = new LevelHeightAccessor() {
+-      public int m_141928_() {
++      public long getHeight() {
+          return 64;
+       }
+ 
+-      public int m_141937_() {
++      public long getMinBuildHeight() {
+          return -64;
+       }
+    };
+@@ -65,7 +_,7 @@
+ 
+    public static void m_188474_(ProtoChunk p_188475_) {
+       int i = 4;
+-      BlockPos.m_121976_(0, 0, 0, 15, 4, 15).forEach((p_188492_) -> {
++      BlockPos.betweenClosed(0, 0, 0, 15, 4, 15).forEach((p_188492_) -> {
+          if (p_188475_.m_8055_(p_188492_).m_60713_(Blocks.f_50752_)) {
+             p_188475_.m_6978_(p_188492_, Blocks.f_152550_.m_49966_(), false);
+          }
+@@ -75,13 +_,13 @@
+ 
+    public void m_198221_(ProtoChunk p_198222_) {
+       LevelHeightAccessor levelheightaccessor = p_198222_.m_183618_();
+-      int i = levelheightaccessor.m_141937_();
+-      int j = levelheightaccessor.m_151558_() - 1;
++      long i = levelheightaccessor.getMinBuildHeight();
++      long j = levelheightaccessor.getMaxBuildHeight() - 1;
+ 
+       for(int k = 0; k < 16; ++k) {
+          for(int l = 0; l < 16; ++l) {
+             if (this.m_198214_(k, l)) {
+-               BlockPos.m_121976_(k, i, l, k, j, l).forEach((p_198219_) -> {
++               BlockPos.betweenClosed(k, i, l, k, j, l).forEach((p_198219_) -> {
+                   p_198222_.m_6978_(p_198219_, Blocks.f_50016_.m_49966_(), false);
+                });
+             }
+@@ -108,8 +_,8 @@
+       } else {
+          Predicate<ResourceKey<Biome>> predicate = f_196980_::contains;
+          return (p_204538_, p_204539_, p_204540_, p_204541_) -> {
+-            Holder<Biome> holder = p_204532_.m_203407_(p_204538_, p_204539_, p_204540_, p_204541_);
+-            return holder.m_203425_(predicate) ? holder : p_204533_.m_203495_(p_204538_, 0, p_204540_);
++            Holder<Biome> holder = p_204532_.getNoiseBiome(p_204538_, p_204539_, p_204540_, p_204541_);
++            return holder.m_203425_(predicate) ? holder : p_204533_.getNoiseBiome(p_204538_, 0, p_204540_);
+          };
+       }
+    }

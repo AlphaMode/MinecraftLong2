@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/levelgen/feature/DesertWellFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/DesertWellFeature.java
+@@ -23,7 +_,7 @@
+       WorldGenLevel worldgenlevel = p_159571_.m_159774_();
+       BlockPos blockpos = p_159571_.m_159777_();
+ 
+-      for(blockpos = blockpos.m_7494_(); worldgenlevel.m_46859_(blockpos) && blockpos.m_123342_() > worldgenlevel.m_141937_() + 2; blockpos = blockpos.m_7495_()) {
++      for(blockpos = blockpos.above(); worldgenlevel.m_46859_(blockpos) && blockpos.getY() > worldgenlevel.getMinBuildHeight() + 2; blockpos = blockpos.below()) {
+       }
+ 
+       if (!f_65593_.test(worldgenlevel.m_8055_(blockpos))) {
+@@ -48,7 +_,7 @@
+          worldgenlevel.m_7731_(blockpos, this.f_65596_, 2);
+ 
+          for(Direction direction : Direction.Plane.HORIZONTAL) {
+-            worldgenlevel.m_7731_(blockpos.m_121945_(direction), this.f_65596_, 2);
++            worldgenlevel.m_7731_(blockpos.relative(direction), this.f_65596_, 2);
+          }
+ 
+          for(int i1 = -2; i1 <= 2; ++i1) {

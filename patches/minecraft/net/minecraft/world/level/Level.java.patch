@@ -1,0 +1,221 @@
+--- a/net/minecraft/world/level/Level.java
++++ b/net/minecraft/world/level/Level.java
+@@ -149,28 +_,33 @@
+    }
+ 
+    public static boolean m_46741_(BlockPos p_46742_) {
+-      return !m_46724_(p_46742_.m_123342_()) && m_46457_(p_46742_);
++      return !isOutsideSpawnableHeight(p_46742_.getY()) && m_46457_(p_46742_);
+    }
+ 
+    private static boolean m_46457_(BlockPos p_46458_) {
+-      return p_46458_.m_123341_() >= -30000000 && p_46458_.m_123343_() >= -30000000 && p_46458_.m_123341_() < 30000000 && p_46458_.m_123343_() < 30000000;
++      return p_46458_.getX() >= -30000000 && p_46458_.getZ() >= -30000000 && p_46458_.getX() < 30000000 && p_46458_.getZ() < 30000000;
+    }
+ 
++   @Deprecated
+    private static boolean m_46724_(int p_46725_) {
+       return p_46725_ < -20000000 || p_46725_ >= 20000000;
+    }
+ 
++   private static boolean isOutsideSpawnableHeight(long p_46725_) {
++      return p_46725_ < -20000000 || p_46725_ >= 20000000;
++   }
++
+    public LevelChunk m_46745_(BlockPos p_46746_) {
+-      return this.m_6325_(SectionPos.m_123171_(p_46746_.m_123341_()), SectionPos.m_123171_(p_46746_.m_123343_()));
++      return this.getChunk(SectionPos.m_235865_(p_46746_.getX()), SectionPos.m_235865_(p_46746_.getZ()));
+    }
+ 
+-   public LevelChunk m_6325_(int p_46727_, int p_46728_) {
+-      return (LevelChunk)this.m_46819_(p_46727_, p_46728_, ChunkStatus.f_62326_);
++   public LevelChunk getChunk(long p_46727_, long p_46728_) {
++      return (LevelChunk)this.getChunk(p_46727_, p_46728_, ChunkStatus.f_62326_);
+    }
+ 
+    @Nullable
+-   public ChunkAccess m_6522_(int p_46502_, int p_46503_, ChunkStatus p_46504_, boolean p_46505_) {
+-      ChunkAccess chunkaccess = this.m_7726_().m_7587_(p_46502_, p_46503_, p_46504_, p_46505_);
++   public ChunkAccess getChunk(long p_46502_, long p_46503_, ChunkStatus p_46504_, boolean p_46505_) {
++      ChunkAccess chunkaccess = this.m_7726_().getChunk(p_46502_, p_46503_, p_46504_, p_46505_);
+       if (chunkaccess == null && p_46505_) {
+          throw new IllegalStateException("Should always be able to create a chunk!");
+       } else {
+@@ -292,13 +_,13 @@
+       this.f_220350_.m_213547_(p_220385_, p_220386_, p_220387_, p_220388_, p_220389_, p_220390_);
+    }
+ 
+-   public int m_6924_(Heightmap.Types p_46571_, int p_46572_, int p_46573_) {
+-      int i;
++   public long getHeight(Heightmap.Types p_46571_, long p_46572_, long p_46573_) {
++      long i;
+       if (p_46572_ >= -30000000 && p_46573_ >= -30000000 && p_46572_ < 30000000 && p_46573_ < 30000000) {
+-         if (this.m_7232_(SectionPos.m_123171_(p_46572_), SectionPos.m_123171_(p_46573_))) {
+-            i = this.m_6325_(SectionPos.m_123171_(p_46572_), SectionPos.m_123171_(p_46573_)).m_5885_(p_46571_, p_46572_ & 15, p_46573_ & 15) + 1;
++         if (this.hasChunk(SectionPos.m_235865_(p_46572_), SectionPos.m_235865_(p_46573_))) {
++            i = this.getChunk(SectionPos.m_235865_(p_46572_), SectionPos.m_235865_(p_46573_)).getHeight(p_46571_, p_46572_ & 15, p_46573_ & 15) + 1;
+          } else {
+-            i = this.m_141937_();
++            i = this.getMinBuildHeight();
+          }
+       } else {
+          i = this.m_5736_() + 1;
+@@ -315,7 +_,7 @@
+       if (this.m_151570_(p_46732_)) {
+          return Blocks.f_50626_.m_49966_();
+       } else {
+-         LevelChunk levelchunk = this.m_6325_(SectionPos.m_123171_(p_46732_.m_123341_()), SectionPos.m_123171_(p_46732_.m_123343_()));
++         LevelChunk levelchunk = this.getChunk(SectionPos.m_235865_(p_46732_.getX()), SectionPos.m_235865_(p_46732_.getZ()));
+          return levelchunk.m_8055_(p_46732_);
+       }
+    }
+@@ -338,7 +_,7 @@
+    }
+ 
+    public void m_5594_(@Nullable Player p_46560_, BlockPos p_46561_, SoundEvent p_46562_, SoundSource p_46563_, float p_46564_, float p_46565_) {
+-      this.m_6263_(p_46560_, (double)p_46561_.m_123341_() + 0.5D, (double)p_46561_.m_123342_() + 0.5D, (double)p_46561_.m_123343_() + 0.5D, p_46562_, p_46563_, p_46564_, p_46565_);
++      this.m_6263_(p_46560_, (double)p_46561_.getX() + 0.5D, (double)p_46561_.getY() + 0.5D, (double)p_46561_.getZ() + 0.5D, p_46562_, p_46563_, p_46564_, p_46565_);
+    }
+ 
+    public abstract void m_214150_(@Nullable Player p_220363_, double p_220364_, double p_220365_, double p_220366_, SoundEvent p_220367_, SoundSource p_220368_, float p_220369_, float p_220370_, long p_220371_);
+@@ -464,14 +_,14 @@
+    }
+ 
+    public boolean m_46749_(BlockPos p_46750_) {
+-      return this.m_151570_(p_46750_) ? false : this.m_7726_().m_5563_(SectionPos.m_123171_(p_46750_.m_123341_()), SectionPos.m_123171_(p_46750_.m_123343_()));
++      return this.m_151570_(p_46750_) ? false : this.m_7726_().hasChunk(SectionPos.m_235865_(p_46750_.getX()), SectionPos.m_235865_(p_46750_.getZ()));
+    }
+ 
+    public boolean m_46578_(BlockPos p_46579_, Entity p_46580_, Direction p_46581_) {
+       if (this.m_151570_(p_46579_)) {
+          return false;
+       } else {
+-         ChunkAccess chunkaccess = this.m_6522_(SectionPos.m_123171_(p_46579_.m_123341_()), SectionPos.m_123171_(p_46579_.m_123343_()), ChunkStatus.f_62326_, false);
++         ChunkAccess chunkaccess = this.getChunk(SectionPos.m_235865_(p_46579_.getX()), SectionPos.m_235865_(p_46579_.getZ()), ChunkStatus.f_62326_, false);
+          return chunkaccess == null ? false : chunkaccess.m_8055_(p_46579_).m_60638_(this, p_46579_, p_46580_, p_46581_);
+       }
+    }
+@@ -492,7 +_,7 @@
+    }
+ 
+    public BlockPos m_220360_() {
+-      BlockPos blockpos = new BlockPos(this.f_46442_.m_6789_(), this.f_46442_.m_6527_(), this.f_46442_.m_6526_());
++      BlockPos blockpos = new BlockPos(this.f_46442_.getXSpawn(), this.f_46442_.getYSpawn(), this.f_46442_.getZSpawn());
+       if (!this.m_6857_().m_61937_(blockpos)) {
+          blockpos = this.m_5452_(Heightmap.Types.MOTION_BLOCKING, new BlockPos(this.m_6857_().m_6347_(), 0.0D, this.m_6857_().m_6345_()));
+       }
+@@ -520,7 +_,7 @@
+ 
+    @Nullable
+    public BlockGetter m_7925_(int p_46711_, int p_46712_) {
+-      return this.m_6522_(p_46711_, p_46712_, ChunkStatus.f_62326_, false);
++      return this.getChunk(p_46711_, p_46712_, ChunkStatus.f_62326_, false);
+    }
+ 
+    public List<Entity> m_6249_(@Nullable Entity p_46536_, AABB p_46537_, Predicate<? super Entity> p_46538_) {
+@@ -580,27 +_,27 @@
+ 
+    public int m_46751_(BlockPos p_46752_) {
+       int i = 0;
+-      i = Math.max(i, this.m_46852_(p_46752_.m_7495_(), Direction.DOWN));
++      i = Math.max(i, this.m_46852_(p_46752_.below(), Direction.DOWN));
+       if (i >= 15) {
+          return i;
+       } else {
+-         i = Math.max(i, this.m_46852_(p_46752_.m_7494_(), Direction.UP));
++         i = Math.max(i, this.m_46852_(p_46752_.above(), Direction.UP));
+          if (i >= 15) {
+             return i;
+          } else {
+-            i = Math.max(i, this.m_46852_(p_46752_.m_122012_(), Direction.NORTH));
++            i = Math.max(i, this.m_46852_(p_46752_.north(), Direction.NORTH));
+             if (i >= 15) {
+                return i;
+             } else {
+-               i = Math.max(i, this.m_46852_(p_46752_.m_122019_(), Direction.SOUTH));
++               i = Math.max(i, this.m_46852_(p_46752_.south(), Direction.SOUTH));
+                if (i >= 15) {
+                   return i;
+                } else {
+-                  i = Math.max(i, this.m_46852_(p_46752_.m_122024_(), Direction.WEST));
++                  i = Math.max(i, this.m_46852_(p_46752_.west(), Direction.WEST));
+                   if (i >= 15) {
+                      return i;
+                   } else {
+-                     i = Math.max(i, this.m_46852_(p_46752_.m_122029_(), Direction.EAST));
++                     i = Math.max(i, this.m_46852_(p_46752_.east(), Direction.EAST));
+                      return i >= 15 ? i : i;
+                   }
+                }
+@@ -620,18 +_,18 @@
+    }
+ 
+    public boolean m_46753_(BlockPos p_46754_) {
+-      if (this.m_46681_(p_46754_.m_7495_(), Direction.DOWN) > 0) {
+-         return true;
+-      } else if (this.m_46681_(p_46754_.m_7494_(), Direction.UP) > 0) {
+-         return true;
+-      } else if (this.m_46681_(p_46754_.m_122012_(), Direction.NORTH) > 0) {
+-         return true;
+-      } else if (this.m_46681_(p_46754_.m_122019_(), Direction.SOUTH) > 0) {
+-         return true;
+-      } else if (this.m_46681_(p_46754_.m_122024_(), Direction.WEST) > 0) {
++      if (this.m_46681_(p_46754_.below(), Direction.DOWN) > 0) {
++         return true;
++      } else if (this.m_46681_(p_46754_.above(), Direction.UP) > 0) {
++         return true;
++      } else if (this.m_46681_(p_46754_.north(), Direction.NORTH) > 0) {
++         return true;
++      } else if (this.m_46681_(p_46754_.south(), Direction.SOUTH) > 0) {
++         return true;
++      } else if (this.m_46681_(p_46754_.west(), Direction.WEST) > 0) {
+          return true;
+       } else {
+-         return this.m_46681_(p_46754_.m_122029_(), Direction.EAST) > 0;
++         return this.m_46681_(p_46754_.east(), Direction.EAST) > 0;
+       }
+    }
+ 
+@@ -639,7 +_,7 @@
+       int i = 0;
+ 
+       for(Direction direction : f_46422_) {
+-         int j = this.m_46681_(p_46756_.m_121945_(direction), direction);
++         int j = this.m_46681_(p_46756_.relative(direction), direction);
+          if (j >= 15) {
+             return 15;
+          }
+@@ -719,7 +_,7 @@
+          return false;
+       } else if (!this.m_45527_(p_46759_)) {
+          return false;
+-      } else if (this.m_5452_(Heightmap.Types.MOTION_BLOCKING, p_46759_).m_123342_() > p_46759_.m_123342_()) {
++      } else if (this.m_5452_(Heightmap.Types.MOTION_BLOCKING, p_46759_).getY() > p_46759_.getY()) {
+          return false;
+       } else {
+          Biome biome = this.m_204166_(p_46759_).m_203334_();
+@@ -770,13 +_,13 @@
+ 
+    public void m_46717_(BlockPos p_46718_, Block p_46719_) {
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         BlockPos blockpos = p_46718_.m_121945_(direction);
++         BlockPos blockpos = p_46718_.relative(direction);
+          if (this.m_46805_(blockpos)) {
+             BlockState blockstate = this.m_8055_(blockpos);
+             if (blockstate.m_60713_(Blocks.f_50328_)) {
+                this.m_213960_(blockstate, blockpos, p_46719_, p_46718_, false);
+             } else if (blockstate.m_60796_(this, blockpos)) {
+-               blockpos = blockpos.m_121945_(direction);
++               blockpos = blockpos.relative(direction);
+                blockstate = this.m_8055_(blockpos);
+                if (blockstate.m_60713_(Blocks.f_50328_)) {
+                   this.m_213960_(blockstate, blockpos, p_46719_, p_46718_, false);
+@@ -843,7 +_,7 @@
+ 
+    public abstract RecipeManager m_7465_();
+ 
+-   public BlockPos m_46496_(int p_46497_, int p_46498_, int p_46499_, int p_46500_) {
++   public BlockPos getBlockRandomPos(long p_46497_, long p_46498_, long p_46499_, long p_46500_) {
+       this.f_46435_ = this.f_46435_ * 3 + 1013904223;
+       int i = this.f_46435_ >> 2;
+       return new BlockPos(p_46497_ + (i & 15), p_46498_ + (i >> 16 & p_46500_), p_46499_ + (i >> 8 & 15));

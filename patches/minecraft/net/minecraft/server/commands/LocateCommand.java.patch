@@ -1,0 +1,28 @@
+--- a/net/minecraft/server/commands/LocateCommand.java
++++ b/net/minecraft/server/commands/LocateCommand.java
+@@ -114,18 +_,18 @@
+             return p_214463_.m_135782_().toString();
+          }).orElse("[unregistered]") + ")";
+       });
+-      int i = p_214480_ ? Mth.m_14143_(Mth.m_14116_((float)p_214477_.m_123331_(blockpos))) : Mth.m_14143_(m_137853_(p_214477_.m_123341_(), p_214477_.m_123343_(), blockpos.m_123341_(), blockpos.m_123343_()));
+-      String s1 = p_214480_ ? String.valueOf(blockpos.m_123342_()) : "~";
+-      Component component = ComponentUtils.m_130748_(Component.m_237110_("chat.coordinates", blockpos.m_123341_(), s1, blockpos.m_123343_())).m_130938_((p_214489_) -> {
+-         return p_214489_.m_131140_(ChatFormatting.GREEN).m_131142_(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + blockpos.m_123341_() + " " + s1 + " " + blockpos.m_123343_())).m_131144_(new HoverEvent(HoverEvent.Action.f_130831_, Component.m_237115_("chat.coordinates.tooltip")));
++      int i = p_214480_ ? Mth.m_14143_(Mth.m_14116_((float)p_214477_.distSqr(blockpos))) : Mth.m_14143_(dist(p_214477_.getX(), p_214477_.getZ(), blockpos.getX(), blockpos.getZ()));
++      String s1 = p_214480_ ? String.valueOf(blockpos.getY()) : "~";
++      Component component = ComponentUtils.m_130748_(Component.m_237110_("chat.coordinates", blockpos.getX(), s1, blockpos.getZ())).m_130938_((p_214489_) -> {
++         return p_214489_.m_131140_(ChatFormatting.GREEN).m_131142_(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + blockpos.getX() + " " + s1 + " " + blockpos.getZ())).m_131144_(new HoverEvent(HoverEvent.Action.f_130831_, Component.m_237115_("chat.coordinates.tooltip")));
+       });
+       p_214475_.m_81354_(Component.m_237110_(p_214479_, s, component, i), false);
+       return i;
+    }
+ 
+-   private static float m_137853_(int p_137854_, int p_137855_, int p_137856_, int p_137857_) {
+-      int i = p_137856_ - p_137854_;
+-      int j = p_137857_ - p_137855_;
++   private static float dist(long p_137854_, long p_137855_, long p_137856_, long p_137857_) {
++      long i = p_137856_ - p_137854_;
++      long j = p_137857_ - p_137855_;
+       return Mth.m_14116_((float)(i * i + j * j));
+    }
+ }

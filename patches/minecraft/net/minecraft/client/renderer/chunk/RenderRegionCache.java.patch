@@ -1,0 +1,46 @@
+--- a/net/minecraft/client/renderer/chunk/RenderRegionCache.java
++++ b/net/minecraft/client/renderer/chunk/RenderRegionCache.java
+@@ -17,16 +_,16 @@
+ 
+    @Nullable
+    public RenderChunkRegion m_200465_(Level p_200466_, BlockPos p_200467_, BlockPos p_200468_, int p_200469_) {
+-      int i = SectionPos.m_123171_(p_200467_.m_123341_() - p_200469_);
+-      int j = SectionPos.m_123171_(p_200467_.m_123343_() - p_200469_);
+-      int k = SectionPos.m_123171_(p_200468_.m_123341_() + p_200469_);
+-      int l = SectionPos.m_123171_(p_200468_.m_123343_() + p_200469_);
++      int i = SectionPos.m_235865_(p_200467_.getX() - p_200469_);
++      int j = SectionPos.m_235865_(p_200467_.getZ() - p_200469_);
++      int k = SectionPos.m_235865_(p_200468_.getX() + p_200469_);
++      int l = SectionPos.m_235865_(p_200468_.getZ() + p_200469_);
+       RenderRegionCache.ChunkInfo[][] arenderregioncache$chunkinfo = new RenderRegionCache.ChunkInfo[k - i + 1][l - j + 1];
+ 
+       for(int i1 = i; i1 <= k; ++i1) {
+          for(int j1 = j; j1 <= l; ++j1) {
+-            arenderregioncache$chunkinfo[i1 - i][j1 - j] = this.f_200460_.computeIfAbsent(ChunkPos.m_45589_(i1, j1), (p_200464_) -> {
+-               return new RenderRegionCache.ChunkInfo(p_200466_.m_6325_(ChunkPos.m_45592_(p_200464_), ChunkPos.m_45602_(p_200464_)));
++            arenderregioncache$chunkinfo[i1 - i][j1 - j] = this.f_200460_.computeIfAbsent(ChunkPos.asLong(i1, j1), (p_200464_) -> {
++               return new RenderRegionCache.ChunkInfo(p_200466_.getChunk(ChunkPos.m_45592_(p_200464_), ChunkPos.m_45602_(p_200464_)));
+             });
+          }
+       }
+@@ -47,15 +_,15 @@
+    }
+ 
+    private static boolean m_200470_(BlockPos p_200471_, BlockPos p_200472_, int p_200473_, int p_200474_, RenderRegionCache.ChunkInfo[][] p_200475_) {
+-      int i = SectionPos.m_123171_(p_200471_.m_123341_());
+-      int j = SectionPos.m_123171_(p_200471_.m_123343_());
+-      int k = SectionPos.m_123171_(p_200472_.m_123341_());
+-      int l = SectionPos.m_123171_(p_200472_.m_123343_());
++      int i = SectionPos.m_235865_(p_200471_.getX());
++      int j = SectionPos.m_235865_(p_200471_.getZ());
++      int k = SectionPos.m_235865_(p_200472_.getX());
++      int l = SectionPos.m_235865_(p_200472_.getZ());
+ 
+       for(int i1 = i; i1 <= k; ++i1) {
+          for(int j1 = j; j1 <= l; ++j1) {
+             LevelChunk levelchunk = p_200475_[i1 - p_200473_][j1 - p_200474_].m_200480_();
+-            if (!levelchunk.m_5566_(p_200471_.m_123342_(), p_200472_.m_123342_())) {
++            if (!levelchunk.isYSpaceEmpty(p_200471_.getY(), p_200472_.getY())) {
+                return false;
+             }
+          }

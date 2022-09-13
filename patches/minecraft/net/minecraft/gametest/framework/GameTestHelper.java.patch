@@ -1,0 +1,73 @@
+--- a/net/minecraft/gametest/framework/GameTestHelper.java
++++ b/net/minecraft/gametest/framework/GameTestHelper.java
+@@ -81,7 +_,7 @@
+    }
+ 
+    public <E extends Entity> E m_177176_(EntityType<E> p_177177_, BlockPos p_177178_) {
+-      return this.m_177173_(p_177177_, Vec3.m_82539_(p_177178_));
++      return this.m_177173_(p_177177_, Vec3.atBottomCenterOf(p_177178_));
+    }
+ 
+    public <E extends Entity> E m_177173_(EntityType<E> p_177174_, Vec3 p_177175_) {
+@@ -151,7 +_,7 @@
+    public void m_177408_(BlockPos p_177409_) {
+       BlockPos blockpos = this.m_177449_(p_177409_);
+       BlockState blockstate = this.m_177100_().m_8055_(blockpos);
+-      blockstate.m_60664_(this.m_177100_(), this.m_177368_(), InteractionHand.MAIN_HAND, new BlockHitResult(Vec3.m_82512_(blockpos), Direction.NORTH, blockpos, true));
++      blockstate.m_60664_(this.m_177100_(), this.m_177368_(), InteractionHand.MAIN_HAND, new BlockHitResult(Vec3.atCenterOf(blockpos), Direction.NORTH, blockpos, true));
+    }
+ 
+    public LivingEntity m_177183_(LivingEntity p_177184_) {
+@@ -464,7 +_,7 @@
+ 
+    public void m_177224_(BoundingBox p_177225_, BlockPos p_177226_) {
+       BlockPos.m_121919_(p_177225_).forEach((p_177267_) -> {
+-         BlockPos blockpos = p_177226_.m_7918_(p_177267_.m_123341_() - p_177225_.m_162395_(), p_177267_.m_123342_() - p_177225_.m_162396_(), p_177267_.m_123343_() - p_177225_.m_162398_());
++         BlockPos blockpos = p_177226_.offset(p_177267_.getX() - p_177225_.m_162395_(), p_177267_.getY() - p_177225_.m_162396_(), p_177267_.getZ() - p_177225_.m_162398_());
+          this.m_177268_(p_177267_, blockpos);
+       });
+    }
+@@ -570,9 +_,9 @@
+       serverlevel.m_8055_(blockpos).m_222972_(serverlevel, blockpos, serverlevel.f_46441_);
+    }
+ 
+-   public int m_236774_(Heightmap.Types p_236775_, int p_236776_, int p_236777_) {
++   public long getHeight(Heightmap.Types p_236775_, int p_236776_, int p_236777_) {
+       BlockPos blockpos = this.m_177449_(new BlockPos(p_236776_, 0, p_236777_));
+-      return this.m_177452_(this.m_177100_().m_5452_(p_236775_, blockpos)).m_123342_();
++      return this.m_177452_(this.m_177100_().m_5452_(p_236775_, blockpos)).getY();
+    }
+ 
+    public void m_177289_(String p_177290_, BlockPos p_177291_) {
+@@ -605,7 +_,7 @@
+ 
+    public BlockPos m_177449_(BlockPos p_177450_) {
+       BlockPos blockpos = this.f_127595_.m_127636_();
+-      BlockPos blockpos1 = blockpos.m_121955_(p_177450_);
++      BlockPos blockpos1 = blockpos.offset(p_177450_);
+       return StructureTemplate.m_74593_(blockpos1, Mirror.NONE, this.f_127595_.m_127646_(), blockpos);
+    }
+ 
+@@ -613,11 +_,11 @@
+       BlockPos blockpos = this.f_127595_.m_127636_();
+       Rotation rotation = this.f_127595_.m_127646_().m_55952_(Rotation.CLOCKWISE_180);
+       BlockPos blockpos1 = StructureTemplate.m_74593_(p_177453_, Mirror.NONE, rotation, blockpos);
+-      return blockpos1.m_121996_(blockpos);
++      return blockpos1.subtract(blockpos);
+    }
+ 
+    public Vec3 m_177227_(Vec3 p_177228_) {
+-      Vec3 vec3 = Vec3.m_82528_(this.f_127595_.m_127636_());
++      Vec3 vec3 = Vec3.atLowerCornerOf(this.f_127595_.m_127636_());
+       return StructureTemplate.m_74578_(vec3.m_82549_(p_177228_), Mirror.NONE, this.f_127595_.m_127646_(), this.f_127595_.m_127636_());
+    }
+ 
+@@ -631,7 +_,7 @@
+ 
+    private AABB m_177451_() {
+       AABB aabb = this.f_127595_.m_177484_();
+-      return aabb.m_82338_(BlockPos.f_121853_.m_121996_(this.m_177449_(BlockPos.f_121853_)));
++      return aabb.m_82338_(BlockPos.f_121853_.subtract(this.m_177449_(BlockPos.f_121853_)));
+    }
+ 
+    public void m_177292_(Consumer<BlockPos> p_177293_) {

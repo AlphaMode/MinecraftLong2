@@ -1,0 +1,25 @@
+--- a/net/minecraft/world/level/block/SoulSandBlock.java
++++ b/net/minecraft/world/level/block/SoulSandBlock.java
+@@ -35,19 +_,19 @@
+    }
+ 
+    public void m_213897_(BlockState p_222457_, ServerLevel p_222458_, BlockPos p_222459_, RandomSource p_222460_) {
+-      BubbleColumnBlock.m_152707_(p_222458_, p_222459_.m_7494_(), p_222457_);
++      BubbleColumnBlock.m_152707_(p_222458_, p_222459_.above(), p_222457_);
+    }
+ 
+    public BlockState m_7417_(BlockState p_56689_, Direction p_56690_, BlockState p_56691_, LevelAccessor p_56692_, BlockPos p_56693_, BlockPos p_56694_) {
+       if (p_56690_ == Direction.UP && p_56691_.m_60713_(Blocks.f_49990_)) {
+-         p_56692_.m_186460_(p_56693_, this, 20);
++         p_56692_.scheduleTick(p_56693_, this, 20);
+       }
+ 
+       return super.m_7417_(p_56689_, p_56690_, p_56691_, p_56692_, p_56693_, p_56694_);
+    }
+ 
+    public void m_6807_(BlockState p_56696_, Level p_56697_, BlockPos p_56698_, BlockState p_56699_, boolean p_56700_) {
+-      p_56697_.m_186460_(p_56698_, this, 20);
++      p_56697_.scheduleTick(p_56698_, this, 20);
+    }
+ 
+    public boolean m_7357_(BlockState p_56679_, BlockGetter p_56680_, BlockPos p_56681_, PathComputationType p_56682_) {

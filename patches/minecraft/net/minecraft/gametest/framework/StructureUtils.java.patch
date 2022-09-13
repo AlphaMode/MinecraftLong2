@@ -1,0 +1,106 @@
+--- a/net/minecraft/gametest/framework/StructureUtils.java
++++ b/net/minecraft/gametest/framework/StructureUtils.java
+@@ -110,11 +_,11 @@
+       BlockPos blockpos = p_127905_.m_58899_();
+       BlockPos blockpos1 = blockpos.m_121955_(p_127905_.m_155805_().m_7918_(-1, -1, -1));
+       BlockPos blockpos2 = StructureTemplate.m_74593_(blockpos1, Mirror.NONE, p_127905_.m_59906_(), blockpos);
+-      return BoundingBox.m_162375_(blockpos, blockpos2);
++      return BoundingBox.fromCorners(blockpos, blockpos2);
+    }
+ 
+    public static void m_127875_(BlockPos p_127876_, BlockPos p_127877_, Rotation p_127878_, ServerLevel p_127879_) {
+-      BlockPos blockpos = StructureTemplate.m_74593_(p_127876_.m_121955_(p_127877_), Mirror.NONE, p_127878_, p_127876_);
++      BlockPos blockpos = StructureTemplate.m_74593_(p_127876_.offset(p_127877_), Mirror.NONE, p_127878_, p_127876_);
+       p_127879_.m_46597_(blockpos, Blocks.f_50272_.m_49966_());
+       CommandBlockEntity commandblockentity = (CommandBlockEntity)p_127879_.m_7702_(blockpos);
+       commandblockentity.m_59141_().m_6590_("test runthis");
+@@ -124,7 +_,7 @@
+ 
+    public static void m_177764_(String p_177765_, BlockPos p_177766_, Vec3i p_177767_, Rotation p_177768_, ServerLevel p_177769_) {
+       BoundingBox boundingbox = m_177760_(p_177766_, p_177767_, p_177768_);
+-      m_127849_(boundingbox, p_177766_.m_123342_(), p_177769_);
++      clearSpaceForStructure(boundingbox, p_177766_.getY(), p_177769_);
+       p_177769_.m_46597_(p_177766_, Blocks.f_50677_.m_49966_());
+       StructureBlockEntity structureblockentity = (StructureBlockEntity)p_177769_.m_7702_(p_177766_);
+       structureblockentity.m_59876_(false);
+@@ -153,7 +_,7 @@
+       }
+ 
+       m_127857_(p_127885_, p_127888_);
+-      m_127849_(boundingbox, p_127885_.m_123342_(), p_127888_);
++      clearSpaceForStructure(boundingbox, p_127885_.getY(), p_127888_);
+       StructureBlockEntity structureblockentity = m_127890_(p_127884_, blockpos, p_127886_, p_127888_, p_127889_);
+       p_127888_.m_183326_().m_193234_(boundingbox);
+       p_127888_.m_8722_(boundingbox);
+@@ -165,18 +_,18 @@
+ 
+       for(int i = -1; i < 4; ++i) {
+          for(int j = -1; j < 4; ++j) {
+-            int k = chunkpos.f_45578_ + i;
+-            int l = chunkpos.f_45579_ + j;
+-            p_127859_.m_8602_(k, l, true);
++            long k = chunkpos.f_45578_ + i;
++            long l = chunkpos.f_45579_ + j;
++            p_127859_.setChunkForced(k, l, true);
+          }
+       }
+ 
+    }
+ 
+-   public static void m_127849_(BoundingBox p_127850_, int p_127851_, ServerLevel p_127852_) {
++   public static void clearSpaceForStructure(BoundingBox p_127850_, long p_127851_, ServerLevel p_127852_) {
+       BoundingBox boundingbox = new BoundingBox(p_127850_.m_162395_() - 2, p_127850_.m_162396_() - 3, p_127850_.m_162398_() - 3, p_127850_.m_162399_() + 3, p_127850_.m_162400_() + 20, p_127850_.m_162401_() + 3);
+       BlockPos.m_121919_(boundingbox).forEach((p_177748_) -> {
+-         m_127841_(p_127851_, p_177748_, p_127852_);
++         clearBlock(p_127851_, p_177748_, p_127852_);
+       });
+       p_127852_.m_183326_().m_193234_(boundingbox);
+       p_127852_.m_8722_(boundingbox);
+@@ -190,10 +_,10 @@
+    public static BoundingBox m_177760_(BlockPos p_177761_, Vec3i p_177762_, Rotation p_177763_) {
+       BlockPos blockpos = p_177761_.m_121955_(p_177762_).m_7918_(-1, -1, -1);
+       BlockPos blockpos1 = StructureTemplate.m_74593_(blockpos, Mirror.NONE, p_177763_, p_177761_);
+-      BoundingBox boundingbox = BoundingBox.m_162375_(p_177761_, blockpos1);
++      BoundingBox boundingbox = BoundingBox.fromCorners(p_177761_, blockpos1);
+       int i = Math.min(boundingbox.m_162395_(), boundingbox.m_162399_());
+       int j = Math.min(boundingbox.m_162398_(), boundingbox.m_162401_());
+-      return boundingbox.m_162367_(p_177761_.m_123341_() - i, 0, p_177761_.m_123343_() - j);
++      return boundingbox.move(p_177761_.getX() - i, 0, p_177761_.getZ() - j);
+    }
+ 
+    public static Optional<BlockPos> m_127853_(BlockPos p_127854_, int p_127855_, ServerLevel p_127856_) {
+@@ -205,7 +_,7 @@
+    @Nullable
+    public static BlockPos m_127906_(BlockPos p_127907_, int p_127908_, ServerLevel p_127909_) {
+       Comparator<BlockPos> comparator = Comparator.comparingInt((p_177759_) -> {
+-         return p_177759_.m_123333_(p_127907_);
++         return p_177759_.distManhattan(p_127907_);
+       });
+       Collection<BlockPos> collection = m_127910_(p_127907_, p_127908_, p_127909_);
+       Optional<BlockPos> optional = collection.stream().min(comparator);
+@@ -283,13 +_,13 @@
+       }
+    }
+ 
+-   private static void m_127841_(int p_127842_, BlockPos p_127843_, ServerLevel p_127844_) {
++   private static void clearBlock(long p_127842_, BlockPos p_127843_, ServerLevel p_127844_) {
+       BlockState blockstate = null;
+       FlatLevelGeneratorSettings flatlevelgeneratorsettings = FlatLevelGeneratorSettings.m_211734_(p_127844_.m_5962_().m_175515_(Registry.f_122885_), p_127844_.m_5962_().m_175515_(Registry.f_211073_));
+       List<BlockState> list = flatlevelgeneratorsettings.m_161917_();
+-      int i = p_127843_.m_123342_() - p_127844_.m_141937_();
+-      if (p_127843_.m_123342_() < p_127842_ && i > 0 && i <= list.size()) {
+-         blockstate = list.get(i - 1);
++      long i = p_127843_.getY() - p_127844_.getMinBuildHeight();
++      if (p_127843_.getY() < p_127842_ && i > 0 && i <= list.size()) {
++         blockstate = list.get((int) (i - 1));
+       }
+ 
+       if (blockstate == null) {
+@@ -304,6 +_,6 @@
+    private static boolean m_127867_(BlockPos p_127868_, BlockPos p_127869_, ServerLevel p_127870_) {
+       StructureBlockEntity structureblockentity = (StructureBlockEntity)p_127870_.m_7702_(p_127868_);
+       AABB aabb = m_127847_(structureblockentity).m_82400_(1.0D);
+-      return aabb.m_82390_(Vec3.m_82512_(p_127869_));
++      return aabb.m_82390_(Vec3.atCenterOf(p_127869_));
+    }
+ }

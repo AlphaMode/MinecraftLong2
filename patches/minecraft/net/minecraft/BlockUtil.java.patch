@@ -1,0 +1,38 @@
+--- a/net/minecraft/BlockUtil.java
++++ b/net/minecraft/BlockUtil.java
+@@ -19,21 +_,21 @@
+       Direction direction1 = direction.m_122424_();
+       Direction direction2 = Direction.m_122390_(Direction.AxisDirection.NEGATIVE, p_124338_);
+       Direction direction3 = direction2.m_122424_();
+-      int i = m_124341_(p_124340_, blockpos$mutableblockpos.m_122190_(p_124335_), direction, p_124337_);
+-      int j = m_124341_(p_124340_, blockpos$mutableblockpos.m_122190_(p_124335_), direction1, p_124337_);
++      int i = m_124341_(p_124340_, blockpos$mutableblockpos.set(p_124335_), direction, p_124337_);
++      int j = m_124341_(p_124340_, blockpos$mutableblockpos.set(p_124335_), direction1, p_124337_);
+       int k = i;
+       BlockUtil.IntBounds[] ablockutil$intbounds = new BlockUtil.IntBounds[i + 1 + j];
+-      ablockutil$intbounds[i] = new BlockUtil.IntBounds(m_124341_(p_124340_, blockpos$mutableblockpos.m_122190_(p_124335_), direction2, p_124339_), m_124341_(p_124340_, blockpos$mutableblockpos.m_122190_(p_124335_), direction3, p_124339_));
++      ablockutil$intbounds[i] = new BlockUtil.IntBounds(m_124341_(p_124340_, blockpos$mutableblockpos.set(p_124335_), direction2, p_124339_), m_124341_(p_124340_, blockpos$mutableblockpos.set(p_124335_), direction3, p_124339_));
+       int l = ablockutil$intbounds[i].f_124355_;
+ 
+       for(int i1 = 1; i1 <= i; ++i1) {
+          BlockUtil.IntBounds blockutil$intbounds = ablockutil$intbounds[k - (i1 - 1)];
+-         ablockutil$intbounds[k - i1] = new BlockUtil.IntBounds(m_124341_(p_124340_, blockpos$mutableblockpos.m_122190_(p_124335_).m_122175_(direction, i1), direction2, blockutil$intbounds.f_124355_), m_124341_(p_124340_, blockpos$mutableblockpos.m_122190_(p_124335_).m_122175_(direction, i1), direction3, blockutil$intbounds.f_124356_));
++         ablockutil$intbounds[k - i1] = new BlockUtil.IntBounds(m_124341_(p_124340_, blockpos$mutableblockpos.set(p_124335_).m_122175_(direction, i1), direction2, blockutil$intbounds.f_124355_), m_124341_(p_124340_, blockpos$mutableblockpos.set(p_124335_).m_122175_(direction, i1), direction3, blockutil$intbounds.f_124356_));
+       }
+ 
+       for(int l2 = 1; l2 <= j; ++l2) {
+          BlockUtil.IntBounds blockutil$intbounds2 = ablockutil$intbounds[k + l2 - 1];
+-         ablockutil$intbounds[k + l2] = new BlockUtil.IntBounds(m_124341_(p_124340_, blockpos$mutableblockpos.m_122190_(p_124335_).m_122175_(direction1, l2), direction2, blockutil$intbounds2.f_124355_), m_124341_(p_124340_, blockpos$mutableblockpos.m_122190_(p_124335_).m_122175_(direction1, l2), direction3, blockutil$intbounds2.f_124356_));
++         ablockutil$intbounds[k + l2] = new BlockUtil.IntBounds(m_124341_(p_124340_, blockpos$mutableblockpos.set(p_124335_).m_122175_(direction1, l2), direction2, blockutil$intbounds2.f_124355_), m_124341_(p_124340_, blockpos$mutableblockpos.set(p_124335_).m_122175_(direction1, l2), direction3, blockutil$intbounds2.f_124356_));
+       }
+ 
+       int i3 = 0;
+@@ -62,7 +_,7 @@
+          }
+       }
+ 
+-      return new BlockUtil.FoundRectangle(p_124335_.m_5487_(p_124336_, i3 - k).m_5487_(p_124338_, j3 - l), j1, k1);
++      return new BlockUtil.FoundRectangle(p_124335_.relative(p_124336_, i3 - k).relative(p_124338_, j3 - l), j1, k1);
+    }
+ 
+    private static int m_124341_(Predicate<BlockPos> p_124342_, BlockPos.MutableBlockPos p_124343_, Direction p_124344_, int p_124345_) {

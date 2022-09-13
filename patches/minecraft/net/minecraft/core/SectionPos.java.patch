@@ -1,0 +1,301 @@
+--- a/net/minecraft/core/SectionPos.java
++++ b/net/minecraft/core/SectionPos.java
+@@ -10,7 +_,7 @@
+ import net.minecraft.world.level.chunk.ChunkAccess;
+ import net.minecraft.world.level.entity.EntityAccess;
+ 
+-public class SectionPos extends Vec3i {
++public class SectionPos extends me.alphamode.mclong.core.Vec3l {
+    public static final int f_175535_ = 4;
+    public static final int f_175536_ = 16;
+    public static final int f_175539_ = 15;
+@@ -29,16 +_,20 @@
+    private static final int f_175550_ = 0;
+    private static final int f_175551_ = 4;
+ 
++   SectionPos(long p_123162_, long p_123163_, long p_123164_) {
++      super(p_123162_, p_123163_, p_123164_);
++   }
++
+    SectionPos(int p_123162_, int p_123163_, int p_123164_) {
+       super(p_123162_, p_123163_, p_123164_);
+    }
+ 
+-   public static SectionPos m_123173_(int p_123174_, int p_123175_, int p_123176_) {
++   public static SectionPos of(long p_123174_, long p_123175_, long p_123176_) {
+       return new SectionPos(p_123174_, p_123175_, p_123176_);
+    }
+ 
+    public static SectionPos m_123199_(BlockPos p_123200_) {
+-      return new SectionPos(m_123171_(p_123200_.m_123341_()), m_123171_(p_123200_.m_123342_()), m_123171_(p_123200_.m_123343_()));
++      return new SectionPos(m_235865_(p_123200_.getX()), m_235865_(p_123200_.getY()), m_235865_(p_123200_.getZ()));
+    }
+ 
+    public static SectionPos m_123196_(ChunkPos p_123197_, int p_123198_) {
+@@ -66,7 +_,7 @@
+    }
+ 
+    public static long m_123186_(long p_123187_, int p_123188_, int p_123189_, int p_123190_) {
+-      return m_123209_(m_123213_(p_123187_) + p_123188_, m_123225_(p_123187_) + p_123189_, m_123230_(p_123187_) + p_123190_);
++      return asLong(m_123213_(p_123187_) + p_123188_, m_123225_(p_123187_) + p_123189_, m_123230_(p_123187_) + p_123190_);
+    }
+ 
+    public static int m_175552_(double p_175553_) {
+@@ -81,14 +_,14 @@
+       return Mth.m_14107_(p_235866_) >> 4;
+    }
+ 
+-   public static int m_123207_(int p_123208_) {
++   public static long sectionRelative(long p_123208_) {
+       return p_123208_ & 15;
+    }
+ 
+    public static short m_123218_(BlockPos p_123219_) {
+-      int i = m_123207_(p_123219_.m_123341_());
+-      int j = m_123207_(p_123219_.m_123342_());
+-      int k = m_123207_(p_123219_.m_123343_());
++      long i = sectionRelative(p_123219_.getX());
++      long j = sectionRelative(p_123219_.getY());
++      long k = sectionRelative(p_123219_.getZ());
+       return (short)(i << 8 | k << 4 | j << 0);
+    }
+ 
+@@ -104,28 +_,28 @@
+       return p_123228_ >>> 4 & 15;
+    }
+ 
+-   public int m_123232_(short p_123233_) {
+-      return this.m_123229_() + m_123204_(p_123233_);
+-   }
+-
+-   public int m_123237_(short p_123238_) {
+-      return this.m_123234_() + m_123220_(p_123238_);
+-   }
+-
+-   public int m_123242_(short p_123243_) {
+-      return this.m_123239_() + m_123227_(p_123243_);
++   public long relativeToBlockX(short p_123233_) {
++      return this.minBlockX() + m_123204_(p_123233_);
++   }
++
++   public long relativeToBlockY(short p_123238_) {
++      return this.minBlockY() + m_123220_(p_123238_);
++   }
++
++   public long relativeToBlockZ(short p_123243_) {
++      return this.minBlockZ() + m_123227_(p_123243_);
+    }
+ 
+    public BlockPos m_123245_(short p_123246_) {
+-      return new BlockPos(this.m_123232_(p_123246_), this.m_123237_(p_123246_), this.m_123242_(p_123246_));
++      return new BlockPos(this.relativeToBlockX(p_123246_), this.relativeToBlockY(p_123246_), this.relativeToBlockZ(p_123246_));
+    }
+ 
+-   public static int m_123223_(int p_123224_) {
++   public static long sectionToBlockCoord(long p_123224_) {
+       return p_123224_ << 4;
+    }
+ 
+-   public static int m_175554_(int p_175555_, int p_175556_) {
+-      return m_123223_(p_175555_) + p_175556_;
++   public static long sectionToBlockCoord(long p_175555_, long p_175556_) {
++      return sectionToBlockCoord(p_175555_) + p_175556_;
+    }
+ 
+    public static int m_123213_(long p_123214_) {
+@@ -140,44 +_,44 @@
+       return (int)(p_123231_ << 22 >> 42);
+    }
+ 
+-   public int m_123170_() {
+-      return this.m_123341_();
+-   }
+-
+-   public int m_123206_() {
+-      return this.m_123342_();
+-   }
+-
+-   public int m_123222_() {
+-      return this.m_123343_();
+-   }
+-
+-   public int m_123229_() {
+-      return m_123223_(this.m_123170_());
+-   }
+-
+-   public int m_123234_() {
+-      return m_123223_(this.m_123206_());
+-   }
+-
+-   public int m_123239_() {
+-      return m_123223_(this.m_123222_());
+-   }
+-
+-   public int m_123244_() {
+-      return m_175554_(this.m_123170_(), 15);
+-   }
+-
+-   public int m_123247_() {
+-      return m_175554_(this.m_123206_(), 15);
+-   }
+-
+-   public int m_123248_() {
+-      return m_175554_(this.m_123222_(), 15);
++   public long x() {
++      return this.getX();
++   }
++
++   public long y() {
++      return this.getY();
++   }
++
++   public long z() {
++      return this.getZ();
++   }
++
++   public long minBlockX() {
++      return sectionToBlockCoord(this.x());
++   }
++
++   public long minBlockY() {
++      return sectionToBlockCoord(this.y());
++   }
++
++   public long minBlockZ() {
++      return sectionToBlockCoord(this.z());
++   }
++
++   public long maxBlockX() {
++      return sectionToBlockCoord(this.x(), 15);
++   }
++
++   public long maxBlockY() {
++      return sectionToBlockCoord(this.y(), 15);
++   }
++
++   public long maxBlockZ() {
++      return sectionToBlockCoord(this.z(), 15);
+    }
+ 
+    public static long m_123235_(long p_123236_) {
+-      return m_123209_(m_123171_(BlockPos.m_121983_(p_123236_)), m_123171_(BlockPos.m_122008_(p_123236_)), m_123171_(BlockPos.m_122015_(p_123236_)));
++      return asLong(m_123171_(BlockPos.m_121983_(p_123236_)), m_123171_(BlockPos.m_122008_(p_123236_)), m_123171_(BlockPos.m_122015_(p_123236_)));
+    }
+ 
+    public static long m_123240_(long p_123241_) {
+@@ -185,7 +_,7 @@
+    }
+ 
+    public BlockPos m_123249_() {
+-      return new BlockPos(m_123223_(this.m_123170_()), m_123223_(this.m_123206_()), m_123223_(this.m_123222_()));
++      return new BlockPos(sectionToBlockCoord(this.x()), sectionToBlockCoord(this.y()), sectionToBlockCoord(this.z()));
+    }
+ 
+    public BlockPos m_123250_() {
+@@ -194,14 +_,14 @@
+    }
+ 
+    public ChunkPos m_123251_() {
+-      return new ChunkPos(this.m_123170_(), this.m_123222_());
++      return new ChunkPos(this.x(), this.z());
+    }
+ 
+    public static long m_175568_(BlockPos p_175569_) {
+-      return m_123209_(m_123171_(p_175569_.m_123341_()), m_123171_(p_175569_.m_123342_()), m_123171_(p_175569_.m_123343_()));
++      return asLong(m_235865_(p_175569_.getX()), m_235865_(p_175569_.getY()), m_235865_(p_175569_.getZ()));
+    }
+ 
+-   public static long m_123209_(int p_123210_, int p_123211_, int p_123212_) {
++   public static long asLong(long p_123210_, long p_123211_, long p_123212_) {
+       long i = 0L;
+       i |= ((long)p_123210_ & 4194303L) << 42;
+       i |= ((long)p_123211_ & 1048575L) << 0;
+@@ -209,37 +_,37 @@
+    }
+ 
+    public long m_123252_() {
+-      return m_123209_(this.m_123170_(), this.m_123206_(), this.m_123222_());
++      return asLong(this.x(), this.y(), this.z());
+    }
+ 
+    public SectionPos m_7918_(int p_175571_, int p_175572_, int p_175573_) {
+-      return p_175571_ == 0 && p_175572_ == 0 && p_175573_ == 0 ? this : new SectionPos(this.m_123170_() + p_175571_, this.m_123206_() + p_175572_, this.m_123222_() + p_175573_);
++      return p_175571_ == 0 && p_175572_ == 0 && p_175573_ == 0 ? this : new SectionPos(this.x() + p_175571_, this.y() + p_175572_, this.z() + p_175573_);
+    }
+ 
+    public Stream<BlockPos> m_123253_() {
+-      return BlockPos.m_121886_(this.m_123229_(), this.m_123234_(), this.m_123239_(), this.m_123244_(), this.m_123247_(), this.m_123248_());
++      return BlockPos.betweenClosedStream(this.minBlockX(), this.minBlockY(), this.minBlockZ(), this.maxBlockX(), this.maxBlockY(), this.maxBlockZ());
+    }
+ 
+    public static Stream<SectionPos> m_123201_(SectionPos p_123202_, int p_123203_) {
+-      int i = p_123202_.m_123170_();
+-      int j = p_123202_.m_123206_();
+-      int k = p_123202_.m_123222_();
+-      return m_123177_(i - p_123203_, j - p_123203_, k - p_123203_, i + p_123203_, j + p_123203_, k + p_123203_);
++      long i = p_123202_.x();
++      long j = p_123202_.y();
++      long k = p_123202_.z();
++      return betweenClosedStream(i - p_123203_, j - p_123203_, k - p_123203_, i + p_123203_, j + p_123203_, k + p_123203_);
+    }
+ 
+    public static Stream<SectionPos> m_175557_(ChunkPos p_175558_, int p_175559_, int p_175560_, int p_175561_) {
+-      int i = p_175558_.f_45578_;
+-      int j = p_175558_.f_45579_;
+-      return m_123177_(i - p_175559_, p_175560_, j - p_175559_, i + p_175559_, p_175561_ - 1, j + p_175559_);
++      long i = p_175558_.f_45578_;
++      long j = p_175558_.f_45579_;
++      return betweenClosedStream(i - p_175559_, p_175560_, j - p_175559_, i + p_175559_, p_175561_ - 1, j + p_175559_);
+    }
+ 
+-   public static Stream<SectionPos> m_123177_(final int p_123178_, final int p_123179_, final int p_123180_, final int p_123181_, final int p_123182_, final int p_123183_) {
++   public static Stream<SectionPos> betweenClosedStream(final long p_123178_, final long p_123179_, final long p_123180_, final long p_123181_, final long p_123182_, final long p_123183_) {
+       return StreamSupport.stream(new Spliterators.AbstractSpliterator<SectionPos>((long)((p_123181_ - p_123178_ + 1) * (p_123182_ - p_123179_ + 1) * (p_123183_ - p_123180_ + 1)), 64) {
+          final Cursor3D f_123254_ = new Cursor3D(p_123178_, p_123179_, p_123180_, p_123181_, p_123182_, p_123183_);
+ 
+          public boolean tryAdvance(Consumer<? super SectionPos> p_123271_) {
+             if (this.f_123254_.m_122304_()) {
+-               p_123271_.accept(new SectionPos(this.f_123254_.m_122305_(), this.f_123254_.m_122306_(), this.f_123254_.m_122307_()));
++               p_123271_.accept(new SectionPos(this.f_123254_.nextX(), this.f_123254_.nextY(), this.f_123254_.nextZ()));
+                return true;
+             } else {
+                return false;
+@@ -249,27 +_,27 @@
+    }
+ 
+    public static void m_194642_(BlockPos p_194643_, LongConsumer p_194644_) {
+-      m_194634_(p_194643_.m_123341_(), p_194643_.m_123342_(), p_194643_.m_123343_(), p_194644_);
++      aroundAndAtBlockPos(p_194643_.getX(), p_194643_.getY(), p_194643_.getZ(), p_194644_);
+    }
+ 
+    public static void m_194639_(long p_194640_, LongConsumer p_194641_) {
+-      m_194634_(BlockPos.m_121983_(p_194640_), BlockPos.m_122008_(p_194640_), BlockPos.m_122015_(p_194640_), p_194641_);
++      aroundAndAtBlockPos(BlockPos.m_121983_(p_194640_), BlockPos.m_122008_(p_194640_), BlockPos.m_122015_(p_194640_), p_194641_);
+    }
+ 
+-   public static void m_194634_(int p_194635_, int p_194636_, int p_194637_, LongConsumer p_194638_) {
+-      int i = m_123171_(p_194635_ - 1);
+-      int j = m_123171_(p_194635_ + 1);
+-      int k = m_123171_(p_194636_ - 1);
+-      int l = m_123171_(p_194636_ + 1);
+-      int i1 = m_123171_(p_194637_ - 1);
+-      int j1 = m_123171_(p_194637_ + 1);
++   public static void aroundAndAtBlockPos(long p_194635_, long p_194636_, long p_194637_, LongConsumer p_194638_) {
++      int i = m_235865_(p_194635_ - 1);
++      int j = m_235865_(p_194635_ + 1);
++      int k = m_235865_(p_194636_ - 1);
++      int l = m_235865_(p_194636_ + 1);
++      int i1 = m_235865_(p_194637_ - 1);
++      int j1 = m_235865_(p_194637_ + 1);
+       if (i == j && k == l && i1 == j1) {
+-         p_194638_.accept(m_123209_(i, k, i1));
++         p_194638_.accept(asLong(i, k, i1));
+       } else {
+          for(int k1 = i; k1 <= j; ++k1) {
+             for(int l1 = k; l1 <= l; ++l1) {
+                for(int i2 = i1; i2 <= j1; ++i2) {
+-                  p_194638_.accept(m_123209_(k1, l1, i2));
++                  p_194638_.accept(asLong(k1, l1, i2));
+                }
+             }
+          }

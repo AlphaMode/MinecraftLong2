@@ -1,0 +1,42 @@
+--- a/net/minecraft/world/entity/raid/Raider.java
++++ b/net/minecraft/world/entity/raid/Raider.java
+@@ -362,7 +_,7 @@
+       }
+ 
+       public void m_8037_() {
+-         if (this.f_37914_.m_21573_().m_26567_().m_203195_(this.f_37914_.m_20182_(), 1.414D)) {
++         if (this.f_37914_.m_21573_().m_26567_().closerToCenterThan(this.f_37914_.m_20182_(), 1.414D)) {
+             List<ItemEntity> list = this.f_37914_.f_19853_.m_6443_(ItemEntity.class, this.f_37914_.m_20191_().m_82377_(4.0D, 4.0D, 4.0D), Raider.f_37831_);
+             if (!list.isEmpty()) {
+                this.f_37914_.m_7581_(list.get(0));
+@@ -450,12 +_,12 @@
+          if (this.f_37929_.m_21573_().m_26571_()) {
+             return false;
+          } else {
+-            return this.f_37929_.m_5448_() == null && !this.f_37931_.m_203195_(this.f_37929_.m_20182_(), (double)(this.f_37929_.m_20205_() + (float)this.f_37933_)) && !this.f_37934_;
++            return this.f_37929_.m_5448_() == null && !this.f_37931_.closerToCenterThan(this.f_37929_.m_20182_(), (double)(this.f_37929_.m_20205_() + (float)this.f_37933_)) && !this.f_37934_;
+          }
+       }
+ 
+       public void m_8041_() {
+-         if (this.f_37931_.m_203195_(this.f_37929_.m_20182_(), (double)this.f_37933_)) {
++         if (this.f_37931_.closerToCenterThan(this.f_37929_.m_20182_(), (double)this.f_37933_)) {
+             this.f_37932_.add(this.f_37931_);
+          }
+ 
+@@ -464,13 +_,13 @@
+       public void m_8056_() {
+          super.m_8056_();
+          this.f_37929_.m_21310_(0);
+-         this.f_37929_.m_21573_().m_26519_((double)this.f_37931_.m_123341_(), (double)this.f_37931_.m_123342_(), (double)this.f_37931_.m_123343_(), this.f_37930_);
++         this.f_37929_.m_21573_().m_26519_((double)this.f_37931_.getX(), (double)this.f_37931_.getY(), (double)this.f_37931_.getZ(), this.f_37930_);
+          this.f_37934_ = false;
+       }
+ 
+       public void m_8037_() {
+          if (this.f_37929_.m_21573_().m_26571_()) {
+-            Vec3 vec3 = Vec3.m_82539_(this.f_37931_);
++            Vec3 vec3 = Vec3.atBottomCenterOf(this.f_37931_);
+             Vec3 vec31 = DefaultRandomPos.m_148412_(this.f_37929_, 16, 7, vec3, (double)((float)Math.PI / 10F));
+             if (vec31 == null) {
+                vec31 = DefaultRandomPos.m_148412_(this.f_37929_, 8, 7, vec3, (double)((float)Math.PI / 2F));

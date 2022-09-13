@@ -1,0 +1,425 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionPieces.java
+@@ -428,7 +_,7 @@
+          woodlandmansionpieces$placementdata.f_230140_ = "wall_flat";
+          WoodlandMansionPieces.PlacementData woodlandmansionpieces$placementdata1 = new WoodlandMansionPieces.PlacementData();
+          this.m_230085_(p_230083_, woodlandmansionpieces$placementdata);
+-         woodlandmansionpieces$placementdata1.f_230139_ = woodlandmansionpieces$placementdata.f_230139_.m_6630_(8);
++         woodlandmansionpieces$placementdata1.f_230139_ = woodlandmansionpieces$placementdata.f_230139_.above(8);
+          woodlandmansionpieces$placementdata1.f_230138_ = woodlandmansionpieces$placementdata.f_230138_;
+          woodlandmansionpieces$placementdata1.f_230140_ = "wall_window";
+          if (!p_230083_.isEmpty()) {
+@@ -443,7 +_,7 @@
+          this.m_230088_(p_230083_, woodlandmansionpieces$placementdata, woodlandmansionpieces$simplegrid, Direction.SOUTH, this.f_230075_, this.f_230076_, i, j);
+          this.m_230088_(p_230083_, woodlandmansionpieces$placementdata1, woodlandmansionpieces$simplegrid, Direction.SOUTH, this.f_230075_, this.f_230076_, i, j);
+          WoodlandMansionPieces.PlacementData woodlandmansionpieces$placementdata2 = new WoodlandMansionPieces.PlacementData();
+-         woodlandmansionpieces$placementdata2.f_230139_ = woodlandmansionpieces$placementdata.f_230139_.m_6630_(19);
++         woodlandmansionpieces$placementdata2.f_230139_ = woodlandmansionpieces$placementdata.f_230139_.above(19);
+          woodlandmansionpieces$placementdata2.f_230138_ = woodlandmansionpieces$placementdata.f_230138_;
+          woodlandmansionpieces$placementdata2.f_230140_ = "wall_window";
+          boolean flag = false;
+@@ -451,8 +_,8 @@
+          for(int k = 0; k < woodlandmansionpieces$simplegrid1.f_230161_ && !flag; ++k) {
+             for(int l = woodlandmansionpieces$simplegrid1.f_230160_ - 1; l >= 0 && !flag; --l) {
+                if (WoodlandMansionPieces.MansionGrid.m_230047_(woodlandmansionpieces$simplegrid1, l, k)) {
+-                  woodlandmansionpieces$placementdata2.f_230139_ = woodlandmansionpieces$placementdata2.f_230139_.m_5484_(p_230082_.m_55954_(Direction.SOUTH), 8 + (k - this.f_230076_) * 8);
+-                  woodlandmansionpieces$placementdata2.f_230139_ = woodlandmansionpieces$placementdata2.f_230139_.m_5484_(p_230082_.m_55954_(Direction.EAST), (l - this.f_230075_) * 8);
++                  woodlandmansionpieces$placementdata2.f_230139_ = woodlandmansionpieces$placementdata2.f_230139_.relative(p_230082_.m_55954_(Direction.SOUTH), 8 + (k - this.f_230076_) * 8);
++                  woodlandmansionpieces$placementdata2.f_230139_ = woodlandmansionpieces$placementdata2.f_230139_.relative(p_230082_.m_55954_(Direction.EAST), (l - this.f_230075_) * 8);
+                   this.m_230129_(p_230083_, woodlandmansionpieces$placementdata2);
+                   this.m_230088_(p_230083_, woodlandmansionpieces$placementdata2, woodlandmansionpieces$simplegrid1, Direction.SOUTH, l, k, l, k);
+                   flag = true;
+@@ -460,15 +_,15 @@
+             }
+          }
+ 
+-         this.m_230102_(p_230083_, p_230081_.m_6630_(16), p_230082_, woodlandmansionpieces$simplegrid, woodlandmansionpieces$simplegrid1);
+-         this.m_230102_(p_230083_, p_230081_.m_6630_(27), p_230082_, woodlandmansionpieces$simplegrid1, (WoodlandMansionPieces.SimpleGrid)null);
++         this.m_230102_(p_230083_, p_230081_.above(16), p_230082_, woodlandmansionpieces$simplegrid, woodlandmansionpieces$simplegrid1);
++         this.m_230102_(p_230083_, p_230081_.above(27), p_230082_, woodlandmansionpieces$simplegrid1, (WoodlandMansionPieces.SimpleGrid)null);
+          if (!p_230083_.isEmpty()) {
+          }
+ 
+          WoodlandMansionPieces.FloorRoomCollection[] awoodlandmansionpieces$floorroomcollection = new WoodlandMansionPieces.FloorRoomCollection[]{new WoodlandMansionPieces.FirstFloorRoomCollection(), new WoodlandMansionPieces.SecondFloorRoomCollection(), new WoodlandMansionPieces.ThirdFloorRoomCollection()};
+ 
+          for(int l2 = 0; l2 < 3; ++l2) {
+-            BlockPos blockpos = p_230081_.m_6630_(8 * l2 + (l2 == 2 ? 3 : 0));
++            BlockPos blockpos = p_230081_.above(8 * l2 + (l2 == 2 ? 3 : 0));
+             WoodlandMansionPieces.SimpleGrid woodlandmansionpieces$simplegrid2 = p_230084_.f_230039_[l2];
+             WoodlandMansionPieces.SimpleGrid woodlandmansionpieces$simplegrid3 = l2 == 2 ? woodlandmansionpieces$simplegrid1 : woodlandmansionpieces$simplegrid;
+             String s = l2 == 0 ? "carpet_south_1" : "carpet_south_2";
+@@ -477,23 +_,23 @@
+             for(int i1 = 0; i1 < woodlandmansionpieces$simplegrid3.f_230161_; ++i1) {
+                for(int j1 = 0; j1 < woodlandmansionpieces$simplegrid3.f_230160_; ++j1) {
+                   if (woodlandmansionpieces$simplegrid3.m_230167_(j1, i1) == 1) {
+-                     BlockPos blockpos1 = blockpos.m_5484_(p_230082_.m_55954_(Direction.SOUTH), 8 + (i1 - this.f_230076_) * 8);
+-                     blockpos1 = blockpos1.m_5484_(p_230082_.m_55954_(Direction.EAST), (j1 - this.f_230075_) * 8);
++                     BlockPos blockpos1 = blockpos.relative(p_230082_.m_55954_(Direction.SOUTH), 8 + (i1 - this.f_230076_) * 8);
++                     blockpos1 = blockpos1.relative(p_230082_.m_55954_(Direction.EAST), (j1 - this.f_230075_) * 8);
+                      p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "corridor_floor", blockpos1, p_230082_));
+                      if (woodlandmansionpieces$simplegrid3.m_230167_(j1, i1 - 1) == 1 || (woodlandmansionpieces$simplegrid2.m_230167_(j1, i1 - 1) & 8388608) == 8388608) {
+-                        p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "carpet_north", blockpos1.m_5484_(p_230082_.m_55954_(Direction.EAST), 1).m_7494_(), p_230082_));
++                        p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "carpet_north", blockpos1.relative(p_230082_.m_55954_(Direction.EAST), 1).above(), p_230082_));
+                      }
+ 
+                      if (woodlandmansionpieces$simplegrid3.m_230167_(j1 + 1, i1) == 1 || (woodlandmansionpieces$simplegrid2.m_230167_(j1 + 1, i1) & 8388608) == 8388608) {
+-                        p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "carpet_east", blockpos1.m_5484_(p_230082_.m_55954_(Direction.SOUTH), 1).m_5484_(p_230082_.m_55954_(Direction.EAST), 5).m_7494_(), p_230082_));
++                        p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "carpet_east", blockpos1.relative(p_230082_.m_55954_(Direction.SOUTH), 1).relative(p_230082_.m_55954_(Direction.EAST), 5).above(), p_230082_));
+                      }
+ 
+                      if (woodlandmansionpieces$simplegrid3.m_230167_(j1, i1 + 1) == 1 || (woodlandmansionpieces$simplegrid2.m_230167_(j1, i1 + 1) & 8388608) == 8388608) {
+-                        p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, s, blockpos1.m_5484_(p_230082_.m_55954_(Direction.SOUTH), 5).m_5484_(p_230082_.m_55954_(Direction.WEST), 1), p_230082_));
++                        p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, s, blockpos1.relative(p_230082_.m_55954_(Direction.SOUTH), 5).relative(p_230082_.m_55954_(Direction.WEST), 1), p_230082_));
+                      }
+ 
+                      if (woodlandmansionpieces$simplegrid3.m_230167_(j1 - 1, i1) == 1 || (woodlandmansionpieces$simplegrid2.m_230167_(j1 - 1, i1) & 8388608) == 8388608) {
+-                        p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, s1, blockpos1.m_5484_(p_230082_.m_55954_(Direction.WEST), 1).m_5484_(p_230082_.m_55954_(Direction.NORTH), 1), p_230082_));
++                        p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, s1, blockpos1.relative(p_230082_.m_55954_(Direction.WEST), 1).relative(p_230082_.m_55954_(Direction.NORTH), 1), p_230082_));
+                      }
+                   }
+                }
+@@ -527,26 +_,26 @@
+                         direction1 = Direction.UP;
+                      }
+ 
+-                     BlockPos blockpos3 = blockpos.m_5484_(p_230082_.m_55954_(Direction.SOUTH), 8 + (k1 - this.f_230076_) * 8);
+-                     blockpos3 = blockpos3.m_5484_(p_230082_.m_55954_(Direction.EAST), -1 + (l1 - this.f_230075_) * 8);
++                     BlockPos blockpos3 = blockpos.relative(p_230082_.m_55954_(Direction.SOUTH), 8 + (k1 - this.f_230076_) * 8);
++                     blockpos3 = blockpos3.relative(p_230082_.m_55954_(Direction.EAST), -1 + (l1 - this.f_230075_) * 8);
+                      if (WoodlandMansionPieces.MansionGrid.m_230047_(woodlandmansionpieces$simplegrid3, l1 - 1, k1) && !p_230084_.m_230051_(woodlandmansionpieces$simplegrid3, l1 - 1, k1, l2, k2)) {
+                         p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, direction1 == Direction.WEST ? s3 : s2, blockpos3, p_230082_));
+                      }
+ 
+                      if (woodlandmansionpieces$simplegrid3.m_230167_(l1 + 1, k1) == 1 && !flag1) {
+-                        BlockPos blockpos2 = blockpos3.m_5484_(p_230082_.m_55954_(Direction.EAST), 8);
++                        BlockPos blockpos2 = blockpos3.relative(p_230082_.m_55954_(Direction.EAST), 8);
+                         p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, direction1 == Direction.EAST ? s3 : s2, blockpos2, p_230082_));
+                      }
+ 
+                      if (WoodlandMansionPieces.MansionGrid.m_230047_(woodlandmansionpieces$simplegrid3, l1, k1 + 1) && !p_230084_.m_230051_(woodlandmansionpieces$simplegrid3, l1, k1 + 1, l2, k2)) {
+-                        BlockPos blockpos4 = blockpos3.m_5484_(p_230082_.m_55954_(Direction.SOUTH), 7);
+-                        blockpos4 = blockpos4.m_5484_(p_230082_.m_55954_(Direction.EAST), 7);
++                        BlockPos blockpos4 = blockpos3.relative(p_230082_.m_55954_(Direction.SOUTH), 7);
++                        blockpos4 = blockpos4.relative(p_230082_.m_55954_(Direction.EAST), 7);
+                         p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, direction1 == Direction.SOUTH ? s3 : s2, blockpos4, p_230082_.m_55952_(Rotation.CLOCKWISE_90)));
+                      }
+ 
+                      if (woodlandmansionpieces$simplegrid3.m_230167_(l1, k1 - 1) == 1 && !flag1) {
+-                        BlockPos blockpos5 = blockpos3.m_5484_(p_230082_.m_55954_(Direction.NORTH), 1);
+-                        blockpos5 = blockpos5.m_5484_(p_230082_.m_55954_(Direction.EAST), 7);
++                        BlockPos blockpos5 = blockpos3.relative(p_230082_.m_55954_(Direction.NORTH), 1);
++                        blockpos5 = blockpos5.relative(p_230082_.m_55954_(Direction.EAST), 7);
+                         p_230083_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, direction1 == Direction.NORTH ? s3 : s2, blockpos5, p_230082_.m_55952_(Rotation.CLOCKWISE_90)));
+                      }
+ 
+@@ -604,30 +_,30 @@
+       private void m_230102_(List<WoodlandMansionPieces.WoodlandMansionPiece> p_230103_, BlockPos p_230104_, Rotation p_230105_, WoodlandMansionPieces.SimpleGrid p_230106_, @Nullable WoodlandMansionPieces.SimpleGrid p_230107_) {
+          for(int i = 0; i < p_230106_.f_230161_; ++i) {
+             for(int j = 0; j < p_230106_.f_230160_; ++j) {
+-               BlockPos $$27 = p_230104_.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 8 + (i - this.f_230076_) * 8);
+-               $$27 = $$27.m_5484_(p_230105_.m_55954_(Direction.EAST), (j - this.f_230075_) * 8);
++               BlockPos $$27 = p_230104_.relative(p_230105_.m_55954_(Direction.SOUTH), 8 + (i - this.f_230076_) * 8);
++               $$27 = $$27.relative(p_230105_.m_55954_(Direction.EAST), (j - this.f_230075_) * 8);
+                boolean flag = p_230107_ != null && WoodlandMansionPieces.MansionGrid.m_230047_(p_230107_, j, i);
+                if (WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j, i) && !flag) {
+-                  p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof", $$27.m_6630_(3), p_230105_));
++                  p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof", $$27.above(3), p_230105_));
+                   if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j + 1, i)) {
+-                     BlockPos blockpos1 = $$27.m_5484_(p_230105_.m_55954_(Direction.EAST), 6);
++                     BlockPos blockpos1 = $$27.relative(p_230105_.m_55954_(Direction.EAST), 6);
+                      p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_front", blockpos1, p_230105_));
+                   }
+ 
+                   if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j - 1, i)) {
+-                     BlockPos blockpos5 = $$27.m_5484_(p_230105_.m_55954_(Direction.EAST), 0);
+-                     blockpos5 = blockpos5.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 7);
++                     BlockPos blockpos5 = $$27.relative(p_230105_.m_55954_(Direction.EAST), 0);
++                     blockpos5 = blockpos5.relative(p_230105_.m_55954_(Direction.SOUTH), 7);
+                      p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_front", blockpos5, p_230105_.m_55952_(Rotation.CLOCKWISE_180)));
+                   }
+ 
+                   if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j, i - 1)) {
+-                     BlockPos blockpos6 = $$27.m_5484_(p_230105_.m_55954_(Direction.WEST), 1);
++                     BlockPos blockpos6 = $$27.relative(p_230105_.m_55954_(Direction.WEST), 1);
+                      p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_front", blockpos6, p_230105_.m_55952_(Rotation.COUNTERCLOCKWISE_90)));
+                   }
+ 
+                   if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j, i + 1)) {
+-                     BlockPos blockpos7 = $$27.m_5484_(p_230105_.m_55954_(Direction.EAST), 6);
+-                     blockpos7 = blockpos7.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 6);
++                     BlockPos blockpos7 = $$27.relative(p_230105_.m_55954_(Direction.EAST), 6);
++                     blockpos7 = blockpos7.relative(p_230105_.m_55954_(Direction.SOUTH), 6);
+                      p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_front", blockpos7, p_230105_.m_55952_(Rotation.CLOCKWISE_90)));
+                   }
+                }
+@@ -637,57 +_,57 @@
+          if (p_230107_ != null) {
+             for(int k = 0; k < p_230106_.f_230161_; ++k) {
+                for(int i1 = 0; i1 < p_230106_.f_230160_; ++i1) {
+-                  BlockPos blockpos3 = p_230104_.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 8 + (k - this.f_230076_) * 8);
+-                  blockpos3 = blockpos3.m_5484_(p_230105_.m_55954_(Direction.EAST), (i1 - this.f_230075_) * 8);
++                  BlockPos blockpos3 = p_230104_.relative(p_230105_.m_55954_(Direction.SOUTH), 8 + (k - this.f_230076_) * 8);
++                  blockpos3 = blockpos3.relative(p_230105_.m_55954_(Direction.EAST), (i1 - this.f_230075_) * 8);
+                   boolean flag1 = WoodlandMansionPieces.MansionGrid.m_230047_(p_230107_, i1, k);
+                   if (WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, i1, k) && flag1) {
+                      if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, i1 + 1, k)) {
+-                        BlockPos blockpos8 = blockpos3.m_5484_(p_230105_.m_55954_(Direction.EAST), 7);
++                        BlockPos blockpos8 = blockpos3.relative(p_230105_.m_55954_(Direction.EAST), 7);
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "small_wall", blockpos8, p_230105_));
+                      }
+ 
+                      if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, i1 - 1, k)) {
+-                        BlockPos blockpos9 = blockpos3.m_5484_(p_230105_.m_55954_(Direction.WEST), 1);
+-                        blockpos9 = blockpos9.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 6);
++                        BlockPos blockpos9 = blockpos3.relative(p_230105_.m_55954_(Direction.WEST), 1);
++                        blockpos9 = blockpos9.relative(p_230105_.m_55954_(Direction.SOUTH), 6);
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "small_wall", blockpos9, p_230105_.m_55952_(Rotation.CLOCKWISE_180)));
+                      }
+ 
+                      if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, i1, k - 1)) {
+-                        BlockPos blockpos10 = blockpos3.m_5484_(p_230105_.m_55954_(Direction.WEST), 0);
+-                        blockpos10 = blockpos10.m_5484_(p_230105_.m_55954_(Direction.NORTH), 1);
++                        BlockPos blockpos10 = blockpos3.relative(p_230105_.m_55954_(Direction.WEST), 0);
++                        blockpos10 = blockpos10.relative(p_230105_.m_55954_(Direction.NORTH), 1);
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "small_wall", blockpos10, p_230105_.m_55952_(Rotation.COUNTERCLOCKWISE_90)));
+                      }
+ 
+                      if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, i1, k + 1)) {
+-                        BlockPos blockpos11 = blockpos3.m_5484_(p_230105_.m_55954_(Direction.EAST), 6);
+-                        blockpos11 = blockpos11.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 7);
++                        BlockPos blockpos11 = blockpos3.relative(p_230105_.m_55954_(Direction.EAST), 6);
++                        blockpos11 = blockpos11.relative(p_230105_.m_55954_(Direction.SOUTH), 7);
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "small_wall", blockpos11, p_230105_.m_55952_(Rotation.CLOCKWISE_90)));
+                      }
+ 
+                      if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, i1 + 1, k)) {
+                         if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, i1, k - 1)) {
+-                           BlockPos blockpos12 = blockpos3.m_5484_(p_230105_.m_55954_(Direction.EAST), 7);
+-                           blockpos12 = blockpos12.m_5484_(p_230105_.m_55954_(Direction.NORTH), 2);
++                           BlockPos blockpos12 = blockpos3.relative(p_230105_.m_55954_(Direction.EAST), 7);
++                           blockpos12 = blockpos12.relative(p_230105_.m_55954_(Direction.NORTH), 2);
+                            p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "small_wall_corner", blockpos12, p_230105_));
+                         }
+ 
+                         if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, i1, k + 1)) {
+-                           BlockPos blockpos13 = blockpos3.m_5484_(p_230105_.m_55954_(Direction.EAST), 8);
+-                           blockpos13 = blockpos13.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 7);
++                           BlockPos blockpos13 = blockpos3.relative(p_230105_.m_55954_(Direction.EAST), 8);
++                           blockpos13 = blockpos13.relative(p_230105_.m_55954_(Direction.SOUTH), 7);
+                            p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "small_wall_corner", blockpos13, p_230105_.m_55952_(Rotation.CLOCKWISE_90)));
+                         }
+                      }
+ 
+                      if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, i1 - 1, k)) {
+                         if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, i1, k - 1)) {
+-                           BlockPos blockpos14 = blockpos3.m_5484_(p_230105_.m_55954_(Direction.WEST), 2);
+-                           blockpos14 = blockpos14.m_5484_(p_230105_.m_55954_(Direction.NORTH), 1);
++                           BlockPos blockpos14 = blockpos3.relative(p_230105_.m_55954_(Direction.WEST), 2);
++                           blockpos14 = blockpos14.relative(p_230105_.m_55954_(Direction.NORTH), 1);
+                            p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "small_wall_corner", blockpos14, p_230105_.m_55952_(Rotation.COUNTERCLOCKWISE_90)));
+                         }
+ 
+                         if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, i1, k + 1)) {
+-                           BlockPos blockpos15 = blockpos3.m_5484_(p_230105_.m_55954_(Direction.WEST), 1);
+-                           blockpos15 = blockpos15.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 8);
++                           BlockPos blockpos15 = blockpos3.relative(p_230105_.m_55954_(Direction.WEST), 1);
++                           blockpos15 = blockpos15.relative(p_230105_.m_55954_(Direction.SOUTH), 8);
+                            p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "small_wall_corner", blockpos15, p_230105_.m_55952_(Rotation.CLOCKWISE_180)));
+                         }
+                      }
+@@ -698,45 +_,45 @@
+ 
+          for(int l = 0; l < p_230106_.f_230161_; ++l) {
+             for(int j1 = 0; j1 < p_230106_.f_230160_; ++j1) {
+-               BlockPos blockpos4 = p_230104_.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 8 + (l - this.f_230076_) * 8);
+-               blockpos4 = blockpos4.m_5484_(p_230105_.m_55954_(Direction.EAST), (j1 - this.f_230075_) * 8);
++               BlockPos blockpos4 = p_230104_.relative(p_230105_.m_55954_(Direction.SOUTH), 8 + (l - this.f_230076_) * 8);
++               blockpos4 = blockpos4.relative(p_230105_.m_55954_(Direction.EAST), (j1 - this.f_230075_) * 8);
+                boolean flag2 = p_230107_ != null && WoodlandMansionPieces.MansionGrid.m_230047_(p_230107_, j1, l);
+                if (WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j1, l) && !flag2) {
+                   if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j1 + 1, l)) {
+-                     BlockPos blockpos16 = blockpos4.m_5484_(p_230105_.m_55954_(Direction.EAST), 6);
++                     BlockPos blockpos16 = blockpos4.relative(p_230105_.m_55954_(Direction.EAST), 6);
+                      if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j1, l + 1)) {
+-                        BlockPos blockpos2 = blockpos16.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 6);
++                        BlockPos blockpos2 = blockpos16.relative(p_230105_.m_55954_(Direction.SOUTH), 6);
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_corner", blockpos2, p_230105_));
+                      } else if (WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j1 + 1, l + 1)) {
+-                        BlockPos blockpos18 = blockpos16.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 5);
++                        BlockPos blockpos18 = blockpos16.relative(p_230105_.m_55954_(Direction.SOUTH), 5);
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_inner_corner", blockpos18, p_230105_));
+                      }
+ 
+                      if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j1, l - 1)) {
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_corner", blockpos16, p_230105_.m_55952_(Rotation.COUNTERCLOCKWISE_90)));
+                      } else if (WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j1 + 1, l - 1)) {
+-                        BlockPos blockpos19 = blockpos4.m_5484_(p_230105_.m_55954_(Direction.EAST), 9);
+-                        blockpos19 = blockpos19.m_5484_(p_230105_.m_55954_(Direction.NORTH), 2);
++                        BlockPos blockpos19 = blockpos4.relative(p_230105_.m_55954_(Direction.EAST), 9);
++                        blockpos19 = blockpos19.relative(p_230105_.m_55954_(Direction.NORTH), 2);
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_inner_corner", blockpos19, p_230105_.m_55952_(Rotation.CLOCKWISE_90)));
+                      }
+                   }
+ 
+                   if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j1 - 1, l)) {
+-                     BlockPos blockpos17 = blockpos4.m_5484_(p_230105_.m_55954_(Direction.EAST), 0);
+-                     blockpos17 = blockpos17.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 0);
++                     BlockPos blockpos17 = blockpos4.relative(p_230105_.m_55954_(Direction.EAST), 0);
++                     blockpos17 = blockpos17.relative(p_230105_.m_55954_(Direction.SOUTH), 0);
+                      if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j1, l + 1)) {
+-                        BlockPos blockpos20 = blockpos17.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 6);
++                        BlockPos blockpos20 = blockpos17.relative(p_230105_.m_55954_(Direction.SOUTH), 6);
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_corner", blockpos20, p_230105_.m_55952_(Rotation.CLOCKWISE_90)));
+                      } else if (WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j1 - 1, l + 1)) {
+-                        BlockPos blockpos21 = blockpos17.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 8);
+-                        blockpos21 = blockpos21.m_5484_(p_230105_.m_55954_(Direction.WEST), 3);
++                        BlockPos blockpos21 = blockpos17.relative(p_230105_.m_55954_(Direction.SOUTH), 8);
++                        blockpos21 = blockpos21.relative(p_230105_.m_55954_(Direction.WEST), 3);
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_inner_corner", blockpos21, p_230105_.m_55952_(Rotation.COUNTERCLOCKWISE_90)));
+                      }
+ 
+                      if (!WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j1, l - 1)) {
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_corner", blockpos17, p_230105_.m_55952_(Rotation.CLOCKWISE_180)));
+                      } else if (WoodlandMansionPieces.MansionGrid.m_230047_(p_230106_, j1 - 1, l - 1)) {
+-                        BlockPos blockpos22 = blockpos17.m_5484_(p_230105_.m_55954_(Direction.SOUTH), 1);
++                        BlockPos blockpos22 = blockpos17.relative(p_230105_.m_55954_(Direction.SOUTH), 1);
+                         p_230103_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "roof_inner_corner", blockpos22, p_230105_.m_55952_(Rotation.CLOCKWISE_180)));
+                      }
+                   }
+@@ -748,26 +_,26 @@
+ 
+       private void m_230085_(List<WoodlandMansionPieces.WoodlandMansionPiece> p_230086_, WoodlandMansionPieces.PlacementData p_230087_) {
+          Direction direction = p_230087_.f_230138_.m_55954_(Direction.WEST);
+-         p_230086_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "entrance", p_230087_.f_230139_.m_5484_(direction, 9), p_230087_.f_230138_));
+-         p_230087_.f_230139_ = p_230087_.f_230139_.m_5484_(p_230087_.f_230138_.m_55954_(Direction.SOUTH), 16);
++         p_230086_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "entrance", p_230087_.f_230139_.relative(direction, 9), p_230087_.f_230138_));
++         p_230087_.f_230139_ = p_230087_.f_230139_.relative(p_230087_.f_230138_.m_55954_(Direction.SOUTH), 16);
+       }
+ 
+       private void m_230129_(List<WoodlandMansionPieces.WoodlandMansionPiece> p_230130_, WoodlandMansionPieces.PlacementData p_230131_) {
+-         p_230130_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230131_.f_230140_, p_230131_.f_230139_.m_5484_(p_230131_.f_230138_.m_55954_(Direction.EAST), 7), p_230131_.f_230138_));
+-         p_230131_.f_230139_ = p_230131_.f_230139_.m_5484_(p_230131_.f_230138_.m_55954_(Direction.SOUTH), 8);
++         p_230130_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230131_.f_230140_, p_230131_.f_230139_.relative(p_230131_.f_230138_.m_55954_(Direction.EAST), 7), p_230131_.f_230138_));
++         p_230131_.f_230139_ = p_230131_.f_230139_.relative(p_230131_.f_230138_.m_55954_(Direction.SOUTH), 8);
+       }
+ 
+       private void m_230132_(List<WoodlandMansionPieces.WoodlandMansionPiece> p_230133_, WoodlandMansionPieces.PlacementData p_230134_) {
+-         p_230134_.f_230139_ = p_230134_.f_230139_.m_5484_(p_230134_.f_230138_.m_55954_(Direction.SOUTH), -1);
++         p_230134_.f_230139_ = p_230134_.f_230139_.relative(p_230134_.f_230138_.m_55954_(Direction.SOUTH), -1);
+          p_230133_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, "wall_corner", p_230134_.f_230139_, p_230134_.f_230138_));
+-         p_230134_.f_230139_ = p_230134_.f_230139_.m_5484_(p_230134_.f_230138_.m_55954_(Direction.SOUTH), -7);
+-         p_230134_.f_230139_ = p_230134_.f_230139_.m_5484_(p_230134_.f_230138_.m_55954_(Direction.WEST), -6);
++         p_230134_.f_230139_ = p_230134_.f_230139_.relative(p_230134_.f_230138_.m_55954_(Direction.SOUTH), -7);
++         p_230134_.f_230139_ = p_230134_.f_230139_.relative(p_230134_.f_230138_.m_55954_(Direction.WEST), -6);
+          p_230134_.f_230138_ = p_230134_.f_230138_.m_55952_(Rotation.CLOCKWISE_90);
+       }
+ 
+       private void m_230135_(List<WoodlandMansionPieces.WoodlandMansionPiece> p_230136_, WoodlandMansionPieces.PlacementData p_230137_) {
+-         p_230137_.f_230139_ = p_230137_.f_230139_.m_5484_(p_230137_.f_230138_.m_55954_(Direction.SOUTH), 6);
+-         p_230137_.f_230139_ = p_230137_.f_230139_.m_5484_(p_230137_.f_230138_.m_55954_(Direction.EAST), 8);
++         p_230137_.f_230139_ = p_230137_.f_230139_.relative(p_230137_.f_230138_.m_55954_(Direction.SOUTH), 6);
++         p_230137_.f_230139_ = p_230137_.f_230139_.relative(p_230137_.f_230138_.m_55954_(Direction.EAST), 8);
+          p_230137_.f_230138_ = p_230137_.f_230138_.m_55952_(Rotation.COUNTERCLOCKWISE_90);
+       }
+ 
+@@ -789,60 +_,60 @@
+          BlockPos blockpos = StructureTemplate.m_74587_(new BlockPos(1, 0, 0), Mirror.NONE, rotation, 7, 7);
+          rotation = rotation.m_55952_(p_230111_);
+          blockpos = blockpos.m_7954_(p_230111_);
+-         BlockPos blockpos1 = p_230110_.m_7918_(blockpos.m_123341_(), 0, blockpos.m_123343_());
++         BlockPos blockpos1 = p_230110_.offset(blockpos.getX(), 0, blockpos.getZ());
+          p_230109_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, s, blockpos1, rotation));
+       }
+ 
+       private void m_230121_(List<WoodlandMansionPieces.WoodlandMansionPiece> p_230122_, BlockPos p_230123_, Rotation p_230124_, Direction p_230125_, Direction p_230126_, WoodlandMansionPieces.FloorRoomCollection p_230127_, boolean p_230128_) {
+          if (p_230126_ == Direction.EAST && p_230125_ == Direction.SOUTH) {
+-            BlockPos blockpos13 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 1);
++            BlockPos blockpos13 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 1);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213986_(this.f_230074_, p_230128_), blockpos13, p_230124_));
+          } else if (p_230126_ == Direction.EAST && p_230125_ == Direction.NORTH) {
+-            BlockPos blockpos12 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 1);
+-            blockpos12 = blockpos12.m_5484_(p_230124_.m_55954_(Direction.SOUTH), 6);
++            BlockPos blockpos12 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 1);
++            blockpos12 = blockpos12.relative(p_230124_.m_55954_(Direction.SOUTH), 6);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213986_(this.f_230074_, p_230128_), blockpos12, p_230124_, Mirror.LEFT_RIGHT));
+          } else if (p_230126_ == Direction.WEST && p_230125_ == Direction.NORTH) {
+-            BlockPos blockpos11 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 7);
+-            blockpos11 = blockpos11.m_5484_(p_230124_.m_55954_(Direction.SOUTH), 6);
++            BlockPos blockpos11 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 7);
++            blockpos11 = blockpos11.relative(p_230124_.m_55954_(Direction.SOUTH), 6);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213986_(this.f_230074_, p_230128_), blockpos11, p_230124_.m_55952_(Rotation.CLOCKWISE_180)));
+          } else if (p_230126_ == Direction.WEST && p_230125_ == Direction.SOUTH) {
+-            BlockPos blockpos10 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 7);
++            BlockPos blockpos10 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 7);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213986_(this.f_230074_, p_230128_), blockpos10, p_230124_, Mirror.FRONT_BACK));
+          } else if (p_230126_ == Direction.SOUTH && p_230125_ == Direction.EAST) {
+-            BlockPos blockpos9 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 1);
++            BlockPos blockpos9 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 1);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213986_(this.f_230074_, p_230128_), blockpos9, p_230124_.m_55952_(Rotation.CLOCKWISE_90), Mirror.LEFT_RIGHT));
+          } else if (p_230126_ == Direction.SOUTH && p_230125_ == Direction.WEST) {
+-            BlockPos blockpos8 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 7);
++            BlockPos blockpos8 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 7);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213986_(this.f_230074_, p_230128_), blockpos8, p_230124_.m_55952_(Rotation.CLOCKWISE_90)));
+          } else if (p_230126_ == Direction.NORTH && p_230125_ == Direction.WEST) {
+-            BlockPos blockpos7 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 7);
+-            blockpos7 = blockpos7.m_5484_(p_230124_.m_55954_(Direction.SOUTH), 6);
++            BlockPos blockpos7 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 7);
++            blockpos7 = blockpos7.relative(p_230124_.m_55954_(Direction.SOUTH), 6);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213986_(this.f_230074_, p_230128_), blockpos7, p_230124_.m_55952_(Rotation.CLOCKWISE_90), Mirror.FRONT_BACK));
+          } else if (p_230126_ == Direction.NORTH && p_230125_ == Direction.EAST) {
+-            BlockPos blockpos6 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 1);
+-            blockpos6 = blockpos6.m_5484_(p_230124_.m_55954_(Direction.SOUTH), 6);
++            BlockPos blockpos6 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 1);
++            blockpos6 = blockpos6.relative(p_230124_.m_55954_(Direction.SOUTH), 6);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213986_(this.f_230074_, p_230128_), blockpos6, p_230124_.m_55952_(Rotation.COUNTERCLOCKWISE_90)));
+          } else if (p_230126_ == Direction.SOUTH && p_230125_ == Direction.NORTH) {
+-            BlockPos blockpos5 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 1);
+-            blockpos5 = blockpos5.m_5484_(p_230124_.m_55954_(Direction.NORTH), 8);
++            BlockPos blockpos5 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 1);
++            blockpos5 = blockpos5.relative(p_230124_.m_55954_(Direction.NORTH), 8);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213985_(this.f_230074_, p_230128_), blockpos5, p_230124_));
+          } else if (p_230126_ == Direction.NORTH && p_230125_ == Direction.SOUTH) {
+-            BlockPos blockpos4 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 7);
+-            blockpos4 = blockpos4.m_5484_(p_230124_.m_55954_(Direction.SOUTH), 14);
++            BlockPos blockpos4 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 7);
++            blockpos4 = blockpos4.relative(p_230124_.m_55954_(Direction.SOUTH), 14);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213985_(this.f_230074_, p_230128_), blockpos4, p_230124_.m_55952_(Rotation.CLOCKWISE_180)));
+          } else if (p_230126_ == Direction.WEST && p_230125_ == Direction.EAST) {
+-            BlockPos blockpos3 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 15);
++            BlockPos blockpos3 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 15);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213985_(this.f_230074_, p_230128_), blockpos3, p_230124_.m_55952_(Rotation.CLOCKWISE_90)));
+          } else if (p_230126_ == Direction.EAST && p_230125_ == Direction.WEST) {
+-            BlockPos blockpos2 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.WEST), 7);
+-            blockpos2 = blockpos2.m_5484_(p_230124_.m_55954_(Direction.SOUTH), 6);
++            BlockPos blockpos2 = p_230123_.relative(p_230124_.m_55954_(Direction.WEST), 7);
++            blockpos2 = blockpos2.relative(p_230124_.m_55954_(Direction.SOUTH), 6);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_213985_(this.f_230074_, p_230128_), blockpos2, p_230124_.m_55952_(Rotation.COUNTERCLOCKWISE_90)));
+          } else if (p_230126_ == Direction.UP && p_230125_ == Direction.EAST) {
+-            BlockPos blockpos1 = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 15);
++            BlockPos blockpos1 = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 15);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_214128_(this.f_230074_), blockpos1, p_230124_.m_55952_(Rotation.CLOCKWISE_90)));
+          } else if (p_230126_ == Direction.UP && p_230125_ == Direction.SOUTH) {
+-            BlockPos blockpos = p_230123_.m_5484_(p_230124_.m_55954_(Direction.EAST), 1);
+-            blockpos = blockpos.m_5484_(p_230124_.m_55954_(Direction.NORTH), 0);
++            BlockPos blockpos = p_230123_.relative(p_230124_.m_55954_(Direction.EAST), 1);
++            blockpos = blockpos.relative(p_230124_.m_55954_(Direction.NORTH), 0);
+             p_230122_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230127_.m_214128_(this.f_230074_), blockpos, p_230124_));
+          }
+ 
+@@ -886,13 +_,13 @@
+             mirror = Mirror.FRONT_BACK;
+          }
+ 
+-         BlockPos blockpos = p_230116_.m_5484_(p_230117_.m_55954_(Direction.EAST), i);
+-         blockpos = blockpos.m_5484_(p_230117_.m_55954_(Direction.SOUTH), j);
++         BlockPos blockpos = p_230116_.relative(p_230117_.m_55954_(Direction.EAST), i);
++         blockpos = blockpos.relative(p_230117_.m_55954_(Direction.SOUTH), j);
+          p_230115_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230120_.m_214124_(this.f_230074_), blockpos, rotation, mirror));
+       }
+ 
+       private void m_230097_(List<WoodlandMansionPieces.WoodlandMansionPiece> p_230098_, BlockPos p_230099_, Rotation p_230100_, WoodlandMansionPieces.FloorRoomCollection p_230101_) {
+-         BlockPos blockpos = p_230099_.m_5484_(p_230100_.m_55954_(Direction.EAST), 1);
++         BlockPos blockpos = p_230099_.relative(p_230100_.m_55954_(Direction.EAST), 1);
+          p_230098_.add(new WoodlandMansionPieces.WoodlandMansionPiece(this.f_230073_, p_230101_.m_214125_(this.f_230074_), blockpos, p_230100_, Mirror.NONE));
+       }
+    }

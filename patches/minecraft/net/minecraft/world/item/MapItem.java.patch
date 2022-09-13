@@ -1,0 +1,78 @@
+--- a/net/minecraft/world/item/MapItem.java
++++ b/net/minecraft/world/item/MapItem.java
+@@ -43,9 +_,9 @@
+       super(p_42847_);
+    }
+ 
+-   public static ItemStack m_42886_(Level p_42887_, int p_42888_, int p_42889_, byte p_42890_, boolean p_42891_, boolean p_42892_) {
++   public static ItemStack create(Level p_42887_, long p_42888_, long p_42889_, byte p_42890_, boolean p_42891_, boolean p_42892_) {
+       ItemStack itemstack = new ItemStack(Items.f_42573_);
+-      m_151111_(itemstack, p_42887_, p_42888_, p_42889_, p_42890_, p_42891_, p_42892_, p_42887_.m_46472_());
++      createAndStoreSavedData(itemstack, p_42887_, p_42888_, p_42889_, p_42890_, p_42891_, p_42892_, p_42887_.m_46472_());
+       return itemstack;
+    }
+ 
+@@ -66,7 +_,7 @@
+       return compoundtag != null && compoundtag.m_128425_("map", 99) ? compoundtag.m_128451_("map") : null;
+    }
+ 
+-   private static int m_151120_(Level p_151121_, int p_151122_, int p_151123_, int p_151124_, boolean p_151125_, boolean p_151126_, ResourceKey<Level> p_151127_) {
++   private static int createNewSavedData(Level p_151121_, long p_151122_, long p_151123_, int p_151124_, boolean p_151125_, boolean p_151126_, ResourceKey<Level> p_151127_) {
+       MapItemSavedData mapitemsaveddata = MapItemSavedData.m_164780_((double)p_151122_, (double)p_151123_, (byte)p_151124_, p_151125_, p_151126_, p_151127_);
+       int i = p_151121_.m_7354_();
+       p_151121_.m_142325_(m_42848_(i), mapitemsaveddata);
+@@ -77,8 +_,8 @@
+       p_151109_.m_41784_().m_128405_("map", p_151110_);
+    }
+ 
+-   private static void m_151111_(ItemStack p_151112_, Level p_151113_, int p_151114_, int p_151115_, int p_151116_, boolean p_151117_, boolean p_151118_, ResourceKey<Level> p_151119_) {
+-      int i = m_151120_(p_151113_, p_151114_, p_151115_, p_151116_, p_151117_, p_151118_, p_151119_);
++   private static void createAndStoreSavedData(ItemStack p_151112_, Level p_151113_, long p_151114_, long p_151115_, int p_151116_, boolean p_151117_, boolean p_151118_, ResourceKey<Level> p_151119_) {
++      int i = createNewSavedData(p_151113_, p_151114_, p_151115_, p_151116_, p_151117_, p_151118_, p_151119_);
+       m_151108_(p_151112_, i);
+    }
+ 
+@@ -138,33 +_,33 @@
+ 
+                            for(int i4 = 0; i4 < i; ++i4) {
+                               for(int j4 = 0; j4 < i; ++j4) {
+-                                 int k4 = levelchunk.m_5885_(Heightmap.Types.WORLD_SURFACE, i4 + i3, j4 + j3) + 1;
++                                 long k4 = levelchunk.getHeight(Heightmap.Types.WORLD_SURFACE, i4 + i3, j4 + j3) + 1;
+                                  BlockState blockstate;
+-                                 if (k4 <= p_42894_.m_141937_() + 1) {
++                                 if (k4 <= p_42894_.getMinBuildHeight() + 1) {
+                                     blockstate = Blocks.f_50752_.m_49966_();
+                                  } else {
+                                     do {
+                                        --k4;
+-                                       blockpos$mutableblockpos1.m_122178_(chunkpos.m_45604_() + i4 + i3, k4, chunkpos.m_45605_() + j4 + j3);
++                                       blockpos$mutableblockpos1.m_122169_(chunkpos.getMinBlockX() + i4 + i3, k4, chunkpos.getMinBlockZ() + j4 + j3);
+                                        blockstate = levelchunk.m_8055_(blockpos$mutableblockpos1);
+-                                    } while(blockstate.m_60780_(p_42894_, blockpos$mutableblockpos1) == MaterialColor.f_76398_ && k4 > p_42894_.m_141937_());
++                                    } while(blockstate.m_60780_(p_42894_, blockpos$mutableblockpos1) == MaterialColor.f_76398_ && k4 > p_42894_.getMinBuildHeight());
+ 
+-                                    if (k4 > p_42894_.m_141937_() && !blockstate.m_60819_().m_76178_()) {
+-                                       int l4 = k4 - 1;
+-                                       blockpos$mutableblockpos.m_122190_(blockpos$mutableblockpos1);
++                                    if (k4 > p_42894_.getMinBuildHeight() && !blockstate.m_60819_().m_76178_()) {
++                                       long l4 = k4 - 1;
++                                       blockpos$mutableblockpos.set(blockpos$mutableblockpos1);
+ 
+                                        BlockState blockstate1;
+                                        do {
+-                                          blockpos$mutableblockpos.m_142448_(l4--);
++                                          blockpos$mutableblockpos.setY(l4--);
+                                           blockstate1 = levelchunk.m_8055_(blockpos$mutableblockpos);
+                                           ++k3;
+-                                       } while(l4 > p_42894_.m_141937_() && !blockstate1.m_60819_().m_76178_());
++                                       } while(l4 > p_42894_.getMinBuildHeight() && !blockstate1.m_60819_().m_76178_());
+ 
+                                        blockstate = this.m_42900_(p_42894_, blockstate, blockpos$mutableblockpos1);
+                                     }
+                                  }
+ 
+-                                 p_42896_.m_77930_(p_42894_, chunkpos.m_45604_() + i4 + i3, chunkpos.m_45605_() + j4 + j3);
++                                 p_42896_.checkBanners(p_42894_, chunkpos.getMinBlockX() + i4 + i3, chunkpos.getMinBlockZ() + j4 + j3);
+                                  d1 += (double)k4 / (double)(i * i);
+                                  multiset.add(blockstate.m_60780_(p_42894_, blockpos$mutableblockpos1));
+                               }

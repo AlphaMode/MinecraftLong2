@@ -1,0 +1,43 @@
+--- a/net/minecraft/server/MinecraftServer.java
++++ b/net/minecraft/server/MinecraftServer.java
+@@ -374,17 +_,17 @@
+ 
+    private static void m_177896_(ServerLevel p_177897_, ServerLevelData p_177898_, boolean p_177899_, boolean p_177900_) {
+       if (p_177900_) {
+-         p_177898_.m_7250_(BlockPos.f_121853_.m_6630_(80), 0.0F);
++         p_177898_.m_7250_(BlockPos.f_121853_.above(80), 0.0F);
+       } else {
+          ServerChunkCache serverchunkcache = p_177897_.m_7726_();
+          ChunkPos chunkpos = new ChunkPos(serverchunkcache.m_214994_().m_224579_().m_183230_());
+-         int i = serverchunkcache.m_8481_().m_142051_(p_177897_);
+-         if (i < p_177897_.m_141937_()) {
++         long i = serverchunkcache.m_8481_().getSpawnHeight(p_177897_);
++         if (i < p_177897_.getMinBuildHeight()) {
+             BlockPos blockpos = chunkpos.m_45615_();
+-            i = p_177897_.m_6924_(Heightmap.Types.WORLD_SURFACE, blockpos.m_123341_() + 8, blockpos.m_123343_() + 8);
++            i = p_177897_.getHeight(Heightmap.Types.WORLD_SURFACE, blockpos.getX() + 8, blockpos.getZ() + 8);
+          }
+ 
+-         p_177898_.m_7250_(chunkpos.m_45615_().m_7918_(8, i, 8), 0.0F);
++         p_177898_.m_7250_(chunkpos.m_45615_().offset(8, i, 8), 0.0F);
+          int k1 = 0;
+          int j = 0;
+          int k = 0;
+@@ -412,7 +_,7 @@
+ 
+          if (p_177899_) {
+             ConfiguredFeature<?, ?> configuredfeature = MiscOverworldFeatures.f_195021_.m_203334_();
+-            configuredfeature.m_224953_(p_177897_, serverchunkcache.m_8481_(), p_177897_.f_46441_, new BlockPos(p_177898_.m_6789_(), p_177898_.m_6527_(), p_177898_.m_6526_()));
++            configuredfeature.m_224953_(p_177897_, serverchunkcache.m_8481_(), p_177897_.f_46441_, new BlockPos(p_177898_.getXSpawn(), p_177898_.getYSpawn(), p_177898_.getZSpawn()));
+          }
+ 
+       }
+@@ -1362,7 +_,7 @@
+ 
+    public CommandSourceStack m_129893_() {
+       ServerLevel serverlevel = this.m_129783_();
+-      return new CommandSourceStack(this, serverlevel == null ? Vec3.f_82478_ : Vec3.m_82528_(serverlevel.m_220360_()), Vec2.f_82462_, serverlevel, 4, "Server", Component.m_237113_("Server"), this, (Entity)null);
++      return new CommandSourceStack(this, serverlevel == null ? Vec3.f_82478_ : Vec3.atLowerCornerOf(serverlevel.m_220360_()), Vec2.f_82462_, serverlevel, 4, "Server", Component.m_237113_("Server"), this, (Entity)null);
+    }
+ 
+    public boolean m_6999_() {

@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/entity/ai/goal/MoveThroughVillageGoal.java
++++ b/net/minecraft/world/entity/ai/goal/MoveThroughVillageGoal.java
+@@ -65,7 +_,7 @@
+                         return p_217758_.m_203656_(PoiTypeTags.f_215876_);
+                      }, this::m_25592_, p_217751_, 10, PoiManager.Occupancy.IS_OCCUPIED);
+                      return optional1.map((p_217754_) -> {
+-                        return -p_217754_.m_123331_(blockpos);
++                        return -p_217754_.distSqr(blockpos);
+                      }).orElse(Double.NEGATIVE_INFINITY);
+                   }
+                });
+@@ -85,7 +_,7 @@
+                      this.f_25575_ = groundpathnavigation.m_7864_(this.f_25576_, 0);
+                      groundpathnavigation.m_26477_(flag);
+                      if (this.f_25575_ == null) {
+-                        Vec3 vec31 = DefaultRandomPos.m_148412_(this.f_25573_, 10, 7, Vec3.m_82539_(this.f_25576_), (double)((float)Math.PI / 2F));
++                        Vec3 vec31 = DefaultRandomPos.m_148412_(this.f_25573_, 10, 7, Vec3.atBottomCenterOf(this.f_25576_), (double)((float)Math.PI / 2F));
+                         if (vec31 == null) {
+                            return false;
+                         }
+@@ -119,7 +_,7 @@
+       if (this.f_25573_.m_21573_().m_26571_()) {
+          return false;
+       } else {
+-         return !this.f_25576_.m_203195_(this.f_25573_.m_20182_(), (double)(this.f_25573_.m_20205_() + (float)this.f_25579_));
++         return !this.f_25576_.closerToCenterThan(this.f_25573_.m_20182_(), (double)(this.f_25573_.m_20205_() + (float)this.f_25579_));
+       }
+    }
+ 
+@@ -128,7 +_,7 @@
+    }
+ 
+    public void m_8041_() {
+-      if (this.f_25573_.m_21573_().m_26571_() || this.f_25576_.m_203195_(this.f_25573_.m_20182_(), (double)this.f_25579_)) {
++      if (this.f_25573_.m_21573_().m_26571_() || this.f_25576_.closerToCenterThan(this.f_25573_.m_20182_(), (double)this.f_25579_)) {
+          this.f_25578_.add(this.f_25576_);
+       }
+ 

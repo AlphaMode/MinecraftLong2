@@ -1,0 +1,106 @@
+--- a/net/minecraft/world/level/biome/BiomeManager.java
++++ b/net/minecraft/world/level/biome/BiomeManager.java
+@@ -8,7 +_,7 @@
+ import net.minecraft.util.Mth;
+ 
+ public class BiomeManager {
+-   public static final int f_151750_ = QuartPos.m_175400_(8);
++   public static final long f_151750_ = QuartPos.fromBlock(8);
+    private static final int f_186673_ = 2;
+    private static final int f_186674_ = 4;
+    private static final int f_186675_ = 3;
+@@ -29,12 +_,12 @@
+    }
+ 
+    public Holder<Biome> m_204214_(BlockPos p_204215_) {
+-      int i = p_204215_.m_123341_() - 2;
+-      int j = p_204215_.m_123342_() - 2;
+-      int k = p_204215_.m_123343_() - 2;
+-      int l = i >> 2;
+-      int i1 = j >> 2;
+-      int j1 = k >> 2;
++      long i = p_204215_.getX() - 2;
++      long j = p_204215_.getY() - 2;
++      long k = p_204215_.getZ() - 2;
++      long l = i >> 2;
++      long i1 = j >> 2;
++      long j1 = k >> 2;
+       double d0 = (double)(i & 3) / 4.0D;
+       double d1 = (double)(j & 3) / 4.0D;
+       double d2 = (double)(k & 3) / 4.0D;
+@@ -45,44 +_,44 @@
+          boolean flag = (l1 & 4) == 0;
+          boolean flag1 = (l1 & 2) == 0;
+          boolean flag2 = (l1 & 1) == 0;
+-         int i2 = flag ? l : l + 1;
+-         int j2 = flag1 ? i1 : i1 + 1;
+-         int k2 = flag2 ? j1 : j1 + 1;
++         long i2 = flag ? l : l + 1;
++         long j2 = flag1 ? i1 : i1 + 1;
++         long k2 = flag2 ? j1 : j1 + 1;
+          double d4 = flag ? d0 : d0 - 1.0D;
+          double d5 = flag1 ? d1 : d1 - 1.0D;
+          double d6 = flag2 ? d2 : d2 - 1.0D;
+-         double d7 = m_186679_(this.f_47863_, i2, j2, k2, d4, d5, d6);
++         double d7 = getFiddledDistance(this.f_47863_, i2, j2, k2, d4, d5, d6);
+          if (d3 > d7) {
+             k1 = l1;
+             d3 = d7;
+          }
+       }
+ 
+-      int l2 = (k1 & 4) == 0 ? l : l + 1;
+-      int i3 = (k1 & 2) == 0 ? i1 : i1 + 1;
+-      int j3 = (k1 & 1) == 0 ? j1 : j1 + 1;
+-      return this.f_47862_.m_203495_(l2, i3, j3);
++      long l2 = (k1 & 4) == 0 ? l : l + 1;
++      long i3 = (k1 & 2) == 0 ? i1 : i1 + 1;
++      long j3 = (k1 & 1) == 0 ? j1 : j1 + 1;
++      return this.f_47862_.getNoiseBiome(l2, i3, j3);
+    }
+ 
+    public Holder<Biome> m_204206_(double p_204207_, double p_204208_, double p_204209_) {
+-      int i = QuartPos.m_175400_(Mth.m_14107_(p_204207_));
+-      int j = QuartPos.m_175400_(Mth.m_14107_(p_204208_));
+-      int k = QuartPos.m_175400_(Mth.m_14107_(p_204209_));
+-      return this.m_204210_(i, j, k);
++      long i = QuartPos.fromBlock(Mth.m_14107_(p_204207_));
++      long j = QuartPos.fromBlock(Mth.m_14107_(p_204208_));
++      long k = QuartPos.fromBlock(Mth.m_14107_(p_204209_));
++      return this.getNoiseBiomeAtQuart(i, j, k);
+    }
+ 
+    public Holder<Biome> m_204216_(BlockPos p_204217_) {
+-      int i = QuartPos.m_175400_(p_204217_.m_123341_());
+-      int j = QuartPos.m_175400_(p_204217_.m_123342_());
+-      int k = QuartPos.m_175400_(p_204217_.m_123343_());
+-      return this.m_204210_(i, j, k);
+-   }
+-
+-   public Holder<Biome> m_204210_(int p_204211_, int p_204212_, int p_204213_) {
+-      return this.f_47862_.m_203495_(p_204211_, p_204212_, p_204213_);
+-   }
+-
+-   private static double m_186679_(long p_186680_, int p_186681_, int p_186682_, int p_186683_, double p_186684_, double p_186685_, double p_186686_) {
++      long i = QuartPos.fromBlock(p_204217_.getX());
++      long j = QuartPos.fromBlock(p_204217_.getY());
++      long k = QuartPos.fromBlock(p_204217_.getZ());
++      return this.getNoiseBiomeAtQuart(i, j, k);
++   }
++
++   public Holder<Biome> getNoiseBiomeAtQuart(long p_204211_, long p_204212_, long p_204213_) {
++      return this.f_47862_.getNoiseBiome(p_204211_, p_204212_, p_204213_);
++   }
++
++   private static double getFiddledDistance(long p_186680_, long p_186681_, long p_186682_, long p_186683_, double p_186684_, double p_186685_, double p_186686_) {
+       long $$7 = LinearCongruentialGenerator.m_13972_(p_186680_, (long)p_186681_);
+       $$7 = LinearCongruentialGenerator.m_13972_($$7, (long)p_186682_);
+       $$7 = LinearCongruentialGenerator.m_13972_($$7, (long)p_186683_);
+@@ -103,6 +_,6 @@
+    }
+ 
+    public interface NoiseBiomeSource {
+-      Holder<Biome> m_203495_(int p_204218_, int p_204219_, int p_204220_);
++      Holder<Biome> getNoiseBiome(long p_204218_, long p_204219_, long p_204220_);
+    }
+ }

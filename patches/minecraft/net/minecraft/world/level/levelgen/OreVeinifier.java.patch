@@ -1,0 +1,26 @@
+--- a/net/minecraft/world/level/levelgen/OreVeinifier.java
++++ b/net/minecraft/world/level/levelgen/OreVeinifier.java
+@@ -23,18 +_,18 @@
+       BlockState blockstate = null;
+       return (p_209666_) -> {
+          double d0 = p_209668_.m_207386_(p_209666_);
+-         int i = p_209666_.m_207114_();
++         long i = p_209666_.blockY();
+          OreVeinifier.VeinType oreveinifier$veintype = d0 > 0.0D ? OreVeinifier.VeinType.COPPER : OreVeinifier.VeinType.IRON;
+          double d1 = Math.abs(d0);
+-         int j = oreveinifier$veintype.f_209675_ - i;
+-         int k = i - oreveinifier$veintype.f_209674_;
++         long j = oreveinifier$veintype.f_209675_ - i;
++         long k = i - oreveinifier$veintype.f_209674_;
+          if (k >= 0 && j >= 0) {
+-            int l = Math.min(j, k);
++            long l = Math.min(j, k);
+             double d2 = Mth.m_144851_((double)l, 0.0D, 20.0D, -0.2D, 0.0D);
+             if (d1 + d2 < (double)0.4F) {
+                return blockstate;
+             } else {
+-               RandomSource randomsource = p_209671_.m_213715_(p_209666_.m_207115_(), i, p_209666_.m_207113_());
++               RandomSource randomsource = p_209671_.at(p_209666_.blockX(), i, p_209666_.blockZ());
+                if (randomsource.m_188501_() > 0.7F) {
+                   return blockstate;
+                } else if (p_209669_.m_207386_(p_209666_) >= 0.0D) {

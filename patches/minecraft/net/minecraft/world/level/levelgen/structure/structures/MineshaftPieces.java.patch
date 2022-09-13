@@ -1,0 +1,130 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/MineshaftPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/MineshaftPieces.java
+@@ -222,10 +_,10 @@
+ 
+       protected boolean m_213787_(WorldGenLevel p_227787_, BoundingBox p_227788_, RandomSource p_227789_, int p_227790_, int p_227791_, int p_227792_, ResourceLocation p_227793_) {
+          BlockPos blockpos = this.m_163582_(p_227790_, p_227791_, p_227792_);
+-         if (p_227788_.m_71051_(blockpos) && p_227787_.m_8055_(blockpos).m_60795_() && !p_227787_.m_8055_(blockpos.m_7495_()).m_60795_()) {
++         if (p_227788_.isInside(blockpos) && p_227787_.m_8055_(blockpos).m_60795_() && !p_227787_.m_8055_(blockpos.below()).m_60795_()) {
+             BlockState blockstate = Blocks.f_50156_.m_49966_().m_61124_(RailBlock.f_55392_, p_227789_.m_188499_() ? RailShape.NORTH_SOUTH : RailShape.EAST_WEST);
+             this.m_73434_(p_227787_, blockstate, p_227790_, p_227791_, p_227792_, p_227788_);
+-            MinecartChest minecartchest = new MinecartChest(p_227787_.m_6018_(), (double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_() + 0.5D, (double)blockpos.m_123343_() + 0.5D);
++            MinecartChest minecartchest = new MinecartChest(p_227787_.m_6018_(), (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.5D, (double)blockpos.getZ() + 0.5D);
+             minecartchest.m_38236_(p_227793_, p_227789_.m_188505_());
+             p_227787_.m_7967_(minecartchest);
+             return true;
+@@ -271,7 +_,7 @@
+                   int l1 = 1;
+                   int i2 = k1 - 1 + p_227746_.m_188503_(3);
+                   BlockPos blockpos = this.m_163582_(1, 0, i2);
+-                  if (p_227747_.m_71051_(blockpos) && this.m_73414_(p_227743_, 1, 0, i2, p_227747_)) {
++                  if (p_227747_.isInside(blockpos) && this.m_73414_(p_227743_, 1, 0, i2, p_227747_)) {
+                      this.f_227728_ = true;
+                      p_227743_.m_7731_(blockpos, Blocks.f_50085_.m_49966_(), 2);
+                      BlockEntity blockentity = p_227743_.m_7702_(blockpos);
+@@ -325,15 +_,15 @@
+ 
+       protected void m_73528_(WorldGenLevel p_227813_, BlockState p_227814_, int p_227815_, int p_227816_, int p_227817_, BoundingBox p_227818_) {
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = this.m_163582_(p_227815_, p_227816_, p_227817_);
+-         if (p_227818_.m_71051_(blockpos$mutableblockpos)) {
+-            int i = blockpos$mutableblockpos.m_123342_();
++         if (p_227818_.isInside(blockpos$mutableblockpos)) {
++            long i = blockpos$mutableblockpos.getY();
+ 
+-            while(this.m_163572_(p_227813_.m_8055_(blockpos$mutableblockpos)) && blockpos$mutableblockpos.m_123342_() > p_227813_.m_141937_() + 1) {
++            while(this.m_163572_(p_227813_.m_8055_(blockpos$mutableblockpos)) && blockpos$mutableblockpos.getY() > p_227813_.getMinBuildHeight() + 1) {
+                blockpos$mutableblockpos.m_122173_(Direction.DOWN);
+             }
+ 
+             if (this.m_227738_(p_227813_, blockpos$mutableblockpos, p_227813_.m_8055_(blockpos$mutableblockpos))) {
+-               while(blockpos$mutableblockpos.m_123342_() < i) {
++               while(blockpos$mutableblockpos.getY() < i) {
+                   blockpos$mutableblockpos.m_122173_(Direction.UP);
+                   p_227813_.m_7731_(blockpos$mutableblockpos, p_227814_, 2);
+                }
+@@ -344,44 +_,44 @@
+ 
+       protected void m_227819_(WorldGenLevel p_227820_, BlockState p_227821_, int p_227822_, int p_227823_, int p_227824_, BoundingBox p_227825_) {
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = this.m_163582_(p_227822_, p_227823_, p_227824_);
+-         if (p_227825_.m_71051_(blockpos$mutableblockpos)) {
+-            int i = blockpos$mutableblockpos.m_123342_();
++         if (p_227825_.isInside(blockpos$mutableblockpos)) {
++            long i = blockpos$mutableblockpos.getY();
+             int j = 1;
+             boolean flag = true;
+ 
+             for(boolean flag1 = true; flag || flag1; ++j) {
+                if (flag) {
+-                  blockpos$mutableblockpos.m_142448_(i - j);
++                  blockpos$mutableblockpos.setY(i - j);
+                   BlockState blockstate = p_227820_.m_8055_(blockpos$mutableblockpos);
+                   boolean flag2 = this.m_163572_(blockstate) && !blockstate.m_60713_(Blocks.f_49991_);
+                   if (!flag2 && this.m_227738_(p_227820_, blockpos$mutableblockpos, blockstate)) {
+-                     m_227750_(p_227820_, p_227821_, blockpos$mutableblockpos, i - j + 1, i);
++                     fillColumnBetween(p_227820_, p_227821_, blockpos$mutableblockpos, i - j + 1, i);
+                      return;
+                   }
+ 
+-                  flag = j <= 20 && flag2 && blockpos$mutableblockpos.m_123342_() > p_227820_.m_141937_() + 1;
++                  flag = j <= 20 && flag2 && blockpos$mutableblockpos.getY() > p_227820_.getMinBuildHeight() + 1;
+                }
+ 
+                if (flag1) {
+-                  blockpos$mutableblockpos.m_142448_(i + j);
++                  blockpos$mutableblockpos.setY(i + j);
+                   BlockState blockstate1 = p_227820_.m_8055_(blockpos$mutableblockpos);
+                   boolean flag3 = this.m_163572_(blockstate1);
+                   if (!flag3 && this.m_227808_(p_227820_, blockpos$mutableblockpos, blockstate1)) {
+-                     p_227820_.m_7731_(blockpos$mutableblockpos.m_142448_(i + 1), this.f_227864_.m_227995_(), 2);
+-                     m_227750_(p_227820_, Blocks.f_50184_.m_49966_(), blockpos$mutableblockpos, i + 2, i + j);
++                     p_227820_.m_7731_(blockpos$mutableblockpos.setY(i + 1), this.f_227864_.m_227995_(), 2);
++                     fillColumnBetween(p_227820_, Blocks.f_50184_.m_49966_(), blockpos$mutableblockpos, i + 2, i + j);
+                      return;
+                   }
+ 
+-                  flag1 = j <= 50 && flag3 && blockpos$mutableblockpos.m_123342_() < p_227820_.m_151558_() - 1;
++                  flag1 = j <= 50 && flag3 && blockpos$mutableblockpos.getY() < p_227820_.getMaxBuildHeight() - 1;
+                }
+             }
+ 
+          }
+       }
+ 
+-      private static void m_227750_(WorldGenLevel p_227751_, BlockState p_227752_, BlockPos.MutableBlockPos p_227753_, int p_227754_, int p_227755_) {
+-         for(int i = p_227754_; i < p_227755_; ++i) {
+-            p_227751_.m_7731_(p_227753_.m_142448_(i), p_227752_, 2);
++      private static void fillColumnBetween(WorldGenLevel p_227751_, BlockState p_227752_, BlockPos.MutableBlockPos p_227753_, long p_227754_, long p_227755_) {
++         for(long i = p_227754_; i < p_227755_; ++i) {
++            p_227751_.m_7731_(p_227753_.setY(i), p_227752_, 2);
+          }
+ 
+       }
+@@ -425,7 +_,7 @@
+ 
+          for(Direction direction : Direction.values()) {
+             blockpos$mutableblockpos.m_122173_(direction);
+-            if (p_227764_.m_71051_(blockpos$mutableblockpos) && p_227763_.m_8055_(blockpos$mutableblockpos).m_60783_(p_227763_, blockpos$mutableblockpos, direction.m_122424_())) {
++            if (p_227764_.isInside(blockpos$mutableblockpos) && p_227763_.m_8055_(blockpos$mutableblockpos).m_60783_(p_227763_, blockpos$mutableblockpos, direction.m_122424_())) {
+                ++i;
+                if (i >= p_227768_) {
+                   return true;
+@@ -670,8 +_,8 @@
+    public static class MineShaftRoom extends MineshaftPieces.MineShaftPiece {
+       private final List<BoundingBox> f_227900_ = Lists.newLinkedList();
+ 
+-      public MineShaftRoom(int p_227902_, RandomSource p_227903_, int p_227904_, int p_227905_, MineshaftStructure.Type p_227906_) {
+-         super(StructurePieceType.f_210127_, p_227902_, p_227906_, new BoundingBox(p_227904_, 50, p_227905_, p_227904_ + 7 + p_227903_.m_188503_(6), 54 + p_227903_.m_188503_(6), p_227905_ + 7 + p_227903_.m_188503_(6)));
++      public MineShaftRoom(int p_227902_, RandomSource p_227903_, long p_227904_, long p_227905_, MineshaftStructure.Type p_227906_) {
++         super(StructurePieceType.f_210127_, p_227902_, p_227906_, new BoundingBox((int) p_227904_, 50, (int) p_227905_, (int) (p_227904_ + 7 + p_227903_.m_188503_(6)), 54 + p_227903_.m_188503_(6), (int) (p_227905_ + 7 + p_227903_.m_188503_(6))));
+          this.f_227864_ = p_227906_;
+       }
+ 
+@@ -755,7 +_,7 @@
+       }
+ 
+       public void m_6324_(int p_227910_, int p_227911_, int p_227912_) {
+-         super.m_6324_(p_227910_, p_227911_, p_227912_);
++         super.move(p_227910_, p_227911_, p_227912_);
+ 
+          for(BoundingBox boundingbox : this.f_227900_) {
+             boundingbox.m_162367_(p_227910_, p_227911_, p_227912_);

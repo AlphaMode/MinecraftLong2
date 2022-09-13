@@ -1,0 +1,45 @@
+--- a/net/minecraft/world/entity/ai/village/VillageSiege.java
++++ b/net/minecraft/world/entity/ai/village/VillageSiege.java
+@@ -24,9 +_,9 @@
+    private VillageSiege.State f_26999_ = VillageSiege.State.SIEGE_DONE;
+    private int f_27000_;
+    private int f_27001_;
+-   private int f_27002_;
+-   private int f_27003_;
+-   private int f_27004_;
++   private long f_27002_;
++   private long f_27003_;
++   private long f_27004_;
+ 
+    public int m_7995_(ServerLevel p_27013_, boolean p_27014_, boolean p_27015_) {
+       if (!p_27013_.m_46461_() && p_27014_) {
+@@ -75,9 +_,9 @@
+             if (p_27008_.m_8802_(blockpos) && !p_27008_.m_204166_(blockpos).m_203656_(BiomeTags.f_215805_)) {
+                for(int i = 0; i < 10; ++i) {
+                   float f = p_27008_.f_46441_.m_188501_() * ((float)Math.PI * 2F);
+-                  this.f_27002_ = blockpos.m_123341_() + Mth.m_14143_(Mth.m_14089_(f) * 32.0F);
+-                  this.f_27003_ = blockpos.m_123342_();
+-                  this.f_27004_ = blockpos.m_123343_() + Mth.m_14143_(Mth.m_14031_(f) * 32.0F);
++                  this.f_27002_ = blockpos.getX() + Mth.m_14143_(Mth.m_14089_(f) * 32.0F);
++                  this.f_27003_ = blockpos.getY();
++                  this.f_27004_ = blockpos.getZ() + Mth.m_14143_(Mth.m_14031_(f) * 32.0F);
+                   if (this.m_27009_(p_27008_, new BlockPos(this.f_27002_, this.f_27003_, this.f_27004_)) != null) {
+                      this.f_27001_ = 0;
+                      this.f_27000_ = 20;
+@@ -113,12 +_,12 @@
+    @Nullable
+    private Vec3 m_27009_(ServerLevel p_27010_, BlockPos p_27011_) {
+       for(int i = 0; i < 10; ++i) {
+-         int j = p_27011_.m_123341_() + p_27010_.f_46441_.m_188503_(16) - 8;
+-         int k = p_27011_.m_123343_() + p_27010_.f_46441_.m_188503_(16) - 8;
+-         int l = p_27010_.m_6924_(Heightmap.Types.WORLD_SURFACE, j, k);
++         long j = p_27011_.getX() + p_27010_.f_46441_.m_188503_(16) - 8;
++         long k = p_27011_.getZ() + p_27010_.f_46441_.m_188503_(16) - 8;
++         long l = p_27010_.getHeight(Heightmap.Types.WORLD_SURFACE, j, k);
+          BlockPos blockpos = new BlockPos(j, l, k);
+          if (p_27010_.m_8802_(blockpos) && Monster.m_219013_(EntityType.f_20501_, p_27010_, MobSpawnType.EVENT, blockpos, p_27010_.f_46441_)) {
+-            return Vec3.m_82539_(blockpos);
++            return Vec3.atBottomCenterOf(blockpos);
+          }
+       }
+ 

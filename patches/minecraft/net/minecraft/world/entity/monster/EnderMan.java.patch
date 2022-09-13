@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/entity/monster/EnderMan.java
++++ b/net/minecraft/world/entity/monster/EnderMan.java
+@@ -265,7 +_,7 @@
+    private boolean m_32543_(double p_32544_, double p_32545_, double p_32546_) {
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_32544_, p_32545_, p_32546_);
+ 
+-      while(blockpos$mutableblockpos.m_123342_() > this.f_19853_.m_141937_() && !this.f_19853_.m_8055_(blockpos$mutableblockpos).m_60767_().m_76334_()) {
++      while(blockpos$mutableblockpos.getY() > this.f_19853_.getMinBuildHeight() && !this.f_19853_.m_8055_(blockpos$mutableblockpos).m_60767_().m_76334_()) {
+          blockpos$mutableblockpos.m_122173_(Direction.DOWN);
+       }
+ 
+@@ -426,7 +_,7 @@
+          int k = Mth.m_14107_(this.f_32554_.m_20189_() - 1.0D + randomsource.m_188500_() * 2.0D);
+          BlockPos blockpos = new BlockPos(i, j, k);
+          BlockState blockstate = level.m_8055_(blockpos);
+-         BlockPos blockpos1 = blockpos.m_7495_();
++         BlockPos blockpos1 = blockpos.below();
+          BlockState blockstate1 = level.m_8055_(blockpos1);
+          BlockState blockstate2 = this.f_32554_.m_32530_();
+          if (blockstate2 != null) {
+@@ -441,7 +_,7 @@
+       }
+ 
+       private boolean m_32558_(Level p_32559_, BlockPos p_32560_, BlockState p_32561_, BlockState p_32562_, BlockState p_32563_, BlockPos p_32564_) {
+-         return p_32562_.m_60795_() && !p_32563_.m_60795_() && !p_32563_.m_60713_(Blocks.f_50752_) && p_32563_.m_60838_(p_32559_, p_32564_) && p_32561_.m_60710_(p_32559_, p_32560_) && p_32559_.m_45933_(this.f_32554_, AABB.m_82333_(Vec3.m_82528_(p_32560_))).isEmpty();
++         return p_32562_.m_60795_() && !p_32563_.m_60795_() && !p_32563_.m_60713_(Blocks.f_50752_) && p_32563_.m_60838_(p_32559_, p_32564_) && p_32561_.m_60710_(p_32559_, p_32560_) && p_32559_.m_45933_(this.f_32554_, AABB.m_82333_(Vec3.atLowerCornerOf(p_32560_))).isEmpty();
+       }
+    }
+ 
+@@ -546,7 +_,7 @@
+          int k = Mth.m_14107_(this.f_32583_.m_20189_() - 2.0D + randomsource.m_188500_() * 4.0D);
+          BlockPos blockpos = new BlockPos(i, j, k);
+          BlockState blockstate = level.m_8055_(blockpos);
+-         Vec3 vec3 = new Vec3((double)this.f_32583_.m_146903_() + 0.5D, (double)j + 0.5D, (double)this.f_32583_.m_146907_() + 0.5D);
++         Vec3 vec3 = new Vec3((double)this.f_32583_.getBlockX() + 0.5D, (double)j + 0.5D, (double)this.f_32583_.getBlockZ() + 0.5D);
+          Vec3 vec31 = new Vec3((double)i + 0.5D, (double)j + 0.5D, (double)k + 0.5D);
+          BlockHitResult blockhitresult = level.m_45547_(new ClipContext(vec3, vec31, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, this.f_32583_));
+          boolean flag = blockhitresult.m_82425_().equals(blockpos);

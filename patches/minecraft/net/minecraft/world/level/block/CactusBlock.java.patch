@@ -1,0 +1,44 @@
+--- a/net/minecraft/world/level/block/CactusBlock.java
++++ b/net/minecraft/world/level/block/CactusBlock.java
+@@ -41,10 +_,10 @@
+    }
+ 
+    public void m_213898_(BlockState p_220913_, ServerLevel p_220914_, BlockPos p_220915_, RandomSource p_220916_) {
+-      BlockPos blockpos = p_220915_.m_7494_();
++      BlockPos blockpos = p_220915_.above();
+       if (p_220914_.m_46859_(blockpos)) {
+          int i;
+-         for(i = 1; p_220914_.m_8055_(p_220915_.m_6625_(i)).m_60713_(this); ++i) {
++         for(i = 1; p_220914_.m_8055_(p_220915_.below(i)).m_60713_(this); ++i) {
+          }
+ 
+          if (i < 3) {
+@@ -72,7 +_,7 @@
+ 
+    public BlockState m_7417_(BlockState p_51157_, Direction p_51158_, BlockState p_51159_, LevelAccessor p_51160_, BlockPos p_51161_, BlockPos p_51162_) {
+       if (!p_51157_.m_60710_(p_51160_, p_51161_)) {
+-         p_51160_.m_186460_(p_51161_, this, 1);
++         p_51160_.scheduleTick(p_51161_, this, 1);
+       }
+ 
+       return super.m_7417_(p_51157_, p_51158_, p_51159_, p_51160_, p_51161_, p_51162_);
+@@ -80,15 +_,15 @@
+ 
+    public boolean m_7898_(BlockState p_51153_, LevelReader p_51154_, BlockPos p_51155_) {
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         BlockState blockstate = p_51154_.m_8055_(p_51155_.m_121945_(direction));
++         BlockState blockstate = p_51154_.m_8055_(p_51155_.relative(direction));
+          Material material = blockstate.m_60767_();
+-         if (material.m_76333_() || p_51154_.m_6425_(p_51155_.m_121945_(direction)).m_205070_(FluidTags.f_13132_)) {
++         if (material.m_76333_() || p_51154_.m_6425_(p_51155_.relative(direction)).m_205070_(FluidTags.f_13132_)) {
+             return false;
+          }
+       }
+ 
+-      BlockState blockstate1 = p_51154_.m_8055_(p_51155_.m_7495_());
+-      return (blockstate1.m_60713_(Blocks.f_50128_) || blockstate1.m_60713_(Blocks.f_49992_) || blockstate1.m_60713_(Blocks.f_49993_)) && !p_51154_.m_8055_(p_51155_.m_7494_()).m_60767_().m_76332_();
++      BlockState blockstate1 = p_51154_.m_8055_(p_51155_.below());
++      return (blockstate1.m_60713_(Blocks.f_50128_) || blockstate1.m_60713_(Blocks.f_49992_) || blockstate1.m_60713_(Blocks.f_49993_)) && !p_51154_.m_8055_(p_51155_.above()).m_60767_().m_76332_();
+    }
+ 
+    public void m_7892_(BlockState p_51148_, Level p_51149_, BlockPos p_51150_, Entity p_51151_) {

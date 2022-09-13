@@ -1,0 +1,136 @@
+--- a/net/minecraft/world/level/levelgen/structure/pools/JigsawPlacement.java
++++ b/net/minecraft/world/level/levelgen/structure/pools/JigsawPlacement.java
+@@ -70,22 +_,22 @@
+             blockpos = p_227243_;
+          }
+ 
+-         Vec3i vec3i = blockpos.m_121996_(p_227243_);
+-         BlockPos blockpos1 = p_227243_.m_121996_(vec3i);
++         me.alphamode.mclong.core.Vec3l vec3i = blockpos.subtract(p_227243_);
++         BlockPos blockpos1 = p_227243_.subtract(vec3i);
+          PoolElementStructurePiece poolelementstructurepiece = new PoolElementStructurePiece(structuretemplatemanager, structurepoolelement, blockpos1, structurepoolelement.m_210540_(), rotation, structurepoolelement.m_214015_(structuretemplatemanager, blockpos1, rotation));
+          BoundingBox boundingbox = poolelementstructurepiece.m_73547_();
+          int i = (boundingbox.m_162399_() + boundingbox.m_162395_()) / 2;
+          int j = (boundingbox.m_162401_() + boundingbox.m_162398_()) / 2;
+-         int k;
++         long k;
+          if (p_227245_.isPresent()) {
+-            k = p_227243_.m_123342_() + chunkgenerator.m_223221_(i, j, p_227245_.get(), levelheightaccessor, p_227239_.f_226624_());
++            k = p_227243_.getY() + chunkgenerator.getFirstFreeHeight(i, j, p_227245_.get(), levelheightaccessor, p_227239_.f_226624_());
+          } else {
+-            k = blockpos1.m_123342_();
++            k = blockpos1.getY();
+          }
+ 
+-         int l = boundingbox.m_162396_() + poolelementstructurepiece.m_72647_();
+-         poolelementstructurepiece.m_6324_(0, k - l, 0);
+-         int i1 = k + vec3i.m_123342_();
++         long l = boundingbox.m_162396_() + poolelementstructurepiece.getGroundLevelDelta();
++         poolelementstructurepiece.move(0, k - l, 0);
++         long i1 = k + vec3i.getY();
+          return Optional.of(new Structure.GenerationStub(new BlockPos(i, i1, j), (p_227237_) -> {
+             List<PoolElementStructurePiece> list = Lists.newArrayList();
+             list.add(poolelementstructurepiece);
+@@ -194,16 +_,16 @@
+          for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : structurepoolelement.m_213638_(this.f_227256_, blockpos, rotation, this.f_210320_)) {
+             Direction direction = JigsawBlock.m_54250_(structuretemplate$structureblockinfo.f_74676_);
+             BlockPos blockpos1 = structuretemplate$structureblockinfo.f_74675_;
+-            BlockPos blockpos2 = blockpos1.m_121945_(direction);
+-            int j = blockpos1.m_123342_() - i;
+-            int k = -1;
++            BlockPos blockpos2 = blockpos1.relative(direction);
++            long j = blockpos1.getY() - i;
++            long k = -1;
+             ResourceLocation resourcelocation = new ResourceLocation(structuretemplate$structureblockinfo.f_74677_.m_128461_("pool"));
+             Optional<StructureTemplatePool> optional = this.f_210314_.m_6612_(resourcelocation);
+             if (optional.isPresent() && (optional.get().m_210590_() != 0 || Objects.equals(resourcelocation, Pools.f_127186_.m_135782_()))) {
+                ResourceLocation resourcelocation1 = optional.get().m_210573_();
+                Optional<StructureTemplatePool> optional1 = this.f_210314_.m_6612_(resourcelocation1);
+                if (optional1.isPresent() && (optional1.get().m_210590_() != 0 || Objects.equals(resourcelocation1, Pools.f_127186_.m_135782_()))) {
+-                  boolean flag1 = boundingbox.m_71051_(blockpos2);
++                  boolean flag1 = boundingbox.isInside(blockpos2);
+                   MutableObject<VoxelShape> mutableobject1;
+                   if (flag1) {
+                      mutableobject1 = mutableobject;
+@@ -232,7 +_,7 @@
+                         int l;
+                         if (p_227268_ && boundingbox1.m_71057_() <= 16) {
+                            l = list1.stream().mapToInt((p_210332_) -> {
+-                              if (!boundingbox1.m_71051_(p_210332_.f_74675_.m_121945_(JigsawBlock.m_54250_(p_210332_.f_74676_)))) {
++                              if (!boundingbox1.isInside(p_210332_.f_74675_.relative(JigsawBlock.m_54250_(p_210332_.f_74676_)))) {
+                                  return 0;
+                               } else {
+                                  ResourceLocation resourcelocation2 = new ResourceLocation(p_210332_.f_74677_.m_128461_("pool"));
+@@ -256,27 +_,27 @@
+                         for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo1 : list1) {
+                            if (JigsawBlock.m_54245_(structuretemplate$structureblockinfo, structuretemplate$structureblockinfo1)) {
+                               BlockPos blockpos3 = structuretemplate$structureblockinfo1.f_74675_;
+-                              BlockPos blockpos4 = blockpos2.m_121996_(blockpos3);
++                              BlockPos blockpos4 = blockpos2.subtract(blockpos3);
+                               BoundingBox boundingbox2 = structurepoolelement1.m_214015_(this.f_227256_, blockpos4, rotation1);
+                               int i1 = boundingbox2.m_162396_();
+                               StructureTemplatePool.Projection structuretemplatepool$projection1 = structurepoolelement1.m_210539_();
+                               boolean flag2 = structuretemplatepool$projection1 == StructureTemplatePool.Projection.RIGID;
+-                              int j1 = blockpos3.m_123342_();
+-                              int k1 = j - j1 + JigsawBlock.m_54250_(structuretemplate$structureblockinfo.f_74676_).m_122430_();
+-                              int l1;
++                              long j1 = blockpos3.getY();
++                              long k1 = j - j1 + JigsawBlock.m_54250_(structuretemplate$structureblockinfo.f_74676_).m_122430_();
++                              long l1;
+                               if (flag && flag2) {
+                                  l1 = i + k1;
+                               } else {
+                                  if (k == -1) {
+-                                    k = this.f_210317_.m_223221_(blockpos1.m_123341_(), blockpos1.m_123343_(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
++                                    k = this.f_210317_.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
+                                  }
+ 
+                                  l1 = k - j1;
+                               }
+ 
+-                              int i2 = l1 - i1;
+-                              BoundingBox boundingbox3 = boundingbox2.m_71045_(0, i2, 0);
+-                              BlockPos blockpos5 = blockpos4.m_7918_(0, i2, 0);
++                              long i2 = l1 - i1;
++                              BoundingBox boundingbox3 = boundingbox2.m_71045_(0, (int) i2, 0);
++                              BlockPos blockpos5 = blockpos4.offset(0, i2, 0);
+                               if (l > 0) {
+                                  int j2 = Math.max(l + 1, boundingbox3.m_162400_() - boundingbox3.m_162396_());
+                                  boundingbox3.m_162371_(new BlockPos(boundingbox3.m_162395_(), boundingbox3.m_162396_() + j2, boundingbox3.m_162398_()));
+@@ -284,8 +_,8 @@
+ 
+                               if (!Shapes.m_83157_(mutableobject1.getValue(), Shapes.m_83064_(AABB.m_82321_(boundingbox3).m_82406_(0.25D)), BooleanOp.f_82683_)) {
+                                  mutableobject1.setValue(Shapes.m_83148_(mutableobject1.getValue(), Shapes.m_83064_(AABB.m_82321_(boundingbox3)), BooleanOp.f_82685_));
+-                                 int i3 = p_227265_.m_72647_();
+-                                 int k2;
++                                 long i3 = p_227265_.getGroundLevelDelta();
++                                 long k2;
+                                  if (flag2) {
+                                     k2 = i3 - k1;
+                                  } else {
+@@ -293,21 +_,21 @@
+                                  }
+ 
+                                  PoolElementStructurePiece poolelementstructurepiece = new PoolElementStructurePiece(this.f_227256_, structurepoolelement1, blockpos5, k2, rotation1, boundingbox3);
+-                                 int l2;
++                                 long l2;
+                                  if (flag) {
+                                     l2 = i + j;
+                                  } else if (flag2) {
+                                     l2 = l1 + j1;
+                                  } else {
+                                     if (k == -1) {
+-                                       k = this.f_210317_.m_223221_(blockpos1.m_123341_(), blockpos1.m_123343_(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
++                                       k = this.f_210317_.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
+                                     }
+ 
+                                     l2 = k + k1 / 2;
+                                  }
+ 
+-                                 p_227265_.m_209916_(new JigsawJunction(blockpos2.m_123341_(), l2 - j + i3, blockpos2.m_123343_(), k1, structuretemplatepool$projection1));
+-                                 poolelementstructurepiece.m_209916_(new JigsawJunction(blockpos1.m_123341_(), l2 - j1 + k2, blockpos1.m_123343_(), -k1, structuretemplatepool$projection));
++                                 p_227265_.m_209916_(new JigsawJunction(blockpos2.getX(), l2 - j + i3, blockpos2.getZ(), k1, structuretemplatepool$projection1));
++                                 poolelementstructurepiece.m_209916_(new JigsawJunction(blockpos1.getX(), l2 - j1 + k2, blockpos1.getZ(), -k1, structuretemplatepool$projection));
+                                  this.f_210319_.add(poolelementstructurepiece);
+                                  if (p_227267_ + 1 <= this.f_210315_) {
+                                     this.f_210321_.addLast(new JigsawPlacement.PieceState(poolelementstructurepiece, mutableobject1, p_227267_ + 1));

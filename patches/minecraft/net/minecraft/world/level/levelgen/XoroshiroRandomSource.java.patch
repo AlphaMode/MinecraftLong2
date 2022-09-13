@@ -1,0 +1,26 @@
+--- a/net/minecraft/world/level/levelgen/XoroshiroRandomSource.java
++++ b/net/minecraft/world/level/levelgen/XoroshiroRandomSource.java
+@@ -62,6 +_,10 @@
+       return this.f_190099_.m_190096_();
+    }
+ 
++   public long nextLong(long off) {
++      return this.f_190099_.m_190096_() * off; // todo: is this right?
++   }
++
+    public boolean m_188499_() {
+       return (this.f_190099_.m_190096_() & 1L) != 0L;
+    }
+@@ -101,6 +_,12 @@
+ 
+       public RandomSource m_213715_(int p_224691_, int p_224692_, int p_224693_) {
+          long i = Mth.m_14130_(p_224691_, p_224692_, p_224693_);
++         long j = i ^ this.f_190123_;
++         return new XoroshiroRandomSource(j, this.f_190124_);
++      }
++
++      public RandomSource at(long p_224691_, long p_224692_, long p_224693_) {
++         long i = Mth.getSeed(p_224691_, p_224692_, p_224693_);
+          long j = i ^ this.f_190123_;
+          return new XoroshiroRandomSource(j, this.f_190124_);
+       }

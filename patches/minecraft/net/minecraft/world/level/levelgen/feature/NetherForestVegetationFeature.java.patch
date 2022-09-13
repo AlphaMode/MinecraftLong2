@@ -1,0 +1,27 @@
+--- a/net/minecraft/world/level/levelgen/feature/NetherForestVegetationFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/NetherForestVegetationFeature.java
+@@ -16,20 +_,20 @@
+    public boolean m_142674_(FeaturePlaceContext<NetherForestVegetationConfig> p_160068_) {
+       WorldGenLevel worldgenlevel = p_160068_.m_159774_();
+       BlockPos blockpos = p_160068_.m_159777_();
+-      BlockState blockstate = worldgenlevel.m_8055_(blockpos.m_7495_());
++      BlockState blockstate = worldgenlevel.m_8055_(blockpos.below());
+       NetherForestVegetationConfig netherforestvegetationconfig = p_160068_.m_159778_();
+       RandomSource randomsource = p_160068_.m_225041_();
+       if (!blockstate.m_204336_(BlockTags.f_13077_)) {
+          return false;
+       } else {
+-         int i = blockpos.m_123342_();
+-         if (i >= worldgenlevel.m_141937_() + 1 && i + 1 < worldgenlevel.m_151558_()) {
++         long i = blockpos.getY();
++         if (i >= worldgenlevel.getMinBuildHeight() + 1 && i + 1 < worldgenlevel.getMaxBuildHeight()) {
+             int j = 0;
+ 
+             for(int k = 0; k < netherforestvegetationconfig.f_191259_ * netherforestvegetationconfig.f_191259_; ++k) {
+                BlockPos blockpos1 = blockpos.m_7918_(randomsource.m_188503_(netherforestvegetationconfig.f_191259_) - randomsource.m_188503_(netherforestvegetationconfig.f_191259_), randomsource.m_188503_(netherforestvegetationconfig.f_191260_) - randomsource.m_188503_(netherforestvegetationconfig.f_191260_), randomsource.m_188503_(netherforestvegetationconfig.f_191259_) - randomsource.m_188503_(netherforestvegetationconfig.f_191259_));
+                BlockState blockstate1 = netherforestvegetationconfig.f_67540_.m_213972_(randomsource, blockpos1);
+-               if (worldgenlevel.m_46859_(blockpos1) && blockpos1.m_123342_() > worldgenlevel.m_141937_() && blockstate1.m_60710_(worldgenlevel, blockpos1)) {
++               if (worldgenlevel.m_46859_(blockpos1) && blockpos1.getY() > worldgenlevel.getMinBuildHeight() && blockstate1.m_60710_(worldgenlevel, blockpos1)) {
+                   worldgenlevel.m_7731_(blockpos1, blockstate1, 2);
+                   ++j;
+                }

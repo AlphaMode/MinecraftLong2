@@ -1,0 +1,42 @@
+--- a/net/minecraft/world/level/levelgen/feature/EndPodiumFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/EndPodiumFeature.java
+@@ -24,16 +_,16 @@
+       BlockPos blockpos = p_159723_.m_159777_();
+       WorldGenLevel worldgenlevel = p_159723_.m_159774_();
+ 
+-      for(BlockPos blockpos1 : BlockPos.m_121940_(new BlockPos(blockpos.m_123341_() - 4, blockpos.m_123342_() - 1, blockpos.m_123343_() - 4), new BlockPos(blockpos.m_123341_() + 4, blockpos.m_123342_() + 32, blockpos.m_123343_() + 4))) {
+-         boolean flag = blockpos1.m_123314_(blockpos, 2.5D);
+-         if (flag || blockpos1.m_123314_(blockpos, 3.5D)) {
+-            if (blockpos1.m_123342_() < blockpos.m_123342_()) {
++      for(BlockPos blockpos1 : BlockPos.m_121940_(new BlockPos(blockpos.getX() - 4, blockpos.getY() - 1, blockpos.getZ() - 4), new BlockPos(blockpos.getX() + 4, blockpos.getY() + 32, blockpos.getZ() + 4))) {
++         boolean flag = blockpos1.closerThan(blockpos, 2.5D);
++         if (flag || blockpos1.closerThan(blockpos, 3.5D)) {
++            if (blockpos1.getY() < blockpos.getY()) {
+                if (flag) {
+                   this.m_5974_(worldgenlevel, blockpos1, Blocks.f_50752_.m_49966_());
+-               } else if (blockpos1.m_123342_() < blockpos.m_123342_()) {
++               } else if (blockpos1.getY() < blockpos.getY()) {
+                   this.m_5974_(worldgenlevel, blockpos1, Blocks.f_50259_.m_49966_());
+                }
+-            } else if (blockpos1.m_123342_() > blockpos.m_123342_()) {
++            } else if (blockpos1.getY() > blockpos.getY()) {
+                this.m_5974_(worldgenlevel, blockpos1, Blocks.f_50016_.m_49966_());
+             } else if (!flag) {
+                this.m_5974_(worldgenlevel, blockpos1, Blocks.f_50752_.m_49966_());
+@@ -46,13 +_,13 @@
+       }
+ 
+       for(int i = 0; i < 4; ++i) {
+-         this.m_5974_(worldgenlevel, blockpos.m_6630_(i), Blocks.f_50752_.m_49966_());
++         this.m_5974_(worldgenlevel, blockpos.above(i), Blocks.f_50752_.m_49966_());
+       }
+ 
+-      BlockPos blockpos2 = blockpos.m_6630_(2);
++      BlockPos blockpos2 = blockpos.above(2);
+ 
+       for(Direction direction : Direction.Plane.HORIZONTAL) {
+-         this.m_5974_(worldgenlevel, blockpos2.m_121945_(direction), Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, direction));
++         this.m_5974_(worldgenlevel, blockpos2.relative(direction), Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, direction));
+       }
+ 
+       return true;

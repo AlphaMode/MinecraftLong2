@@ -1,0 +1,50 @@
+--- a/net/minecraft/world/level/LevelAccessor.java
++++ b/net/minecraft/world/level/LevelAccessor.java
+@@ -37,7 +_,7 @@
+       return new ScheduledTick<>(p_186484_, p_186483_, this.m_6106_().m_6793_() + (long)p_186485_, p_186486_, this.m_183596_());
+    }
+ 
+-   private <T> ScheduledTick<T> m_186478_(BlockPos p_186479_, T p_186480_, int p_186481_) {
++   private <T> ScheduledTick<T> createTick(BlockPos p_186479_, T p_186480_, long p_186481_) {
+       return new ScheduledTick<>(p_186480_, p_186479_, this.m_6106_().m_6793_() + (long)p_186481_, this.m_183596_());
+    }
+ 
+@@ -45,8 +_,8 @@
+       this.m_183326_().m_183393_(this.m_186482_(p_186465_, p_186466_, p_186467_, p_186468_));
+    }
+ 
+-   default void m_186460_(BlockPos p_186461_, Block p_186462_, int p_186463_) {
+-      this.m_183326_().m_183393_(this.m_186478_(p_186461_, p_186462_, p_186463_));
++   default void scheduleTick(BlockPos p_186461_, Block p_186462_, long p_186463_) {
++      this.m_183326_().m_183393_(this.createTick(p_186461_, p_186462_, p_186463_));
+    }
+ 
+    LevelTickAccess<Fluid> m_183324_();
+@@ -56,7 +_,7 @@
+    }
+ 
+    default void m_186469_(BlockPos p_186470_, Fluid p_186471_, int p_186472_) {
+-      this.m_183324_().m_183393_(this.m_186478_(p_186470_, p_186471_, p_186472_));
++      this.m_183324_().m_183393_(this.createTick(p_186470_, p_186471_, p_186472_));
+    }
+ 
+    LevelData m_6106_();
+@@ -72,8 +_,8 @@
+ 
+    ChunkSource m_7726_();
+ 
+-   default boolean m_7232_(int p_46794_, int p_46795_) {
+-      return this.m_7726_().m_5563_(p_46794_, p_46795_);
++   default boolean hasChunk(long p_46794_, long p_46795_) {
++      return this.m_7726_().hasChunk(p_46794_, p_46795_);
+    }
+ 
+    RandomSource m_213780_();
+@@ -106,6 +_,6 @@
+    }
+ 
+    default void m_220407_(GameEvent p_220408_, BlockPos p_220409_, GameEvent.Context p_220410_) {
+-      this.m_214171_(p_220408_, Vec3.m_82512_(p_220409_), p_220410_);
++      this.m_214171_(p_220408_, Vec3.atCenterOf(p_220409_), p_220410_);
+    }
+ }

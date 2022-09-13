@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/level/levelgen/placement/HeightmapPlacement.java
++++ b/net/minecraft/world/level/levelgen/placement/HeightmapPlacement.java
+@@ -24,10 +_,10 @@
+    }
+ 
+    public Stream<BlockPos> m_213676_(PlacementContext p_226344_, RandomSource p_226345_, BlockPos p_226346_) {
+-      int i = p_226346_.m_123341_();
+-      int j = p_226346_.m_123343_();
+-      int k = p_226344_.m_191824_(this.f_191696_, i, j);
+-      return k > p_226344_.m_191830_() ? Stream.of(new BlockPos(i, k, j)) : Stream.of();
++      long i = p_226346_.getX();
++      long j = p_226346_.getZ();
++      long k = p_226344_.getHeight(this.f_191696_, i, j);
++      return k > p_226344_.getMinBuildHeight() ? Stream.of(new BlockPos(i, k, j)) : Stream.of();
+    }
+ 
+    public PlacementModifierType<?> m_183327_() {

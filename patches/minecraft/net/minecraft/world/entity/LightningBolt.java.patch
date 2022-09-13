@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/entity/LightningBolt.java
++++ b/net/minecraft/world/entity/LightningBolt.java
+@@ -166,7 +_,7 @@
+       BlockPos blockpos;
+       BlockState blockstate1;
+       if (blockstate.m_60713_(Blocks.f_152587_)) {
+-         blockpos = p_147152_.m_121945_(blockstate.m_61143_(LightningRodBlock.f_52588_).m_122424_());
++         blockpos = p_147152_.relative(blockstate.m_61143_(LightningRodBlock.f_52588_).m_122424_());
+          blockstate1 = p_147151_.m_8055_(blockpos);
+       } else {
+          blockpos = p_147152_;
+@@ -187,7 +_,7 @@
+    }
+ 
+    private static void m_147145_(Level p_147146_, BlockPos p_147147_, BlockPos.MutableBlockPos p_147148_, int p_147149_) {
+-      p_147148_.m_122190_(p_147147_);
++      p_147148_.set(p_147147_);
+ 
+       for(int i = 0; i < p_147149_; ++i) {
+          Optional<BlockPos> optional = m_147153_(p_147146_, p_147148_);
+@@ -195,7 +_,7 @@
+             break;
+          }
+ 
+-         p_147148_.m_122190_(optional.get());
++         p_147148_.set(optional.get());
+       }
+ 
+    }

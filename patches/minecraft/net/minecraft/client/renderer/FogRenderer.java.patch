@@ -1,0 +1,20 @@
+--- a/net/minecraft/client/renderer/FogRenderer.java
++++ b/net/minecraft/client/renderer/FogRenderer.java
+@@ -91,7 +_,7 @@
+          BiomeManager biomemanager = p_109021_.m_7062_();
+          Vec3 vec31 = p_109019_.m_90583_().m_82492_(2.0D, 2.0D, 2.0D).m_82490_(0.25D);
+          Vec3 vec32 = CubicSampler.m_130038_(vec31, (p_109033_, p_109034_, p_109035_) -> {
+-            return p_109021_.m_104583_().m_5927_(Vec3.m_82501_(biomemanager.m_204210_(p_109033_, p_109034_, p_109035_).m_203334_().m_47539_()), f11);
++            return p_109021_.m_104583_().m_5927_(Vec3.m_82501_(biomemanager.getNoiseBiomeAtQuart(p_109033_, p_109034_, p_109035_).m_203334_().m_47539_()), f11);
+          });
+          f_109010_ = (float)vec32.m_7096_();
+          f_109011_ = (float)vec32.m_7098_();
+@@ -138,7 +_,7 @@
+          f_109015_ = -1L;
+       }
+ 
+-      float f5 = ((float)p_109019_.m_90583_().f_82480_ - (float)p_109021_.m_141937_()) * p_109021_.m_6106_().m_205519_();
++      float f5 = ((float)p_109019_.m_90583_().f_82480_ - (float)p_109021_.getMinBuildHeight()) * p_109021_.m_6106_().m_205519_();
+       FogRenderer.MobEffectFogFunction fogrenderer$mobeffectfogfunction = m_234165_(entity, p_109020_);
+       if (fogrenderer$mobeffectfogfunction != null) {
+          LivingEntity livingentity = (LivingEntity)entity;

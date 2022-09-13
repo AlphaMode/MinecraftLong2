@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromBlockMemory.java
++++ b/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromBlockMemory.java
+@@ -45,7 +_,7 @@
+                int i = 0;
+ 
+                for(int j = 1000; i < 1000 && (vec3 == null || this.m_24078_(p_24060_, GlobalPos.m_122643_(p_24059_.m_46472_(), new BlockPos(vec3)))); ++i) {
+-                  vec3 = DefaultRandomPos.m_148412_(p_24060_, 15, 7, Vec3.m_82539_(p_24067_.m_122646_()), (double)((float)Math.PI / 2F));
++                  vec3 = DefaultRandomPos.m_148412_(p_24060_, 15, 7, Vec3.atBottomCenterOf(p_24067_.m_122646_()), (double)((float)Math.PI / 2F));
+                }
+ 
+                if (i == 1000) {
+@@ -74,7 +_,7 @@
+    }
+ 
+    private boolean m_24078_(Villager p_24079_, GlobalPos p_24080_) {
+-      return p_24080_.m_122646_().m_123333_(p_24079_.m_20183_()) > this.f_24043_;
++      return p_24080_.m_122646_().distManhattan(p_24079_.m_20183_()) > this.f_24043_;
+    }
+ 
+    private boolean m_24072_(ServerLevel p_24073_, GlobalPos p_24074_) {
+@@ -82,6 +_,6 @@
+    }
+ 
+    private boolean m_24068_(ServerLevel p_24069_, Villager p_24070_, GlobalPos p_24071_) {
+-      return p_24071_.m_122640_() == p_24069_.m_46472_() && p_24071_.m_122646_().m_123333_(p_24070_.m_20183_()) <= this.f_24042_;
++      return p_24071_.m_122640_() == p_24069_.m_46472_() && p_24071_.m_122646_().distManhattan(p_24070_.m_20183_()) <= this.f_24042_;
+    }
+ }

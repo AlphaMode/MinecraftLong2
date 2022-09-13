@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/levelgen/PositionalRandomFactory.java
++++ b/net/minecraft/world/level/levelgen/PositionalRandomFactory.java
+@@ -7,7 +_,7 @@
+ 
+ public interface PositionalRandomFactory {
+    default RandomSource m_224542_(BlockPos p_224543_) {
+-      return this.m_213715_(p_224543_.m_123341_(), p_224543_.m_123342_(), p_224543_.m_123343_());
++      return this.at(p_224543_.getX(), p_224543_.getY(), p_224543_.getZ());
+    }
+ 
+    default RandomSource m_224540_(ResourceLocation p_224541_) {
+@@ -17,6 +_,8 @@
+    RandomSource m_214111_(String p_224544_);
+ 
+    RandomSource m_213715_(int p_224537_, int p_224538_, int p_224539_);
++
++   RandomSource at(long x, long y, long z);
+ 
+    @VisibleForTesting
+    void m_183502_(StringBuilder p_189317_);

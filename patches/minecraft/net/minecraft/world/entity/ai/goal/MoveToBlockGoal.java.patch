@@ -1,0 +1,43 @@
+--- a/net/minecraft/world/entity/ai/goal/MoveToBlockGoal.java
++++ b/net/minecraft/world/entity/ai/goal/MoveToBlockGoal.java
+@@ -58,7 +_,7 @@
+    }
+ 
+    protected void m_25624_() {
+-      this.f_25598_.m_21573_().m_26519_((double)((float)this.f_25602_.m_123341_()) + 0.5D, (double)(this.f_25602_.m_123342_() + 1), (double)((float)this.f_25602_.m_123343_()) + 0.5D, this.f_25599_);
++      this.f_25598_.m_21573_().m_26519_((double)((float)this.f_25602_.getX()) + 0.5D, (double)(this.f_25602_.getY() + 1), (double)((float)this.f_25602_.getZ()) + 0.5D, this.f_25599_);
+    }
+ 
+    public double m_8052_() {
+@@ -66,7 +_,7 @@
+    }
+ 
+    protected BlockPos m_6669_() {
+-      return this.f_25602_.m_7494_();
++      return this.f_25602_.above();
+    }
+ 
+    public boolean m_183429_() {
+@@ -75,11 +_,11 @@
+ 
+    public void m_8037_() {
+       BlockPos blockpos = this.m_6669_();
+-      if (!blockpos.m_203195_(this.f_25598_.m_20182_(), this.m_8052_())) {
++      if (!blockpos.closerToCenterThan(this.f_25598_.m_20182_(), this.m_8052_())) {
+          this.f_25605_ = false;
+          ++this.f_25601_;
+          if (this.m_8064_()) {
+-            this.f_25598_.m_21573_().m_26519_((double)((float)blockpos.m_123341_()) + 0.5D, (double)blockpos.m_123342_(), (double)((float)blockpos.m_123343_()) + 0.5D, this.f_25599_);
++            this.f_25598_.m_21573_().m_26519_((double)((float)blockpos.getX()) + 0.5D, (double)blockpos.getY(), (double)((float)blockpos.getZ()) + 0.5D, this.f_25599_);
+          }
+       } else {
+          this.f_25605_ = true;
+@@ -106,7 +_,7 @@
+          for(int l = 0; l < i; ++l) {
+             for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
+                for(int j1 = i1 < l && i1 > -l ? l : 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
+-                  blockpos$mutableblockpos.m_122154_(blockpos, i1, k - 1, j1);
++                  blockpos$mutableblockpos.setWithOffset(blockpos, i1, k - 1, j1);
+                   if (this.f_25598_.m_21444_(blockpos$mutableblockpos) && this.m_6465_(this.f_25598_.f_19853_, blockpos$mutableblockpos)) {
+                      this.f_25602_ = blockpos$mutableblockpos;
+                      return true;

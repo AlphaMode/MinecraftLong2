@@ -1,0 +1,60 @@
+--- a/net/minecraft/world/level/block/RedstoneTorchBlock.java
++++ b/net/minecraft/world/level/block/RedstoneTorchBlock.java
+@@ -32,7 +_,7 @@
+ 
+    public void m_6807_(BlockState p_55724_, Level p_55725_, BlockPos p_55726_, BlockState p_55727_, boolean p_55728_) {
+       for(Direction direction : Direction.values()) {
+-         p_55725_.m_46672_(p_55726_.m_121945_(direction), this);
++         p_55725_.m_46672_(p_55726_.relative(direction), this);
+       }
+ 
+    }
+@@ -40,7 +_,7 @@
+    public void m_6810_(BlockState p_55706_, Level p_55707_, BlockPos p_55708_, BlockState p_55709_, boolean p_55710_) {
+       if (!p_55710_) {
+          for(Direction direction : Direction.values()) {
+-            p_55707_.m_46672_(p_55708_.m_121945_(direction), this);
++            p_55707_.m_46672_(p_55708_.relative(direction), this);
+          }
+ 
+       }
+@@ -51,7 +_,7 @@
+    }
+ 
+    protected boolean m_6918_(Level p_55681_, BlockPos p_55682_, BlockState p_55683_) {
+-      return p_55681_.m_46616_(p_55682_.m_7495_(), Direction.DOWN);
++      return p_55681_.m_46616_(p_55682_.below(), Direction.DOWN);
+    }
+ 
+    public void m_213897_(BlockState p_221949_, ServerLevel p_221950_, BlockPos p_221951_, RandomSource p_221952_) {
+@@ -67,7 +_,7 @@
+             p_221950_.m_7731_(p_221951_, p_221949_.m_61124_(f_55674_, Boolean.valueOf(false)), 3);
+             if (m_55684_(p_221950_, p_221951_, true)) {
+                p_221950_.m_46796_(1502, p_221951_, 0);
+-               p_221950_.m_186460_(p_221951_, p_221950_.m_8055_(p_221951_).m_60734_(), 160);
++               p_221950_.scheduleTick(p_221951_, p_221950_.m_8055_(p_221951_).m_60734_(), 160);
+             }
+          }
+       } else if (!flag && !m_55684_(p_221950_, p_221951_, false)) {
+@@ -78,7 +_,7 @@
+ 
+    public void m_6861_(BlockState p_55699_, Level p_55700_, BlockPos p_55701_, Block p_55702_, BlockPos p_55703_, boolean p_55704_) {
+       if (p_55699_.m_61143_(f_55674_) == this.m_6918_(p_55700_, p_55701_, p_55699_) && !p_55700_.m_183326_().m_183588_(p_55701_, this)) {
+-         p_55700_.m_186460_(p_55701_, this, 2);
++         p_55700_.scheduleTick(p_55701_, this, 2);
+       }
+ 
+    }
+@@ -93,9 +_,9 @@
+ 
+    public void m_214162_(BlockState p_221954_, Level p_221955_, BlockPos p_221956_, RandomSource p_221957_) {
+       if (p_221954_.m_61143_(f_55674_)) {
+-         double d0 = (double)p_221956_.m_123341_() + 0.5D + (p_221957_.m_188500_() - 0.5D) * 0.2D;
+-         double d1 = (double)p_221956_.m_123342_() + 0.7D + (p_221957_.m_188500_() - 0.5D) * 0.2D;
+-         double d2 = (double)p_221956_.m_123343_() + 0.5D + (p_221957_.m_188500_() - 0.5D) * 0.2D;
++         double d0 = (double)p_221956_.getX() + 0.5D + (p_221957_.m_188500_() - 0.5D) * 0.2D;
++         double d1 = (double)p_221956_.getY() + 0.7D + (p_221957_.m_188500_() - 0.5D) * 0.2D;
++         double d2 = (double)p_221956_.getZ() + 0.5D + (p_221957_.m_188500_() - 0.5D) * 0.2D;
+          p_221955_.m_7106_(this.f_57488_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+       }
+    }

@@ -1,0 +1,350 @@
+--- a/net/minecraft/world/level/levelgen/blending/BlendingData.java
++++ b/net/minecraft/world/level/levelgen/blending/BlendingData.java
+@@ -40,12 +_,12 @@
+    private static final double f_224736_ = 1.0D;
+    private static final double f_224737_ = -1.0D;
+    private static final int f_190257_ = 2;
+-   private static final int f_190258_ = QuartPos.m_175400_(16);
+-   private static final int f_190259_ = f_190258_ - 1;
+-   private static final int f_190260_ = f_190258_;
+-   private static final int f_190261_ = 2 * f_190259_ + 1;
+-   private static final int f_190262_ = 2 * f_190260_ + 1;
+-   private static final int f_190263_ = f_190261_ + f_190262_;
++   private static final long f_190258_ = QuartPos.fromBlock(16);
++   private static final long f_190259_ = f_190258_ - 1;
++   private static final long f_190260_ = f_190258_;
++   private static final long f_190261_ = 2 * f_190259_ + 1;
++   private static final long f_190262_ = 2 * f_190260_ + 1;
++   private static final long f_190263_ = f_190261_ + f_190262_;
+    private final LevelHeightAccessor f_224738_;
+    private static final List<Block> f_190265_ = List.of(Blocks.f_50599_, Blocks.f_49994_, Blocks.f_50440_, Blocks.f_50069_, Blocks.f_50546_, Blocks.f_49992_, Blocks.f_49993_, Blocks.f_50195_, Blocks.f_50127_, Blocks.f_50352_, Blocks.f_50493_);
+    protected static final double f_190253_ = Double.MAX_VALUE;
+@@ -71,37 +_,37 @@
+    }
+ 
+    private BlendingData(int p_224740_, int p_224741_, Optional<double[]> p_224742_) {
+-      this.f_190269_ = p_224742_.orElse(Util.m_137469_(new double[f_190263_], (p_224756_) -> {
++      this.f_190269_ = p_224742_.orElse(Util.m_137469_(new double[(int) f_190263_], (p_224756_) -> {
+          Arrays.fill(p_224756_, Double.MAX_VALUE);
+       }));
+-      this.f_190270_ = new double[f_190263_][];
+-      ObjectArrayList<List<Holder<Biome>>> objectarraylist = new ObjectArrayList<>(f_190263_);
+-      objectarraylist.size(f_190263_);
++      this.f_190270_ = new double[(int) f_190263_][];
++      ObjectArrayList<List<Holder<Biome>>> objectarraylist = new ObjectArrayList<>((int) f_190263_);
++      objectarraylist.size((int) f_190263_);
+       this.f_202276_ = objectarraylist;
+-      int i = SectionPos.m_123223_(p_224740_);
+-      int j = SectionPos.m_123223_(p_224741_) - i;
+-      this.f_224738_ = LevelHeightAccessor.m_186487_(i, j);
++      long i = SectionPos.sectionToBlockCoord(p_224740_);
++      long j = SectionPos.sectionToBlockCoord(p_224741_) - i;
++      this.f_224738_ = LevelHeightAccessor.create(i, j);
+    }
+ 
+    @Nullable
+-   public static BlendingData m_190304_(WorldGenRegion p_190305_, int p_190306_, int p_190307_) {
+-      ChunkAccess chunkaccess = p_190305_.m_6325_(p_190306_, p_190307_);
++   public static BlendingData getOrUpdateBlendingData(WorldGenRegion p_190305_, long p_190306_, long p_190307_) {
++      ChunkAccess chunkaccess = p_190305_.getChunk(p_190306_, p_190307_);
+       BlendingData blendingdata = chunkaccess.m_183407_();
+       if (blendingdata == null) {
+          return null;
+       } else {
+-         blendingdata.m_190317_(chunkaccess, m_197065_(p_190305_, p_190306_, p_190307_, false));
++         blendingdata.m_190317_(chunkaccess, sideByGenerationAge(p_190305_, p_190306_, p_190307_, false));
+          return blendingdata;
+       }
+    }
+ 
+-   public static Set<Direction8> m_197065_(WorldGenLevel p_197066_, int p_197067_, int p_197068_, boolean p_197069_) {
++   public static Set<Direction8> sideByGenerationAge(WorldGenLevel p_197066_, long p_197067_, long p_197068_, boolean p_197069_) {
+       Set<Direction8> set = EnumSet.noneOf(Direction8.class);
+ 
+       for(Direction8 direction8 : Direction8.values()) {
+-         int i = p_197067_ + direction8.m_235697_();
+-         int j = p_197068_ + direction8.m_235698_();
+-         if (p_197066_.m_6325_(i, j).m_187675_() == p_197069_) {
++         long i = p_197067_ + direction8.m_235697_();
++         long j = p_197068_ + direction8.m_235698_();
++         if (p_197066_.getChunk(i, j).m_187675_() == p_197069_) {
+             set.add(direction8);
+          }
+       }
+@@ -112,69 +_,69 @@
+    private void m_190317_(ChunkAccess p_190318_, Set<Direction8> p_190319_) {
+       if (!this.f_190267_) {
+          if (p_190319_.contains(Direction8.NORTH) || p_190319_.contains(Direction8.WEST) || p_190319_.contains(Direction8.NORTH_WEST)) {
+-            this.m_190299_(m_190330_(0, 0), p_190318_, 0, 0);
++            this.addValuesForColumn(getInsideIndex(0, 0), p_190318_, 0, 0);
+          }
+ 
+          if (p_190319_.contains(Direction8.NORTH)) {
+             for(int i = 1; i < f_190258_; ++i) {
+-               this.m_190299_(m_190330_(i, 0), p_190318_, 4 * i, 0);
++               this.addValuesForColumn(getInsideIndex(i, 0), p_190318_, 4 * i, 0);
+             }
+          }
+ 
+          if (p_190319_.contains(Direction8.WEST)) {
+             for(int j = 1; j < f_190258_; ++j) {
+-               this.m_190299_(m_190330_(0, j), p_190318_, 0, 4 * j);
++               this.addValuesForColumn(getInsideIndex(0, j), p_190318_, 0, 4 * j);
+             }
+          }
+ 
+          if (p_190319_.contains(Direction8.EAST)) {
+             for(int k = 1; k < f_190258_; ++k) {
+-               this.m_190299_(m_190350_(f_190260_, k), p_190318_, 15, 4 * k);
++               this.addValuesForColumn(getOutsideIndex(f_190260_, k), p_190318_, 15, 4 * k);
+             }
+          }
+ 
+          if (p_190319_.contains(Direction8.SOUTH)) {
+             for(int l = 0; l < f_190258_; ++l) {
+-               this.m_190299_(m_190350_(l, f_190260_), p_190318_, 4 * l, 15);
++               this.addValuesForColumn(getOutsideIndex(l, f_190260_), p_190318_, 4 * l, 15);
+             }
+          }
+ 
+          if (p_190319_.contains(Direction8.EAST) && p_190319_.contains(Direction8.NORTH_EAST)) {
+-            this.m_190299_(m_190350_(f_190260_, 0), p_190318_, 15, 0);
++            this.addValuesForColumn(getOutsideIndex(f_190260_, 0), p_190318_, 15, 0);
+          }
+ 
+          if (p_190319_.contains(Direction8.EAST) && p_190319_.contains(Direction8.SOUTH) && p_190319_.contains(Direction8.SOUTH_EAST)) {
+-            this.m_190299_(m_190350_(f_190260_, f_190260_), p_190318_, 15, 15);
++            this.addValuesForColumn(getOutsideIndex(f_190260_, f_190260_), p_190318_, 15, 15);
+          }
+ 
+          this.f_190267_ = true;
+       }
+    }
+ 
+-   private void m_190299_(int p_190300_, ChunkAccess p_190301_, int p_190302_, int p_190303_) {
+-      if (this.f_190269_[p_190300_] == Double.MAX_VALUE) {
+-         this.f_190269_[p_190300_] = (double)this.m_190310_(p_190301_, p_190302_, p_190303_);
++   private void addValuesForColumn(long p_190300_, ChunkAccess p_190301_, int p_190302_, int p_190303_) {
++      if (this.f_190269_[(int) p_190300_] == Double.MAX_VALUE) {
++         this.f_190269_[(int) p_190300_] = (double)this.getHeightAtXZ(p_190301_, p_190302_, p_190303_);
+       }
+ 
+-      this.f_190270_[p_190300_] = this.m_198292_(p_190301_, p_190302_, p_190303_, Mth.m_14107_(this.f_190269_[p_190300_]));
+-      this.f_202276_.set(p_190300_, this.m_224757_(p_190301_, p_190302_, p_190303_));
++      this.f_190270_[(int) p_190300_] = this.m_198292_(p_190301_, p_190302_, p_190303_, Mth.m_14107_(this.f_190269_[(int) p_190300_]));
++      this.f_202276_.set((int) p_190300_, this.m_224757_(p_190301_, p_190302_, p_190303_));
+    }
+ 
+-   private int m_190310_(ChunkAccess p_190311_, int p_190312_, int p_190313_) {
+-      int i;
++   private long getHeightAtXZ(ChunkAccess p_190311_, int p_190312_, int p_190313_) {
++      long i;
+       if (p_190311_.m_187658_(Heightmap.Types.WORLD_SURFACE_WG)) {
+-         i = Math.min(p_190311_.m_5885_(Heightmap.Types.WORLD_SURFACE_WG, p_190312_, p_190313_) + 1, this.f_224738_.m_151558_());
++         i = Math.min(p_190311_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, p_190312_, p_190313_) + 1, this.f_224738_.getMaxBuildHeight());
+       } else {
+-         i = this.f_224738_.m_151558_();
++         i = this.f_224738_.getMaxBuildHeight();
+       }
+ 
+-      int j = this.f_224738_.m_141937_();
++      long j = this.f_224738_.getMinBuildHeight();
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_190312_, i, p_190313_);
+ 
+-      while(blockpos$mutableblockpos.m_123342_() > j) {
++      while(blockpos$mutableblockpos.getY() > j) {
+          blockpos$mutableblockpos.m_122173_(Direction.DOWN);
+          if (f_190265_.contains(p_190311_.m_8055_(blockpos$mutableblockpos).m_60734_())) {
+-            return blockpos$mutableblockpos.m_123342_();
++            return blockpos$mutableblockpos.getY();
+          }
+       }
+ 
+@@ -198,7 +_,7 @@
+    private double[] m_198292_(ChunkAccess p_198293_, int p_198294_, int p_198295_, int p_198296_) {
+       double[] adouble = new double[this.m_190327_()];
+       Arrays.fill(adouble, -1.0D);
+-      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_198294_, this.f_224738_.m_151558_(), p_198295_);
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_198294_, this.f_224738_.getMaxBuildHeight(), p_198295_);
+       double d0 = m_198300_(p_198293_, blockpos$mutableblockpos);
+ 
+       for(int i = adouble.length - 2; i >= 0; --i) {
+@@ -221,12 +_,12 @@
+    }
+ 
+    private List<Holder<Biome>> m_224757_(ChunkAccess p_224758_, int p_224759_, int p_224760_) {
+-      ObjectArrayList<Holder<Biome>> objectarraylist = new ObjectArrayList<>(this.m_224763_());
+-      objectarraylist.size(this.m_224763_());
++      ObjectArrayList<Holder<Biome>> objectarraylist = new ObjectArrayList<>((int) this.quartCountPerColumn());
++      objectarraylist.size((int) this.quartCountPerColumn());
+ 
+       for(int i = 0; i < objectarraylist.size(); ++i) {
+-         int j = i + QuartPos.m_175400_(this.f_224738_.m_141937_());
+-         objectarraylist.set(i, p_224758_.m_203495_(QuartPos.m_175400_(p_224759_), j, QuartPos.m_175400_(p_224760_)));
++         long j = i + QuartPos.fromBlock(this.f_224738_.getMinBuildHeight());
++         objectarraylist.set(i, p_224758_.getNoiseBiome(QuartPos.fromBlock(p_224759_), j, QuartPos.fromBlock(p_224760_)));
+       }
+ 
+       return objectarraylist;
+@@ -247,11 +_,11 @@
+       }
+    }
+ 
+-   protected double m_190285_(int p_190286_, int p_190287_, int p_190288_) {
++   protected double getHeight(long p_190286_, long p_190287_, long p_190288_) {
+       if (p_190286_ != f_190260_ && p_190288_ != f_190260_) {
+-         return p_190286_ != 0 && p_190288_ != 0 ? Double.MAX_VALUE : this.f_190269_[m_190330_(p_190286_, p_190288_)];
++         return p_190286_ != 0 && p_190288_ != 0 ? Double.MAX_VALUE : this.f_190269_[(int) getInsideIndex((int) p_190286_, (int) p_190288_)];
+       } else {
+-         return this.f_190269_[m_190350_(p_190286_, p_190288_)];
++         return this.f_190269_[(int) getOutsideIndex(p_190286_, p_190288_)];
+       }
+    }
+ 
+@@ -264,25 +_,25 @@
+       }
+    }
+ 
+-   protected double m_190333_(int p_190334_, int p_190335_, int p_190336_) {
++   protected double getDensity(long p_190334_, long p_190335_, long p_190336_) {
+       if (p_190335_ == this.m_190353_()) {
+          return 0.1D;
+       } else if (p_190334_ != f_190260_ && p_190336_ != f_190260_) {
+-         return p_190334_ != 0 && p_190336_ != 0 ? Double.MAX_VALUE : this.m_190324_(this.f_190270_[m_190330_(p_190334_, p_190336_)], p_190335_);
++         return p_190334_ != 0 && p_190336_ != 0 ? Double.MAX_VALUE : this.m_190324_(this.f_190270_[(int) getInsideIndex((int) p_190334_, (int) p_190336_)], (int) p_190335_);
+       } else {
+-         return this.m_190324_(this.f_190270_[m_190350_(p_190334_, p_190336_)], p_190335_);
++         return this.m_190324_(this.f_190270_[(int) getOutsideIndex(p_190334_, p_190336_)], (int) p_190335_);
+       }
+    }
+ 
+-   protected void m_224748_(int p_224749_, int p_224750_, int p_224751_, BlendingData.BiomeConsumer p_224752_) {
+-      if (p_224750_ >= QuartPos.m_175400_(this.f_224738_.m_141937_()) && p_224750_ < QuartPos.m_175400_(this.f_224738_.m_151558_())) {
+-         int i = p_224750_ - QuartPos.m_175400_(this.f_224738_.m_141937_());
++   protected void iterateBiomes(long p_224749_, long p_224750_, long p_224751_, BlendingData.BiomeConsumer p_224752_) {
++      if (p_224750_ >= QuartPos.fromBlock(this.f_224738_.getMinBuildHeight()) && p_224750_ < QuartPos.fromBlock(this.f_224738_.getMaxBuildHeight())) {
++         long i = p_224750_ - QuartPos.fromBlock(this.f_224738_.getMinBuildHeight());
+ 
+          for(int j = 0; j < this.f_202276_.size(); ++j) {
+             if (this.f_202276_.get(j) != null) {
+-               Holder<Biome> holder = this.f_202276_.get(j).get(i);
++               Holder<Biome> holder = this.f_202276_.get(j).get((int) i);
+                if (holder != null) {
+-                  p_224752_.m_204673_(p_224749_ + m_190348_(j), p_224751_ + m_190354_(j), holder);
++                  p_224752_.consume(p_224749_ + getX(j), p_224751_ + getZ(j), holder);
+                }
+             }
+          }
+@@ -290,29 +_,29 @@
+       }
+    }
+ 
+-   protected void m_190295_(int p_190296_, int p_190297_, BlendingData.HeightConsumer p_190298_) {
++   protected void iterateHeights(long p_190296_, long p_190297_, BlendingData.HeightConsumer p_190298_) {
+       for(int i = 0; i < this.f_190269_.length; ++i) {
+          double d0 = this.f_190269_[i];
+          if (d0 != Double.MAX_VALUE) {
+-            p_190298_.m_190366_(p_190296_ + m_190348_(i), p_190297_ + m_190354_(i), d0);
++            p_190298_.consume(p_190296_ + getX(i), p_190297_ + getZ(i), d0);
+          }
+       }
+ 
+    }
+ 
+-   protected void m_190289_(int p_190290_, int p_190291_, int p_190292_, int p_190293_, BlendingData.DensityConsumer p_190294_) {
++   protected void iterateDensities(long p_190290_, long p_190291_, long p_190292_, long p_190293_, BlendingData.DensityConsumer p_190294_) {
+       int i = this.m_190347_();
+-      int j = Math.max(0, p_190292_ - i);
+-      int k = Math.min(this.m_190327_(), p_190293_ - i);
++      long j = Math.max(0, p_190292_ - i);
++      long k = Math.min(this.m_190327_(), p_190293_ - i);
+ 
+       for(int l = 0; l < this.f_190270_.length; ++l) {
+          double[] adouble = this.f_190270_[l];
+          if (adouble != null) {
+-            int i1 = p_190290_ + m_190348_(l);
+-            int j1 = p_190291_ + m_190354_(l);
++            long i1 = p_190290_ + getX(l);
++            long j1 = p_190291_ + getZ(l);
+ 
+-            for(int k1 = j; k1 < k; ++k1) {
+-               p_190294_.m_190361_(i1, k1 + i, j1, adouble[k1] * 0.1D);
++            for(long k1 = j; k1 < k; ++k1) {
++               p_190294_.consume(i1, k1 + i, j1, adouble[(int) k1] * 0.1D);
+             }
+          }
+       }
+@@ -323,8 +_,8 @@
+       return this.f_224738_.m_151559_() * 2;
+    }
+ 
+-   private int m_224763_() {
+-      return QuartPos.m_175404_(this.f_224738_.m_151559_());
++   private long quartCountPerColumn() {
++      return QuartPos.fromSection(this.f_224738_.m_151559_());
+    }
+ 
+    private int m_190347_() {
+@@ -339,33 +_,33 @@
+       return p_224747_ - this.m_190347_();
+    }
+ 
+-   private static int m_190330_(int p_190331_, int p_190332_) {
++   private static long getInsideIndex(int p_190331_, int p_190332_) {
+       return f_190259_ - p_190331_ + p_190332_;
+    }
+ 
+-   private static int m_190350_(int p_190351_, int p_190352_) {
++   private static long getOutsideIndex(long p_190351_, long p_190352_) {
+       return f_190261_ + p_190351_ + f_190260_ - p_190352_;
+    }
+ 
+-   private static int m_190348_(int p_190349_) {
++   private static long getX(long p_190349_) {
+       if (p_190349_ < f_190261_) {
+-         return m_190356_(f_190259_ - p_190349_);
++         return zeroIfNegative(f_190259_ - p_190349_);
+       } else {
+-         int i = p_190349_ - f_190261_;
+-         return f_190260_ - m_190356_(f_190260_ - i);
++         long i = p_190349_ - f_190261_;
++         return f_190260_ - zeroIfNegative(f_190260_ - i);
+       }
+    }
+ 
+-   private static int m_190354_(int p_190355_) {
++   private static long getZ(long p_190355_) {
+       if (p_190355_ < f_190261_) {
+-         return m_190356_(p_190355_ - f_190259_);
++         return zeroIfNegative(p_190355_ - f_190259_);
+       } else {
+-         int i = p_190355_ - f_190261_;
+-         return f_190260_ - m_190356_(i - f_190260_);
++         long i = p_190355_ - f_190261_;
++         return f_190260_ - zeroIfNegative(i - f_190260_);
+       }
+    }
+ 
+-   private static int m_190356_(int p_190357_) {
++   private static long zeroIfNegative(long p_190357_) {
+       return p_190357_ & ~(p_190357_ >> 31);
+    }
+ 
+@@ -374,14 +_,14 @@
+    }
+ 
+    protected interface BiomeConsumer {
+-      void m_204673_(int p_204674_, int p_204675_, Holder<Biome> p_204676_);
++      void consume(long p_204674_, long p_204675_, Holder<Biome> p_204676_);
+    }
+ 
+    protected interface DensityConsumer {
+-      void m_190361_(int p_190362_, int p_190363_, int p_190364_, double p_190365_);
++      void consume(long p_190362_, long p_190363_, long p_190364_, double p_190365_);
+    }
+ 
+    protected interface HeightConsumer {
+-      void m_190366_(int p_190367_, int p_190368_, double p_190369_);
++      void consume(long p_190367_, long p_190368_, double p_190369_);
+    }
+ }

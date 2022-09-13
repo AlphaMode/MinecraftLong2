@@ -1,0 +1,43 @@
+--- a/net/minecraft/client/renderer/blockentity/StructureBlockRenderer.java
++++ b/net/minecraft/client/renderer/blockentity/StructureBlockRenderer.java
+@@ -27,9 +_,9 @@
+          Vec3i vec3i = p_112583_.m_155805_();
+          if (vec3i.m_123341_() >= 1 && vec3i.m_123342_() >= 1 && vec3i.m_123343_() >= 1) {
+             if (p_112583_.m_59908_() == StructureMode.SAVE || p_112583_.m_59908_() == StructureMode.LOAD) {
+-               double d0 = (double)blockpos.m_123341_();
+-               double d1 = (double)blockpos.m_123343_();
+-               double d5 = (double)blockpos.m_123342_();
++               double d0 = (double)blockpos.getX();
++               double d1 = (double)blockpos.getZ();
++               double d5 = (double)blockpos.getY();
+                double d8 = d5 + (double)vec3i.m_123342_();
+                double d2;
+                double d3;
+@@ -97,7 +_,7 @@
+    private void m_173676_(StructureBlockEntity p_173677_, VertexConsumer p_173678_, BlockPos p_173679_, PoseStack p_173680_) {
+       BlockGetter blockgetter = p_173677_.m_58904_();
+       BlockPos blockpos = p_173677_.m_58899_();
+-      BlockPos blockpos1 = blockpos.m_121955_(p_173679_);
++      BlockPos blockpos1 = blockpos.offset(p_173679_);
+ 
+       for(BlockPos blockpos2 : BlockPos.m_121940_(blockpos1, blockpos1.m_121955_(p_173677_.m_155805_()).m_7918_(-1, -1, -1))) {
+          BlockState blockstate = blockgetter.m_8055_(blockpos2);
+@@ -108,12 +_,12 @@
+          boolean flag4 = flag1 || flag2 || flag3;
+          if (flag || flag4) {
+             float f = flag ? 0.05F : 0.0F;
+-            double d0 = (double)((float)(blockpos2.m_123341_() - blockpos.m_123341_()) + 0.45F - f);
+-            double d1 = (double)((float)(blockpos2.m_123342_() - blockpos.m_123342_()) + 0.45F - f);
+-            double d2 = (double)((float)(blockpos2.m_123343_() - blockpos.m_123343_()) + 0.45F - f);
+-            double d3 = (double)((float)(blockpos2.m_123341_() - blockpos.m_123341_()) + 0.55F + f);
+-            double d4 = (double)((float)(blockpos2.m_123342_() - blockpos.m_123342_()) + 0.55F + f);
+-            double d5 = (double)((float)(blockpos2.m_123343_() - blockpos.m_123343_()) + 0.55F + f);
++            double d0 = (double)((float)(blockpos2.getX() - blockpos.getX()) + 0.45F - f);
++            double d1 = (double)((float)(blockpos2.getY() - blockpos.getY()) + 0.45F - f);
++            double d2 = (double)((float)(blockpos2.getZ() - blockpos.getZ()) + 0.45F - f);
++            double d3 = (double)((float)(blockpos2.getX() - blockpos.getX()) + 0.55F + f);
++            double d4 = (double)((float)(blockpos2.getY() - blockpos.getY()) + 0.55F + f);
++            double d5 = (double)((float)(blockpos2.getZ() - blockpos.getZ()) + 0.55F + f);
+             if (flag) {
+                LevelRenderer.m_109621_(p_173680_, p_173678_, d0, d1, d2, d3, d4, d5, 0.5F, 0.5F, 1.0F, 1.0F, 0.5F, 0.5F, 1.0F);
+             } else if (flag1) {

@@ -1,0 +1,37 @@
+--- a/net/minecraft/world/entity/animal/Parrot.java
++++ b/net/minecraft/world/entity/animal/Parrot.java
+@@ -171,7 +_,7 @@
+    }
+ 
+    public void m_8107_() {
+-      if (this.f_29349_ == null || !this.f_29349_.m_203195_(this.m_20182_(), 3.46D) || !this.f_19853_.m_8055_(this.f_29349_).m_60713_(Blocks.f_50131_)) {
++      if (this.f_29349_ == null || !this.f_29349_.closerToCenterThan(this.m_20182_(), 3.46D) || !this.f_19853_.m_8055_(this.f_29349_).m_60713_(Blocks.f_50131_)) {
+          this.f_29348_ = false;
+          this.f_29349_ = null;
+       }
+@@ -277,7 +_,7 @@
+    }
+ 
+    public static boolean m_218241_(EntityType<Parrot> p_218242_, LevelAccessor p_218243_, MobSpawnType p_218244_, BlockPos p_218245_, RandomSource p_218246_) {
+-      return p_218243_.m_8055_(p_218245_.m_7495_()).m_204336_(BlockTags.f_184232_) && m_186209_(p_218243_, p_218245_);
++      return p_218243_.m_8055_(p_218245_.below()).m_204336_(BlockTags.f_184232_) && m_186209_(p_218243_, p_218245_);
+    }
+ 
+    public boolean m_142535_(float p_148989_, float p_148990_, DamageSource p_148991_) {
+@@ -429,12 +_,12 @@
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+          BlockPos.MutableBlockPos blockpos$mutableblockpos1 = new BlockPos.MutableBlockPos();
+ 
+-         for(BlockPos blockpos1 : BlockPos.m_121976_(Mth.m_14107_(this.f_25725_.m_20185_() - 3.0D), Mth.m_14107_(this.f_25725_.m_20186_() - 6.0D), Mth.m_14107_(this.f_25725_.m_20189_() - 3.0D), Mth.m_14107_(this.f_25725_.m_20185_() + 3.0D), Mth.m_14107_(this.f_25725_.m_20186_() + 6.0D), Mth.m_14107_(this.f_25725_.m_20189_() + 3.0D))) {
++         for(BlockPos blockpos1 : BlockPos.betweenClosed(Mth.m_14107_(this.f_25725_.m_20185_() - 3.0D), Mth.m_14107_(this.f_25725_.m_20186_() - 6.0D), Mth.m_14107_(this.f_25725_.m_20189_() - 3.0D), Mth.m_14107_(this.f_25725_.m_20185_() + 3.0D), Mth.m_14107_(this.f_25725_.m_20186_() + 6.0D), Mth.m_14107_(this.f_25725_.m_20189_() + 3.0D))) {
+             if (!blockpos.equals(blockpos1)) {
+-               BlockState blockstate = this.f_25725_.f_19853_.m_8055_(blockpos$mutableblockpos1.m_122159_(blockpos1, Direction.DOWN));
++               BlockState blockstate = this.f_25725_.f_19853_.m_8055_(blockpos$mutableblockpos1.setWithOffset(blockpos1, Direction.DOWN));
+                boolean flag = blockstate.m_60734_() instanceof LeavesBlock || blockstate.m_204336_(BlockTags.f_13106_);
+-               if (flag && this.f_25725_.f_19853_.m_46859_(blockpos1) && this.f_25725_.f_19853_.m_46859_(blockpos$mutableblockpos.m_122159_(blockpos1, Direction.UP))) {
+-                  return Vec3.m_82539_(blockpos1);
++               if (flag && this.f_25725_.f_19853_.m_46859_(blockpos1) && this.f_25725_.f_19853_.m_46859_(blockpos$mutableblockpos.setWithOffset(blockpos1, Direction.UP))) {
++                  return Vec3.atBottomCenterOf(blockpos1);
+                }
+             }
+          }

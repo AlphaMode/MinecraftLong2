@@ -1,0 +1,53 @@
+--- a/net/minecraft/server/commands/FillCommand.java
++++ b/net/minecraft/server/commands/FillCommand.java
+@@ -39,21 +_,21 @@
+       p_214443_.register(Commands.m_82127_("fill").requires((p_137384_) -> {
+          return p_137384_.m_6761_(2);
+       }).then(Commands.m_82129_("from", BlockPosArgument.m_118239_()).then(Commands.m_82129_("to", BlockPosArgument.m_118239_()).then(Commands.m_82129_("block", BlockStateArgument.m_234650_(p_214444_)).executes((p_137405_) -> {
+-         return m_137385_(p_137405_.getSource(), BoundingBox.m_162375_(BlockPosArgument.m_118242_(p_137405_, "from"), BlockPosArgument.m_118242_(p_137405_, "to")), BlockStateArgument.m_116123_(p_137405_, "block"), FillCommand.Mode.REPLACE, (Predicate<BlockInWorld>)null);
++         return m_137385_(p_137405_.getSource(), BoundingBox.fromCorners(BlockPosArgument.m_118242_(p_137405_, "from"), BlockPosArgument.m_118242_(p_137405_, "to")), BlockStateArgument.m_116123_(p_137405_, "block"), FillCommand.Mode.REPLACE, (Predicate<BlockInWorld>)null);
+       }).then(Commands.m_82127_("replace").executes((p_137403_) -> {
+-         return m_137385_(p_137403_.getSource(), BoundingBox.m_162375_(BlockPosArgument.m_118242_(p_137403_, "from"), BlockPosArgument.m_118242_(p_137403_, "to")), BlockStateArgument.m_116123_(p_137403_, "block"), FillCommand.Mode.REPLACE, (Predicate<BlockInWorld>)null);
++         return m_137385_(p_137403_.getSource(), BoundingBox.fromCorners(BlockPosArgument.m_118242_(p_137403_, "from"), BlockPosArgument.m_118242_(p_137403_, "to")), BlockStateArgument.m_116123_(p_137403_, "block"), FillCommand.Mode.REPLACE, (Predicate<BlockInWorld>)null);
+       }).then(Commands.m_82129_("filter", BlockPredicateArgument.m_234627_(p_214444_)).executes((p_137401_) -> {
+-         return m_137385_(p_137401_.getSource(), BoundingBox.m_162375_(BlockPosArgument.m_118242_(p_137401_, "from"), BlockPosArgument.m_118242_(p_137401_, "to")), BlockStateArgument.m_116123_(p_137401_, "block"), FillCommand.Mode.REPLACE, BlockPredicateArgument.m_115573_(p_137401_, "filter"));
++         return m_137385_(p_137401_.getSource(), BoundingBox.fromCorners(BlockPosArgument.m_118242_(p_137401_, "from"), BlockPosArgument.m_118242_(p_137401_, "to")), BlockStateArgument.m_116123_(p_137401_, "block"), FillCommand.Mode.REPLACE, BlockPredicateArgument.m_115573_(p_137401_, "filter"));
+       }))).then(Commands.m_82127_("keep").executes((p_137399_) -> {
+-         return m_137385_(p_137399_.getSource(), BoundingBox.m_162375_(BlockPosArgument.m_118242_(p_137399_, "from"), BlockPosArgument.m_118242_(p_137399_, "to")), BlockStateArgument.m_116123_(p_137399_, "block"), FillCommand.Mode.REPLACE, (p_180225_) -> {
++         return m_137385_(p_137399_.getSource(), BoundingBox.fromCorners(BlockPosArgument.m_118242_(p_137399_, "from"), BlockPosArgument.m_118242_(p_137399_, "to")), BlockStateArgument.m_116123_(p_137399_, "block"), FillCommand.Mode.REPLACE, (p_180225_) -> {
+             return p_180225_.m_61175_().m_46859_(p_180225_.m_61176_());
+          });
+       })).then(Commands.m_82127_("outline").executes((p_137397_) -> {
+-         return m_137385_(p_137397_.getSource(), BoundingBox.m_162375_(BlockPosArgument.m_118242_(p_137397_, "from"), BlockPosArgument.m_118242_(p_137397_, "to")), BlockStateArgument.m_116123_(p_137397_, "block"), FillCommand.Mode.OUTLINE, (Predicate<BlockInWorld>)null);
++         return m_137385_(p_137397_.getSource(), BoundingBox.fromCorners(BlockPosArgument.m_118242_(p_137397_, "from"), BlockPosArgument.m_118242_(p_137397_, "to")), BlockStateArgument.m_116123_(p_137397_, "block"), FillCommand.Mode.OUTLINE, (Predicate<BlockInWorld>)null);
+       })).then(Commands.m_82127_("hollow").executes((p_137395_) -> {
+-         return m_137385_(p_137395_.getSource(), BoundingBox.m_162375_(BlockPosArgument.m_118242_(p_137395_, "from"), BlockPosArgument.m_118242_(p_137395_, "to")), BlockStateArgument.m_116123_(p_137395_, "block"), FillCommand.Mode.HOLLOW, (Predicate<BlockInWorld>)null);
++         return m_137385_(p_137395_.getSource(), BoundingBox.fromCorners(BlockPosArgument.m_118242_(p_137395_, "from"), BlockPosArgument.m_118242_(p_137395_, "to")), BlockStateArgument.m_116123_(p_137395_, "block"), FillCommand.Mode.HOLLOW, (Predicate<BlockInWorld>)null);
+       })).then(Commands.m_82127_("destroy").executes((p_137382_) -> {
+-         return m_137385_(p_137382_.getSource(), BoundingBox.m_162375_(BlockPosArgument.m_118242_(p_137382_, "from"), BlockPosArgument.m_118242_(p_137382_, "to")), BlockStateArgument.m_116123_(p_137382_, "block"), FillCommand.Mode.DESTROY, (Predicate<BlockInWorld>)null);
++         return m_137385_(p_137382_.getSource(), BoundingBox.fromCorners(BlockPosArgument.m_118242_(p_137382_, "from"), BlockPosArgument.m_118242_(p_137382_, "to")), BlockStateArgument.m_116123_(p_137382_, "block"), FillCommand.Mode.DESTROY, (Predicate<BlockInWorld>)null);
+       }))))));
+    }
+ 
+@@ -66,7 +_,7 @@
+          ServerLevel serverlevel = p_137386_.m_81372_();
+          int j = 0;
+ 
+-         for(BlockPos blockpos : BlockPos.m_121976_(p_137387_.m_162395_(), p_137387_.m_162396_(), p_137387_.m_162398_(), p_137387_.m_162399_(), p_137387_.m_162400_(), p_137387_.m_162401_())) {
++         for(BlockPos blockpos : BlockPos.betweenClosed(p_137387_.m_162395_(), p_137387_.m_162396_(), p_137387_.m_162398_(), p_137387_.m_162399_(), p_137387_.m_162400_(), p_137387_.m_162401_())) {
+             if (p_137390_ == null || p_137390_.test(new BlockInWorld(serverlevel, blockpos, true))) {
+                BlockInput blockinput = p_137389_.f_137410_.m_138619_(p_137387_, blockpos, p_137388_, serverlevel);
+                if (blockinput != null) {
+@@ -99,10 +_,10 @@
+          return p_137435_;
+       }),
+       OUTLINE((p_137428_, p_137429_, p_137430_, p_137431_) -> {
+-         return p_137429_.m_123341_() != p_137428_.m_162395_() && p_137429_.m_123341_() != p_137428_.m_162399_() && p_137429_.m_123342_() != p_137428_.m_162396_() && p_137429_.m_123342_() != p_137428_.m_162400_() && p_137429_.m_123343_() != p_137428_.m_162398_() && p_137429_.m_123343_() != p_137428_.m_162401_() ? null : p_137430_;
++         return p_137429_.getX() != p_137428_.m_162395_() && p_137429_.getX() != p_137428_.m_162399_() && p_137429_.getY() != p_137428_.m_162396_() && p_137429_.getY() != p_137428_.m_162400_() && p_137429_.getZ() != p_137428_.m_162398_() && p_137429_.getZ() != p_137428_.m_162401_() ? null : p_137430_;
+       }),
+       HOLLOW((p_137423_, p_137424_, p_137425_, p_137426_) -> {
+-         return p_137424_.m_123341_() != p_137423_.m_162395_() && p_137424_.m_123341_() != p_137423_.m_162399_() && p_137424_.m_123342_() != p_137423_.m_162396_() && p_137424_.m_123342_() != p_137423_.m_162400_() && p_137424_.m_123343_() != p_137423_.m_162398_() && p_137424_.m_123343_() != p_137423_.m_162401_() ? FillCommand.f_137373_ : p_137425_;
++         return p_137424_.getX() != p_137423_.m_162395_() && p_137424_.getX() != p_137423_.m_162399_() && p_137424_.getY() != p_137423_.m_162396_() && p_137424_.getY() != p_137423_.m_162400_() && p_137424_.getZ() != p_137423_.m_162398_() && p_137424_.getZ() != p_137423_.m_162401_() ? FillCommand.f_137373_ : p_137425_;
+       }),
+       DESTROY((p_137418_, p_137419_, p_137420_, p_137421_) -> {
+          p_137421_.m_46961_(p_137419_, true);

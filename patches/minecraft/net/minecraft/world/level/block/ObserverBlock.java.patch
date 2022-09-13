@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/block/ObserverBlock.java
++++ b/net/minecraft/world/level/block/ObserverBlock.java
+@@ -39,7 +_,7 @@
+          p_221841_.m_7731_(p_221842_, p_221840_.m_61124_(f_55082_, Boolean.valueOf(false)), 2);
+       } else {
+          p_221841_.m_7731_(p_221842_, p_221840_.m_61124_(f_55082_, Boolean.valueOf(true)), 2);
+-         p_221841_.m_186460_(p_221842_, this, 2);
++         p_221841_.scheduleTick(p_221842_, this, 2);
+       }
+ 
+       this.m_55088_(p_221841_, p_221842_, p_221840_);
+@@ -55,14 +_,14 @@
+ 
+    private void m_55092_(LevelAccessor p_55093_, BlockPos p_55094_) {
+       if (!p_55093_.m_5776_() && !p_55093_.m_183326_().m_183582_(p_55094_, this)) {
+-         p_55093_.m_186460_(p_55094_, this, 2);
++         p_55093_.scheduleTick(p_55094_, this, 2);
+       }
+ 
+    }
+ 
+    protected void m_55088_(Level p_55089_, BlockPos p_55090_, BlockState p_55091_) {
+       Direction direction = p_55091_.m_61143_(f_52588_);
+-      BlockPos blockpos = p_55090_.m_121945_(direction.m_122424_());
++      BlockPos blockpos = p_55090_.relative(direction.m_122424_());
+       p_55089_.m_46586_(blockpos, this, p_55090_);
+       p_55089_.m_46590_(blockpos, this, direction);
+    }

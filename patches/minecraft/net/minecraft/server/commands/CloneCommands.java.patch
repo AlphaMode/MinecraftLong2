@@ -1,0 +1,32 @@
+--- a/net/minecraft/server/commands/CloneCommands.java
++++ b/net/minecraft/server/commands/CloneCommands.java
+@@ -79,9 +_,9 @@
+    }
+ 
+    private static int m_136735_(CommandSourceStack p_136736_, BlockPos p_136737_, BlockPos p_136738_, BlockPos p_136739_, Predicate<BlockInWorld> p_136740_, CloneCommands.Mode p_136741_) throws CommandSyntaxException {
+-      BoundingBox boundingbox = BoundingBox.m_162375_(p_136737_, p_136738_);
++      BoundingBox boundingbox = BoundingBox.fromCorners(p_136737_, p_136738_);
+       BlockPos blockpos = p_136739_.m_121955_(boundingbox.m_71053_());
+-      BoundingBox boundingbox1 = BoundingBox.m_162375_(p_136739_, blockpos);
++      BoundingBox boundingbox1 = BoundingBox.fromCorners(p_136739_, blockpos);
+       if (!p_136741_.m_136796_() && boundingbox1.m_71049_(boundingbox)) {
+          throw f_136723_.create();
+       } else {
+@@ -101,7 +_,7 @@
+                   for(int k = boundingbox.m_162396_(); k <= boundingbox.m_162400_(); ++k) {
+                      for(int l = boundingbox.m_162395_(); l <= boundingbox.m_162399_(); ++l) {
+                         BlockPos blockpos2 = new BlockPos(l, k, j);
+-                        BlockPos blockpos3 = blockpos2.m_121955_(blockpos1);
++                        BlockPos blockpos3 = blockpos2.offset(blockpos1);
+                         BlockInWorld blockinworld = new BlockInWorld(serverlevel, blockpos2, false);
+                         BlockState blockstate = blockinworld.m_61168_();
+                         if (p_136740_.test(blockinworld)) {
+@@ -168,7 +_,7 @@
+                   serverlevel.m_6289_(clonecommands$cloneblockinfo3.f_136779_, clonecommands$cloneblockinfo3.f_136780_.m_60734_());
+                }
+ 
+-               serverlevel.m_183326_().m_193242_(boundingbox, blockpos1);
++               serverlevel.m_183326_().copyArea(boundingbox, blockpos1);
+                if (i1 == 0) {
+                   throw f_136725_.create();
+                } else {
