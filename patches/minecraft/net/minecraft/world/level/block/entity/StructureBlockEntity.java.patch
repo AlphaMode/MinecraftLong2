@@ -36,12 +36,15 @@
 +         BlockPos blockpos2 = new BlockPos(blockpos.getX() + 80, this.f_58857_.getMaxBuildHeight() - 1, blockpos.getZ() + 80);
           Stream<BlockPos> stream = this.m_155791_(blockpos1, blockpos2);
           return m_155794_(blockpos, stream).filter((p_155790_) -> {
-             int j = p_155790_.m_162399_() - p_155790_.m_162395_();
-             int k = p_155790_.m_162400_() - p_155790_.m_162396_();
-             int l = p_155790_.m_162401_() - p_155790_.m_162398_();
+-            int j = p_155790_.m_162399_() - p_155790_.m_162395_();
+-            int k = p_155790_.m_162400_() - p_155790_.m_162396_();
+-            int l = p_155790_.m_162401_() - p_155790_.m_162398_();
++            long j = p_155790_.maxX() - p_155790_.minX();
++            long k = p_155790_.maxY() - p_155790_.minY();
++            long l = p_155790_.maxZ() - p_155790_.minZ();
              if (j > 1 && k > 1 && l > 1) {
 -               this.f_59815_ = new BlockPos(p_155790_.m_162395_() - blockpos.m_123341_() + 1, p_155790_.m_162396_() - blockpos.m_123342_() + 1, p_155790_.m_162398_() - blockpos.m_123343_() + 1);
-+               this.f_59815_ = new BlockPos(p_155790_.m_162395_() - blockpos.getX() + 1, p_155790_.m_162396_() - blockpos.getY() + 1, p_155790_.m_162398_() - blockpos.getZ() + 1);
++               this.f_59815_ = new BlockPos(p_155790_.minX() - blockpos.getX() + 1, p_155790_.minY() - blockpos.getY() + 1, p_155790_.minZ() - blockpos.getZ() + 1);
                 this.f_59816_ = new Vec3i(j - 1, k - 1, l - 1);
                 this.m_6596_();
                 BlockState blockstate = this.f_58857_.m_8055_(blockpos);

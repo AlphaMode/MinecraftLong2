@@ -327,10 +327,6 @@ public class LegacyBlockPos extends Vec3i {
         return StreamSupport.stream(betweenClosed(p_121991_, p_121992_).spliterator(), false);
     }
 
-    public static Stream<LegacyBlockPos> betweenClosedStream(BoundingBox p_121920_) {
-        return betweenClosedStream(Math.min(p_121920_.minX(), p_121920_.maxX()), Math.min(p_121920_.minY(), p_121920_.maxY()), Math.min(p_121920_.minZ(), p_121920_.maxZ()), Math.max(p_121920_.minX(), p_121920_.maxX()), Math.max(p_121920_.minY(), p_121920_.maxY()), Math.max(p_121920_.minZ(), p_121920_.maxZ()));
-    }
-
     public static Stream<LegacyBlockPos> betweenClosedStream(AABB p_121922_) {
         return betweenClosedStream(Mth.floor(p_121922_.minX), Mth.floor(p_121922_.minY), Mth.floor(p_121922_.minZ), Mth.floor(p_121922_.maxX), Mth.floor(p_121922_.maxY), Mth.floor(p_121922_.maxZ));
     }

@@ -1,20 +1,28 @@
 --- a/net/minecraft/client/renderer/debug/StructureRenderer.java
 +++ b/net/minecraft/client/renderer/debug/StructureRenderer.java
-@@ -37,7 +_,7 @@
+@@ -37,8 +_,8 @@
        VertexConsumer vertexconsumer = p_113689_.m_6299_(RenderType.m_110504_());
        if (this.f_113676_.containsKey(dimensiontype)) {
           for(BoundingBox boundingbox : this.f_113676_.get(dimensiontype).values()) {
 -            if (blockpos.m_123314_(boundingbox.m_162394_(), 500.0D)) {
+-               LevelRenderer.m_109621_(p_113688_, vertexconsumer, (double)boundingbox.m_162395_() - p_113690_, (double)boundingbox.m_162396_() - p_113691_, (double)boundingbox.m_162398_() - p_113692_, (double)(boundingbox.m_162399_() + 1) - p_113690_, (double)(boundingbox.m_162400_() + 1) - p_113691_, (double)(boundingbox.m_162401_() + 1) - p_113692_, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F);
 +            if (blockpos.closerThan(boundingbox.m_162394_(), 500.0D)) {
-                LevelRenderer.m_109621_(p_113688_, vertexconsumer, (double)boundingbox.m_162395_() - p_113690_, (double)boundingbox.m_162396_() - p_113691_, (double)boundingbox.m_162398_() - p_113692_, (double)(boundingbox.m_162399_() + 1) - p_113690_, (double)(boundingbox.m_162400_() + 1) - p_113691_, (double)(boundingbox.m_162401_() + 1) - p_113692_, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F);
++               LevelRenderer.m_109621_(p_113688_, vertexconsumer, (double)boundingbox.minX() - p_113690_, (double)boundingbox.minY() - p_113691_, (double)boundingbox.minZ() - p_113692_, (double)(boundingbox.maxX() + 1) - p_113690_, (double)(boundingbox.maxY() + 1) - p_113691_, (double)(boundingbox.maxZ() + 1) - p_113692_, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F);
              }
           }
-@@ -48,7 +_,7 @@
+       }
+@@ -48,11 +_,11 @@
              String s = entry.getKey();
              BoundingBox boundingbox1 = entry.getValue();
              Boolean obool = this.f_113678_.get(dimensiontype).get(s);
 -            if (blockpos.m_123314_(boundingbox1.m_162394_(), 500.0D)) {
 +            if (blockpos.closerThan(boundingbox1.m_162394_(), 500.0D)) {
                 if (obool) {
-                   LevelRenderer.m_109621_(p_113688_, vertexconsumer, (double)boundingbox1.m_162395_() - p_113690_, (double)boundingbox1.m_162396_() - p_113691_, (double)boundingbox1.m_162398_() - p_113692_, (double)(boundingbox1.m_162399_() + 1) - p_113690_, (double)(boundingbox1.m_162400_() + 1) - p_113691_, (double)(boundingbox1.m_162401_() + 1) - p_113692_, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F);
+-                  LevelRenderer.m_109621_(p_113688_, vertexconsumer, (double)boundingbox1.m_162395_() - p_113690_, (double)boundingbox1.m_162396_() - p_113691_, (double)boundingbox1.m_162398_() - p_113692_, (double)(boundingbox1.m_162399_() + 1) - p_113690_, (double)(boundingbox1.m_162400_() + 1) - p_113691_, (double)(boundingbox1.m_162401_() + 1) - p_113692_, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F);
++                  LevelRenderer.m_109621_(p_113688_, vertexconsumer, (double)boundingbox1.minX() - p_113690_, (double)boundingbox1.minY() - p_113691_, (double)boundingbox1.minZ() - p_113692_, (double)(boundingbox1.maxX() + 1) - p_113690_, (double)(boundingbox1.maxY() + 1) - p_113691_, (double)(boundingbox1.maxZ() + 1) - p_113692_, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F);
                 } else {
+-                  LevelRenderer.m_109621_(p_113688_, vertexconsumer, (double)boundingbox1.m_162395_() - p_113690_, (double)boundingbox1.m_162396_() - p_113691_, (double)boundingbox1.m_162398_() - p_113692_, (double)(boundingbox1.m_162399_() + 1) - p_113690_, (double)(boundingbox1.m_162400_() + 1) - p_113691_, (double)(boundingbox1.m_162401_() + 1) - p_113692_, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F);
++                  LevelRenderer.m_109621_(p_113688_, vertexconsumer, (double)boundingbox1.minX() - p_113690_, (double)boundingbox1.minY() - p_113691_, (double)boundingbox1.minZ() - p_113692_, (double)(boundingbox1.maxX() + 1) - p_113690_, (double)(boundingbox1.maxY() + 1) - p_113691_, (double)(boundingbox1.maxZ() + 1) - p_113692_, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F);
+                }
+             }
+          }

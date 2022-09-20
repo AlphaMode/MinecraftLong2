@@ -31,13 +31,17 @@
     }
  
     protected boolean m_72803_(LevelAccessor p_72804_, BoundingBox p_72805_, int p_72806_) {
-@@ -47,9 +_,9 @@
+@@ -45,11 +_,11 @@
+          int j = 0;
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
-          for(int k = this.f_73383_.m_162398_(); k <= this.f_73383_.m_162401_(); ++k) {
-             for(int l = this.f_73383_.m_162395_(); l <= this.f_73383_.m_162399_(); ++l) {
+-         for(int k = this.f_73383_.m_162398_(); k <= this.f_73383_.m_162401_(); ++k) {
+-            for(int l = this.f_73383_.m_162395_(); l <= this.f_73383_.m_162399_(); ++l) {
 -               blockpos$mutableblockpos.m_122178_(l, 64, k);
 -               if (p_72805_.m_71051_(blockpos$mutableblockpos)) {
 -                  i += p_72804_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos).m_123342_();
++         for(long k = this.f_73383_.minZ(); k <= this.f_73383_.maxZ(); ++k) {
++            for(long l = this.f_73383_.minX(); l <= this.f_73383_.maxX(); ++l) {
 +               blockpos$mutableblockpos.set(l, 64, k);
 +               if (p_72805_.isInside(blockpos$mutableblockpos)) {
 +                  i += p_72804_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos).getY();
@@ -49,7 +53,7 @@
           } else {
              this.f_72790_ = i / j;
 -            this.f_73383_.m_162367_(0, this.f_72790_ - this.f_73383_.m_162396_() + p_72806_, 0);
-+            this.f_73383_.move(0, this.f_72790_ - this.f_73383_.m_162396_() + p_72806_, 0);
++            this.f_73383_.move(0, this.f_72790_ - this.f_73383_.minY() + p_72806_, 0);
              return true;
           }
        }
@@ -62,10 +66,12 @@
           boolean flag = false;
           BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
-          for(int j = this.f_73383_.m_162398_(); j <= this.f_73383_.m_162401_(); ++j) {
-             for(int k = this.f_73383_.m_162395_(); k <= this.f_73383_.m_162399_(); ++k) {
+-         for(int j = this.f_73383_.m_162398_(); j <= this.f_73383_.m_162401_(); ++j) {
+-            for(int k = this.f_73383_.m_162395_(); k <= this.f_73383_.m_162399_(); ++k) {
 -               blockpos$mutableblockpos.m_122178_(k, 0, j);
 -               i = Math.min(i, p_192468_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos).m_123342_());
++         for(long j = this.f_73383_.minZ(); j <= this.f_73383_.maxZ(); ++j) {
++            for(long k = this.f_73383_.minX(); k <= this.f_73383_.maxX(); ++k) {
 +               blockpos$mutableblockpos.set(k, 0, j);
 +               i = Math.min(i, p_192468_.m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos).getY());
                 flag = true;
@@ -76,7 +82,7 @@
           } else {
              this.f_72790_ = i;
 -            this.f_73383_.m_162367_(0, this.f_72790_ - this.f_73383_.m_162396_() + p_192469_, 0);
-+            this.f_73383_.move(0, this.f_72790_ - this.f_73383_.m_162396_() + p_192469_, 0);
++            this.f_73383_.move(0, this.f_72790_ - this.f_73383_.minY() + p_192469_, 0);
              return true;
           }
        }

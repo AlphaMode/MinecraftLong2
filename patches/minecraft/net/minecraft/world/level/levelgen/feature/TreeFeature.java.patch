@@ -30,10 +30,19 @@
 +         return BoundingBox.unsafeEncapsulatingPositions(Iterables.concat(set, set1, set2, set3)).map((p_225270_) -> {
              DiscreteVoxelShape discretevoxelshape = m_225251_(worldgenlevel, p_225270_, set1, set3, set);
 -            StructureTemplate.m_74510_(worldgenlevel, 3, discretevoxelshape, p_225270_.m_162395_(), p_225270_.m_162396_(), p_225270_.m_162398_());
-+            StructureTemplate.updateShapeAtEdge(worldgenlevel, 3, discretevoxelshape, p_225270_.m_162395_(), p_225270_.m_162396_(), p_225270_.m_162398_());
++            StructureTemplate.updateShapeAtEdge(worldgenlevel, 3, discretevoxelshape, p_225270_.minX(), p_225270_.minY(), p_225270_.minZ());
              return true;
           }).orElse(false);
        } else {
+@@ -168,7 +_,7 @@
+ 
+    private static DiscreteVoxelShape m_225251_(LevelAccessor p_225252_, BoundingBox p_225253_, Set<BlockPos> p_225254_, Set<BlockPos> p_225255_, Set<BlockPos> p_225256_) {
+       List<Set<BlockPos>> list = Lists.newArrayList();
+-      DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape(p_225253_.m_71056_(), p_225253_.m_71057_(), p_225253_.m_71058_());
++      DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape((int) p_225253_.getXSpan(), (int) p_225253_.getYSpan(), (int) p_225253_.getZSpan());
+       int i = 6;
+ 
+       for(int j = 0; j < 6; ++j) {
 @@ -178,25 +_,25 @@
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
@@ -41,7 +50,7 @@
 -         if (p_225253_.m_71051_(blockpos)) {
 -            discretevoxelshape.m_142703_(blockpos.m_123341_() - p_225253_.m_162395_(), blockpos.m_123342_() - p_225253_.m_162396_(), blockpos.m_123343_() - p_225253_.m_162398_());
 +         if (p_225253_.isInside(blockpos)) {
-+            discretevoxelshape.fill(blockpos.getX() - p_225253_.m_162395_(), blockpos.getY() - p_225253_.m_162396_(), blockpos.getZ() - p_225253_.m_162398_());
++            discretevoxelshape.fill(blockpos.getX() - p_225253_.minX(), blockpos.getY() - p_225253_.minY(), blockpos.getZ() - p_225253_.minZ());
           }
        }
  
@@ -49,7 +58,7 @@
 -         if (p_225253_.m_71051_(blockpos1)) {
 -            discretevoxelshape.m_142703_(blockpos1.m_123341_() - p_225253_.m_162395_(), blockpos1.m_123342_() - p_225253_.m_162396_(), blockpos1.m_123343_() - p_225253_.m_162398_());
 +         if (p_225253_.isInside(blockpos1)) {
-+            discretevoxelshape.fill(blockpos1.getX() - p_225253_.m_162395_(), blockpos1.getY() - p_225253_.m_162396_(), blockpos1.getZ() - p_225253_.m_162398_());
++            discretevoxelshape.fill(blockpos1.getX() - p_225253_.minX(), blockpos1.getY() - p_225253_.minY(), blockpos1.getZ() - p_225253_.minZ());
           }
  
           for(Direction direction : Direction.values()) {
@@ -63,7 +72,7 @@
 -                  if (p_225253_.m_71051_(blockpos$mutableblockpos)) {
 -                     discretevoxelshape.m_142703_(blockpos$mutableblockpos.m_123341_() - p_225253_.m_162395_(), blockpos$mutableblockpos.m_123342_() - p_225253_.m_162396_(), blockpos$mutableblockpos.m_123343_() - p_225253_.m_162398_());
 +                  if (p_225253_.isInside(blockpos$mutableblockpos)) {
-+                     discretevoxelshape.fill(blockpos$mutableblockpos.getX() - p_225253_.m_162395_(), blockpos$mutableblockpos.getY() - p_225253_.m_162396_(), blockpos$mutableblockpos.getZ() - p_225253_.m_162398_());
++                     discretevoxelshape.fill(blockpos$mutableblockpos.getX() - p_225253_.minX(), blockpos$mutableblockpos.getY() - p_225253_.minY(), blockpos$mutableblockpos.getZ() - p_225253_.minZ());
                    }
                 }
              }
@@ -74,7 +83,7 @@
 -            if (p_225253_.m_71051_(blockpos2)) {
 -               discretevoxelshape.m_142703_(blockpos2.m_123341_() - p_225253_.m_162395_(), blockpos2.m_123342_() - p_225253_.m_162396_(), blockpos2.m_123343_() - p_225253_.m_162398_());
 +            if (p_225253_.isInside(blockpos2)) {
-+               discretevoxelshape.fill(blockpos2.getX() - p_225253_.m_162395_(), blockpos2.getY() - p_225253_.m_162396_(), blockpos2.getZ() - p_225253_.m_162398_());
++               discretevoxelshape.fill(blockpos2.getX() - p_225253_.minX(), blockpos2.getY() - p_225253_.minY(), blockpos2.getZ() - p_225253_.minZ());
              }
  
              for(Direction direction1 : Direction.values()) {
@@ -90,7 +99,7 @@
 -                        if (p_225253_.m_71051_(blockpos$mutableblockpos)) {
 -                           discretevoxelshape.m_142703_(blockpos$mutableblockpos.m_123341_() - p_225253_.m_162395_(), blockpos$mutableblockpos.m_123342_() - p_225253_.m_162396_(), blockpos$mutableblockpos.m_123343_() - p_225253_.m_162398_());
 +                        if (p_225253_.isInside(blockpos$mutableblockpos)) {
-+                           discretevoxelshape.fill(blockpos$mutableblockpos.getX() - p_225253_.m_162395_(), blockpos$mutableblockpos.getY() - p_225253_.m_162396_(), blockpos$mutableblockpos.getZ() - p_225253_.m_162398_());
++                           discretevoxelshape.fill(blockpos$mutableblockpos.getX() - p_225253_.minX(), blockpos$mutableblockpos.getY() - p_225253_.minY(), blockpos$mutableblockpos.getZ() - p_225253_.minZ());
                          }
  
                          set1.add(blockpos$mutableblockpos.m_7949_());

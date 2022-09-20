@@ -1,32 +1,63 @@
 --- a/net/minecraft/world/level/levelgen/structure/BoundingBox.java
 +++ b/net/minecraft/world/level/levelgen/structure/BoundingBox.java
-@@ -31,10 +_,14 @@
-    private int f_162360_;
-    private int f_162361_;
+@@ -17,25 +_,29 @@
+ 
+ public class BoundingBox {
+    private static final Logger f_162355_ = LogUtils.getLogger();
+-   public static final Codec<BoundingBox> f_162354_ = Codec.INT_STREAM.comapFlatMap((p_162383_) -> {
+-      return Util.m_137539_(p_162383_, 6).map((p_162385_) -> {
++   public static final Codec<BoundingBox> f_162354_ = Codec.LONG_STREAM.comapFlatMap((p_162383_) -> {
++      return Util.fixedSize(p_162383_, 6).map((p_162385_) -> {
+          return new BoundingBox(p_162385_[0], p_162385_[1], p_162385_[2], p_162385_[3], p_162385_[4], p_162385_[5]);
+       });
+    }, (p_162391_) -> {
+-      return IntStream.of(p_162391_.f_162356_, p_162391_.f_162357_, p_162391_.f_162358_, p_162391_.f_162359_, p_162391_.f_162360_, p_162391_.f_162361_);
++      return java.util.stream.LongStream.of(p_162391_.f_162356_, p_162391_.f_162357_, p_162391_.f_162358_, p_162391_.f_162359_, p_162391_.f_162360_, p_162391_.f_162361_);
+    }).stable();
+-   private int f_162356_;
+-   private int f_162357_;
+-   private int f_162358_;
+-   private int f_162359_;
+-   private int f_162360_;
+-   private int f_162361_;
++   private long f_162356_;
++   private long f_162357_;
++   private long f_162358_;
++   private long f_162359_;
++   private long f_162360_;
++   private long f_162361_;
  
 -   public BoundingBox(BlockPos p_162364_) {
 +   public BoundingBox(me.alphamode.mclong.core.LegacyBlockPos p_162364_) {
        this(p_162364_.m_123341_(), p_162364_.m_123342_(), p_162364_.m_123343_(), p_162364_.m_123341_(), p_162364_.m_123342_(), p_162364_.m_123343_());
     }
  
+-   public BoundingBox(int p_71001_, int p_71002_, int p_71003_, int p_71004_, int p_71005_, int p_71006_) {
 +   public BoundingBox(BlockPos p_162364_) {
-+      this((int) p_162364_.getX(), (int) p_162364_.getY(), (int) p_162364_.getZ(), (int) p_162364_.getX(), (int) p_162364_.getY(), (int) p_162364_.getZ());
++      this(p_162364_.getX(), p_162364_.getY(), p_162364_.getZ(), p_162364_.getX(), p_162364_.getY(), p_162364_.getZ());
 +   }
 +
-    public BoundingBox(int p_71001_, int p_71002_, int p_71003_, int p_71004_, int p_71005_, int p_71006_) {
++   public BoundingBox(long p_71001_, long p_71002_, long p_71003_, long p_71004_, long p_71005_, long p_71006_) {
        this.f_162356_ = p_71001_;
        this.f_162357_ = p_71002_;
-@@ -63,6 +_,10 @@
+       this.f_162358_ = p_71003_;
+@@ -63,11 +_,15 @@
        return new BoundingBox(Math.min(p_162376_.m_123341_(), p_162377_.m_123341_()), Math.min(p_162376_.m_123342_(), p_162377_.m_123342_()), Math.min(p_162376_.m_123343_(), p_162377_.m_123343_()), Math.max(p_162376_.m_123341_(), p_162377_.m_123341_()), Math.max(p_162376_.m_123342_(), p_162377_.m_123342_()), Math.max(p_162376_.m_123343_(), p_162377_.m_123343_()));
     }
  
 +   public static BoundingBox fromCorners(me.alphamode.mclong.core.Vec3l p_162376_, me.alphamode.mclong.core.Vec3l p_162377_) {
-+      return new BoundingBox((int) Math.min(p_162376_.getX(), p_162377_.getX()), (int) Math.min(p_162376_.getY(), p_162377_.getY()), (int) Math.min(p_162376_.getZ(), p_162377_.getZ()), (int) Math.max(p_162376_.getX(), p_162377_.getX()), (int) Math.max(p_162376_.getY(), p_162377_.getY()), (int) Math.max(p_162376_.getZ(), p_162377_.getZ()));
++      return new BoundingBox(Math.min(p_162376_.getX(), p_162377_.getX()), Math.min(p_162376_.getY(), p_162377_.getY()), Math.min(p_162376_.getZ(), p_162377_.getZ()), Math.max(p_162376_.getX(), p_162377_.getX()), Math.max(p_162376_.getY(), p_162377_.getY()), Math.max(p_162376_.getZ(), p_162377_.getZ()));
 +   }
 +
     public static BoundingBox m_71044_() {
        return new BoundingBox(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
+ 
+-   public static BoundingBox m_71031_(int p_71032_, int p_71033_, int p_71034_, int p_71035_, int p_71036_, int p_71037_, int p_71038_, int p_71039_, int p_71040_, Direction p_71041_) {
++   public static BoundingBox orientBox(long p_71032_, long p_71033_, long p_71034_, int p_71035_, int p_71036_, int p_71037_, int p_71038_, int p_71039_, int p_71040_, Direction p_71041_) {
+       switch (p_71041_) {
+          case SOUTH:
+          default:
 @@ -85,11 +_,22 @@
        return this.f_162359_ >= p_71050_.f_162356_ && this.f_162356_ <= p_71050_.f_162359_ && this.f_162361_ >= p_71050_.f_162358_ && this.f_162358_ <= p_71050_.f_162361_ && this.f_162360_ >= p_71050_.f_162357_ && this.f_162357_ <= p_71050_.f_162360_;
     }
@@ -66,12 +97,12 @@
     /** @deprecated */
     @Deprecated
 +   public BoundingBox m_162371_(BlockPos p_162372_) {
-+      this.f_162356_ = (int) Math.min(this.f_162356_, p_162372_.getX());
-+      this.f_162357_ = (int) Math.min(this.f_162357_, p_162372_.getY());
-+      this.f_162358_ = (int) Math.min(this.f_162358_, p_162372_.getZ());
-+      this.f_162359_ = (int) Math.max(this.f_162359_, p_162372_.getX());
-+      this.f_162360_ = (int) Math.max(this.f_162360_, p_162372_.getY());
-+      this.f_162361_ = (int) Math.max(this.f_162361_, p_162372_.getZ());
++      this.f_162356_ = Math.min(this.f_162356_, p_162372_.getX());
++      this.f_162357_ = Math.min(this.f_162357_, p_162372_.getY());
++      this.f_162358_ = Math.min(this.f_162358_, p_162372_.getZ());
++      this.f_162359_ = Math.max(this.f_162359_, p_162372_.getX());
++      this.f_162360_ = Math.max(this.f_162360_, p_162372_.getY());
++      this.f_162361_ = Math.max(this.f_162361_, p_162372_.getZ());
 +      return this;
 +   }
 +
@@ -80,7 +111,7 @@
     public BoundingBox m_162367_(int p_162368_, int p_162369_, int p_162370_) {
        this.f_162356_ += p_162368_;
        this.f_162357_ += p_162369_;
-@@ -150,10 +_,28 @@
+@@ -150,35 +_,58 @@
  
     /** @deprecated */
     @Deprecated
@@ -103,14 +134,16 @@
 +   /** @deprecated */
 +   @Deprecated
 +   public BoundingBox move(me.alphamode.mclong.core.Vec3l p_162374_) {
-+      return this.m_162367_((int) p_162374_.getX(), (int) p_162374_.getY(), (int) p_162374_.getZ());
++      return this.move(p_162374_.getX(), p_162374_.getY(), p_162374_.getZ());
 +   }
 +
     public BoundingBox m_71045_(int p_71046_, int p_71047_, int p_71048_) {
        return new BoundingBox(this.f_162356_ + p_71046_, this.f_162357_ + p_71047_, this.f_162358_ + p_71048_, this.f_162359_ + p_71046_, this.f_162360_ + p_71047_, this.f_162361_ + p_71048_);
     }
-@@ -162,10 +_,15 @@
-       return new BoundingBox(this.m_162395_() - p_191962_, this.m_162396_() - p_191962_, this.m_162398_() - p_191962_, this.m_162399_() + p_191962_, this.m_162400_() + p_191962_, this.m_162401_() + p_191962_);
+ 
+    public BoundingBox m_191961_(int p_191962_) {
+-      return new BoundingBox(this.m_162395_() - p_191962_, this.m_162396_() - p_191962_, this.m_162398_() - p_191962_, this.m_162399_() + p_191962_, this.m_162400_() + p_191962_, this.m_162401_() + p_191962_);
++      return new BoundingBox(this.minX() - p_191962_, this.minY() - p_191962_, this.minZ() - p_191962_, this.maxX() + p_191962_, this.maxY() + p_191962_, this.maxZ() + p_191962_);
     }
  
 +   @Deprecated
@@ -125,6 +158,22 @@
     public Vec3i m_71053_() {
        return new Vec3i(this.f_162359_ - this.f_162356_, this.f_162360_ - this.f_162357_, this.f_162361_ - this.f_162358_);
     }
+ 
+-   public int m_71056_() {
++   public long getXSpan() {
+       return this.f_162359_ - this.f_162356_ + 1;
+    }
+ 
+-   public int m_71057_() {
++   public long getYSpan() {
+       return this.f_162360_ - this.f_162357_ + 1;
+    }
+ 
+-   public int m_71058_() {
++   public long getZSpan() {
+       return this.f_162361_ - this.f_162358_ + 1;
+    }
+ 
 @@ -188,14 +_,14 @@
  
     public void m_162380_(Consumer<BlockPos> p_162381_) {
@@ -148,3 +197,37 @@
     }
  
     public String toString() {
+@@ -217,27 +_,27 @@
+       return Objects.hash(this.f_162356_, this.f_162357_, this.f_162358_, this.f_162359_, this.f_162360_, this.f_162361_);
+    }
+ 
+-   public int m_162395_() {
++   public long minX() {
+       return this.f_162356_;
+    }
+ 
+-   public int m_162396_() {
++   public long minY() {
+       return this.f_162357_;
+    }
+ 
+-   public int m_162398_() {
++   public long minZ() {
+       return this.f_162358_;
+    }
+ 
+-   public int m_162399_() {
++   public long maxX() {
+       return this.f_162359_;
+    }
+ 
+-   public int m_162400_() {
++   public long maxY() {
+       return this.f_162360_;
+    }
+ 
+-   public int m_162401_() {
++   public long maxZ() {
+       return this.f_162361_;
+    }
+ }

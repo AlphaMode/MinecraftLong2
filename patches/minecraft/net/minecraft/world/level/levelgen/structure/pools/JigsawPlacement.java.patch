@@ -10,9 +10,11 @@
 +         BlockPos blockpos1 = p_227243_.subtract(vec3i);
           PoolElementStructurePiece poolelementstructurepiece = new PoolElementStructurePiece(structuretemplatemanager, structurepoolelement, blockpos1, structurepoolelement.m_210540_(), rotation, structurepoolelement.m_214015_(structuretemplatemanager, blockpos1, rotation));
           BoundingBox boundingbox = poolelementstructurepiece.m_73547_();
-          int i = (boundingbox.m_162399_() + boundingbox.m_162395_()) / 2;
-          int j = (boundingbox.m_162401_() + boundingbox.m_162398_()) / 2;
+-         int i = (boundingbox.m_162399_() + boundingbox.m_162395_()) / 2;
+-         int j = (boundingbox.m_162401_() + boundingbox.m_162398_()) / 2;
 -         int k;
++         long i = (boundingbox.maxX() + boundingbox.minX()) / 2;
++         long j = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
 +         long k;
           if (p_227245_.isPresent()) {
 -            k = p_227243_.m_123342_() + chunkgenerator.m_223221_(i, j, p_227245_.get(), levelheightaccessor, p_227239_.f_226624_());
@@ -25,13 +27,20 @@
 -         int l = boundingbox.m_162396_() + poolelementstructurepiece.m_72647_();
 -         poolelementstructurepiece.m_6324_(0, k - l, 0);
 -         int i1 = k + vec3i.m_123342_();
-+         long l = boundingbox.m_162396_() + poolelementstructurepiece.getGroundLevelDelta();
++         long l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
 +         poolelementstructurepiece.move(0, k - l, 0);
 +         long i1 = k + vec3i.getY();
           return Optional.of(new Structure.GenerationStub(new BlockPos(i, i1, j), (p_227237_) -> {
              List<PoolElementStructurePiece> list = Lists.newArrayList();
              list.add(poolelementstructurepiece);
-@@ -194,16 +_,16 @@
+@@ -188,22 +_,22 @@
+          boolean flag = structuretemplatepool$projection == StructureTemplatePool.Projection.RIGID;
+          MutableObject<VoxelShape> mutableobject = new MutableObject<>();
+          BoundingBox boundingbox = p_227265_.m_73547_();
+-         int i = boundingbox.m_162396_();
++         long i = boundingbox.minY();
+ 
+          label139:
           for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : structurepoolelement.m_213638_(this.f_227256_, blockpos, rotation, this.f_210320_)) {
              Direction direction = JigsawBlock.m_54250_(structuretemplate$structureblockinfo.f_74676_);
              BlockPos blockpos1 = structuretemplate$structureblockinfo.f_74675_;
@@ -52,23 +61,49 @@
                    MutableObject<VoxelShape> mutableobject1;
                    if (flag1) {
                       mutableobject1 = mutableobject;
-@@ -232,7 +_,7 @@
-                         int l;
-                         if (p_227268_ && boundingbox1.m_71057_() <= 16) {
-                            l = list1.stream().mapToInt((p_210332_) -> {
+@@ -229,10 +_,10 @@
+                      for(Rotation rotation1 : Rotation.m_221992_(this.f_210320_)) {
+                         List<StructureTemplate.StructureBlockInfo> list1 = structurepoolelement1.m_213638_(this.f_227256_, BlockPos.f_121853_, rotation1, this.f_210320_);
+                         BoundingBox boundingbox1 = structurepoolelement1.m_214015_(this.f_227256_, BlockPos.f_121853_, rotation1);
+-                        int l;
+-                        if (p_227268_ && boundingbox1.m_71057_() <= 16) {
+-                           l = list1.stream().mapToInt((p_210332_) -> {
 -                              if (!boundingbox1.m_71051_(p_210332_.f_74675_.m_121945_(JigsawBlock.m_54250_(p_210332_.f_74676_)))) {
++                        long l;
++                        if (p_227268_ && boundingbox1.getYSpan() <= 16) {
++                           l = list1.stream().mapToLong((p_210332_) -> {
 +                              if (!boundingbox1.isInside(p_210332_.f_74675_.relative(JigsawBlock.m_54250_(p_210332_.f_74676_)))) {
                                   return 0;
                                } else {
                                   ResourceLocation resourcelocation2 = new ResourceLocation(p_210332_.f_74677_.m_128461_("pool"));
-@@ -256,27 +_,27 @@
+@@ -240,12 +_,12 @@
+                                  Optional<StructureTemplatePool> optional3 = optional2.flatMap((p_210344_) -> {
+                                     return this.f_210314_.m_6612_(p_210344_.m_210573_());
+                                  });
+-                                 int j3 = optional2.map((p_210342_) -> {
+-                                    return p_210342_.m_227357_(this.f_227256_);
+-                                 }).orElse(0);
+-                                 int k3 = optional3.map((p_210340_) -> {
+-                                    return p_210340_.m_227357_(this.f_227256_);
+-                                 }).orElse(0);
++                                 long j3 = optional2.map((p_210342_) -> {
++                                    return p_210342_.getMaxSize(this.f_227256_);
++                                 }).orElse(0L);
++                                 long k3 = optional3.map((p_210340_) -> {
++                                    return p_210340_.getMaxSize(this.f_227256_);
++                                 }).orElse(0L);
+                                  return Math.max(j3, k3);
+                               }
+                            }).max().orElse(0);
+@@ -256,36 +_,36 @@
                          for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo1 : list1) {
                             if (JigsawBlock.m_54245_(structuretemplate$structureblockinfo, structuretemplate$structureblockinfo1)) {
                                BlockPos blockpos3 = structuretemplate$structureblockinfo1.f_74675_;
 -                              BlockPos blockpos4 = blockpos2.m_121996_(blockpos3);
 +                              BlockPos blockpos4 = blockpos2.subtract(blockpos3);
                                BoundingBox boundingbox2 = structurepoolelement1.m_214015_(this.f_227256_, blockpos4, rotation1);
-                               int i1 = boundingbox2.m_162396_();
+-                              int i1 = boundingbox2.m_162396_();
++                              long i1 = boundingbox2.minY();
                                StructureTemplatePool.Projection structuretemplatepool$projection1 = structurepoolelement1.m_210539_();
                                boolean flag2 = structuretemplatepool$projection1 == StructureTemplatePool.Projection.RIGID;
 -                              int j1 = blockpos3.m_123342_();
@@ -95,9 +130,11 @@
 +                              BoundingBox boundingbox3 = boundingbox2.m_71045_(0, (int) i2, 0);
 +                              BlockPos blockpos5 = blockpos4.offset(0, i2, 0);
                                if (l > 0) {
-                                  int j2 = Math.max(l + 1, boundingbox3.m_162400_() - boundingbox3.m_162396_());
-                                  boundingbox3.m_162371_(new BlockPos(boundingbox3.m_162395_(), boundingbox3.m_162396_() + j2, boundingbox3.m_162398_()));
-@@ -284,8 +_,8 @@
+-                                 int j2 = Math.max(l + 1, boundingbox3.m_162400_() - boundingbox3.m_162396_());
+-                                 boundingbox3.m_162371_(new BlockPos(boundingbox3.m_162395_(), boundingbox3.m_162396_() + j2, boundingbox3.m_162398_()));
++                                 long j2 = Math.max(l + 1, boundingbox3.maxY() - boundingbox3.minY());
++                                 boundingbox3.m_162371_(new BlockPos(boundingbox3.minX(), boundingbox3.minY() + j2, boundingbox3.minZ()));
+                               }
  
                                if (!Shapes.m_83157_(mutableobject1.getValue(), Shapes.m_83064_(AABB.m_82321_(boundingbox3).m_82406_(0.25D)), BooleanOp.f_82683_)) {
                                   mutableobject1.setValue(Shapes.m_83148_(mutableobject1.getValue(), Shapes.m_83064_(AABB.m_82321_(boundingbox3)), BooleanOp.f_82685_));

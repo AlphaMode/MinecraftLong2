@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/FillCommand.java
 +++ b/net/minecraft/server/commands/FillCommand.java
-@@ -39,21 +_,21 @@
+@@ -39,26 +_,26 @@
        p_214443_.register(Commands.m_82127_("fill").requires((p_137384_) -> {
           return p_137384_.m_6761_(2);
        }).then(Commands.m_82129_("from", BlockPosArgument.m_118239_()).then(Commands.m_82129_("to", BlockPosArgument.m_118239_()).then(Commands.m_82129_("block", BlockStateArgument.m_234650_(p_214444_)).executes((p_137405_) -> {
@@ -29,12 +29,18 @@
        }))))));
     }
  
+    private static int m_137385_(CommandSourceStack p_137386_, BoundingBox p_137387_, BlockInput p_137388_, FillCommand.Mode p_137389_, @Nullable Predicate<BlockInWorld> p_137390_) throws CommandSyntaxException {
+-      int i = p_137387_.m_71056_() * p_137387_.m_71057_() * p_137387_.m_71058_();
++      long i = p_137387_.getXSpan() * p_137387_.getYSpan() * p_137387_.getZSpan();
+       if (i > 32768) {
+          throw f_137372_.create(32768, i);
+       } else {
 @@ -66,7 +_,7 @@
           ServerLevel serverlevel = p_137386_.m_81372_();
           int j = 0;
  
 -         for(BlockPos blockpos : BlockPos.m_121976_(p_137387_.m_162395_(), p_137387_.m_162396_(), p_137387_.m_162398_(), p_137387_.m_162399_(), p_137387_.m_162400_(), p_137387_.m_162401_())) {
-+         for(BlockPos blockpos : BlockPos.betweenClosed(p_137387_.m_162395_(), p_137387_.m_162396_(), p_137387_.m_162398_(), p_137387_.m_162399_(), p_137387_.m_162400_(), p_137387_.m_162401_())) {
++         for(BlockPos blockpos : BlockPos.betweenClosed(p_137387_.minX(), p_137387_.minY(), p_137387_.minZ(), p_137387_.maxX(), p_137387_.maxY(), p_137387_.maxZ())) {
              if (p_137390_ == null || p_137390_.test(new BlockInWorld(serverlevel, blockpos, true))) {
                 BlockInput blockinput = p_137389_.f_137410_.m_138619_(p_137387_, blockpos, p_137388_, serverlevel);
                 if (blockinput != null) {
@@ -43,11 +49,11 @@
        }),
        OUTLINE((p_137428_, p_137429_, p_137430_, p_137431_) -> {
 -         return p_137429_.m_123341_() != p_137428_.m_162395_() && p_137429_.m_123341_() != p_137428_.m_162399_() && p_137429_.m_123342_() != p_137428_.m_162396_() && p_137429_.m_123342_() != p_137428_.m_162400_() && p_137429_.m_123343_() != p_137428_.m_162398_() && p_137429_.m_123343_() != p_137428_.m_162401_() ? null : p_137430_;
-+         return p_137429_.getX() != p_137428_.m_162395_() && p_137429_.getX() != p_137428_.m_162399_() && p_137429_.getY() != p_137428_.m_162396_() && p_137429_.getY() != p_137428_.m_162400_() && p_137429_.getZ() != p_137428_.m_162398_() && p_137429_.getZ() != p_137428_.m_162401_() ? null : p_137430_;
++         return p_137429_.getX() != p_137428_.minX() && p_137429_.getX() != p_137428_.maxX() && p_137429_.getY() != p_137428_.minY() && p_137429_.getY() != p_137428_.maxY() && p_137429_.getZ() != p_137428_.minZ() && p_137429_.getZ() != p_137428_.maxZ() ? null : p_137430_;
        }),
        HOLLOW((p_137423_, p_137424_, p_137425_, p_137426_) -> {
 -         return p_137424_.m_123341_() != p_137423_.m_162395_() && p_137424_.m_123341_() != p_137423_.m_162399_() && p_137424_.m_123342_() != p_137423_.m_162396_() && p_137424_.m_123342_() != p_137423_.m_162400_() && p_137424_.m_123343_() != p_137423_.m_162398_() && p_137424_.m_123343_() != p_137423_.m_162401_() ? FillCommand.f_137373_ : p_137425_;
-+         return p_137424_.getX() != p_137423_.m_162395_() && p_137424_.getX() != p_137423_.m_162399_() && p_137424_.getY() != p_137423_.m_162396_() && p_137424_.getY() != p_137423_.m_162400_() && p_137424_.getZ() != p_137423_.m_162398_() && p_137424_.getZ() != p_137423_.m_162401_() ? FillCommand.f_137373_ : p_137425_;
++         return p_137424_.getX() != p_137423_.minX() && p_137424_.getX() != p_137423_.maxX() && p_137424_.getY() != p_137423_.minY() && p_137424_.getY() != p_137423_.maxY() && p_137424_.getZ() != p_137423_.minZ() && p_137424_.getZ() != p_137423_.maxZ() ? FillCommand.f_137373_ : p_137425_;
        }),
        DESTROY((p_137418_, p_137419_, p_137420_, p_137421_) -> {
           p_137421_.m_46961_(p_137419_, true);

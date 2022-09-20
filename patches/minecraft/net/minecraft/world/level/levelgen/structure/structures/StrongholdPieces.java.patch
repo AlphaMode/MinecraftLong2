@@ -1,23 +1,860 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/StrongholdPieces.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/StrongholdPieces.java
-@@ -215,7 +_,7 @@
-             this.m_73434_(p_229472_, Blocks.f_50411_.m_49966_(), 2, 1, i, p_229476_);
+@@ -81,41 +_,41 @@
+       return flag;
+    }
+ 
+-   private static StrongholdPieces.StrongholdPiece m_229426_(Class<? extends StrongholdPieces.StrongholdPiece> p_229427_, StructurePieceAccessor p_229428_, RandomSource p_229429_, int p_229430_, int p_229431_, int p_229432_, @Nullable Direction p_229433_, int p_229434_) {
++   private static StrongholdPieces.StrongholdPiece findAndCreatePieceFactory(Class<? extends StrongholdPieces.StrongholdPiece> p_229427_, StructurePieceAccessor p_229428_, RandomSource p_229429_, long p_229430_, long p_229431_, long p_229432_, @Nullable Direction p_229433_, int p_229434_) {
+       StrongholdPieces.StrongholdPiece strongholdpieces$strongholdpiece = null;
+       if (p_229427_ == StrongholdPieces.Straight.class) {
+-         strongholdpieces$strongholdpiece = StrongholdPieces.Straight.m_229831_(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
++         strongholdpieces$strongholdpiece = StrongholdPieces.Straight.createPiece(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
+       } else if (p_229427_ == StrongholdPieces.PrisonHall.class) {
+-         strongholdpieces$strongholdpiece = StrongholdPieces.PrisonHall.m_229678_(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
++         strongholdpieces$strongholdpiece = StrongholdPieces.PrisonHall.createPiece(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
+       } else if (p_229427_ == StrongholdPieces.LeftTurn.class) {
+-         strongholdpieces$strongholdpiece = StrongholdPieces.LeftTurn.m_229575_(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
++         strongholdpieces$strongholdpiece = StrongholdPieces.LeftTurn.createPiece(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
+       } else if (p_229427_ == StrongholdPieces.RightTurn.class) {
+-         strongholdpieces$strongholdpiece = StrongholdPieces.RightTurn.m_229705_(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
++         strongholdpieces$strongholdpiece = StrongholdPieces.RightTurn.createPiece(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
+       } else if (p_229427_ == StrongholdPieces.RoomCrossing.class) {
+-         strongholdpieces$strongholdpiece = StrongholdPieces.RoomCrossing.m_229736_(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
++         strongholdpieces$strongholdpiece = StrongholdPieces.RoomCrossing.createPiece(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
+       } else if (p_229427_ == StrongholdPieces.StraightStairsDown.class) {
+-         strongholdpieces$strongholdpiece = StrongholdPieces.StraightStairsDown.m_229864_(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
++         strongholdpieces$strongholdpiece = StrongholdPieces.StraightStairsDown.createPiece(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
+       } else if (p_229427_ == StrongholdPieces.StairsDown.class) {
+-         strongholdpieces$strongholdpiece = StrongholdPieces.StairsDown.m_229786_(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
++         strongholdpieces$strongholdpiece = StrongholdPieces.StairsDown.createPiece(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
+       } else if (p_229427_ == StrongholdPieces.FiveCrossing.class) {
+-         strongholdpieces$strongholdpiece = StrongholdPieces.FiveCrossing.m_229545_(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
++         strongholdpieces$strongholdpiece = StrongholdPieces.FiveCrossing.createPiece(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
+       } else if (p_229427_ == StrongholdPieces.ChestCorridor.class) {
+-         strongholdpieces$strongholdpiece = StrongholdPieces.ChestCorridor.m_229483_(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
++         strongholdpieces$strongholdpiece = StrongholdPieces.ChestCorridor.createPiece(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
+       } else if (p_229427_ == StrongholdPieces.Library.class) {
+-         strongholdpieces$strongholdpiece = StrongholdPieces.Library.m_229603_(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
++         strongholdpieces$strongholdpiece = StrongholdPieces.Library.createPiece(p_229428_, p_229429_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
+       } else if (p_229427_ == StrongholdPieces.PortalRoom.class) {
+-         strongholdpieces$strongholdpiece = StrongholdPieces.PortalRoom.m_229646_(p_229428_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
++         strongholdpieces$strongholdpiece = StrongholdPieces.PortalRoom.createPiece(p_229428_, p_229430_, p_229431_, p_229432_, p_229433_, p_229434_);
+       }
+ 
+       return strongholdpieces$strongholdpiece;
+    }
+ 
+-   private static StrongholdPieces.StrongholdPiece m_229417_(StrongholdPieces.StartPiece p_229418_, StructurePieceAccessor p_229419_, RandomSource p_229420_, int p_229421_, int p_229422_, int p_229423_, Direction p_229424_, int p_229425_) {
++   private static StrongholdPieces.StrongholdPiece generatePieceFromSmallDoor(StrongholdPieces.StartPiece p_229418_, StructurePieceAccessor p_229419_, RandomSource p_229420_, long p_229421_, long p_229422_, long p_229423_, Direction p_229424_, int p_229425_) {
+       if (!m_229435_()) {
+          return null;
+       } else {
+          if (f_229411_ != null) {
+-            StrongholdPieces.StrongholdPiece strongholdpieces$strongholdpiece = m_229426_(f_229411_, p_229419_, p_229420_, p_229421_, p_229422_, p_229423_, p_229424_, p_229425_);
++            StrongholdPieces.StrongholdPiece strongholdpieces$strongholdpiece = findAndCreatePieceFactory(f_229411_, p_229419_, p_229420_, p_229421_, p_229422_, p_229423_, p_229424_, p_229425_);
+             f_229411_ = null;
+             if (strongholdpieces$strongholdpiece != null) {
+                return strongholdpieces$strongholdpiece;
+@@ -135,7 +_,7 @@
+                      break;
+                   }
+ 
+-                  StrongholdPieces.StrongholdPiece strongholdpieces$strongholdpiece1 = m_229426_(strongholdpieces$pieceweight.f_229614_, p_229419_, p_229420_, p_229421_, p_229422_, p_229423_, p_229424_, p_229425_);
++                  StrongholdPieces.StrongholdPiece strongholdpieces$strongholdpiece1 = findAndCreatePieceFactory(strongholdpieces$pieceweight.f_229614_, p_229419_, p_229420_, p_229421_, p_229422_, p_229423_, p_229424_, p_229425_);
+                   if (strongholdpieces$strongholdpiece1 != null) {
+                      ++strongholdpieces$pieceweight.f_229616_;
+                      p_229418_.f_229797_ = strongholdpieces$pieceweight;
+@@ -149,16 +_,16 @@
+             }
+          }
+ 
+-         BoundingBox boundingbox = StrongholdPieces.FillerCorridor.m_229509_(p_229419_, p_229420_, p_229421_, p_229422_, p_229423_, p_229424_);
+-         return boundingbox != null && boundingbox.m_162396_() > 1 ? new StrongholdPieces.FillerCorridor(p_229425_, boundingbox, p_229424_) : null;
++         BoundingBox boundingbox = StrongholdPieces.FillerCorridor.findPieceBox(p_229419_, p_229420_, p_229421_, p_229422_, p_229423_, p_229424_);
++         return boundingbox != null && boundingbox.minY() > 1 ? new StrongholdPieces.FillerCorridor(p_229425_, boundingbox, p_229424_) : null;
+       }
+    }
+ 
+-   static StructurePiece m_229436_(StrongholdPieces.StartPiece p_229437_, StructurePieceAccessor p_229438_, RandomSource p_229439_, int p_229440_, int p_229441_, int p_229442_, @Nullable Direction p_229443_, int p_229444_) {
++   static StructurePiece generateAndAddPiece(StrongholdPieces.StartPiece p_229437_, StructurePieceAccessor p_229438_, RandomSource p_229439_, long p_229440_, long p_229441_, long p_229442_, @Nullable Direction p_229443_, int p_229444_) {
+       if (p_229444_ > 50) {
+          return null;
+-      } else if (Math.abs(p_229440_ - p_229437_.m_73547_().m_162395_()) <= 112 && Math.abs(p_229442_ - p_229437_.m_73547_().m_162398_()) <= 112) {
+-         StructurePiece structurepiece = m_229417_(p_229437_, p_229438_, p_229439_, p_229440_, p_229441_, p_229442_, p_229443_, p_229444_ + 1);
++      } else if (Math.abs(p_229440_ - p_229437_.m_73547_().minX()) <= 112 && Math.abs(p_229442_ - p_229437_.m_73547_().minZ()) <= 112) {
++         StructurePiece structurepiece = generatePieceFromSmallDoor(p_229437_, p_229438_, p_229439_, p_229440_, p_229441_, p_229442_, p_229443_, p_229444_ + 1);
+          if (structurepiece != null) {
+             p_229438_.m_142679_(structurepiece);
+             p_229437_.f_229799_.add(structurepiece);
+@@ -196,26 +_,26 @@
+          this.m_229893_((StrongholdPieces.StartPiece)p_229480_, p_229481_, p_229482_, 1, 1);
+       }
+ 
+-      public static StrongholdPieces.ChestCorridor m_229483_(StructurePieceAccessor p_229484_, RandomSource p_229485_, int p_229486_, int p_229487_, int p_229488_, Direction p_229489_, int p_229490_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229486_, p_229487_, p_229488_, -1, -1, 0, 5, 5, 7, p_229489_);
++      public static StrongholdPieces.ChestCorridor createPiece(StructurePieceAccessor p_229484_, RandomSource p_229485_, long p_229486_, long p_229487_, long p_229488_, Direction p_229489_, int p_229490_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229486_, p_229487_, p_229488_, -1, -1, 0, 5, 5, 7, p_229489_);
+          return m_229888_(boundingbox) && p_229484_.m_141921_(boundingbox) == null ? new StrongholdPieces.ChestCorridor(p_229490_, p_229485_, boundingbox, p_229489_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_229472_, StructureManager p_229473_, ChunkGenerator p_229474_, RandomSource p_229475_, BoundingBox p_229476_, ChunkPos p_229477_, BlockPos p_229478_) {
+-         this.m_226776_(p_229472_, p_229476_, 0, 0, 0, 4, 4, 6, true, p_229475_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229472_, p_229476_, 0, 0, 0, 4, 4, 6, true, p_229475_, StrongholdPieces.f_229413_);
+          this.m_229880_(p_229472_, p_229475_, p_229476_, this.f_229872_, 1, 1, 0);
+          this.m_229880_(p_229472_, p_229475_, p_229476_, StrongholdPieces.StrongholdPiece.SmallDoorType.OPENING, 1, 1, 6);
+-         this.m_73441_(p_229472_, p_229476_, 3, 1, 2, 3, 1, 4, Blocks.f_50222_.m_49966_(), Blocks.f_50222_.m_49966_(), false);
+-         this.m_73434_(p_229472_, Blocks.f_50411_.m_49966_(), 3, 1, 1, p_229476_);
+-         this.m_73434_(p_229472_, Blocks.f_50411_.m_49966_(), 3, 1, 5, p_229476_);
+-         this.m_73434_(p_229472_, Blocks.f_50411_.m_49966_(), 3, 2, 2, p_229476_);
+-         this.m_73434_(p_229472_, Blocks.f_50411_.m_49966_(), 3, 2, 4, p_229476_);
++         this.generateBox(p_229472_, p_229476_, 3, 1, 2, 3, 1, 4, Blocks.f_50222_.m_49966_(), Blocks.f_50222_.m_49966_(), false);
++         this.placeBlock(p_229472_, Blocks.f_50411_.m_49966_(), 3, 1, 1, p_229476_);
++         this.placeBlock(p_229472_, Blocks.f_50411_.m_49966_(), 3, 1, 5, p_229476_);
++         this.placeBlock(p_229472_, Blocks.f_50411_.m_49966_(), 3, 2, 2, p_229476_);
++         this.placeBlock(p_229472_, Blocks.f_50411_.m_49966_(), 3, 2, 4, p_229476_);
+ 
+          for(int i = 2; i <= 4; ++i) {
+-            this.m_73434_(p_229472_, Blocks.f_50411_.m_49966_(), 2, 1, i, p_229476_);
++            this.placeBlock(p_229472_, Blocks.f_50411_.m_49966_(), 2, 1, i, p_229476_);
           }
  
 -         if (!this.f_229463_ && p_229476_.m_71051_(this.m_163582_(3, 2, 3))) {
-+         if (!this.f_229463_ && p_229476_.isInside(this.m_163582_(3, 2, 3))) {
++         if (!this.f_229463_ && p_229476_.isInside(this.getWorldPos(3, 2, 3))) {
              this.f_229463_ = true;
              this.m_213787_(p_229472_, p_229476_, p_229475_, 3, 2, 3, BuiltInLootTables.f_78763_);
           }
-@@ -704,7 +_,7 @@
+@@ -224,36 +_,36 @@
+    }
+ 
+    public static class FillerCorridor extends StrongholdPieces.StrongholdPiece {
+-      private final int f_229494_;
++      private final long f_229494_;
+ 
+       public FillerCorridor(int p_229496_, BoundingBox p_229497_, Direction p_229498_) {
+          super(StructurePieceType.f_210145_, p_229496_, p_229497_);
+          this.m_73519_(p_229498_);
+-         this.f_229494_ = p_229498_ != Direction.NORTH && p_229498_ != Direction.SOUTH ? p_229497_.m_71056_() : p_229497_.m_71058_();
++         this.f_229494_ = p_229498_ != Direction.NORTH && p_229498_ != Direction.SOUTH ? p_229497_.getXSpan() : p_229497_.getZSpan();
+       }
+ 
+       public FillerCorridor(CompoundTag p_229500_) {
+          super(StructurePieceType.f_210145_, p_229500_);
+-         this.f_229494_ = p_229500_.m_128451_("Steps");
++         this.f_229494_ = p_229500_.m_128454_("Steps");
+       }
+ 
+       protected void m_183620_(StructurePieceSerializationContext p_229517_, CompoundTag p_229518_) {
+          super.m_183620_(p_229517_, p_229518_);
+-         p_229518_.m_128405_("Steps", this.f_229494_);
++         p_229518_.m_128356_("Steps", this.f_229494_);
+       }
+ 
+-      public static BoundingBox m_229509_(StructurePieceAccessor p_229510_, RandomSource p_229511_, int p_229512_, int p_229513_, int p_229514_, Direction p_229515_) {
++      public static BoundingBox findPieceBox(StructurePieceAccessor p_229510_, RandomSource p_229511_, long p_229512_, long p_229513_, long p_229514_, Direction p_229515_) {
+          int i = 3;
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229512_, p_229513_, p_229514_, -1, -1, 0, 5, 5, 4, p_229515_);
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229512_, p_229513_, p_229514_, -1, -1, 0, 5, 5, 4, p_229515_);
+          StructurePiece structurepiece = p_229510_.m_141921_(boundingbox);
+          if (structurepiece == null) {
+             return null;
+          } else {
+-            if (structurepiece.m_73547_().m_162396_() == boundingbox.m_162396_()) {
++            if (structurepiece.m_73547_().minY() == boundingbox.minY()) {
+                for(int j = 2; j >= 1; --j) {
+-                  boundingbox = BoundingBox.m_71031_(p_229512_, p_229513_, p_229514_, -1, -1, 0, 5, 5, j, p_229515_);
++                  boundingbox = BoundingBox.orientBox(p_229512_, p_229513_, p_229514_, -1, -1, 0, 5, 5, j, p_229515_);
+                   if (!structurepiece.m_73547_().m_71049_(boundingbox)) {
+-                     return BoundingBox.m_71031_(p_229512_, p_229513_, p_229514_, -1, -1, 0, 5, 5, j + 1, p_229515_);
++                     return BoundingBox.orientBox(p_229512_, p_229513_, p_229514_, -1, -1, 0, 5, 5, j + 1, p_229515_);
+                   }
+                }
+             }
+@@ -264,25 +_,25 @@
+ 
+       public void m_213694_(WorldGenLevel p_229502_, StructureManager p_229503_, ChunkGenerator p_229504_, RandomSource p_229505_, BoundingBox p_229506_, ChunkPos p_229507_, BlockPos p_229508_) {
+          for(int i = 0; i < this.f_229494_; ++i) {
+-            this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 0, 0, i, p_229506_);
+-            this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 1, 0, i, p_229506_);
+-            this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 2, 0, i, p_229506_);
+-            this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 3, 0, i, p_229506_);
+-            this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 4, 0, i, p_229506_);
++            this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 0, 0, i, p_229506_);
++            this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 1, 0, i, p_229506_);
++            this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 2, 0, i, p_229506_);
++            this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 3, 0, i, p_229506_);
++            this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 4, 0, i, p_229506_);
+ 
+             for(int j = 1; j <= 3; ++j) {
+-               this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 0, j, i, p_229506_);
+-               this.m_73434_(p_229502_, Blocks.f_50627_.m_49966_(), 1, j, i, p_229506_);
+-               this.m_73434_(p_229502_, Blocks.f_50627_.m_49966_(), 2, j, i, p_229506_);
+-               this.m_73434_(p_229502_, Blocks.f_50627_.m_49966_(), 3, j, i, p_229506_);
+-               this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 4, j, i, p_229506_);
++               this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 0, j, i, p_229506_);
++               this.placeBlock(p_229502_, Blocks.f_50627_.m_49966_(), 1, j, i, p_229506_);
++               this.placeBlock(p_229502_, Blocks.f_50627_.m_49966_(), 2, j, i, p_229506_);
++               this.placeBlock(p_229502_, Blocks.f_50627_.m_49966_(), 3, j, i, p_229506_);
++               this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 4, j, i, p_229506_);
+             }
+ 
+-            this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 0, 4, i, p_229506_);
+-            this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 1, 4, i, p_229506_);
+-            this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 2, 4, i, p_229506_);
+-            this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 3, 4, i, p_229506_);
+-            this.m_73434_(p_229502_, Blocks.f_50222_.m_49966_(), 4, 4, i, p_229506_);
++            this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 0, 4, i, p_229506_);
++            this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 1, 4, i, p_229506_);
++            this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 2, 4, i, p_229506_);
++            this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 3, 4, i, p_229506_);
++            this.placeBlock(p_229502_, Blocks.f_50222_.m_49966_(), 4, 4, i, p_229506_);
+          }
+ 
+       }
+@@ -351,45 +_,45 @@
+ 
+       }
+ 
+-      public static StrongholdPieces.FiveCrossing m_229545_(StructurePieceAccessor p_229546_, RandomSource p_229547_, int p_229548_, int p_229549_, int p_229550_, Direction p_229551_, int p_229552_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229548_, p_229549_, p_229550_, -4, -3, 0, 10, 9, 11, p_229551_);
++      public static StrongholdPieces.FiveCrossing createPiece(StructurePieceAccessor p_229546_, RandomSource p_229547_, long p_229548_, long p_229549_, long p_229550_, Direction p_229551_, int p_229552_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229548_, p_229549_, p_229550_, -4, -3, 0, 10, 9, 11, p_229551_);
+          return m_229888_(boundingbox) && p_229546_.m_141921_(boundingbox) == null ? new StrongholdPieces.FiveCrossing(p_229552_, p_229547_, boundingbox, p_229551_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_229534_, StructureManager p_229535_, ChunkGenerator p_229536_, RandomSource p_229537_, BoundingBox p_229538_, ChunkPos p_229539_, BlockPos p_229540_) {
+-         this.m_226776_(p_229534_, p_229538_, 0, 0, 0, 9, 8, 10, true, p_229537_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229534_, p_229538_, 0, 0, 0, 9, 8, 10, true, p_229537_, StrongholdPieces.f_229413_);
+          this.m_229880_(p_229534_, p_229537_, p_229538_, this.f_229872_, 4, 3, 0);
+          if (this.f_229522_) {
+-            this.m_73441_(p_229534_, p_229538_, 0, 3, 1, 0, 5, 3, f_73382_, f_73382_, false);
++            this.generateBox(p_229534_, p_229538_, 0, 3, 1, 0, 5, 3, f_73382_, f_73382_, false);
+          }
+ 
+          if (this.f_229524_) {
+-            this.m_73441_(p_229534_, p_229538_, 9, 3, 1, 9, 5, 3, f_73382_, f_73382_, false);
++            this.generateBox(p_229534_, p_229538_, 9, 3, 1, 9, 5, 3, f_73382_, f_73382_, false);
+          }
+ 
+          if (this.f_229523_) {
+-            this.m_73441_(p_229534_, p_229538_, 0, 5, 7, 0, 7, 9, f_73382_, f_73382_, false);
++            this.generateBox(p_229534_, p_229538_, 0, 5, 7, 0, 7, 9, f_73382_, f_73382_, false);
+          }
+ 
+          if (this.f_229525_) {
+-            this.m_73441_(p_229534_, p_229538_, 9, 5, 7, 9, 7, 9, f_73382_, f_73382_, false);
++            this.generateBox(p_229534_, p_229538_, 9, 5, 7, 9, 7, 9, f_73382_, f_73382_, false);
+          }
+ 
+-         this.m_73441_(p_229534_, p_229538_, 5, 1, 10, 7, 3, 10, f_73382_, f_73382_, false);
+-         this.m_226776_(p_229534_, p_229538_, 1, 2, 1, 8, 2, 6, false, p_229537_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229534_, p_229538_, 4, 1, 5, 4, 4, 9, false, p_229537_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229534_, p_229538_, 8, 1, 5, 8, 4, 9, false, p_229537_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229534_, p_229538_, 1, 4, 7, 3, 4, 9, false, p_229537_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229534_, p_229538_, 1, 3, 5, 3, 3, 6, false, p_229537_, StrongholdPieces.f_229413_);
+-         this.m_73441_(p_229534_, p_229538_, 1, 3, 4, 3, 3, 4, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
+-         this.m_73441_(p_229534_, p_229538_, 1, 4, 6, 3, 4, 6, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
+-         this.m_226776_(p_229534_, p_229538_, 5, 1, 7, 7, 1, 8, false, p_229537_, StrongholdPieces.f_229413_);
+-         this.m_73441_(p_229534_, p_229538_, 5, 1, 9, 7, 1, 9, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
+-         this.m_73441_(p_229534_, p_229538_, 5, 2, 7, 7, 2, 7, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
+-         this.m_73441_(p_229534_, p_229538_, 4, 5, 7, 4, 5, 9, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
+-         this.m_73441_(p_229534_, p_229538_, 8, 5, 7, 8, 5, 9, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
+-         this.m_73441_(p_229534_, p_229538_, 5, 5, 7, 7, 5, 9, Blocks.f_50405_.m_49966_().m_61124_(SlabBlock.f_56353_, SlabType.DOUBLE), Blocks.f_50405_.m_49966_().m_61124_(SlabBlock.f_56353_, SlabType.DOUBLE), false);
+-         this.m_73434_(p_229534_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.SOUTH), 6, 5, 6, p_229538_);
++         this.generateBox(p_229534_, p_229538_, 5, 1, 10, 7, 3, 10, f_73382_, f_73382_, false);
++         this.generateBox(p_229534_, p_229538_, 1, 2, 1, 8, 2, 6, false, p_229537_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229534_, p_229538_, 4, 1, 5, 4, 4, 9, false, p_229537_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229534_, p_229538_, 8, 1, 5, 8, 4, 9, false, p_229537_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229534_, p_229538_, 1, 4, 7, 3, 4, 9, false, p_229537_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229534_, p_229538_, 1, 3, 5, 3, 3, 6, false, p_229537_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229534_, p_229538_, 1, 3, 4, 3, 3, 4, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
++         this.generateBox(p_229534_, p_229538_, 1, 4, 6, 3, 4, 6, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
++         this.generateBox(p_229534_, p_229538_, 5, 1, 7, 7, 1, 8, false, p_229537_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229534_, p_229538_, 5, 1, 9, 7, 1, 9, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
++         this.generateBox(p_229534_, p_229538_, 5, 2, 7, 7, 2, 7, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
++         this.generateBox(p_229534_, p_229538_, 4, 5, 7, 4, 5, 9, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
++         this.generateBox(p_229534_, p_229538_, 8, 5, 7, 8, 5, 9, Blocks.f_50405_.m_49966_(), Blocks.f_50405_.m_49966_(), false);
++         this.generateBox(p_229534_, p_229538_, 5, 5, 7, 7, 5, 9, Blocks.f_50405_.m_49966_().m_61124_(SlabBlock.f_56353_, SlabType.DOUBLE), Blocks.f_50405_.m_49966_().m_61124_(SlabBlock.f_56353_, SlabType.DOUBLE), false);
++         this.placeBlock(p_229534_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.SOUTH), 6, 5, 6, p_229538_);
+       }
+    }
+ 
+@@ -414,19 +_,19 @@
+ 
+       }
+ 
+-      public static StrongholdPieces.LeftTurn m_229575_(StructurePieceAccessor p_229576_, RandomSource p_229577_, int p_229578_, int p_229579_, int p_229580_, Direction p_229581_, int p_229582_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229578_, p_229579_, p_229580_, -1, -1, 0, 5, 5, 5, p_229581_);
++      public static StrongholdPieces.LeftTurn createPiece(StructurePieceAccessor p_229576_, RandomSource p_229577_, long p_229578_, long p_229579_, long p_229580_, Direction p_229581_, int p_229582_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229578_, p_229579_, p_229580_, -1, -1, 0, 5, 5, 5, p_229581_);
+          return m_229888_(boundingbox) && p_229576_.m_141921_(boundingbox) == null ? new StrongholdPieces.LeftTurn(p_229582_, p_229577_, boundingbox, p_229581_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_229564_, StructureManager p_229565_, ChunkGenerator p_229566_, RandomSource p_229567_, BoundingBox p_229568_, ChunkPos p_229569_, BlockPos p_229570_) {
+-         this.m_226776_(p_229564_, p_229568_, 0, 0, 0, 4, 4, 4, true, p_229567_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229564_, p_229568_, 0, 0, 0, 4, 4, 4, true, p_229567_, StrongholdPieces.f_229413_);
+          this.m_229880_(p_229564_, p_229567_, p_229568_, this.f_229872_, 1, 1, 0);
+          Direction direction = this.m_73549_();
+          if (direction != Direction.NORTH && direction != Direction.EAST) {
+-            this.m_73441_(p_229564_, p_229568_, 4, 1, 1, 4, 3, 3, f_73382_, f_73382_, false);
++            this.generateBox(p_229564_, p_229568_, 4, 1, 1, 4, 3, 3, f_73382_, f_73382_, false);
+          } else {
+-            this.m_73441_(p_229564_, p_229568_, 0, 1, 1, 0, 3, 3, f_73382_, f_73382_, false);
++            this.generateBox(p_229564_, p_229568_, 0, 1, 1, 0, 3, 3, f_73382_, f_73382_, false);
+          }
+ 
+       }
+@@ -443,7 +_,7 @@
+          super(StructurePieceType.f_210148_, p_229589_, p_229591_);
+          this.m_73519_(p_229592_);
+          this.f_229872_ = this.m_229899_(p_229590_);
+-         this.f_229587_ = p_229591_.m_71057_() > 6;
++         this.f_229587_ = p_229591_.getYSpan() > 6;
+       }
+ 
+       public Library(CompoundTag p_229594_) {
+@@ -456,10 +_,10 @@
+          p_229613_.m_128379_("Tall", this.f_229587_);
+       }
+ 
+-      public static StrongholdPieces.Library m_229603_(StructurePieceAccessor p_229604_, RandomSource p_229605_, int p_229606_, int p_229607_, int p_229608_, Direction p_229609_, int p_229610_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229606_, p_229607_, p_229608_, -4, -1, 0, 14, 11, 15, p_229609_);
++      public static StrongholdPieces.Library createPiece(StructurePieceAccessor p_229604_, RandomSource p_229605_, long p_229606_, long p_229607_, long p_229608_, Direction p_229609_, int p_229610_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229606_, p_229607_, p_229608_, -4, -1, 0, 14, 11, 15, p_229609_);
+          if (!m_229888_(boundingbox) || p_229604_.m_141921_(boundingbox) != null) {
+-            boundingbox = BoundingBox.m_71031_(p_229606_, p_229607_, p_229608_, -4, -1, 0, 14, 6, 15, p_229609_);
++            boundingbox = BoundingBox.orientBox(p_229606_, p_229607_, p_229608_, -4, -1, 0, 14, 6, 15, p_229609_);
+             if (!m_229888_(boundingbox) || p_229604_.m_141921_(boundingbox) != null) {
+                return null;
+             }
+@@ -474,100 +_,100 @@
+             i = 6;
+          }
+ 
+-         this.m_226776_(p_229596_, p_229600_, 0, 0, 0, 13, i - 1, 14, true, p_229599_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229596_, p_229600_, 0, 0, 0, 13, i - 1, 14, true, p_229599_, StrongholdPieces.f_229413_);
+          this.m_229880_(p_229596_, p_229599_, p_229600_, this.f_229872_, 4, 1, 0);
+-         this.m_226788_(p_229596_, p_229600_, p_229599_, 0.07F, 2, 1, 1, 11, 4, 13, Blocks.f_50033_.m_49966_(), Blocks.f_50033_.m_49966_(), false, false);
++         this.generateMaybeBox(p_229596_, p_229600_, p_229599_, 0.07F, 2, 1, 1, 11, 4, 13, Blocks.f_50033_.m_49966_(), Blocks.f_50033_.m_49966_(), false, false);
+          int j = 1;
+          int k = 12;
+ 
+          for(int l = 1; l <= 13; ++l) {
+             if ((l - 1) % 4 == 0) {
+-               this.m_73441_(p_229596_, p_229600_, 1, 1, l, 1, 4, l, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
+-               this.m_73441_(p_229596_, p_229600_, 12, 1, l, 12, 4, l, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
+-               this.m_73434_(p_229596_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.EAST), 2, 3, l, p_229600_);
+-               this.m_73434_(p_229596_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.WEST), 11, 3, l, p_229600_);
++               this.generateBox(p_229596_, p_229600_, 1, 1, l, 1, 4, l, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
++               this.generateBox(p_229596_, p_229600_, 12, 1, l, 12, 4, l, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
++               this.placeBlock(p_229596_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.EAST), 2, 3, l, p_229600_);
++               this.placeBlock(p_229596_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.WEST), 11, 3, l, p_229600_);
+                if (this.f_229587_) {
+-                  this.m_73441_(p_229596_, p_229600_, 1, 6, l, 1, 9, l, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
+-                  this.m_73441_(p_229596_, p_229600_, 12, 6, l, 12, 9, l, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
++                  this.generateBox(p_229596_, p_229600_, 1, 6, l, 1, 9, l, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
++                  this.generateBox(p_229596_, p_229600_, 12, 6, l, 12, 9, l, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
+                }
+             } else {
+-               this.m_73441_(p_229596_, p_229600_, 1, 1, l, 1, 4, l, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
+-               this.m_73441_(p_229596_, p_229600_, 12, 1, l, 12, 4, l, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
++               this.generateBox(p_229596_, p_229600_, 1, 1, l, 1, 4, l, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
++               this.generateBox(p_229596_, p_229600_, 12, 1, l, 12, 4, l, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
+                if (this.f_229587_) {
+-                  this.m_73441_(p_229596_, p_229600_, 1, 6, l, 1, 9, l, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
+-                  this.m_73441_(p_229596_, p_229600_, 12, 6, l, 12, 9, l, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
++                  this.generateBox(p_229596_, p_229600_, 1, 6, l, 1, 9, l, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
++                  this.generateBox(p_229596_, p_229600_, 12, 6, l, 12, 9, l, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
+                }
+             }
+          }
+ 
+          for(int l1 = 3; l1 < 12; l1 += 2) {
+-            this.m_73441_(p_229596_, p_229600_, 3, 1, l1, 4, 3, l1, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
+-            this.m_73441_(p_229596_, p_229600_, 6, 1, l1, 7, 3, l1, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
+-            this.m_73441_(p_229596_, p_229600_, 9, 1, l1, 10, 3, l1, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
++            this.generateBox(p_229596_, p_229600_, 3, 1, l1, 4, 3, l1, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
++            this.generateBox(p_229596_, p_229600_, 6, 1, l1, 7, 3, l1, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
++            this.generateBox(p_229596_, p_229600_, 9, 1, l1, 10, 3, l1, Blocks.f_50078_.m_49966_(), Blocks.f_50078_.m_49966_(), false);
+          }
+ 
+          if (this.f_229587_) {
+-            this.m_73441_(p_229596_, p_229600_, 1, 5, 1, 3, 5, 13, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
+-            this.m_73441_(p_229596_, p_229600_, 10, 5, 1, 12, 5, 13, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
+-            this.m_73441_(p_229596_, p_229600_, 4, 5, 1, 9, 5, 2, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
+-            this.m_73441_(p_229596_, p_229600_, 4, 5, 12, 9, 5, 13, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
+-            this.m_73434_(p_229596_, Blocks.f_50705_.m_49966_(), 9, 5, 11, p_229600_);
+-            this.m_73434_(p_229596_, Blocks.f_50705_.m_49966_(), 8, 5, 11, p_229600_);
+-            this.m_73434_(p_229596_, Blocks.f_50705_.m_49966_(), 9, 5, 10, p_229600_);
++            this.generateBox(p_229596_, p_229600_, 1, 5, 1, 3, 5, 13, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
++            this.generateBox(p_229596_, p_229600_, 10, 5, 1, 12, 5, 13, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
++            this.generateBox(p_229596_, p_229600_, 4, 5, 1, 9, 5, 2, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
++            this.generateBox(p_229596_, p_229600_, 4, 5, 12, 9, 5, 13, Blocks.f_50705_.m_49966_(), Blocks.f_50705_.m_49966_(), false);
++            this.placeBlock(p_229596_, Blocks.f_50705_.m_49966_(), 9, 5, 11, p_229600_);
++            this.placeBlock(p_229596_, Blocks.f_50705_.m_49966_(), 8, 5, 11, p_229600_);
++            this.placeBlock(p_229596_, Blocks.f_50705_.m_49966_(), 9, 5, 10, p_229600_);
+             BlockState blockstate5 = Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+             BlockState blockstate = Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true));
+-            this.m_73441_(p_229596_, p_229600_, 3, 6, 3, 3, 6, 11, blockstate, blockstate, false);
+-            this.m_73441_(p_229596_, p_229600_, 10, 6, 3, 10, 6, 9, blockstate, blockstate, false);
+-            this.m_73441_(p_229596_, p_229600_, 4, 6, 2, 9, 6, 2, blockstate5, blockstate5, false);
+-            this.m_73441_(p_229596_, p_229600_, 4, 6, 12, 7, 6, 12, blockstate5, blockstate5, false);
+-            this.m_73434_(p_229596_, Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 3, 6, 2, p_229600_);
+-            this.m_73434_(p_229596_, Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 3, 6, 12, p_229600_);
+-            this.m_73434_(p_229596_, Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 10, 6, 2, p_229600_);
++            this.generateBox(p_229596_, p_229600_, 3, 6, 3, 3, 6, 11, blockstate, blockstate, false);
++            this.generateBox(p_229596_, p_229600_, 10, 6, 3, 10, 6, 9, blockstate, blockstate, false);
++            this.generateBox(p_229596_, p_229600_, 4, 6, 2, 9, 6, 2, blockstate5, blockstate5, false);
++            this.generateBox(p_229596_, p_229600_, 4, 6, 12, 7, 6, 12, blockstate5, blockstate5, false);
++            this.placeBlock(p_229596_, Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 3, 6, 2, p_229600_);
++            this.placeBlock(p_229596_, Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 3, 6, 12, p_229600_);
++            this.placeBlock(p_229596_, Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 10, 6, 2, p_229600_);
+ 
+             for(int i1 = 0; i1 <= 2; ++i1) {
+-               this.m_73434_(p_229596_, Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 8 + i1, 6, 12 - i1, p_229600_);
++               this.placeBlock(p_229596_, Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 8 + i1, 6, 12 - i1, p_229600_);
+                if (i1 != 2) {
+-                  this.m_73434_(p_229596_, Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 8 + i1, 6, 11 - i1, p_229600_);
++                  this.placeBlock(p_229596_, Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 8 + i1, 6, 11 - i1, p_229600_);
+                }
+             }
+ 
+             BlockState blockstate6 = Blocks.f_50155_.m_49966_().m_61124_(LadderBlock.f_54337_, Direction.SOUTH);
+-            this.m_73434_(p_229596_, blockstate6, 10, 1, 13, p_229600_);
+-            this.m_73434_(p_229596_, blockstate6, 10, 2, 13, p_229600_);
+-            this.m_73434_(p_229596_, blockstate6, 10, 3, 13, p_229600_);
+-            this.m_73434_(p_229596_, blockstate6, 10, 4, 13, p_229600_);
+-            this.m_73434_(p_229596_, blockstate6, 10, 5, 13, p_229600_);
+-            this.m_73434_(p_229596_, blockstate6, 10, 6, 13, p_229600_);
+-            this.m_73434_(p_229596_, blockstate6, 10, 7, 13, p_229600_);
++            this.placeBlock(p_229596_, blockstate6, 10, 1, 13, p_229600_);
++            this.placeBlock(p_229596_, blockstate6, 10, 2, 13, p_229600_);
++            this.placeBlock(p_229596_, blockstate6, 10, 3, 13, p_229600_);
++            this.placeBlock(p_229596_, blockstate6, 10, 4, 13, p_229600_);
++            this.placeBlock(p_229596_, blockstate6, 10, 5, 13, p_229600_);
++            this.placeBlock(p_229596_, blockstate6, 10, 6, 13, p_229600_);
++            this.placeBlock(p_229596_, blockstate6, 10, 7, 13, p_229600_);
+             int j1 = 7;
+             int k1 = 7;
+             BlockState blockstate1 = Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+-            this.m_73434_(p_229596_, blockstate1, 6, 9, 7, p_229600_);
++            this.placeBlock(p_229596_, blockstate1, 6, 9, 7, p_229600_);
+             BlockState blockstate2 = Blocks.f_50132_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true));
+-            this.m_73434_(p_229596_, blockstate2, 7, 9, 7, p_229600_);
+-            this.m_73434_(p_229596_, blockstate1, 6, 8, 7, p_229600_);
+-            this.m_73434_(p_229596_, blockstate2, 7, 8, 7, p_229600_);
++            this.placeBlock(p_229596_, blockstate2, 7, 9, 7, p_229600_);
++            this.placeBlock(p_229596_, blockstate1, 6, 8, 7, p_229600_);
++            this.placeBlock(p_229596_, blockstate2, 7, 8, 7, p_229600_);
+             BlockState blockstate3 = blockstate.m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+-            this.m_73434_(p_229596_, blockstate3, 6, 7, 7, p_229600_);
+-            this.m_73434_(p_229596_, blockstate3, 7, 7, 7, p_229600_);
+-            this.m_73434_(p_229596_, blockstate1, 5, 7, 7, p_229600_);
+-            this.m_73434_(p_229596_, blockstate2, 8, 7, 7, p_229600_);
+-            this.m_73434_(p_229596_, blockstate1.m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)), 6, 7, 6, p_229600_);
+-            this.m_73434_(p_229596_, blockstate1.m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 6, 7, 8, p_229600_);
+-            this.m_73434_(p_229596_, blockstate2.m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)), 7, 7, 6, p_229600_);
+-            this.m_73434_(p_229596_, blockstate2.m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 7, 7, 8, p_229600_);
++            this.placeBlock(p_229596_, blockstate3, 6, 7, 7, p_229600_);
++            this.placeBlock(p_229596_, blockstate3, 7, 7, 7, p_229600_);
++            this.placeBlock(p_229596_, blockstate1, 5, 7, 7, p_229600_);
++            this.placeBlock(p_229596_, blockstate2, 8, 7, 7, p_229600_);
++            this.placeBlock(p_229596_, blockstate1.m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)), 6, 7, 6, p_229600_);
++            this.placeBlock(p_229596_, blockstate1.m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 6, 7, 8, p_229600_);
++            this.placeBlock(p_229596_, blockstate2.m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)), 7, 7, 6, p_229600_);
++            this.placeBlock(p_229596_, blockstate2.m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 7, 7, 8, p_229600_);
+             BlockState blockstate4 = Blocks.f_50081_.m_49966_();
+-            this.m_73434_(p_229596_, blockstate4, 5, 8, 7, p_229600_);
+-            this.m_73434_(p_229596_, blockstate4, 8, 8, 7, p_229600_);
+-            this.m_73434_(p_229596_, blockstate4, 6, 8, 6, p_229600_);
+-            this.m_73434_(p_229596_, blockstate4, 6, 8, 8, p_229600_);
+-            this.m_73434_(p_229596_, blockstate4, 7, 8, 6, p_229600_);
+-            this.m_73434_(p_229596_, blockstate4, 7, 8, 8, p_229600_);
++            this.placeBlock(p_229596_, blockstate4, 5, 8, 7, p_229600_);
++            this.placeBlock(p_229596_, blockstate4, 8, 8, 7, p_229600_);
++            this.placeBlock(p_229596_, blockstate4, 6, 8, 6, p_229600_);
++            this.placeBlock(p_229596_, blockstate4, 6, 8, 8, p_229600_);
++            this.placeBlock(p_229596_, blockstate4, 7, 8, 6, p_229600_);
++            this.placeBlock(p_229596_, blockstate4, 7, 8, 8, p_229600_);
+          }
+ 
+          this.m_213787_(p_229596_, p_229600_, p_229599_, 3, 3, 5, BuiltInLootTables.f_78761_);
+          if (this.f_229587_) {
+-            this.m_73434_(p_229596_, f_73382_, 12, 9, 1, p_229600_);
++            this.placeBlock(p_229596_, f_73382_, 12, 9, 1, p_229600_);
+             this.m_213787_(p_229596_, p_229600_, p_229599_, 12, 8, 1, BuiltInLootTables.f_78761_);
+          }
+ 
+@@ -623,46 +_,46 @@
+ 
+       }
+ 
+-      public static StrongholdPieces.PortalRoom m_229646_(StructurePieceAccessor p_229647_, int p_229648_, int p_229649_, int p_229650_, Direction p_229651_, int p_229652_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229648_, p_229649_, p_229650_, -4, -1, 0, 11, 8, 16, p_229651_);
++      public static StrongholdPieces.PortalRoom createPiece(StructurePieceAccessor p_229647_, long p_229648_, long p_229649_, long p_229650_, Direction p_229651_, int p_229652_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229648_, p_229649_, p_229650_, -4, -1, 0, 11, 8, 16, p_229651_);
+          return m_229888_(boundingbox) && p_229647_.m_141921_(boundingbox) == null ? new StrongholdPieces.PortalRoom(p_229652_, boundingbox, p_229651_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_229635_, StructureManager p_229636_, ChunkGenerator p_229637_, RandomSource p_229638_, BoundingBox p_229639_, ChunkPos p_229640_, BlockPos p_229641_) {
+-         this.m_226776_(p_229635_, p_229639_, 0, 0, 0, 10, 7, 15, false, p_229638_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229635_, p_229639_, 0, 0, 0, 10, 7, 15, false, p_229638_, StrongholdPieces.f_229413_);
+          this.m_229880_(p_229635_, p_229638_, p_229639_, StrongholdPieces.StrongholdPiece.SmallDoorType.GRATES, 4, 1, 0);
+          int i = 6;
+-         this.m_226776_(p_229635_, p_229639_, 1, i, 1, 1, i, 14, false, p_229638_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229635_, p_229639_, 9, i, 1, 9, i, 14, false, p_229638_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229635_, p_229639_, 2, i, 1, 8, i, 2, false, p_229638_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229635_, p_229639_, 2, i, 14, 8, i, 14, false, p_229638_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229635_, p_229639_, 1, 1, 1, 2, 1, 4, false, p_229638_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229635_, p_229639_, 8, 1, 1, 9, 1, 4, false, p_229638_, StrongholdPieces.f_229413_);
+-         this.m_73441_(p_229635_, p_229639_, 1, 1, 1, 1, 1, 3, Blocks.f_49991_.m_49966_(), Blocks.f_49991_.m_49966_(), false);
+-         this.m_73441_(p_229635_, p_229639_, 9, 1, 1, 9, 1, 3, Blocks.f_49991_.m_49966_(), Blocks.f_49991_.m_49966_(), false);
+-         this.m_226776_(p_229635_, p_229639_, 3, 1, 8, 7, 1, 12, false, p_229638_, StrongholdPieces.f_229413_);
+-         this.m_73441_(p_229635_, p_229639_, 4, 1, 9, 6, 1, 11, Blocks.f_49991_.m_49966_(), Blocks.f_49991_.m_49966_(), false);
++         this.generateBox(p_229635_, p_229639_, 1, i, 1, 1, i, 14, false, p_229638_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229635_, p_229639_, 9, i, 1, 9, i, 14, false, p_229638_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229635_, p_229639_, 2, i, 1, 8, i, 2, false, p_229638_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229635_, p_229639_, 2, i, 14, 8, i, 14, false, p_229638_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229635_, p_229639_, 1, 1, 1, 2, 1, 4, false, p_229638_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229635_, p_229639_, 8, 1, 1, 9, 1, 4, false, p_229638_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229635_, p_229639_, 1, 1, 1, 1, 1, 3, Blocks.f_49991_.m_49966_(), Blocks.f_49991_.m_49966_(), false);
++         this.generateBox(p_229635_, p_229639_, 9, 1, 1, 9, 1, 3, Blocks.f_49991_.m_49966_(), Blocks.f_49991_.m_49966_(), false);
++         this.generateBox(p_229635_, p_229639_, 3, 1, 8, 7, 1, 12, false, p_229638_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229635_, p_229639_, 4, 1, 9, 6, 1, 11, Blocks.f_49991_.m_49966_(), Blocks.f_49991_.m_49966_(), false);
+          BlockState blockstate = Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52309_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52311_, Boolean.valueOf(true));
+          BlockState blockstate1 = Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true));
+ 
+          for(int j = 3; j < 14; j += 2) {
+-            this.m_73441_(p_229635_, p_229639_, 0, 3, j, 0, 4, j, blockstate, blockstate, false);
+-            this.m_73441_(p_229635_, p_229639_, 10, 3, j, 10, 4, j, blockstate, blockstate, false);
++            this.generateBox(p_229635_, p_229639_, 0, 3, j, 0, 4, j, blockstate, blockstate, false);
++            this.generateBox(p_229635_, p_229639_, 10, 3, j, 10, 4, j, blockstate, blockstate, false);
+          }
+ 
+          for(int i1 = 2; i1 < 9; i1 += 2) {
+-            this.m_73441_(p_229635_, p_229639_, i1, 3, 15, i1, 4, 15, blockstate1, blockstate1, false);
++            this.generateBox(p_229635_, p_229639_, i1, 3, 15, i1, 4, 15, blockstate1, blockstate1, false);
+          }
+ 
+          BlockState blockstate5 = Blocks.f_50194_.m_49966_().m_61124_(StairBlock.f_56841_, Direction.NORTH);
+-         this.m_226776_(p_229635_, p_229639_, 4, 1, 5, 6, 1, 7, false, p_229638_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229635_, p_229639_, 4, 2, 6, 6, 2, 7, false, p_229638_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229635_, p_229639_, 4, 3, 7, 6, 3, 7, false, p_229638_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229635_, p_229639_, 4, 1, 5, 6, 1, 7, false, p_229638_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229635_, p_229639_, 4, 2, 6, 6, 2, 7, false, p_229638_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229635_, p_229639_, 4, 3, 7, 6, 3, 7, false, p_229638_, StrongholdPieces.f_229413_);
+ 
+          for(int k = 4; k <= 6; ++k) {
+-            this.m_73434_(p_229635_, blockstate5, k, 1, 4, p_229639_);
+-            this.m_73434_(p_229635_, blockstate5, k, 2, 5, p_229639_);
+-            this.m_73434_(p_229635_, blockstate5, k, 3, 6, p_229639_);
++            this.placeBlock(p_229635_, blockstate5, k, 1, 4, p_229639_);
++            this.placeBlock(p_229635_, blockstate5, k, 2, 5, p_229639_);
++            this.placeBlock(p_229635_, blockstate5, k, 3, 6, p_229639_);
+          }
+ 
+          BlockState blockstate6 = Blocks.f_50258_.m_49966_().m_61124_(EndPortalFrameBlock.f_53042_, Direction.NORTH);
+@@ -677,34 +_,34 @@
+             flag &= aboolean[l];
+          }
+ 
+-         this.m_73434_(p_229635_, blockstate6.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[0])), 4, 3, 8, p_229639_);
+-         this.m_73434_(p_229635_, blockstate6.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[1])), 5, 3, 8, p_229639_);
+-         this.m_73434_(p_229635_, blockstate6.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[2])), 6, 3, 8, p_229639_);
+-         this.m_73434_(p_229635_, blockstate2.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[3])), 4, 3, 12, p_229639_);
+-         this.m_73434_(p_229635_, blockstate2.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[4])), 5, 3, 12, p_229639_);
+-         this.m_73434_(p_229635_, blockstate2.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[5])), 6, 3, 12, p_229639_);
+-         this.m_73434_(p_229635_, blockstate3.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[6])), 3, 3, 9, p_229639_);
+-         this.m_73434_(p_229635_, blockstate3.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[7])), 3, 3, 10, p_229639_);
+-         this.m_73434_(p_229635_, blockstate3.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[8])), 3, 3, 11, p_229639_);
+-         this.m_73434_(p_229635_, blockstate4.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[9])), 7, 3, 9, p_229639_);
+-         this.m_73434_(p_229635_, blockstate4.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[10])), 7, 3, 10, p_229639_);
+-         this.m_73434_(p_229635_, blockstate4.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[11])), 7, 3, 11, p_229639_);
++         this.placeBlock(p_229635_, blockstate6.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[0])), 4, 3, 8, p_229639_);
++         this.placeBlock(p_229635_, blockstate6.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[1])), 5, 3, 8, p_229639_);
++         this.placeBlock(p_229635_, blockstate6.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[2])), 6, 3, 8, p_229639_);
++         this.placeBlock(p_229635_, blockstate2.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[3])), 4, 3, 12, p_229639_);
++         this.placeBlock(p_229635_, blockstate2.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[4])), 5, 3, 12, p_229639_);
++         this.placeBlock(p_229635_, blockstate2.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[5])), 6, 3, 12, p_229639_);
++         this.placeBlock(p_229635_, blockstate3.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[6])), 3, 3, 9, p_229639_);
++         this.placeBlock(p_229635_, blockstate3.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[7])), 3, 3, 10, p_229639_);
++         this.placeBlock(p_229635_, blockstate3.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[8])), 3, 3, 11, p_229639_);
++         this.placeBlock(p_229635_, blockstate4.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[9])), 7, 3, 9, p_229639_);
++         this.placeBlock(p_229635_, blockstate4.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[10])), 7, 3, 10, p_229639_);
++         this.placeBlock(p_229635_, blockstate4.m_61124_(EndPortalFrameBlock.f_53043_, Boolean.valueOf(aboolean[11])), 7, 3, 11, p_229639_);
+          if (flag) {
+             BlockState blockstate7 = Blocks.f_50257_.m_49966_();
+-            this.m_73434_(p_229635_, blockstate7, 4, 3, 9, p_229639_);
+-            this.m_73434_(p_229635_, blockstate7, 5, 3, 9, p_229639_);
+-            this.m_73434_(p_229635_, blockstate7, 6, 3, 9, p_229639_);
+-            this.m_73434_(p_229635_, blockstate7, 4, 3, 10, p_229639_);
+-            this.m_73434_(p_229635_, blockstate7, 5, 3, 10, p_229639_);
+-            this.m_73434_(p_229635_, blockstate7, 6, 3, 10, p_229639_);
+-            this.m_73434_(p_229635_, blockstate7, 4, 3, 11, p_229639_);
+-            this.m_73434_(p_229635_, blockstate7, 5, 3, 11, p_229639_);
+-            this.m_73434_(p_229635_, blockstate7, 6, 3, 11, p_229639_);
++            this.placeBlock(p_229635_, blockstate7, 4, 3, 9, p_229639_);
++            this.placeBlock(p_229635_, blockstate7, 5, 3, 9, p_229639_);
++            this.placeBlock(p_229635_, blockstate7, 6, 3, 9, p_229639_);
++            this.placeBlock(p_229635_, blockstate7, 4, 3, 10, p_229639_);
++            this.placeBlock(p_229635_, blockstate7, 5, 3, 10, p_229639_);
++            this.placeBlock(p_229635_, blockstate7, 6, 3, 10, p_229639_);
++            this.placeBlock(p_229635_, blockstate7, 4, 3, 11, p_229639_);
++            this.placeBlock(p_229635_, blockstate7, 5, 3, 11, p_229639_);
++            this.placeBlock(p_229635_, blockstate7, 6, 3, 11, p_229639_);
+          }
  
           if (!this.f_229627_) {
-             BlockPos blockpos = this.m_163582_(5, 3, 6);
+-            BlockPos blockpos = this.m_163582_(5, 3, 6);
 -            if (p_229639_.m_71051_(blockpos)) {
++            BlockPos blockpos = this.getWorldPos(5, 3, 6);
 +            if (p_229639_.isInside(blockpos)) {
                 this.f_229627_ = true;
                 p_229635_.m_7731_(blockpos, Blocks.f_50085_.m_49966_(), 2);
                 BlockEntity blockentity = p_229635_.m_7702_(blockpos);
+@@ -736,37 +_,37 @@
+          this.m_229893_((StrongholdPieces.StartPiece)p_229675_, p_229676_, p_229677_, 1, 1);
+       }
+ 
+-      public static StrongholdPieces.PrisonHall m_229678_(StructurePieceAccessor p_229679_, RandomSource p_229680_, int p_229681_, int p_229682_, int p_229683_, Direction p_229684_, int p_229685_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229681_, p_229682_, p_229683_, -1, -1, 0, 9, 5, 11, p_229684_);
++      public static StrongholdPieces.PrisonHall createPiece(StructurePieceAccessor p_229679_, RandomSource p_229680_, long p_229681_, long p_229682_, long p_229683_, Direction p_229684_, int p_229685_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229681_, p_229682_, p_229683_, -1, -1, 0, 9, 5, 11, p_229684_);
+          return m_229888_(boundingbox) && p_229679_.m_141921_(boundingbox) == null ? new StrongholdPieces.PrisonHall(p_229685_, p_229680_, boundingbox, p_229684_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_229667_, StructureManager p_229668_, ChunkGenerator p_229669_, RandomSource p_229670_, BoundingBox p_229671_, ChunkPos p_229672_, BlockPos p_229673_) {
+-         this.m_226776_(p_229667_, p_229671_, 0, 0, 0, 8, 4, 10, true, p_229670_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229667_, p_229671_, 0, 0, 0, 8, 4, 10, true, p_229670_, StrongholdPieces.f_229413_);
+          this.m_229880_(p_229667_, p_229670_, p_229671_, this.f_229872_, 1, 1, 0);
+-         this.m_73441_(p_229667_, p_229671_, 1, 1, 10, 3, 3, 10, f_73382_, f_73382_, false);
+-         this.m_226776_(p_229667_, p_229671_, 4, 1, 1, 4, 3, 1, false, p_229670_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229667_, p_229671_, 4, 1, 3, 4, 3, 3, false, p_229670_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229667_, p_229671_, 4, 1, 7, 4, 3, 7, false, p_229670_, StrongholdPieces.f_229413_);
+-         this.m_226776_(p_229667_, p_229671_, 4, 1, 9, 4, 3, 9, false, p_229670_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229667_, p_229671_, 1, 1, 10, 3, 3, 10, f_73382_, f_73382_, false);
++         this.generateBox(p_229667_, p_229671_, 4, 1, 1, 4, 3, 1, false, p_229670_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229667_, p_229671_, 4, 1, 3, 4, 3, 3, false, p_229670_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229667_, p_229671_, 4, 1, 7, 4, 3, 7, false, p_229670_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229667_, p_229671_, 4, 1, 9, 4, 3, 9, false, p_229670_, StrongholdPieces.f_229413_);
+ 
+          for(int i = 1; i <= 3; ++i) {
+-            this.m_73434_(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52309_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52311_, Boolean.valueOf(true)), 4, i, 4, p_229671_);
+-            this.m_73434_(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52309_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52311_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), 4, i, 5, p_229671_);
+-            this.m_73434_(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52309_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52311_, Boolean.valueOf(true)), 4, i, 6, p_229671_);
+-            this.m_73434_(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), 5, i, 5, p_229671_);
+-            this.m_73434_(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), 6, i, 5, p_229671_);
+-            this.m_73434_(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), 7, i, 5, p_229671_);
++            this.placeBlock(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52309_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52311_, Boolean.valueOf(true)), 4, i, 4, p_229671_);
++            this.placeBlock(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52309_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52311_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), 4, i, 5, p_229671_);
++            this.placeBlock(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52309_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52311_, Boolean.valueOf(true)), 4, i, 6, p_229671_);
++            this.placeBlock(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), 5, i, 5, p_229671_);
++            this.placeBlock(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), 6, i, 5, p_229671_);
++            this.placeBlock(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), 7, i, 5, p_229671_);
+          }
+ 
+-         this.m_73434_(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52309_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52311_, Boolean.valueOf(true)), 4, 3, 2, p_229671_);
+-         this.m_73434_(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52309_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52311_, Boolean.valueOf(true)), 4, 3, 8, p_229671_);
++         this.placeBlock(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52309_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52311_, Boolean.valueOf(true)), 4, 3, 2, p_229671_);
++         this.placeBlock(p_229667_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52309_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52311_, Boolean.valueOf(true)), 4, 3, 8, p_229671_);
+          BlockState blockstate1 = Blocks.f_50166_.m_49966_().m_61124_(DoorBlock.f_52726_, Direction.WEST);
+          BlockState blockstate = Blocks.f_50166_.m_49966_().m_61124_(DoorBlock.f_52726_, Direction.WEST).m_61124_(DoorBlock.f_52730_, DoubleBlockHalf.UPPER);
+-         this.m_73434_(p_229667_, blockstate1, 4, 1, 2, p_229671_);
+-         this.m_73434_(p_229667_, blockstate, 4, 2, 2, p_229671_);
+-         this.m_73434_(p_229667_, blockstate1, 4, 1, 8, p_229671_);
+-         this.m_73434_(p_229667_, blockstate, 4, 2, 8, p_229671_);
++         this.placeBlock(p_229667_, blockstate1, 4, 1, 2, p_229671_);
++         this.placeBlock(p_229667_, blockstate, 4, 2, 2, p_229671_);
++         this.placeBlock(p_229667_, blockstate1, 4, 1, 8, p_229671_);
++         this.placeBlock(p_229667_, blockstate, 4, 2, 8, p_229671_);
+       }
+    }
+ 
+@@ -791,19 +_,19 @@
+ 
+       }
+ 
+-      public static StrongholdPieces.RightTurn m_229705_(StructurePieceAccessor p_229706_, RandomSource p_229707_, int p_229708_, int p_229709_, int p_229710_, Direction p_229711_, int p_229712_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229708_, p_229709_, p_229710_, -1, -1, 0, 5, 5, 5, p_229711_);
++      public static StrongholdPieces.RightTurn createPiece(StructurePieceAccessor p_229706_, RandomSource p_229707_, long p_229708_, long p_229709_, long p_229710_, Direction p_229711_, int p_229712_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229708_, p_229709_, p_229710_, -1, -1, 0, 5, 5, 5, p_229711_);
+          return m_229888_(boundingbox) && p_229706_.m_141921_(boundingbox) == null ? new StrongholdPieces.RightTurn(p_229712_, p_229707_, boundingbox, p_229711_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_229694_, StructureManager p_229695_, ChunkGenerator p_229696_, RandomSource p_229697_, BoundingBox p_229698_, ChunkPos p_229699_, BlockPos p_229700_) {
+-         this.m_226776_(p_229694_, p_229698_, 0, 0, 0, 4, 4, 4, true, p_229697_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229694_, p_229698_, 0, 0, 0, 4, 4, 4, true, p_229697_, StrongholdPieces.f_229413_);
+          this.m_229880_(p_229694_, p_229697_, p_229698_, this.f_229872_, 1, 1, 0);
+          Direction direction = this.m_73549_();
+          if (direction != Direction.NORTH && direction != Direction.EAST) {
+-            this.m_73441_(p_229694_, p_229698_, 0, 1, 1, 0, 3, 3, f_73382_, f_73382_, false);
++            this.generateBox(p_229694_, p_229698_, 0, 1, 1, 0, 3, 3, f_73382_, f_73382_, false);
+          } else {
+-            this.m_73441_(p_229694_, p_229698_, 4, 1, 1, 4, 3, 3, f_73382_, f_73382_, false);
++            this.generateBox(p_229694_, p_229698_, 4, 1, 1, 4, 3, 3, f_73382_, f_73382_, false);
+          }
+ 
+       }
+@@ -838,94 +_,94 @@
+          this.m_229907_((StrongholdPieces.StartPiece)p_229733_, p_229734_, p_229735_, 1, 4);
+       }
+ 
+-      public static StrongholdPieces.RoomCrossing m_229736_(StructurePieceAccessor p_229737_, RandomSource p_229738_, int p_229739_, int p_229740_, int p_229741_, Direction p_229742_, int p_229743_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229739_, p_229740_, p_229741_, -4, -1, 0, 11, 7, 11, p_229742_);
++      public static StrongholdPieces.RoomCrossing createPiece(StructurePieceAccessor p_229737_, RandomSource p_229738_, long p_229739_, long p_229740_, long p_229741_, Direction p_229742_, int p_229743_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229739_, p_229740_, p_229741_, -4, -1, 0, 11, 7, 11, p_229742_);
+          return m_229888_(boundingbox) && p_229737_.m_141921_(boundingbox) == null ? new StrongholdPieces.RoomCrossing(p_229743_, p_229738_, boundingbox, p_229742_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_229725_, StructureManager p_229726_, ChunkGenerator p_229727_, RandomSource p_229728_, BoundingBox p_229729_, ChunkPos p_229730_, BlockPos p_229731_) {
+-         this.m_226776_(p_229725_, p_229729_, 0, 0, 0, 10, 6, 10, true, p_229728_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229725_, p_229729_, 0, 0, 0, 10, 6, 10, true, p_229728_, StrongholdPieces.f_229413_);
+          this.m_229880_(p_229725_, p_229728_, p_229729_, this.f_229872_, 4, 1, 0);
+-         this.m_73441_(p_229725_, p_229729_, 4, 1, 10, 6, 3, 10, f_73382_, f_73382_, false);
+-         this.m_73441_(p_229725_, p_229729_, 0, 1, 4, 0, 3, 6, f_73382_, f_73382_, false);
+-         this.m_73441_(p_229725_, p_229729_, 10, 1, 4, 10, 3, 6, f_73382_, f_73382_, false);
++         this.generateBox(p_229725_, p_229729_, 4, 1, 10, 6, 3, 10, f_73382_, f_73382_, false);
++         this.generateBox(p_229725_, p_229729_, 0, 1, 4, 0, 3, 6, f_73382_, f_73382_, false);
++         this.generateBox(p_229725_, p_229729_, 10, 1, 4, 10, 3, 6, f_73382_, f_73382_, false);
+          switch (this.f_229716_) {
+             case 0:
+-               this.m_73434_(p_229725_, Blocks.f_50222_.m_49966_(), 5, 1, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50222_.m_49966_(), 5, 2, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50222_.m_49966_(), 5, 3, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.WEST), 4, 3, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.EAST), 6, 3, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.SOUTH), 5, 3, 4, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.NORTH), 5, 3, 6, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50405_.m_49966_(), 4, 1, 4, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50405_.m_49966_(), 4, 1, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50405_.m_49966_(), 4, 1, 6, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50405_.m_49966_(), 6, 1, 4, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50405_.m_49966_(), 6, 1, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50405_.m_49966_(), 6, 1, 6, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50405_.m_49966_(), 5, 1, 4, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50405_.m_49966_(), 5, 1, 6, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50222_.m_49966_(), 5, 1, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50222_.m_49966_(), 5, 2, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50222_.m_49966_(), 5, 3, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.WEST), 4, 3, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.EAST), 6, 3, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.SOUTH), 5, 3, 4, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.NORTH), 5, 3, 6, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50405_.m_49966_(), 4, 1, 4, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50405_.m_49966_(), 4, 1, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50405_.m_49966_(), 4, 1, 6, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50405_.m_49966_(), 6, 1, 4, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50405_.m_49966_(), 6, 1, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50405_.m_49966_(), 6, 1, 6, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50405_.m_49966_(), 5, 1, 4, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50405_.m_49966_(), 5, 1, 6, p_229729_);
+                break;
+             case 1:
+                for(int i1 = 0; i1 < 5; ++i1) {
+-                  this.m_73434_(p_229725_, Blocks.f_50222_.m_49966_(), 3, 1, 3 + i1, p_229729_);
+-                  this.m_73434_(p_229725_, Blocks.f_50222_.m_49966_(), 7, 1, 3 + i1, p_229729_);
+-                  this.m_73434_(p_229725_, Blocks.f_50222_.m_49966_(), 3 + i1, 1, 3, p_229729_);
+-                  this.m_73434_(p_229725_, Blocks.f_50222_.m_49966_(), 3 + i1, 1, 7, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50222_.m_49966_(), 3, 1, 3 + i1, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50222_.m_49966_(), 7, 1, 3 + i1, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50222_.m_49966_(), 3 + i1, 1, 3, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50222_.m_49966_(), 3 + i1, 1, 7, p_229729_);
+                }
+ 
+-               this.m_73434_(p_229725_, Blocks.f_50222_.m_49966_(), 5, 1, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50222_.m_49966_(), 5, 2, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50222_.m_49966_(), 5, 3, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_49990_.m_49966_(), 5, 4, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50222_.m_49966_(), 5, 1, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50222_.m_49966_(), 5, 2, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50222_.m_49966_(), 5, 3, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_49990_.m_49966_(), 5, 4, 5, p_229729_);
+                break;
+             case 2:
+                for(int i = 1; i <= 9; ++i) {
+-                  this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 1, 3, i, p_229729_);
+-                  this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 9, 3, i, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 1, 3, i, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 9, 3, i, p_229729_);
+                }
+ 
+                for(int j = 1; j <= 9; ++j) {
+-                  this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), j, 3, 1, p_229729_);
+-                  this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), j, 3, 9, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), j, 3, 1, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), j, 3, 9, p_229729_);
+                }
+ 
+-               this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 5, 1, 4, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 5, 1, 6, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 5, 3, 4, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 5, 3, 6, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 4, 1, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 6, 1, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 4, 3, 5, p_229729_);
+-               this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 6, 3, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 5, 1, 4, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 5, 1, 6, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 5, 3, 4, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 5, 3, 6, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 4, 1, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 6, 1, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 4, 3, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 6, 3, 5, p_229729_);
+ 
+                for(int k = 1; k <= 3; ++k) {
+-                  this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 4, k, 4, p_229729_);
+-                  this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 6, k, 4, p_229729_);
+-                  this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 4, k, 6, p_229729_);
+-                  this.m_73434_(p_229725_, Blocks.f_50652_.m_49966_(), 6, k, 6, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 4, k, 4, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 6, k, 4, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 4, k, 6, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50652_.m_49966_(), 6, k, 6, p_229729_);
+                }
+ 
+-               this.m_73434_(p_229725_, Blocks.f_50081_.m_49966_(), 5, 3, 5, p_229729_);
++               this.placeBlock(p_229725_, Blocks.f_50081_.m_49966_(), 5, 3, 5, p_229729_);
+ 
+                for(int l = 2; l <= 8; ++l) {
+-                  this.m_73434_(p_229725_, Blocks.f_50705_.m_49966_(), 2, 3, l, p_229729_);
+-                  this.m_73434_(p_229725_, Blocks.f_50705_.m_49966_(), 3, 3, l, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50705_.m_49966_(), 2, 3, l, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50705_.m_49966_(), 3, 3, l, p_229729_);
+                   if (l <= 3 || l >= 7) {
+-                     this.m_73434_(p_229725_, Blocks.f_50705_.m_49966_(), 4, 3, l, p_229729_);
+-                     this.m_73434_(p_229725_, Blocks.f_50705_.m_49966_(), 5, 3, l, p_229729_);
+-                     this.m_73434_(p_229725_, Blocks.f_50705_.m_49966_(), 6, 3, l, p_229729_);
++                     this.placeBlock(p_229725_, Blocks.f_50705_.m_49966_(), 4, 3, l, p_229729_);
++                     this.placeBlock(p_229725_, Blocks.f_50705_.m_49966_(), 5, 3, l, p_229729_);
++                     this.placeBlock(p_229725_, Blocks.f_50705_.m_49966_(), 6, 3, l, p_229729_);
+                   }
+ 
+-                  this.m_73434_(p_229725_, Blocks.f_50705_.m_49966_(), 7, 3, l, p_229729_);
+-                  this.m_73434_(p_229725_, Blocks.f_50705_.m_49966_(), 8, 3, l, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50705_.m_49966_(), 7, 3, l, p_229729_);
++                  this.placeBlock(p_229725_, Blocks.f_50705_.m_49966_(), 8, 3, l, p_229729_);
+                }
+ 
+                BlockState blockstate = Blocks.f_50155_.m_49966_().m_61124_(LadderBlock.f_54337_, Direction.WEST);
+-               this.m_73434_(p_229725_, blockstate, 9, 1, 3, p_229729_);
+-               this.m_73434_(p_229725_, blockstate, 9, 2, 3, p_229729_);
+-               this.m_73434_(p_229725_, blockstate, 9, 3, 3, p_229729_);
++               this.placeBlock(p_229725_, blockstate, 9, 1, 3, p_229729_);
++               this.placeBlock(p_229725_, blockstate, 9, 2, 3, p_229729_);
++               this.placeBlock(p_229725_, blockstate, 9, 3, 3, p_229729_);
+                this.m_213787_(p_229725_, p_229729_, p_229728_, 3, 4, 8, BuiltInLootTables.f_78762_);
+          }
+ 
+@@ -933,7 +_,7 @@
+    }
+ 
+    static class SmoothStoneSelector extends StructurePiece.BlockSelector {
+-      public void m_213766_(RandomSource p_229749_, int p_229750_, int p_229751_, int p_229752_, boolean p_229753_) {
++      public void next(RandomSource p_229749_, long p_229750_, long p_229751_, long p_229752_, boolean p_229753_) {
+          if (p_229753_) {
+             float f = p_229749_.m_188501_();
+             if (f < 0.2F) {
 @@ -958,8 +_,8 @@
        private static final int f_229756_ = 5;
        private final boolean f_229757_;
@@ -29,6 +866,59 @@
           this.f_229757_ = true;
           this.m_73519_(p_229768_);
           this.f_229872_ = StrongholdPieces.StrongholdPiece.SmallDoorType.OPENING;
+@@ -994,32 +_,32 @@
+          this.m_229893_((StrongholdPieces.StartPiece)p_229783_, p_229784_, p_229785_, 1, 1);
+       }
+ 
+-      public static StrongholdPieces.StairsDown m_229786_(StructurePieceAccessor p_229787_, RandomSource p_229788_, int p_229789_, int p_229790_, int p_229791_, Direction p_229792_, int p_229793_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229789_, p_229790_, p_229791_, -1, -7, 0, 5, 11, 5, p_229792_);
++      public static StrongholdPieces.StairsDown createPiece(StructurePieceAccessor p_229787_, RandomSource p_229788_, long p_229789_, long p_229790_, long p_229791_, Direction p_229792_, int p_229793_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229789_, p_229790_, p_229791_, -1, -7, 0, 5, 11, 5, p_229792_);
+          return m_229888_(boundingbox) && p_229787_.m_141921_(boundingbox) == null ? new StrongholdPieces.StairsDown(p_229793_, p_229788_, boundingbox, p_229792_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_229775_, StructureManager p_229776_, ChunkGenerator p_229777_, RandomSource p_229778_, BoundingBox p_229779_, ChunkPos p_229780_, BlockPos p_229781_) {
+-         this.m_226776_(p_229775_, p_229779_, 0, 0, 0, 4, 10, 4, true, p_229778_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229775_, p_229779_, 0, 0, 0, 4, 10, 4, true, p_229778_, StrongholdPieces.f_229413_);
+          this.m_229880_(p_229775_, p_229778_, p_229779_, this.f_229872_, 1, 7, 0);
+          this.m_229880_(p_229775_, p_229778_, p_229779_, StrongholdPieces.StrongholdPiece.SmallDoorType.OPENING, 1, 1, 4);
+-         this.m_73434_(p_229775_, Blocks.f_50222_.m_49966_(), 2, 6, 1, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50222_.m_49966_(), 1, 5, 1, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50405_.m_49966_(), 1, 6, 1, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50222_.m_49966_(), 1, 5, 2, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50222_.m_49966_(), 1, 4, 3, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50405_.m_49966_(), 1, 5, 3, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50222_.m_49966_(), 2, 4, 3, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50222_.m_49966_(), 3, 3, 3, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50405_.m_49966_(), 3, 4, 3, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50222_.m_49966_(), 3, 3, 2, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50222_.m_49966_(), 3, 2, 1, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50405_.m_49966_(), 3, 3, 1, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50222_.m_49966_(), 2, 2, 1, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50222_.m_49966_(), 1, 1, 1, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50405_.m_49966_(), 1, 2, 1, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50222_.m_49966_(), 1, 1, 2, p_229779_);
+-         this.m_73434_(p_229775_, Blocks.f_50405_.m_49966_(), 1, 1, 3, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50222_.m_49966_(), 2, 6, 1, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50222_.m_49966_(), 1, 5, 1, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50405_.m_49966_(), 1, 6, 1, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50222_.m_49966_(), 1, 5, 2, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50222_.m_49966_(), 1, 4, 3, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50405_.m_49966_(), 1, 5, 3, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50222_.m_49966_(), 2, 4, 3, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50222_.m_49966_(), 3, 3, 3, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50405_.m_49966_(), 3, 4, 3, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50222_.m_49966_(), 3, 3, 2, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50222_.m_49966_(), 3, 2, 1, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50405_.m_49966_(), 3, 3, 1, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50222_.m_49966_(), 2, 2, 1, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50222_.m_49966_(), 1, 1, 1, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50405_.m_49966_(), 1, 2, 1, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50222_.m_49966_(), 1, 1, 2, p_229779_);
++         this.placeBlock(p_229775_, Blocks.f_50405_.m_49966_(), 1, 1, 3, p_229779_);
+       }
+    }
+ 
 @@ -1029,7 +_,7 @@
        public StrongholdPieces.PortalRoom f_229798_;
        public final List<StructurePiece> f_229799_ = Lists.newArrayList();
@@ -38,3 +928,205 @@
           super(StructurePieceType.f_210098_, 0, p_229802_, p_229803_, m_226760_(p_229801_));
        }
  
+@@ -1081,13 +_,13 @@
+ 
+       }
+ 
+-      public static StrongholdPieces.Straight m_229831_(StructurePieceAccessor p_229832_, RandomSource p_229833_, int p_229834_, int p_229835_, int p_229836_, Direction p_229837_, int p_229838_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229834_, p_229835_, p_229836_, -1, -1, 0, 5, 5, 7, p_229837_);
++      public static StrongholdPieces.Straight createPiece(StructurePieceAccessor p_229832_, RandomSource p_229833_, long p_229834_, long p_229835_, long p_229836_, Direction p_229837_, int p_229838_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229834_, p_229835_, p_229836_, -1, -1, 0, 5, 5, 7, p_229837_);
+          return m_229888_(boundingbox) && p_229832_.m_141921_(boundingbox) == null ? new StrongholdPieces.Straight(p_229838_, p_229833_, boundingbox, p_229837_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_229820_, StructureManager p_229821_, ChunkGenerator p_229822_, RandomSource p_229823_, BoundingBox p_229824_, ChunkPos p_229825_, BlockPos p_229826_) {
+-         this.m_226776_(p_229820_, p_229824_, 0, 0, 0, 4, 4, 6, true, p_229823_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229820_, p_229824_, 0, 0, 0, 4, 4, 6, true, p_229823_, StrongholdPieces.f_229413_);
+          this.m_229880_(p_229820_, p_229823_, p_229824_, this.f_229872_, 1, 1, 0);
+          this.m_229880_(p_229820_, p_229823_, p_229824_, StrongholdPieces.StrongholdPiece.SmallDoorType.OPENING, 1, 1, 6);
+          BlockState blockstate = Blocks.f_50082_.m_49966_().m_61124_(WallTorchBlock.f_58119_, Direction.EAST);
+@@ -1097,11 +_,11 @@
+          this.m_226803_(p_229820_, p_229824_, p_229823_, 0.1F, 1, 2, 5, blockstate);
+          this.m_226803_(p_229820_, p_229824_, p_229823_, 0.1F, 3, 2, 5, blockstate1);
+          if (this.f_229810_) {
+-            this.m_73441_(p_229820_, p_229824_, 0, 1, 2, 0, 3, 4, f_73382_, f_73382_, false);
++            this.generateBox(p_229820_, p_229824_, 0, 1, 2, 0, 3, 4, f_73382_, f_73382_, false);
+          }
+ 
+          if (this.f_229811_) {
+-            this.m_73441_(p_229820_, p_229824_, 4, 1, 2, 4, 3, 4, f_73382_, f_73382_, false);
++            this.generateBox(p_229820_, p_229824_, 4, 1, 2, 4, 3, 4, f_73382_, f_73382_, false);
+          }
+ 
+       }
+@@ -1126,25 +_,25 @@
+          this.m_229893_((StrongholdPieces.StartPiece)p_229861_, p_229862_, p_229863_, 1, 1);
+       }
+ 
+-      public static StrongholdPieces.StraightStairsDown m_229864_(StructurePieceAccessor p_229865_, RandomSource p_229866_, int p_229867_, int p_229868_, int p_229869_, Direction p_229870_, int p_229871_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_229867_, p_229868_, p_229869_, -1, -7, 0, 5, 11, 8, p_229870_);
++      public static StrongholdPieces.StraightStairsDown createPiece(StructurePieceAccessor p_229865_, RandomSource p_229866_, long p_229867_, long p_229868_, long p_229869_, Direction p_229870_, int p_229871_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_229867_, p_229868_, p_229869_, -1, -7, 0, 5, 11, 8, p_229870_);
+          return m_229888_(boundingbox) && p_229865_.m_141921_(boundingbox) == null ? new StrongholdPieces.StraightStairsDown(p_229871_, p_229866_, boundingbox, p_229870_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_229853_, StructureManager p_229854_, ChunkGenerator p_229855_, RandomSource p_229856_, BoundingBox p_229857_, ChunkPos p_229858_, BlockPos p_229859_) {
+-         this.m_226776_(p_229853_, p_229857_, 0, 0, 0, 4, 10, 7, true, p_229856_, StrongholdPieces.f_229413_);
++         this.generateBox(p_229853_, p_229857_, 0, 0, 0, 4, 10, 7, true, p_229856_, StrongholdPieces.f_229413_);
+          this.m_229880_(p_229853_, p_229856_, p_229857_, this.f_229872_, 1, 7, 0);
+          this.m_229880_(p_229853_, p_229856_, p_229857_, StrongholdPieces.StrongholdPiece.SmallDoorType.OPENING, 1, 1, 7);
+          BlockState blockstate = Blocks.f_50157_.m_49966_().m_61124_(StairBlock.f_56841_, Direction.SOUTH);
+ 
+          for(int i = 0; i < 6; ++i) {
+-            this.m_73434_(p_229853_, blockstate, 1, 6 - i, 1 + i, p_229857_);
+-            this.m_73434_(p_229853_, blockstate, 2, 6 - i, 1 + i, p_229857_);
+-            this.m_73434_(p_229853_, blockstate, 3, 6 - i, 1 + i, p_229857_);
++            this.placeBlock(p_229853_, blockstate, 1, 6 - i, 1 + i, p_229857_);
++            this.placeBlock(p_229853_, blockstate, 2, 6 - i, 1 + i, p_229857_);
++            this.placeBlock(p_229853_, blockstate, 3, 6 - i, 1 + i, p_229857_);
+             if (i < 5) {
+-               this.m_73434_(p_229853_, Blocks.f_50222_.m_49966_(), 1, 5 - i, 1 + i, p_229857_);
+-               this.m_73434_(p_229853_, Blocks.f_50222_.m_49966_(), 2, 5 - i, 1 + i, p_229857_);
+-               this.m_73434_(p_229853_, Blocks.f_50222_.m_49966_(), 3, 5 - i, 1 + i, p_229857_);
++               this.placeBlock(p_229853_, Blocks.f_50222_.m_49966_(), 1, 5 - i, 1 + i, p_229857_);
++               this.placeBlock(p_229853_, Blocks.f_50222_.m_49966_(), 2, 5 - i, 1 + i, p_229857_);
++               this.placeBlock(p_229853_, Blocks.f_50222_.m_49966_(), 3, 5 - i, 1 + i, p_229857_);
+             }
+          }
+ 
+@@ -1170,42 +_,42 @@
+       protected void m_229880_(WorldGenLevel p_229881_, RandomSource p_229882_, BoundingBox p_229883_, StrongholdPieces.StrongholdPiece.SmallDoorType p_229884_, int p_229885_, int p_229886_, int p_229887_) {
+          switch (p_229884_) {
+             case OPENING:
+-               this.m_73441_(p_229881_, p_229883_, p_229885_, p_229886_, p_229887_, p_229885_ + 3 - 1, p_229886_ + 3 - 1, p_229887_, f_73382_, f_73382_, false);
++               this.generateBox(p_229881_, p_229883_, p_229885_, p_229886_, p_229887_, p_229885_ + 3 - 1, p_229886_ + 3 - 1, p_229887_, f_73382_, f_73382_, false);
+                break;
+             case WOOD_DOOR:
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_ + 1, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_ + 2, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 1, p_229886_ + 2, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_ + 2, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_ + 1, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50154_.m_49966_(), p_229885_ + 1, p_229886_, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50154_.m_49966_().m_61124_(DoorBlock.f_52730_, DoubleBlockHalf.UPPER), p_229885_ + 1, p_229886_ + 1, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_ + 1, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_ + 2, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 1, p_229886_ + 2, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_ + 2, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_ + 1, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50154_.m_49966_(), p_229885_ + 1, p_229886_, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50154_.m_49966_().m_61124_(DoorBlock.f_52730_, DoubleBlockHalf.UPPER), p_229885_ + 1, p_229886_ + 1, p_229887_, p_229883_);
+                break;
+             case GRATES:
+-               this.m_73434_(p_229881_, Blocks.f_50627_.m_49966_(), p_229885_ + 1, p_229886_, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50627_.m_49966_(), p_229885_ + 1, p_229886_ + 1, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)), p_229885_, p_229886_, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)), p_229885_, p_229886_ + 1, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)), p_229885_, p_229886_ + 2, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)), p_229885_ + 1, p_229886_ + 2, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)), p_229885_ + 2, p_229886_ + 2, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), p_229885_ + 2, p_229886_ + 1, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), p_229885_ + 2, p_229886_, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50627_.m_49966_(), p_229885_ + 1, p_229886_, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50627_.m_49966_(), p_229885_ + 1, p_229886_ + 1, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)), p_229885_, p_229886_, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)), p_229885_, p_229886_ + 1, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)), p_229885_, p_229886_ + 2, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)), p_229885_ + 1, p_229886_ + 2, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)).m_61124_(IronBarsBlock.f_52312_, Boolean.valueOf(true)), p_229885_ + 2, p_229886_ + 2, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), p_229885_ + 2, p_229886_ + 1, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50183_.m_49966_().m_61124_(IronBarsBlock.f_52310_, Boolean.valueOf(true)), p_229885_ + 2, p_229886_, p_229887_, p_229883_);
+                break;
+             case IRON_DOOR:
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_ + 1, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_ + 2, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 1, p_229886_ + 2, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_ + 2, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_ + 1, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50166_.m_49966_(), p_229885_ + 1, p_229886_, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50166_.m_49966_().m_61124_(DoorBlock.f_52730_, DoubleBlockHalf.UPPER), p_229885_ + 1, p_229886_ + 1, p_229887_, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50124_.m_49966_().m_61124_(ButtonBlock.f_54117_, Direction.NORTH), p_229885_ + 2, p_229886_ + 1, p_229887_ + 1, p_229883_);
+-               this.m_73434_(p_229881_, Blocks.f_50124_.m_49966_().m_61124_(ButtonBlock.f_54117_, Direction.SOUTH), p_229885_ + 2, p_229886_ + 1, p_229887_ - 1, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_ + 1, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_, p_229886_ + 2, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 1, p_229886_ + 2, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_ + 2, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_ + 1, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50222_.m_49966_(), p_229885_ + 2, p_229886_, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50166_.m_49966_(), p_229885_ + 1, p_229886_, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50166_.m_49966_().m_61124_(DoorBlock.f_52730_, DoubleBlockHalf.UPPER), p_229885_ + 1, p_229886_ + 1, p_229887_, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50124_.m_49966_().m_61124_(ButtonBlock.f_54117_, Direction.NORTH), p_229885_ + 2, p_229886_ + 1, p_229887_ + 1, p_229883_);
++               this.placeBlock(p_229881_, Blocks.f_50124_.m_49966_().m_61124_(ButtonBlock.f_54117_, Direction.SOUTH), p_229885_ + 2, p_229886_ + 1, p_229887_ - 1, p_229883_);
+          }
+ 
+       }
+@@ -1232,13 +_,13 @@
+          if (direction != null) {
+             switch (direction) {
+                case NORTH:
+-                  return StrongholdPieces.m_229436_(p_229894_, p_229895_, p_229896_, this.f_73383_.m_162395_() + p_229897_, this.f_73383_.m_162396_() + p_229898_, this.f_73383_.m_162398_() - 1, direction, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229894_, p_229895_, p_229896_, this.f_73383_.minX() + p_229897_, this.f_73383_.minY() + p_229898_, this.f_73383_.minZ() - 1, direction, this.m_73548_());
+                case SOUTH:
+-                  return StrongholdPieces.m_229436_(p_229894_, p_229895_, p_229896_, this.f_73383_.m_162395_() + p_229897_, this.f_73383_.m_162396_() + p_229898_, this.f_73383_.m_162401_() + 1, direction, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229894_, p_229895_, p_229896_, this.f_73383_.minX() + p_229897_, this.f_73383_.minY() + p_229898_, this.f_73383_.maxZ() + 1, direction, this.m_73548_());
+                case WEST:
+-                  return StrongholdPieces.m_229436_(p_229894_, p_229895_, p_229896_, this.f_73383_.m_162395_() - 1, this.f_73383_.m_162396_() + p_229898_, this.f_73383_.m_162398_() + p_229897_, direction, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229894_, p_229895_, p_229896_, this.f_73383_.minX() - 1, this.f_73383_.minY() + p_229898_, this.f_73383_.minZ() + p_229897_, direction, this.m_73548_());
+                case EAST:
+-                  return StrongholdPieces.m_229436_(p_229894_, p_229895_, p_229896_, this.f_73383_.m_162399_() + 1, this.f_73383_.m_162396_() + p_229898_, this.f_73383_.m_162398_() + p_229897_, direction, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229894_, p_229895_, p_229896_, this.f_73383_.maxX() + 1, this.f_73383_.minY() + p_229898_, this.f_73383_.minZ() + p_229897_, direction, this.m_73548_());
+             }
+          }
+ 
+@@ -1251,13 +_,13 @@
+          if (direction != null) {
+             switch (direction) {
+                case NORTH:
+-                  return StrongholdPieces.m_229436_(p_229902_, p_229903_, p_229904_, this.f_73383_.m_162395_() - 1, this.f_73383_.m_162396_() + p_229905_, this.f_73383_.m_162398_() + p_229906_, Direction.WEST, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229902_, p_229903_, p_229904_, this.f_73383_.minX() - 1, this.f_73383_.minY() + p_229905_, this.f_73383_.minZ() + p_229906_, Direction.WEST, this.m_73548_());
+                case SOUTH:
+-                  return StrongholdPieces.m_229436_(p_229902_, p_229903_, p_229904_, this.f_73383_.m_162395_() - 1, this.f_73383_.m_162396_() + p_229905_, this.f_73383_.m_162398_() + p_229906_, Direction.WEST, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229902_, p_229903_, p_229904_, this.f_73383_.minX() - 1, this.f_73383_.minY() + p_229905_, this.f_73383_.minZ() + p_229906_, Direction.WEST, this.m_73548_());
+                case WEST:
+-                  return StrongholdPieces.m_229436_(p_229902_, p_229903_, p_229904_, this.f_73383_.m_162395_() + p_229906_, this.f_73383_.m_162396_() + p_229905_, this.f_73383_.m_162398_() - 1, Direction.NORTH, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229902_, p_229903_, p_229904_, this.f_73383_.minX() + p_229906_, this.f_73383_.minY() + p_229905_, this.f_73383_.minZ() - 1, Direction.NORTH, this.m_73548_());
+                case EAST:
+-                  return StrongholdPieces.m_229436_(p_229902_, p_229903_, p_229904_, this.f_73383_.m_162395_() + p_229906_, this.f_73383_.m_162396_() + p_229905_, this.f_73383_.m_162398_() - 1, Direction.NORTH, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229902_, p_229903_, p_229904_, this.f_73383_.minX() + p_229906_, this.f_73383_.minY() + p_229905_, this.f_73383_.minZ() - 1, Direction.NORTH, this.m_73548_());
+             }
+          }
+ 
+@@ -1270,13 +_,13 @@
+          if (direction != null) {
+             switch (direction) {
+                case NORTH:
+-                  return StrongholdPieces.m_229436_(p_229908_, p_229909_, p_229910_, this.f_73383_.m_162399_() + 1, this.f_73383_.m_162396_() + p_229911_, this.f_73383_.m_162398_() + p_229912_, Direction.EAST, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229908_, p_229909_, p_229910_, this.f_73383_.maxX() + 1, this.f_73383_.minY() + p_229911_, this.f_73383_.minZ() + p_229912_, Direction.EAST, this.m_73548_());
+                case SOUTH:
+-                  return StrongholdPieces.m_229436_(p_229908_, p_229909_, p_229910_, this.f_73383_.m_162399_() + 1, this.f_73383_.m_162396_() + p_229911_, this.f_73383_.m_162398_() + p_229912_, Direction.EAST, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229908_, p_229909_, p_229910_, this.f_73383_.maxX() + 1, this.f_73383_.minY() + p_229911_, this.f_73383_.minZ() + p_229912_, Direction.EAST, this.m_73548_());
+                case WEST:
+-                  return StrongholdPieces.m_229436_(p_229908_, p_229909_, p_229910_, this.f_73383_.m_162395_() + p_229912_, this.f_73383_.m_162396_() + p_229911_, this.f_73383_.m_162401_() + 1, Direction.SOUTH, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229908_, p_229909_, p_229910_, this.f_73383_.minX() + p_229912_, this.f_73383_.minY() + p_229911_, this.f_73383_.maxZ() + 1, Direction.SOUTH, this.m_73548_());
+                case EAST:
+-                  return StrongholdPieces.m_229436_(p_229908_, p_229909_, p_229910_, this.f_73383_.m_162395_() + p_229912_, this.f_73383_.m_162396_() + p_229911_, this.f_73383_.m_162401_() + 1, Direction.SOUTH, this.m_73548_());
++                  return StrongholdPieces.generateAndAddPiece(p_229908_, p_229909_, p_229910_, this.f_73383_.minX() + p_229912_, this.f_73383_.minY() + p_229911_, this.f_73383_.maxZ() + 1, Direction.SOUTH, this.m_73548_());
+             }
+          }
+ 
+@@ -1284,7 +_,7 @@
+       }
+ 
+       protected static boolean m_229888_(BoundingBox p_229889_) {
+-         return p_229889_ != null && p_229889_.m_162396_() > 10;
++         return p_229889_ != null && p_229889_.minY() > 10;
+       }
+ 
+       protected static enum SmallDoorType {

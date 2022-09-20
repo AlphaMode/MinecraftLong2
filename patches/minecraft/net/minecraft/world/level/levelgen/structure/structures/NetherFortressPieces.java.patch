@@ -1,5 +1,55 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/NetherFortressPieces.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/NetherFortressPieces.java
+@@ -33,35 +_,35 @@
+    static final NetherFortressPieces.PieceWeight[] f_228003_ = new NetherFortressPieces.PieceWeight[]{new NetherFortressPieces.PieceWeight(NetherFortressPieces.BridgeStraight.class, 30, 0, true), new NetherFortressPieces.PieceWeight(NetherFortressPieces.BridgeCrossing.class, 10, 4), new NetherFortressPieces.PieceWeight(NetherFortressPieces.RoomCrossing.class, 10, 4), new NetherFortressPieces.PieceWeight(NetherFortressPieces.StairsRoom.class, 10, 3), new NetherFortressPieces.PieceWeight(NetherFortressPieces.MonsterThrone.class, 5, 2), new NetherFortressPieces.PieceWeight(NetherFortressPieces.CastleEntrance.class, 5, 1)};
+    static final NetherFortressPieces.PieceWeight[] f_228004_ = new NetherFortressPieces.PieceWeight[]{new NetherFortressPieces.PieceWeight(NetherFortressPieces.CastleSmallCorridorPiece.class, 25, 0, true), new NetherFortressPieces.PieceWeight(NetherFortressPieces.CastleSmallCorridorCrossingPiece.class, 15, 5), new NetherFortressPieces.PieceWeight(NetherFortressPieces.CastleSmallCorridorRightTurnPiece.class, 5, 10), new NetherFortressPieces.PieceWeight(NetherFortressPieces.CastleSmallCorridorLeftTurnPiece.class, 5, 10), new NetherFortressPieces.PieceWeight(NetherFortressPieces.CastleCorridorStairsPiece.class, 10, 3, true), new NetherFortressPieces.PieceWeight(NetherFortressPieces.CastleCorridorTBalconyPiece.class, 7, 2), new NetherFortressPieces.PieceWeight(NetherFortressPieces.CastleStalkRoom.class, 5, 2)};
+ 
+-   static NetherFortressPieces.NetherBridgePiece m_228007_(NetherFortressPieces.PieceWeight p_228008_, StructurePieceAccessor p_228009_, RandomSource p_228010_, int p_228011_, int p_228012_, int p_228013_, Direction p_228014_, int p_228015_) {
++   static NetherFortressPieces.NetherBridgePiece findAndCreateBridgePieceFactory(NetherFortressPieces.PieceWeight p_228008_, StructurePieceAccessor p_228009_, RandomSource p_228010_, long p_228011_, long p_228012_, long p_228013_, Direction p_228014_, int p_228015_) {
+       Class<? extends NetherFortressPieces.NetherBridgePiece> oclass = p_228008_.f_228434_;
+       NetherFortressPieces.NetherBridgePiece netherfortresspieces$netherbridgepiece = null;
+       if (oclass == NetherFortressPieces.BridgeStraight.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.BridgeStraight.m_228105_(p_228009_, p_228010_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.BridgeStraight.createPiece(p_228009_, p_228010_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
+       } else if (oclass == NetherFortressPieces.BridgeCrossing.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.BridgeCrossing.m_228046_(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.BridgeCrossing.createPiece(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
+       } else if (oclass == NetherFortressPieces.RoomCrossing.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.RoomCrossing.m_228472_(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.RoomCrossing.createPiece(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
+       } else if (oclass == NetherFortressPieces.StairsRoom.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.StairsRoom.m_228500_(p_228009_, p_228011_, p_228012_, p_228013_, p_228015_, p_228014_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.StairsRoom.createPiece(p_228009_, p_228011_, p_228012_, p_228013_, p_228015_, p_228014_);
+       } else if (oclass == NetherFortressPieces.MonsterThrone.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.MonsterThrone.m_228369_(p_228009_, p_228011_, p_228012_, p_228013_, p_228015_, p_228014_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.MonsterThrone.createPiece(p_228009_, p_228011_, p_228012_, p_228013_, p_228015_, p_228014_);
+       } else if (oclass == NetherFortressPieces.CastleEntrance.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleEntrance.m_228191_(p_228009_, p_228010_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleEntrance.createPiece(p_228009_, p_228010_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
+       } else if (oclass == NetherFortressPieces.CastleSmallCorridorPiece.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleSmallCorridorPiece.m_228282_(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleSmallCorridorPiece.createPiece(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
+       } else if (oclass == NetherFortressPieces.CastleSmallCorridorRightTurnPiece.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleSmallCorridorRightTurnPiece.m_228312_(p_228009_, p_228010_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleSmallCorridorRightTurnPiece.createPiece(p_228009_, p_228010_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
+       } else if (oclass == NetherFortressPieces.CastleSmallCorridorLeftTurnPiece.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleSmallCorridorLeftTurnPiece.m_228250_(p_228009_, p_228010_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleSmallCorridorLeftTurnPiece.createPiece(p_228009_, p_228010_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
+       } else if (oclass == NetherFortressPieces.CastleCorridorStairsPiece.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleCorridorStairsPiece.m_228134_(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleCorridorStairsPiece.createPiece(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
+       } else if (oclass == NetherFortressPieces.CastleCorridorTBalconyPiece.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleCorridorTBalconyPiece.m_228162_(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleCorridorTBalconyPiece.createPiece(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
+       } else if (oclass == NetherFortressPieces.CastleSmallCorridorCrossingPiece.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleSmallCorridorCrossingPiece.m_228220_(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleSmallCorridorCrossingPiece.createPiece(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
+       } else if (oclass == NetherFortressPieces.CastleStalkRoom.class) {
+-         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleStalkRoom.m_228344_(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
++         netherfortresspieces$netherbridgepiece = NetherFortressPieces.CastleStalkRoom.createPiece(p_228009_, p_228011_, p_228012_, p_228013_, p_228014_, p_228015_);
+       }
+ 
+       return netherfortresspieces$netherbridgepiece;
 @@ -77,8 +_,8 @@
           this.m_73519_(p_228028_);
        }
@@ -11,42 +61,998 @@
           this.m_73519_(p_228024_);
        }
  
-@@ -463,7 +_,7 @@
-          this.m_73434_(p_228180_, Blocks.f_50197_.m_49966_(), 6, 0, 6, p_228184_);
-          this.m_73434_(p_228180_, Blocks.f_49991_.m_49966_(), 6, 5, 6, p_228184_);
-          BlockPos blockpos = this.m_163582_(6, 5, 6);
+@@ -96,28 +_,28 @@
+          this.m_228427_((NetherFortressPieces.StartPiece)p_228043_, p_228044_, p_228045_, 3, 8, false);
+       }
+ 
+-      public static NetherFortressPieces.BridgeCrossing m_228046_(StructurePieceAccessor p_228047_, int p_228048_, int p_228049_, int p_228050_, Direction p_228051_, int p_228052_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228048_, p_228049_, p_228050_, -8, -3, 0, 19, 10, 19, p_228051_);
++      public static NetherFortressPieces.BridgeCrossing createPiece(StructurePieceAccessor p_228047_, long p_228048_, long p_228049_, long p_228050_, Direction p_228051_, int p_228052_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228048_, p_228049_, p_228050_, -8, -3, 0, 19, 10, 19, p_228051_);
+          return m_228386_(boundingbox) && p_228047_.m_141921_(boundingbox) == null ? new NetherFortressPieces.BridgeCrossing(p_228052_, boundingbox, p_228051_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228035_, StructureManager p_228036_, ChunkGenerator p_228037_, RandomSource p_228038_, BoundingBox p_228039_, ChunkPos p_228040_, BlockPos p_228041_) {
+-         this.m_73441_(p_228035_, p_228039_, 7, 3, 0, 11, 4, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 0, 3, 7, 18, 4, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 8, 5, 0, 10, 7, 18, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 0, 5, 8, 18, 7, 10, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 7, 5, 0, 7, 5, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 7, 5, 11, 7, 5, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 11, 5, 0, 11, 5, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 11, 5, 11, 11, 5, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 0, 5, 7, 7, 5, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 11, 5, 7, 18, 5, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 0, 5, 11, 7, 5, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 11, 5, 11, 18, 5, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 7, 2, 0, 11, 2, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 7, 2, 13, 11, 2, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 7, 0, 0, 11, 1, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 7, 0, 15, 11, 1, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 7, 3, 0, 11, 4, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 0, 3, 7, 18, 4, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 8, 5, 0, 10, 7, 18, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 0, 5, 8, 18, 7, 10, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 7, 5, 0, 7, 5, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 7, 5, 11, 7, 5, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 11, 5, 0, 11, 5, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 11, 5, 11, 11, 5, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 0, 5, 7, 7, 5, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 11, 5, 7, 18, 5, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 0, 5, 11, 7, 5, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 11, 5, 11, 18, 5, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 7, 2, 0, 11, 2, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 7, 2, 13, 11, 2, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 7, 0, 0, 11, 1, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 7, 0, 15, 11, 1, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+ 
+          for(int i = 7; i <= 11; ++i) {
+             for(int j = 0; j <= 2; ++j) {
+@@ -126,10 +_,10 @@
+             }
+          }
+ 
+-         this.m_73441_(p_228035_, p_228039_, 0, 2, 7, 5, 2, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 13, 2, 7, 18, 2, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 0, 0, 7, 3, 1, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228035_, p_228039_, 15, 0, 7, 18, 1, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 0, 2, 7, 5, 2, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 13, 2, 7, 18, 2, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 0, 0, 7, 3, 1, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228035_, p_228039_, 15, 0, 7, 18, 1, 11, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+ 
+          for(int k = 0; k <= 2; ++k) {
+             for(int l = 7; l <= 11; ++l) {
+@@ -158,8 +_,8 @@
+          this.f_228056_ = p_228063_.m_128451_("Seed");
+       }
+ 
+-      public static NetherFortressPieces.BridgeEndFiller m_228072_(StructurePieceAccessor p_228073_, RandomSource p_228074_, int p_228075_, int p_228076_, int p_228077_, Direction p_228078_, int p_228079_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228075_, p_228076_, p_228077_, -1, -3, 0, 5, 10, 8, p_228078_);
++      public static NetherFortressPieces.BridgeEndFiller createPiece(StructurePieceAccessor p_228073_, RandomSource p_228074_, long p_228075_, long p_228076_, long p_228077_, Direction p_228078_, int p_228079_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228075_, p_228076_, p_228077_, -1, -3, 0, 5, 10, 8, p_228078_);
+          return m_228386_(boundingbox) && p_228073_.m_141921_(boundingbox) == null ? new NetherFortressPieces.BridgeEndFiller(p_228079_, p_228074_, boundingbox, p_228078_) : null;
+       }
+ 
+@@ -174,24 +_,24 @@
+          for(int i = 0; i <= 4; ++i) {
+             for(int j = 3; j <= 4; ++j) {
+                int k = randomsource.m_188503_(8);
+-               this.m_73441_(p_228065_, p_228069_, i, j, 0, i, j, k, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++               this.generateBox(p_228065_, p_228069_, i, j, 0, i, j, k, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+             }
+          }
+ 
+          int l = randomsource.m_188503_(8);
+-         this.m_73441_(p_228065_, p_228069_, 0, 5, 0, 0, 5, l, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228065_, p_228069_, 0, 5, 0, 0, 5, l, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+          l = randomsource.m_188503_(8);
+-         this.m_73441_(p_228065_, p_228069_, 4, 5, 0, 4, 5, l, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228065_, p_228069_, 4, 5, 0, 4, 5, l, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+ 
+          for(int i1 = 0; i1 <= 4; ++i1) {
+             int k1 = randomsource.m_188503_(5);
+-            this.m_73441_(p_228065_, p_228069_, i1, 2, 0, i1, 2, k1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++            this.generateBox(p_228065_, p_228069_, i1, 2, 0, i1, 2, k1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+          }
+ 
+          for(int j1 = 0; j1 <= 4; ++j1) {
+             for(int l1 = 0; l1 <= 1; ++l1) {
+                int i2 = randomsource.m_188503_(3);
+-               this.m_73441_(p_228065_, p_228069_, j1, l1, 0, j1, l1, i2, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++               this.generateBox(p_228065_, p_228069_, j1, l1, 0, j1, l1, i2, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+             }
+          }
+ 
+@@ -216,20 +_,20 @@
+          this.m_228401_((NetherFortressPieces.StartPiece)p_228102_, p_228103_, p_228104_, 1, 3, false);
+       }
+ 
+-      public static NetherFortressPieces.BridgeStraight m_228105_(StructurePieceAccessor p_228106_, RandomSource p_228107_, int p_228108_, int p_228109_, int p_228110_, Direction p_228111_, int p_228112_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228108_, p_228109_, p_228110_, -1, -3, 0, 5, 10, 19, p_228111_);
++      public static NetherFortressPieces.BridgeStraight createPiece(StructurePieceAccessor p_228106_, RandomSource p_228107_, long p_228108_, long p_228109_, long p_228110_, Direction p_228111_, int p_228112_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228108_, p_228109_, p_228110_, -1, -3, 0, 5, 10, 19, p_228111_);
+          return m_228386_(boundingbox) && p_228106_.m_141921_(boundingbox) == null ? new NetherFortressPieces.BridgeStraight(p_228112_, p_228107_, boundingbox, p_228111_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228094_, StructureManager p_228095_, ChunkGenerator p_228096_, RandomSource p_228097_, BoundingBox p_228098_, ChunkPos p_228099_, BlockPos p_228100_) {
+-         this.m_73441_(p_228094_, p_228098_, 0, 3, 0, 4, 4, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228094_, p_228098_, 1, 5, 0, 3, 7, 18, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228094_, p_228098_, 0, 5, 0, 0, 5, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228094_, p_228098_, 4, 5, 0, 4, 5, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228094_, p_228098_, 0, 2, 0, 4, 2, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228094_, p_228098_, 0, 2, 13, 4, 2, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228094_, p_228098_, 0, 0, 0, 4, 1, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228094_, p_228098_, 0, 0, 15, 4, 1, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228094_, p_228098_, 0, 3, 0, 4, 4, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228094_, p_228098_, 1, 5, 0, 3, 7, 18, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228094_, p_228098_, 0, 5, 0, 0, 5, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228094_, p_228098_, 4, 5, 0, 4, 5, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228094_, p_228098_, 0, 2, 0, 4, 2, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228094_, p_228098_, 0, 2, 13, 4, 2, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228094_, p_228098_, 0, 0, 0, 4, 1, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228094_, p_228098_, 0, 0, 15, 4, 1, 18, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+ 
+          for(int i = 0; i <= 4; ++i) {
+             for(int j = 0; j <= 2; ++j) {
+@@ -241,14 +_,14 @@
+          BlockState blockstate1 = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true));
+          BlockState blockstate2 = blockstate1.m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+          BlockState blockstate = blockstate1.m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true));
+-         this.m_73441_(p_228094_, p_228098_, 0, 1, 1, 0, 4, 1, blockstate2, blockstate2, false);
+-         this.m_73441_(p_228094_, p_228098_, 0, 3, 4, 0, 4, 4, blockstate2, blockstate2, false);
+-         this.m_73441_(p_228094_, p_228098_, 0, 3, 14, 0, 4, 14, blockstate2, blockstate2, false);
+-         this.m_73441_(p_228094_, p_228098_, 0, 1, 17, 0, 4, 17, blockstate2, blockstate2, false);
+-         this.m_73441_(p_228094_, p_228098_, 4, 1, 1, 4, 4, 1, blockstate, blockstate, false);
+-         this.m_73441_(p_228094_, p_228098_, 4, 3, 4, 4, 4, 4, blockstate, blockstate, false);
+-         this.m_73441_(p_228094_, p_228098_, 4, 3, 14, 4, 4, 14, blockstate, blockstate, false);
+-         this.m_73441_(p_228094_, p_228098_, 4, 1, 17, 4, 4, 17, blockstate, blockstate, false);
++         this.generateBox(p_228094_, p_228098_, 0, 1, 1, 0, 4, 1, blockstate2, blockstate2, false);
++         this.generateBox(p_228094_, p_228098_, 0, 3, 4, 0, 4, 4, blockstate2, blockstate2, false);
++         this.generateBox(p_228094_, p_228098_, 0, 3, 14, 0, 4, 14, blockstate2, blockstate2, false);
++         this.generateBox(p_228094_, p_228098_, 0, 1, 17, 0, 4, 17, blockstate2, blockstate2, false);
++         this.generateBox(p_228094_, p_228098_, 4, 1, 1, 4, 4, 1, blockstate, blockstate, false);
++         this.generateBox(p_228094_, p_228098_, 4, 3, 4, 4, 4, 4, blockstate, blockstate, false);
++         this.generateBox(p_228094_, p_228098_, 4, 3, 14, 4, 4, 14, blockstate, blockstate, false);
++         this.generateBox(p_228094_, p_228098_, 4, 1, 17, 4, 4, 17, blockstate, blockstate, false);
+       }
+    }
+ 
+@@ -270,8 +_,8 @@
+          this.m_228401_((NetherFortressPieces.StartPiece)p_228131_, p_228132_, p_228133_, 1, 0, true);
+       }
+ 
+-      public static NetherFortressPieces.CastleCorridorStairsPiece m_228134_(StructurePieceAccessor p_228135_, int p_228136_, int p_228137_, int p_228138_, Direction p_228139_, int p_228140_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228136_, p_228137_, p_228138_, -1, -7, 0, 5, 14, 10, p_228139_);
++      public static NetherFortressPieces.CastleCorridorStairsPiece createPiece(StructurePieceAccessor p_228135_, long p_228136_, long p_228137_, long p_228138_, Direction p_228139_, int p_228140_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228136_, p_228137_, p_228138_, -1, -7, 0, 5, 14, 10, p_228139_);
+          return m_228386_(boundingbox) && p_228135_.m_141921_(boundingbox) == null ? new NetherFortressPieces.CastleCorridorStairsPiece(p_228140_, boundingbox, p_228139_) : null;
+       }
+ 
+@@ -283,20 +_,20 @@
+             int j = Math.max(1, 7 - i);
+             int k = Math.min(Math.max(j + 5, 14 - i), 13);
+             int l = i;
+-            this.m_73441_(p_228123_, p_228127_, 0, 0, i, 4, j, i, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-            this.m_73441_(p_228123_, p_228127_, 1, j + 1, i, 3, k - 1, i, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++            this.generateBox(p_228123_, p_228127_, 0, 0, i, 4, j, i, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++            this.generateBox(p_228123_, p_228127_, 1, j + 1, i, 3, k - 1, i, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+             if (i <= 6) {
+-               this.m_73434_(p_228123_, blockstate, 1, j + 1, i, p_228127_);
+-               this.m_73434_(p_228123_, blockstate, 2, j + 1, i, p_228127_);
+-               this.m_73434_(p_228123_, blockstate, 3, j + 1, i, p_228127_);
++               this.placeBlock(p_228123_, blockstate, 1, j + 1, i, p_228127_);
++               this.placeBlock(p_228123_, blockstate, 2, j + 1, i, p_228127_);
++               this.placeBlock(p_228123_, blockstate, 3, j + 1, i, p_228127_);
+             }
+ 
+-            this.m_73441_(p_228123_, p_228127_, 0, k, i, 4, k, i, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-            this.m_73441_(p_228123_, p_228127_, 0, j + 1, i, 0, k - 1, i, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-            this.m_73441_(p_228123_, p_228127_, 4, j + 1, i, 4, k - 1, i, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++            this.generateBox(p_228123_, p_228127_, 0, k, i, 4, k, i, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++            this.generateBox(p_228123_, p_228127_, 0, j + 1, i, 0, k - 1, i, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++            this.generateBox(p_228123_, p_228127_, 4, j + 1, i, 4, k - 1, i, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+             if ((i & 1) == 0) {
+-               this.m_73441_(p_228123_, p_228127_, 0, j + 2, i, 0, j + 3, i, blockstate1, blockstate1, false);
+-               this.m_73441_(p_228123_, p_228127_, 4, j + 2, i, 4, j + 3, i, blockstate1, blockstate1, false);
++               this.generateBox(p_228123_, p_228127_, 0, j + 2, i, 0, j + 3, i, blockstate1, blockstate1, false);
++               this.generateBox(p_228123_, p_228127_, 4, j + 2, i, 4, j + 3, i, blockstate1, blockstate1, false);
+             }
+ 
+             for(int i1 = 0; i1 <= 4; ++i1) {
+@@ -332,35 +_,35 @@
+          this.m_228427_((NetherFortressPieces.StartPiece)p_228159_, p_228160_, p_228161_, 0, i, p_228161_.m_188503_(8) > 0);
+       }
+ 
+-      public static NetherFortressPieces.CastleCorridorTBalconyPiece m_228162_(StructurePieceAccessor p_228163_, int p_228164_, int p_228165_, int p_228166_, Direction p_228167_, int p_228168_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228164_, p_228165_, p_228166_, -3, 0, 0, 9, 7, 9, p_228167_);
++      public static NetherFortressPieces.CastleCorridorTBalconyPiece createPiece(StructurePieceAccessor p_228163_, long p_228164_, long p_228165_, long p_228166_, Direction p_228167_, int p_228168_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228164_, p_228165_, p_228166_, -3, 0, 0, 9, 7, 9, p_228167_);
+          return m_228386_(boundingbox) && p_228163_.m_141921_(boundingbox) == null ? new NetherFortressPieces.CastleCorridorTBalconyPiece(p_228168_, boundingbox, p_228167_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228151_, StructureManager p_228152_, ChunkGenerator p_228153_, RandomSource p_228154_, BoundingBox p_228155_, ChunkPos p_228156_, BlockPos p_228157_) {
+          BlockState blockstate = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true));
+          BlockState blockstate1 = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+-         this.m_73441_(p_228151_, p_228155_, 0, 0, 0, 8, 1, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 0, 2, 0, 8, 5, 8, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 0, 6, 0, 8, 6, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 0, 2, 0, 2, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 6, 2, 0, 8, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 1, 3, 0, 1, 4, 0, blockstate1, blockstate1, false);
+-         this.m_73441_(p_228151_, p_228155_, 7, 3, 0, 7, 4, 0, blockstate1, blockstate1, false);
+-         this.m_73441_(p_228151_, p_228155_, 0, 2, 4, 8, 2, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 1, 1, 4, 2, 2, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 6, 1, 4, 7, 2, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 1, 3, 8, 7, 3, 8, blockstate1, blockstate1, false);
+-         this.m_73434_(p_228151_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 0, 3, 8, p_228155_);
+-         this.m_73434_(p_228151_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 8, 3, 8, p_228155_);
+-         this.m_73441_(p_228151_, p_228155_, 0, 3, 6, 0, 3, 7, blockstate, blockstate, false);
+-         this.m_73441_(p_228151_, p_228155_, 8, 3, 6, 8, 3, 7, blockstate, blockstate, false);
+-         this.m_73441_(p_228151_, p_228155_, 0, 3, 4, 0, 5, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 8, 3, 4, 8, 5, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 1, 3, 5, 2, 5, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 6, 3, 5, 7, 5, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228151_, p_228155_, 1, 4, 5, 1, 5, 5, blockstate1, blockstate1, false);
+-         this.m_73441_(p_228151_, p_228155_, 7, 4, 5, 7, 5, 5, blockstate1, blockstate1, false);
++         this.generateBox(p_228151_, p_228155_, 0, 0, 0, 8, 1, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 0, 2, 0, 8, 5, 8, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 0, 6, 0, 8, 6, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 0, 2, 0, 2, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 6, 2, 0, 8, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 1, 3, 0, 1, 4, 0, blockstate1, blockstate1, false);
++         this.generateBox(p_228151_, p_228155_, 7, 3, 0, 7, 4, 0, blockstate1, blockstate1, false);
++         this.generateBox(p_228151_, p_228155_, 0, 2, 4, 8, 2, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 1, 1, 4, 2, 2, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 6, 1, 4, 7, 2, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 1, 3, 8, 7, 3, 8, blockstate1, blockstate1, false);
++         this.placeBlock(p_228151_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 0, 3, 8, p_228155_);
++         this.placeBlock(p_228151_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 8, 3, 8, p_228155_);
++         this.generateBox(p_228151_, p_228155_, 0, 3, 6, 0, 3, 7, blockstate, blockstate, false);
++         this.generateBox(p_228151_, p_228155_, 8, 3, 6, 8, 3, 7, blockstate, blockstate, false);
++         this.generateBox(p_228151_, p_228155_, 0, 3, 4, 0, 5, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 8, 3, 4, 8, 5, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 1, 3, 5, 2, 5, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 6, 3, 5, 7, 5, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228151_, p_228155_, 1, 4, 5, 1, 5, 5, blockstate1, blockstate1, false);
++         this.generateBox(p_228151_, p_228155_, 7, 4, 5, 7, 5, 5, blockstate1, blockstate1, false);
+ 
+          for(int i = 0; i <= 5; ++i) {
+             for(int j = 0; j <= 8; ++j) {
+@@ -389,60 +_,60 @@
+          this.m_228401_((NetherFortressPieces.StartPiece)p_228188_, p_228189_, p_228190_, 5, 3, true);
+       }
+ 
+-      public static NetherFortressPieces.CastleEntrance m_228191_(StructurePieceAccessor p_228192_, RandomSource p_228193_, int p_228194_, int p_228195_, int p_228196_, Direction p_228197_, int p_228198_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228194_, p_228195_, p_228196_, -5, -3, 0, 13, 14, 13, p_228197_);
++      public static NetherFortressPieces.CastleEntrance createPiece(StructurePieceAccessor p_228192_, RandomSource p_228193_, long p_228194_, long p_228195_, long p_228196_, Direction p_228197_, int p_228198_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228194_, p_228195_, p_228196_, -5, -3, 0, 13, 14, 13, p_228197_);
+          return m_228386_(boundingbox) && p_228192_.m_141921_(boundingbox) == null ? new NetherFortressPieces.CastleEntrance(p_228198_, p_228193_, boundingbox, p_228197_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228180_, StructureManager p_228181_, ChunkGenerator p_228182_, RandomSource p_228183_, BoundingBox p_228184_, ChunkPos p_228185_, BlockPos p_228186_) {
+-         this.m_73441_(p_228180_, p_228184_, 0, 3, 0, 12, 4, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 0, 5, 0, 12, 13, 12, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 0, 5, 0, 1, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 11, 5, 0, 12, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 2, 5, 11, 4, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 8, 5, 11, 10, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 5, 9, 11, 7, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 2, 5, 0, 4, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 8, 5, 0, 10, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 5, 9, 0, 7, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 2, 11, 2, 10, 12, 10, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 5, 8, 0, 7, 8, 0, Blocks.f_50198_.m_49966_(), Blocks.f_50198_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 0, 3, 0, 12, 4, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 0, 5, 0, 12, 13, 12, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 0, 5, 0, 1, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 11, 5, 0, 12, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 2, 5, 11, 4, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 8, 5, 11, 10, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 5, 9, 11, 7, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 2, 5, 0, 4, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 8, 5, 0, 10, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 5, 9, 0, 7, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 2, 11, 2, 10, 12, 10, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 5, 8, 0, 7, 8, 0, Blocks.f_50198_.m_49966_(), Blocks.f_50198_.m_49966_(), false);
+          BlockState blockstate = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+          BlockState blockstate1 = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true));
+ 
+          for(int i = 1; i <= 11; i += 2) {
+-            this.m_73441_(p_228180_, p_228184_, i, 10, 0, i, 11, 0, blockstate, blockstate, false);
+-            this.m_73441_(p_228180_, p_228184_, i, 10, 12, i, 11, 12, blockstate, blockstate, false);
+-            this.m_73441_(p_228180_, p_228184_, 0, 10, i, 0, 11, i, blockstate1, blockstate1, false);
+-            this.m_73441_(p_228180_, p_228184_, 12, 10, i, 12, 11, i, blockstate1, blockstate1, false);
+-            this.m_73434_(p_228180_, Blocks.f_50197_.m_49966_(), i, 13, 0, p_228184_);
+-            this.m_73434_(p_228180_, Blocks.f_50197_.m_49966_(), i, 13, 12, p_228184_);
+-            this.m_73434_(p_228180_, Blocks.f_50197_.m_49966_(), 0, 13, i, p_228184_);
+-            this.m_73434_(p_228180_, Blocks.f_50197_.m_49966_(), 12, 13, i, p_228184_);
++            this.generateBox(p_228180_, p_228184_, i, 10, 0, i, 11, 0, blockstate, blockstate, false);
++            this.generateBox(p_228180_, p_228184_, i, 10, 12, i, 11, 12, blockstate, blockstate, false);
++            this.generateBox(p_228180_, p_228184_, 0, 10, i, 0, 11, i, blockstate1, blockstate1, false);
++            this.generateBox(p_228180_, p_228184_, 12, 10, i, 12, 11, i, blockstate1, blockstate1, false);
++            this.placeBlock(p_228180_, Blocks.f_50197_.m_49966_(), i, 13, 0, p_228184_);
++            this.placeBlock(p_228180_, Blocks.f_50197_.m_49966_(), i, 13, 12, p_228184_);
++            this.placeBlock(p_228180_, Blocks.f_50197_.m_49966_(), 0, 13, i, p_228184_);
++            this.placeBlock(p_228180_, Blocks.f_50197_.m_49966_(), 12, 13, i, p_228184_);
+             if (i != 11) {
+-               this.m_73434_(p_228180_, blockstate, i + 1, 13, 0, p_228184_);
+-               this.m_73434_(p_228180_, blockstate, i + 1, 13, 12, p_228184_);
+-               this.m_73434_(p_228180_, blockstate1, 0, 13, i + 1, p_228184_);
+-               this.m_73434_(p_228180_, blockstate1, 12, 13, i + 1, p_228184_);
++               this.placeBlock(p_228180_, blockstate, i + 1, 13, 0, p_228184_);
++               this.placeBlock(p_228180_, blockstate, i + 1, 13, 12, p_228184_);
++               this.placeBlock(p_228180_, blockstate1, 0, 13, i + 1, p_228184_);
++               this.placeBlock(p_228180_, blockstate1, 12, 13, i + 1, p_228184_);
+             }
+          }
+ 
+-         this.m_73434_(p_228180_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 0, 13, 0, p_228184_);
+-         this.m_73434_(p_228180_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 0, 13, 12, p_228184_);
+-         this.m_73434_(p_228180_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 12, 13, 12, p_228184_);
+-         this.m_73434_(p_228180_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 12, 13, 0, p_228184_);
++         this.placeBlock(p_228180_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 0, 13, 0, p_228184_);
++         this.placeBlock(p_228180_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 0, 13, 12, p_228184_);
++         this.placeBlock(p_228180_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 12, 13, 12, p_228184_);
++         this.placeBlock(p_228180_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 12, 13, 0, p_228184_);
+ 
+          for(int k = 3; k <= 9; k += 2) {
+-            this.m_73441_(p_228180_, p_228184_, 1, 7, k, 1, 8, k, blockstate1.m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), blockstate1.m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), false);
+-            this.m_73441_(p_228180_, p_228184_, 11, 7, k, 11, 8, k, blockstate1.m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), blockstate1.m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), false);
++            this.generateBox(p_228180_, p_228184_, 1, 7, k, 1, 8, k, blockstate1.m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), blockstate1.m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), false);
++            this.generateBox(p_228180_, p_228184_, 11, 7, k, 11, 8, k, blockstate1.m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), blockstate1.m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), false);
+          }
+ 
+-         this.m_73441_(p_228180_, p_228184_, 4, 2, 0, 8, 2, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 0, 2, 4, 12, 2, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 4, 0, 0, 8, 1, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 4, 0, 9, 8, 1, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 0, 0, 4, 3, 1, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 9, 0, 4, 12, 1, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 4, 2, 0, 8, 2, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 0, 2, 4, 12, 2, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 4, 0, 0, 8, 1, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 4, 0, 9, 8, 1, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 0, 0, 4, 3, 1, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 9, 0, 4, 12, 1, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+ 
+          for(int l = 4; l <= 8; ++l) {
+             for(int j = 0; j <= 2; ++j) {
+@@ -458,12 +_,12 @@
+             }
+          }
+ 
+-         this.m_73441_(p_228180_, p_228184_, 5, 5, 5, 7, 5, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228180_, p_228184_, 6, 1, 6, 6, 4, 6, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73434_(p_228180_, Blocks.f_50197_.m_49966_(), 6, 0, 6, p_228184_);
+-         this.m_73434_(p_228180_, Blocks.f_49991_.m_49966_(), 6, 5, 6, p_228184_);
+-         BlockPos blockpos = this.m_163582_(6, 5, 6);
 -         if (p_228184_.m_71051_(blockpos)) {
++         this.generateBox(p_228180_, p_228184_, 5, 5, 5, 7, 5, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228180_, p_228184_, 6, 1, 6, 6, 4, 6, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.placeBlock(p_228180_, Blocks.f_50197_.m_49966_(), 6, 0, 6, p_228184_);
++         this.placeBlock(p_228180_, Blocks.f_49991_.m_49966_(), 6, 5, 6, p_228184_);
++         BlockPos blockpos = this.getWorldPos(6, 5, 6);
 +         if (p_228184_.isInside(blockpos)) {
              p_228180_.m_186469_(blockpos, Fluids.f_76195_, 0);
           }
  
-@@ -556,7 +_,7 @@
-          this.m_73441_(p_228239_, p_228243_, 0, 2, 4, 3, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
-          this.m_73441_(p_228239_, p_228243_, 1, 3, 4, 1, 4, 4, blockstate, blockstate, false);
-          this.m_73441_(p_228239_, p_228243_, 3, 3, 4, 3, 4, 4, blockstate, blockstate, false);
+@@ -490,19 +_,19 @@
+          this.m_228427_((NetherFortressPieces.StartPiece)p_228217_, p_228218_, p_228219_, 0, 1, true);
+       }
+ 
+-      public static NetherFortressPieces.CastleSmallCorridorCrossingPiece m_228220_(StructurePieceAccessor p_228221_, int p_228222_, int p_228223_, int p_228224_, Direction p_228225_, int p_228226_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228222_, p_228223_, p_228224_, -1, 0, 0, 5, 7, 5, p_228225_);
++      public static NetherFortressPieces.CastleSmallCorridorCrossingPiece createPiece(StructurePieceAccessor p_228221_, long p_228222_, long p_228223_, long p_228224_, Direction p_228225_, int p_228226_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228222_, p_228223_, p_228224_, -1, 0, 0, 5, 7, 5, p_228225_);
+          return m_228386_(boundingbox) && p_228221_.m_141921_(boundingbox) == null ? new NetherFortressPieces.CastleSmallCorridorCrossingPiece(p_228226_, boundingbox, p_228225_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228209_, StructureManager p_228210_, ChunkGenerator p_228211_, RandomSource p_228212_, BoundingBox p_228213_, ChunkPos p_228214_, BlockPos p_228215_) {
+-         this.m_73441_(p_228209_, p_228213_, 0, 0, 0, 4, 1, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228209_, p_228213_, 0, 2, 0, 4, 5, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228209_, p_228213_, 0, 2, 0, 0, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228209_, p_228213_, 4, 2, 0, 4, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228209_, p_228213_, 0, 2, 4, 0, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228209_, p_228213_, 4, 2, 4, 4, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228209_, p_228213_, 0, 6, 0, 4, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228209_, p_228213_, 0, 0, 0, 4, 1, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228209_, p_228213_, 0, 2, 0, 4, 5, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228209_, p_228213_, 0, 2, 0, 0, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228209_, p_228213_, 4, 2, 0, 4, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228209_, p_228213_, 0, 2, 4, 0, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228209_, p_228213_, 4, 2, 4, 4, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228209_, p_228213_, 0, 6, 0, 4, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+ 
+          for(int i = 0; i <= 4; ++i) {
+             for(int j = 0; j <= 4; ++j) {
+@@ -539,29 +_,29 @@
+          this.m_228420_((NetherFortressPieces.StartPiece)p_228247_, p_228248_, p_228249_, 0, 1, true);
+       }
+ 
+-      public static NetherFortressPieces.CastleSmallCorridorLeftTurnPiece m_228250_(StructurePieceAccessor p_228251_, RandomSource p_228252_, int p_228253_, int p_228254_, int p_228255_, Direction p_228256_, int p_228257_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228253_, p_228254_, p_228255_, -1, 0, 0, 5, 7, 5, p_228256_);
++      public static NetherFortressPieces.CastleSmallCorridorLeftTurnPiece createPiece(StructurePieceAccessor p_228251_, RandomSource p_228252_, long p_228253_, long p_228254_, long p_228255_, Direction p_228256_, int p_228257_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228253_, p_228254_, p_228255_, -1, 0, 0, 5, 7, 5, p_228256_);
+          return m_228386_(boundingbox) && p_228251_.m_141921_(boundingbox) == null ? new NetherFortressPieces.CastleSmallCorridorLeftTurnPiece(p_228257_, p_228252_, boundingbox, p_228256_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228239_, StructureManager p_228240_, ChunkGenerator p_228241_, RandomSource p_228242_, BoundingBox p_228243_, ChunkPos p_228244_, BlockPos p_228245_) {
+-         this.m_73441_(p_228239_, p_228243_, 0, 0, 0, 4, 1, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228239_, p_228243_, 0, 2, 0, 4, 5, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228239_, p_228243_, 0, 0, 0, 4, 1, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228239_, p_228243_, 0, 2, 0, 4, 5, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+          BlockState blockstate = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+          BlockState blockstate1 = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true));
+-         this.m_73441_(p_228239_, p_228243_, 4, 2, 0, 4, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228239_, p_228243_, 4, 3, 1, 4, 4, 1, blockstate1, blockstate1, false);
+-         this.m_73441_(p_228239_, p_228243_, 4, 3, 3, 4, 4, 3, blockstate1, blockstate1, false);
+-         this.m_73441_(p_228239_, p_228243_, 0, 2, 0, 0, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228239_, p_228243_, 0, 2, 4, 3, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228239_, p_228243_, 1, 3, 4, 1, 4, 4, blockstate, blockstate, false);
+-         this.m_73441_(p_228239_, p_228243_, 3, 3, 4, 3, 4, 4, blockstate, blockstate, false);
 -         if (this.f_228230_ && p_228243_.m_71051_(this.m_163582_(3, 2, 3))) {
-+         if (this.f_228230_ && p_228243_.isInside(this.m_163582_(3, 2, 3))) {
++         this.generateBox(p_228239_, p_228243_, 4, 2, 0, 4, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228239_, p_228243_, 4, 3, 1, 4, 4, 1, blockstate1, blockstate1, false);
++         this.generateBox(p_228239_, p_228243_, 4, 3, 3, 4, 4, 3, blockstate1, blockstate1, false);
++         this.generateBox(p_228239_, p_228243_, 0, 2, 0, 0, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228239_, p_228243_, 0, 2, 4, 3, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228239_, p_228243_, 1, 3, 4, 1, 4, 4, blockstate, blockstate, false);
++         this.generateBox(p_228239_, p_228243_, 3, 3, 4, 3, 4, 4, blockstate, blockstate, false);
++         if (this.f_228230_ && p_228243_.isInside(this.getWorldPos(3, 2, 3))) {
              this.f_228230_ = false;
              this.m_213787_(p_228239_, p_228243_, p_228242_, 3, 2, 3, BuiltInLootTables.f_78760_);
           }
-@@ -659,7 +_,7 @@
-          this.m_73441_(p_228301_, p_228305_, 1, 2, 4, 4, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
-          this.m_73441_(p_228301_, p_228305_, 1, 3, 4, 1, 4, 4, blockstate, blockstate, false);
-          this.m_73441_(p_228301_, p_228305_, 3, 3, 4, 3, 4, 4, blockstate, blockstate, false);
+ 
+-         this.m_73441_(p_228239_, p_228243_, 0, 6, 0, 4, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228239_, p_228243_, 0, 6, 0, 4, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+ 
+          for(int i = 0; i <= 4; ++i) {
+             for(int j = 0; j <= 4; ++j) {
+@@ -590,22 +_,22 @@
+          this.m_228401_((NetherFortressPieces.StartPiece)p_228279_, p_228280_, p_228281_, 1, 0, true);
+       }
+ 
+-      public static NetherFortressPieces.CastleSmallCorridorPiece m_228282_(StructurePieceAccessor p_228283_, int p_228284_, int p_228285_, int p_228286_, Direction p_228287_, int p_228288_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228284_, p_228285_, p_228286_, -1, 0, 0, 5, 7, 5, p_228287_);
++      public static NetherFortressPieces.CastleSmallCorridorPiece createPiece(StructurePieceAccessor p_228283_, long p_228284_, long p_228285_, long p_228286_, Direction p_228287_, int p_228288_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228284_, p_228285_, p_228286_, -1, 0, 0, 5, 7, 5, p_228287_);
+          return m_228386_(boundingbox) && p_228283_.m_141921_(boundingbox) == null ? new NetherFortressPieces.CastleSmallCorridorPiece(p_228288_, boundingbox, p_228287_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228271_, StructureManager p_228272_, ChunkGenerator p_228273_, RandomSource p_228274_, BoundingBox p_228275_, ChunkPos p_228276_, BlockPos p_228277_) {
+-         this.m_73441_(p_228271_, p_228275_, 0, 0, 0, 4, 1, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228271_, p_228275_, 0, 2, 0, 4, 5, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228271_, p_228275_, 0, 0, 0, 4, 1, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228271_, p_228275_, 0, 2, 0, 4, 5, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+          BlockState blockstate = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true));
+-         this.m_73441_(p_228271_, p_228275_, 0, 2, 0, 0, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228271_, p_228275_, 4, 2, 0, 4, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228271_, p_228275_, 0, 3, 1, 0, 4, 1, blockstate, blockstate, false);
+-         this.m_73441_(p_228271_, p_228275_, 0, 3, 3, 0, 4, 3, blockstate, blockstate, false);
+-         this.m_73441_(p_228271_, p_228275_, 4, 3, 1, 4, 4, 1, blockstate, blockstate, false);
+-         this.m_73441_(p_228271_, p_228275_, 4, 3, 3, 4, 4, 3, blockstate, blockstate, false);
+-         this.m_73441_(p_228271_, p_228275_, 0, 6, 0, 4, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228271_, p_228275_, 0, 2, 0, 0, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228271_, p_228275_, 4, 2, 0, 4, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228271_, p_228275_, 0, 3, 1, 0, 4, 1, blockstate, blockstate, false);
++         this.generateBox(p_228271_, p_228275_, 0, 3, 3, 0, 4, 3, blockstate, blockstate, false);
++         this.generateBox(p_228271_, p_228275_, 4, 3, 1, 4, 4, 1, blockstate, blockstate, false);
++         this.generateBox(p_228271_, p_228275_, 4, 3, 3, 4, 4, 3, blockstate, blockstate, false);
++         this.generateBox(p_228271_, p_228275_, 0, 6, 0, 4, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+ 
+          for(int i = 0; i <= 4; ++i) {
+             for(int j = 0; j <= 4; ++j) {
+@@ -642,29 +_,29 @@
+          this.m_228427_((NetherFortressPieces.StartPiece)p_228309_, p_228310_, p_228311_, 0, 1, true);
+       }
+ 
+-      public static NetherFortressPieces.CastleSmallCorridorRightTurnPiece m_228312_(StructurePieceAccessor p_228313_, RandomSource p_228314_, int p_228315_, int p_228316_, int p_228317_, Direction p_228318_, int p_228319_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228315_, p_228316_, p_228317_, -1, 0, 0, 5, 7, 5, p_228318_);
++      public static NetherFortressPieces.CastleSmallCorridorRightTurnPiece createPiece(StructurePieceAccessor p_228313_, RandomSource p_228314_, long p_228315_, long p_228316_, long p_228317_, Direction p_228318_, int p_228319_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228315_, p_228316_, p_228317_, -1, 0, 0, 5, 7, 5, p_228318_);
+          return m_228386_(boundingbox) && p_228313_.m_141921_(boundingbox) == null ? new NetherFortressPieces.CastleSmallCorridorRightTurnPiece(p_228319_, p_228314_, boundingbox, p_228318_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228301_, StructureManager p_228302_, ChunkGenerator p_228303_, RandomSource p_228304_, BoundingBox p_228305_, ChunkPos p_228306_, BlockPos p_228307_) {
+-         this.m_73441_(p_228301_, p_228305_, 0, 0, 0, 4, 1, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228301_, p_228305_, 0, 2, 0, 4, 5, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228301_, p_228305_, 0, 0, 0, 4, 1, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228301_, p_228305_, 0, 2, 0, 4, 5, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+          BlockState blockstate = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+          BlockState blockstate1 = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true));
+-         this.m_73441_(p_228301_, p_228305_, 0, 2, 0, 0, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228301_, p_228305_, 0, 3, 1, 0, 4, 1, blockstate1, blockstate1, false);
+-         this.m_73441_(p_228301_, p_228305_, 0, 3, 3, 0, 4, 3, blockstate1, blockstate1, false);
+-         this.m_73441_(p_228301_, p_228305_, 4, 2, 0, 4, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228301_, p_228305_, 1, 2, 4, 4, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228301_, p_228305_, 1, 3, 4, 1, 4, 4, blockstate, blockstate, false);
+-         this.m_73441_(p_228301_, p_228305_, 3, 3, 4, 3, 4, 4, blockstate, blockstate, false);
 -         if (this.f_228292_ && p_228305_.m_71051_(this.m_163582_(1, 2, 3))) {
-+         if (this.f_228292_ && p_228305_.isInside(this.m_163582_(1, 2, 3))) {
++         this.generateBox(p_228301_, p_228305_, 0, 2, 0, 0, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228301_, p_228305_, 0, 3, 1, 0, 4, 1, blockstate1, blockstate1, false);
++         this.generateBox(p_228301_, p_228305_, 0, 3, 3, 0, 4, 3, blockstate1, blockstate1, false);
++         this.generateBox(p_228301_, p_228305_, 4, 2, 0, 4, 5, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228301_, p_228305_, 1, 2, 4, 4, 5, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228301_, p_228305_, 1, 3, 4, 1, 4, 4, blockstate, blockstate, false);
++         this.generateBox(p_228301_, p_228305_, 3, 3, 4, 3, 4, 4, blockstate, blockstate, false);
++         if (this.f_228292_ && p_228305_.isInside(this.getWorldPos(1, 2, 3))) {
              this.f_228292_ = false;
              this.m_213787_(p_228301_, p_228305_, p_228304_, 1, 2, 3, BuiltInLootTables.f_78760_);
           }
-@@ -872,7 +_,7 @@
-          this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 4, 8, 8, p_228366_);
+ 
+-         this.m_73441_(p_228301_, p_228305_, 0, 6, 0, 4, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228301_, p_228305_, 0, 6, 0, 4, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+ 
+          for(int i = 0; i <= 4; ++i) {
+             for(int j = 0; j <= 4; ++j) {
+@@ -694,53 +_,53 @@
+          this.m_228401_((NetherFortressPieces.StartPiece)p_228341_, p_228342_, p_228343_, 5, 11, true);
+       }
+ 
+-      public static NetherFortressPieces.CastleStalkRoom m_228344_(StructurePieceAccessor p_228345_, int p_228346_, int p_228347_, int p_228348_, Direction p_228349_, int p_228350_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228346_, p_228347_, p_228348_, -5, -3, 0, 13, 14, 13, p_228349_);
++      public static NetherFortressPieces.CastleStalkRoom createPiece(StructurePieceAccessor p_228345_, long p_228346_, long p_228347_, long p_228348_, Direction p_228349_, int p_228350_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228346_, p_228347_, p_228348_, -5, -3, 0, 13, 14, 13, p_228349_);
+          return m_228386_(boundingbox) && p_228345_.m_141921_(boundingbox) == null ? new NetherFortressPieces.CastleStalkRoom(p_228350_, boundingbox, p_228349_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228333_, StructureManager p_228334_, ChunkGenerator p_228335_, RandomSource p_228336_, BoundingBox p_228337_, ChunkPos p_228338_, BlockPos p_228339_) {
+-         this.m_73441_(p_228333_, p_228337_, 0, 3, 0, 12, 4, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 0, 5, 0, 12, 13, 12, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 0, 5, 0, 1, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 11, 5, 0, 12, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 2, 5, 11, 4, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 8, 5, 11, 10, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 5, 9, 11, 7, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 2, 5, 0, 4, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 8, 5, 0, 10, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 5, 9, 0, 7, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 2, 11, 2, 10, 12, 10, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 0, 3, 0, 12, 4, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 0, 5, 0, 12, 13, 12, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 0, 5, 0, 1, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 11, 5, 0, 12, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 2, 5, 11, 4, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 8, 5, 11, 10, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 5, 9, 11, 7, 12, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 2, 5, 0, 4, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 8, 5, 0, 10, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 5, 9, 0, 7, 12, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 2, 11, 2, 10, 12, 10, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+          BlockState blockstate = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+          BlockState blockstate1 = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true));
+          BlockState blockstate2 = blockstate1.m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true));
+          BlockState blockstate3 = blockstate1.m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+ 
+          for(int i = 1; i <= 11; i += 2) {
+-            this.m_73441_(p_228333_, p_228337_, i, 10, 0, i, 11, 0, blockstate, blockstate, false);
+-            this.m_73441_(p_228333_, p_228337_, i, 10, 12, i, 11, 12, blockstate, blockstate, false);
+-            this.m_73441_(p_228333_, p_228337_, 0, 10, i, 0, 11, i, blockstate1, blockstate1, false);
+-            this.m_73441_(p_228333_, p_228337_, 12, 10, i, 12, 11, i, blockstate1, blockstate1, false);
+-            this.m_73434_(p_228333_, Blocks.f_50197_.m_49966_(), i, 13, 0, p_228337_);
+-            this.m_73434_(p_228333_, Blocks.f_50197_.m_49966_(), i, 13, 12, p_228337_);
+-            this.m_73434_(p_228333_, Blocks.f_50197_.m_49966_(), 0, 13, i, p_228337_);
+-            this.m_73434_(p_228333_, Blocks.f_50197_.m_49966_(), 12, 13, i, p_228337_);
++            this.generateBox(p_228333_, p_228337_, i, 10, 0, i, 11, 0, blockstate, blockstate, false);
++            this.generateBox(p_228333_, p_228337_, i, 10, 12, i, 11, 12, blockstate, blockstate, false);
++            this.generateBox(p_228333_, p_228337_, 0, 10, i, 0, 11, i, blockstate1, blockstate1, false);
++            this.generateBox(p_228333_, p_228337_, 12, 10, i, 12, 11, i, blockstate1, blockstate1, false);
++            this.placeBlock(p_228333_, Blocks.f_50197_.m_49966_(), i, 13, 0, p_228337_);
++            this.placeBlock(p_228333_, Blocks.f_50197_.m_49966_(), i, 13, 12, p_228337_);
++            this.placeBlock(p_228333_, Blocks.f_50197_.m_49966_(), 0, 13, i, p_228337_);
++            this.placeBlock(p_228333_, Blocks.f_50197_.m_49966_(), 12, 13, i, p_228337_);
+             if (i != 11) {
+-               this.m_73434_(p_228333_, blockstate, i + 1, 13, 0, p_228337_);
+-               this.m_73434_(p_228333_, blockstate, i + 1, 13, 12, p_228337_);
+-               this.m_73434_(p_228333_, blockstate1, 0, 13, i + 1, p_228337_);
+-               this.m_73434_(p_228333_, blockstate1, 12, 13, i + 1, p_228337_);
++               this.placeBlock(p_228333_, blockstate, i + 1, 13, 0, p_228337_);
++               this.placeBlock(p_228333_, blockstate, i + 1, 13, 12, p_228337_);
++               this.placeBlock(p_228333_, blockstate1, 0, 13, i + 1, p_228337_);
++               this.placeBlock(p_228333_, blockstate1, 12, 13, i + 1, p_228337_);
+             }
+          }
+ 
+-         this.m_73434_(p_228333_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 0, 13, 0, p_228337_);
+-         this.m_73434_(p_228333_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 0, 13, 12, p_228337_);
+-         this.m_73434_(p_228333_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 12, 13, 12, p_228337_);
+-         this.m_73434_(p_228333_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 12, 13, 0, p_228337_);
++         this.placeBlock(p_228333_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 0, 13, 0, p_228337_);
++         this.placeBlock(p_228333_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 0, 13, 12, p_228337_);
++         this.placeBlock(p_228333_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 12, 13, 12, p_228337_);
++         this.placeBlock(p_228333_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 12, 13, 0, p_228337_);
+ 
+          for(int j1 = 3; j1 <= 9; j1 += 2) {
+-            this.m_73441_(p_228333_, p_228337_, 1, 7, j1, 1, 8, j1, blockstate2, blockstate2, false);
+-            this.m_73441_(p_228333_, p_228337_, 11, 7, j1, 11, 8, j1, blockstate3, blockstate3, false);
++            this.generateBox(p_228333_, p_228337_, 1, 7, j1, 1, 8, j1, blockstate2, blockstate2, false);
++            this.generateBox(p_228333_, p_228337_, 11, 7, j1, 11, 8, j1, blockstate3, blockstate3, false);
+          }
+ 
+          BlockState blockstate4 = Blocks.f_50199_.m_49966_().m_61124_(StairBlock.f_56841_, Direction.NORTH);
+@@ -749,53 +_,53 @@
+             int k = j + 4;
+ 
+             for(int l = 5; l <= 7; ++l) {
+-               this.m_73434_(p_228333_, blockstate4, l, 5 + j, k, p_228337_);
++               this.placeBlock(p_228333_, blockstate4, l, 5 + j, k, p_228337_);
+             }
+ 
+             if (k >= 5 && k <= 8) {
+-               this.m_73441_(p_228333_, p_228337_, 5, 5, k, 7, j + 4, k, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++               this.generateBox(p_228333_, p_228337_, 5, 5, k, 7, j + 4, k, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+             } else if (k >= 9 && k <= 10) {
+-               this.m_73441_(p_228333_, p_228337_, 5, 8, k, 7, j + 4, k, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++               this.generateBox(p_228333_, p_228337_, 5, 8, k, 7, j + 4, k, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+             }
+ 
+             if (j >= 1) {
+-               this.m_73441_(p_228333_, p_228337_, 5, 6 + j, k, 7, 9 + j, k, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++               this.generateBox(p_228333_, p_228337_, 5, 6 + j, k, 7, 9 + j, k, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+             }
+          }
+ 
+          for(int k1 = 5; k1 <= 7; ++k1) {
+-            this.m_73434_(p_228333_, blockstate4, k1, 12, 11, p_228337_);
++            this.placeBlock(p_228333_, blockstate4, k1, 12, 11, p_228337_);
+          }
+ 
+-         this.m_73441_(p_228333_, p_228337_, 5, 6, 7, 5, 7, 7, blockstate3, blockstate3, false);
+-         this.m_73441_(p_228333_, p_228337_, 7, 6, 7, 7, 7, 7, blockstate2, blockstate2, false);
+-         this.m_73441_(p_228333_, p_228337_, 5, 13, 12, 7, 13, 12, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 2, 5, 2, 3, 5, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 2, 5, 9, 3, 5, 10, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 2, 5, 4, 2, 5, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 9, 5, 2, 10, 5, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 9, 5, 9, 10, 5, 10, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 10, 5, 4, 10, 5, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 5, 6, 7, 5, 7, 7, blockstate3, blockstate3, false);
++         this.generateBox(p_228333_, p_228337_, 7, 6, 7, 7, 7, 7, blockstate2, blockstate2, false);
++         this.generateBox(p_228333_, p_228337_, 5, 13, 12, 7, 13, 12, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 2, 5, 2, 3, 5, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 2, 5, 9, 3, 5, 10, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 2, 5, 4, 2, 5, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 9, 5, 2, 10, 5, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 9, 5, 9, 10, 5, 10, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 10, 5, 4, 10, 5, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+          BlockState blockstate5 = blockstate4.m_61124_(StairBlock.f_56841_, Direction.EAST);
+          BlockState blockstate6 = blockstate4.m_61124_(StairBlock.f_56841_, Direction.WEST);
+-         this.m_73434_(p_228333_, blockstate6, 4, 5, 2, p_228337_);
+-         this.m_73434_(p_228333_, blockstate6, 4, 5, 3, p_228337_);
+-         this.m_73434_(p_228333_, blockstate6, 4, 5, 9, p_228337_);
+-         this.m_73434_(p_228333_, blockstate6, 4, 5, 10, p_228337_);
+-         this.m_73434_(p_228333_, blockstate5, 8, 5, 2, p_228337_);
+-         this.m_73434_(p_228333_, blockstate5, 8, 5, 3, p_228337_);
+-         this.m_73434_(p_228333_, blockstate5, 8, 5, 9, p_228337_);
+-         this.m_73434_(p_228333_, blockstate5, 8, 5, 10, p_228337_);
+-         this.m_73441_(p_228333_, p_228337_, 3, 4, 4, 4, 4, 8, Blocks.f_50135_.m_49966_(), Blocks.f_50135_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 8, 4, 4, 9, 4, 8, Blocks.f_50135_.m_49966_(), Blocks.f_50135_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 3, 5, 4, 4, 5, 8, Blocks.f_50200_.m_49966_(), Blocks.f_50200_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 8, 5, 4, 9, 5, 8, Blocks.f_50200_.m_49966_(), Blocks.f_50200_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 4, 2, 0, 8, 2, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 0, 2, 4, 12, 2, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 4, 0, 0, 8, 1, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 4, 0, 9, 8, 1, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 0, 0, 4, 3, 1, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228333_, p_228337_, 9, 0, 4, 12, 1, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.placeBlock(p_228333_, blockstate6, 4, 5, 2, p_228337_);
++         this.placeBlock(p_228333_, blockstate6, 4, 5, 3, p_228337_);
++         this.placeBlock(p_228333_, blockstate6, 4, 5, 9, p_228337_);
++         this.placeBlock(p_228333_, blockstate6, 4, 5, 10, p_228337_);
++         this.placeBlock(p_228333_, blockstate5, 8, 5, 2, p_228337_);
++         this.placeBlock(p_228333_, blockstate5, 8, 5, 3, p_228337_);
++         this.placeBlock(p_228333_, blockstate5, 8, 5, 9, p_228337_);
++         this.placeBlock(p_228333_, blockstate5, 8, 5, 10, p_228337_);
++         this.generateBox(p_228333_, p_228337_, 3, 4, 4, 4, 4, 8, Blocks.f_50135_.m_49966_(), Blocks.f_50135_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 8, 4, 4, 9, 4, 8, Blocks.f_50135_.m_49966_(), Blocks.f_50135_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 3, 5, 4, 4, 5, 8, Blocks.f_50200_.m_49966_(), Blocks.f_50200_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 8, 5, 4, 9, 5, 8, Blocks.f_50200_.m_49966_(), Blocks.f_50200_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 4, 2, 0, 8, 2, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 0, 2, 4, 12, 2, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 4, 0, 0, 8, 1, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 4, 0, 9, 8, 1, 12, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 0, 0, 4, 3, 1, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228333_, p_228337_, 9, 0, 4, 12, 1, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+ 
+          for(int l1 = 4; l1 <= 8; ++l1) {
+             for(int i1 = 0; i1 <= 2; ++i1) {
+@@ -835,44 +_,44 @@
+          p_228378_.m_128379_("Mob", this.f_228354_);
+       }
+ 
+-      public static NetherFortressPieces.MonsterThrone m_228369_(StructurePieceAccessor p_228370_, int p_228371_, int p_228372_, int p_228373_, int p_228374_, Direction p_228375_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228371_, p_228372_, p_228373_, -2, 0, 0, 7, 8, 9, p_228375_);
++      public static NetherFortressPieces.MonsterThrone createPiece(StructurePieceAccessor p_228370_, long p_228371_, long p_228372_, long p_228373_, int p_228374_, Direction p_228375_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228371_, p_228372_, p_228373_, -2, 0, 0, 7, 8, 9, p_228375_);
+          return m_228386_(boundingbox) && p_228370_.m_141921_(boundingbox) == null ? new NetherFortressPieces.MonsterThrone(p_228374_, boundingbox, p_228375_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228362_, StructureManager p_228363_, ChunkGenerator p_228364_, RandomSource p_228365_, BoundingBox p_228366_, ChunkPos p_228367_, BlockPos p_228368_) {
+-         this.m_73441_(p_228362_, p_228366_, 0, 2, 0, 6, 7, 7, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228362_, p_228366_, 1, 0, 0, 5, 1, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228362_, p_228366_, 1, 2, 1, 5, 2, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228362_, p_228366_, 1, 3, 2, 5, 3, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228362_, p_228366_, 1, 4, 3, 5, 4, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228362_, p_228366_, 1, 2, 0, 1, 4, 2, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228362_, p_228366_, 5, 2, 0, 5, 4, 2, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228362_, p_228366_, 1, 5, 2, 1, 5, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228362_, p_228366_, 5, 5, 2, 5, 5, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228362_, p_228366_, 0, 5, 3, 0, 5, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228362_, p_228366_, 6, 5, 3, 6, 5, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228362_, p_228366_, 1, 5, 8, 5, 5, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 0, 2, 0, 6, 7, 7, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 1, 0, 0, 5, 1, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 1, 2, 1, 5, 2, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 1, 3, 2, 5, 3, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 1, 4, 3, 5, 4, 7, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 1, 2, 0, 1, 4, 2, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 5, 2, 0, 5, 4, 2, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 1, 5, 2, 1, 5, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 5, 5, 2, 5, 5, 3, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 0, 5, 3, 0, 5, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 6, 5, 3, 6, 5, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228362_, p_228366_, 1, 5, 8, 5, 5, 8, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+          BlockState blockstate = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+          BlockState blockstate1 = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true));
+-         this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 1, 6, 3, p_228366_);
+-         this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 5, 6, 3, p_228366_);
+-         this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)), 0, 6, 3, p_228366_);
+-         this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)), 6, 6, 3, p_228366_);
+-         this.m_73441_(p_228362_, p_228366_, 0, 6, 4, 0, 6, 7, blockstate1, blockstate1, false);
+-         this.m_73441_(p_228362_, p_228366_, 6, 6, 4, 6, 6, 7, blockstate1, blockstate1, false);
+-         this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 0, 6, 8, p_228366_);
+-         this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 6, 6, 8, p_228366_);
+-         this.m_73441_(p_228362_, p_228366_, 1, 6, 8, 5, 6, 8, blockstate, blockstate, false);
+-         this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 1, 7, 8, p_228366_);
+-         this.m_73441_(p_228362_, p_228366_, 2, 7, 8, 4, 7, 8, blockstate, blockstate, false);
+-         this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 5, 7, 8, p_228366_);
+-         this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 2, 8, 8, p_228366_);
+-         this.m_73434_(p_228362_, blockstate, 3, 8, 8, p_228366_);
+-         this.m_73434_(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 4, 8, 8, p_228366_);
++         this.placeBlock(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 1, 6, 3, p_228366_);
++         this.placeBlock(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 5, 6, 3, p_228366_);
++         this.placeBlock(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)), 0, 6, 3, p_228366_);
++         this.placeBlock(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)), 6, 6, 3, p_228366_);
++         this.generateBox(p_228362_, p_228366_, 0, 6, 4, 0, 6, 7, blockstate1, blockstate1, false);
++         this.generateBox(p_228362_, p_228366_, 6, 6, 4, 6, 6, 7, blockstate1, blockstate1, false);
++         this.placeBlock(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 0, 6, 8, p_228366_);
++         this.placeBlock(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true)), 6, 6, 8, p_228366_);
++         this.generateBox(p_228362_, p_228366_, 1, 6, 8, 5, 6, 8, blockstate, blockstate, false);
++         this.placeBlock(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 1, 7, 8, p_228366_);
++         this.generateBox(p_228362_, p_228366_, 2, 7, 8, 4, 7, 8, blockstate, blockstate, false);
++         this.placeBlock(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 5, 7, 8, p_228366_);
++         this.placeBlock(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true)), 2, 8, 8, p_228366_);
++         this.placeBlock(p_228362_, blockstate, 3, 8, 8, p_228366_);
++         this.placeBlock(p_228362_, Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)), 4, 8, 8, p_228366_);
           if (!this.f_228354_) {
-             BlockPos blockpos = this.m_163582_(3, 5, 5);
+-            BlockPos blockpos = this.m_163582_(3, 5, 5);
 -            if (p_228366_.m_71051_(blockpos)) {
++            BlockPos blockpos = this.getWorldPos(3, 5, 5);
 +            if (p_228366_.isInside(blockpos)) {
                 this.f_228354_ = true;
                 p_228362_.m_7731_(blockpos, Blocks.f_50085_.m_49966_(), 2);
                 BlockEntity blockentity = p_228362_.m_7702_(blockpos);
+@@ -918,7 +_,7 @@
+          return flag ? i : -1;
+       }
+ 
+-      private NetherFortressPieces.NetherBridgePiece m_228408_(NetherFortressPieces.StartPiece p_228409_, List<NetherFortressPieces.PieceWeight> p_228410_, StructurePieceAccessor p_228411_, RandomSource p_228412_, int p_228413_, int p_228414_, int p_228415_, Direction p_228416_, int p_228417_) {
++      private NetherFortressPieces.NetherBridgePiece generatePiece(NetherFortressPieces.StartPiece p_228409_, List<NetherFortressPieces.PieceWeight> p_228410_, StructurePieceAccessor p_228411_, RandomSource p_228412_, long p_228413_, long p_228414_, long p_228415_, Direction p_228416_, int p_228417_) {
+          int i = this.m_228418_(p_228410_);
+          boolean flag = i > 0 && p_228417_ <= 30;
+          int j = 0;
+@@ -934,7 +_,7 @@
+                      break;
+                   }
+ 
+-                  NetherFortressPieces.NetherBridgePiece netherfortresspieces$netherbridgepiece = NetherFortressPieces.m_228007_(netherfortresspieces$pieceweight, p_228411_, p_228412_, p_228413_, p_228414_, p_228415_, p_228416_, p_228417_);
++                  NetherFortressPieces.NetherBridgePiece netherfortresspieces$netherbridgepiece = NetherFortressPieces.findAndCreateBridgePieceFactory(netherfortresspieces$pieceweight, p_228411_, p_228412_, p_228413_, p_228414_, p_228415_, p_228416_, p_228417_);
+                   if (netherfortresspieces$netherbridgepiece != null) {
+                      ++netherfortresspieces$pieceweight.f_228436_;
+                      p_228409_.f_228507_ = netherfortresspieces$pieceweight;
+@@ -948,17 +_,17 @@
+             }
+          }
+ 
+-         return NetherFortressPieces.BridgeEndFiller.m_228072_(p_228411_, p_228412_, p_228413_, p_228414_, p_228415_, p_228416_, p_228417_);
++         return NetherFortressPieces.BridgeEndFiller.createPiece(p_228411_, p_228412_, p_228413_, p_228414_, p_228415_, p_228416_, p_228417_);
+       }
+ 
+-      private StructurePiece m_228391_(NetherFortressPieces.StartPiece p_228392_, StructurePieceAccessor p_228393_, RandomSource p_228394_, int p_228395_, int p_228396_, int p_228397_, @Nullable Direction p_228398_, int p_228399_, boolean p_228400_) {
+-         if (Math.abs(p_228395_ - p_228392_.m_73547_().m_162395_()) <= 112 && Math.abs(p_228397_ - p_228392_.m_73547_().m_162398_()) <= 112) {
++      private StructurePiece generateAndAddPiece(NetherFortressPieces.StartPiece p_228392_, StructurePieceAccessor p_228393_, RandomSource p_228394_, long p_228395_, long p_228396_, long p_228397_, @Nullable Direction p_228398_, int p_228399_, boolean p_228400_) {
++         if (Math.abs(p_228395_ - p_228392_.m_73547_().minX()) <= 112 && Math.abs(p_228397_ - p_228392_.m_73547_().minZ()) <= 112) {
+             List<NetherFortressPieces.PieceWeight> list = p_228392_.f_228508_;
+             if (p_228400_) {
+                list = p_228392_.f_228509_;
+             }
+ 
+-            StructurePiece structurepiece = this.m_228408_(p_228392_, list, p_228393_, p_228394_, p_228395_, p_228396_, p_228397_, p_228398_, p_228399_ + 1);
++            StructurePiece structurepiece = this.generatePiece(p_228392_, list, p_228393_, p_228394_, p_228395_, p_228396_, p_228397_, p_228398_, p_228399_ + 1);
+             if (structurepiece != null) {
+                p_228393_.m_142679_(structurepiece);
+                p_228392_.f_228510_.add(structurepiece);
+@@ -966,7 +_,7 @@
+ 
+             return structurepiece;
+          } else {
+-            return NetherFortressPieces.BridgeEndFiller.m_228072_(p_228393_, p_228394_, p_228395_, p_228396_, p_228397_, p_228398_, p_228399_);
++            return NetherFortressPieces.BridgeEndFiller.createPiece(p_228393_, p_228394_, p_228395_, p_228396_, p_228397_, p_228398_, p_228399_);
+          }
+       }
+ 
+@@ -976,13 +_,13 @@
+          if (direction != null) {
+             switch (direction) {
+                case NORTH:
+-                  return this.m_228391_(p_228402_, p_228403_, p_228404_, this.f_73383_.m_162395_() + p_228405_, this.f_73383_.m_162396_() + p_228406_, this.f_73383_.m_162398_() - 1, direction, this.m_73548_(), p_228407_);
++                  return this.generateAndAddPiece(p_228402_, p_228403_, p_228404_, this.f_73383_.minX() + p_228405_, this.f_73383_.minY() + p_228406_, this.f_73383_.minZ() - 1, direction, this.m_73548_(), p_228407_);
+                case SOUTH:
+-                  return this.m_228391_(p_228402_, p_228403_, p_228404_, this.f_73383_.m_162395_() + p_228405_, this.f_73383_.m_162396_() + p_228406_, this.f_73383_.m_162401_() + 1, direction, this.m_73548_(), p_228407_);
++                  return this.generateAndAddPiece(p_228402_, p_228403_, p_228404_, this.f_73383_.minX() + p_228405_, this.f_73383_.minY() + p_228406_, this.f_73383_.maxZ() + 1, direction, this.m_73548_(), p_228407_);
+                case WEST:
+-                  return this.m_228391_(p_228402_, p_228403_, p_228404_, this.f_73383_.m_162395_() - 1, this.f_73383_.m_162396_() + p_228406_, this.f_73383_.m_162398_() + p_228405_, direction, this.m_73548_(), p_228407_);
++                  return this.generateAndAddPiece(p_228402_, p_228403_, p_228404_, this.f_73383_.minX() - 1, this.f_73383_.minY() + p_228406_, this.f_73383_.minZ() + p_228405_, direction, this.m_73548_(), p_228407_);
+                case EAST:
+-                  return this.m_228391_(p_228402_, p_228403_, p_228404_, this.f_73383_.m_162399_() + 1, this.f_73383_.m_162396_() + p_228406_, this.f_73383_.m_162398_() + p_228405_, direction, this.m_73548_(), p_228407_);
++                  return this.generateAndAddPiece(p_228402_, p_228403_, p_228404_, this.f_73383_.maxX() + 1, this.f_73383_.minY() + p_228406_, this.f_73383_.minZ() + p_228405_, direction, this.m_73548_(), p_228407_);
+             }
+          }
+ 
+@@ -995,13 +_,13 @@
+          if (direction != null) {
+             switch (direction) {
+                case NORTH:
+-                  return this.m_228391_(p_228421_, p_228422_, p_228423_, this.f_73383_.m_162395_() - 1, this.f_73383_.m_162396_() + p_228424_, this.f_73383_.m_162398_() + p_228425_, Direction.WEST, this.m_73548_(), p_228426_);
++                  return this.generateAndAddPiece(p_228421_, p_228422_, p_228423_, this.f_73383_.minX() - 1, this.f_73383_.minY() + p_228424_, this.f_73383_.minZ() + p_228425_, Direction.WEST, this.m_73548_(), p_228426_);
+                case SOUTH:
+-                  return this.m_228391_(p_228421_, p_228422_, p_228423_, this.f_73383_.m_162395_() - 1, this.f_73383_.m_162396_() + p_228424_, this.f_73383_.m_162398_() + p_228425_, Direction.WEST, this.m_73548_(), p_228426_);
++                  return this.generateAndAddPiece(p_228421_, p_228422_, p_228423_, this.f_73383_.minX() - 1, this.f_73383_.minY() + p_228424_, this.f_73383_.minZ() + p_228425_, Direction.WEST, this.m_73548_(), p_228426_);
+                case WEST:
+-                  return this.m_228391_(p_228421_, p_228422_, p_228423_, this.f_73383_.m_162395_() + p_228425_, this.f_73383_.m_162396_() + p_228424_, this.f_73383_.m_162398_() - 1, Direction.NORTH, this.m_73548_(), p_228426_);
++                  return this.generateAndAddPiece(p_228421_, p_228422_, p_228423_, this.f_73383_.minX() + p_228425_, this.f_73383_.minY() + p_228424_, this.f_73383_.minZ() - 1, Direction.NORTH, this.m_73548_(), p_228426_);
+                case EAST:
+-                  return this.m_228391_(p_228421_, p_228422_, p_228423_, this.f_73383_.m_162395_() + p_228425_, this.f_73383_.m_162396_() + p_228424_, this.f_73383_.m_162398_() - 1, Direction.NORTH, this.m_73548_(), p_228426_);
++                  return this.generateAndAddPiece(p_228421_, p_228422_, p_228423_, this.f_73383_.minX() + p_228425_, this.f_73383_.minY() + p_228424_, this.f_73383_.minZ() - 1, Direction.NORTH, this.m_73548_(), p_228426_);
+             }
+          }
+ 
+@@ -1014,13 +_,13 @@
+          if (direction != null) {
+             switch (direction) {
+                case NORTH:
+-                  return this.m_228391_(p_228428_, p_228429_, p_228430_, this.f_73383_.m_162399_() + 1, this.f_73383_.m_162396_() + p_228431_, this.f_73383_.m_162398_() + p_228432_, Direction.EAST, this.m_73548_(), p_228433_);
++                  return this.generateAndAddPiece(p_228428_, p_228429_, p_228430_, this.f_73383_.maxX() + 1, this.f_73383_.minY() + p_228431_, this.f_73383_.minZ() + p_228432_, Direction.EAST, this.m_73548_(), p_228433_);
+                case SOUTH:
+-                  return this.m_228391_(p_228428_, p_228429_, p_228430_, this.f_73383_.m_162399_() + 1, this.f_73383_.m_162396_() + p_228431_, this.f_73383_.m_162398_() + p_228432_, Direction.EAST, this.m_73548_(), p_228433_);
++                  return this.generateAndAddPiece(p_228428_, p_228429_, p_228430_, this.f_73383_.maxX() + 1, this.f_73383_.minY() + p_228431_, this.f_73383_.minZ() + p_228432_, Direction.EAST, this.m_73548_(), p_228433_);
+                case WEST:
+-                  return this.m_228391_(p_228428_, p_228429_, p_228430_, this.f_73383_.m_162395_() + p_228432_, this.f_73383_.m_162396_() + p_228431_, this.f_73383_.m_162401_() + 1, Direction.SOUTH, this.m_73548_(), p_228433_);
++                  return this.generateAndAddPiece(p_228428_, p_228429_, p_228430_, this.f_73383_.minX() + p_228432_, this.f_73383_.minY() + p_228431_, this.f_73383_.maxZ() + 1, Direction.SOUTH, this.m_73548_(), p_228433_);
+                case EAST:
+-                  return this.m_228391_(p_228428_, p_228429_, p_228430_, this.f_73383_.m_162395_() + p_228432_, this.f_73383_.m_162396_() + p_228431_, this.f_73383_.m_162401_() + 1, Direction.SOUTH, this.m_73548_(), p_228433_);
++                  return this.generateAndAddPiece(p_228428_, p_228429_, p_228430_, this.f_73383_.minX() + p_228432_, this.f_73383_.minY() + p_228431_, this.f_73383_.maxZ() + 1, Direction.SOUTH, this.m_73548_(), p_228433_);
+             }
+          }
+ 
+@@ -1028,7 +_,7 @@
+       }
+ 
+       protected static boolean m_228386_(BoundingBox p_228387_) {
+-         return p_228387_ != null && p_228387_.m_162396_() > 10;
++         return p_228387_ != null && p_228387_.minY() > 10;
+       }
+    }
+ 
+@@ -1079,32 +_,32 @@
+          this.m_228427_((NetherFortressPieces.StartPiece)p_228469_, p_228470_, p_228471_, 0, 2, false);
+       }
+ 
+-      public static NetherFortressPieces.RoomCrossing m_228472_(StructurePieceAccessor p_228473_, int p_228474_, int p_228475_, int p_228476_, Direction p_228477_, int p_228478_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228474_, p_228475_, p_228476_, -2, 0, 0, 7, 9, 7, p_228477_);
++      public static NetherFortressPieces.RoomCrossing createPiece(StructurePieceAccessor p_228473_, long p_228474_, long p_228475_, long p_228476_, Direction p_228477_, int p_228478_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228474_, p_228475_, p_228476_, -2, 0, 0, 7, 9, 7, p_228477_);
+          return m_228386_(boundingbox) && p_228473_.m_141921_(boundingbox) == null ? new NetherFortressPieces.RoomCrossing(p_228478_, boundingbox, p_228477_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228461_, StructureManager p_228462_, ChunkGenerator p_228463_, RandomSource p_228464_, BoundingBox p_228465_, ChunkPos p_228466_, BlockPos p_228467_) {
+-         this.m_73441_(p_228461_, p_228465_, 0, 0, 0, 6, 1, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 0, 2, 0, 6, 7, 6, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 0, 2, 0, 1, 6, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 0, 2, 6, 1, 6, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 5, 2, 0, 6, 6, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 5, 2, 6, 6, 6, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 0, 2, 0, 0, 6, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 0, 2, 5, 0, 6, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 6, 2, 0, 6, 6, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 6, 2, 5, 6, 6, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 0, 0, 0, 6, 1, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 0, 2, 0, 6, 7, 6, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 0, 2, 0, 1, 6, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 0, 2, 6, 1, 6, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 5, 2, 0, 6, 6, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 5, 2, 6, 6, 6, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 0, 2, 0, 0, 6, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 0, 2, 5, 0, 6, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 6, 2, 0, 6, 6, 1, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 6, 2, 5, 6, 6, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+          BlockState blockstate = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+          BlockState blockstate1 = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true));
+-         this.m_73441_(p_228461_, p_228465_, 2, 6, 0, 4, 6, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 2, 5, 0, 4, 5, 0, blockstate, blockstate, false);
+-         this.m_73441_(p_228461_, p_228465_, 2, 6, 6, 4, 6, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 2, 5, 6, 4, 5, 6, blockstate, blockstate, false);
+-         this.m_73441_(p_228461_, p_228465_, 0, 6, 2, 0, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 0, 5, 2, 0, 5, 4, blockstate1, blockstate1, false);
+-         this.m_73441_(p_228461_, p_228465_, 6, 6, 2, 6, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228461_, p_228465_, 6, 5, 2, 6, 5, 4, blockstate1, blockstate1, false);
++         this.generateBox(p_228461_, p_228465_, 2, 6, 0, 4, 6, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 2, 5, 0, 4, 5, 0, blockstate, blockstate, false);
++         this.generateBox(p_228461_, p_228465_, 2, 6, 6, 4, 6, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 2, 5, 6, 4, 5, 6, blockstate, blockstate, false);
++         this.generateBox(p_228461_, p_228465_, 0, 6, 2, 0, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 0, 5, 2, 0, 5, 4, blockstate1, blockstate1, false);
++         this.generateBox(p_228461_, p_228465_, 6, 6, 2, 6, 6, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228461_, p_228465_, 6, 5, 2, 6, 5, 4, blockstate1, blockstate1, false);
+ 
+          for(int i = 0; i <= 6; ++i) {
+             for(int j = 0; j <= 6; ++j) {
+@@ -1133,33 +_,33 @@
+          this.m_228427_((NetherFortressPieces.StartPiece)p_228497_, p_228498_, p_228499_, 6, 2, false);
+       }
+ 
+-      public static NetherFortressPieces.StairsRoom m_228500_(StructurePieceAccessor p_228501_, int p_228502_, int p_228503_, int p_228504_, int p_228505_, Direction p_228506_) {
+-         BoundingBox boundingbox = BoundingBox.m_71031_(p_228502_, p_228503_, p_228504_, -2, 0, 0, 7, 11, 7, p_228506_);
++      public static NetherFortressPieces.StairsRoom createPiece(StructurePieceAccessor p_228501_, long p_228502_, long p_228503_, long p_228504_, int p_228505_, Direction p_228506_) {
++         BoundingBox boundingbox = BoundingBox.orientBox(p_228502_, p_228503_, p_228504_, -2, 0, 0, 7, 11, 7, p_228506_);
+          return m_228386_(boundingbox) && p_228501_.m_141921_(boundingbox) == null ? new NetherFortressPieces.StairsRoom(p_228505_, boundingbox, p_228506_) : null;
+       }
+ 
+       public void m_213694_(WorldGenLevel p_228489_, StructureManager p_228490_, ChunkGenerator p_228491_, RandomSource p_228492_, BoundingBox p_228493_, ChunkPos p_228494_, BlockPos p_228495_) {
+-         this.m_73441_(p_228489_, p_228493_, 0, 0, 0, 6, 1, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 0, 2, 0, 6, 10, 6, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 0, 2, 0, 1, 8, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 5, 2, 0, 6, 8, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 0, 2, 1, 0, 8, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 6, 2, 1, 6, 8, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 1, 2, 6, 5, 8, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 0, 0, 0, 6, 1, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 0, 2, 0, 6, 10, 6, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 0, 2, 0, 1, 8, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 5, 2, 0, 6, 8, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 0, 2, 1, 0, 8, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 6, 2, 1, 6, 8, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 1, 2, 6, 5, 8, 6, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+          BlockState blockstate = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52312_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52310_, Boolean.valueOf(true));
+          BlockState blockstate1 = Blocks.f_50198_.m_49966_().m_61124_(FenceBlock.f_52309_, Boolean.valueOf(true)).m_61124_(FenceBlock.f_52311_, Boolean.valueOf(true));
+-         this.m_73441_(p_228489_, p_228493_, 0, 3, 2, 0, 5, 4, blockstate1, blockstate1, false);
+-         this.m_73441_(p_228489_, p_228493_, 6, 3, 2, 6, 5, 2, blockstate1, blockstate1, false);
+-         this.m_73441_(p_228489_, p_228493_, 6, 3, 4, 6, 5, 4, blockstate1, blockstate1, false);
+-         this.m_73434_(p_228489_, Blocks.f_50197_.m_49966_(), 5, 2, 5, p_228493_);
+-         this.m_73441_(p_228489_, p_228493_, 4, 2, 5, 4, 3, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 3, 2, 5, 3, 4, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 2, 2, 5, 2, 5, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 1, 2, 5, 1, 6, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 1, 7, 1, 5, 7, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 6, 8, 2, 6, 8, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 2, 6, 0, 4, 8, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
+-         this.m_73441_(p_228489_, p_228493_, 2, 5, 0, 4, 5, 0, blockstate, blockstate, false);
++         this.generateBox(p_228489_, p_228493_, 0, 3, 2, 0, 5, 4, blockstate1, blockstate1, false);
++         this.generateBox(p_228489_, p_228493_, 6, 3, 2, 6, 5, 2, blockstate1, blockstate1, false);
++         this.generateBox(p_228489_, p_228493_, 6, 3, 4, 6, 5, 4, blockstate1, blockstate1, false);
++         this.placeBlock(p_228489_, Blocks.f_50197_.m_49966_(), 5, 2, 5, p_228493_);
++         this.generateBox(p_228489_, p_228493_, 4, 2, 5, 4, 3, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 3, 2, 5, 3, 4, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 2, 2, 5, 2, 5, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 1, 2, 5, 1, 6, 5, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 1, 7, 1, 5, 7, 4, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 6, 8, 2, 6, 8, 4, Blocks.f_50016_.m_49966_(), Blocks.f_50016_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 2, 6, 0, 4, 8, 0, Blocks.f_50197_.m_49966_(), Blocks.f_50197_.m_49966_(), false);
++         this.generateBox(p_228489_, p_228493_, 2, 5, 0, 4, 5, 0, blockstate, blockstate, false);
+ 
+          for(int i = 0; i <= 6; ++i) {
+             for(int j = 0; j <= 6; ++j) {
 @@ -1176,7 +_,7 @@
        public List<NetherFortressPieces.PieceWeight> f_228509_;
        public final List<StructurePiece> f_228510_ = Lists.newArrayList();

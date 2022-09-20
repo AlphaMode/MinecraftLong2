@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/StructurePiece.java
 +++ b/net/minecraft/world/level/levelgen/structure/StructurePiece.java
-@@ -103,9 +_,9 @@
+@@ -103,20 +_,20 @@
     }
  
     public boolean m_73411_(ChunkPos p_73412_, int p_73413_) {
@@ -13,26 +13,100 @@
     }
  
     public BlockPos m_142171_() {
-@@ -160,7 +_,7 @@
+       return new BlockPos(this.f_73383_.m_162394_());
+    }
  
-    protected void m_73434_(WorldGenLevel p_73435_, BlockState p_73436_, int p_73437_, int p_73438_, int p_73439_, BoundingBox p_73440_) {
-       BlockPos blockpos = this.m_163582_(p_73437_, p_73438_, p_73439_);
+-   protected BlockPos.MutableBlockPos m_163582_(int p_163583_, int p_163584_, int p_163585_) {
+-      return new BlockPos.MutableBlockPos(this.m_73392_(p_163583_, p_163585_), this.m_73544_(p_163584_), this.m_73525_(p_163583_, p_163585_));
++   protected BlockPos.MutableBlockPos getWorldPos(long p_163583_, long p_163584_, long p_163585_) {
++      return new BlockPos.MutableBlockPos(this.getWorldX(p_163583_, p_163585_), this.getWorldY(p_163584_), this.getWorldZ(p_163583_, p_163585_));
+    }
+ 
+-   protected int m_73392_(int p_73393_, int p_73394_) {
++   protected long getWorldX(long p_73393_, long p_73394_) {
+       Direction direction = this.m_73549_();
+       if (direction == null) {
+          return p_73393_;
+@@ -124,44 +_,44 @@
+          switch (direction) {
+             case NORTH:
+             case SOUTH:
+-               return this.f_73383_.m_162395_() + p_73393_;
++               return this.f_73383_.minX() + p_73393_;
+             case WEST:
+-               return this.f_73383_.m_162399_() - p_73394_;
++               return this.f_73383_.maxX() - p_73394_;
+             case EAST:
+-               return this.f_73383_.m_162395_() + p_73394_;
++               return this.f_73383_.minX() + p_73394_;
+             default:
+                return p_73393_;
+          }
+       }
+    }
+ 
+-   protected int m_73544_(int p_73545_) {
+-      return this.m_73549_() == null ? p_73545_ : p_73545_ + this.f_73383_.m_162396_();
++   protected long getWorldY(long p_73545_) {
++      return this.m_73549_() == null ? p_73545_ : p_73545_ + this.f_73383_.minY();
+    }
+ 
+-   protected int m_73525_(int p_73526_, int p_73527_) {
++   protected long getWorldZ(long p_73526_, long p_73527_) {
+       Direction direction = this.m_73549_();
+       if (direction == null) {
+          return p_73527_;
+       } else {
+          switch (direction) {
+             case NORTH:
+-               return this.f_73383_.m_162401_() - p_73527_;
++               return this.f_73383_.maxZ() - p_73527_;
+             case SOUTH:
+-               return this.f_73383_.m_162398_() + p_73527_;
++               return this.f_73383_.minZ() + p_73527_;
+             case WEST:
+             case EAST:
+-               return this.f_73383_.m_162398_() + p_73526_;
++               return this.f_73383_.minZ() + p_73526_;
+             default:
+                return p_73527_;
+          }
+       }
+    }
+ 
+-   protected void m_73434_(WorldGenLevel p_73435_, BlockState p_73436_, int p_73437_, int p_73438_, int p_73439_, BoundingBox p_73440_) {
+-      BlockPos blockpos = this.m_163582_(p_73437_, p_73438_, p_73439_);
 -      if (p_73440_.m_71051_(blockpos)) {
+-         if (this.m_142085_(p_73435_, p_73437_, p_73438_, p_73439_, p_73440_)) {
++   protected void placeBlock(WorldGenLevel p_73435_, BlockState p_73436_, long p_73437_, long p_73438_, long p_73439_, BoundingBox p_73440_) {
++      BlockPos blockpos = this.getWorldPos(p_73437_, p_73438_, p_73439_);
 +      if (p_73440_.isInside(blockpos)) {
-          if (this.m_142085_(p_73435_, p_73437_, p_73438_, p_73439_, p_73440_)) {
++         if (this.canBeReplaced(p_73435_, p_73437_, p_73438_, p_73439_, p_73440_)) {
              if (this.f_73378_ != Mirror.NONE) {
                 p_73436_ = p_73436_.m_60715_(this.f_73378_);
-@@ -190,15 +_,15 @@
+             }
+@@ -184,21 +_,21 @@
+       }
+    }
  
-    protected BlockState m_73398_(BlockGetter p_73399_, int p_73400_, int p_73401_, int p_73402_, BoundingBox p_73403_) {
-       BlockPos blockpos = this.m_163582_(p_73400_, p_73401_, p_73402_);
+-   protected boolean m_142085_(LevelReader p_163553_, int p_163554_, int p_163555_, int p_163556_, BoundingBox p_163557_) {
++   protected boolean canBeReplaced(LevelReader p_163553_, long p_163554_, long p_163555_, long p_163556_, BoundingBox p_163557_) {
+       return true;
+    }
+ 
+-   protected BlockState m_73398_(BlockGetter p_73399_, int p_73400_, int p_73401_, int p_73402_, BoundingBox p_73403_) {
+-      BlockPos blockpos = this.m_163582_(p_73400_, p_73401_, p_73402_);
 -      return !p_73403_.m_71051_(blockpos) ? Blocks.f_50016_.m_49966_() : p_73399_.m_8055_(blockpos);
++   protected BlockState getBlock(BlockGetter p_73399_, long p_73400_, long p_73401_, long p_73402_, BoundingBox p_73403_) {
++      BlockPos blockpos = this.getWorldPos(p_73400_, p_73401_, p_73402_);
 +      return !p_73403_.isInside(blockpos) ? Blocks.f_50016_.m_49966_() : p_73399_.m_8055_(blockpos);
     }
  
-    protected boolean m_73414_(LevelReader p_73415_, int p_73416_, int p_73417_, int p_73418_, BoundingBox p_73419_) {
-       BlockPos blockpos = this.m_163582_(p_73416_, p_73417_ + 1, p_73418_);
+-   protected boolean m_73414_(LevelReader p_73415_, int p_73416_, int p_73417_, int p_73418_, BoundingBox p_73419_) {
+-      BlockPos blockpos = this.m_163582_(p_73416_, p_73417_ + 1, p_73418_);
 -      if (!p_73419_.m_71051_(blockpos)) {
++   protected boolean isInterior(LevelReader p_73415_, long p_73416_, long p_73417_, long p_73418_, BoundingBox p_73419_) {
++      BlockPos blockpos = this.getWorldPos(p_73416_, p_73417_ + 1, p_73418_);
 +      if (!p_73419_.isInside(blockpos)) {
           return false;
        } else {
@@ -41,18 +115,146 @@
        }
     }
  
-@@ -305,8 +_,8 @@
+@@ -206,22 +_,22 @@
+       for(int i = p_73539_; i <= p_73542_; ++i) {
+          for(int j = p_73538_; j <= p_73541_; ++j) {
+             for(int k = p_73540_; k <= p_73543_; ++k) {
+-               this.m_73434_(p_73536_, Blocks.f_50016_.m_49966_(), j, i, k, p_73537_);
++               this.placeBlock(p_73536_, Blocks.f_50016_.m_49966_(), j, i, k, p_73537_);
+             }
+          }
+       }
+ 
+    }
+ 
+-   protected void m_73441_(WorldGenLevel p_73442_, BoundingBox p_73443_, int p_73444_, int p_73445_, int p_73446_, int p_73447_, int p_73448_, int p_73449_, BlockState p_73450_, BlockState p_73451_, boolean p_73452_) {
+-      for(int i = p_73445_; i <= p_73448_; ++i) {
+-         for(int j = p_73444_; j <= p_73447_; ++j) {
+-            for(int k = p_73446_; k <= p_73449_; ++k) {
+-               if (!p_73452_ || !this.m_73398_(p_73442_, j, i, k, p_73443_).m_60795_()) {
++   protected void generateBox(WorldGenLevel p_73442_, BoundingBox p_73443_, long p_73444_, long p_73445_, long p_73446_, long p_73447_, long p_73448_, long p_73449_, BlockState p_73450_, BlockState p_73451_, boolean p_73452_) {
++      for(long i = p_73445_; i <= p_73448_; ++i) {
++         for(long j = p_73444_; j <= p_73447_; ++j) {
++            for(long k = p_73446_; k <= p_73449_; ++k) {
++               if (!p_73452_ || !this.getBlock(p_73442_, j, i, k, p_73443_).m_60795_()) {
+                   if (i != p_73445_ && i != p_73448_ && j != p_73444_ && j != p_73447_ && k != p_73446_ && k != p_73449_) {
+-                     this.m_73434_(p_73442_, p_73451_, j, i, k, p_73443_);
++                     this.placeBlock(p_73442_, p_73451_, j, i, k, p_73443_);
+                   } else {
+-                     this.m_73434_(p_73442_, p_73450_, j, i, k, p_73443_);
++                     this.placeBlock(p_73442_, p_73450_, j, i, k, p_73443_);
+                   }
+                }
+             }
+@@ -231,16 +_,16 @@
+    }
+ 
+    protected void m_163558_(WorldGenLevel p_163559_, BoundingBox p_163560_, BoundingBox p_163561_, BlockState p_163562_, BlockState p_163563_, boolean p_163564_) {
+-      this.m_73441_(p_163559_, p_163560_, p_163561_.m_162395_(), p_163561_.m_162396_(), p_163561_.m_162398_(), p_163561_.m_162399_(), p_163561_.m_162400_(), p_163561_.m_162401_(), p_163562_, p_163563_, p_163564_);
++      this.generateBox(p_163559_, p_163560_, p_163561_.minX(), p_163561_.minY(), p_163561_.minZ(), p_163561_.maxX(), p_163561_.maxY(), p_163561_.maxZ(), p_163562_, p_163563_, p_163564_);
+    }
+ 
+-   protected void m_226776_(WorldGenLevel p_226777_, BoundingBox p_226778_, int p_226779_, int p_226780_, int p_226781_, int p_226782_, int p_226783_, int p_226784_, boolean p_226785_, RandomSource p_226786_, StructurePiece.BlockSelector p_226787_) {
+-      for(int i = p_226780_; i <= p_226783_; ++i) {
+-         for(int j = p_226779_; j <= p_226782_; ++j) {
+-            for(int k = p_226781_; k <= p_226784_; ++k) {
+-               if (!p_226785_ || !this.m_73398_(p_226777_, j, i, k, p_226778_).m_60795_()) {
+-                  p_226787_.m_213766_(p_226786_, j, i, k, i == p_226780_ || i == p_226783_ || j == p_226779_ || j == p_226782_ || k == p_226781_ || k == p_226784_);
+-                  this.m_73434_(p_226777_, p_226787_.m_73555_(), j, i, k, p_226778_);
++   protected void generateBox(WorldGenLevel p_226777_, BoundingBox p_226778_, long p_226779_, long p_226780_, long p_226781_, long p_226782_, long p_226783_, long p_226784_, boolean p_226785_, RandomSource p_226786_, StructurePiece.BlockSelector p_226787_) {
++      for(long i = p_226780_; i <= p_226783_; ++i) {
++         for(long j = p_226779_; j <= p_226782_; ++j) {
++            for(long k = p_226781_; k <= p_226784_; ++k) {
++               if (!p_226785_ || !this.getBlock(p_226777_, j, i, k, p_226778_).m_60795_()) {
++                  p_226787_.next(p_226786_, j, i, k, i == p_226780_ || i == p_226783_ || j == p_226779_ || j == p_226782_ || k == p_226781_ || k == p_226784_);
++                  this.placeBlock(p_226777_, p_226787_.m_73555_(), j, i, k, p_226778_);
+                }
+             }
+          }
+@@ -249,18 +_,18 @@
+    }
+ 
+    protected void m_226828_(WorldGenLevel p_226829_, BoundingBox p_226830_, BoundingBox p_226831_, boolean p_226832_, RandomSource p_226833_, StructurePiece.BlockSelector p_226834_) {
+-      this.m_226776_(p_226829_, p_226830_, p_226831_.m_162395_(), p_226831_.m_162396_(), p_226831_.m_162398_(), p_226831_.m_162399_(), p_226831_.m_162400_(), p_226831_.m_162401_(), p_226832_, p_226833_, p_226834_);
++      this.generateBox(p_226829_, p_226830_, p_226831_.minX(), p_226831_.minY(), p_226831_.minZ(), p_226831_.maxX(), p_226831_.maxY(), p_226831_.maxZ(), p_226832_, p_226833_, p_226834_);
+    }
+ 
+-   protected void m_226788_(WorldGenLevel p_226789_, BoundingBox p_226790_, RandomSource p_226791_, float p_226792_, int p_226793_, int p_226794_, int p_226795_, int p_226796_, int p_226797_, int p_226798_, BlockState p_226799_, BlockState p_226800_, boolean p_226801_, boolean p_226802_) {
++   protected void generateMaybeBox(WorldGenLevel p_226789_, BoundingBox p_226790_, RandomSource p_226791_, float p_226792_, int p_226793_, int p_226794_, int p_226795_, int p_226796_, int p_226797_, long p_226798_, BlockState p_226799_, BlockState p_226800_, boolean p_226801_, boolean p_226802_) {
+       for(int i = p_226794_; i <= p_226797_; ++i) {
+          for(int j = p_226793_; j <= p_226796_; ++j) {
+             for(int k = p_226795_; k <= p_226798_; ++k) {
+-               if (!(p_226791_.m_188501_() > p_226792_) && (!p_226801_ || !this.m_73398_(p_226789_, j, i, k, p_226790_).m_60795_()) && (!p_226802_ || this.m_73414_(p_226789_, j, i, k, p_226790_))) {
++               if (!(p_226791_.m_188501_() > p_226792_) && (!p_226801_ || !this.getBlock(p_226789_, j, i, k, p_226790_).m_60795_()) && (!p_226802_ || this.isInterior(p_226789_, j, i, k, p_226790_))) {
+                   if (i != p_226794_ && i != p_226797_ && j != p_226793_ && j != p_226796_ && k != p_226795_ && k != p_226798_) {
+-                     this.m_73434_(p_226789_, p_226800_, j, i, k, p_226790_);
++                     this.placeBlock(p_226789_, p_226800_, j, i, k, p_226790_);
+                   } else {
+-                     this.m_73434_(p_226789_, p_226799_, j, i, k, p_226790_);
++                     this.placeBlock(p_226789_, p_226799_, j, i, k, p_226790_);
+                   }
+                }
+             }
+@@ -271,30 +_,30 @@
+ 
+    protected void m_226803_(WorldGenLevel p_226804_, BoundingBox p_226805_, RandomSource p_226806_, float p_226807_, int p_226808_, int p_226809_, int p_226810_, BlockState p_226811_) {
+       if (p_226806_.m_188501_() < p_226807_) {
+-         this.m_73434_(p_226804_, p_226811_, p_226808_, p_226809_, p_226810_, p_226805_);
++         this.placeBlock(p_226804_, p_226811_, p_226808_, p_226809_, p_226810_, p_226805_);
+       }
+ 
+    }
+ 
+-   protected void m_73453_(WorldGenLevel p_73454_, BoundingBox p_73455_, int p_73456_, int p_73457_, int p_73458_, int p_73459_, int p_73460_, int p_73461_, BlockState p_73462_, boolean p_73463_) {
++   protected void generateUpperHalfSphere(WorldGenLevel p_73454_, BoundingBox p_73455_, long p_73456_, long p_73457_, long p_73458_, long p_73459_, long p_73460_, long p_73461_, BlockState p_73462_, boolean p_73463_) {
+       float f = (float)(p_73459_ - p_73456_ + 1);
+       float f1 = (float)(p_73460_ - p_73457_ + 1);
+       float f2 = (float)(p_73461_ - p_73458_ + 1);
+       float f3 = (float)p_73456_ + f / 2.0F;
+       float f4 = (float)p_73458_ + f2 / 2.0F;
+ 
+-      for(int i = p_73457_; i <= p_73460_; ++i) {
++      for(long i = p_73457_; i <= p_73460_; ++i) {
+          float f5 = (float)(i - p_73457_) / f1;
+ 
+-         for(int j = p_73456_; j <= p_73459_; ++j) {
++         for(long j = p_73456_; j <= p_73459_; ++j) {
+             float f6 = ((float)j - f3) / (f * 0.5F);
+ 
+-            for(int k = p_73458_; k <= p_73461_; ++k) {
++            for(long k = p_73458_; k <= p_73461_; ++k) {
+                float f7 = ((float)k - f4) / (f2 * 0.5F);
+-               if (!p_73463_ || !this.m_73398_(p_73454_, j, i, k, p_73455_).m_60795_()) {
++               if (!p_73463_ || !this.getBlock(p_73454_, j, i, k, p_73455_).m_60795_()) {
+                   float f8 = f6 * f6 + f5 * f5 + f7 * f7;
+                   if (f8 <= 1.05F) {
+-                     this.m_73434_(p_73454_, p_73462_, j, i, k, p_73455_);
++                     this.placeBlock(p_73454_, p_73462_, j, i, k, p_73455_);
+                   }
+                }
+             }
+@@ -304,9 +_,9 @@
+    }
  
     protected void m_73528_(WorldGenLevel p_73529_, BlockState p_73530_, int p_73531_, int p_73532_, int p_73533_, BoundingBox p_73534_) {
-       BlockPos.MutableBlockPos blockpos$mutableblockpos = this.m_163582_(p_73531_, p_73532_, p_73533_);
+-      BlockPos.MutableBlockPos blockpos$mutableblockpos = this.m_163582_(p_73531_, p_73532_, p_73533_);
 -      if (p_73534_.m_71051_(blockpos$mutableblockpos)) {
 -         while(this.m_163572_(p_73529_.m_8055_(blockpos$mutableblockpos)) && blockpos$mutableblockpos.m_123342_() > p_73529_.m_141937_() + 1) {
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = this.getWorldPos(p_73531_, p_73532_, p_73533_);
 +      if (p_73534_.isInside(blockpos$mutableblockpos)) {
 +         while(this.m_163572_(p_73529_.m_8055_(blockpos$mutableblockpos)) && blockpos$mutableblockpos.getY() > p_73529_.getMinBuildHeight() + 1) {
              p_73529_.m_7731_(blockpos$mutableblockpos, p_73530_, 2);
              blockpos$mutableblockpos.m_122173_(Direction.DOWN);
           }
-@@ -326,7 +_,7 @@
+@@ -319,14 +_,14 @@
+    }
+ 
+    protected boolean m_213787_(WorldGenLevel p_226812_, BoundingBox p_226813_, RandomSource p_226814_, int p_226815_, int p_226816_, int p_226817_, ResourceLocation p_226818_) {
+-      return this.m_226762_(p_226812_, p_226813_, p_226814_, this.m_163582_(p_226815_, p_226816_, p_226817_), p_226818_, (BlockState)null);
++      return this.m_226762_(p_226812_, p_226813_, p_226814_, this.getWorldPos(p_226815_, p_226816_, p_226817_), p_226818_, (BlockState)null);
+    }
+ 
+    public static BlockState m_73407_(BlockGetter p_73408_, BlockPos p_73409_, BlockState p_73410_) {
        Direction direction = null;
  
        for(Direction direction1 : Direction.Plane.HORIZONTAL) {
@@ -95,15 +297,19 @@
           if (p_226768_ == null) {
              p_226768_ = m_73407_(p_226763_, p_226766_, Blocks.f_50087_.m_49966_());
           }
-@@ -386,7 +_,7 @@
+@@ -385,9 +_,9 @@
+    }
  
     protected boolean m_226819_(WorldGenLevel p_226820_, BoundingBox p_226821_, RandomSource p_226822_, int p_226823_, int p_226824_, int p_226825_, Direction p_226826_, ResourceLocation p_226827_) {
-       BlockPos blockpos = this.m_163582_(p_226823_, p_226824_, p_226825_);
+-      BlockPos blockpos = this.m_163582_(p_226823_, p_226824_, p_226825_);
 -      if (p_226821_.m_71051_(blockpos) && !p_226820_.m_8055_(blockpos).m_60713_(Blocks.f_50061_)) {
+-         this.m_73434_(p_226820_, Blocks.f_50061_.m_49966_().m_61124_(DispenserBlock.f_52659_, p_226826_), p_226823_, p_226824_, p_226825_, p_226821_);
++      BlockPos blockpos = this.getWorldPos(p_226823_, p_226824_, p_226825_);
 +      if (p_226821_.isInside(blockpos) && !p_226820_.m_8055_(blockpos).m_60713_(Blocks.f_50061_)) {
-          this.m_73434_(p_226820_, Blocks.f_50061_.m_49966_().m_61124_(DispenserBlock.f_52659_, p_226826_), p_226823_, p_226824_, p_226825_, p_226821_);
++         this.placeBlock(p_226820_, Blocks.f_50061_.m_49966_().m_61124_(DispenserBlock.f_52659_, p_226826_), p_226823_, p_226824_, p_226825_, p_226821_);
           BlockEntity blockentity = p_226820_.m_7702_(blockpos);
           if (blockentity instanceof DispenserBlockEntity) {
+             ((DispenserBlockEntity)blockentity).m_59626_(p_226827_, p_226822_.m_188505_());
 @@ -399,8 +_,8 @@
        }
     }
@@ -115,3 +321,12 @@
     }
  
     public static BoundingBox m_192651_(Stream<StructurePiece> p_192652_) {
+@@ -467,7 +_,7 @@
+    public abstract static class BlockSelector {
+       protected BlockState f_73553_ = Blocks.f_50016_.m_49966_();
+ 
+-      public abstract void m_213766_(RandomSource p_226838_, int p_226839_, int p_226840_, int p_226841_, boolean p_226842_);
++      public abstract void next(RandomSource p_226838_, long p_226839_, long p_226840_, long p_226841_, boolean p_226842_);
+ 
+       public BlockState m_73555_() {
+          return this.f_73553_;

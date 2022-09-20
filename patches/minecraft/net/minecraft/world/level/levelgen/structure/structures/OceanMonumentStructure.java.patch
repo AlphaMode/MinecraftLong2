@@ -25,7 +25,7 @@
        Direction direction = Direction.Plane.HORIZONTAL.m_235690_(p_228962_);
        return new OceanMonumentPieces.MonumentBuilding(p_228962_, i, j, direction);
     }
-@@ -57,7 +_,7 @@
+@@ -57,11 +_,11 @@
           return p_228959_;
        } else {
           WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.m_224599_()));
@@ -33,4 +33,10 @@
 +         worldgenrandom.setLargeFeatureSeed(p_228958_, p_228957_.f_45578_, p_228957_.f_45579_);
           StructurePiece structurepiece = p_228959_.f_192741_().get(0);
           BoundingBox boundingbox = structurepiece.m_73547_();
-          int i = boundingbox.m_162395_();
+-         int i = boundingbox.m_162395_();
+-         int j = boundingbox.m_162398_();
++         long i = boundingbox.minX();
++         long j = boundingbox.minZ();
+          Direction direction = Direction.Plane.HORIZONTAL.m_235690_(worldgenrandom);
+          Direction direction1 = Objects.requireNonNullElse(structurepiece.m_73549_(), direction);
+          StructurePiece structurepiece1 = new OceanMonumentPieces.MonumentBuilding(worldgenrandom, i, j, direction1);

@@ -50,15 +50,22 @@
 -         int l1 = j - k1;
 -         int i3;
 +         long l = beardifier$rigid.groundLevelDelta();
-+         long i1 = Math.max(0, Math.max(boundingbox.m_162395_() - i, i - boundingbox.m_162399_()));
-+         long j1 = Math.max(0, Math.max(boundingbox.m_162398_() - k, k - boundingbox.m_162401_()));
-+         long k1 = boundingbox.m_162396_() + l;
++         long i1 = Math.max(0, Math.max(boundingbox.minX() - i, i - boundingbox.maxX()));
++         long j1 = Math.max(0, Math.max(boundingbox.minZ() - k, k - boundingbox.maxZ()));
++         long k1 = boundingbox.minY() + l;
 +         long l1 = j - k1;
 +         long i3;
           switch (beardifier$rigid.f_223945_()) {
              case NONE:
                 i3 = 0;
-@@ -104,17 +_,17 @@
+@@ -98,23 +_,23 @@
+                i3 = l1;
+                break;
+             case BEARD_BOX:
+-               i3 = Math.max(0, Math.max(k1 - j, j - boundingbox.m_162400_()));
++               i3 = Math.max(0, Math.max(k1 - j, j - boundingbox.maxY()));
+                break;
+             default:
                 throw new IncompatibleClassChangeError();
           }
  

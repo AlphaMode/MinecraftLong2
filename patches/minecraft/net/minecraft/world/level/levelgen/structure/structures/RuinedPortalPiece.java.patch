@@ -18,7 +18,7 @@
           BlockState blockstate1 = p_229122_.m_8055_(blockpos);
           if (blockstate1.m_60795_()) {
              if (Block.m_49918_(blockstate.m_60812_(p_229122_, p_229123_), direction)) {
-@@ -153,8 +_,8 @@
+@@ -153,18 +_,18 @@
     }
  
     private void m_229181_(RandomSource p_229182_, LevelAccessor p_229183_, BlockPos p_229184_) {
@@ -29,16 +29,21 @@
        }
  
     }
-@@ -164,7 +_,7 @@
-          for(int j = this.f_73383_.m_162398_() + 1; j < this.f_73383_.m_162401_(); ++j) {
-             BlockPos blockpos = new BlockPos(i, this.f_73383_.m_162396_(), j);
+ 
+    private void m_229117_(RandomSource p_229118_, LevelAccessor p_229119_) {
+-      for(int i = this.f_73383_.m_162395_() + 1; i < this.f_73383_.m_162399_(); ++i) {
+-         for(int j = this.f_73383_.m_162398_() + 1; j < this.f_73383_.m_162401_(); ++j) {
+-            BlockPos blockpos = new BlockPos(i, this.f_73383_.m_162396_(), j);
++      for(long i = this.f_73383_.minX() + 1; i < this.f_73383_.maxX(); ++i) {
++         for(long j = this.f_73383_.minZ() + 1; j < this.f_73383_.maxZ(); ++j) {
++            BlockPos blockpos = new BlockPos(i, this.f_73383_.minY(), j);
              if (p_229119_.m_8055_(blockpos).m_60713_(Blocks.f_50134_)) {
 -               this.m_229189_(p_229118_, p_229119_, blockpos.m_7495_());
 +               this.m_229189_(p_229118_, p_229119_, blockpos.below());
              }
           }
        }
-@@ -187,8 +_,8 @@
+@@ -187,32 +_,32 @@
     private void m_229178_(RandomSource p_229179_, LevelAccessor p_229180_) {
        boolean flag = this.f_229101_ == RuinedPortalPiece.VerticalPlacement.ON_LAND_SURFACE || this.f_229101_ == RuinedPortalPiece.VerticalPlacement.ON_OCEAN_FLOOR;
        BlockPos blockpos = this.f_73383_.m_162394_();
@@ -48,8 +53,10 @@
 +      long j = blockpos.getZ();
        float[] afloat = new float[]{1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 0.9F, 0.9F, 0.8F, 0.7F, 0.6F, 0.4F, 0.2F};
        int k = afloat.length;
-       int l = (this.f_73383_.m_71056_() + this.f_73383_.m_71058_()) / 2;
-@@ -196,23 +_,23 @@
+-      int l = (this.f_73383_.m_71056_() + this.f_73383_.m_71058_()) / 2;
+-      int i1 = p_229179_.m_188503_(Math.max(1, 8 - l / 2));
++      long l = (this.f_73383_.getXSpan() + this.f_73383_.getZSpan()) / 2;
++      long i1 = p_229179_.nextLong(Math.max(1, 8 - l / 2));
        int j1 = 3;
        BlockPos.MutableBlockPos blockpos$mutableblockpos = BlockPos.f_121853_.m_122032_();
  
@@ -68,10 +75,11 @@
 -                  int k2 = m_229128_(p_229180_, k1, l1, this.f_229101_);
 -                  int l2 = flag ? k2 : Math.min(this.f_73383_.m_162396_(), k2);
 -                  blockpos$mutableblockpos.m_122178_(k1, l2, l1);
+-                  if (Math.abs(l2 - this.f_73383_.m_162396_()) <= 3 && this.m_229133_(p_229180_, blockpos$mutableblockpos)) {
 +                  long k2 = getSurfaceY(p_229180_, k1, l1, this.f_229101_);
-+                  long l2 = flag ? k2 : Math.min(this.f_73383_.m_162396_(), k2);
++                  long l2 = flag ? k2 : Math.min(this.f_73383_.minY(), k2);
 +                  blockpos$mutableblockpos.set(k1, l2, l1);
-                   if (Math.abs(l2 - this.f_73383_.m_162396_()) <= 3 && this.m_229133_(p_229180_, blockpos$mutableblockpos)) {
++                  if (Math.abs(l2 - this.f_73383_.minY()) <= 3 && this.m_229133_(p_229180_, blockpos$mutableblockpos)) {
                       this.m_229193_(p_229179_, p_229180_, blockpos$mutableblockpos);
                       if (this.f_229102_.f_229201_) {
                          this.m_229181_(p_229179_, p_229180_, blockpos$mutableblockpos);

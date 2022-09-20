@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/pieces/StructurePiecesBuilder.java
 +++ b/net/minecraft/world/level/levelgen/structure/pieces/StructurePiecesBuilder.java
-@@ -22,25 +_,25 @@
+@@ -22,41 +_,41 @@
  
     /** @deprecated */
     @Deprecated
@@ -20,7 +20,7 @@
        int i = p_226966_ - p_226969_;
        BoundingBox boundingbox = this.m_192798_();
 -      int j = boundingbox.m_71057_() + p_226967_ + 1;
-+      long j = boundingbox.m_71057_() + p_226967_ + 1;
++      long j = boundingbox.getYSpan() + p_226967_ + 1;
        if (j < i) {
 -         j += p_226968_.m_188503_(i - j);
 +         j += p_226968_.nextLong(i - j);
@@ -28,16 +28,28 @@
  
 -      int k = j - boundingbox.m_162400_();
 -      this.m_192781_(k);
-+      long k = j - boundingbox.m_162400_();
++      long k = j - boundingbox.maxY();
 +      this.offsetPiecesVertically(k);
        return k;
     }
  
-@@ -56,7 +_,7 @@
+    /** @deprecated */
+    public void m_226970_(RandomSource p_226971_, int p_226972_, int p_226973_) {
+       BoundingBox boundingbox = this.m_192798_();
+-      int i = p_226973_ - p_226972_ + 1 - boundingbox.m_71057_();
+-      int j;
++      long i = p_226973_ - p_226972_ + 1 - boundingbox.getYSpan();
++      long j;
+       if (i > 1) {
+-         j = p_226972_ + p_226971_.m_188503_(i);
++         j = p_226972_ + p_226971_.nextLong(i);
+       } else {
+          j = p_226972_;
        }
  
-       int k = j - boundingbox.m_162396_();
+-      int k = j - boundingbox.m_162396_();
 -      this.m_192781_(k);
++      long k = j - boundingbox.minY();
 +      this.offsetPiecesVertically(k);
     }
  

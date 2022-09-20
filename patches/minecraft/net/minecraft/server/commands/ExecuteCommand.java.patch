@@ -1,19 +1,28 @@
 --- a/net/minecraft/server/commands/ExecuteCommand.java
 +++ b/net/minecraft/server/commands/ExecuteCommand.java
-@@ -381,8 +_,8 @@
+@@ -381,20 +_,20 @@
     }
  
     private static OptionalInt m_137036_(ServerLevel p_137037_, BlockPos p_137038_, BlockPos p_137039_, BlockPos p_137040_, boolean p_137041_) throws CommandSyntaxException {
 -      BoundingBox boundingbox = BoundingBox.m_162375_(p_137038_, p_137039_);
 -      BoundingBox boundingbox1 = BoundingBox.m_162375_(p_137040_, p_137040_.m_121955_(boundingbox.m_71053_()));
+-      BlockPos blockpos = new BlockPos(boundingbox1.m_162395_() - boundingbox.m_162395_(), boundingbox1.m_162396_() - boundingbox.m_162396_(), boundingbox1.m_162398_() - boundingbox.m_162398_());
+-      int i = boundingbox.m_71056_() * boundingbox.m_71057_() * boundingbox.m_71058_();
 +      BoundingBox boundingbox = BoundingBox.fromCorners(p_137038_, p_137039_);
 +      BoundingBox boundingbox1 = BoundingBox.fromCorners(p_137040_, p_137040_.m_121955_(boundingbox.m_71053_()));
-       BlockPos blockpos = new BlockPos(boundingbox1.m_162395_() - boundingbox.m_162395_(), boundingbox1.m_162396_() - boundingbox.m_162396_(), boundingbox1.m_162398_() - boundingbox.m_162398_());
-       int i = boundingbox.m_71056_() * boundingbox.m_71057_() * boundingbox.m_71058_();
++      BlockPos blockpos = new BlockPos(boundingbox1.minX() - boundingbox.minX(), boundingbox1.minY() - boundingbox.minY(), boundingbox1.minZ() - boundingbox.minZ());
++      long i = boundingbox.getXSpan() * boundingbox.getYSpan() * boundingbox.getZSpan();
        if (i > 32768) {
-@@ -394,7 +_,7 @@
-             for(int l = boundingbox.m_162396_(); l <= boundingbox.m_162400_(); ++l) {
-                for(int i1 = boundingbox.m_162395_(); i1 <= boundingbox.m_162399_(); ++i1) {
+          throw f_137030_.create(32768, i);
+       } else {
+          int j = 0;
+ 
+-         for(int k = boundingbox.m_162398_(); k <= boundingbox.m_162401_(); ++k) {
+-            for(int l = boundingbox.m_162396_(); l <= boundingbox.m_162400_(); ++l) {
+-               for(int i1 = boundingbox.m_162395_(); i1 <= boundingbox.m_162399_(); ++i1) {
++         for(long k = boundingbox.minZ(); k <= boundingbox.maxZ(); ++k) {
++            for(long l = boundingbox.minY(); l <= boundingbox.maxY(); ++l) {
++               for(long i1 = boundingbox.minX(); i1 <= boundingbox.maxX(); ++i1) {
                    BlockPos blockpos1 = new BlockPos(i1, l, k);
 -                  BlockPos blockpos2 = blockpos1.m_121955_(blockpos);
 +                  BlockPos blockpos2 = blockpos1.offset(blockpos);

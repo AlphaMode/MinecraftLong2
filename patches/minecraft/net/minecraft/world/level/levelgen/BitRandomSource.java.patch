@@ -1,14 +1,24 @@
 --- a/net/minecraft/world/level/levelgen/BitRandomSource.java
 +++ b/net/minecraft/world/level/levelgen/BitRandomSource.java
-@@ -36,6 +_,13 @@
+@@ -36,6 +_,23 @@
        return k + (long)j;
     }
  
-+   default long nextLong(long off) {
-+      int i = this.m_64707_(32);
-+      int j = this.m_64707_(32);
-+      long k = (long)i << 32;
-+      return k + (long)j * off; // todo: is this right?
++   default long nextLong(long p_188504_) {
++      if (p_188504_ <= 0) {
++         throw new IllegalArgumentException("Bound must be positive");
++      } else if ((p_188504_ & p_188504_ - 1) == 0) {
++         return p_188504_ * this.m_64707_(31) >> 31;
++      } else {
++         long i;
++         long j;
++         do {
++            i = this.m_64707_(31);
++            j = i % p_188504_;
++         } while(i - j + (p_188504_ - 1) < 0);
++
++         return j;
++      }
 +   }
 +
     default boolean m_188499_() {
