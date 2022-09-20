@@ -106,18 +106,21 @@ task downloadJson(type: Download, dependsOn: downloadVersionManifest) {
 }
 
 def sharedDeps = {
+    moduleonly "cpw.mods:securejarhandler:${SECUREJARHANDLER_VERSION}"
     moduleonly "org.ow2.asm:asm:${ASM_VERSION}"
     moduleonly "org.ow2.asm:asm-commons:${ASM_VERSION}"
     moduleonly "org.ow2.asm:asm-tree:${ASM_VERSION}"
     moduleonly "org.ow2.asm:asm-util:${ASM_VERSION}"
     moduleonly "org.ow2.asm:asm-analysis:${ASM_VERSION}"
 
+    installer "cpw.mods:securejarhandler:${SECUREJARHANDLER_VERSION}"
     installer "org.ow2.asm:asm:${ASM_VERSION}"
     installer "org.ow2.asm:asm-commons:${ASM_VERSION}"
     installer "org.ow2.asm:asm-tree:${ASM_VERSION}"
     installer "org.ow2.asm:asm-util:${ASM_VERSION}"
     installer "org.ow2.asm:asm-analysis:${ASM_VERSION}"
     installer "net.minecraftforge:forgespi:${SPI_VERSION}"
+    installer "cpw.mods:modlauncher:${MODLAUNCHER_VERSION}"
 
     /*
     installer 'org.lwjgl:lwjgl:3.2.2'
@@ -394,6 +397,7 @@ def sharedFmlonlyForge = { Project prj ->
             run.property 'legacyClassPath.file', '{runtime_classpath_file}'
             run.jvmArgs '-p', prj.configurations.moduleonly.files.collect { it.path }.join(File.pathSeparator)
         }
+//        run.jvmArgs '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED'
         run.jvmArgs '--add-modules', 'ALL-MODULE-PATH'
         // Additions to these JVM module args should be mirrored to server_files/args.txt and other similar blocks in the buildscript
         run.jvmArgs '--add-opens', 'java.base/java.util.jar=cpw.mods.securejarhandler'
@@ -452,7 +456,7 @@ def sharedFmlonlyForge = { Project prj ->
         doLast {
             def CLASS_PATH = Util.getArtifacts(prj, prj.configurations.installer, false).values().collect{"libraries/${it.downloads.artifact.path}"} +
                     [
-                            'libraries/' + Util.getMavenPath(rootProject.tasks.findByPath(':fmlloader:jar')),
+                            'libraries/' + Util.getMavenPath(rootProject.tasks.findByPath(':longloader:jar')),
                             "libraries/net/minecraft/server/${MC_VERSION}-${MCP_VERSION}/server-${MC_VERSION}-${MCP_VERSION}-extra.jar"
                     ]
             def claimed = CLASS_PATH.collect{ it.rsplit('/', 2)[0] }.toSet() // Allow us to override versions
@@ -520,6 +524,7 @@ project(':mclong') {
         // Essentially, the same as the old, except dropping the first number, and the builds are no longer unique.
         MCP_ARTIFACT = project(':mcp').mcp.config.get()
         VERSION_JSON = project(':mcp').file('build/mcp/downloadJson/version.json')
+        PACKED_DEPS = [':longloader:jar']
         MAVEN_PATH = "${group.replace('.', '/')}/${project.name}/${VERSION}"
     }
 
@@ -533,6 +538,7 @@ project(':mclong') {
     }
 
     dependencies {
+        implementation project(':longloader')
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
         testImplementation 'org.junit.vintage:junit-vintage-engine:5.+'
         testImplementation 'org.opentest4j:opentest4j:1.2.0' // needed for junit 5
@@ -553,7 +559,7 @@ project(':mclong') {
         runs {
             forge_client {
                 property 'eventbus.checkTypesOnDispatch', 'true'
-                args '--launchTarget', 'forgeclientdev'
+                args '--launchTarget', 'minecraftlong'
                 ideaModule "${rootProject.name}.${project.name}.main"
                 mods {
                     minecraft { source sourceSets.main }

@@ -1,5 +1,19 @@
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -377,11 +_,11 @@
+    }
+ 
+    private static double m_143609_(double p_143610_) {
+-      return Mth.m_14008_(p_143610_, -3.0E7D, 3.0E7D);
++      return p_143610_;
+    }
+ 
+    private static double m_143653_(double p_143654_) {
+-      return Mth.m_14008_(p_143654_, -2.0E7D, 2.0E7D);
++      return p_143654_;
+    }
+ 
+    public void m_5659_(ServerboundMoveVehiclePacket p_9876_) {
 @@ -1013,7 +_,7 @@
           case START_DESTROY_BLOCK:
           case ABORT_DESTROY_BLOCK:
@@ -14,8 +28,9 @@
        Vec3 vec3 = blockhitresult.m_82450_();
        BlockPos blockpos = blockhitresult.m_82425_();
 -      Vec3 vec31 = Vec3.m_82512_(blockpos);
+-      if (!(this.f_9743_.m_146892_().m_82557_(vec31) > f_215198_)) {
 +      Vec3 vec31 = Vec3.atCenterOf(blockpos);
-       if (!(this.f_9743_.m_146892_().m_82557_(vec31) > f_215198_)) {
++      if (true/*!(this.player.getEyePosition().distanceToSqr(vec31) > MAX_INTERACTION_DISTANCE)*/) {
           Vec3 vec32 = vec3.m_82546_(vec31);
           double d0 = 1.0000001D;
           if (Math.abs(vec32.m_7096_()) < 1.0000001D && Math.abs(vec32.m_7098_()) < 1.0000001D && Math.abs(vec32.m_7094_()) < 1.0000001D) {

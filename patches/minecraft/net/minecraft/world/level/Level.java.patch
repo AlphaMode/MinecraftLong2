@@ -1,16 +1,21 @@
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
-@@ -149,28 +_,33 @@
+@@ -145,32 +_,37 @@
+    }
+ 
+    public boolean m_46739_(BlockPos p_46740_) {
+-      return !this.m_151570_(p_46740_) && m_46457_(p_46740_);
++      return true;//!this.isOutsideBuildHeight(p_46740_) && isInWorldBoundsHorizontal(p_46740_);
     }
  
     public static boolean m_46741_(BlockPos p_46742_) {
 -      return !m_46724_(p_46742_.m_123342_()) && m_46457_(p_46742_);
-+      return !isOutsideSpawnableHeight(p_46742_.getY()) && m_46457_(p_46742_);
++      return true;//!isOutsideSpawnableHeight(p_46742_.getY()) && isInWorldBoundsHorizontal(p_46742_);
     }
  
     private static boolean m_46457_(BlockPos p_46458_) {
 -      return p_46458_.m_123341_() >= -30000000 && p_46458_.m_123343_() >= -30000000 && p_46458_.m_123341_() < 30000000 && p_46458_.m_123343_() < 30000000;
-+      return p_46458_.getX() >= -30000000 && p_46458_.getZ() >= -30000000 && p_46458_.getX() < 30000000 && p_46458_.getZ() < 30000000;
++      return true;//p_46458_.getX() >= -30000000 && p_46458_.getZ() >= -30000000 && p_46458_.getX() < 30000000 && p_46458_.getZ() < 30000000;
     }
  
 +   @Deprecated
