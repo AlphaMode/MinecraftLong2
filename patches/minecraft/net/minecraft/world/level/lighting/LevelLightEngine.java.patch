@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/lighting/LevelLightEngine.java
++++ b/net/minecraft/world/level/lighting/LevelLightEngine.java
+@@ -134,15 +_,15 @@
+       return Math.max(j, i);
+    }
+ 
+-   public int m_164446_() {
+-      return this.f_164445_.m_151559_() + 2;
+-   }
+-
+-   public int m_164447_() {
+-      return this.f_164445_.m_151560_() - 1;
+-   }
+-
+-   public int m_164448_() {
+-      return this.m_164447_() + this.m_164446_();
++   public long getLightSectionCount() {
++      return this.f_164445_.getSectionsCount() + 2;
++   }
++
++   public long getMinLightSection() {
++      return this.f_164445_.getMinSection() - 1;
++   }
++
++   public long getMaxLightSection() {
++      return this.getMinLightSection() + this.getLightSectionCount();
+    }
+ }

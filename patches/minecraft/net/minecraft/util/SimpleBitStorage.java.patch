@@ -1,0 +1,49 @@
+--- a/net/minecraft/util/SimpleBitStorage.java
++++ b/net/minecraft/util/SimpleBitStorage.java
+@@ -72,16 +_,16 @@
+ 
+    }
+ 
+-   private int m_184739_(int p_184740_) {
++   private int cellIndex(long p_184740_) {
+       long i = Integer.toUnsignedLong(this.f_184712_);
+       long j = Integer.toUnsignedLong(this.f_184713_);
+-      return (int)((long)p_184740_ * i + j >> 32 >> this.f_184714_);
++      return (int)(p_184740_ * i + j >> 32 >> this.f_184714_);
+    }
+ 
+    public int m_13516_(int p_184731_, int p_184732_) {
+       Validate.inclusiveBetween(0L, (long)(this.f_184710_ - 1), (long)p_184731_);
+       Validate.inclusiveBetween(0L, this.f_184709_, (long)p_184732_);
+-      int i = this.m_184739_(p_184731_);
++      int i = this.cellIndex(p_184731_);
+       long j = this.f_184707_[i];
+       int k = (p_184731_ - i * this.f_184711_) * this.f_184708_;
+       int l = (int)(j >> k & this.f_184709_);
+@@ -90,19 +_,19 @@
+    }
+ 
+    public void m_13524_(int p_184742_, int p_184743_) {
+-      Validate.inclusiveBetween(0L, (long)(this.f_184710_ - 1), (long)p_184742_);
+-      Validate.inclusiveBetween(0L, this.f_184709_, (long)p_184743_);
+-      int i = this.m_184739_(p_184742_);
++//      Validate.inclusiveBetween(0L, (long)(this.size - 1), (long)p_184742_);
++//      Validate.inclusiveBetween(0L, this.mask, (long)p_184743_);
++      int i = this.cellIndex(p_184742_);
+       long j = this.f_184707_[i];
+       int k = (p_184742_ - i * this.f_184711_) * this.f_184708_;
+       this.f_184707_[i] = j & ~(this.f_184709_ << k) | ((long)p_184743_ & this.f_184709_) << k;
+    }
+ 
+-   public int m_13514_(int p_184729_) {
+-      Validate.inclusiveBetween(0L, (long)(this.f_184710_ - 1), (long)p_184729_);
+-      int i = this.m_184739_(p_184729_);
++   public int get(long p_184729_) {
++//      Validate.inclusiveBetween(0L, (long)(this.size - 1), (long)p_184729_);
++      int i = this.cellIndex(p_184729_);
+       long j = this.f_184707_[i];
+-      int k = (p_184729_ - i * this.f_184711_) * this.f_184708_;
++      int k = (int) ((p_184729_ - i * this.f_184711_) * this.f_184708_);
+       return (int)(j >> k & this.f_184709_);
+    }
+ 

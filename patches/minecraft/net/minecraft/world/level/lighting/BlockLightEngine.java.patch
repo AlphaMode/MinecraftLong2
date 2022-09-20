@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/lighting/BlockLightEngine.java
++++ b/net/minecraft/world/level/lighting/BlockLightEngine.java
+@@ -24,8 +_,8 @@
+       int i = BlockPos.m_121983_(p_75509_);
+       int j = BlockPos.m_122008_(p_75509_);
+       int k = BlockPos.m_122015_(p_75509_);
+-      BlockGetter blockgetter = this.f_75630_.m_6196_(SectionPos.m_123171_(i), SectionPos.m_123171_(k));
+-      return blockgetter != null ? blockgetter.m_7146_(this.f_75489_.m_122178_(i, j, k)) : 0;
++      BlockGetter blockgetter = this.f_75630_.getChunkForLighting(SectionPos.blockToSectionCoord(i), SectionPos.blockToSectionCoord(k));
++      return blockgetter != null ? blockgetter.m_7146_(this.f_75489_.set(i, j, k)) : 0;
+    }
+ 
+    protected int m_6359_(long p_75505_, long p_75506_, int p_75507_) {
