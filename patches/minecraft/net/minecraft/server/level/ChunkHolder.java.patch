@@ -1,15 +1,29 @@
 --- a/net/minecraft/server/level/ChunkHolder.java
 +++ b/net/minecraft/server/level/ChunkHolder.java
-@@ -153,7 +_,7 @@
+@@ -79,7 +_,7 @@
+       this.f_140007_ = this.f_140006_;
+       this.f_140008_ = this.f_140006_;
+       this.m_140027_(p_142987_);
+-      this.f_140011_ = new ShortSet[p_142988_.m_151559_()];
++      this.f_140011_ = new ShortSet[(int) p_142988_.getSectionsCount()]; // TODO: long support
+    }
+ 
+    public CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_140047_(ChunkStatus p_140048_) {
+@@ -153,17 +_,17 @@
     public void m_140056_(BlockPos p_140057_) {
        LevelChunk levelchunk = this.m_140085_();
        if (levelchunk != null) {
 -         int i = this.f_142983_.m_151564_(p_140057_.m_123342_());
-+         int i = this.f_142983_.getSectionIndex(p_140057_.getY());
-          if (this.f_140011_[i] == null) {
+-         if (this.f_140011_[i] == null) {
++         long i = this.f_142983_.getSectionIndex(p_140057_.getY());
++         if (this.f_140011_[(int) i] == null) { // TODO: long support
              this.f_140010_ = true;
-             this.f_140011_[i] = new ShortOpenHashSet();
-@@ -163,7 +_,7 @@
+-            this.f_140011_[i] = new ShortOpenHashSet();
++            this.f_140011_[(int) i] = new ShortOpenHashSet();
+          }
+ 
+-         this.f_140011_[i].add(SectionPos.m_123218_(p_140057_));
++         this.f_140011_[(int) i].add(SectionPos.m_123218_(p_140057_));
        }
     }
  
@@ -18,9 +32,14 @@
        Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure> either = this.m_140080_(ChunkStatus.f_62322_).getNow((Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>)null);
        if (either != null) {
           ChunkAccess chunkaccess = either.left().orElse((ChunkAccess)null);
-@@ -174,11 +_,11 @@
-                int i = this.f_140014_.m_164447_();
-                int j = this.f_140014_.m_164448_();
+@@ -171,14 +_,14 @@
+             chunkaccess.m_8092_(true);
+             LevelChunk levelchunk = this.m_140085_();
+             if (levelchunk != null) {
+-               int i = this.f_140014_.m_164447_();
+-               int j = this.f_140014_.m_164448_();
++               long i = this.f_140014_.getMinLightSection();
++               long j = this.f_140014_.getMaxLightSection();
                 if (p_140038_ >= i && p_140038_ <= j) {
 -                  int k = p_140038_ - i;
 +                  long k = p_140038_ - i;
@@ -33,3 +52,30 @@
                    }
  
                 }
+@@ -206,15 +_,15 @@
+          for(int l = 0; l < this.f_140011_.length; ++l) {
+             ShortSet shortset = this.f_140011_[l];
+             if (shortset != null) {
+-               int k = this.f_142983_.m_151568_(l);
+-               SectionPos sectionpos = SectionPos.m_123196_(p_140055_.m_7697_(), k);
++               long k = this.f_142983_.getSectionYFromSectionIndex(l);
++               SectionPos sectionpos = SectionPos.of(p_140055_.m_7697_(), k);
+                if (shortset.size() == 1) {
+                   BlockPos blockpos = sectionpos.m_123245_(shortset.iterator().nextShort());
+                   BlockState blockstate = level.m_8055_(blockpos);
+                   this.m_140063_(new ClientboundBlockUpdatePacket(blockpos, blockstate), false);
+                   this.m_140032_(level, blockpos, blockstate);
+                } else {
+-                  LevelChunkSection levelchunksection = p_140055_.m_183278_(l);
++                  LevelChunkSection levelchunksection = p_140055_.getSection(l);
+                   ClientboundSectionBlocksUpdatePacket clientboundsectionblocksupdatepacket = new ClientboundSectionBlocksUpdatePacket(sectionpos, shortset, levelchunksection, this.f_140018_);
+                   this.m_140063_(clientboundsectionblocksupdatepacket, false);
+                   clientboundsectionblocksupdatepacket.m_132992_((p_140078_, p_140079_) -> {
+@@ -271,6 +_,7 @@
+ 
+       if (m_140074_(this.f_140007_).m_62427_(p_140050_)) {
+          CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture1 = p_140051_.m_140292_(this, p_140050_);
++         this.m_143017_(completablefuture1, "schedule " + p_140050_);
+          this.m_143017_(completablefuture1, "schedule " + p_140050_);
+          this.f_140001_.set(i, completablefuture1);
+          return completablefuture1;

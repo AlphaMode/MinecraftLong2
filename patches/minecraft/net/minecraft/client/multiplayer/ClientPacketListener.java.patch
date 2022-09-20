@@ -40,11 +40,15 @@
        LevelLightEngine levellightengine = this.f_104889_.m_7726_().m_7827_();
        LevelChunkSection[] alevelchunksection = p_194213_.m_7103_();
        ChunkPos chunkpos = p_194213_.m_7697_();
-@@ -665,18 +_,18 @@
+@@ -663,20 +_,20 @@
+ 
+       for(int i = 0; i < alevelchunksection.length; ++i) {
           LevelChunkSection levelchunksection = alevelchunksection[i];
-          int j = this.f_104889_.m_151568_(i);
-          levellightengine.m_6191_(SectionPos.m_123196_(chunkpos, j), levelchunksection.m_188008_());
+-         int j = this.f_104889_.m_151568_(i);
+-         levellightengine.m_6191_(SectionPos.m_123196_(chunkpos, j), levelchunksection.m_188008_());
 -         this.f_104889_.m_104793_(p_194214_, j, p_194215_);
++         long j = this.f_104889_.getSectionYFromSectionIndex(i);
++         levellightengine.m_6191_(SectionPos.of(chunkpos, j), levelchunksection.m_188008_());
 +         this.f_104889_.setSectionDirtyWithNeighbors(p_194214_, j, p_194215_);
        }
  
@@ -64,11 +68,13 @@
        this.m_194252_(p_105014_);
     }
  
-@@ -685,11 +_,11 @@
+@@ -684,12 +_,12 @@
+       this.f_104889_.m_194171_(() -> {
           LevelLightEngine levellightengine = this.f_104889_.m_5518_();
  
-          for(int i = this.f_104889_.m_151560_(); i < this.f_104889_.m_151561_(); ++i) {
+-         for(int i = this.f_104889_.m_151560_(); i < this.f_104889_.m_151561_(); ++i) {
 -            levellightengine.m_6191_(SectionPos.m_123173_(p_194253_.m_132149_(), i, p_194253_.m_132152_()), true);
++         for(long i = this.f_104889_.getMinSection(); i < this.f_104889_.getMaxSection(); ++i) {
 +            levellightengine.m_6191_(SectionPos.of(p_194253_.getX(), i, p_194253_.getZ()), true);
           }
  
@@ -126,9 +132,11 @@
     }
  
 -   private void m_171734_(int p_171735_, int p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_, boolean p_171742_) {
+-      for(int i = 0; i < p_171737_.m_164446_(); ++i) {
+-         int j = p_171737_.m_164447_() + i;
 +   private void readSectionList(long p_171735_, long p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_, boolean p_171742_) {
-       for(int i = 0; i < p_171737_.m_164446_(); ++i) {
-          int j = p_171737_.m_164447_() + i;
++      for(int i = 0; i < p_171737_.getLightSectionCount(); ++i) {
++         long j = p_171737_.getMinLightSection() + i;
           boolean flag = p_171739_.get(i);
           boolean flag1 = p_171740_.get(i);
           if (flag || flag1) {

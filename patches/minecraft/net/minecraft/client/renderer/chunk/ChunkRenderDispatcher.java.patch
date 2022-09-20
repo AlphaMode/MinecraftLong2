@@ -22,7 +22,7 @@
  
        private boolean m_112822_(BlockPos p_112823_) {
 -         return ChunkRenderDispatcher.this.f_112681_.m_6522_(SectionPos.m_123171_(p_112823_.m_123341_()), SectionPos.m_123171_(p_112823_.m_123343_()), ChunkStatus.f_62326_, false) != null;
-+         return ChunkRenderDispatcher.this.f_112681_.getChunk(SectionPos.m_235865_(p_112823_.getX()), SectionPos.m_235865_(p_112823_.getZ()), ChunkStatus.f_62326_, false) != null;
++         return ChunkRenderDispatcher.this.f_112681_.getChunk(SectionPos.blockToSectionCoord(p_112823_.getX()), SectionPos.blockToSectionCoord(p_112823_.getZ()), ChunkStatus.f_62326_, false) != null;
        }
  
        public boolean m_112798_() {
@@ -31,10 +31,10 @@
        }
  
 -      public void m_112801_(int p_112802_, int p_112803_, int p_112804_) {
-+      public void setOrigin(int p_112802_, long p_112803_, int p_112804_) {
++      public void setOrigin(long p_112802_, long p_112803_, long p_112804_) {
           this.m_112846_();
 -         this.f_112793_.m_122178_(p_112802_, p_112803_, p_112804_);
-+         this.f_112793_.m_122169_(p_112802_, p_112803_, p_112804_);
++         this.f_112793_.set(p_112802_, p_112803_, p_112804_);
           this.f_112785_ = new AABB((double)p_112802_, (double)p_112803_, (double)p_112804_, (double)(p_112802_ + 16), (double)(p_112803_ + 16), (double)(p_112804_ + 16));
  
           for(Direction direction : Direction.values()) {

@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/level/chunk/UpgradeData.java
 +++ b/net/minecraft/world/level/chunk/UpgradeData.java
+@@ -55,7 +_,7 @@
+    static final Set<UpgradeData.BlockFixer> f_63326_ = Sets.newHashSet();
+ 
+    private UpgradeData(LevelHeightAccessor p_156506_) {
+-      this.f_63324_ = new int[p_156506_.m_151559_()][];
++      this.f_63324_ = new int[(int) p_156506_.getSectionsCount()][]; // TOOD: long support
+    }
+ 
+    public UpgradeData(CompoundTag p_156508_, LevelHeightAccessor p_156509_) {
 @@ -133,19 +_,19 @@
           boolean flag3 = set.contains(Direction.NORTH);
           boolean flag4 = set.size() == 1;
@@ -26,13 +35,22 @@
                 blockstate1 = m_63335_(blockstate1, direction, level, blockpos, blockpos$mutableblockpos);
              }
  
+@@ -166,7 +_,7 @@
+       LevelAccessor levelaccessor = p_63348_.m_62953_();
+ 
+       for(int i = 0; i < this.f_63324_.length; ++i) {
+-         LevelChunkSection levelchunksection = p_63348_.m_183278_(i);
++         LevelChunkSection levelchunksection = p_63348_.getSection(i);
+          int[] aint = this.f_63324_[i];
+          this.f_63324_[i] = null;
+          if (aint != null && aint.length > 0) {
 @@ -177,13 +_,13 @@
                 int k = j & 15;
                 int l = j >> 8 & 15;
                 int i1 = j >> 4 & 15;
 -               blockpos$mutableblockpos.m_122178_(chunkpos.m_45604_() + k, levelchunksection.m_63017_() + l, chunkpos.m_45605_() + i1);
 -               BlockState blockstate = palettedcontainer.m_63085_(j);
-+               blockpos$mutableblockpos.m_122169_(chunkpos.getMinBlockX() + k, levelchunksection.m_63017_() + l, chunkpos.getMinBlockZ() + i1);
++               blockpos$mutableblockpos.set(chunkpos.getMinBlockX() + k, levelchunksection.bottomBlockY() + l, chunkpos.getMinBlockZ() + i1);
 +               BlockState blockstate = palettedcontainer.get(j);
                 BlockState blockstate1 = blockstate;
  
@@ -40,10 +58,19 @@
 -                  blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, direction);
 -                  if (SectionPos.m_123171_(blockpos$mutableblockpos.m_123341_()) == chunkpos.f_45578_ && SectionPos.m_123171_(blockpos$mutableblockpos.m_123343_()) == chunkpos.f_45579_) {
 +                  blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, direction);
-+                  if (SectionPos.m_235865_(blockpos$mutableblockpos.getX()) == chunkpos.f_45578_ && SectionPos.m_235865_(blockpos$mutableblockpos.getZ()) == chunkpos.f_45579_) {
++                  if (SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getX()) == chunkpos.f_45578_ && SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getZ()) == chunkpos.f_45579_) {
                       blockstate1 = m_63335_(blockstate1, direction, levelaccessor, blockpos$mutableblockpos, blockpos$mutableblockpos1);
                    }
                 }
+@@ -195,7 +_,7 @@
+ 
+       for(int j1 = 0; j1 < this.f_63324_.length; ++j1) {
+          if (this.f_63324_[j1] != null) {
+-            f_63321_.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.m_151568_(j1), chunkpos.f_45578_, chunkpos.f_45579_);
++            f_63321_.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.getSectionYFromSectionIndex(j1), chunkpos.f_45578_, chunkpos.f_45579_);
+          }
+ 
+          this.f_63324_[j1] = null;
 @@ -335,7 +_,7 @@
                       p_63430_.m_7731_(blockpos, blockstate.m_61124_(BlockStateProperties.f_61414_, Integer.valueOf(j)), 18);
                       if (i != 7) {

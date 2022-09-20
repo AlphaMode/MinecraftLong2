@@ -1,11 +1,26 @@
 --- a/net/minecraft/world/level/entity/EntitySectionStorage.java
 +++ b/net/minecraft/world/level/entity/EntitySectionStorage.java
-@@ -42,8 +_,8 @@
-       int k1 = SectionPos.m_175552_(p_188363_.f_82293_ + 2.0D);
+@@ -34,16 +_,16 @@
  
-       for(int l1 = j; l1 <= i1; ++l1) {
+    public void m_188362_(AABB p_188363_, Consumer<EntitySection<T>> p_188364_) {
+       int i = 2;
+-      int j = SectionPos.m_175552_(p_188363_.f_82288_ - 2.0D);
+-      int k = SectionPos.m_175552_(p_188363_.f_82289_ - 4.0D);
+-      int l = SectionPos.m_175552_(p_188363_.f_82290_ - 2.0D);
+-      int i1 = SectionPos.m_175552_(p_188363_.f_82291_ + 2.0D);
+-      int j1 = SectionPos.m_175552_(p_188363_.f_82292_ + 0.0D);
+-      int k1 = SectionPos.m_175552_(p_188363_.f_82293_ + 2.0D);
++      long j = SectionPos.posToSectionCoord(p_188363_.f_82288_ - 2.0D);
++      long k = SectionPos.posToSectionCoord(p_188363_.f_82289_ - 4.0D);
++      long l = SectionPos.posToSectionCoord(p_188363_.f_82290_ - 2.0D);
++      long i1 = SectionPos.posToSectionCoord(p_188363_.f_82291_ + 2.0D);
++      long j1 = SectionPos.posToSectionCoord(p_188363_.f_82292_ + 0.0D);
++      long k1 = SectionPos.posToSectionCoord(p_188363_.f_82293_ + 2.0D);
+ 
+-      for(int l1 = j; l1 <= i1; ++l1) {
 -         long i2 = SectionPos.m_123209_(l1, 0, 0);
 -         long j2 = SectionPos.m_123209_(l1, -1, -1);
++      for(long l1 = j; l1 <= i1; ++l1) {
 +         long i2 = SectionPos.asLong(l1, 0, 0);
 +         long j2 = SectionPos.asLong(l1, -1, -1);
           LongIterator longiterator = this.f_156853_.subSet(i2, j2 + 1L).iterator();

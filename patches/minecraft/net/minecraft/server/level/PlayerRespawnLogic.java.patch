@@ -10,7 +10,7 @@
 -      LevelChunk levelchunk = p_183929_.m_6325_(SectionPos.m_123171_(p_183930_), SectionPos.m_123171_(p_183931_));
 -      int i = flag ? p_183929_.m_7726_().m_8481_().m_142051_(p_183929_) : levelchunk.m_5885_(Heightmap.Types.MOTION_BLOCKING, p_183930_ & 15, p_183931_ & 15);
 -      if (i < p_183929_.m_141937_()) {
-+      LevelChunk levelchunk = p_183929_.getChunk(SectionPos.m_235865_(p_183930_), SectionPos.m_235865_(p_183931_));
++      LevelChunk levelchunk = p_183929_.getChunk(SectionPos.blockToSectionCoord(p_183930_), SectionPos.blockToSectionCoord(p_183931_));
 +      long i = flag ? p_183929_.m_7726_().m_8481_().getSpawnHeight(p_183929_) : levelchunk.getHeight(Heightmap.Types.MOTION_BLOCKING, p_183930_ & 15, p_183931_ & 15);
 +      if (i < p_183929_.getMinBuildHeight()) {
           return null;
@@ -26,7 +26,7 @@
 -            for(int k = i + 1; k >= p_183929_.m_141937_(); --k) {
 -               blockpos$mutableblockpos.m_122178_(p_183930_, k, p_183931_);
 +            for(long k = i + 1; k >= p_183929_.getMinBuildHeight(); --k) {
-+               blockpos$mutableblockpos.m_122169_(p_183930_, k, p_183931_);
++               blockpos$mutableblockpos.set(p_183930_, k, p_183931_);
                 BlockState blockstate = p_183929_.m_8055_(blockpos$mutableblockpos);
                 if (!blockstate.m_60819_().m_76178_()) {
                    break;

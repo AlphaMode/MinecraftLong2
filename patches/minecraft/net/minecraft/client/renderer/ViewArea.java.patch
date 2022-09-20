@@ -1,6 +1,29 @@
 --- a/net/minecraft/client/renderer/ViewArea.java
 +++ b/net/minecraft/client/renderer/ViewArea.java
-@@ -9,6 +_,8 @@
+@@ -9,11 +_,13 @@
+ import net.minecraftforge.api.distmarker.Dist;
+ import net.minecraftforge.api.distmarker.OnlyIn;
+ 
++import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher.RenderChunk;
++
+ @OnlyIn(Dist.CLIENT)
+ public class ViewArea {
+    protected final LevelRenderer f_110838_;
+    protected final Level f_110839_;
+-   protected int f_110840_;
++   protected long f_110840_;
+    protected int f_110841_;
+    protected int f_110842_;
+    public ChunkRenderDispatcher.RenderChunk[] f_110843_;
+@@ -29,14 +_,14 @@
+       if (!Minecraft.m_91087_().m_18695_()) {
+          throw new IllegalStateException("createChunks called from wrong thread: " + Thread.currentThread().getName());
+       } else {
+-         int i = this.f_110841_ * this.f_110840_ * this.f_110842_;
+-         this.f_110843_ = new ChunkRenderDispatcher.RenderChunk[i];
++         long i = this.f_110841_ * this.f_110840_ * this.f_110842_;
++         this.f_110843_ = new ChunkRenderDispatcher.RenderChunk[(int) i]; // TODO: long support
+ 
           for(int j = 0; j < this.f_110841_; ++j) {
              for(int k = 0; k < this.f_110840_; ++k) {
                 for(int l = 0; l < this.f_110842_; ++l) {
@@ -11,7 +34,7 @@
                 }
              }
           }
-@@ -51,7 +_,7 @@
+@@ -51,37 +_,37 @@
  
     }
  
@@ -20,8 +43,33 @@
        return (p_110858_ * this.f_110840_ + p_110857_) * this.f_110841_ + p_110856_;
     }
  
-@@ -77,11 +_,11 @@
-             int j2 = i2 + Math.floorMod(k1 * 16 - i2, l1);
+    protected void m_110853_(int p_110854_) {
+       int i = p_110854_ * 2 + 1;
+       this.f_110841_ = i;
+-      this.f_110840_ = this.f_110839_.m_151559_();
++      this.f_110840_ = this.f_110839_.getSectionsCount();
+       this.f_110842_ = i;
+    }
+ 
+    public void m_110850_(double p_110851_, double p_110852_) {
+-      int i = Mth.m_14165_(p_110851_);
+-      int j = Mth.m_14165_(p_110852_);
++      long i = Mth.lceil(p_110851_);
++      long j = Mth.lceil(p_110852_);
+ 
+       for(int k = 0; k < this.f_110841_; ++k) {
+          int l = this.f_110841_ * 16;
+-         int i1 = i - 8 - l / 2;
+-         int j1 = i1 + Math.floorMod(k * 16 - i1, l);
++         long i1 = i - 8 - l / 2;
++         long j1 = i1 + Math.floorMod(k * 16 - i1, l);
+ 
+          for(int k1 = 0; k1 < this.f_110842_; ++k1) {
+             int l1 = this.f_110842_ * 16;
+-            int i2 = j - 8 - l1 / 2;
+-            int j2 = i2 + Math.floorMod(k1 * 16 - i2, l1);
++            long i2 = j - 8 - l1 / 2;
++            long j2 = i2 + Math.floorMod(k1 * 16 - i2, l1);
  
              for(int k2 = 0; k2 < this.f_110840_; ++k2) {
 -               int l2 = this.f_110839_.m_141937_() + k2 * 16;
@@ -43,7 +91,8 @@
 -   public void m_110859_(int p_110860_, int p_110861_, int p_110862_, boolean p_110863_) {
 +   public void setDirty(long p_110860_, long p_110861_, long p_110862_, boolean p_110863_) {
        int i = Math.floorMod(p_110860_, this.f_110841_);
-       int j = Math.floorMod(p_110861_ - this.f_110839_.m_151560_(), this.f_110840_);
+-      int j = Math.floorMod(p_110861_ - this.f_110839_.m_151560_(), this.f_110840_);
++      long j = Math.floorMod(p_110861_ - this.f_110839_.getMinSection(), this.f_110840_);
        int k = Math.floorMod(p_110862_, this.f_110842_);
 -      ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[this.m_110855_(i, j, k)];
 +      ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[(int) this.getChunkIndex(i, j, k)];

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/LevelHeightAccessor.java
 +++ b/net/minecraft/world/level/LevelHeightAccessor.java
-@@ -4,12 +_,12 @@
+@@ -4,53 +_,58 @@
  import net.minecraft.core.SectionPos;
  
  public interface LevelHeightAccessor {
@@ -10,26 +10,36 @@
 -
 -   default int m_151558_() {
 -      return this.m_141937_() + this.m_141928_();
+-   }
+-
+-   default int m_151559_() {
+-      return this.m_151561_() - this.m_151560_();
+-   }
+-
+-   default int m_151560_() {
+-      return SectionPos.m_123171_(this.m_141937_());
+-   }
+-
+-   default int m_151561_() {
+-      return SectionPos.m_123171_(this.m_151558_() - 1) + 1;
 +   long getHeight();
 +
 +   long getMinBuildHeight();
 +
 +   default long getMaxBuildHeight() {
 +      return this.getMinBuildHeight() + this.getHeight();
-    }
- 
-    default int m_151559_() {
-@@ -17,23 +_,28 @@
-    }
- 
-    default int m_151560_() {
--      return SectionPos.m_123171_(this.m_141937_());
-+      return SectionPos.m_235865_(this.getMinBuildHeight());
-    }
- 
-    default int m_151561_() {
--      return SectionPos.m_123171_(this.m_151558_() - 1) + 1;
-+      return SectionPos.m_235865_(this.getMaxBuildHeight() - 1) + 1;
++   }
++
++   default long getSectionsCount() {
++      return this.getMaxSection() - this.getMinSection();
++   }
++
++   default long getMinSection() {
++      return SectionPos.blockToSectionCoord(this.getMinBuildHeight());
++   }
++
++   default long getMaxSection() {
++      return SectionPos.blockToSectionCoord(this.getMaxBuildHeight() - 1) + 1;
     }
  
     default boolean m_151570_(BlockPos p_151571_) {
@@ -44,6 +54,17 @@
 -
 -   default int m_151564_(int p_151565_) {
 -      return this.m_151566_(SectionPos.m_123171_(p_151565_));
+-   }
+-
+-   default int m_151566_(int p_151567_) {
+-      return p_151567_ - this.m_151560_();
+-   }
+-
+-   default int m_151568_(int p_151569_) {
+-      return p_151569_ + this.m_151560_();
+-   }
+-
+-   static LevelHeightAccessor m_186487_(final int p_186488_, final int p_186489_) {
 +      return p_151563_ < this.getMinBuildHeight() || p_151563_ >= this.getMaxBuildHeight();
 +   }
 +
@@ -51,16 +72,18 @@
 +      return p_151563_ < this.getMinBuildHeight() || p_151563_ >= this.getMaxBuildHeight();
 +   }
 +
-+   default int getSectionIndex(long p_151565_) {
-+      return this.m_151566_(SectionPos.m_235865_(p_151565_));
-    }
- 
-    default int m_151566_(int p_151567_) {
-@@ -44,13 +_,13 @@
-       return p_151569_ + this.m_151560_();
-    }
- 
--   static LevelHeightAccessor m_186487_(final int p_186488_, final int p_186489_) {
++   default long getSectionIndex(long p_151565_) {
++      return this.getSectionIndexFromSectionY(SectionPos.blockToSectionCoord(p_151565_));
++   }
++
++   default long getSectionIndexFromSectionY(long p_151567_) {
++      return p_151567_ - this.getMinSection();
++   }
++
++   default long getSectionYFromSectionIndex(int p_151569_) {
++      return p_151569_ + this.getMinSection();
++   }
++
 +   static LevelHeightAccessor create(final long p_186488_, final long p_186489_) {
        return new LevelHeightAccessor() {
 -         public int m_141928_() {

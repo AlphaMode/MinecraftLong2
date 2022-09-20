@@ -9,7 +9,7 @@
     public static final int f_175535_ = 4;
     public static final int f_175536_ = 16;
     public static final int f_175539_ = 15;
-@@ -29,16 +_,20 @@
+@@ -29,19 +_,23 @@
     private static final int f_175550_ = 0;
     private static final int f_175551_ = 4;
  
@@ -28,21 +28,59 @@
  
     public static SectionPos m_123199_(BlockPos p_123200_) {
 -      return new SectionPos(m_123171_(p_123200_.m_123341_()), m_123171_(p_123200_.m_123342_()), m_123171_(p_123200_.m_123343_()));
-+      return new SectionPos(m_235865_(p_123200_.getX()), m_235865_(p_123200_.getY()), m_235865_(p_123200_.getZ()));
++      return new SectionPos(blockToSectionCoord(p_123200_.getX()), blockToSectionCoord(p_123200_.getY()), blockToSectionCoord(p_123200_.getZ()));
     }
  
-    public static SectionPos m_123196_(ChunkPos p_123197_, int p_123198_) {
-@@ -66,7 +_,7 @@
+-   public static SectionPos m_123196_(ChunkPos p_123197_, int p_123198_) {
++   public static SectionPos of(ChunkPos p_123197_, long p_123198_) {
+       return new SectionPos(p_123197_.f_45578_, p_123198_, p_123197_.f_45579_);
+    }
+ 
+@@ -50,7 +_,7 @@
+    }
+ 
+    public static SectionPos m_235863_(Position p_235864_) {
+-      return new SectionPos(m_235865_(p_235864_.m_7096_()), m_235865_(p_235864_.m_7098_()), m_235865_(p_235864_.m_7094_()));
++      return new SectionPos(blockToSectionCoord(p_235864_.m_7096_()), blockToSectionCoord(p_235864_.m_7098_()), blockToSectionCoord(p_235864_.m_7094_()));
+    }
+ 
+    public static SectionPos m_123184_(long p_123185_) {
+@@ -58,7 +_,7 @@
+    }
+ 
+    public static SectionPos m_175562_(ChunkAccess p_175563_) {
+-      return m_123196_(p_175563_.m_7697_(), p_175563_.m_151560_());
++      return of(p_175563_.m_7697_(), p_175563_.getMinSection());
+    }
+ 
+    public static long m_123191_(long p_123192_, Direction p_123193_) {
+@@ -66,29 +_,29 @@
     }
  
     public static long m_123186_(long p_123187_, int p_123188_, int p_123189_, int p_123190_) {
 -      return m_123209_(m_123213_(p_123187_) + p_123188_, m_123225_(p_123187_) + p_123189_, m_123230_(p_123187_) + p_123190_);
+-   }
+-
+-   public static int m_175552_(double p_175553_) {
+-      return m_123171_(Mth.m_14107_(p_175553_));
+-   }
+-
+-   public static int m_123171_(int p_123172_) {
 +      return asLong(m_123213_(p_123187_) + p_123188_, m_123225_(p_123187_) + p_123189_, m_123230_(p_123187_) + p_123190_);
++   }
++
++   public static long posToSectionCoord(double p_175553_) {
++      return blockToSectionCoord(Mth.m_14134_(p_175553_));
++   }
++
++   public static long blockToSectionCoord(int p_123172_) {
+       return p_123172_ >> 4;
     }
  
-    public static int m_175552_(double p_175553_) {
-@@ -81,14 +_,14 @@
-       return Mth.m_14107_(p_235866_) >> 4;
+-   public static int m_235865_(double p_235866_) {
+-      return Mth.m_14107_(p_235866_) >> 4;
++   public static long blockToSectionCoord(double p_235866_) {
++      return Mth.m_14134_(p_235866_) >> 4;
     }
  
 -   public static int m_123207_(int p_123208_) {
@@ -179,7 +217,7 @@
  
     public static long m_123235_(long p_123236_) {
 -      return m_123209_(m_123171_(BlockPos.m_121983_(p_123236_)), m_123171_(BlockPos.m_122008_(p_123236_)), m_123171_(BlockPos.m_122015_(p_123236_)));
-+      return asLong(m_123171_(BlockPos.m_121983_(p_123236_)), m_123171_(BlockPos.m_122008_(p_123236_)), m_123171_(BlockPos.m_122015_(p_123236_)));
++      return asLong(blockToSectionCoord(BlockPos.m_121983_(p_123236_)), blockToSectionCoord(BlockPos.m_122008_(p_123236_)), blockToSectionCoord(BlockPos.m_122015_(p_123236_)));
     }
  
     public static long m_123240_(long p_123241_) {
@@ -202,7 +240,7 @@
  
     public static long m_175568_(BlockPos p_175569_) {
 -      return m_123209_(m_123171_(p_175569_.m_123341_()), m_123171_(p_175569_.m_123342_()), m_123171_(p_175569_.m_123343_()));
-+      return asLong(m_235865_(p_175569_.getX()), m_235865_(p_175569_.getY()), m_235865_(p_175569_.getZ()));
++      return asLong(blockToSectionCoord(p_175569_.getX()), blockToSectionCoord(p_175569_.getY()), blockToSectionCoord(p_175569_.getZ()));
     }
  
 -   public static long m_123209_(int p_123210_, int p_123211_, int p_123212_) {
@@ -233,22 +271,27 @@
 -      int j = p_123202_.m_123206_();
 -      int k = p_123202_.m_123222_();
 -      return m_123177_(i - p_123203_, j - p_123203_, k - p_123203_, i + p_123203_, j + p_123203_, k + p_123203_);
+-   }
+-
+-   public static Stream<SectionPos> m_175557_(ChunkPos p_175558_, int p_175559_, int p_175560_, int p_175561_) {
+-      int i = p_175558_.f_45578_;
+-      int j = p_175558_.f_45579_;
+-      return m_123177_(i - p_175559_, p_175560_, j - p_175559_, i + p_175559_, p_175561_ - 1, j + p_175559_);
+-   }
+-
+-   public static Stream<SectionPos> m_123177_(final int p_123178_, final int p_123179_, final int p_123180_, final int p_123181_, final int p_123182_, final int p_123183_) {
 +      long i = p_123202_.x();
 +      long j = p_123202_.y();
 +      long k = p_123202_.z();
 +      return betweenClosedStream(i - p_123203_, j - p_123203_, k - p_123203_, i + p_123203_, j + p_123203_, k + p_123203_);
-    }
- 
-    public static Stream<SectionPos> m_175557_(ChunkPos p_175558_, int p_175559_, int p_175560_, int p_175561_) {
--      int i = p_175558_.f_45578_;
--      int j = p_175558_.f_45579_;
--      return m_123177_(i - p_175559_, p_175560_, j - p_175559_, i + p_175559_, p_175561_ - 1, j + p_175559_);
++   }
++
++   public static Stream<SectionPos> aroundChunk(ChunkPos p_175558_, long p_175559_, long p_175560_, long p_175561_) {
 +      long i = p_175558_.f_45578_;
 +      long j = p_175558_.f_45579_;
 +      return betweenClosedStream(i - p_175559_, p_175560_, j - p_175559_, i + p_175559_, p_175561_ - 1, j + p_175559_);
-    }
- 
--   public static Stream<SectionPos> m_123177_(final int p_123178_, final int p_123179_, final int p_123180_, final int p_123181_, final int p_123182_, final int p_123183_) {
++   }
++
 +   public static Stream<SectionPos> betweenClosedStream(final long p_123178_, final long p_123179_, final long p_123180_, final long p_123181_, final long p_123182_, final long p_123183_) {
        return StreamSupport.stream(new Spliterators.AbstractSpliterator<SectionPos>((long)((p_123181_ - p_123178_ + 1) * (p_123182_ - p_123179_ + 1) * (p_123183_ - p_123180_ + 1)), 64) {
           final Cursor3D f_123254_ = new Cursor3D(p_123178_, p_123179_, p_123180_, p_123181_, p_123182_, p_123183_);
@@ -281,20 +324,23 @@
 -      int i1 = m_123171_(p_194637_ - 1);
 -      int j1 = m_123171_(p_194637_ + 1);
 +   public static void aroundAndAtBlockPos(long p_194635_, long p_194636_, long p_194637_, LongConsumer p_194638_) {
-+      int i = m_235865_(p_194635_ - 1);
-+      int j = m_235865_(p_194635_ + 1);
-+      int k = m_235865_(p_194636_ - 1);
-+      int l = m_235865_(p_194636_ + 1);
-+      int i1 = m_235865_(p_194637_ - 1);
-+      int j1 = m_235865_(p_194637_ + 1);
++      long i = blockToSectionCoord(p_194635_ - 1);
++      long j = blockToSectionCoord(p_194635_ + 1);
++      long k = blockToSectionCoord(p_194636_ - 1);
++      long l = blockToSectionCoord(p_194636_ + 1);
++      long i1 = blockToSectionCoord(p_194637_ - 1);
++      long j1 = blockToSectionCoord(p_194637_ + 1);
        if (i == j && k == l && i1 == j1) {
 -         p_194638_.accept(m_123209_(i, k, i1));
 +         p_194638_.accept(asLong(i, k, i1));
        } else {
-          for(int k1 = i; k1 <= j; ++k1) {
-             for(int l1 = k; l1 <= l; ++l1) {
-                for(int i2 = i1; i2 <= j1; ++i2) {
+-         for(int k1 = i; k1 <= j; ++k1) {
+-            for(int l1 = k; l1 <= l; ++l1) {
+-               for(int i2 = i1; i2 <= j1; ++i2) {
 -                  p_194638_.accept(m_123209_(k1, l1, i2));
++         for(long k1 = i; k1 <= j; ++k1) {
++            for(long l1 = k; l1 <= l; ++l1) {
++               for(long i2 = i1; i2 <= j1; ++i2) {
 +                  p_194638_.accept(asLong(k1, l1, i2));
                 }
              }

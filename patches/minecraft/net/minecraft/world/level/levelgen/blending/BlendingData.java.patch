@@ -19,11 +19,28 @@
     private final LevelHeightAccessor f_224738_;
     private static final List<Block> f_190265_ = List.of(Blocks.f_50599_, Blocks.f_49994_, Blocks.f_50440_, Blocks.f_50069_, Blocks.f_50546_, Blocks.f_49992_, Blocks.f_49993_, Blocks.f_50195_, Blocks.f_50127_, Blocks.f_50352_, Blocks.f_50493_);
     protected static final double f_190253_ = Double.MAX_VALUE;
-@@ -71,37 +_,37 @@
+@@ -55,10 +_,10 @@
+    private final transient double[][] f_190270_;
+    private static final Codec<double[]> f_190272_ = Codec.DOUBLE.listOf().xmap(Doubles::toArray, Doubles::asList);
+    public static final Codec<BlendingData> f_190254_ = RecordCodecBuilder.<BlendingData>create((p_224754_) -> {
+-      return p_224754_.group(Codec.INT.fieldOf("min_section").forGetter((p_224767_) -> {
+-         return p_224767_.f_224738_.m_151560_();
+-      }), Codec.INT.fieldOf("max_section").forGetter((p_224765_) -> {
+-         return p_224765_.f_224738_.m_151561_();
++      return p_224754_.group(Codec.LONG.fieldOf("min_section").forGetter((p_224767_) -> {
++         return p_224767_.f_224738_.getMinSection();
++      }), Codec.LONG.fieldOf("max_section").forGetter((p_224765_) -> {
++         return p_224765_.f_224738_.getMaxSection();
+       }), f_190272_.optionalFieldOf("heights").forGetter((p_224762_) -> {
+          return DoubleStream.of(p_224762_.f_190269_).anyMatch((p_224745_) -> {
+             return p_224745_ != Double.MAX_VALUE;
+@@ -70,38 +_,38 @@
+       return p_190321_.f_190269_.length != f_190263_ ? DataResult.error("heights has to be of length " + f_190263_) : DataResult.success(p_190321_);
     }
  
-    private BlendingData(int p_224740_, int p_224741_, Optional<double[]> p_224742_) {
+-   private BlendingData(int p_224740_, int p_224741_, Optional<double[]> p_224742_) {
 -      this.f_190269_ = p_224742_.orElse(Util.m_137469_(new double[f_190263_], (p_224756_) -> {
++   private BlendingData(long p_224740_, long p_224741_, Optional<double[]> p_224742_) {
 +      this.f_190269_ = p_224742_.orElse(Util.m_137469_(new double[(int) f_190263_], (p_224756_) -> {
           Arrays.fill(p_224756_, Double.MAX_VALUE);
        }));
@@ -160,16 +177,35 @@
           }
        }
  
-@@ -198,7 +_,7 @@
+@@ -196,9 +_,9 @@
+    }
+ 
     private double[] m_198292_(ChunkAccess p_198293_, int p_198294_, int p_198295_, int p_198296_) {
-       double[] adouble = new double[this.m_190327_()];
+-      double[] adouble = new double[this.m_190327_()];
++      double[] adouble = new double[(int) this.cellCountPerColumn()];
        Arrays.fill(adouble, -1.0D);
 -      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_198294_, this.f_224738_.m_151558_(), p_198295_);
 +      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_198294_, this.f_224738_.getMaxBuildHeight(), p_198295_);
        double d0 = m_198300_(p_198293_, blockpos$mutableblockpos);
  
        for(int i = adouble.length - 2; i >= 0; --i) {
-@@ -221,12 +_,12 @@
+@@ -208,25 +_,25 @@
+          d0 = d2;
+       }
+ 
+-      int j = this.m_224746_(Mth.m_14042_(p_198296_, 8));
++      long j = this.getCellYIndex(Mth.m_14042_(p_198296_, 8));
+       if (j >= 0 && j < adouble.length - 1) {
+          double d4 = ((double)p_198296_ + 0.5D) % 8.0D / 8.0D;
+          double d5 = (1.0D - d4) / d4;
+          double d3 = Math.max(d5, 1.0D) * 0.25D;
+-         adouble[j + 1] = -d5 / d3;
+-         adouble[j] = 1.0D / d3;
++         adouble[(int) (j + 1)] = -d5 / d3;
++         adouble[(int) j] = 1.0D / d3;
+       }
+ 
+       return adouble;
     }
  
     private List<Holder<Biome>> m_224757_(ChunkAccess p_224758_, int p_224759_, int p_224760_) {
@@ -201,13 +237,21 @@
        }
     }
  
-@@ -264,25 +_,25 @@
+@@ -259,30 +_,30 @@
+       if (p_190325_ == null) {
+          return Double.MAX_VALUE;
+       } else {
+-         int i = this.m_224746_(p_190326_);
+-         return i >= 0 && i < p_190325_.length ? p_190325_[i] * 0.1D : Double.MAX_VALUE;
++         long i = this.getCellYIndex(p_190326_);
++         return i >= 0 && i < p_190325_.length ? p_190325_[(int) i] * 0.1D : Double.MAX_VALUE; // TODO: long support
        }
     }
  
 -   protected double m_190333_(int p_190334_, int p_190335_, int p_190336_) {
+-      if (p_190335_ == this.m_190353_()) {
 +   protected double getDensity(long p_190334_, long p_190335_, long p_190336_) {
-       if (p_190335_ == this.m_190353_()) {
++      if (p_190335_ == this.getMinY()) {
           return 0.1D;
        } else if (p_190334_ != f_190260_ && p_190336_ != f_190260_) {
 -         return p_190334_ != 0 && p_190336_ != 0 ? Double.MAX_VALUE : this.m_190324_(this.f_190270_[m_190330_(p_190334_, p_190336_)], p_190335_);
@@ -235,7 +279,7 @@
                 }
              }
           }
-@@ -290,29 +_,29 @@
+@@ -290,82 +_,82 @@
        }
     }
  
@@ -252,12 +296,13 @@
     }
  
 -   protected void m_190289_(int p_190290_, int p_190291_, int p_190292_, int p_190293_, BlendingData.DensityConsumer p_190294_) {
-+   protected void iterateDensities(long p_190290_, long p_190291_, long p_190292_, long p_190293_, BlendingData.DensityConsumer p_190294_) {
-       int i = this.m_190347_();
+-      int i = this.m_190347_();
 -      int j = Math.max(0, p_190292_ - i);
 -      int k = Math.min(this.m_190327_(), p_190293_ - i);
++   protected void iterateDensities(long p_190290_, long p_190291_, long p_190292_, long p_190293_, BlendingData.DensityConsumer p_190294_) {
++      long i = this.getColumnMinY();
 +      long j = Math.max(0, p_190292_ - i);
-+      long k = Math.min(this.m_190327_(), p_190293_ - i);
++      long k = Math.min(this.cellCountPerColumn(), p_190293_ - i);
  
        for(int l = 0; l < this.f_190270_.length; ++l) {
           double[] adouble = this.f_190270_[l];
@@ -274,22 +319,50 @@
              }
           }
        }
-@@ -323,8 +_,8 @@
-       return this.f_224738_.m_151559_() * 2;
+ 
     }
  
+-   private int m_190327_() {
+-      return this.f_224738_.m_151559_() * 2;
+-   }
+-
 -   private int m_224763_() {
 -      return QuartPos.m_175404_(this.f_224738_.m_151559_());
-+   private long quartCountPerColumn() {
-+      return QuartPos.fromSection(this.f_224738_.m_151559_());
-    }
- 
-    private int m_190347_() {
-@@ -339,33 +_,33 @@
-       return p_224747_ - this.m_190347_();
-    }
- 
+-   }
+-
+-   private int m_190347_() {
+-      return this.m_190353_() + 1;
+-   }
+-
+-   private int m_190353_() {
+-      return this.f_224738_.m_151560_() * 2;
+-   }
+-
+-   private int m_224746_(int p_224747_) {
+-      return p_224747_ - this.m_190347_();
+-   }
+-
 -   private static int m_190330_(int p_190331_, int p_190332_) {
++   private long cellCountPerColumn() {
++      return this.f_224738_.getSectionsCount() * 2;
++   }
++
++   private long quartCountPerColumn() {
++      return QuartPos.fromSection(this.f_224738_.getSectionsCount());
++   }
++
++   private long getColumnMinY() {
++      return this.getMinY() + 1;
++   }
++
++   private long getMinY() {
++      return this.f_224738_.getMinSection() * 2;
++   }
++
++   private long getCellYIndex(int p_224747_) {
++      return p_224747_ - this.getColumnMinY();
++   }
++
 +   private static long getInsideIndex(int p_190331_, int p_190332_) {
        return f_190259_ - p_190331_ + p_190332_;
     }

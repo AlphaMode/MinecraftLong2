@@ -9,8 +9,21 @@
                 i -= 2;
              }
           }
-@@ -95,7 +_,7 @@
-             for(int l = j - 12; l <= j + 12; ++l) {
+@@ -86,16 +_,16 @@
+       ChunkData(IntegratedServer p_113382_, double p_113383_, double p_113384_) {
+          ClientLevel clientlevel = ChunkDebugRenderer.this.f_113363_.f_91073_;
+          ResourceKey<Level> resourcekey = clientlevel.m_46472_();
+-         int i = SectionPos.m_175552_(p_113383_);
+-         int j = SectionPos.m_175552_(p_113384_);
++         long i = SectionPos.posToSectionCoord(p_113383_);
++         long j = SectionPos.posToSectionCoord(p_113384_);
+          ImmutableMap.Builder<ChunkPos, String> builder = ImmutableMap.builder();
+          ClientChunkCache clientchunkcache = clientlevel.m_7726_();
+ 
+-         for(int k = i - 12; k <= i + 12; ++k) {
+-            for(int l = j - 12; l <= j + 12; ++l) {
++         for(long k = i - 12; k <= i + 12; ++k) {
++            for(long l = j - 12; l <= j + 12; ++l) {
                 ChunkPos chunkpos = new ChunkPos(k, l);
                 String s = "";
 -               LevelChunk levelchunk = clientchunkcache.m_62227_(k, l, false);
@@ -18,3 +31,14 @@
                 s = s + "Client: ";
                 if (levelchunk == null) {
                    s = s + "0n/a\n";
+@@ -117,8 +_,8 @@
+                ImmutableMap.Builder<ChunkPos, String> builder1 = ImmutableMap.builder();
+                ServerChunkCache serverchunkcache = serverlevel.m_7726_();
+ 
+-               for(int i1 = i - 12; i1 <= i + 12; ++i1) {
+-                  for(int j1 = j - 12; j1 <= j + 12; ++j1) {
++               for(long i1 = i - 12; i1 <= i + 12; ++i1) {
++                  for(long j1 = j - 12; j1 <= j + 12; ++j1) {
+                      ChunkPos chunkpos1 = new ChunkPos(i1, j1);
+                      builder1.put(chunkpos1, "Server: " + serverchunkcache.m_8448_(chunkpos1));
+                   }

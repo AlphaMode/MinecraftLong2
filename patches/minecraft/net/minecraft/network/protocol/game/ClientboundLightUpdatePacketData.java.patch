@@ -1,5 +1,14 @@
 --- a/net/minecraft/network/protocol/game/ClientboundLightUpdatePacketData.java
 +++ b/net/minecraft/network/protocol/game/ClientboundLightUpdatePacketData.java
+@@ -29,7 +_,7 @@
+       this.f_195727_ = Lists.newArrayList();
+       this.f_195728_ = Lists.newArrayList();
+ 
+-      for(int i = 0; i < p_195732_.m_164446_(); ++i) {
++      for(int i = 0; i < p_195732_.getLightSectionCount(); ++i) {
+          if (p_195733_ == null || p_195733_.get(i)) {
+             this.m_195741_(p_195731_, p_195732_, LightLayer.SKY, i, this.f_195723_, this.f_195725_, this.f_195727_);
+          }
 @@ -41,7 +_,7 @@
  
     }
@@ -9,3 +18,12 @@
        this.f_195729_ = p_195737_.readBoolean();
        this.f_195723_ = p_195737_.m_178384_();
        this.f_195724_ = p_195737_.m_178384_();
+@@ -66,7 +_,7 @@
+    }
+ 
+    private void m_195741_(ChunkPos p_195742_, LevelLightEngine p_195743_, LightLayer p_195744_, int p_195745_, BitSet p_195746_, BitSet p_195747_, List<byte[]> p_195748_) {
+-      DataLayer datalayer = p_195743_.m_75814_(p_195744_).m_8079_(SectionPos.m_123196_(p_195742_, p_195743_.m_164447_() + p_195745_));
++      DataLayer datalayer = p_195743_.m_75814_(p_195744_).m_8079_(SectionPos.of(p_195742_, p_195743_.getMinLightSection() + p_195745_));
+       if (datalayer != null) {
+          if (datalayer.m_62575_()) {
+             p_195747_.set(p_195745_);

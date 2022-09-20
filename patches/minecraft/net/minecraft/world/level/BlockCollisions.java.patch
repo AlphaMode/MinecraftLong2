@@ -1,6 +1,22 @@
 --- a/net/minecraft/world/level/BlockCollisions.java
 +++ b/net/minecraft/world/level/BlockCollisions.java
-@@ -48,10 +_,10 @@
+@@ -38,24 +_,24 @@
+       this.f_186397_ = p_186406_;
+       this.f_186392_ = p_186408_;
+       this.f_186398_ = p_186409_;
+-      int i = Mth.m_14107_(p_186408_.f_82288_ - 1.0E-7D) - 1;
+-      int j = Mth.m_14107_(p_186408_.f_82291_ + 1.0E-7D) + 1;
+-      int k = Mth.m_14107_(p_186408_.f_82289_ - 1.0E-7D) - 1;
+-      int l = Mth.m_14107_(p_186408_.f_82292_ + 1.0E-7D) + 1;
+-      int i1 = Mth.m_14107_(p_186408_.f_82290_ - 1.0E-7D) - 1;
+-      int j1 = Mth.m_14107_(p_186408_.f_82293_ + 1.0E-7D) + 1;
++      long i = Mth.m_14134_(p_186408_.f_82288_ - 1.0E-7D) - 1;
++      long j = Mth.m_14134_(p_186408_.f_82291_ + 1.0E-7D) + 1;
++      long k = Mth.m_14134_(p_186408_.f_82289_ - 1.0E-7D) - 1;
++      long l = Mth.m_14134_(p_186408_.f_82292_ + 1.0E-7D) + 1;
++      long i1 = Mth.m_14134_(p_186408_.f_82290_ - 1.0E-7D) - 1;
++      long j1 = Mth.m_14134_(p_186408_.f_82293_ + 1.0E-7D) + 1;
+       this.f_186394_ = new Cursor3D(i, k, i1, j, l, j1);
     }
  
     @Nullable
@@ -9,12 +25,17 @@
 -      int j = SectionPos.m_123171_(p_186413_);
 -      long k = ChunkPos.m_45589_(i, j);
 +   private BlockGetter getChunk(long p_186412_, long p_186413_) {
-+      int i = SectionPos.m_235865_(p_186412_);
-+      int j = SectionPos.m_235865_(p_186413_);
++      long i = SectionPos.blockToSectionCoord(p_186412_);
++      long j = SectionPos.blockToSectionCoord(p_186413_);
 +      long k = ChunkPos.asLong(i, j);
        if (this.f_186399_ != null && this.f_186400_ == k) {
           return this.f_186399_;
        } else {
+-         BlockGetter blockgetter = this.f_186397_.m_7925_(i, j);
++         BlockGetter blockgetter = this.f_186397_.getChunkForCollisions(i, j);
+          this.f_186399_ = blockgetter;
+          this.f_186400_ = k;
+          return blockgetter;
 @@ -65,20 +_,20 @@
     protected VoxelShape computeNext() {
        while(true) {
@@ -37,7 +58,7 @@
              }
  
 -            this.f_186395_.m_122178_(i, j, k);
-+            this.f_186395_.m_122169_(i, j, k);
++            this.f_186395_.set(i, j, k);
              BlockState blockstate = blockgetter.m_8055_(this.f_186395_);
              if (this.f_186398_ && !blockstate.m_60828_(blockgetter, this.f_186395_) || l == 1 && !blockstate.m_60779_() || l == 2 && !blockstate.m_60713_(Blocks.f_50110_)) {
                 continue;

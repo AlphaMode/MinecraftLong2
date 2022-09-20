@@ -28,7 +28,13 @@
           this.f_8332_.m_18701_(completablefuture::isDone);
           ChunkAccess chunkaccess1 = completablefuture.join().map((p_8406_) -> {
              return p_8406_;
-@@ -148,7 +_,7 @@
+@@ -143,12 +_,12 @@
+    }
+ 
+    @Nullable
+-   public LevelChunk m_7131_(int p_8357_, int p_8358_) {
++   public LevelChunk getChunkNow(long p_8357_, long p_8358_) {
+       if (Thread.currentThread() != this.f_8330_) {
           return null;
        } else {
           this.f_8329_.m_46473_().m_6174_("getChunkNow");
@@ -76,8 +82,9 @@
        return !this.m_8416_(chunkholder, i);
     }
  
-    public BlockGetter m_6196_(int p_8454_, int p_8455_) {
+-   public BlockGetter m_6196_(int p_8454_, int p_8455_) {
 -      long i = ChunkPos.m_45589_(p_8454_, p_8455_);
++   public BlockGetter getChunkForLighting(long p_8454_, long p_8455_) {
 +      long i = ChunkPos.asLong(p_8454_, p_8455_);
        ChunkHolder chunkholder = this.m_8364_(i);
        if (chunkholder == null) {
@@ -89,8 +96,8 @@
 -      int i = SectionPos.m_123171_(p_8451_.m_123341_());
 -      int j = SectionPos.m_123171_(p_8451_.m_123343_());
 -      ChunkHolder chunkholder = this.m_8364_(ChunkPos.m_45589_(i, j));
-+      int i = SectionPos.m_235865_(p_8451_.getX());
-+      int j = SectionPos.m_235865_(p_8451_.getZ());
++      long i = SectionPos.blockToSectionCoord(p_8451_.getX());
++      long j = SectionPos.blockToSectionCoord(p_8451_.getZ());
 +      ChunkHolder chunkholder = this.m_8364_(ChunkPos.asLong(i, j));
        if (chunkholder != null) {
           chunkholder.m_140056_(p_8451_);

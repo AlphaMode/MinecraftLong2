@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/color/block/BlockTintCache.java
 +++ b/net/minecraft/client/color/block/BlockTintCache.java
-@@ -25,9 +_,9 @@
+@@ -25,37 +_,37 @@
        this.f_193809_ = p_193811_;
     }
  
@@ -8,13 +8,14 @@
 -      int i = SectionPos.m_123171_(p_193813_.m_123341_());
 -      int j = SectionPos.m_123171_(p_193813_.m_123343_());
 +   public long getColor(BlockPos p_193813_) {
-+      int i = SectionPos.m_235865_(p_193813_.getX());
-+      int j = SectionPos.m_235865_(p_193813_.getZ());
++      long i = SectionPos.blockToSectionCoord(p_193813_.getX());
++      long j = SectionPos.blockToSectionCoord(p_193813_.getZ());
        BlockTintCache.LatestCacheInfo blocktintcache$latestcacheinfo = this.f_92650_.get();
        if (blocktintcache$latestcacheinfo.f_92665_ != i || blocktintcache$latestcacheinfo.f_92666_ != j || blocktintcache$latestcacheinfo.f_92667_ == null) {
           blocktintcache$latestcacheinfo.f_92665_ = i;
-@@ -35,27 +_,27 @@
-          blocktintcache$latestcacheinfo.f_92667_ = this.m_193814_(i, j);
+          blocktintcache$latestcacheinfo.f_92666_ = j;
+-         blocktintcache$latestcacheinfo.f_92667_ = this.m_193814_(i, j);
++         blocktintcache$latestcacheinfo.f_92667_ = this.findOrCreateChunkCache(i, j);
        }
  
 -      int[] aint = blocktintcache$latestcacheinfo.f_92667_.m_193823_(p_193813_.m_123342_());
@@ -49,11 +50,13 @@
                 this.f_92651_.remove(k);
              }
           }
-@@ -76,7 +_,7 @@
+@@ -75,8 +_,8 @@
+ 
     }
  
-    private BlockTintCache.CacheData m_193814_(int p_193815_, int p_193816_) {
+-   private BlockTintCache.CacheData m_193814_(int p_193815_, int p_193816_) {
 -      long i = ChunkPos.m_45589_(p_193815_, p_193816_);
++   private BlockTintCache.CacheData findOrCreateChunkCache(long p_193815_, long p_193816_) {
 +      long i = ChunkPos.asLong(p_193815_, p_193816_);
        this.f_92652_.readLock().lock();
  
@@ -101,3 +104,14 @@
           Arrays.fill(aint, -1);
           return aint;
        }
+@@ -152,8 +_,8 @@
+ 
+    @OnlyIn(Dist.CLIENT)
+    static class LatestCacheInfo {
+-      public int f_92665_ = Integer.MIN_VALUE;
+-      public int f_92666_ = Integer.MIN_VALUE;
++      public long f_92665_ = java.lang.Long.MIN_VALUE;
++      public long f_92666_ = java.lang.Long.MIN_VALUE;
+       @Nullable
+       BlockTintCache.CacheData f_92667_;
+ 

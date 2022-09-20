@@ -1,36 +1,56 @@
 --- a/net/minecraft/client/renderer/chunk/RenderChunkRegion.java
 +++ b/net/minecraft/client/renderer/chunk/RenderChunkRegion.java
-@@ -29,14 +_,14 @@
+@@ -16,12 +_,12 @@
+ 
+ @OnlyIn(Dist.CLIENT)
+ public class RenderChunkRegion implements BlockAndTintGetter {
+-   private final int f_112899_;
+-   private final int f_112900_;
++   private final long f_112899_;
++   private final long f_112900_;
+    protected final RenderChunk[][] f_112905_;
+    protected final Level f_112908_;
+ 
+-   RenderChunkRegion(Level p_200456_, int p_200457_, int p_200458_, RenderChunk[][] p_200459_) {
++   RenderChunkRegion(Level p_200456_, long p_200457_, long p_200458_, RenderChunk[][] p_200459_) {
+       this.f_112908_ = p_200456_;
+       this.f_112899_ = p_200457_;
+       this.f_112900_ = p_200458_;
+@@ -29,15 +_,15 @@
     }
  
     public BlockState m_8055_(BlockPos p_112947_) {
 -      int i = SectionPos.m_123171_(p_112947_.m_123341_()) - this.f_112899_;
 -      int j = SectionPos.m_123171_(p_112947_.m_123343_()) - this.f_112900_;
-+      int i = SectionPos.m_235865_(p_112947_.getX()) - this.f_112899_;
-+      int j = SectionPos.m_235865_(p_112947_.getZ()) - this.f_112900_;
-       return this.f_112905_[i][j].m_200453_(p_112947_);
+-      return this.f_112905_[i][j].m_200453_(p_112947_);
++      long i = SectionPos.blockToSectionCoord(p_112947_.getX()) - this.f_112899_;
++      long j = SectionPos.blockToSectionCoord(p_112947_.getZ()) - this.f_112900_;
++      return this.f_112905_[(int) i][(int) j].m_200453_(p_112947_);
     }
  
     public FluidState m_6425_(BlockPos p_112943_) {
 -      int i = SectionPos.m_123171_(p_112943_.m_123341_()) - this.f_112899_;
 -      int j = SectionPos.m_123171_(p_112943_.m_123343_()) - this.f_112900_;
-+      int i = SectionPos.m_235865_(p_112943_.getX()) - this.f_112899_;
-+      int j = SectionPos.m_235865_(p_112943_.getZ()) - this.f_112900_;
-       return this.f_112905_[i][j].m_200453_(p_112943_).m_60819_();
+-      return this.f_112905_[i][j].m_200453_(p_112943_).m_60819_();
++      long i = SectionPos.blockToSectionCoord(p_112943_.getX()) - this.f_112899_;
++      long j = SectionPos.blockToSectionCoord(p_112943_.getZ()) - this.f_112900_;
++      return this.f_112905_[(int) i][(int) j].m_200453_(p_112943_).m_60819_(); // TODO: long support
     }
  
-@@ -50,8 +_,8 @@
+    public float m_7717_(Direction p_112940_, boolean p_112941_) {
+@@ -50,20 +_,20 @@
  
     @Nullable
     public BlockEntity m_7702_(BlockPos p_112945_) {
 -      int i = SectionPos.m_123171_(p_112945_.m_123341_()) - this.f_112899_;
 -      int j = SectionPos.m_123171_(p_112945_.m_123343_()) - this.f_112900_;
-+      int i = SectionPos.m_235865_(p_112945_.getX()) - this.f_112899_;
-+      int j = SectionPos.m_235865_(p_112945_.getZ()) - this.f_112900_;
-       return this.f_112905_[i][j].m_200451_(p_112945_);
+-      return this.f_112905_[i][j].m_200451_(p_112945_);
++      long i = SectionPos.blockToSectionCoord(p_112945_.getX()) - this.f_112899_;
++      long j = SectionPos.blockToSectionCoord(p_112945_.getZ()) - this.f_112900_;
++      return this.f_112905_[(int) i][(int) j].m_200451_(p_112945_);
     }
  
-@@ -59,11 +_,11 @@
+    public int m_6171_(BlockPos p_112937_, ColorResolver p_112938_) {
        return this.f_112908_.m_6171_(p_112937_, p_112938_);
     }
  

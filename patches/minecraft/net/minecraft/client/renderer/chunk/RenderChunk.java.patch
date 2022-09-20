@@ -27,9 +27,10 @@
        } else {
           try {
 -            int l = this.f_200444_.m_151564_(j);
-+            int l = this.f_200444_.getSectionIndex(j);
++            long l = this.f_200444_.getSectionIndex(j);
              if (l >= 0 && l < this.f_200442_.size()) {
-                PalettedContainer<BlockState> palettedcontainer = this.f_200442_.get(l);
+-               PalettedContainer<BlockState> palettedcontainer = this.f_200442_.get(l);
++               PalettedContainer<BlockState> palettedcontainer = this.f_200442_.get((int) l); // TODO: long support
                 if (palettedcontainer != null) {
 -                  return palettedcontainer.m_63087_(i & 15, j & 15, k & 15);
 +                  return palettedcontainer.get(i & 15, j & 15, k & 15);

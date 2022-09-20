@@ -18,11 +18,13 @@
        ImmutableList.Builder<StructureStart> builder = ImmutableList.builder();
        this.m_220480_(p_220506_, longset, builder::add);
        return builder.build();
-@@ -66,7 +_,7 @@
+@@ -65,8 +_,8 @@
+ 
     public void m_220480_(Structure p_220481_, LongSet p_220482_, Consumer<StructureStart> p_220483_) {
        for(long i : p_220482_) {
-          SectionPos sectionpos = SectionPos.m_123196_(new ChunkPos(i), this.f_220460_.m_151560_());
+-         SectionPos sectionpos = SectionPos.m_123196_(new ChunkPos(i), this.f_220460_.m_151560_());
 -         StructureStart structurestart = this.m_220512_(sectionpos, p_220481_, this.f_220460_.m_46819_(sectionpos.m_123170_(), sectionpos.m_123222_(), ChunkStatus.f_62315_));
++         SectionPos sectionpos = SectionPos.of(new ChunkPos(i), this.f_220460_.getMinSection());
 +         StructureStart structurestart = this.m_220512_(sectionpos, p_220481_, this.f_220460_.getChunk(sectionpos.x(), sectionpos.z(), ChunkStatus.f_62315_));
           if (structurestart != null && structurestart.m_73603_()) {
              p_220483_.accept(structurestart);

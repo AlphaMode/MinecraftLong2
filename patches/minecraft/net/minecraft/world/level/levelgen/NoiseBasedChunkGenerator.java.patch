@@ -139,7 +139,7 @@
                 if (configuredworldcarver.m_224896_(worldgenrandom)) {
                    configuredworldcarver.m_224898_(carvingcontext, p_224229_, biomemanager::m_204214_, worldgenrandom, aquifer, chunkpos1, carvingmask);
                 }
-@@ -242,14 +_,14 @@
+@@ -242,24 +_,24 @@
  
     public CompletableFuture<ChunkAccess> m_213974_(Executor p_224312_, Blender p_224313_, RandomState p_224314_, StructureManager p_224315_, ChunkAccess p_224316_) {
        NoiseSettings noisesettings = this.f_64318_.m_203334_().f_64439_().m_224530_(p_224316_.m_183618_());
@@ -154,12 +154,16 @@
        } else {
 -         int l = p_224316_.m_151564_(k * noisesettings.m_189212_() - 1 + i);
 -         int i1 = p_224316_.m_151564_(i);
-+         int l = p_224316_.getSectionIndex(k * noisesettings.getCellHeight() - 1 + i);
-+         int i1 = p_224316_.getSectionIndex(i);
++         long l = p_224316_.getSectionIndex(k * noisesettings.getCellHeight() - 1 + i);
++         long i1 = p_224316_.getSectionIndex(i);
           Set<LevelChunkSection> set = Sets.newHashSet();
  
-          for(int j1 = l; j1 >= i1; --j1) {
-@@ -259,7 +_,7 @@
+-         for(int j1 = l; j1 >= i1; --j1) {
+-            LevelChunkSection levelchunksection = p_224316_.m_183278_(j1);
++         for(long j1 = l; j1 >= i1; --j1) {
++            LevelChunkSection levelchunksection = p_224316_.getSection(j1);
+             levelchunksection.m_62981_();
+             set.add(levelchunksection);
           }
  
           return CompletableFuture.supplyAsync(Util.m_183946_("wgen_fill_noise", () -> {
@@ -168,7 +172,7 @@
           }), Util.m_183991_()).whenCompleteAsync((p_224309_, p_224310_) -> {
              for(LevelChunkSection levelchunksection1 : set) {
                 levelchunksection1.m_63006_();
-@@ -269,22 +_,22 @@
+@@ -269,71 +_,71 @@
        }
     }
  
@@ -198,26 +202,30 @@
  
        for(int k1 = 0; k1 < i1; ++k1) {
           noisechunk.m_188749_(k1);
-@@ -292,48 +_,48 @@
-          for(int l1 = 0; l1 < j1; ++l1) {
-             LevelChunkSection levelchunksection = p_224288_.m_183278_(p_224288_.m_151559_() - 1);
  
+          for(int l1 = 0; l1 < j1; ++l1) {
+-            LevelChunkSection levelchunksection = p_224288_.m_183278_(p_224288_.m_151559_() - 1);
+-
 -            for(int i2 = p_224290_ - 1; i2 >= 0; --i2) {
 -               noisechunk.m_188810_(i2, l1);
-+            for(long i2 = p_224290_ - 1; i2 >= 0; --i2) {
-+               noisechunk.selectCellYZ(i2, l1);
- 
+-
 -               for(int j2 = l - 1; j2 >= 0; --j2) {
 -                  int k2 = (p_224289_ + i2) * l + j2;
 -                  int l2 = k2 & 15;
 -                  int i3 = p_224288_.m_151564_(k2);
 -                  if (p_224288_.m_151564_(levelchunksection.m_63017_()) != i3) {
+-                     levelchunksection = p_224288_.m_183278_(i3);
++            LevelChunkSection levelchunksection = p_224288_.getSection(p_224288_.getSectionsCount() - 1);
++
++            for(long i2 = p_224290_ - 1; i2 >= 0; --i2) {
++               noisechunk.selectCellYZ(i2, l1);
++
 +               for(long j2 = l - 1; j2 >= 0; --j2) {
 +                  long k2 = (p_224289_ + i2) * l + j2;
 +                  long l2 = k2 & 15;
-+                  int i3 = p_224288_.getSectionIndex(k2);
-+                  if (p_224288_.getSectionIndex(levelchunksection.m_63017_()) != i3) {
-                      levelchunksection = p_224288_.m_183278_(i3);
++                  long i3 = p_224288_.getSectionIndex(k2);
++                  if (p_224288_.getSectionIndex(levelchunksection.bottomBlockY()) != i3) {
++                     levelchunksection = p_224288_.getSection(i3);
                    }
  
                    double d0 = (double)j2 / (double)l;
@@ -251,7 +259,7 @@
                          if (blockstate != f_64321_ && !SharedConstants.m_183707_(p_224288_.m_7697_())) {
                             if (blockstate.m_60791_() != 0 && p_224288_ instanceof ProtoChunk) {
 -                              blockpos$mutableblockpos.m_122178_(k3, k2, j4);
-+                              blockpos$mutableblockpos.m_122169_(k3, k2, j4);
++                              blockpos$mutableblockpos.set(k3, k2, j4);
                                ((ProtoChunk)p_224288_).m_63277_(blockpos$mutableblockpos);
                             }
  
@@ -263,7 +271,7 @@
 +                           heightmap1.update(l3, k2, k4, blockstate);
                             if (aquifer.m_142203_() && !blockstate.m_60819_().m_76178_()) {
 -                              blockpos$mutableblockpos.m_122178_(k3, k2, j4);
-+                              blockpos$mutableblockpos.m_122169_(k3, k2, j4);
++                              blockpos$mutableblockpos.set(k3, k2, j4);
                                p_224288_.m_8113_(blockpos$mutableblockpos);
                             }
                          }

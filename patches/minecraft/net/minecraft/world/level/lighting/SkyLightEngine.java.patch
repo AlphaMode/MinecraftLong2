@@ -1,11 +1,20 @@
 --- a/net/minecraft/world/level/lighting/SkyLightEngine.java
 +++ b/net/minecraft/world/level/lighting/SkyLightEngine.java
-@@ -64,7 +_,7 @@
+@@ -64,14 +_,14 @@
     protected void m_7900_(long p_75845_, int p_75846_, boolean p_75847_) {
        long i = SectionPos.m_123235_(p_75845_);
        int j = BlockPos.m_122008_(p_75845_);
 -      int k = SectionPos.m_123207_(j);
+-      int l = SectionPos.m_123171_(j);
 +      long k = SectionPos.sectionRelative(j);
-       int l = SectionPos.m_123171_(j);
++      long l = SectionPos.blockToSectionCoord(j);
        int i1;
        if (k != 0) {
+          i1 = 0;
+       } else {
+          int j1;
+-         for(j1 = 0; !this.f_75632_.m_75791_(SectionPos.m_123186_(i, 0, -j1 - 1, 0)) && this.f_75632_.m_75870_(l - j1 - 1); ++j1) {
++         for(j1 = 0; !this.f_75632_.m_75791_(SectionPos.m_123186_(i, 0, -j1 - 1, 0)) && this.f_75632_.hasSectionsBelow(l - j1 - 1); ++j1) {
+          }
+ 
+          i1 = j1;

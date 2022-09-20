@@ -128,7 +128,7 @@
        Node node = null;
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 -      double d0 = this.m_142213_(blockpos$mutableblockpos.m_122178_(p_164726_, p_164727_, p_164728_));
-+      double d0 = this.m_142213_(blockpos$mutableblockpos.m_122169_(p_164726_, p_164727_, p_164728_));
++      double d0 = this.m_142213_(blockpos$mutableblockpos.set(p_164726_, p_164727_, p_164728_));
        if (d0 - p_164730_ > 1.125D) {
           return null;
        } else {
@@ -312,7 +312,7 @@
 -      if (blockpathtypes == BlockPathTypes.OPEN && j >= p_77605_.m_141937_() + 1) {
 -         BlockPathTypes blockpathtypes1 = m_77643_(p_77605_, p_77606_.m_122178_(i, j - 1, k));
 +      if (blockpathtypes == BlockPathTypes.OPEN && j >= p_77605_.getMinBuildHeight() + 1) {
-+         BlockPathTypes blockpathtypes1 = m_77643_(p_77605_, p_77606_.m_122169_(i, j - 1, k));
++         BlockPathTypes blockpathtypes1 = m_77643_(p_77605_, p_77606_.set(i, j - 1, k));
           blockpathtypes = blockpathtypes1 != BlockPathTypes.WALKABLE && blockpathtypes1 != BlockPathTypes.OPEN && blockpathtypes1 != BlockPathTypes.WATER && blockpathtypes1 != BlockPathTypes.LAVA ? BlockPathTypes.WALKABLE : BlockPathTypes.OPEN;
           if (blockpathtypes1 == BlockPathTypes.DAMAGE_FIRE) {
              blockpathtypes = BlockPathTypes.DAMAGE_FIRE;
@@ -321,7 +321,7 @@
  
        if (blockpathtypes == BlockPathTypes.WALKABLE) {
 -         blockpathtypes = m_77607_(p_77605_, p_77606_.m_122178_(i, j, k), blockpathtypes);
-+         blockpathtypes = m_77607_(p_77605_, p_77606_.m_122169_(i, j, k), blockpathtypes);
++         blockpathtypes = m_77607_(p_77605_, p_77606_.set(i, j, k), blockpathtypes);
        }
  
        return blockpathtypes;
@@ -340,7 +340,7 @@
              for(int j1 = -1; j1 <= 1; ++j1) {
                 if (l != 0 || j1 != 0) {
 -                  p_77609_.m_122178_(i + l, j + i1, k + j1);
-+                  p_77609_.m_122169_(i + l, j + i1, k + j1);
++                  p_77609_.set(i + l, j + i1, k + j1);
                    BlockState blockstate = p_77608_.m_8055_(p_77609_);
                    if (blockstate.m_60713_(Blocks.f_50128_)) {
                       return BlockPathTypes.DANGER_CACTUS;

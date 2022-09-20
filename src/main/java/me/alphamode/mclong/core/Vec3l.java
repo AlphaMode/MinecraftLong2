@@ -36,14 +36,14 @@ public class Vec3l implements Comparable<Vec3l> {
         return CODEC.flatXmap(checkOffsetAxes(p_194651_), checkOffsetAxes(p_194651_));
     }
 
-    public Vec3l(int p_123296_, int p_123297_, int p_123298_) {
+    public Vec3l(long p_123296_, long p_123297_, long p_123298_) {
         this.x = p_123296_;
         this.y = p_123297_;
         this.z = p_123298_;
     }
 
     public Vec3l(double p_123292_, double p_123293_, double p_123294_) {
-        this(Mth.floor(p_123292_), Mth.floor(p_123293_), Mth.floor(p_123294_));
+        this(Mth.lfloor(p_123292_), Mth.lfloor(p_123293_), Mth.lfloor(p_123294_));
     }
 
     public boolean equals(Object p_123327_) {

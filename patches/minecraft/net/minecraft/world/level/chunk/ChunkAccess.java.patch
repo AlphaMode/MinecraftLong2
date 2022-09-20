@@ -1,6 +1,25 @@
 --- a/net/minecraft/world/level/chunk/ChunkAccess.java
 +++ b/net/minecraft/world/level/chunk/ChunkAccess.java
-@@ -103,7 +_,7 @@
+@@ -79,9 +_,9 @@
+       this.f_187604_ = p_187621_;
+       this.f_187606_ = p_187622_;
+       this.f_187611_ = p_187623_;
+-      this.f_187612_ = new LevelChunkSection[p_187623_.m_151559_()];
++      this.f_187612_ = new LevelChunkSection[(int) p_187623_.getSectionsCount()]; // TODO: long support
+       this.f_187615_ = p_187625_;
+-      this.f_187602_ = new ShortList[p_187623_.m_151559_()];
++      this.f_187602_ = new ShortList[(int) p_187623_.getSectionsCount()];
+       this.f_187607_ = p_187627_;
+       if (p_187626_ != null) {
+          if (this.f_187612_.length == p_187626_.length) {
+@@ -97,13 +_,13 @@
+    private static void m_187634_(LevelHeightAccessor p_187635_, Registry<Biome> p_187636_, LevelChunkSection[] p_187637_) {
+       for(int i = 0; i < p_187637_.length; ++i) {
+          if (p_187637_[i] == null) {
+-            p_187637_[i] = new LevelChunkSection(p_187635_.m_151568_(i), p_187636_);
++            p_187637_[i] = new LevelChunkSection(p_187635_.getSectionYFromSectionIndex(i), p_187636_);
+          }
+       }
  
     }
  
@@ -17,10 +36,21 @@
 +   public long getHighestSectionPosition() {
        LevelChunkSection levelchunksection = this.m_62074_();
 -      return levelchunksection == null ? this.m_141937_() : levelchunksection.m_63017_();
-+      return levelchunksection == null ? this.getMinBuildHeight() : levelchunksection.m_63017_();
++      return levelchunksection == null ? this.getMinBuildHeight() : levelchunksection.bottomBlockY();
     }
  
     public Set<BlockPos> m_5928_() {
+@@ -143,8 +_,8 @@
+       return this.f_187612_;
+    }
+ 
+-   public LevelChunkSection m_183278_(int p_187657_) {
+-      return this.m_7103_()[p_187657_];
++   public LevelChunkSection getSection(long p_187657_) {
++      return this.m_7103_()[(int) p_187657_]; // TODO: long support
+    }
+ 
+    public Collection<Map.Entry<Heightmap.Types, Heightmap>> m_6890_() {
 @@ -165,7 +_,7 @@
        return this.f_187608_.get(p_187659_) != null;
     }
@@ -64,10 +94,36 @@
 +      }
 +
 +      for(long i = p_62075_; i <= p_62076_; i += 16) {
-+         if (!this.m_183278_(this.getSectionIndex(i)).m_188008_()) {
++         if (!this.getSection(this.getSectionIndex(i)).m_188008_()) {
              return false;
           }
        }
+@@ -263,7 +_,7 @@
+    }
+ 
+    public void m_6561_(short p_62092_, int p_62093_) {
+-      m_62095_(this.m_6720_(), p_62093_).add(p_62092_);
++      getOrCreateOffsetList(this.m_6720_(), p_62093_).add(p_62092_);
+    }
+ 
+    public void m_5604_(CompoundTag p_62091_) {
+@@ -315,12 +_,12 @@
+       this.f_187615_ = p_62099_;
+    }
+ 
+-   public static ShortList m_62095_(ShortList[] p_62096_, int p_62097_) {
+-      if (p_62096_[p_62097_] == null) {
+-         p_62096_[p_62097_] = new ShortArrayList();
++   public static ShortList getOrCreateOffsetList(ShortList[] p_62096_, long p_62097_) {
++      if (p_62096_[(int) p_62097_] == null) { // TODO: long support
++         p_62096_[(int) p_62097_] = new ShortArrayList();
+       }
+ 
+-      return p_62096_[p_62097_];
++      return p_62096_[(int) p_62097_];
+    }
+ 
+    public boolean m_6332_() {
 @@ -332,12 +_,12 @@
        this.m_8092_(true);
     }
@@ -100,8 +156,8 @@
 +         long i = QuartPos.fromBlock(this.getMinBuildHeight());
 +         long k = i + QuartPos.fromBlock(this.getHeight()) - 1;
 +         long l = Mth.m_14053_(p_204348_, i, k);
-+         int j = this.getSectionIndex(QuartPos.toBlock(l));
-+         return this.f_187612_[j].getNoiseBiome(p_204347_ & 3, l & 3, p_204349_ & 3);
++         long j = this.getSectionIndex(QuartPos.toBlock(l));
++         return this.f_187612_[(int) j].getNoiseBiome(p_204347_ & 3, l & 3, p_204349_ & 3);
        } catch (Throwable throwable) {
           CrashReport crashreport = CrashReport.m_127521_(throwable, "Getting biome");
           CrashReportCategory crashreportcategory = crashreport.m_127514_("Biome being got");
@@ -121,9 +177,11 @@
 +      long j = QuartPos.fromBlock(chunkpos.getMinBlockZ());
        LevelHeightAccessor levelheightaccessor = this.m_183618_();
  
-       for(int k = levelheightaccessor.m_151560_(); k < levelheightaccessor.m_151561_(); ++k) {
-          LevelChunkSection levelchunksection = this.m_183278_(this.m_151566_(k));
+-      for(int k = levelheightaccessor.m_151560_(); k < levelheightaccessor.m_151561_(); ++k) {
+-         LevelChunkSection levelchunksection = this.m_183278_(this.m_151566_(k));
 -         levelchunksection.m_188003_(p_187638_, p_187639_, i, j);
++      for(long k = levelheightaccessor.getMinSection(); k < levelheightaccessor.getMaxSection(); ++k) {
++         LevelChunkSection levelchunksection = this.getSection(this.getSectionIndexFromSectionY(k));
 +         levelchunksection.fillBiomesFromNoise(p_187638_, p_187639_, i, j);
        }
  

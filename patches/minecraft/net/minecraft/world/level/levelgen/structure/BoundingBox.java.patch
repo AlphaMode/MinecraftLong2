@@ -109,17 +109,42 @@
     public BoundingBox m_71045_(int p_71046_, int p_71047_, int p_71048_) {
        return new BoundingBox(this.f_162356_ + p_71046_, this.f_162357_ + p_71047_, this.f_162358_ + p_71048_, this.f_162359_ + p_71046_, this.f_162360_ + p_71047_, this.f_162361_ + p_71048_);
     }
-@@ -162,8 +_,13 @@
+@@ -162,10 +_,15 @@
        return new BoundingBox(this.m_162395_() - p_191962_, this.m_162396_() - p_191962_, this.m_162398_() - p_191962_, this.m_162399_() + p_191962_, this.m_162400_() + p_191962_, this.m_162401_() + p_191962_);
     }
  
 +   @Deprecated
     public boolean m_71051_(Vec3i p_71052_) {
        return p_71052_.m_123341_() >= this.f_162356_ && p_71052_.m_123341_() <= this.f_162359_ && p_71052_.m_123343_() >= this.f_162358_ && p_71052_.m_123343_() <= this.f_162361_ && p_71052_.m_123342_() >= this.f_162357_ && p_71052_.m_123342_() <= this.f_162360_;
-+   }
-+
-+   public boolean isInside(me.alphamode.mclong.core.Vec3l p_71052_) {
-+      return p_71052_.getX() >= this.f_162356_ && p_71052_.getX() <= this.f_162359_ && p_71052_.getZ() >= this.f_162358_ && p_71052_.getZ() <= this.f_162361_ && p_71052_.getY() >= this.f_162357_ && p_71052_.getY() <= this.f_162360_;
     }
  
++   public boolean isInside(me.alphamode.mclong.core.Vec3l p_71052_) {
++      return p_71052_.getX() >= this.f_162356_ && p_71052_.getX() <= this.f_162359_ && p_71052_.getZ() >= this.f_162358_ && p_71052_.getZ() <= this.f_162361_ && p_71052_.getY() >= this.f_162357_ && p_71052_.getY() <= this.f_162360_;
++   }
++
     public Vec3i m_71053_() {
+       return new Vec3i(this.f_162359_ - this.f_162356_, this.f_162360_ - this.f_162357_, this.f_162361_ - this.f_162358_);
+    }
+@@ -188,14 +_,14 @@
+ 
+    public void m_162380_(Consumer<BlockPos> p_162381_) {
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+-      p_162381_.accept(blockpos$mutableblockpos.m_122178_(this.f_162359_, this.f_162360_, this.f_162361_));
+-      p_162381_.accept(blockpos$mutableblockpos.m_122178_(this.f_162356_, this.f_162360_, this.f_162361_));
+-      p_162381_.accept(blockpos$mutableblockpos.m_122178_(this.f_162359_, this.f_162357_, this.f_162361_));
+-      p_162381_.accept(blockpos$mutableblockpos.m_122178_(this.f_162356_, this.f_162357_, this.f_162361_));
+-      p_162381_.accept(blockpos$mutableblockpos.m_122178_(this.f_162359_, this.f_162360_, this.f_162358_));
+-      p_162381_.accept(blockpos$mutableblockpos.m_122178_(this.f_162356_, this.f_162360_, this.f_162358_));
+-      p_162381_.accept(blockpos$mutableblockpos.m_122178_(this.f_162359_, this.f_162357_, this.f_162358_));
+-      p_162381_.accept(blockpos$mutableblockpos.m_122178_(this.f_162356_, this.f_162357_, this.f_162358_));
++      p_162381_.accept(blockpos$mutableblockpos.set(this.f_162359_, this.f_162360_, this.f_162361_));
++      p_162381_.accept(blockpos$mutableblockpos.set(this.f_162356_, this.f_162360_, this.f_162361_));
++      p_162381_.accept(blockpos$mutableblockpos.set(this.f_162359_, this.f_162357_, this.f_162361_));
++      p_162381_.accept(blockpos$mutableblockpos.set(this.f_162356_, this.f_162357_, this.f_162361_));
++      p_162381_.accept(blockpos$mutableblockpos.set(this.f_162359_, this.f_162360_, this.f_162358_));
++      p_162381_.accept(blockpos$mutableblockpos.set(this.f_162356_, this.f_162360_, this.f_162358_));
++      p_162381_.accept(blockpos$mutableblockpos.set(this.f_162359_, this.f_162357_, this.f_162358_));
++      p_162381_.accept(blockpos$mutableblockpos.set(this.f_162356_, this.f_162357_, this.f_162358_));
+    }
+ 
+    public String toString() {

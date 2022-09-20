@@ -54,18 +54,39 @@
           Biome biome = this.m_204166_(blockpos2).m_203334_();
           if (biome.m_47477_(this, blockpos3)) {
              this.m_46597_(blockpos3, Blocks.f_50126_.m_49966_());
-@@ -434,9 +_,9 @@
-                int l = levelchunksection.m_63017_();
+@@ -431,19 +_,23 @@
+       if (p_8716_ > 0) {
+          for(LevelChunkSection levelchunksection : p_8715_.m_7103_()) {
+             if (levelchunksection.m_63014_()) {
+-               int l = levelchunksection.m_63017_();
++               long l = levelchunksection.bottomBlockY();
  
                 for(int k = 0; k < p_8716_; ++k) {
 -                  BlockPos blockpos1 = this.m_46496_(i, l, j, 15);
-+                  BlockPos blockpos1 = this.getBlockRandomPos(i, l, j, 15);
++                  BlockPos blockpos1 = this.getBlockRandomPos(i, l, j, 15L);
                    profilerfiller.m_6180_("randomTick");
 -                  BlockState blockstate = levelchunksection.m_62982_(blockpos1.m_123341_() - i, blockpos1.m_123342_() - l, blockpos1.m_123343_() - j);
-+                  BlockState blockstate = levelchunksection.getBlockState(blockpos1.getX() - i, blockpos1.getY() - l, blockpos1.getZ() - j);
-                   if (blockstate.m_60823_()) {
-                      blockstate.m_222972_(this, blockpos1, this.f_46441_);
+-                  if (blockstate.m_60823_()) {
+-                     blockstate.m_222972_(this, blockpos1, this.f_46441_);
+-                  }
++                  BlockPos tickPos = new BlockPos(blockpos1.getX() - i, blockpos1.getY() - l, blockpos1.getZ() - j);
++                  // TODO: fix block ticking after this point
++                  BlockState blockstate = levelchunksection.getBlockState(tickPos.getX(), tickPos.getY(), tickPos.getZ());
++                  if (blockstate != null) {
++                     if (blockstate.m_60823_()) {
++                        blockstate.m_222972_(this, blockpos1, this.f_46441_);
++                     }
+ 
+-                  FluidState fluidstate = blockstate.m_60819_();
+-                  if (fluidstate.m_76187_()) {
+-                     fluidstate.m_230562_(this, blockpos1, this.f_46441_);
++                     FluidState fluidstate = blockstate.m_60819_();
++                     if (fluidstate.m_76187_()) {
++                        fluidstate.m_230562_(this, blockpos1, this.f_46441_);
++                     }
                    }
+ 
+                   profilerfiller.m_7238_();
 @@ -459,10 +_,10 @@
        Optional<BlockPos> optional = this.m_8904_().m_148658_((p_215059_) -> {
           return p_215059_.m_203565_(PoiTypes.f_218066_);
@@ -120,7 +141,7 @@
     }
  
     public int m_143344_() {
-@@ -848,12 +_,12 @@
+@@ -848,21 +_,21 @@
     public void m_214171_(GameEvent p_215041_, Vec3 p_215042_, GameEvent.Context p_215043_) {
        int i = p_215041_.m_157827_();
        BlockPos blockpos = new BlockPos(p_215042_);
@@ -130,20 +151,25 @@
 -      int i1 = SectionPos.m_123171_(blockpos.m_123341_() + i);
 -      int j1 = SectionPos.m_123171_(blockpos.m_123342_() + i);
 -      int k1 = SectionPos.m_123171_(blockpos.m_123343_() + i);
-+      int j = SectionPos.m_235865_(blockpos.getX() - i);
-+      int k = SectionPos.m_235865_(blockpos.getY() - i);
-+      int l = SectionPos.m_235865_(blockpos.getZ() - i);
-+      int i1 = SectionPos.m_235865_(blockpos.getX() + i);
-+      int j1 = SectionPos.m_235865_(blockpos.getY() + i);
-+      int k1 = SectionPos.m_235865_(blockpos.getZ() + i);
++      long j = SectionPos.blockToSectionCoord(blockpos.getX() - i);
++      long k = SectionPos.blockToSectionCoord(blockpos.getY() - i);
++      long l = SectionPos.blockToSectionCoord(blockpos.getZ() - i);
++      long i1 = SectionPos.blockToSectionCoord(blockpos.getX() + i);
++      long j1 = SectionPos.blockToSectionCoord(blockpos.getY() + i);
++      long k1 = SectionPos.blockToSectionCoord(blockpos.getZ() + i);
        List<GameEvent.Message> list = new ArrayList<>();
        boolean flag = false;
  
-@@ -862,7 +_,7 @@
-             ChunkAccess chunkaccess = this.m_7726_().m_7131_(l1, i2);
+-      for(int l1 = j; l1 <= i1; ++l1) {
+-         for(int i2 = l; i2 <= k1; ++i2) {
+-            ChunkAccess chunkaccess = this.m_7726_().m_7131_(l1, i2);
++      for(long l1 = j; l1 <= i1; ++l1) {
++         for(long i2 = l; i2 <= k1; ++i2) {
++            ChunkAccess chunkaccess = this.m_7726_().getChunkNow(l1, i2);
              if (chunkaccess != null) {
-                for(int j2 = k; j2 <= j1; ++j2) {
+-               for(int j2 = k; j2 <= j1; ++j2) {
 -                  flag |= chunkaccess.m_142336_(j2).m_213682_(p_215041_, p_215042_, p_215043_, (p_215067_, p_215068_) -> {
++               for(long j2 = k; j2 <= j1; ++j2) {
 +                  flag |= chunkaccess.getEventDispatcher(j2).m_213682_(p_215041_, p_215042_, p_215043_, (p_215067_, p_215068_) -> {
                       (p_215067_.m_214054_() ? list : this.f_214996_).add(new GameEvent.Message(p_215041_, p_215042_, p_215043_, p_215067_, p_215068_));
                    });

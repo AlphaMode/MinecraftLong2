@@ -1,14 +1,38 @@
 --- a/net/minecraft/world/level/lighting/LayerLightEngine.java
 +++ b/net/minecraft/world/level/lighting/LayerLightEngine.java
-@@ -46,7 +_,7 @@
+@@ -45,8 +_,8 @@
+    }
  
     @Nullable
-    private BlockGetter m_75644_(int p_75645_, int p_75646_) {
+-   private BlockGetter m_75644_(int p_75645_, int p_75646_) {
 -      long i = ChunkPos.m_45589_(p_75645_, p_75646_);
++   private BlockGetter getChunk(long p_75645_, long p_75646_) {
 +      long i = ChunkPos.asLong(p_75645_, p_75646_);
  
        for(int j = 0; j < 2; ++j) {
           if (i == this.f_75636_[j]) {
+@@ -54,7 +_,7 @@
+          }
+       }
+ 
+-      BlockGetter blockgetter = this.f_75630_.m_6196_(p_75645_, p_75646_);
++      BlockGetter blockgetter = this.f_75630_.getChunkForLighting(p_75645_, p_75646_);
+ 
+       for(int k = 1; k > 0; --k) {
+          this.f_75636_[k] = this.f_75636_[k - 1];
+@@ -79,9 +_,9 @@
+ 
+          return Blocks.f_50016_.m_49966_();
+       } else {
+-         int i = SectionPos.m_123171_(BlockPos.m_121983_(p_75665_));
+-         int j = SectionPos.m_123171_(BlockPos.m_122015_(p_75665_));
+-         BlockGetter blockgetter = this.m_75644_(i, j);
++         long i = SectionPos.blockToSectionCoord(BlockPos.m_121983_(p_75665_));
++         long j = SectionPos.blockToSectionCoord(BlockPos.m_122015_(p_75665_));
++         BlockGetter blockgetter = this.getChunk(i, j);
+          if (blockgetter == null) {
+             if (p_75666_ != null) {
+                p_75666_.setValue(16);
 @@ -130,7 +_,7 @@
     }
  

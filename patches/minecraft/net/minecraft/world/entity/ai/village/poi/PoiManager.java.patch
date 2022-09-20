@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/ai/village/poi/PoiManager.java
 +++ b/net/minecraft/world/entity/ai/village/poi/PoiManager.java
-@@ -72,14 +_,14 @@
+@@ -72,21 +_,21 @@
           return this.m_27117_(p_27167_, p_217938_, p_27170_);
        }).filter((p_217971_) -> {
           BlockPos blockpos = p_217971_.m_27257_();
@@ -17,6 +17,15 @@
        });
     }
  
+    @VisibleForDebug
+    public Stream<PoiRecord> m_27117_(Predicate<Holder<PoiType>> p_27118_, ChunkPos p_27119_, PoiManager.Occupancy p_27120_) {
+-      return IntStream.range(this.f_156618_.m_151560_(), this.f_156618_.m_151561_()).boxed().map((p_217886_) -> {
+-         return this.m_63823_(SectionPos.m_123196_(p_27119_, p_217886_).m_123252_());
++      return java.util.stream.LongStream.range(this.f_156618_.getMinSection(), this.f_156618_.getMaxSection()).boxed().map((p_217886_) -> {
++         return this.m_63823_(SectionPos.of(p_27119_, p_217886_).m_123252_());
+       }).filter(Optional::isPresent).flatMap((p_217942_) -> {
+          return p_217942_.get().m_27304_(p_27118_, p_27120_);
+       });
 @@ -106,7 +_,7 @@
  
     public Stream<Pair<Holder<PoiType>, BlockPos>> m_217994_(Predicate<Holder<PoiType>> p_217995_, Predicate<BlockPos> p_217996_, BlockPos p_217997_, int p_217998_, PoiManager.Occupancy p_217999_) {
@@ -51,6 +60,15 @@
        }));
     }
  
+@@ -208,7 +_,7 @@
+    }
+ 
+    public void m_27047_(ChunkPos p_27048_, LevelChunkSection p_27049_) {
+-      SectionPos sectionpos = SectionPos.m_123196_(p_27048_, SectionPos.m_123171_(p_27049_.m_63017_()));
++      SectionPos sectionpos = SectionPos.of(p_27048_, SectionPos.blockToSectionCoord(p_27049_.bottomBlockY()));
+       Util.m_137521_(this.m_63823_(sectionpos.m_123252_()), (p_217898_) -> {
+          p_217898_.m_27302_((p_217967_) -> {
+             if (m_27060_(p_27049_)) {
 @@ -231,7 +_,7 @@
  
     private void m_27069_(LevelChunkSection p_27070_, SectionPos p_27071_, BiConsumer<BlockPos, Holder<PoiType>> p_27072_) {
@@ -60,6 +78,15 @@
           PoiTypes.m_218075_(blockstate).ifPresent((p_217931_) -> {
              p_27072_.accept(p_217902_, p_217931_);
           });
+@@ -239,7 +_,7 @@
+    }
+ 
+    public void m_27056_(LevelReader p_27057_, BlockPos p_27058_, int p_27059_) {
+-      SectionPos.m_175557_(new ChunkPos(p_27058_), Math.floorDiv(p_27059_, 16), this.f_156618_.m_151560_(), this.f_156618_.m_151561_()).map((p_217979_) -> {
++      SectionPos.aroundChunk(new ChunkPos(p_27058_), Math.floorDiv(p_27059_, 16), this.f_156618_.getMinSection(), this.f_156618_.getMaxSection()).map((p_217979_) -> {
+          return Pair.of(p_217979_, this.m_63823_(p_217979_.m_123252_()));
+       }).filter((p_217963_) -> {
+          return !p_217963_.getSecond().map(PoiSection::m_27272_).orElse(false);
 @@ -248,7 +_,7 @@
        }).filter((p_217961_) -> {
           return this.f_27030_.add(p_217961_.m_45588_());

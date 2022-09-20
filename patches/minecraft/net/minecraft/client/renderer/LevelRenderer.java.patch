@@ -1,6 +1,45 @@
 --- a/net/minecraft/client/renderer/LevelRenderer.java
 +++ b/net/minecraft/client/renderer/LevelRenderer.java
-@@ -297,9 +_,9 @@
+@@ -207,9 +_,9 @@
+    private double f_109419_ = Double.MIN_VALUE;
+    private double f_109420_ = Double.MIN_VALUE;
+    private double f_109421_ = Double.MIN_VALUE;
+-   private int f_109422_ = Integer.MIN_VALUE;
+-   private int f_109423_ = Integer.MIN_VALUE;
+-   private int f_109424_ = Integer.MIN_VALUE;
++   private long f_109422_ = java.lang.Long.MIN_VALUE;
++   private long f_109423_ = java.lang.Long.MIN_VALUE;
++   private long f_109424_ = java.lang.Long.MIN_VALUE;
+    private double f_109425_ = Double.MIN_VALUE;
+    private double f_109426_ = Double.MIN_VALUE;
+    private double f_109427_ = Double.MIN_VALUE;
+@@ -268,9 +_,9 @@
+       if (!(f <= 0.0F)) {
+          p_109704_.m_109896_();
+          Level level = this.f_109461_.f_91073_;
+-         int i = Mth.m_14107_(p_109706_);
+-         int j = Mth.m_14107_(p_109707_);
+-         int k = Mth.m_14107_(p_109708_);
++         long i = Mth.m_14134_(p_109706_);
++         long j = Mth.m_14134_(p_109707_);
++         long k = Mth.m_14134_(p_109708_);
+          Tesselator tesselator = Tesselator.m_85913_();
+          BufferBuilder bufferbuilder = tesselator.m_85915_();
+          RenderSystem.m_69464_();
+@@ -289,17 +_,17 @@
+          RenderSystem.m_157429_(1.0F, 1.0F, 1.0F, 1.0F);
+          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-         for(int j1 = k - l; j1 <= k + l; ++j1) {
+-            for(int k1 = i - l; k1 <= i + l; ++k1) {
+-               int l1 = (j1 - k + 16) * 32 + k1 - i + 16;
+-               double d0 = (double)this.f_109451_[l1] * 0.5D;
+-               double d1 = (double)this.f_109452_[l1] * 0.5D;
++         for(long j1 = k - l; j1 <= k + l; ++j1) {
++            for(long k1 = i - l; k1 <= i + l; ++k1) {
++               long l1 = (j1 - k + 16) * 32 + k1 - i + 16;
++               double d0 = (double)this.f_109451_[(int) l1] * 0.5D;
++               double d1 = (double)this.f_109452_[(int) l1] * 0.5D;
                 blockpos$mutableblockpos.m_122169_((double)k1, p_109707_, (double)j1);
                 Biome biome = level.m_204166_(blockpos$mutableblockpos).m_203334_();
                 if (biome.m_47530_() != Biome.Precipitation.NONE) {
@@ -26,16 +65,23 @@
                    if (j2 != k2) {
                       RandomSource randomsource = RandomSource.m_216335_((long)(k1 * k1 * 3121 + k1 * 45238971 ^ j1 * j1 * 418711 + j1 * 13761));
 -                     blockpos$mutableblockpos.m_122178_(k1, j2, j1);
-+                     blockpos$mutableblockpos.m_122169_(k1, j2, j1);
++                     blockpos$mutableblockpos.set(k1, j2, j1);
                       if (biome.m_198906_(blockpos$mutableblockpos)) {
                          if (i1 != 0) {
                             if (i1 >= 0) {
-@@ -333,7 +_,7 @@
+@@ -327,13 +_,13 @@
+                            bufferbuilder.m_166779_(VertexFormat.Mode.QUADS, DefaultVertexFormat.f_85813_);
+                         }
+ 
+-                        int i3 = this.f_109477_ + k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761 & 31;
++                        long i3 = this.f_109477_ + k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761 & 31;
+                         float f2 = -((float)i3 + p_109705_) / 32.0F * (3.0F + randomsource.m_188501_());
+                         double d2 = (double)k1 + 0.5D - p_109706_;
                          double d4 = (double)j1 + 0.5D - p_109708_;
                          float f3 = (float)Math.sqrt(d2 * d2 + d4 * d4) / (float)l;
                          float f4 = ((1.0F - f3 * f3) * 0.5F + 0.5F) * f;
 -                        blockpos$mutableblockpos.m_122178_(k1, l2, j1);
-+                        blockpos$mutableblockpos.m_122169_(k1, l2, j1);
++                        blockpos$mutableblockpos.set(k1, l2, j1);
                          int j3 = m_109541_(level, blockpos$mutableblockpos);
                          bufferbuilder.m_5483_((double)k1 - p_109706_ - d0 + 0.5D, (double)k2 - p_109707_, (double)j1 - p_109708_ - d1 + 0.5D).m_7421_(0.0F, (float)j2 * 0.25F + f2).m_85950_(1.0F, 1.0F, 1.0F, f4).m_85969_(j3).m_5752_();
                          bufferbuilder.m_5483_((double)k1 - p_109706_ + d0 + 0.5D, (double)k2 - p_109707_, (double)j1 - p_109708_ + d1 + 0.5D).m_7421_(1.0F, (float)j2 * 0.25F + f2).m_85950_(1.0F, 1.0F, 1.0F, f4).m_85969_(j3).m_5752_();
@@ -44,7 +90,7 @@
                          float f8 = (float)Math.sqrt(d3 * d3 + d5 * d5) / (float)l;
                          float f9 = ((1.0F - f8 * f8) * 0.3F + 0.5F) * f;
 -                        blockpos$mutableblockpos.m_122178_(k1, l2, j1);
-+                        blockpos$mutableblockpos.m_122169_(k1, l2, j1);
++                        blockpos$mutableblockpos.set(k1, l2, j1);
                          int k3 = m_109541_(level, blockpos$mutableblockpos);
                          int l3 = k3 >> 16 & '\uffff';
                          int i4 = k3 & '\uffff';
@@ -82,16 +128,44 @@
                 this.f_109461_.f_91073_.m_104677_(blockpos1, SoundEvents.f_12542_, SoundSource.WEATHER, 0.1F, 0.5F, false);
              } else {
                 this.f_109461_.f_91073_.m_104677_(blockpos1, SoundEvents.f_12541_, SoundSource.WEATHER, 0.2F, 1.0F, false);
+@@ -650,9 +_,9 @@
+       this.f_109419_ = Double.MIN_VALUE;
+       this.f_109420_ = Double.MIN_VALUE;
+       this.f_109421_ = Double.MIN_VALUE;
+-      this.f_109422_ = Integer.MIN_VALUE;
+-      this.f_109423_ = Integer.MIN_VALUE;
+-      this.f_109424_ = Integer.MIN_VALUE;
++      this.f_109422_ = java.lang.Long.MIN_VALUE;
++      this.f_109423_ = java.lang.Long.MIN_VALUE;
++      this.f_109424_ = java.lang.Long.MIN_VALUE;
+       this.f_109463_.m_114406_(p_109702_);
+       this.f_109465_ = p_109702_;
+       if (p_109702_ != null) {
+@@ -784,9 +_,9 @@
+       double d0 = this.f_109461_.f_91074_.m_20185_();
+       double d1 = this.f_109461_.f_91074_.m_20186_();
+       double d2 = this.f_109461_.f_91074_.m_20189_();
+-      int i = SectionPos.m_175552_(d0);
+-      int j = SectionPos.m_175552_(d1);
+-      int k = SectionPos.m_175552_(d2);
++      long i = SectionPos.posToSectionCoord(d0);
++      long j = SectionPos.posToSectionCoord(d1);
++      long k = SectionPos.posToSectionCoord(d2);
+       if (this.f_109422_ != i || this.f_109423_ != j || this.f_109424_ != k) {
+          this.f_109419_ = d0;
+          this.f_109420_ = d1;
 @@ -891,15 +_,15 @@
        BlockPos blockpos = p_194344_.m_90588_();
        ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_109469_.m_110866_(blockpos);
        if (chunkrenderdispatcher$renderchunk == null) {
 -         boolean flag = blockpos.m_123342_() > this.f_109465_.m_141937_();
 -         int j = flag ? this.f_109465_.m_151558_() - 8 : this.f_109465_.m_141937_() + 8;
+-         int k = Mth.m_14107_(vec3.f_82479_ / 16.0D) * 16;
+-         int l = Mth.m_14107_(vec3.f_82481_ / 16.0D) * 16;
 +         boolean flag = blockpos.getY() > this.f_109465_.getMinBuildHeight();
 +         long j = flag ? this.f_109465_.getMaxBuildHeight() - 8 : this.f_109465_.getMinBuildHeight() + 8;
-          int k = Mth.m_14107_(vec3.f_82479_ / 16.0D) * 16;
-          int l = Mth.m_14107_(vec3.f_82481_ / 16.0D) * 16;
++         long k = Mth.m_14134_(vec3.f_82479_ / 16.0D) * 16;
++         long l = Mth.m_14134_(vec3.f_82481_ / 16.0D) * 16;
           List<LevelRenderer.RenderChunkInfo> list = Lists.newArrayList();
  
           for(int i1 = -this.f_109438_; i1 <= this.f_109438_; ++i1) {
@@ -110,11 +184,13 @@
           }));
           p_194345_.addAll(list);
        } else {
-@@ -923,14 +_,14 @@
+@@ -922,15 +_,15 @@
+ 
     private void m_194362_(LinkedHashSet<LevelRenderer.RenderChunkInfo> p_194363_, LevelRenderer.RenderInfoMap p_194364_, Vec3 p_194365_, Queue<LevelRenderer.RenderChunkInfo> p_194366_, boolean p_194367_) {
        int i = 16;
-       BlockPos blockpos = new BlockPos(Mth.m_14107_(p_194365_.f_82479_ / 16.0D) * 16, Mth.m_14107_(p_194365_.f_82480_ / 16.0D) * 16, Mth.m_14107_(p_194365_.f_82481_ / 16.0D) * 16);
+-      BlockPos blockpos = new BlockPos(Mth.m_14107_(p_194365_.f_82479_ / 16.0D) * 16, Mth.m_14107_(p_194365_.f_82480_ / 16.0D) * 16, Mth.m_14107_(p_194365_.f_82481_ / 16.0D) * 16);
 -      BlockPos blockpos1 = blockpos.m_7918_(8, 8, 8);
++      BlockPos blockpos = new BlockPos(Mth.m_14134_(p_194365_.f_82479_ / 16.0D) * 16, Mth.m_14134_(p_194365_.f_82480_ / 16.0D) * 16, Mth.m_14134_(p_194365_.f_82481_ / 16.0D) * 16);
 +      BlockPos blockpos1 = blockpos.offset(8L, 8L, 8L);
        Entity.m_20103_(Mth.m_14008_((double)this.f_109461_.f_91066_.m_193772_() / 8.0D, 1.0D, 2.5D) * this.f_109461_.f_91066_.m_232018_().m_231551_());
  
@@ -201,18 +277,27 @@
     private boolean m_194359_(BlockPos p_194360_, ChunkRenderDispatcher.RenderChunk p_194361_) {
 -      int i = SectionPos.m_123171_(p_194360_.m_123341_());
 -      int j = SectionPos.m_123171_(p_194360_.m_123343_());
-+      int i = SectionPos.m_235865_(p_194360_.getX());
-+      int j = SectionPos.m_235865_(p_194360_.getZ());
++      long i = SectionPos.blockToSectionCoord(p_194360_.getX());
++      long j = SectionPos.blockToSectionCoord(p_194360_.getZ());
        BlockPos blockpos = p_194361_.m_112839_();
 -      int k = SectionPos.m_123171_(blockpos.m_123341_());
 -      int l = SectionPos.m_123171_(blockpos.m_123343_());
 -      return !ChunkMap.m_200878_(k, l, i, j, this.f_109438_ - 2);
-+      int k = SectionPos.m_235865_(blockpos.getX());
-+      int l = SectionPos.m_235865_(blockpos.getZ());
++      long k = SectionPos.blockToSectionCoord(blockpos.getX());
++      long l = SectionPos.blockToSectionCoord(blockpos.getZ());
 +      return !ChunkMap.isChunkInRange(k, l, i, j, this.f_109438_ - 2);
     }
  
     private void m_109525_(Matrix4f p_109526_, Matrix4f p_109527_, double p_109528_, double p_109529_, double p_109530_, Frustum p_109531_) {
+@@ -1140,7 +_,7 @@
+       FogRenderer.m_109036_();
+       RenderSystem.m_69421_(16640, Minecraft.f_91002_);
+       float f = p_109605_.m_109152_();
+-      boolean flag2 = this.f_109461_.f_91073_.m_104583_().m_5781_(Mth.m_14107_(d0), Mth.m_14107_(d1)) || this.f_109461_.f_91065_.m_93090_().m_93715_();
++      boolean flag2 = this.f_109461_.f_91073_.m_104583_().isFoggyAt(Mth.m_14134_(d0), Mth.m_14134_(d1)) || this.f_109461_.f_91065_.m_93090_().m_93715_();
+       profilerfiller.m_6182_("sky");
+       RenderSystem.m_157427_(GameRenderer::m_172808_);
+       this.m_202423_(p_109600_, p_109607_, p_109601_, p_109604_, flag2, () -> {
 @@ -1186,7 +_,7 @@
        for(Entity entity : this.f_109465_.m_104735_()) {
           if (this.f_109463_.m_114397_(entity, frustum, d0, d1, d2) || entity.m_20367_(this.f_109461_.f_91074_)) {
@@ -316,7 +401,7 @@
 +      for(long i = p_109733_.getZ() - 1; i <= p_109733_.getZ() + 1; ++i) {
 +         for(long j = p_109733_.getX() - 1; j <= p_109733_.getX() + 1; ++j) {
 +            for(long k = p_109733_.getY() - 1; k <= p_109733_.getY() + 1; ++k) {
-+               this.setSectionDirty(SectionPos.m_235865_(j), SectionPos.m_235865_(k), SectionPos.m_235865_(i), p_109734_);
++               this.setSectionDirty(SectionPos.blockToSectionCoord(j), SectionPos.blockToSectionCoord(k), SectionPos.blockToSectionCoord(i), p_109734_);
              }
           }
        }
@@ -332,7 +417,7 @@
 +      for(long i = p_109497_ - 1; i <= p_109500_ + 1; ++i) {
 +         for(long j = p_109495_ - 1; j <= p_109498_ + 1; ++j) {
 +            for(long k = p_109496_ - 1; k <= p_109499_ + 1; ++k) {
-+               this.setSectionDirty(SectionPos.m_235865_(j), SectionPos.m_235865_(k), SectionPos.m_235865_(i));
++               this.setSectionDirty(SectionPos.blockToSectionCoord(j), SectionPos.blockToSectionCoord(k), SectionPos.blockToSectionCoord(i));
              }
           }
        }

@@ -11,12 +11,68 @@
     }
  
     protected R m_63827_(long p_63828_) {
-@@ -199,7 +_,7 @@
+@@ -134,8 +_,8 @@
+ 
+    private <T> void m_63801_(ChunkPos p_63802_, DynamicOps<T> p_63803_, @Nullable T p_63804_) {
+       if (p_63804_ == null) {
+-         for(int i = this.f_156618_.m_151560_(); i < this.f_156618_.m_151561_(); ++i) {
+-            this.f_63774_.put(m_156627_(p_63802_, i), Optional.empty());
++         for(long i = this.f_156618_.getMinSection(); i < this.f_156618_.getMaxSection(); ++i) {
++            this.f_63774_.put(getKey(p_63802_, i), Optional.empty());
+          }
+       } else {
+          Dynamic<T> dynamic1 = new Dynamic<>(p_63803_, p_63804_);
+@@ -145,9 +_,9 @@
+          Dynamic<T> dynamic = this.f_63778_.update(this.f_63779_.m_14504_(), dynamic1, j, k);
+          OptionalDynamic<T> optionaldynamic = dynamic.get("Sections");
+ 
+-         for(int l = this.f_156618_.m_151560_(); l < this.f_156618_.m_151561_(); ++l) {
+-            long i1 = m_156627_(p_63802_, l);
+-            Optional<R> optional = optionaldynamic.get(Integer.toString(l)).result().flatMap((p_223519_) -> {
++         for(long l = this.f_156618_.getMinSection(); l < this.f_156618_.getMaxSection(); ++l) {
++            long i1 = getKey(p_63802_, l);
++            Optional<R> optional = optionaldynamic.get(java.lang.Long.toString(l)).result().flatMap((p_223519_) -> {
+                return this.f_63776_.apply(() -> {
+                   this.m_5838_(i1);
+                }).parse(p_223519_).resultOrPartial(f_63772_::error);
+@@ -180,15 +_,15 @@
+    private <T> Dynamic<T> m_63798_(ChunkPos p_63799_, DynamicOps<T> p_63800_) {
+       Map<T, T> map = Maps.newHashMap();
+ 
+-      for(int i = this.f_156618_.m_151560_(); i < this.f_156618_.m_151561_(); ++i) {
+-         long j = m_156627_(p_63799_, i);
++      for(long i = this.f_156618_.getMinSection(); i < this.f_156618_.getMaxSection(); ++i) {
++         long j = getKey(p_63799_, i);
+          this.f_63775_.remove(j);
+          Optional<R> optional = this.f_63774_.get(j);
+          if (optional != null && optional.isPresent()) {
+             DataResult<T> dataresult = this.f_63776_.apply(() -> {
+                this.m_5838_(j);
+             }).encodeStart(p_63800_, optional.get());
+-            String s = Integer.toString(i);
++            String s = java.lang.Long.toString(i);
+             dataresult.resultOrPartial(f_63772_::error).ifPresent((p_223531_) -> {
+                map.put(p_63800_.createString(s), p_223531_);
+             });
+@@ -198,8 +_,8 @@
+       return new Dynamic<>(p_63800_, p_63800_.createMap(ImmutableMap.of(p_63800_.createString("Sections"), p_63800_.createMap(map), p_63800_.createString("DataVersion"), p_63800_.createInt(SharedConstants.m_183709_().getWorldVersion()))));
     }
  
-    private static long m_156627_(ChunkPos p_156628_, int p_156629_) {
+-   private static long m_156627_(ChunkPos p_156628_, int p_156629_) {
 -      return SectionPos.m_123209_(p_156628_.f_45578_, p_156629_, p_156628_.f_45579_);
++   private static long getKey(ChunkPos p_156628_, long p_156629_) {
 +      return SectionPos.asLong(p_156628_.f_45578_, p_156629_, p_156628_.f_45579_);
     }
  
     protected void m_5839_(long p_63813_) {
+@@ -220,8 +_,8 @@
+ 
+    public void m_63796_(ChunkPos p_63797_) {
+       if (this.m_202164_()) {
+-         for(int i = this.f_156618_.m_151560_(); i < this.f_156618_.m_151561_(); ++i) {
+-            long j = m_156627_(p_63797_, i);
++         for(long i = this.f_156618_.getMinSection(); i < this.f_156618_.getMaxSection(); ++i) {
++            long j = getKey(p_63797_, i);
+             if (this.f_63775_.contains(j)) {
+                this.m_63825_(p_63797_);
+                return;

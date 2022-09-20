@@ -1,6 +1,17 @@
 --- a/net/minecraft/world/level/PathNavigationRegion.java
 +++ b/net/minecraft/world/level/PathNavigationRegion.java
-@@ -37,10 +_,10 @@
+@@ -25,8 +_,8 @@
+ import net.minecraft.world.phys.shapes.VoxelShape;
+ 
+ public class PathNavigationRegion implements BlockGetter, CollisionGetter {
+-   protected final int f_47158_;
+-   protected final int f_47159_;
++   protected final long f_47158_;
++   protected final long f_47159_;
+    protected final ChunkAccess[][] f_47160_;
+    protected boolean f_47161_;
+    protected final Level f_47162_;
+@@ -37,24 +_,24 @@
        this.f_204180_ = Suppliers.memoize(() -> {
           return p_47164_.m_5962_().m_175515_(Registry.f_122885_).m_206081_(Biomes.f_48202_);
        });
@@ -8,36 +19,67 @@
 -      this.f_47159_ = SectionPos.m_123171_(p_47165_.m_123343_());
 -      int i = SectionPos.m_123171_(p_47166_.m_123341_());
 -      int j = SectionPos.m_123171_(p_47166_.m_123343_());
-+      this.f_47158_ = SectionPos.m_235865_(p_47165_.getX());
-+      this.f_47159_ = SectionPos.m_235865_(p_47165_.getZ());
-+      int i = SectionPos.m_235865_(p_47166_.getX());
-+      int j = SectionPos.m_235865_(p_47166_.getZ());
-       this.f_47160_ = new ChunkAccess[i - this.f_47158_ + 1][j - this.f_47159_ + 1];
+-      this.f_47160_ = new ChunkAccess[i - this.f_47158_ + 1][j - this.f_47159_ + 1];
++      this.f_47158_ = SectionPos.blockToSectionCoord(p_47165_.getX());
++      this.f_47159_ = SectionPos.blockToSectionCoord(p_47165_.getZ());
++      long i = SectionPos.blockToSectionCoord(p_47166_.getX());
++      long j = SectionPos.blockToSectionCoord(p_47166_.getZ());
++      this.f_47160_ = new ChunkAccess[(int) (i - this.f_47158_ + 1)][(int) (j - this.f_47159_ + 1)]; // TODO: long support
        ChunkSource chunksource = p_47164_.m_7726_();
        this.f_47161_ = true;
-@@ -51,10 +_,10 @@
+ 
+-      for(int k = this.f_47158_; k <= i; ++k) {
+-         for(int l = this.f_47159_; l <= j; ++l) {
+-            this.f_47160_[k - this.f_47158_][l - this.f_47159_] = chunksource.m_7131_(k, l);
++      for(long k = this.f_47158_; k <= i; ++k) {
++         for(long l = this.f_47159_; l <= j; ++l) {
++            this.f_47160_[(int) (k - this.f_47158_)][(int) (l - this.f_47159_)] = chunksource.getChunkNow(k, l);
           }
        }
  
 -      for(int i1 = SectionPos.m_123171_(p_47165_.m_123341_()); i1 <= SectionPos.m_123171_(p_47166_.m_123341_()); ++i1) {
 -         for(int j1 = SectionPos.m_123171_(p_47165_.m_123343_()); j1 <= SectionPos.m_123171_(p_47166_.m_123343_()); ++j1) {
-+      for(int i1 = SectionPos.m_235865_(p_47165_.getX()); i1 <= SectionPos.m_235865_(p_47166_.getX()); ++i1) {
-+         for(int j1 = SectionPos.m_235865_(p_47165_.getZ()); j1 <= SectionPos.m_235865_(p_47166_.getZ()); ++j1) {
-             ChunkAccess chunkaccess = this.f_47160_[i1 - this.f_47158_][j1 - this.f_47159_];
+-            ChunkAccess chunkaccess = this.f_47160_[i1 - this.f_47158_][j1 - this.f_47159_];
 -            if (chunkaccess != null && !chunkaccess.m_5566_(p_47165_.m_123342_(), p_47166_.m_123342_())) {
++      for(long i1 = SectionPos.blockToSectionCoord(p_47165_.getX()); i1 <= SectionPos.blockToSectionCoord(p_47166_.getX()); ++i1) {
++         for(long j1 = SectionPos.blockToSectionCoord(p_47165_.getZ()); j1 <= SectionPos.blockToSectionCoord(p_47166_.getZ()); ++j1) {
++            ChunkAccess chunkaccess = this.f_47160_[(int) (i1 - this.f_47158_)][(int) (j1 - this.f_47159_)]; // TODO: long support
 +            if (chunkaccess != null && !chunkaccess.isYSpaceEmpty(p_47165_.getY(), p_47166_.getY())) {
                 this.f_47161_ = false;
                 return;
              }
-@@ -64,7 +_,7 @@
+@@ -64,14 +_,14 @@
     }
  
     private ChunkAccess m_47185_(BlockPos p_47186_) {
 -      return this.m_47167_(SectionPos.m_123171_(p_47186_.m_123341_()), SectionPos.m_123171_(p_47186_.m_123343_()));
-+      return this.m_47167_(SectionPos.m_235865_(p_47186_.getX()), SectionPos.m_235865_(p_47186_.getZ()));
++      return this.getChunk(SectionPos.blockToSectionCoord(p_47186_.getX()), SectionPos.blockToSectionCoord(p_47186_.getZ()));
     }
  
-    private ChunkAccess m_47167_(int p_47168_, int p_47169_) {
+-   private ChunkAccess m_47167_(int p_47168_, int p_47169_) {
+-      int i = p_47168_ - this.f_47158_;
+-      int j = p_47169_ - this.f_47159_;
+-      if (i >= 0 && i < this.f_47160_.length && j >= 0 && j < this.f_47160_[i].length) {
+-         ChunkAccess chunkaccess = this.f_47160_[i][j];
++   private ChunkAccess getChunk(long p_47168_, long p_47169_) {
++      long i = p_47168_ - this.f_47158_;
++      long j = p_47169_ - this.f_47159_;
++      if (i >= 0 && i < this.f_47160_.length && j >= 0 && j < this.f_47160_[(int) i].length) { // TODO: long support
++         ChunkAccess chunkaccess = this.f_47160_[(int) i][(int) j];
+          return (ChunkAccess)(chunkaccess != null ? chunkaccess : new EmptyLevelChunk(this.f_47162_, new ChunkPos(p_47168_, p_47169_), this.f_204180_.get()));
+       } else {
+          return new EmptyLevelChunk(this.f_47162_, new ChunkPos(p_47168_, p_47169_), this.f_204180_.get());
+@@ -82,8 +_,8 @@
+       return this.f_47162_.m_6857_();
+    }
+ 
+-   public BlockGetter m_7925_(int p_47173_, int p_47174_) {
+-      return this.m_47167_(p_47173_, p_47174_);
++   public BlockGetter getChunkForCollisions(long p_47173_, long p_47174_) {
++      return this.getChunk(p_47173_, p_47174_);
+    }
+ 
+    public List<VoxelShape> m_183134_(@Nullable Entity p_186557_, AABB p_186558_) {
 @@ -114,12 +_,12 @@
        }
     }

@@ -26,7 +26,7 @@
 -            for(int i1 = j - 1; i1 >= p_64257_.m_141937_(); --i1) {
 -               blockpos$mutableblockpos.m_122178_(k, i1, l);
 +            for(long i1 = j - 1; i1 >= p_64257_.getMinBuildHeight(); --i1) {
-+               blockpos$mutableblockpos.m_122169_(k, i1, l);
++               blockpos$mutableblockpos.set(k, i1, l);
                 BlockState blockstate = p_64257_.m_8055_(blockpos$mutableblockpos);
                 if (!blockstate.m_60713_(Blocks.f_50016_)) {
                    while(objectlistiterator.hasNext()) {
@@ -60,7 +60,7 @@
 -            for(int j = p_64251_ - 1; j >= this.f_64234_.m_141937_(); --j) {
 -               blockpos$mutableblockpos.m_122178_(p_64250_, j, p_64252_);
 +            for(long j = p_64251_ - 1; j >= this.f_64234_.getMinBuildHeight(); --j) {
-+               blockpos$mutableblockpos.m_122169_(p_64250_, j, p_64252_);
++               blockpos$mutableblockpos.set(p_64250_, j, p_64252_);
                 if (this.f_64233_.test(this.f_64234_.m_8055_(blockpos$mutableblockpos))) {
 -                  this.m_64245_(p_64250_, p_64252_, j + 1);
 +                  this.setHeight(p_64250_, p_64252_, j + 1);
@@ -100,7 +100,7 @@
 +   }
 +
 +   private long getFirstAvailable(long p_64241_) {
-+      return this.f_64232_.m_13514_((int) p_64241_) + this.f_64234_.getMinBuildHeight();
++      return this.f_64232_.get((int) p_64241_) + this.f_64234_.getMinBuildHeight();
 +   }
 +
 +   private void setHeight(long p_64246_, long p_64247_, long p_64248_) {

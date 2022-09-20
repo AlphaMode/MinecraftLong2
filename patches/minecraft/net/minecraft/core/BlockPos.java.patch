@@ -289,7 +289,7 @@
                    return this.endOfData();
                 } else {
 -                  BlockPos blockpos = this.f_122039_.m_122178_(p_235644_ + p_235642_.m_188503_(i), p_235645_ + p_235642_.m_188503_(j), p_235646_ + p_235642_.m_188503_(k));
-+                  BlockPos blockpos = this.f_122039_.m_122169_(p_235644_ + p_235642_.nextLong(i), p_235645_ + p_235642_.nextLong(j), p_235646_ + p_235642_.nextLong(k));
++                  BlockPos blockpos = this.f_122039_.set(p_235644_ + p_235642_.nextLong(i), p_235645_ + p_235642_.nextLong(j), p_235646_ + p_235642_.nextLong(k));
                    --this.f_122040_;
                    return blockpos;
                 }
@@ -320,7 +320,7 @@
                       if (k1 <= p_121929_) {
                          this.f_122073_ = k1 != 0;
 -                        blockpos = this.f_122067_.m_122178_(j + i1, k + j1, l + k1);
-+                        blockpos = this.f_122067_.m_122169_(j + i1, k + j1, l + k1);
++                        blockpos = this.f_122067_.set(j + i1, k + j1, l + k1);
                       }
                    }
  
@@ -354,7 +354,7 @@
 -      int j = p_121981_ - p_121978_ + 1;
 -      int k = p_121982_ - p_121979_ + 1;
 -      int l = i * j * k;
-+      return betweenClosedStream(Mth.m_14107_(p_121922_.f_82288_), Mth.m_14107_(p_121922_.f_82289_), Mth.m_14107_(p_121922_.f_82290_), Mth.m_14107_(p_121922_.f_82291_), Mth.m_14107_(p_121922_.f_82292_), Mth.m_14107_(p_121922_.f_82293_));
++      return betweenClosedStream(Mth.m_14134_(p_121922_.f_82288_), Mth.m_14134_(p_121922_.f_82289_), Mth.m_14134_(p_121922_.f_82290_), Mth.m_14134_(p_121922_.f_82291_), Mth.m_14134_(p_121922_.f_82292_), Mth.m_14134_(p_121922_.f_82293_));
 +   }
 +
 +   public static Stream<BlockPos> betweenClosedStream(long p_121887_, long p_121888_, long p_121889_, long p_121890_, long p_121891_, long p_121892_) {
@@ -383,7 +383,7 @@
 +                  long l1 = j1 / j;
                    ++this.f_122091_;
 -                  return this.f_122090_.m_122178_(p_121977_ + i1, p_121978_ + k1, p_121979_ + l1);
-+                  return this.f_122090_.m_122169_(p_121977_ + i1, p_121978_ + k1, p_121979_ + l1);
++                  return this.f_122090_.set(p_121977_ + i1, p_121978_ + k1, p_121979_ + l1);
                 }
              }
           };
@@ -403,15 +403,25 @@
 -               this.f_122111_ = this.f_122106_.m_123341_();
 -               this.f_122112_ = this.f_122106_.m_123342_();
 -               this.f_122113_ = this.f_122106_.m_123343_();
-+               this.f_122106_.m_122169_(this.f_122111_, this.f_122112_, this.f_122113_).m_122173_(this.f_122105_[(this.f_122108_ + 4) % 4]);
++               this.f_122106_.set(this.f_122111_, this.f_122112_, this.f_122113_).m_122173_(this.f_122105_[(this.f_122108_ + 4) % 4]);
 +               this.f_122111_ = this.f_122106_.getX();
 +               this.f_122112_ = this.f_122106_.getY();
 +               this.f_122113_ = this.f_122106_.getZ();
                 if (this.f_122110_ >= this.f_122109_) {
                    if (this.f_122108_ >= this.f_122107_) {
                       return this.endOfData();
-@@ -410,24 +_,24 @@
-          this(Mth.m_14107_(p_122126_), Mth.m_14107_(p_122127_), Mth.m_14107_(p_122128_));
+@@ -402,71 +_,91 @@
+          this(0, 0, 0);
+       }
+ 
+-      public MutableBlockPos(int p_122130_, int p_122131_, int p_122132_) {
++      public MutableBlockPos(long p_122130_, long p_122131_, long p_122132_) {
+          super(p_122130_, p_122131_, p_122132_);
+       }
+ 
+       public MutableBlockPos(double p_122126_, double p_122127_, double p_122128_) {
+-         this(Mth.m_14107_(p_122126_), Mth.m_14107_(p_122127_), Mth.m_14107_(p_122128_));
++         this(Mth.m_14134_(p_122126_), Mth.m_14134_(p_122127_), Mth.m_14134_(p_122128_));
        }
  
 -      public BlockPos m_7637_(double p_122134_, double p_122135_, double p_122136_) {
@@ -447,83 +457,92 @@
        }
  
        public BlockPos m_7954_(Rotation p_122138_) {
-@@ -435,9 +_,9 @@
+          return super.m_7954_(p_122138_).m_7949_();
        }
  
-       public BlockPos.MutableBlockPos m_122178_(int p_122179_, int p_122180_, int p_122181_) {
+-      public BlockPos.MutableBlockPos m_122178_(int p_122179_, int p_122180_, int p_122181_) {
 -         this.m_142451_(p_122179_);
 -         this.m_142448_(p_122180_);
 -         this.m_142443_(p_122181_);
++      public BlockPos.MutableBlockPos set(long p_122179_, long p_122180_, long p_122181_) {
 +         this.setX(p_122179_);
 +         this.setY(p_122180_);
 +         this.setZ(p_122181_);
           return this;
        }
  
-@@ -445,10 +_,15 @@
-          return this.m_122178_(Mth.m_14107_(p_122170_), Mth.m_14107_(p_122171_), Mth.m_14107_(p_122172_));
+       public BlockPos.MutableBlockPos m_122169_(double p_122170_, double p_122171_, double p_122172_) {
+-         return this.m_122178_(Mth.m_14107_(p_122170_), Mth.m_14107_(p_122171_), Mth.m_14107_(p_122172_));
++         return this.set(Mth.m_14134_(p_122170_), Mth.m_14134_(p_122171_), Mth.m_14134_(p_122172_));
        }
  
 +      @Deprecated
        public BlockPos.MutableBlockPos m_122190_(Vec3i p_122191_) {
-          return this.m_122178_(p_122191_.m_123341_(), p_122191_.m_123342_(), p_122191_.m_123343_());
-       }
- 
-+      public BlockPos.MutableBlockPos set(me.alphamode.mclong.core.Vec3l p_122191_) {
-+         return this.m_122169_(p_122191_.getX(), p_122191_.getY(), p_122191_.getZ());
+-         return this.m_122178_(p_122191_.m_123341_(), p_122191_.m_123342_(), p_122191_.m_123343_());
++         return this.set(p_122191_.m_123341_(), p_122191_.m_123342_(), p_122191_.m_123343_());
 +      }
 +
-       public BlockPos.MutableBlockPos m_122188_(long p_122189_) {
-          return this.m_122178_(m_121983_(p_122189_), m_122008_(p_122189_), m_122015_(p_122189_));
++      public BlockPos.MutableBlockPos set(me.alphamode.mclong.core.Vec3l p_122191_) {
++         return this.set(p_122191_.getX(), p_122191_.getY(), p_122191_.getZ());
        }
-@@ -457,59 +_,74 @@
-          return this.m_122178_(p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.X), p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.Y), p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.Z));
+ 
+       public BlockPos.MutableBlockPos m_122188_(long p_122189_) {
+-         return this.m_122178_(m_121983_(p_122189_), m_122008_(p_122189_), m_122015_(p_122189_));
++         return this.set(m_121983_(p_122189_), m_122008_(p_122189_), m_122015_(p_122189_));
+       }
+ 
+       public BlockPos.MutableBlockPos m_122139_(AxisCycle p_122140_, int p_122141_, int p_122142_, int p_122143_) {
+-         return this.m_122178_(p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.X), p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.Y), p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.Z));
++         return this.set(p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.X), p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.Y), p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.Z));
        }
  
 +      @Deprecated
        public BlockPos.MutableBlockPos m_122159_(Vec3i p_122160_, Direction p_122161_) {
-          return this.m_122178_(p_122160_.m_123341_() + p_122161_.m_122429_(), p_122160_.m_123342_() + p_122161_.m_122430_(), p_122160_.m_123343_() + p_122161_.m_122431_());
+-         return this.m_122178_(p_122160_.m_123341_() + p_122161_.m_122429_(), p_122160_.m_123342_() + p_122161_.m_122430_(), p_122160_.m_123343_() + p_122161_.m_122431_());
++         return this.set(p_122160_.m_123341_() + p_122161_.m_122429_(), p_122160_.m_123342_() + p_122161_.m_122430_(), p_122160_.m_123343_() + p_122161_.m_122431_());
        }
  
 +      @Deprecated
        public BlockPos.MutableBlockPos m_122154_(Vec3i p_122155_, int p_122156_, int p_122157_, int p_122158_) {
-          return this.m_122178_(p_122155_.m_123341_() + p_122156_, p_122155_.m_123342_() + p_122157_, p_122155_.m_123343_() + p_122158_);
+-         return this.m_122178_(p_122155_.m_123341_() + p_122156_, p_122155_.m_123342_() + p_122157_, p_122155_.m_123343_() + p_122158_);
++         return this.set(p_122155_.m_123341_() + p_122156_, p_122155_.m_123342_() + p_122157_, p_122155_.m_123343_() + p_122158_);
        }
  
 +      @Deprecated
        public BlockPos.MutableBlockPos m_175306_(Vec3i p_175307_, Vec3i p_175308_) {
-          return this.m_122178_(p_175307_.m_123341_() + p_175308_.m_123341_(), p_175307_.m_123342_() + p_175308_.m_123342_(), p_175307_.m_123343_() + p_175308_.m_123343_());
-       }
- 
+-         return this.m_122178_(p_175307_.m_123341_() + p_175308_.m_123341_(), p_175307_.m_123342_() + p_175308_.m_123342_(), p_175307_.m_123343_() + p_175308_.m_123343_());
++         return this.set(p_175307_.m_123341_() + p_175308_.m_123341_(), p_175307_.m_123342_() + p_175308_.m_123342_(), p_175307_.m_123343_() + p_175308_.m_123343_());
++      }
++
 +      public BlockPos.MutableBlockPos setWithOffset(me.alphamode.mclong.core.Vec3l p_122160_, Direction p_122161_) {
-+         return this.m_122169_(p_122160_.getX() + p_122161_.m_122429_(), p_122160_.getY() + p_122161_.m_122430_(), p_122160_.getZ() + p_122161_.m_122431_());
++         return this.set(p_122160_.getX() + p_122161_.m_122429_(), p_122160_.getY() + p_122161_.m_122430_(), p_122160_.getZ() + p_122161_.m_122431_());
 +      }
 +
 +      public BlockPos.MutableBlockPos setWithOffset(me.alphamode.mclong.core.Vec3l p_122155_, long p_122156_, long p_122157_, long p_122158_) {
-+         return this.m_122169_(p_122155_.getX() + p_122156_, p_122155_.getY() + p_122157_, p_122155_.getZ() + p_122158_);
++         return this.set(p_122155_.getX() + p_122156_, p_122155_.getY() + p_122157_, p_122155_.getZ() + p_122158_);
 +      }
 +
 +      public BlockPos.MutableBlockPos setWithOffset(me.alphamode.mclong.core.Vec3l p_175307_, me.alphamode.mclong.core.Vec3l p_175308_) {
-+         return this.m_122169_(p_175307_.getX() + p_175308_.getX(), p_175307_.getY() + p_175308_.getY(), p_175307_.getZ() + p_175308_.getZ());
-+      }
-+
++         return this.set(p_175307_.getX() + p_175308_.getX(), p_175307_.getY() + p_175308_.getY(), p_175307_.getZ() + p_175308_.getZ());
+       }
+ 
        public BlockPos.MutableBlockPos m_122173_(Direction p_122174_) {
-          return this.m_122175_(p_122174_, 1);
+@@ -474,42 +_,42 @@
        }
  
        public BlockPos.MutableBlockPos m_122175_(Direction p_122176_, int p_122177_) {
 -         return this.m_122178_(this.m_123341_() + p_122176_.m_122429_() * p_122177_, this.m_123342_() + p_122176_.m_122430_() * p_122177_, this.m_123343_() + p_122176_.m_122431_() * p_122177_);
-+         return this.m_122169_(this.getX() + p_122176_.m_122429_() * p_122177_, this.getY() + p_122176_.m_122430_() * p_122177_, this.getZ() + p_122176_.m_122431_() * p_122177_);
++         return this.set(this.getX() + p_122176_.m_122429_() * p_122177_, this.getY() + p_122176_.m_122430_() * p_122177_, this.getZ() + p_122176_.m_122431_() * p_122177_);
        }
  
        public BlockPos.MutableBlockPos m_122184_(int p_122185_, int p_122186_, int p_122187_) {
 -         return this.m_122178_(this.m_123341_() + p_122185_, this.m_123342_() + p_122186_, this.m_123343_() + p_122187_);
-+         return this.m_122169_(this.getX() + p_122185_, this.getY() + p_122186_, this.getZ() + p_122187_);
++         return this.set(this.getX() + p_122185_, this.getY() + p_122186_, this.getZ() + p_122187_);
        }
  
        public BlockPos.MutableBlockPos m_122193_(Vec3i p_122194_) {
 -         return this.m_122178_(this.m_123341_() + p_122194_.m_123341_(), this.m_123342_() + p_122194_.m_123342_(), this.m_123343_() + p_122194_.m_123343_());
-+         return this.m_122169_(this.getX() + p_122194_.m_123341_(), this.getY() + p_122194_.m_123342_(), this.getZ() + p_122194_.m_123343_());
++         return this.set(this.getX() + p_122194_.m_123341_(), this.getY() + p_122194_.m_123342_(), this.getZ() + p_122194_.m_123343_());
        }
  
 -      public BlockPos.MutableBlockPos m_122147_(Direction.Axis p_122148_, int p_122149_, int p_122150_) {
@@ -531,13 +550,13 @@
           switch (p_122148_) {
              case X:
 -               return this.m_122178_(Mth.m_14045_(this.m_123341_(), p_122149_, p_122150_), this.m_123342_(), this.m_123343_());
-+               return this.m_122169_(Mth.m_14053_(this.getX(), p_122149_, p_122150_), this.getY(), this.getZ());
++               return this.set(Mth.m_14053_(this.getX(), p_122149_, p_122150_), this.getY(), this.getZ());
              case Y:
 -               return this.m_122178_(this.m_123341_(), Mth.m_14045_(this.m_123342_(), p_122149_, p_122150_), this.m_123343_());
-+               return this.m_122169_(this.getX(), Mth.m_14053_(this.getY(), p_122149_, p_122150_), this.getZ());
++               return this.set(this.getX(), Mth.m_14053_(this.getY(), p_122149_, p_122150_), this.getZ());
              case Z:
 -               return this.m_122178_(this.m_123341_(), this.m_123342_(), Mth.m_14045_(this.m_123343_(), p_122149_, p_122150_));
-+               return this.m_122169_(this.getX(), this.getY(), Mth.m_14053_(this.getZ(), p_122149_, p_122150_));
++               return this.set(this.getX(), this.getY(), Mth.m_14053_(this.getZ(), p_122149_, p_122150_));
              default:
                 throw new IllegalStateException("Unable to clamp axis " + p_122148_);
           }

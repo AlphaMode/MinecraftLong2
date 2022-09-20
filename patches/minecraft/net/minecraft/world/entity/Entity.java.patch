@@ -38,7 +38,7 @@
 +         for(long i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
 +            for(long j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
 +               for(long k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
-+                  blockpos$mutableblockpos.m_122169_(i, j, k);
++                  blockpos$mutableblockpos.set(i, j, k);
                    BlockState blockstate = this.f_19853_.m_8055_(blockpos$mutableblockpos);
  
                    try {
@@ -150,6 +150,15 @@
           this.m_6021_(p_20325_, p_20326_, p_20327_);
        }
     }
+@@ -2789,7 +_,7 @@
+          for(int l1 = i; l1 < j; ++l1) {
+             for(int i2 = k; i2 < l; ++i2) {
+                for(int j2 = i1; j2 < j1; ++j2) {
+-                  blockpos$mutableblockpos.m_122178_(l1, i2, j2);
++                  blockpos$mutableblockpos.set(l1, i2, j2);
+                   FluidState fluidstate = this.f_19853_.m_6425_(blockpos$mutableblockpos);
+                   if (fluidstate.m_205070_(p_204032_)) {
+                      double d1 = (double)((float)i2 + fluidstate.m_76155_(this.f_19853_, blockpos$mutableblockpos));
 @@ -2841,7 +_,7 @@
        int j = Mth.m_14165_(aabb.f_82291_);
        int k = Mth.m_14107_(aabb.f_82290_);
@@ -192,12 +201,22 @@
     }
  
     public final double m_20189_() {
-@@ -2960,7 +_,7 @@
-          int i = Mth.m_14107_(p_20344_);
-          int j = Mth.m_14107_(p_20345_);
-          int k = Mth.m_14107_(p_20346_);
+@@ -2957,13 +_,13 @@
+    public final void m_20343_(double p_20344_, double p_20345_, double p_20346_) {
+       if (this.f_19825_.f_82479_ != p_20344_ || this.f_19825_.f_82480_ != p_20345_ || this.f_19825_.f_82481_ != p_20346_) {
+          this.f_19825_ = new Vec3(p_20344_, p_20345_, p_20346_);
+-         int i = Mth.m_14107_(p_20344_);
+-         int j = Mth.m_14107_(p_20345_);
+-         int k = Mth.m_14107_(p_20346_);
 -         if (i != this.f_19826_.m_123341_() || j != this.f_19826_.m_123342_() || k != this.f_19826_.m_123343_()) {
++         long i = Mth.m_14134_(p_20344_);
++         long j = Mth.m_14134_(p_20345_);
++         long k = Mth.m_14134_(p_20346_);
 +         if (i != this.f_19826_.getX() || j != this.f_19826_.getY() || k != this.f_19826_.getZ()) {
              this.f_19826_ = new BlockPos(i, j, k);
              this.f_185934_ = null;
-             if (SectionPos.m_123171_(i) != this.f_185933_.f_45578_ || SectionPos.m_123171_(k) != this.f_185933_.f_45579_) {
+-            if (SectionPos.m_123171_(i) != this.f_185933_.f_45578_ || SectionPos.m_123171_(k) != this.f_185933_.f_45579_) {
++            if (SectionPos.blockToSectionCoord(i) != this.f_185933_.f_45578_ || SectionPos.blockToSectionCoord(k) != this.f_185933_.f_45579_) {
+                this.f_185933_ = new ChunkPos(this.f_19826_);
+             }
+          }

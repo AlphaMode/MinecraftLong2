@@ -42,7 +42,7 @@
        return this.f_188032_.f_188102_.m_5795_(j);
     }
  
-@@ -124,33 +_,33 @@
+@@ -124,33 +_,35 @@
        this.m_63084_();
  
        try {
@@ -73,9 +73,11 @@
 +   }
 +
 +   protected T get(long p_63086_) {
++      if (p_63086_ <= -1)
++         return null;
        PalettedContainer.Data<T> data = this.f_188032_;
 -      return data.f_188102_.m_5795_(data.f_188101_.m_13514_(p_63086_));
-+      return data.f_188102_.m_5795_(data.f_188101_.m_13514_((int) p_63086_));
++      return data.f_188102_.m_5795_(data.f_188101_.get(p_63086_));
     }
  
     public void m_196879_(Consumer<T> p_196880_) {
@@ -110,7 +112,7 @@
        public void m_188111_(Palette<T> p_188112_, BitStorage p_188113_) {
           for(int i = 0; i < p_188113_.m_13521_(); ++i) {
 -            T t = p_188112_.m_5795_(p_188113_.m_13514_(i));
-+            T t = p_188112_.m_5795_((int) p_188113_.m_13514_(i));
++            T t = p_188112_.m_5795_(p_188113_.get(i));
              this.f_188101_.m_13524_(i, this.f_188102_.m_6796_(t));
           }
  

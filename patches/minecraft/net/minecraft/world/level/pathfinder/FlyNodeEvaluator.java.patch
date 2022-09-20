@@ -243,9 +243,9 @@
 -      BlockPathTypes blockpathtypes = m_77643_(p_77245_, blockpos$mutableblockpos.m_122178_(p_77246_, p_77247_, p_77248_));
 -      if (blockpathtypes == BlockPathTypes.OPEN && p_77247_ >= p_77245_.m_141937_() + 1) {
 -         BlockPathTypes blockpathtypes1 = m_77643_(p_77245_, blockpos$mutableblockpos.m_122178_(p_77246_, p_77247_ - 1, p_77248_));
-+      BlockPathTypes blockpathtypes = m_77643_(p_77245_, blockpos$mutableblockpos.m_122169_(p_77246_, p_77247_, p_77248_));
++      BlockPathTypes blockpathtypes = m_77643_(p_77245_, blockpos$mutableblockpos.set(p_77246_, p_77247_, p_77248_));
 +      if (blockpathtypes == BlockPathTypes.OPEN && p_77247_ >= p_77245_.getMinBuildHeight() + 1) {
-+         BlockPathTypes blockpathtypes1 = m_77643_(p_77245_, blockpos$mutableblockpos.m_122169_(p_77246_, p_77247_ - 1, p_77248_));
++         BlockPathTypes blockpathtypes1 = m_77643_(p_77245_, blockpos$mutableblockpos.set(p_77246_, p_77247_ - 1, p_77248_));
           if (blockpathtypes1 != BlockPathTypes.DAMAGE_FIRE && blockpathtypes1 != BlockPathTypes.LAVA) {
              if (blockpathtypes1 == BlockPathTypes.DAMAGE_CACTUS) {
                 blockpathtypes = BlockPathTypes.DAMAGE_CACTUS;
@@ -254,7 +254,7 @@
  
        if (blockpathtypes == BlockPathTypes.WALKABLE || blockpathtypes == BlockPathTypes.OPEN) {
 -         blockpathtypes = m_77607_(p_77245_, blockpos$mutableblockpos.m_122178_(p_77246_, p_77247_, p_77248_), blockpathtypes);
-+         blockpathtypes = m_77607_(p_77245_, blockpos$mutableblockpos.m_122169_(p_77246_, p_77247_, p_77248_), blockpathtypes);
++         blockpathtypes = m_77607_(p_77245_, blockpos$mutableblockpos.set(p_77246_, p_77247_, p_77248_), blockpathtypes);
        }
  
        return blockpathtypes;

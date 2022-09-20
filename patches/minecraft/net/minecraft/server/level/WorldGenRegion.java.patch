@@ -47,7 +47,7 @@
  
     public BlockState m_8055_(BlockPos p_9587_) {
 -      return this.m_6325_(SectionPos.m_123171_(p_9587_.m_123341_()), SectionPos.m_123171_(p_9587_.m_123343_())).m_8055_(p_9587_);
-+      return this.getChunk(SectionPos.m_235865_(p_9587_.getX()), SectionPos.m_235865_(p_9587_.getZ())).m_8055_(p_9587_);
++      return this.getChunk(SectionPos.blockToSectionCoord(p_9587_.getX()), SectionPos.blockToSectionCoord(p_9587_.getZ())).m_8055_(p_9587_);
     }
  
     public FluidState m_6425_(BlockPos p_9577_) {
@@ -68,8 +68,8 @@
     public boolean m_180807_(BlockPos p_181031_) {
 -      int i = SectionPos.m_123171_(p_181031_.m_123341_());
 -      int j = SectionPos.m_123171_(p_181031_.m_123343_());
-+      int i = SectionPos.m_235865_(p_181031_.getX());
-+      int j = SectionPos.m_235865_(p_181031_.getZ());
++      long i = SectionPos.blockToSectionCoord(p_181031_.getX());
++      long j = SectionPos.blockToSectionCoord(p_181031_.getZ());
        ChunkPos chunkpos = this.m_143488_();
 -      int k = Math.abs(chunkpos.f_45578_ - i);
 -      int l = Math.abs(chunkpos.f_45579_ - j);
@@ -103,8 +103,8 @@
 -      int i = SectionPos.m_123171_(p_9580_.m_146903_());
 -      int j = SectionPos.m_123171_(p_9580_.m_146907_());
 -      this.m_6325_(i, j).m_6286_(p_9580_);
-+      int i = SectionPos.m_235865_(p_9580_.getBlockX());
-+      int j = SectionPos.m_235865_(p_9580_.getBlockZ());
++      long i = SectionPos.blockToSectionCoord(p_9580_.getBlockX());
++      long j = SectionPos.blockToSectionCoord(p_9580_.getBlockZ());
 +      this.getChunk(i, j).m_6286_(p_9580_);
        return true;
     }
@@ -114,7 +114,7 @@
  
     public DifficultyInstance m_6436_(BlockPos p_9585_) {
 -      if (!this.m_7232_(SectionPos.m_123171_(p_9585_.m_123341_()), SectionPos.m_123171_(p_9585_.m_123343_()))) {
-+      if (!this.hasChunk(SectionPos.m_235865_(p_9585_.getX()), SectionPos.m_235865_(p_9585_.getZ()))) {
++      if (!this.hasChunk(SectionPos.blockToSectionCoord(p_9585_.getX()), SectionPos.blockToSectionCoord(p_9585_.getZ()))) {
           throw new RuntimeException("We are asking a region for a chunk out of bound");
        } else {
           return new DifficultyInstance(this.f_9479_.m_46791_(), this.f_9479_.m_46468_(), 0L, this.f_9479_.m_46940_());
@@ -125,7 +125,7 @@
 -   public int m_6924_(Heightmap.Types p_9535_, int p_9536_, int p_9537_) {
 -      return this.m_6325_(SectionPos.m_123171_(p_9536_), SectionPos.m_123171_(p_9537_)).m_5885_(p_9535_, p_9536_ & 15, p_9537_ & 15) + 1;
 +   public long getHeight(Heightmap.Types p_9535_, long p_9536_, long p_9537_) {
-+      return this.getChunk(SectionPos.m_235865_(p_9536_), SectionPos.m_235865_(p_9537_)).getHeight(p_9535_, p_9536_ & 15, p_9537_ & 15) + 1;
++      return this.getChunk(SectionPos.blockToSectionCoord(p_9536_), SectionPos.blockToSectionCoord(p_9537_)).getHeight(p_9535_, p_9536_ & 15, p_9537_ & 15) + 1;
     }
  
     public void m_5594_(@Nullable Player p_9528_, BlockPos p_9529_, SoundEvent p_9530_, SoundSource p_9531_, float p_9532_, float p_9533_) {

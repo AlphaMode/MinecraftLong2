@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
+@@ -85,7 +_,7 @@
+    private final Thread f_46423_;
+    private final boolean f_46424_;
+    private int f_46425_;
+-   protected int f_46435_ = RandomSource.m_216327_().m_188502_();
++   protected long f_46435_ = RandomSource.m_216327_().m_188505_();
+    protected final int f_46436_ = 1013904223;
+    public float f_46437_;
+    public float f_46438_;
 @@ -145,32 +_,37 @@
     }
  
@@ -29,7 +38,7 @@
 +
     public LevelChunk m_46745_(BlockPos p_46746_) {
 -      return this.m_6325_(SectionPos.m_123171_(p_46746_.m_123341_()), SectionPos.m_123171_(p_46746_.m_123343_()));
-+      return this.getChunk(SectionPos.m_235865_(p_46746_.getX()), SectionPos.m_235865_(p_46746_.getZ()));
++      return this.getChunk(SectionPos.blockToSectionCoord(p_46746_.getX()), SectionPos.blockToSectionCoord(p_46746_.getZ()));
     }
  
 -   public LevelChunk m_6325_(int p_46727_, int p_46728_) {
@@ -57,8 +66,8 @@
        if (p_46572_ >= -30000000 && p_46573_ >= -30000000 && p_46572_ < 30000000 && p_46573_ < 30000000) {
 -         if (this.m_7232_(SectionPos.m_123171_(p_46572_), SectionPos.m_123171_(p_46573_))) {
 -            i = this.m_6325_(SectionPos.m_123171_(p_46572_), SectionPos.m_123171_(p_46573_)).m_5885_(p_46571_, p_46572_ & 15, p_46573_ & 15) + 1;
-+         if (this.hasChunk(SectionPos.m_235865_(p_46572_), SectionPos.m_235865_(p_46573_))) {
-+            i = this.getChunk(SectionPos.m_235865_(p_46572_), SectionPos.m_235865_(p_46573_)).getHeight(p_46571_, p_46572_ & 15, p_46573_ & 15) + 1;
++         if (this.hasChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_))) {
++            i = this.getChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_)).getHeight(p_46571_, p_46572_ & 15, p_46573_ & 15) + 1;
           } else {
 -            i = this.m_141937_();
 +            i = this.getMinBuildHeight();
@@ -70,7 +79,7 @@
           return Blocks.f_50626_.m_49966_();
        } else {
 -         LevelChunk levelchunk = this.m_6325_(SectionPos.m_123171_(p_46732_.m_123341_()), SectionPos.m_123171_(p_46732_.m_123343_()));
-+         LevelChunk levelchunk = this.getChunk(SectionPos.m_235865_(p_46732_.getX()), SectionPos.m_235865_(p_46732_.getZ()));
++         LevelChunk levelchunk = this.getChunk(SectionPos.blockToSectionCoord(p_46732_.getX()), SectionPos.blockToSectionCoord(p_46732_.getZ()));
           return levelchunk.m_8055_(p_46732_);
        }
     }
@@ -88,7 +97,7 @@
  
     public boolean m_46749_(BlockPos p_46750_) {
 -      return this.m_151570_(p_46750_) ? false : this.m_7726_().m_5563_(SectionPos.m_123171_(p_46750_.m_123341_()), SectionPos.m_123171_(p_46750_.m_123343_()));
-+      return this.m_151570_(p_46750_) ? false : this.m_7726_().hasChunk(SectionPos.m_235865_(p_46750_.getX()), SectionPos.m_235865_(p_46750_.getZ()));
++      return this.m_151570_(p_46750_) ? false : this.m_7726_().hasChunk(SectionPos.blockToSectionCoord(p_46750_.getX()), SectionPos.blockToSectionCoord(p_46750_.getZ()));
     }
  
     public boolean m_46578_(BlockPos p_46579_, Entity p_46580_, Direction p_46581_) {
@@ -96,7 +105,7 @@
           return false;
        } else {
 -         ChunkAccess chunkaccess = this.m_6522_(SectionPos.m_123171_(p_46579_.m_123341_()), SectionPos.m_123171_(p_46579_.m_123343_()), ChunkStatus.f_62326_, false);
-+         ChunkAccess chunkaccess = this.getChunk(SectionPos.m_235865_(p_46579_.getX()), SectionPos.m_235865_(p_46579_.getZ()), ChunkStatus.f_62326_, false);
++         ChunkAccess chunkaccess = this.getChunk(SectionPos.blockToSectionCoord(p_46579_.getX()), SectionPos.blockToSectionCoord(p_46579_.getZ()), ChunkStatus.f_62326_, false);
           return chunkaccess == null ? false : chunkaccess.m_8055_(p_46579_).m_60638_(this, p_46579_, p_46580_, p_46581_);
        }
     }
@@ -109,11 +118,13 @@
        if (!this.m_6857_().m_61937_(blockpos)) {
           blockpos = this.m_5452_(Heightmap.Types.MOTION_BLOCKING, new BlockPos(this.m_6857_().m_6347_(), 0.0D, this.m_6857_().m_6345_()));
        }
-@@ -520,7 +_,7 @@
+@@ -519,8 +_,8 @@
+    }
  
     @Nullable
-    public BlockGetter m_7925_(int p_46711_, int p_46712_) {
+-   public BlockGetter m_7925_(int p_46711_, int p_46712_) {
 -      return this.m_6522_(p_46711_, p_46712_, ChunkStatus.f_62326_, false);
++   public BlockGetter getChunkForCollisions(long p_46711_, long p_46712_) {
 +      return this.getChunk(p_46711_, p_46712_, ChunkStatus.f_62326_, false);
     }
  
@@ -215,12 +226,17 @@
                 blockstate = this.m_8055_(blockpos);
                 if (blockstate.m_60713_(Blocks.f_50328_)) {
                    this.m_213960_(blockstate, blockpos, p_46719_, p_46718_, false);
-@@ -843,7 +_,7 @@
+@@ -843,10 +_,10 @@
  
     public abstract RecipeManager m_7465_();
  
 -   public BlockPos m_46496_(int p_46497_, int p_46498_, int p_46499_, int p_46500_) {
 +   public BlockPos getBlockRandomPos(long p_46497_, long p_46498_, long p_46499_, long p_46500_) {
        this.f_46435_ = this.f_46435_ * 3 + 1013904223;
-       int i = this.f_46435_ >> 2;
-       return new BlockPos(p_46497_ + (i & 15), p_46498_ + (i >> 16 & p_46500_), p_46499_ + (i >> 8 & 15));
+-      int i = this.f_46435_ >> 2;
+-      return new BlockPos(p_46497_ + (i & 15), p_46498_ + (i >> 16 & p_46500_), p_46499_ + (i >> 8 & 15));
++      long i = this.f_46435_ >> 2;
++      return new BlockPos(p_46497_ + (i & 15L), p_46498_ + (i >> 16L & p_46500_), p_46499_ + (i >> 8L & 15L));
+    }
+ 
+    public boolean m_7441_() {

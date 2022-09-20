@@ -57,9 +57,10 @@
        } else {
           try {
 -            int l = this.m_151564_(j);
-+            int l = this.getSectionIndex(j);
++            long l = this.getSectionIndex(j);
              if (l >= 0 && l < this.f_187612_.length) {
-                LevelChunkSection levelchunksection = this.f_187612_[l];
+-               LevelChunkSection levelchunksection = this.f_187612_[l];
++               LevelChunkSection levelchunksection = this.f_187612_[(int) l]; // TODO: long support
                 if (!levelchunksection.m_188008_()) {
 -                  return levelchunksection.m_62982_(i & 15, j & 15, k & 15);
 +                  return levelchunksection.getBlockState(i & 15, j & 15, k & 15);
@@ -87,9 +88,10 @@
 +   public FluidState getFluidState(long p_62815_, long p_62816_, long p_62817_) {
        try {
 -         int i = this.m_151564_(p_62816_);
-+         int i = this.getSectionIndex(p_62816_);
++         long i = this.getSectionIndex(p_62816_);
           if (i >= 0 && i < this.f_187612_.length) {
-             LevelChunkSection levelchunksection = this.f_187612_[i];
+-            LevelChunkSection levelchunksection = this.f_187612_[i];
++            LevelChunkSection levelchunksection = this.f_187612_[(int) i]; // TODO: long support
              if (!levelchunksection.m_188008_()) {
 -               return levelchunksection.m_63007_(p_62815_ & 15, p_62816_ & 15, p_62817_ & 15);
 +               return levelchunksection.getFluidState(p_62815_ & 15, p_62816_ & 15, p_62817_ & 15);
@@ -112,7 +114,7 @@
 -      int i = p_62865_.m_123342_();
 -      LevelChunkSection levelchunksection = this.m_183278_(this.m_151564_(i));
 +      long i = p_62865_.getY();
-+      LevelChunkSection levelchunksection = this.m_183278_(this.getSectionIndex(i));
++      LevelChunkSection levelchunksection = this.getSection(this.getSectionIndex(i));
        boolean flag = levelchunksection.m_188008_();
        if (flag && p_62866_.m_60795_()) {
           return null;
@@ -155,7 +157,7 @@
           if (gameeventlistener != null) {
 -            int i = SectionPos.m_123171_(p_223413_.m_58899_().m_123342_());
 -            GameEventDispatcher gameeventdispatcher = this.m_142336_(i);
-+            int i = SectionPos.m_235865_(p_223413_.m_58899_().getY());
++            long i = SectionPos.blockToSectionCoord(p_223413_.m_58899_().getY());
 +            GameEventDispatcher gameeventdispatcher = this.getEventDispatcher(i);
              gameeventdispatcher.m_142500_(gameeventlistener);
              if (gameeventdispatcher.m_142086_()) {
@@ -169,12 +171,21 @@
           return this.m_8055_(p_187990_).m_60791_() != 0;
        });
     }
+@@ -475,7 +_,7 @@
+       for(int i = 0; i < this.f_187602_.length; ++i) {
+          if (this.f_187602_[i] != null) {
+             for(Short oshort : this.f_187602_[i]) {
+-               BlockPos blockpos = ProtoChunk.m_63227_(oshort, this.m_151568_(i), chunkpos);
++               BlockPos blockpos = ProtoChunk.unpackOffsetCoordinates(oshort, this.getSectionYFromSectionIndex(i), chunkpos);
+                BlockState blockstate = this.m_8055_(blockpos);
+                FluidState fluidstate = blockstate.m_60819_();
+                if (!fluidstate.m_76178_()) {
 @@ -577,7 +_,7 @@
        if (block instanceof EntityBlock) {
           GameEventListener gameeventlistener = ((EntityBlock)block).m_214009_(p_223417_, p_223416_);
           if (gameeventlistener != null) {
 -            GameEventDispatcher gameeventdispatcher = this.m_142336_(SectionPos.m_123171_(p_223416_.m_58899_().m_123342_()));
-+            GameEventDispatcher gameeventdispatcher = this.getEventDispatcher(SectionPos.m_235865_(p_223416_.m_58899_().getY()));
++            GameEventDispatcher gameeventdispatcher = this.getEventDispatcher(SectionPos.blockToSectionCoord(p_223416_.m_58899_().getY()));
              gameeventdispatcher.m_142501_(gameeventlistener);
           }
        }

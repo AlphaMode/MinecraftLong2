@@ -85,19 +85,23 @@
        boolean flag1 = this.f_140149_.m_8260_(p_140193_);
 -      int i = SectionPos.m_123171_(p_140193_.m_146903_());
 -      int j = SectionPos.m_123171_(p_140193_.m_146907_());
-+      int i = SectionPos.m_235865_(p_140193_.getBlockX());
-+      int j = SectionPos.m_235865_(p_140193_.getBlockZ());
++      long i = SectionPos.blockToSectionCoord(p_140193_.getBlockX());
++      long j = SectionPos.blockToSectionCoord(p_140193_.getBlockZ());
        if (p_140194_) {
 -         this.f_140149_.m_8252_(ChunkPos.m_45589_(i, j), p_140193_, flag);
 +         this.f_140149_.m_8252_(ChunkPos.asLong(i, j), p_140193_, flag);
           this.m_140373_(p_140193_);
           if (!flag) {
              this.f_140145_.m_140802_(SectionPos.m_235861_(p_140193_), p_140193_);
-@@ -994,7 +_,7 @@
+@@ -992,9 +_,9 @@
+          }
+       }
  
-       for(int l = i - this.f_140126_ - 1; l <= i + this.f_140126_ + 1; ++l) {
-          for(int k = j - this.f_140126_ - 1; k <= j + this.f_140126_ + 1; ++k) {
+-      for(int l = i - this.f_140126_ - 1; l <= i + this.f_140126_ + 1; ++l) {
+-         for(int k = j - this.f_140126_ - 1; k <= j + this.f_140126_ + 1; ++k) {
 -            if (m_200878_(l, k, i, j, this.f_140126_)) {
++      for(long l = i - this.f_140126_ - 1; l <= i + this.f_140126_ + 1; ++l) {
++         for(long k = j - this.f_140126_ - 1; k <= j + this.f_140126_ + 1; ++k) {
 +            if (isChunkInRange(l, k, i, j, this.f_140126_)) {
                 ChunkPos chunkpos = new ChunkPos(l, k);
                 this.m_183754_(p_140193_, chunkpos, new MutableObject<>(), !p_140194_, p_140194_);
@@ -117,8 +121,8 @@
  
 -      int i2 = SectionPos.m_123171_(p_140185_.m_146903_());
 -      int j2 = SectionPos.m_123171_(p_140185_.m_146907_());
-+      int i2 = SectionPos.m_235865_(p_140185_.getBlockX());
-+      int j2 = SectionPos.m_235865_(p_140185_.getBlockZ());
++      long i2 = SectionPos.blockToSectionCoord(p_140185_.getBlockX());
++      long j2 = SectionPos.blockToSectionCoord(p_140185_.getBlockZ());
        SectionPos sectionpos = p_140185_.m_8965_();
        SectionPos sectionpos1 = SectionPos.m_235861_(p_140185_);
        long i = sectionpos.m_123251_().m_45588_();
@@ -161,11 +165,15 @@
                    boolean flag3 = true;
                    boolean flag4 = false;
                    this.m_183754_(p_140185_, new ChunkPos(i1, j1), new MutableObject<>(), true, false);
-@@ -1079,7 +_,7 @@
+@@ -1077,9 +_,9 @@
+             }
+          }
  
-          for(int k2 = i2 - this.f_140126_ - 1; k2 <= i2 + this.f_140126_ + 1; ++k2) {
-             for(int i3 = j2 - this.f_140126_ - 1; i3 <= j2 + this.f_140126_ + 1; ++i3) {
+-         for(int k2 = i2 - this.f_140126_ - 1; k2 <= i2 + this.f_140126_ + 1; ++k2) {
+-            for(int i3 = j2 - this.f_140126_ - 1; i3 <= j2 + this.f_140126_ + 1; ++i3) {
 -               if (m_200878_(k2, i3, i2, j2, this.f_140126_)) {
++         for(long k2 = i2 - this.f_140126_ - 1; k2 <= i2 + this.f_140126_ + 1; ++k2) {
++            for(long i3 = j2 - this.f_140126_ - 1; i3 <= j2 + this.f_140126_ + 1; ++i3) {
 +               if (isChunkInRange(k2, i3, i2, j2, this.f_140126_)) {
                    boolean flag7 = false;
                    boolean flag8 = true;

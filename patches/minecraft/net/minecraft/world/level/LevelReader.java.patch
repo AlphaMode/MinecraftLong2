@@ -17,11 +17,23 @@
  
     int m_7445_();
  
-@@ -43,19 +_,19 @@
-       int l = Mth.m_14107_(p_46848_.f_82292_);
-       int i1 = Mth.m_14107_(p_46848_.f_82290_);
-       int j1 = Mth.m_14107_(p_46848_.f_82293_);
+@@ -37,25 +_,25 @@
+    }
+ 
+    default Stream<BlockState> m_46847_(AABB p_46848_) {
+-      int i = Mth.m_14107_(p_46848_.f_82288_);
+-      int j = Mth.m_14107_(p_46848_.f_82291_);
+-      int k = Mth.m_14107_(p_46848_.f_82289_);
+-      int l = Mth.m_14107_(p_46848_.f_82292_);
+-      int i1 = Mth.m_14107_(p_46848_.f_82290_);
+-      int j1 = Mth.m_14107_(p_46848_.f_82293_);
 -      return this.m_46812_(i, k, i1, j, l, j1) ? this.m_45556_(p_46848_) : Stream.empty();
++      long i = Mth.m_14134_(p_46848_.f_82288_);
++      long j = Mth.m_14134_(p_46848_.f_82291_);
++      long k = Mth.m_14134_(p_46848_.f_82289_);
++      long l = Mth.m_14134_(p_46848_.f_82292_);
++      long i1 = Mth.m_14134_(p_46848_.f_82290_);
++      long j1 = Mth.m_14134_(p_46848_.f_82293_);
 +      return this.hasChunksAt(i, k, i1, j, l, j1) ? this.m_45556_(p_46848_) : Stream.empty();
     }
  
@@ -98,7 +110,7 @@
 -
 -   default ChunkAccess m_46819_(int p_46820_, int p_46821_, ChunkStatus p_46822_) {
 -      return this.m_6522_(p_46820_, p_46821_, p_46822_, true);
-+      return this.getChunk(SectionPos.m_235865_(p_46866_.getX()), SectionPos.m_235865_(p_46866_.getZ()));
++      return this.getChunk(SectionPos.blockToSectionCoord(p_46866_.getX()), SectionPos.blockToSectionCoord(p_46866_.getZ()));
 +   }
 +
 +   default ChunkAccess getChunk(long p_46807_, long p_46808_) {
@@ -110,12 +122,22 @@
     }
  
     @Nullable
-    default BlockGetter m_7925_(int p_46845_, int p_46846_) {
+-   default BlockGetter m_7925_(int p_46845_, int p_46846_) {
 -      return this.m_6522_(p_46845_, p_46846_, ChunkStatus.f_62314_, false);
++   default BlockGetter getChunkForCollisions(long p_46845_, long p_46846_) {
 +      return this.getChunk(p_46845_, p_46846_, ChunkStatus.f_62314_, false);
     }
  
     default boolean m_46801_(BlockPos p_46802_) {
+@@ -150,7 +_,7 @@
+       for(int k1 = i; k1 < j; ++k1) {
+          for(int l1 = k; l1 < l; ++l1) {
+             for(int i2 = i1; i2 < j1; ++i2) {
+-               BlockState blockstate = this.m_8055_(blockpos$mutableblockpos.m_122178_(k1, l1, i2));
++               BlockState blockstate = this.m_8055_(blockpos$mutableblockpos.set(k1, l1, i2));
+                if (!blockstate.m_60819_().m_76178_()) {
+                   return true;
+                }
 @@ -166,44 +_,44 @@
     }
  
@@ -129,7 +151,7 @@
 -   default boolean m_151577_(int p_151578_, int p_151579_) {
 -      return this.m_7232_(SectionPos.m_123171_(p_151578_), SectionPos.m_123171_(p_151579_));
 +   default boolean hasChunkAt(long p_151578_, long p_151579_) {
-+      return this.hasChunk(SectionPos.m_235865_(p_151578_), SectionPos.m_235865_(p_151579_));
++      return this.hasChunk(SectionPos.blockToSectionCoord(p_151578_), SectionPos.blockToSectionCoord(p_151579_));
     }
  
     /** @deprecated */
@@ -158,6 +180,10 @@
 -      int j = SectionPos.m_123171_(p_151575_);
 -      int k = SectionPos.m_123171_(p_151574_);
 -      int l = SectionPos.m_123171_(p_151576_);
+-
+-      for(int i1 = i; i1 <= j; ++i1) {
+-         for(int j1 = k; j1 <= l; ++j1) {
+-            if (!this.m_7232_(i1, j1)) {
 +      return this.hasChunksAt(p_46833_.getX(), p_46833_.getY(), p_46833_.getZ(), p_46834_.getX(), p_46834_.getY(), p_46834_.getZ());
 +   }
 +
@@ -170,14 +196,13 @@
 +   /** @deprecated */
 +   @Deprecated
 +   default boolean hasChunksAt(long p_151573_, long p_151574_, long p_151575_, long p_151576_) {
-+      int i = SectionPos.m_235865_(p_151573_);
-+      int j = SectionPos.m_235865_(p_151575_);
-+      int k = SectionPos.m_235865_(p_151574_);
-+      int l = SectionPos.m_235865_(p_151576_);
- 
-       for(int i1 = i; i1 <= j; ++i1) {
-          for(int j1 = k; j1 <= l; ++j1) {
--            if (!this.m_7232_(i1, j1)) {
++      long i = SectionPos.blockToSectionCoord(p_151573_);
++      long j = SectionPos.blockToSectionCoord(p_151575_);
++      long k = SectionPos.blockToSectionCoord(p_151574_);
++      long l = SectionPos.blockToSectionCoord(p_151576_);
++
++      for(long i1 = i; i1 <= j; ++i1) {
++         for(long j1 = k; j1 <= l; ++j1) {
 +            if (!this.hasChunk(i1, j1)) {
                 return false;
              }
