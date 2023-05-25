@@ -17,7 +17,7 @@
                       if (DismountHelper.m_38456_(this.f_19853_, p_38145_, aabb.m_82383_(vec3))) {
                          p_38145_.m_20124_(pose);
                          return vec3;
-@@ -176,11 +_,11 @@
+@@ -176,12 +_,12 @@
           }
  
           double d1 = this.m_20191_().f_82292_;
@@ -27,10 +27,12 @@
           for(Pose pose1 : immutablelist) {
              double d2 = (double)p_38145_.m_6972_(pose1).f_20378_;
 -            int j = Mth.m_14165_(d1 - (double)blockpos$mutableblockpos.m_123342_() + d2);
-+            int j = Mth.m_14165_(d1 - (double)blockpos$mutableblockpos.getY() + d2);
-             double d3 = DismountHelper.m_38463_(blockpos$mutableblockpos, j, (p_269973_) -> {
+-            double d3 = DismountHelper.m_38463_(blockpos$mutableblockpos, j, (p_269973_) -> {
++            long j = Mth.lceil(d1 - (double)blockpos$mutableblockpos.getY() + d2);
++            double d3 = DismountHelper.findCeilingFrom(blockpos$mutableblockpos, j, (p_269973_) -> {
                 return this.f_19853_.m_8055_(p_269973_).m_60812_(this.f_19853_, p_269973_);
              });
+             if (d1 + d2 <= d3) {
 @@ -386,7 +_,7 @@
        double d1 = this.m_20186_();
        double d2 = this.m_20189_();

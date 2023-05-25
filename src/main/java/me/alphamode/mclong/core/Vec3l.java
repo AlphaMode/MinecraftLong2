@@ -135,7 +135,7 @@ public class Vec3l implements Comparable<Vec3l> {
         return this.above(1);
     }
 
-    public Vec3l above(int p_123336_) {
+    public Vec3l above(long p_123336_) {
         return this.relative(Direction.UP, p_123336_);
     }
 
@@ -143,7 +143,7 @@ public class Vec3l implements Comparable<Vec3l> {
         return this.below(1);
     }
 
-    public Vec3l below(int p_123335_) {
+    public Vec3l below(long p_123335_) {
         return this.relative(Direction.DOWN, p_123335_);
     }
 
@@ -151,7 +151,7 @@ public class Vec3l implements Comparable<Vec3l> {
         return this.north(1);
     }
 
-    public Vec3l north(int p_175601_) {
+    public Vec3l north(long p_175601_) {
         return this.relative(Direction.NORTH, p_175601_);
     }
 
@@ -159,7 +159,7 @@ public class Vec3l implements Comparable<Vec3l> {
         return this.south(1);
     }
 
-    public Vec3l south(int p_175600_) {
+    public Vec3l south(long p_175600_) {
         return this.relative(Direction.SOUTH, p_175600_);
     }
 
@@ -167,7 +167,7 @@ public class Vec3l implements Comparable<Vec3l> {
         return this.west(1);
     }
 
-    public Vec3l west(int p_175599_) {
+    public Vec3l west(long p_175599_) {
         return this.relative(Direction.WEST, p_175599_);
     }
 
@@ -175,7 +175,7 @@ public class Vec3l implements Comparable<Vec3l> {
         return this.east(1);
     }
 
-    public Vec3l east(int p_175598_) {
+    public Vec3l east(long p_175598_) {
         return this.relative(Direction.EAST, p_175598_);
     }
 
@@ -183,17 +183,17 @@ public class Vec3l implements Comparable<Vec3l> {
         return this.relative(p_175592_, 1);
     }
 
-    public Vec3l relative(Direction p_123321_, int p_123322_) {
+    public Vec3l relative(Direction p_123321_, long p_123322_) {
         return p_123322_ == 0 ? this : new Vec3l(this.getX() + p_123321_.getStepX() * p_123322_, this.getY() + p_123321_.getStepY() * p_123322_, this.getZ() + p_123321_.getStepZ() * p_123322_);
     }
 
-    public Vec3l relative(Direction.Axis p_175590_, int p_175591_) {
+    public Vec3l relative(Direction.Axis p_175590_, long p_175591_) {
         if (p_175591_ == 0) {
             return this;
         } else {
-            int i = p_175590_ == Direction.Axis.X ? p_175591_ : 0;
-            int j = p_175590_ == Direction.Axis.Y ? p_175591_ : 0;
-            int k = p_175590_ == Direction.Axis.Z ? p_175591_ : 0;
+            long i = p_175590_ == Direction.Axis.X ? p_175591_ : 0;
+            long j = p_175590_ == Direction.Axis.Y ? p_175591_ : 0;
+            long k = p_175590_ == Direction.Axis.Z ? p_175591_ : 0;
             return new Vec3l(this.getX() + i, this.getY() + j, this.getZ() + k);
         }
     }

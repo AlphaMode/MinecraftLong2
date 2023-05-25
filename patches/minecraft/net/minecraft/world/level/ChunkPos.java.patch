@@ -9,7 +9,7 @@
     public static final ChunkPos f_186419_ = new ChunkPos(0, 0);
     private static final long f_151375_ = 32L;
     private static final long f_151376_ = 4294967295L;
-@@ -18,20 +_,26 @@
+@@ -18,45 +_,51 @@
     public static final int f_220335_ = 32;
     private static final int f_151378_ = 31;
     public static final int f_220336_ = 31;
@@ -40,8 +40,10 @@
     }
  
     public ChunkPos(long p_45585_) {
-@@ -39,24 +_,24 @@
-       this.f_45579_ = (int)(p_45585_ >> 32);
+-      this.f_45578_ = (int)p_45585_;
+-      this.f_45579_ = (int)(p_45585_ >> 32);
++      this.f_45578_ = (int) p_45585_;
++      this.f_45579_ = (int) (p_45585_ >> 32);
     }
  
 -   public static ChunkPos m_220337_(int p_220338_, int p_220339_) {
@@ -161,6 +163,10 @@
 -
 -   public int m_151391_(int p_151392_) {
 -      return SectionPos.m_175554_(this.f_45579_, p_151392_);
+-   }
+-
+-   public BlockPos m_151394_(int p_151395_) {
+-      return new BlockPos(this.m_151390_(), p_151395_, this.m_151393_());
 +   public BlockPos getBlockAt(long p_151385_, long p_151386_, long p_151387_) {
 +      return new BlockPos(this.getBlockX(p_151385_), p_151386_, this.getBlockZ(p_151387_));
 +   }
@@ -171,10 +177,9 @@
 +
 +   public long getBlockZ(long p_151392_) {
 +      return SectionPos.sectionToBlockCoord(this.f_45579_, p_151392_);
-    }
- 
-    public BlockPos m_151394_(int p_151395_) {
--      return new BlockPos(this.m_151390_(), p_151395_, this.m_151393_());
++   }
++
++   public BlockPos getMiddleBlockPosition(long p_151395_) {
 +      return new BlockPos(this.getMiddleBlockX(), p_151395_, this.getMiddleBlockZ());
     }
  

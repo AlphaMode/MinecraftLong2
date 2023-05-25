@@ -20,7 +20,7 @@
  
        for(int i = 0; i <= 21; ++i) {
 -         blockpos$mutableblockpos.m_122190_(p_77736_).m_122175_(p_77737_, i);
-+         blockpos$mutableblockpos.set(p_77736_).m_122175_(p_77737_, i);
++         blockpos$mutableblockpos.set(p_77736_).move(p_77737_, i);
           BlockState blockstate = this.f_77686_.m_8055_(blockpos$mutableblockpos);
           if (!m_77717_(blockstate)) {
              if (f_77685_.m_61035_(blockstate, this.f_77686_, blockpos$mutableblockpos)) {
@@ -29,7 +29,7 @@
     private boolean m_77730_(BlockPos.MutableBlockPos p_77731_, int p_77732_) {
        for(int i = 0; i < this.f_77692_; ++i) {
 -         BlockPos.MutableBlockPos blockpos$mutableblockpos = p_77731_.m_122190_(this.f_77690_).m_122175_(Direction.UP, p_77732_).m_122175_(this.f_77688_, i);
-+         BlockPos.MutableBlockPos blockpos$mutableblockpos = p_77731_.set(this.f_77690_).m_122175_(Direction.UP, p_77732_).m_122175_(this.f_77688_, i);
++         BlockPos.MutableBlockPos blockpos$mutableblockpos = p_77731_.set(this.f_77690_).move(Direction.UP, p_77732_).move(this.f_77688_, i);
           if (!f_77685_.m_61035_(this.f_77686_.m_8055_(blockpos$mutableblockpos), this.f_77686_, blockpos$mutableblockpos)) {
              return false;
           }
@@ -38,20 +38,20 @@
     private int m_77728_(BlockPos.MutableBlockPos p_77729_) {
        for(int i = 0; i < 21; ++i) {
 -         p_77729_.m_122190_(this.f_77690_).m_122175_(Direction.UP, i).m_122175_(this.f_77688_, -1);
-+         p_77729_.set(this.f_77690_).m_122175_(Direction.UP, i).m_122175_(this.f_77688_, -1);
++         p_77729_.set(this.f_77690_).move(Direction.UP, i).move(this.f_77688_, -1);
           if (!f_77685_.m_61035_(this.f_77686_.m_8055_(p_77729_), this.f_77686_, p_77729_)) {
              return i;
           }
  
 -         p_77729_.m_122190_(this.f_77690_).m_122175_(Direction.UP, i).m_122175_(this.f_77688_, this.f_77692_);
-+         p_77729_.set(this.f_77690_).m_122175_(Direction.UP, i).m_122175_(this.f_77688_, this.f_77692_);
++         p_77729_.set(this.f_77690_).move(Direction.UP, i).move(this.f_77688_, this.f_77692_);
           if (!f_77685_.m_61035_(this.f_77686_.m_8055_(p_77729_), this.f_77686_, p_77729_)) {
              return i;
           }
  
           for(int j = 0; j < this.f_77692_; ++j) {
 -            p_77729_.m_122190_(this.f_77690_).m_122175_(Direction.UP, i).m_122175_(this.f_77688_, j);
-+            p_77729_.set(this.f_77690_).m_122175_(Direction.UP, i).m_122175_(this.f_77688_, j);
++            p_77729_.set(this.f_77690_).move(Direction.UP, i).move(this.f_77688_, j);
              BlockState blockstate = this.f_77686_.m_8055_(p_77729_);
              if (!m_77717_(blockstate)) {
                 return i;
