@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/LevelRenderer.java
 +++ b/net/minecraft/client/renderer/LevelRenderer.java
-@@ -208,9 +_,9 @@
+@@ -208,17 +_,17 @@
     private double f_109419_ = Double.MIN_VALUE;
     private double f_109420_ = Double.MIN_VALUE;
     private double f_109421_ = Double.MIN_VALUE;
@@ -13,6 +13,17 @@
     private double f_109425_ = Double.MIN_VALUE;
     private double f_109426_ = Double.MIN_VALUE;
     private double f_109427_ = Double.MIN_VALUE;
+    private double f_109428_ = Double.MIN_VALUE;
+    private double f_109429_ = Double.MIN_VALUE;
+-   private int f_109430_ = Integer.MIN_VALUE;
+-   private int f_109431_ = Integer.MIN_VALUE;
+-   private int f_109432_ = Integer.MIN_VALUE;
++   private long f_109430_ = java.lang.Long.MIN_VALUE;
++   private long f_109431_ = java.lang.Long.MIN_VALUE;
++   private long f_109432_ = java.lang.Long.MIN_VALUE;
+    private Vec3 f_109433_ = Vec3.f_82478_;
+    @Nullable
+    private CloudStatus f_109435_;
 @@ -269,9 +_,9 @@
        if (!(f <= 0.0F)) {
           p_109704_.m_109896_();
@@ -386,6 +397,30 @@
              Matrix4f matrix4f = p_271014_.m_85850_().m_252922_();
              if (this.f_109461_.f_90978_) {
                 VertexConsumer vertexconsumer1 = p_270107_.m_6299_(RenderType.m_110504_());
+@@ -1875,15 +_,15 @@
+          double d2 = (p_253843_ + d1) / 12.0D;
+          double d3 = (double)(f - (float)p_253663_ + 0.33F);
+          double d4 = p_253795_ / 12.0D + (double)0.33F;
+-         d2 -= (double)(Mth.m_14107_(d2 / 2048.0D) * 2048);
+-         d4 -= (double)(Mth.m_14107_(d4 / 2048.0D) * 2048);
+-         float f3 = (float)(d2 - (double)Mth.m_14107_(d2));
+-         float f4 = (float)(d3 / 4.0D - (double)Mth.m_14107_(d3 / 4.0D)) * 4.0F;
+-         float f5 = (float)(d4 - (double)Mth.m_14107_(d4));
++         d2 -= (double)(Mth.m_14134_(d2 / 2048.0D) * 2048);
++         d4 -= (double)(Mth.m_14134_(d4 / 2048.0D) * 2048);
++         float f3 = (float)(d2 - (double)Mth.m_14134_(d2));
++         float f4 = (float)(d3 / 4.0D - (double)Mth.m_14134_(d3 / 4.0D)) * 4.0F;
++         float f5 = (float)(d4 - (double)Mth.m_14134_(d4));
+          Vec3 vec3 = this.f_109465_.m_104808_(p_254364_);
+-         int i = (int)Math.floor(d2);
+-         int j = (int)Math.floor(d3 / 4.0D);
+-         int k = (int)Math.floor(d4);
++         long i = (long) Math.floor(d2);
++         long j = (long) Math.floor(d3 / 4.0D);
++         long k = (long) Math.floor(d4);
+          if (i != this.f_109430_ || j != this.f_109431_ || k != this.f_109432_ || this.f_109461_.f_91066_.m_92174_() != this.f_109435_ || this.f_109433_.m_82557_(vec3) > 2.0E-4D) {
+             this.f_109430_ = i;
+             this.f_109431_ = j;
 @@ -2043,11 +_,11 @@
        for(LevelRenderer.RenderChunkInfo levelrenderer$renderchunkinfo : this.f_194297_) {
           ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = levelrenderer$renderchunkinfo.f_109839_;
