@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/ForceLoadCommand.java
 +++ b/net/minecraft/server/commands/ForceLoadCommand.java
-@@ -86,22 +_,22 @@
+@@ -86,22 +_,21 @@
        ResourceKey<Level> resourcekey = serverlevel.m_46472_();
        LongSet longset = serverlevel.m_8902_();
        longset.forEach((long p_137675_) -> {
@@ -16,15 +16,15 @@
 -      int j = Math.min(p_137687_.f_140724_(), p_137688_.f_140724_());
 -      int k = Math.max(p_137687_.f_140723_(), p_137688_.f_140723_());
 -      int l = Math.max(p_137687_.f_140724_(), p_137688_.f_140724_());
-+      long i = Math.min(p_137687_.x(), p_137688_.x());
-+      long j = Math.min(p_137687_.z(), p_137688_.z());
-+      long k = Math.max(p_137687_.x(), p_137688_.x());
-+      long l = Math.max(p_137687_.z(), p_137688_.z());
-       if (i >= -30000000 && j >= -30000000 && k < 30000000 && l < 30000000) {
+-      if (i >= -30000000 && j >= -30000000 && k < 30000000 && l < 30000000) {
 -         int i1 = SectionPos.m_123171_(i);
 -         int j1 = SectionPos.m_123171_(j);
 -         int k1 = SectionPos.m_123171_(k);
 -         int l1 = SectionPos.m_123171_(l);
++      long i = Math.min(p_137687_.x(), p_137688_.x());
++      long j = Math.min(p_137687_.z(), p_137688_.z());
++      long k = Math.max(p_137687_.x(), p_137688_.x());
++      long l = Math.max(p_137687_.z(), p_137688_.z());
 +         long i1 = SectionPos.blockToSectionCoord(i);
 +         long j1 = SectionPos.blockToSectionCoord(j);
 +         long k1 = SectionPos.blockToSectionCoord(k);
@@ -45,3 +45,12 @@
                    if (flag) {
                       ++j2;
                       if (chunkpos == null) {
+@@ -137,8 +_,5 @@
+                return j2;
+             }
+          }
+-      } else {
+-         throw BlockPosArgument.f_118235_.create();
+-      }
+    }
+ }

@@ -37,25 +37,29 @@
        if (chunkaccess == null && p_46505_) {
           throw new IllegalStateException("Should always be able to create a chunk!");
        } else {
-@@ -301,13 +_,13 @@
+@@ -301,17 +_,13 @@
        this.f_220350_.m_213547_(p_220385_, p_220386_, p_220387_, p_220388_, p_220389_, p_220390_);
     }
  
 -   public int m_6924_(Heightmap.Types p_46571_, int p_46572_, int p_46573_) {
 -      int i;
-+   public long getHeight(Heightmap.Types p_46571_, long p_46572_, long p_46573_) {
-+      long i;
-       if (p_46572_ >= -30000000 && p_46573_ >= -30000000 && p_46572_ < 30000000 && p_46573_ < 30000000) {
+-      if (p_46572_ >= -30000000 && p_46573_ >= -30000000 && p_46572_ < 30000000 && p_46573_ < 30000000) {
 -         if (this.m_7232_(SectionPos.m_123171_(p_46572_), SectionPos.m_123171_(p_46573_))) {
 -            i = this.m_6325_(SectionPos.m_123171_(p_46572_), SectionPos.m_123171_(p_46573_)).m_5885_(p_46571_, p_46572_ & 15, p_46573_ & 15) + 1;
++   public long getHeight(Heightmap.Types p_46571_, long p_46572_, long p_46573_) {
++      long i;
 +         if (this.hasChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_))) {
 +            i = this.getChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_)).getHeight(p_46571_, p_46572_ & 15, p_46573_ & 15) + 1;
           } else {
 -            i = this.m_141937_();
 +            i = this.getMinBuildHeight();
           }
-       } else {
-          i = this.m_5736_() + 1;
+-      } else {
+-         i = this.m_5736_() + 1;
+-      }
+ 
+       return i;
+    }
 @@ -324,7 +_,7 @@
        if (this.m_151570_(p_46732_)) {
           return Blocks.f_50626_.m_49966_();
