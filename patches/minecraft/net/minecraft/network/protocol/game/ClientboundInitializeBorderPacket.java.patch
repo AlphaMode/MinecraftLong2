@@ -1,0 +1,47 @@
+--- a/net/minecraft/network/protocol/game/ClientboundInitializeBorderPacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundInitializeBorderPacket.java
+@@ -10,7 +_,7 @@
+    private final double f_178870_;
+    private final double f_178871_;
+    private final long f_178872_;
+-   private final int f_178873_;
++   private final long f_178873_;
+    private final int f_178874_;
+    private final int f_178875_;
+ 
+@@ -20,7 +_,7 @@
+       this.f_178870_ = p_178879_.readDouble();
+       this.f_178871_ = p_178879_.readDouble();
+       this.f_178872_ = p_178879_.m_130258_();
+-      this.f_178873_ = p_178879_.m_130242_();
++      this.f_178873_ = p_178879_.readLong();
+       this.f_178874_ = p_178879_.m_130242_();
+       this.f_178875_ = p_178879_.m_130242_();
+    }
+@@ -31,7 +_,7 @@
+       this.f_178870_ = p_178877_.m_61959_();
+       this.f_178871_ = p_178877_.m_61961_();
+       this.f_178872_ = p_178877_.m_61960_();
+-      this.f_178873_ = p_178877_.m_61963_();
++      this.f_178873_ = p_178877_.getAbsoluteMaxSize();
+       this.f_178874_ = p_178877_.m_61968_();
+       this.f_178875_ = p_178877_.m_61967_();
+    }
+@@ -42,7 +_,7 @@
+       p_178881_.writeDouble(this.f_178870_);
+       p_178881_.writeDouble(this.f_178871_);
+       p_178881_.m_130103_(this.f_178872_);
+-      p_178881_.m_130130_(this.f_178873_);
++      p_178881_.writeLong(this.f_178873_);
+       p_178881_.m_130130_(this.f_178874_);
+       p_178881_.m_130130_(this.f_178875_);
+    }
+@@ -71,7 +_,7 @@
+       return this.f_178872_;
+    }
+ 
+-   public int m_178891_() {
++   public long getNewAbsoluteMaxSize() {
+       return this.f_178873_;
+    }
+ 

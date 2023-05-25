@@ -1,6 +1,17 @@
 --- a/net/minecraft/world/level/block/RespawnAnchorBlock.java
 +++ b/net/minecraft/world/level/block/RespawnAnchorBlock.java
-@@ -72,7 +_,7 @@
+@@ -41,8 +_,8 @@
+    public static final int f_154330_ = 0;
+    public static final int f_154331_ = 4;
+    public static final IntegerProperty f_55833_ = BlockStateProperties.f_61389_;
+-   private static final ImmutableList<Vec3i> f_55834_ = ImmutableList.of(new Vec3i(0, 0, -1), new Vec3i(-1, 0, 0), new Vec3i(0, 0, 1), new Vec3i(1, 0, 0), new Vec3i(-1, 0, -1), new Vec3i(1, 0, -1), new Vec3i(-1, 0, 1), new Vec3i(1, 0, 1));
+-   private static final ImmutableList<Vec3i> f_55835_ = (new ImmutableList.Builder<Vec3i>()).addAll(f_55834_).addAll(f_55834_.stream().map(Vec3i::m_7495_).iterator()).addAll(f_55834_.stream().map(Vec3i::m_7494_).iterator()).add(new Vec3i(0, 1, 0)).build();
++   private static final ImmutableList<me.alphamode.mclong.core.Vec3l> f_55834_ = ImmutableList.of(new me.alphamode.mclong.core.Vec3l(0, 0, -1), new me.alphamode.mclong.core.Vec3l(-1, 0, 0), new me.alphamode.mclong.core.Vec3l(0, 0, 1), new me.alphamode.mclong.core.Vec3l(1, 0, 0), new me.alphamode.mclong.core.Vec3l(-1, 0, -1), new me.alphamode.mclong.core.Vec3l(1, 0, -1), new me.alphamode.mclong.core.Vec3l(-1, 0, 1), new me.alphamode.mclong.core.Vec3l(1, 0, 1));
++   private static final ImmutableList<me.alphamode.mclong.core.Vec3l> f_55835_ = (new ImmutableList.Builder<me.alphamode.mclong.core.Vec3l>()).addAll(f_55834_).addAll(f_55834_.stream().map(me.alphamode.mclong.core.Vec3l::below).iterator()).addAll(f_55834_.stream().map(me.alphamode.mclong.core.Vec3l::above).iterator()).add(new me.alphamode.mclong.core.Vec3l(0, 1, 0)).build();
+ 
+    public RespawnAnchorBlock(BlockBehaviour.Properties p_55838_) {
+       super(p_55838_);
+@@ -73,7 +_,7 @@
              ServerPlayer serverplayer = (ServerPlayer)p_55877_;
              if (serverplayer.m_8963_() != p_55875_.m_46472_() || !p_55876_.equals(serverplayer.m_8961_())) {
                 serverplayer.m_9158_(p_55875_.m_46472_(), p_55876_, 0.0F, false, true);
@@ -9,7 +20,7 @@
                 return InteractionResult.SUCCESS;
              }
           }
-@@ -100,7 +_,7 @@
+@@ -101,7 +_,7 @@
           if (f < 2.0F) {
              return false;
           } else {
@@ -18,7 +29,7 @@
              return !fluidstate1.m_205070_(FluidTags.f_13131_);
           }
        }
-@@ -108,16 +_,16 @@
+@@ -109,10 +_,10 @@
  
     private void m_55890_(BlockState p_55891_, Level p_55892_, final BlockPos p_55893_) {
        p_55892_.m_7471_(p_55893_, false);
@@ -31,19 +42,12 @@
        ExplosionDamageCalculator explosiondamagecalculator = new ExplosionDamageCalculator() {
           public Optional<Float> m_6617_(Explosion p_55904_, BlockGetter p_55905_, BlockPos p_55906_, BlockState p_55907_, FluidState p_55908_) {
              return p_55906_.equals(p_55893_) && flag1 ? Optional.of(Blocks.f_49990_.m_7325_()) : super.m_6617_(p_55904_, p_55905_, p_55906_, p_55907_, p_55908_);
-          }
-       };
--      p_55892_.m_7703_((Entity)null, DamageSource.m_19334_(), explosiondamagecalculator, (double)p_55893_.m_123341_() + 0.5D, (double)p_55893_.m_123342_() + 0.5D, (double)p_55893_.m_123343_() + 0.5D, 5.0F, true, Explosion.BlockInteraction.DESTROY);
-+      p_55892_.m_7703_((Entity)null, DamageSource.m_19334_(), explosiondamagecalculator, (double)p_55893_.getX() + 0.5D, (double)p_55893_.getY() + 0.5D, (double)p_55893_.getZ() + 0.5D, 5.0F, true, Explosion.BlockInteraction.DESTROY);
-    }
- 
-    public static boolean m_55850_(Level p_55851_) {
-@@ -126,18 +_,18 @@
- 
-    public static void m_55855_(Level p_55856_, BlockPos p_55857_, BlockState p_55858_) {
-       p_55856_.m_7731_(p_55857_, p_55858_.m_61124_(f_55833_, Integer.valueOf(p_55858_.m_61143_(f_55833_) + 1)), 3);
--      p_55856_.m_6263_((Player)null, (double)p_55857_.m_123341_() + 0.5D, (double)p_55857_.m_123342_() + 0.5D, (double)p_55857_.m_123343_() + 0.5D, SoundEvents.f_12376_, SoundSource.BLOCKS, 1.0F, 1.0F);
-+      p_55856_.m_6263_((Player)null, (double)p_55857_.getX() + 0.5D, (double)p_55857_.getY() + 0.5D, (double)p_55857_.getZ() + 0.5D, SoundEvents.f_12376_, SoundSource.BLOCKS, 1.0F, 1.0F);
+@@ -130,18 +_,18 @@
+       BlockState blockstate = p_270661_.m_61124_(f_55833_, Integer.valueOf(p_270661_.m_61143_(f_55833_) + 1));
+       p_270172_.m_7731_(p_270534_, blockstate, 3);
+       p_270172_.m_220407_(GameEvent.f_157792_, p_270534_, GameEvent.Context.m_223719_(p_270997_, blockstate));
+-      p_270172_.m_6263_((Player)null, (double)p_270534_.m_123341_() + 0.5D, (double)p_270534_.m_123342_() + 0.5D, (double)p_270534_.m_123343_() + 0.5D, SoundEvents.f_12376_, SoundSource.BLOCKS, 1.0F, 1.0F);
++      p_270172_.m_6263_((Player)null, (double)p_270534_.getX() + 0.5D, (double)p_270534_.getY() + 0.5D, (double)p_270534_.getZ() + 0.5D, SoundEvents.f_12376_, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
  
     public void m_214162_(BlockState p_221969_, Level p_221970_, BlockPos p_221971_, RandomSource p_221972_) {
@@ -62,12 +66,14 @@
           double d3 = (double)p_221972_.m_188501_() * 0.04D;
           p_221970_.m_7106_(ParticleTypes.f_123789_, d0, d1, d2, 0.0D, d3, 0.0D);
        }
-@@ -168,7 +_,7 @@
+@@ -171,8 +_,8 @@
+    private static Optional<Vec3> m_55843_(EntityType<?> p_55844_, CollisionGetter p_55845_, BlockPos p_55846_, boolean p_55847_) {
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
-       for(Vec3i vec3i : f_55835_) {
+-      for(Vec3i vec3i : f_55835_) {
 -         blockpos$mutableblockpos.m_122190_(p_55846_).m_122193_(vec3i);
-+         blockpos$mutableblockpos.set(p_55846_).m_122193_(vec3i);
++      for(me.alphamode.mclong.core.Vec3l vec3i : f_55835_) {
++         blockpos$mutableblockpos.set(p_55846_).move(vec3i);
           Vec3 vec3 = DismountHelper.m_38441_(p_55844_, p_55845_, blockpos$mutableblockpos, p_55847_);
           if (vec3 != null) {
              return Optional.of(vec3);

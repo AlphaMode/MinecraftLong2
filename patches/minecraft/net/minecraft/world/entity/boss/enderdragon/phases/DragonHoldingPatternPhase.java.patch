@@ -1,18 +1,19 @@
 --- a/net/minecraft/world/entity/boss/enderdragon/phases/DragonHoldingPatternPhase.java
 +++ b/net/minecraft/world/entity/boss/enderdragon/phases/DragonHoldingPatternPhase.java
-@@ -59,9 +_,9 @@
+@@ -57,10 +_,10 @@
+             return;
           }
  
-          double d0 = 64.0D;
 -         Player player = this.f_31176_.f_19853_.m_45949_(f_31224_, this.f_31176_, (double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_());
 +         Player player = this.f_31176_.f_19853_.m_45949_(f_31224_, this.f_31176_, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
+          double d0;
           if (player != null) {
 -            d0 = blockpos.m_203193_(player.m_20182_()) / 512.0D;
 +            d0 = blockpos.distToCenterSqr(player.m_20182_()) / 512.0D;
+          } else {
+             d0 = 64.0D;
           }
- 
-          if (player != null && (this.f_31176_.m_217043_().m_188503_(Mth.m_14040_((int)d0) + 2) == 0 || this.f_31176_.m_217043_().m_188503_(i + 2) == 0)) {
-@@ -111,15 +_,15 @@
+@@ -112,15 +_,15 @@
  
     private void m_31243_() {
        if (this.f_31225_ != null && !this.f_31225_.m_77392_()) {

@@ -1,11 +1,20 @@
 --- a/net/minecraft/world/entity/ai/behavior/GoToTargetLocation.java
 +++ b/net/minecraft/world/entity/ai/behavior/GoToTargetLocation.java
-@@ -22,7 +_,7 @@
+@@ -9,7 +_,7 @@
+ public class GoToTargetLocation {
+    private static BlockPos m_217250_(Mob p_217251_, BlockPos p_217252_) {
+       RandomSource randomsource = p_217251_.f_19853_.f_46441_;
+-      return p_217252_.m_7918_(m_217246_(randomsource), 0, m_217246_(randomsource));
++      return p_217252_.offset(m_217246_(randomsource), 0, m_217246_(randomsource));
+    }
  
-    protected void m_6735_(ServerLevel p_217243_, Mob p_217244_, long p_217245_) {
-       BlockPos blockpos = this.m_217248_(p_217244_);
--      boolean flag = blockpos.m_123314_(p_217244_.m_20183_(), (double)this.f_217232_);
-+      boolean flag = blockpos.closerThan(p_217244_.m_20183_(), (double)this.f_217232_);
-       if (!flag) {
-          BehaviorUtils.m_22617_(p_217244_, m_217250_(p_217244_, blockpos), this.f_217233_, this.f_217232_);
-       }
+    private static int m_217246_(RandomSource p_217247_) {
+@@ -21,7 +_,7 @@
+          return p_259997_.group(p_259997_.m_257495_(p_259938_), p_259997_.m_258080_(MemoryModuleType.f_26372_), p_259997_.m_258080_(MemoryModuleType.f_26370_), p_259997_.m_257492_(MemoryModuleType.f_26371_)).apply(p_259997_, (p_259831_, p_259115_, p_259521_, p_259223_) -> {
+             return (p_275915_, p_275916_, p_275917_) -> {
+                BlockPos blockpos = p_259997_.m_258051_(p_259831_);
+-               boolean flag = blockpos.m_123314_(p_275916_.m_20183_(), (double)p_259740_);
++               boolean flag = blockpos.closerThan(p_275916_.m_20183_(), (double)p_259740_);
+                if (!flag) {
+                   BehaviorUtils.m_22617_(p_275916_, m_217250_(p_275916_, blockpos), p_259957_, p_259740_);
+                }

@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -182,7 +_,7 @@
+@@ -189,7 +_,7 @@
     private Vec3 f_8933_;
     @Nullable
     private Vec3 f_184126_;
@@ -9,7 +9,7 @@
     private ResourceKey<Level> f_8935_ = Level.f_46428_;
     @Nullable
     private BlockPos f_8936_;
-@@ -250,7 +_,7 @@
+@@ -260,7 +_,7 @@
        BlockPos blockpos = p_9202_.m_220360_();
        if (p_9202_.m_6042_().f_223549_() && p_9202_.m_7654_().m_129910_().m_5464_() != GameType.ADVENTURE) {
           int i = Math.max(0, this.f_8924_.m_129803_(p_9202_));
@@ -18,7 +18,7 @@
           if (j < i) {
              i = j;
           }
-@@ -269,7 +_,7 @@
+@@ -279,7 +_,7 @@
              int i2 = (k1 + j1 * l1) % i1;
              int j2 = i2 % (i * 2 + 1);
              int k2 = i2 / (i * 2 + 1);
@@ -27,7 +27,7 @@
              if (blockpos1 != null) {
                 this.m_20035_(blockpos1, 0.0F, 0.0F);
                 if (p_9202_.m_45786_(this)) {
-@@ -280,7 +_,7 @@
+@@ -290,7 +_,7 @@
        } else {
           this.m_20035_(blockpos, 0.0F, 0.0F);
  
@@ -36,7 +36,7 @@
              this.m_6034_(this.m_20185_(), this.m_20186_() + 1.0D, this.m_20189_());
           }
        }
-@@ -308,7 +_,7 @@
+@@ -324,7 +_,7 @@
        }
  
        if (p_9131_.m_128425_("SpawnX", 99) && p_9131_.m_128425_("SpawnY", 99) && p_9131_.m_128425_("SpawnZ", 99)) {
@@ -45,7 +45,7 @@
           this.f_8937_ = p_9131_.m_128471_("SpawnForced");
           this.f_8938_ = p_9131_.m_128457_("SpawnAngle");
           if (p_9131_.m_128441_("SpawnDimension")) {
-@@ -344,9 +_,9 @@
+@@ -363,9 +_,9 @@
        p_9197_.m_128365_("recipeBook", this.f_8929_.m_12805_());
        p_9197_.m_128359_("Dimension", this.f_19853_.m_46472_().m_135782_().toString());
        if (this.f_8936_ != null) {
@@ -57,17 +57,17 @@
 +         p_9197_.m_128356_("SpawnZ", this.f_8936_.getZ());
           p_9197_.m_128379_("SpawnForced", this.f_8937_);
           p_9197_.m_128350_("SpawnAngle", this.f_8938_);
-          ResourceLocation.f_135803_.encodeStart(NbtOps.f_128958_, this.f_8935_.m_135782_()).resultOrPartial(f_8907_::error).ifPresent((p_9134_) -> {
-@@ -756,7 +_,7 @@
+          ResourceLocation.f_135803_.encodeStart(NbtOps.f_128958_, this.f_8935_.m_135782_()).resultOrPartial(f_8907_::error).ifPresent((p_248207_) -> {
+@@ -780,7 +_,7 @@
           for(int j = -2; j <= 2; ++j) {
              for(int k = -1; k < 3; ++k) {
                 BlockState blockstate = k == -1 ? Blocks.f_50080_.m_49966_() : Blocks.f_50016_.m_49966_();
 -               p_9007_.m_46597_(blockpos$mutableblockpos.m_122190_(p_9008_).m_122184_(j, k, i), blockstate);
-+               p_9007_.m_46597_(blockpos$mutableblockpos.set(p_9008_).m_122184_(j, k, i), blockstate);
++               p_9007_.m_46597_(blockpos$mutableblockpos.set(p_9008_).move(j, k, i), blockstate);
              }
           }
        }
-@@ -822,7 +_,7 @@
+@@ -846,7 +_,7 @@
                 if (!this.m_7500_()) {
                    double d0 = 8.0D;
                    double d1 = 5.0D;
@@ -76,7 +76,7 @@
                    List<Monster> list = this.f_19853_.m_6443_(Monster.class, new AABB(vec3.m_7096_() - 8.0D, vec3.m_7098_() - 5.0D, vec3.m_7094_() - 8.0D, vec3.m_7096_() + 8.0D, vec3.m_7098_() + 5.0D, vec3.m_7094_() + 8.0D), (p_9062_) -> {
                       return p_9062_.m_6935_(this);
                    });
-@@ -854,17 +_,17 @@
+@@ -878,17 +_,17 @@
     }
  
     private boolean m_9116_(BlockPos p_9117_, Direction p_9118_) {

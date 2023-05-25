@@ -54,9 +54,12 @@
        }
  
        boolean m_159989_(WorldGenLevel p_159990_, LargeDripstoneFeature.WindOffsetter p_159991_) {
-@@ -151,9 +_,9 @@
+@@ -149,11 +_,11 @@
+                         k = (int)((float)k * Mth.m_216283_(p_225147_, 0.8F, 1.0F));
+                      }
  
-                      BlockPos.MutableBlockPos blockpos$mutableblockpos = this.f_159975_.m_7918_(i, 0, j).m_122032_();
+-                     BlockPos.MutableBlockPos blockpos$mutableblockpos = this.f_159975_.m_7918_(i, 0, j).m_122032_();
++                     BlockPos.MutableBlockPos blockpos$mutableblockpos = this.f_159975_.offset(i, 0, j).m_122032_();
                       boolean flag = false;
 -                     int l = this.f_159976_ ? p_225146_.m_6924_(Heightmap.Types.WORLD_SURFACE_WG, blockpos$mutableblockpos.m_123341_(), blockpos$mutableblockpos.m_123343_()) : Integer.MAX_VALUE;
 +                     long l = this.f_159976_ ? p_225146_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, blockpos$mutableblockpos.getX(), blockpos$mutableblockpos.getZ()) : Integer.MAX_VALUE;
@@ -85,10 +88,11 @@
              return p_160009_;
           } else {
 -            int i = this.f_160000_ - p_160009_.m_123342_();
+-            Vec3 vec3 = this.f_160001_.m_82490_((double)i);
+-            return p_160009_.m_7918_(Mth.m_14107_(vec3.f_82479_), 0, Mth.m_14107_(vec3.f_82481_));
 +            long i = this.f_160000_ - p_160009_.getY();
-             Vec3 vec3 = this.f_160001_.m_82490_((double)i);
--            return p_160009_.m_7637_(vec3.f_82479_, 0.0D, vec3.f_82481_);
-+            return p_160009_.offset(vec3.f_82479_, 0.0D, vec3.f_82481_);
++            Vec3 vec3 = this.f_160001_.m_82490_(i);
++            return p_160009_.offset(Mth.m_14107_(vec3.f_82479_), 0, Mth.m_14107_(vec3.f_82481_));
           }
        }
     }

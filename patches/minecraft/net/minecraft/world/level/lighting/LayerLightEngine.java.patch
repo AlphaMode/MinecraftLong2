@@ -27,8 +27,8 @@
 -         int i = SectionPos.m_123171_(BlockPos.m_121983_(p_75665_));
 -         int j = SectionPos.m_123171_(BlockPos.m_122015_(p_75665_));
 -         BlockGetter blockgetter = this.m_75644_(i, j);
-+         long i = SectionPos.blockToSectionCoord(BlockPos.m_121983_(p_75665_));
-+         long j = SectionPos.blockToSectionCoord(BlockPos.m_122015_(p_75665_));
++         long i = SectionPos.blockToSectionCoord(BlockPos.getX(p_75665_));
++         long j = SectionPos.blockToSectionCoord(BlockPos.getZ(p_75665_));
 +         BlockGetter blockgetter = this.getChunk(i, j);
           if (blockgetter == null) {
              if (p_75666_ != null) {
@@ -38,7 +38,7 @@
  
     protected int m_75682_(DataLayer p_75683_, long p_75684_) {
 -      return 15 - p_75683_.m_62560_(SectionPos.m_123207_(BlockPos.m_121983_(p_75684_)), SectionPos.m_123207_(BlockPos.m_122008_(p_75684_)), SectionPos.m_123207_(BlockPos.m_122015_(p_75684_)));
-+      return 15 - p_75683_.get(SectionPos.sectionRelative(BlockPos.m_121983_(p_75684_)), SectionPos.sectionRelative(BlockPos.m_122008_(p_75684_)), SectionPos.sectionRelative(BlockPos.m_122015_(p_75684_)));
++      return 15 - p_75683_.get(SectionPos.sectionRelative(BlockPos.getX(p_75684_)), SectionPos.sectionRelative(BlockPos.getY(p_75684_)), SectionPos.sectionRelative(BlockPos.getZ(p_75684_)));
     }
  
     protected void m_7351_(long p_75654_, int p_75655_) {

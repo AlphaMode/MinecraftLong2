@@ -1,11 +1,24 @@
 --- a/net/minecraft/world/level/block/NetherrackBlock.java
 +++ b/net/minecraft/world/level/block/NetherrackBlock.java
-@@ -15,7 +_,7 @@
+@@ -15,10 +_,10 @@
     }
  
-    public boolean m_7370_(BlockGetter p_55002_, BlockPos p_55003_, BlockState p_55004_, boolean p_55005_) {
--      if (!p_55002_.m_8055_(p_55003_.m_7494_()).m_60631_(p_55002_, p_55003_)) {
-+      if (!p_55002_.m_8055_(p_55003_.above()).m_60631_(p_55002_, p_55003_)) {
+    public boolean m_7370_(LevelReader p_256620_, BlockPos p_55003_, BlockState p_55004_, boolean p_55005_) {
+-      if (!p_256620_.m_8055_(p_55003_.m_7494_()).m_60631_(p_256620_, p_55003_)) {
++      if (!p_256620_.m_8055_(p_55003_.above()).m_60631_(p_256620_, p_55003_)) {
           return false;
        } else {
-          for(BlockPos blockpos : BlockPos.m_121940_(p_55003_.m_7918_(-1, -1, -1), p_55003_.m_7918_(1, 1, 1))) {
+-         for(BlockPos blockpos : BlockPos.m_121940_(p_55003_.m_7918_(-1, -1, -1), p_55003_.m_7918_(1, 1, 1))) {
++         for(BlockPos blockpos : BlockPos.m_121940_(p_55003_.offset(-1, -1, -1), p_55003_.offset(1, 1, 1))) {
+             if (p_256620_.m_8055_(blockpos).m_204336_(BlockTags.f_13077_)) {
+                return true;
+             }
+@@ -36,7 +_,7 @@
+       boolean flag = false;
+       boolean flag1 = false;
+ 
+-      for(BlockPos blockpos : BlockPos.m_121940_(p_221813_.m_7918_(-1, -1, -1), p_221813_.m_7918_(1, 1, 1))) {
++      for(BlockPos blockpos : BlockPos.m_121940_(p_221813_.offset(-1, -1, -1), p_221813_.offset(1, 1, 1))) {
+          BlockState blockstate = p_221811_.m_8055_(blockpos);
+          if (blockstate.m_60713_(Blocks.f_50690_)) {
+             flag1 = true;

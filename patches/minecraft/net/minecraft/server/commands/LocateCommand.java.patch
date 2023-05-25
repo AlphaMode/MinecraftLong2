@@ -1,19 +1,20 @@
 --- a/net/minecraft/server/commands/LocateCommand.java
 +++ b/net/minecraft/server/commands/LocateCommand.java
-@@ -114,18 +_,18 @@
-             return p_214463_.m_135782_().toString();
-          }).orElse("[unregistered]") + ")";
+@@ -140,19 +_,19 @@
+ 
+    private static int m_262858_(CommandSourceStack p_262983_, BlockPos p_263016_, Pair<BlockPos, ? extends Holder<?>> p_262941_, String p_263083_, boolean p_263010_, String p_263048_, Duration p_263040_) {
+       BlockPos blockpos = p_262941_.getFirst();
+-      int i = p_263010_ ? Mth.m_14143_(Mth.m_14116_((float)p_263016_.m_123331_(blockpos))) : Mth.m_14143_(m_137853_(p_263016_.m_123341_(), p_263016_.m_123343_(), blockpos.m_123341_(), blockpos.m_123343_()));
+-      String s = p_263010_ ? String.valueOf(blockpos.m_123342_()) : "~";
+-      Component component = ComponentUtils.m_130748_(Component.m_237110_("chat.coordinates", blockpos.m_123341_(), s, blockpos.m_123343_())).m_130938_((p_214489_) -> {
+-         return p_214489_.m_131140_(ChatFormatting.GREEN).m_131142_(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + blockpos.m_123341_() + " " + s + " " + blockpos.m_123343_())).m_131144_(new HoverEvent(HoverEvent.Action.f_130831_, Component.m_237115_("chat.coordinates.tooltip")));
++      int i = p_263010_ ? Mth.m_14143_(Mth.m_14116_((float)p_263016_.distSqr(blockpos))) : Mth.m_14143_(dist(p_263016_.getX(), p_263016_.getZ(), blockpos.getX(), blockpos.getZ()));
++      String s = p_263010_ ? String.valueOf(blockpos.getY()) : "~";
++      Component component = ComponentUtils.m_130748_(Component.m_237110_("chat.coordinates", blockpos.getX(), s, blockpos.getZ())).m_130938_((p_214489_) -> {
++         return p_214489_.m_131140_(ChatFormatting.GREEN).m_131142_(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + blockpos.getX() + " " + s + " " + blockpos.getZ())).m_131144_(new HoverEvent(HoverEvent.Action.f_130831_, Component.m_237115_("chat.coordinates.tooltip")));
        });
--      int i = p_214480_ ? Mth.m_14143_(Mth.m_14116_((float)p_214477_.m_123331_(blockpos))) : Mth.m_14143_(m_137853_(p_214477_.m_123341_(), p_214477_.m_123343_(), blockpos.m_123341_(), blockpos.m_123343_()));
--      String s1 = p_214480_ ? String.valueOf(blockpos.m_123342_()) : "~";
--      Component component = ComponentUtils.m_130748_(Component.m_237110_("chat.coordinates", blockpos.m_123341_(), s1, blockpos.m_123343_())).m_130938_((p_214489_) -> {
--         return p_214489_.m_131140_(ChatFormatting.GREEN).m_131142_(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + blockpos.m_123341_() + " " + s1 + " " + blockpos.m_123343_())).m_131144_(new HoverEvent(HoverEvent.Action.f_130831_, Component.m_237115_("chat.coordinates.tooltip")));
-+      int i = p_214480_ ? Mth.m_14143_(Mth.m_14116_((float)p_214477_.distSqr(blockpos))) : Mth.m_14143_(dist(p_214477_.getX(), p_214477_.getZ(), blockpos.getX(), blockpos.getZ()));
-+      String s1 = p_214480_ ? String.valueOf(blockpos.getY()) : "~";
-+      Component component = ComponentUtils.m_130748_(Component.m_237110_("chat.coordinates", blockpos.getX(), s1, blockpos.getZ())).m_130938_((p_214489_) -> {
-+         return p_214489_.m_131140_(ChatFormatting.GREEN).m_131142_(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + blockpos.getX() + " " + s1 + " " + blockpos.getZ())).m_131144_(new HoverEvent(HoverEvent.Action.f_130831_, Component.m_237115_("chat.coordinates.tooltip")));
-       });
-       p_214475_.m_81354_(Component.m_237110_(p_214479_, s, component, i), false);
+       p_262983_.m_81354_(Component.m_237110_(p_263083_, p_263048_, component, i), false);
+       f_262750_.info("Locating element " + p_263048_ + " took " + p_263040_.toMillis() + " ms");
        return i;
     }
  

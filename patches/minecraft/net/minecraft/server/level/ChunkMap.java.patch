@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ChunkMap.java
 +++ b/net/minecraft/server/level/ChunkMap.java
-@@ -187,16 +_,16 @@
+@@ -200,16 +_,16 @@
     }
  
     private static double m_140226_(ChunkPos p_140227_, Entity p_140228_) {
@@ -22,7 +22,7 @@
        long k = (long)Math.max(0, Math.max(i, j) - 1);
        long l = (long)Math.min(i, j);
        long i1 = l * l + k * k;
-@@ -205,17 +_,17 @@
+@@ -218,17 +_,17 @@
        return i1 <= (long)k1;
     }
  
@@ -48,8 +48,12 @@
        }
     }
  
-@@ -265,8 +_,8 @@
-    private CompletableFuture<Either<List<ChunkAccess>, ChunkHolder.ChunkLoadingFailure>> m_140210_(ChunkPos p_140211_, int p_140212_, IntFunction<ChunkStatus> p_140213_) {
+@@ -275,15 +_,15 @@
+       }
+    }
+ 
+-   private CompletableFuture<Either<List<ChunkAccess>, ChunkHolder.ChunkLoadingFailure>> m_140210_(ChunkPos p_140211_, int p_140212_, IntFunction<ChunkStatus> p_140213_) {
++   private CompletableFuture<Either<List<ChunkAccess>, ChunkHolder.ChunkLoadingFailure>> getChunkRangeFuture(ChunkPos p_140211_, long p_140212_, java.util.function.LongFunction<ChunkStatus> p_140213_) {
        List<CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>>> list = new ArrayList<>();
        List<ChunkHolder> list1 = new ArrayList<>();
 -      int i = p_140211_.f_45578_;
@@ -57,9 +61,36 @@
 +      long i = p_140211_.f_45578_;
 +      long j = p_140211_.f_45579_;
  
-       for(int k = -p_140212_; k <= p_140212_; ++k) {
-          for(int l = -p_140212_; l <= p_140212_; ++l) {
-@@ -626,7 +_,7 @@
+-      for(int k = -p_140212_; k <= p_140212_; ++k) {
+-         for(int l = -p_140212_; l <= p_140212_; ++l) {
+-            int i1 = Math.max(Math.abs(l), Math.abs(k));
++      for(long k = -p_140212_; k <= p_140212_; ++k) {
++         for(long l = -p_140212_; l <= p_140212_; ++l) {
++            long i1 = Math.max(Math.abs(l), Math.abs(k));
+             final ChunkPos chunkpos = new ChunkPos(i + l, j + k);
+             long j1 = chunkpos.m_45588_();
+             ChunkHolder chunkholder = this.m_140174_(j1);
+@@ -360,7 +_,7 @@
+    }
+ 
+    public CompletableFuture<Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>> m_143117_(ChunkPos p_143118_) {
+-      return this.m_140210_(p_143118_, 2, (p_203078_) -> {
++      return this.getChunkRangeFuture(p_143118_, 2, (p_203078_) -> {
+          return ChunkStatus.f_62326_;
+       }).thenApplyAsync((p_203086_) -> {
+          return p_203086_.mapLeft((p_203092_) -> {
+@@ -617,8 +_,8 @@
+ 
+    private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_140360_(ChunkHolder p_140361_, ChunkStatus p_140362_) {
+       ChunkPos chunkpos = p_140361_.m_140092_();
+-      CompletableFuture<Either<List<ChunkAccess>, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.m_140210_(chunkpos, p_140362_.m_62488_(), (p_214935_) -> {
+-         return this.m_140262_(p_140362_, p_214935_);
++      CompletableFuture<Either<List<ChunkAccess>, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.getChunkRangeFuture(chunkpos, p_140362_.getRange(), (p_214935_) -> {
++         return this.getDependencyStatus(p_140362_, p_214935_);
+       });
+       this.f_140133_.m_46473_().m_6525_(() -> {
+          return "chunkGenerate " + p_140362_.m_62467_();
+@@ -639,7 +_,7 @@
                 CrashReport crashreport = CrashReport.m_127521_(exception, "Exception generating new chunk");
                 CrashReportCategory crashreportcategory = crashreport.m_127514_("Chunk to be generated");
                 crashreportcategory.m_128159_("Location", String.format(Locale.ROOT, "%d,%d", chunkpos.f_45578_, chunkpos.f_45579_));
@@ -68,7 +99,40 @@
                 crashreportcategory.m_128159_("Generator", this.f_140136_);
                 this.f_140135_.execute(() -> {
                    throw new ReportedException(crashreport);
-@@ -838,8 +_,8 @@
+@@ -661,12 +_,12 @@
+       }));
+    }
+ 
+-   private ChunkStatus m_140262_(ChunkStatus p_140263_, int p_140264_) {
++   private ChunkStatus getDependencyStatus(ChunkStatus p_140263_, long p_140264_) {
+       ChunkStatus chunkstatus;
+       if (p_140264_ == 0) {
+          chunkstatus = p_140263_.m_62482_();
+       } else {
+-         chunkstatus = ChunkStatus.m_156185_(ChunkStatus.m_62370_(p_140263_) + p_140264_);
++         chunkstatus = ChunkStatus.getStatusAroundFullChunk(ChunkStatus.m_62370_(p_140263_) + p_140264_);
+       }
+ 
+       return chunkstatus;
+@@ -715,7 +_,7 @@
+ 
+    public CompletableFuture<Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>> m_143053_(ChunkHolder p_143054_) {
+       ChunkPos chunkpos = p_143054_.m_140092_();
+-      CompletableFuture<Either<List<ChunkAccess>, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.m_140210_(chunkpos, 1, (p_214916_) -> {
++      CompletableFuture<Either<List<ChunkAccess>, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.getChunkRangeFuture(chunkpos, 1, (p_214916_) -> {
+          return ChunkStatus.f_62326_;
+       });
+       CompletableFuture<Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>> completablefuture1 = completablefuture.thenApplyAsync((p_212878_) -> {
+@@ -745,7 +_,7 @@
+    }
+ 
+    public CompletableFuture<Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>> m_143109_(ChunkHolder p_143110_) {
+-      return this.m_140210_(p_143110_.m_140092_(), 1, ChunkStatus::m_156185_).thenApplyAsync((p_214893_) -> {
++      return this.getChunkRangeFuture(p_143110_.m_140092_(), 1, ChunkStatus::getStatusAroundFullChunk).thenApplyAsync((p_214893_) -> {
+          return p_214893_.mapLeft((p_214905_) -> {
+             return (LevelChunk)p_214905_.get(p_214905_.size() / 2);
+          });
+@@ -851,8 +_,8 @@
              MutableObject<ClientboundLevelChunkWithLightPacket> mutableobject = new MutableObject<>();
              this.m_183262_(chunkpos, false).forEach((p_214864_) -> {
                 SectionPos sectionpos = p_214864_.m_8965_();
@@ -79,7 +143,7 @@
                 this.m_183754_(p_214864_, chunkpos, mutableobject, flag, flag1);
              });
           }
-@@ -976,10 +_,10 @@
+@@ -989,10 +_,10 @@
     void m_140192_(ServerPlayer p_140193_, boolean p_140194_) {
        boolean flag = this.m_140329_(p_140193_);
        boolean flag1 = this.f_140149_.m_8260_(p_140193_);
@@ -93,7 +157,7 @@
           this.m_140373_(p_140193_);
           if (!flag) {
              this.f_140145_.m_140802_(SectionPos.m_235861_(p_140193_), p_140193_);
-@@ -992,9 +_,9 @@
+@@ -1005,9 +_,9 @@
           }
        }
  
@@ -106,7 +170,7 @@
                 ChunkPos chunkpos = new ChunkPos(l, k);
                 this.m_183754_(p_140193_, chunkpos, new MutableObject<>(), !p_140194_, p_140194_);
              }
-@@ -1006,7 +_,7 @@
+@@ -1019,7 +_,7 @@
     private SectionPos m_140373_(ServerPlayer p_140374_) {
        SectionPos sectionpos = SectionPos.m_235861_(p_140374_);
        p_140374_.m_9119_(sectionpos);
@@ -115,7 +179,7 @@
        return sectionpos;
     }
  
-@@ -1019,8 +_,8 @@
+@@ -1032,8 +_,8 @@
           }
        }
  
@@ -126,7 +190,7 @@
        SectionPos sectionpos = p_140185_.m_8965_();
        SectionPos sectionpos1 = SectionPos.m_235861_(p_140185_);
        long i = sectionpos.m_123251_().m_45588_();
-@@ -1051,25 +_,25 @@
+@@ -1064,25 +_,25 @@
           }
        }
  
@@ -165,7 +229,7 @@
                    boolean flag3 = true;
                    boolean flag4 = false;
                    this.m_183754_(p_140185_, new ChunkPos(i1, j1), new MutableObject<>(), true, false);
-@@ -1077,9 +_,9 @@
+@@ -1090,9 +_,9 @@
              }
           }
  
@@ -178,7 +242,7 @@
                    boolean flag7 = false;
                    boolean flag8 = true;
                    this.m_183754_(p_140185_, new ChunkPos(k2, i3), new MutableObject<>(), false, true);
-@@ -1096,7 +_,7 @@
+@@ -1109,7 +_,7 @@
  
        for(ServerPlayer serverplayer : set) {
           SectionPos sectionpos = serverplayer.m_8965_();
@@ -187,3 +251,12 @@
              builder.add(serverplayer);
           }
        }
+@@ -1217,7 +_,7 @@
+          if (chunkaccess instanceof LevelChunk levelchunk1) {
+             levelchunk = levelchunk1;
+          } else {
+-            levelchunk = this.f_140133_.m_6325_(chunkpos.f_45578_, chunkpos.f_45579_);
++            levelchunk = this.f_140133_.getChunk(chunkpos.f_45578_, chunkpos.f_45579_);
+          }
+ 
+          for(ServerPlayer serverplayer : this.m_183262_(chunkpos, false)) {

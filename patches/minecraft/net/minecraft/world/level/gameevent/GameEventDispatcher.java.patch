@@ -1,0 +1,39 @@
+--- a/net/minecraft/world/level/gameevent/GameEventDispatcher.java
++++ b/net/minecraft/world/level/gameevent/GameEventDispatcher.java
+@@ -20,12 +_,12 @@
+    public void m_245905_(GameEvent p_251754_, Vec3 p_250613_, GameEvent.Context p_251777_) {
+       int i = p_251754_.m_157827_();
+       BlockPos blockpos = BlockPos.m_274446_(p_250613_);
+-      int j = SectionPos.m_123171_(blockpos.m_123341_() - i);
+-      int k = SectionPos.m_123171_(blockpos.m_123342_() - i);
+-      int l = SectionPos.m_123171_(blockpos.m_123343_() - i);
+-      int i1 = SectionPos.m_123171_(blockpos.m_123341_() + i);
+-      int j1 = SectionPos.m_123171_(blockpos.m_123342_() + i);
+-      int k1 = SectionPos.m_123171_(blockpos.m_123343_() + i);
++      long j = SectionPos.blockToSectionCoord(blockpos.getX() - i);
++      long k = SectionPos.blockToSectionCoord(blockpos.getY() - i);
++      long l = SectionPos.blockToSectionCoord(blockpos.getZ() - i);
++      long i1 = SectionPos.blockToSectionCoord(blockpos.getX() + i);
++      long j1 = SectionPos.blockToSectionCoord(blockpos.getY() + i);
++      long k1 = SectionPos.blockToSectionCoord(blockpos.getZ() + i);
+       List<GameEvent.ListenerInfo> list = new ArrayList<>();
+       GameEventListenerRegistry.ListenerVisitor gameeventlistenerregistry$listenervisitor = (p_251272_, p_248685_) -> {
+          if (p_251272_.m_245365_() == GameEventListener.DeliveryMode.BY_DISTANCE) {
+@@ -37,12 +_,12 @@
+       };
+       boolean flag = false;
+ 
+-      for(int l1 = j; l1 <= i1; ++l1) {
+-         for(int i2 = l; i2 <= k1; ++i2) {
+-            ChunkAccess chunkaccess = this.f_243917_.m_7726_().m_7131_(l1, i2);
++      for(long l1 = j; l1 <= i1; ++l1) {
++         for(long i2 = l; i2 <= k1; ++i2) {
++            ChunkAccess chunkaccess = this.f_243917_.m_7726_().getChunkNow(l1, i2);
+             if (chunkaccess != null) {
+-               for(int j2 = k; j2 <= j1; ++j2) {
+-                  flag |= chunkaccess.m_246686_(j2).m_245521_(p_251754_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
++               for(long j2 = k; j2 <= j1; ++j2) {
++                  flag |= chunkaccess.getListenerRegistry(j2).m_245521_(p_251754_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
+                }
+             }
+          }

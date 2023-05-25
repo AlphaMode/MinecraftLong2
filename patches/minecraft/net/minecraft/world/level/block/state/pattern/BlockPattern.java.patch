@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/block/state/pattern/BlockPattern.java
++++ b/net/minecraft/world/level/block/state/pattern/BlockPattern.java
+@@ -79,7 +_,7 @@
+       LoadingCache<BlockPos, BlockInWorld> loadingcache = m_61187_(p_61185_, false);
+       int i = Math.max(Math.max(this.f_61180_, this.f_61179_), this.f_61178_);
+ 
+-      for(BlockPos blockpos : BlockPos.m_121940_(p_61186_, p_61186_.m_7918_(i - 1, i - 1, i - 1))) {
++      for(BlockPos blockpos : BlockPos.m_121940_(p_61186_, p_61186_.offset(i - 1, i - 1, i - 1))) {
+          for(Direction direction : Direction.values()) {
+             for(Direction direction1 : Direction.values()) {
+                if (direction1 != direction && direction1 != direction.m_122424_()) {
+@@ -104,7 +_,7 @@
+          Vec3i vec3i = new Vec3i(p_61192_.m_122429_(), p_61192_.m_122430_(), p_61192_.m_122431_());
+          Vec3i vec3i1 = new Vec3i(p_61193_.m_122429_(), p_61193_.m_122430_(), p_61193_.m_122431_());
+          Vec3i vec3i2 = vec3i.m_7724_(vec3i1);
+-         return p_61191_.m_7918_(vec3i1.m_123341_() * -p_61195_ + vec3i2.m_123341_() * p_61194_ + vec3i.m_123341_() * p_61196_, vec3i1.m_123342_() * -p_61195_ + vec3i2.m_123342_() * p_61194_ + vec3i.m_123342_() * p_61196_, vec3i1.m_123343_() * -p_61195_ + vec3i2.m_123343_() * p_61194_ + vec3i.m_123343_() * p_61196_);
++         return p_61191_.offset(vec3i1.m_123341_() * -p_61195_ + vec3i2.m_123341_() * p_61194_ + vec3i.m_123341_() * p_61196_, vec3i1.m_123342_() * -p_61195_ + vec3i2.m_123342_() * p_61194_ + vec3i.m_123342_() * p_61196_, vec3i1.m_123343_() * -p_61195_ + vec3i2.m_123343_() * p_61194_ + vec3i.m_123343_() * p_61196_);
+       } else {
+          throw new IllegalArgumentException("Invalid forwards & up combination");
+       }

@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/LevelRenderer.java
 +++ b/net/minecraft/client/renderer/LevelRenderer.java
-@@ -207,9 +_,9 @@
+@@ -208,9 +_,9 @@
     private double f_109419_ = Double.MIN_VALUE;
     private double f_109420_ = Double.MIN_VALUE;
     private double f_109421_ = Double.MIN_VALUE;
@@ -13,36 +13,10 @@
     private double f_109425_ = Double.MIN_VALUE;
     private double f_109426_ = Double.MIN_VALUE;
     private double f_109427_ = Double.MIN_VALUE;
-@@ -268,9 +_,9 @@
-       if (!(f <= 0.0F)) {
-          p_109704_.m_109896_();
-          Level level = this.f_109461_.f_91073_;
--         int i = Mth.m_14107_(p_109706_);
--         int j = Mth.m_14107_(p_109707_);
--         int k = Mth.m_14107_(p_109708_);
-+         long i = Mth.m_14134_(p_109706_);
-+         long j = Mth.m_14134_(p_109707_);
-+         long k = Mth.m_14134_(p_109708_);
-          Tesselator tesselator = Tesselator.m_85913_();
-          BufferBuilder bufferbuilder = tesselator.m_85915_();
-          RenderSystem.m_69464_();
-@@ -289,17 +_,17 @@
-          RenderSystem.m_157429_(1.0F, 1.0F, 1.0F, 1.0F);
-          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
- 
--         for(int j1 = k - l; j1 <= k + l; ++j1) {
--            for(int k1 = i - l; k1 <= i + l; ++k1) {
--               int l1 = (j1 - k + 16) * 32 + k1 - i + 16;
--               double d0 = (double)this.f_109451_[l1] * 0.5D;
--               double d1 = (double)this.f_109452_[l1] * 0.5D;
-+         for(long j1 = k - l; j1 <= k + l; ++j1) {
-+            for(long k1 = i - l; k1 <= i + l; ++k1) {
-+               long l1 = (j1 - k + 16) * 32 + k1 - i + 16;
-+               double d0 = (double)this.f_109451_[(int) l1] * 0.5D;
-+               double d1 = (double)this.f_109452_[(int) l1] * 0.5D;
+@@ -296,9 +_,9 @@
                 blockpos$mutableblockpos.m_122169_((double)k1, p_109707_, (double)j1);
                 Biome biome = level.m_204166_(blockpos$mutableblockpos).m_203334_();
-                if (biome.m_47530_() != Biome.Precipitation.NONE) {
+                if (biome.m_264473_()) {
 -                  int i2 = level.m_6924_(Heightmap.Types.MOTION_BLOCKING, k1, j1);
 -                  int j2 = j - l;
 -                  int k2 = j + l;
@@ -52,7 +26,7 @@
                    if (j2 < i2) {
                       j2 = i2;
                    }
-@@ -308,14 +_,14 @@
+@@ -307,14 +_,14 @@
                       k2 = i2;
                    }
  
@@ -66,17 +40,10 @@
                       RandomSource randomsource = RandomSource.m_216335_((long)(k1 * k1 * 3121 + k1 * 45238971 ^ j1 * j1 * 418711 + j1 * 13761));
 -                     blockpos$mutableblockpos.m_122178_(k1, j2, j1);
 +                     blockpos$mutableblockpos.set(k1, j2, j1);
-                      if (biome.m_198906_(blockpos$mutableblockpos)) {
+                      Biome.Precipitation biome$precipitation = biome.m_264600_(blockpos$mutableblockpos);
+                      if (biome$precipitation == Biome.Precipitation.RAIN) {
                          if (i1 != 0) {
-                            if (i1 >= 0) {
-@@ -327,13 +_,13 @@
-                            bufferbuilder.m_166779_(VertexFormat.Mode.QUADS, DefaultVertexFormat.f_85813_);
-                         }
- 
--                        int i3 = this.f_109477_ + k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761 & 31;
-+                        long i3 = this.f_109477_ + k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761 & 31;
-                         float f2 = -((float)i3 + p_109705_) / 32.0F * (3.0F + randomsource.m_188501_());
-                         double d2 = (double)k1 + 0.5D - p_109706_;
+@@ -333,7 +_,7 @@
                          double d4 = (double)j1 + 0.5D - p_109708_;
                          float f3 = (float)Math.sqrt(d2 * d2 + d4 * d4) / (float)l;
                          float f4 = ((1.0F - f3 * f3) * 0.5F + 0.5F) * f;
@@ -94,30 +61,28 @@
                          int k3 = m_109541_(level, blockpos$mutableblockpos);
                          int l3 = k3 >> 16 & '\uffff';
                          int i4 = k3 & '\uffff';
-@@ -393,12 +_,12 @@
-          int i = (int)(100.0F * f * f) / (this.f_109461_.f_91066_.m_231929_().m_231551_() == ParticleStatus.DECREASED ? 2 : 1);
- 
+@@ -395,11 +_,11 @@
           for(int j = 0; j < i; ++j) {
--            int k = randomsource.m_188503_(21) - 10;
--            int l = randomsource.m_188503_(21) - 10;
+             int k = randomsource.m_188503_(21) - 10;
+             int l = randomsource.m_188503_(21) - 10;
 -            BlockPos blockpos2 = levelreader.m_5452_(Heightmap.Types.MOTION_BLOCKING, blockpos.m_7918_(k, 0, l));
-+            long k = randomsource.nextLong(21) - 10;
-+            long l = randomsource.nextLong(21) - 10;
+-            if (blockpos2.m_123342_() > levelreader.m_141937_() && blockpos2.m_123342_() <= blockpos.m_123342_() + 10 && blockpos2.m_123342_() >= blockpos.m_123342_() - 10) {
 +            BlockPos blockpos2 = levelreader.m_5452_(Heightmap.Types.MOTION_BLOCKING, blockpos.offset(k, 0, l));
-             Biome biome = levelreader.m_204166_(blockpos2).m_203334_();
--            if (blockpos2.m_123342_() > levelreader.m_141937_() && blockpos2.m_123342_() <= blockpos.m_123342_() + 10 && blockpos2.m_123342_() >= blockpos.m_123342_() - 10 && biome.m_47530_() == Biome.Precipitation.RAIN && biome.m_198906_(blockpos2)) {
--               blockpos1 = blockpos2.m_7495_();
-+            if (blockpos2.getY() > levelreader.getMinBuildHeight() && blockpos2.getY() <= blockpos.getY() + 10 && blockpos2.getY() >= blockpos.getY() - 10 && biome.m_47530_() == Biome.Precipitation.RAIN && biome.m_198906_(blockpos2)) {
-+               blockpos1 = blockpos2.below();
-                if (this.f_109461_.f_91066_.m_231929_().m_231551_() == ParticleStatus.MINIMAL) {
-                   break;
++            if (blockpos2.getY() > levelreader.getMinBuildHeight() && blockpos2.getY() <= blockpos.getY() + 10 && blockpos2.getY() >= blockpos.getY() - 10) {
+                Biome biome = levelreader.m_204166_(blockpos2).m_203334_();
+                if (biome.m_264600_(blockpos2) == Biome.Precipitation.RAIN) {
+-                  blockpos1 = blockpos2.m_7495_();
++                  blockpos1 = blockpos2.below();
+                   if (this.f_109461_.f_91066_.m_231929_().m_231551_() == ParticleStatus.MINIMAL) {
+                      break;
+                   }
+@@ -413,14 +_,14 @@
+                   double d3 = (double)fluidstate.m_76155_(levelreader, blockpos1);
+                   double d4 = Math.max(d2, d3);
+                   ParticleOptions particleoptions = !fluidstate.m_205070_(FluidTags.f_13132_) && !blockstate.m_60713_(Blocks.f_50450_) && !CampfireBlock.m_51319_(blockstate) ? ParticleTypes.f_123761_ : ParticleTypes.f_123762_;
+-                  this.f_109461_.f_91073_.m_7106_(particleoptions, (double)blockpos1.m_123341_() + d0, (double)blockpos1.m_123342_() + d4, (double)blockpos1.m_123343_() + d1, 0.0D, 0.0D, 0.0D);
++                  this.f_109461_.f_91073_.m_7106_(particleoptions, (double)blockpos1.getX() + d0, (double)blockpos1.getY() + d4, (double)blockpos1.getZ() + d1, 0.0D, 0.0D, 0.0D);
                 }
-@@ -412,13 +_,13 @@
-                double d3 = (double)fluidstate.m_76155_(levelreader, blockpos1);
-                double d4 = Math.max(d2, d3);
-                ParticleOptions particleoptions = !fluidstate.m_205070_(FluidTags.f_13132_) && !blockstate.m_60713_(Blocks.f_50450_) && !CampfireBlock.m_51319_(blockstate) ? ParticleTypes.f_123761_ : ParticleTypes.f_123762_;
--               this.f_109461_.f_91073_.m_7106_(particleoptions, (double)blockpos1.m_123341_() + d0, (double)blockpos1.m_123342_() + d4, (double)blockpos1.m_123343_() + d1, 0.0D, 0.0D, 0.0D);
-+               this.f_109461_.f_91073_.m_7106_(particleoptions, (double)blockpos1.getX() + d0, (double)blockpos1.getY() + d4, (double)blockpos1.getZ() + d1, 0.0D, 0.0D, 0.0D);
              }
           }
  
@@ -125,23 +90,10 @@
              this.f_109450_ = 0;
 -            if (blockpos1.m_123342_() > blockpos.m_123342_() + 1 && levelreader.m_5452_(Heightmap.Types.MOTION_BLOCKING, blockpos).m_123342_() > Mth.m_14143_((float)blockpos.m_123342_())) {
 +            if (blockpos1.getY() > blockpos.getY() + 1 && levelreader.m_5452_(Heightmap.Types.MOTION_BLOCKING, blockpos).getY() > Mth.m_14143_((float)blockpos.getY())) {
-                this.f_109461_.f_91073_.m_104677_(blockpos1, SoundEvents.f_12542_, SoundSource.WEATHER, 0.1F, 0.5F, false);
+                this.f_109461_.f_91073_.m_245747_(blockpos1, SoundEvents.f_12542_, SoundSource.WEATHER, 0.1F, 0.5F, false);
              } else {
-                this.f_109461_.f_91073_.m_104677_(blockpos1, SoundEvents.f_12541_, SoundSource.WEATHER, 0.2F, 1.0F, false);
-@@ -650,9 +_,9 @@
-       this.f_109419_ = Double.MIN_VALUE;
-       this.f_109420_ = Double.MIN_VALUE;
-       this.f_109421_ = Double.MIN_VALUE;
--      this.f_109422_ = Integer.MIN_VALUE;
--      this.f_109423_ = Integer.MIN_VALUE;
--      this.f_109424_ = Integer.MIN_VALUE;
-+      this.f_109422_ = java.lang.Long.MIN_VALUE;
-+      this.f_109423_ = java.lang.Long.MIN_VALUE;
-+      this.f_109424_ = java.lang.Long.MIN_VALUE;
-       this.f_109463_.m_114406_(p_109702_);
-       this.f_109465_ = p_109702_;
-       if (p_109702_ != null) {
-@@ -784,9 +_,9 @@
+                this.f_109461_.f_91073_.m_245747_(blockpos1, SoundEvents.f_12541_, SoundSource.WEATHER, 0.2F, 1.0F, false);
+@@ -787,9 +_,9 @@
        double d0 = this.f_109461_.f_91074_.m_20185_();
        double d1 = this.f_109461_.f_91074_.m_20186_();
        double d2 = this.f_109461_.f_91074_.m_20189_();
@@ -154,7 +106,7 @@
        if (this.f_109422_ != i || this.f_109423_ != j || this.f_109424_ != k) {
           this.f_109419_ = d0;
           this.f_109420_ = d1;
-@@ -891,15 +_,15 @@
+@@ -894,15 +_,15 @@
        BlockPos blockpos = p_194344_.m_90588_();
        ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_109469_.m_110866_(blockpos);
        if (chunkrenderdispatcher$renderchunk == null) {
@@ -175,23 +127,23 @@
                 if (chunkrenderdispatcher$renderchunk1 != null) {
                    list.add(new LevelRenderer.RenderChunkInfo(chunkrenderdispatcher$renderchunk1, (Direction)null, 0));
                 }
-@@ -907,7 +_,7 @@
+@@ -910,7 +_,7 @@
           }
  
           list.sort(Comparator.comparingDouble((p_234303_) -> {
 -            return blockpos.m_123331_(p_234303_.f_109839_.m_112839_().m_7918_(8, 8, 8));
-+            return blockpos.distSqr(p_234303_.f_109839_.m_112839_().m_7918_(8, 8, 8));
++            return blockpos.distSqr(p_234303_.f_109839_.m_112839_().offset(8, 8, 8));
           }));
           p_194345_.addAll(list);
        } else {
-@@ -922,15 +_,15 @@
+@@ -925,15 +_,15 @@
  
     private void m_194362_(LinkedHashSet<LevelRenderer.RenderChunkInfo> p_194363_, LevelRenderer.RenderInfoMap p_194364_, Vec3 p_194365_, Queue<LevelRenderer.RenderChunkInfo> p_194366_, boolean p_194367_) {
        int i = 16;
 -      BlockPos blockpos = new BlockPos(Mth.m_14107_(p_194365_.f_82479_ / 16.0D) * 16, Mth.m_14107_(p_194365_.f_82480_ / 16.0D) * 16, Mth.m_14107_(p_194365_.f_82481_ / 16.0D) * 16);
 -      BlockPos blockpos1 = blockpos.m_7918_(8, 8, 8);
 +      BlockPos blockpos = new BlockPos(Mth.m_14134_(p_194365_.f_82479_ / 16.0D) * 16, Mth.m_14134_(p_194365_.f_82480_ / 16.0D) * 16, Mth.m_14134_(p_194365_.f_82481_ / 16.0D) * 16);
-+      BlockPos blockpos1 = blockpos.offset(8L, 8L, 8L);
++      BlockPos blockpos1 = blockpos.offset(8, 8, 8);
        Entity.m_20103_(Mth.m_14008_((double)this.f_109461_.f_91066_.m_193772_() / 8.0D, 1.0D, 2.5D) * this.f_109461_.f_91066_.m_232018_().m_231551_());
  
        while(!p_194366_.isEmpty()) {
@@ -203,7 +155,7 @@
  
           for(Direction direction : f_109434_) {
              ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk1 = this.m_109728_(blockpos, chunkrenderdispatcher$renderchunk, direction);
-@@ -958,10 +_,10 @@
+@@ -961,10 +_,10 @@
                       label125: {
                          blockpos2 = chunkrenderdispatcher$renderchunk1.m_112839_();
                          if (direction.m_122434_() == Direction.Axis.X) {
@@ -216,7 +168,7 @@
                             break label125;
                          }
  
-@@ -976,10 +_,10 @@
+@@ -979,10 +_,10 @@
                    label118: {
                       label117: {
                          if (direction.m_122434_() == Direction.Axis.Y) {
@@ -229,7 +181,7 @@
                             break label117;
                          }
  
-@@ -994,10 +_,10 @@
+@@ -997,10 +_,10 @@
                    label110: {
                       label109: {
                          if (direction.m_122434_() == Direction.Axis.Z) {
@@ -242,11 +194,13 @@
                             break label109;
                          }
  
-@@ -1009,13 +_,13 @@
+@@ -1011,14 +_,14 @@
+                      b2 = 16;
                    }
  
-                   BlockPos blockpos3 = blockpos2.m_7918_(b0, b1, b2);
+-                  BlockPos blockpos3 = blockpos2.m_7918_(b0, b1, b2);
 -                  Vec3 vec31 = new Vec3((double)blockpos3.m_123341_(), (double)blockpos3.m_123342_(), (double)blockpos3.m_123343_());
++                  BlockPos blockpos3 = blockpos2.offset(b0, b1, b2);
 +                  Vec3 vec31 = new Vec3((double)blockpos3.getX(), (double)blockpos3.getY(), (double)blockpos3.getZ());
                    Vec3 vec3 = p_194365_.m_82546_(vec31).m_82541_().m_82490_(f_194304_);
                    boolean flag2 = true;
@@ -258,7 +212,7 @@
                          break;
                       }
  
-@@ -1053,22 +_,22 @@
+@@ -1056,22 +_,22 @@
     @Nullable
     private ChunkRenderDispatcher.RenderChunk m_109728_(BlockPos p_109729_, ChunkRenderDispatcher.RenderChunk p_109730_, Direction p_109731_) {
        BlockPos blockpos = p_109730_.m_112824_(p_109731_);
@@ -288,8 +242,8 @@
 +      return !ChunkMap.isChunkInRange(k, l, i, j, this.f_109438_ - 2);
     }
  
-    private void m_109525_(Matrix4f p_109526_, Matrix4f p_109527_, double p_109528_, double p_109529_, double p_109530_, Frustum p_109531_) {
-@@ -1140,7 +_,7 @@
+    private void m_252964_(Matrix4f p_253756_, Matrix4f p_253787_, double p_254187_, double p_253833_, double p_254547_, Frustum p_253954_) {
+@@ -1143,7 +_,7 @@
        FogRenderer.m_109036_();
        RenderSystem.m_69421_(16640, Minecraft.f_91002_);
        float f = p_109605_.m_109152_();
@@ -297,8 +251,8 @@
 +      boolean flag2 = this.f_109461_.f_91073_.m_104583_().isFoggyAt(Mth.m_14134_(d0), Mth.m_14134_(d1)) || this.f_109461_.f_91065_.m_93090_().m_93715_();
        profilerfiller.m_6182_("sky");
        RenderSystem.m_157427_(GameRenderer::m_172808_);
-       this.m_202423_(p_109600_, p_109607_, p_109601_, p_109604_, flag2, () -> {
-@@ -1186,7 +_,7 @@
+       this.m_202423_(p_109600_, p_254120_, p_109601_, p_109604_, flag2, () -> {
+@@ -1189,7 +_,7 @@
        for(Entity entity : this.f_109465_.m_104735_()) {
           if (this.f_109463_.m_114397_(entity, frustum, d0, d1, d2) || entity.m_20367_(this.f_109461_.f_91074_)) {
              BlockPos blockpos = entity.m_20183_();
@@ -307,7 +261,7 @@
                 ++this.f_109439_;
                 if (entity.f_19797_ == 0) {
                    entity.f_19790_ = entity.m_20185_();
-@@ -1229,7 +_,7 @@
+@@ -1228,7 +_,7 @@
                 BlockPos blockpos4 = blockentity1.m_58899_();
                 MultiBufferSource multibuffersource1 = multibuffersource$buffersource;
                 p_109600_.m_85836_();
@@ -315,8 +269,8 @@
 +               p_109600_.m_85837_((double)blockpos4.getX() - d0, (double)blockpos4.getY() - d1, (double)blockpos4.getZ() - d2);
                 SortedSet<BlockDestructionProgress> sortedset = this.f_109409_.get(blockpos4.m_121878_());
                 if (sortedset != null && !sortedset.isEmpty()) {
-                   int j1 = sortedset.last().m_139988_();
-@@ -1253,7 +_,7 @@
+                   int j = sortedset.last().m_139988_();
+@@ -1252,7 +_,7 @@
           for(BlockEntity blockentity : this.f_109468_) {
              BlockPos blockpos3 = blockentity.m_58899_();
              p_109600_.m_85836_();
@@ -338,14 +292,37 @@
           if (!(d3 * d3 + d4 * d4 + d5 * d5 > 1024.0D)) {
              SortedSet<BlockDestructionProgress> sortedset1 = entry.getValue();
              if (sortedset1 != null && !sortedset1.isEmpty()) {
-                int k1 = sortedset1.last().m_139988_();
+                int k = sortedset1.last().m_139988_();
                 p_109600_.m_85836_();
 -               p_109600_.m_85837_((double)blockpos2.m_123341_() - d0, (double)blockpos2.m_123342_() - d1, (double)blockpos2.m_123343_() - d2);
 +               p_109600_.m_85837_((double)blockpos2.getX() - d0, (double)blockpos2.getY() - d1, (double)blockpos2.getZ() - d2);
-                PoseStack.Pose posestack$pose = p_109600_.m_85850_();
-                VertexConsumer vertexconsumer1 = new SheetedDecalTextureGenerator(this.f_109464_.m_110108_().m_6299_(ModelBakery.f_119229_.get(k1)), posestack$pose.m_85861_(), posestack$pose.m_85864_());
+                PoseStack.Pose posestack$pose1 = p_109600_.m_85850_();
+                VertexConsumer vertexconsumer1 = new SheetedDecalTextureGenerator(this.f_109464_.m_110108_().m_6299_(ModelBakery.f_119229_.get(k)), posestack$pose1.m_252922_(), posestack$pose1.m_252943_(), 1.0F);
                 this.f_109461_.m_91289_().m_110918_(this.f_109465_.m_8055_(blockpos2), blockpos2, this.f_109465_, p_109600_, vertexconsumer1);
-@@ -1504,7 +_,7 @@
+@@ -1419,17 +_,17 @@
+          double d1 = p_172997_ - this.f_109446_;
+          double d2 = p_172998_ - this.f_109447_;
+          if (d0 * d0 + d1 * d1 + d2 * d2 > 1.0D) {
+-            int j = SectionPos.m_175552_(p_172996_);
+-            int k = SectionPos.m_175552_(p_172997_);
+-            int l = SectionPos.m_175552_(p_172998_);
+-            boolean flag = j != SectionPos.m_175552_(this.f_109445_) || l != SectionPos.m_175552_(this.f_109447_) || k != SectionPos.m_175552_(this.f_109446_);
++            long j = SectionPos.posToSectionCoord(p_172996_);
++            long k = SectionPos.posToSectionCoord(p_172997_);
++            long l = SectionPos.posToSectionCoord(p_172998_);
++            boolean flag = j != SectionPos.posToSectionCoord(this.f_109445_) || l != SectionPos.posToSectionCoord(this.f_109447_) || k != SectionPos.posToSectionCoord(this.f_109446_);
+             this.f_109445_ = p_172996_;
+             this.f_109446_ = p_172997_;
+             this.f_109447_ = p_172998_;
+             int i1 = 0;
+ 
+             for(LevelRenderer.RenderChunkInfo levelrenderer$renderchunkinfo : this.f_194297_) {
+-               if (i1 < 15 && (flag || levelrenderer$renderchunkinfo.m_274540_(j, k, l)) && levelrenderer$renderchunkinfo.f_109839_.m_112809_(p_172994_, this.f_109436_)) {
++               if (i1 < 15 && (flag || levelrenderer$renderchunkinfo.isAxisAlignedWith(j, k, l)) && levelrenderer$renderchunkinfo.f_109839_.m_112809_(p_172994_, this.f_109436_)) {
+                   ++i1;
+                }
+             }
+@@ -1510,7 +_,7 @@
              VertexBuffer vertexbuffer = chunkrenderdispatcher$renderchunk.m_112807_(p_172994_);
              BlockPos blockpos = chunkrenderdispatcher$renderchunk.m_112839_();
              if (uniform != null) {
@@ -354,34 +331,53 @@
                 uniform.m_85633_();
              }
  
-@@ -1542,7 +_,7 @@
+@@ -1539,7 +_,7 @@
+             ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = levelrenderer$renderchunkinfo.f_109839_;
              BlockPos blockpos = chunkrenderdispatcher$renderchunk.m_112839_();
-             PoseStack posestack = RenderSystem.m_157191_();
-             posestack.m_85836_();
--            posestack.m_85837_((double)blockpos.m_123341_() - d0, (double)blockpos.m_123342_() - d1, (double)blockpos.m_123343_() - d2);
-+            posestack.m_85837_((double)blockpos.getX() - d0, (double)blockpos.getY() - d1, (double)blockpos.getZ() - d2);
-             RenderSystem.m_157182_();
-             RenderSystem.m_157427_(GameRenderer::m_172757_);
+             p_271014_.m_85836_();
+-            p_271014_.m_85837_((double)blockpos.m_123341_() - d0, (double)blockpos.m_123342_() - d1, (double)blockpos.m_123343_() - d2);
++            p_271014_.m_85837_((double)blockpos.getX() - d0, (double)blockpos.getY() - d1, (double)blockpos.getZ() - d2);
+             Matrix4f matrix4f = p_271014_.m_85850_().m_252922_();
              if (this.f_109461_.f_90978_) {
-@@ -2095,7 +_,7 @@
+                VertexConsumer vertexconsumer1 = p_270107_.m_6299_(RenderType.m_110504_());
+@@ -2043,11 +_,11 @@
        for(LevelRenderer.RenderChunkInfo levelrenderer$renderchunkinfo : this.f_194297_) {
           ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = levelrenderer$renderchunkinfo.f_109839_;
           ChunkPos chunkpos = new ChunkPos(chunkrenderdispatcher$renderchunk.m_112839_());
 -         if (chunkrenderdispatcher$renderchunk.m_112841_() && this.f_109465_.m_6325_(chunkpos.f_45578_, chunkpos.f_45579_).m_196863_()) {
 +         if (chunkrenderdispatcher$renderchunk.m_112841_() && this.f_109465_.getChunk(chunkpos.f_45578_, chunkpos.f_45579_).m_196863_()) {
              boolean flag = false;
-             if (this.f_109461_.f_91066_.m_232080_().m_231551_() != PrioritizeChunkUpdates.NEARBY) {
-                if (this.f_109461_.f_91066_.m_232080_().m_231551_() == PrioritizeChunkUpdates.PLAYER_AFFECTED) {
-@@ -2103,7 +_,7 @@
-                }
-             } else {
-                BlockPos blockpos1 = chunkrenderdispatcher$renderchunk.m_112839_().m_7918_(8, 8, 8);
+             if (this.f_109461_.f_91066_.m_232080_().m_231551_() == PrioritizeChunkUpdates.NEARBY) {
+-               BlockPos blockpos1 = chunkrenderdispatcher$renderchunk.m_112839_().m_7918_(8, 8, 8);
 -               flag = blockpos1.m_123331_(blockpos) < 768.0D || chunkrenderdispatcher$renderchunk.m_112842_();
++               BlockPos blockpos1 = chunkrenderdispatcher$renderchunk.m_112839_().offset(8, 8, 8);
 +               flag = blockpos1.distSqr(blockpos) < 768.0D || chunkrenderdispatcher$renderchunk.m_112842_();
+             } else if (this.f_109461_.f_91066_.m_232080_().m_231551_() == PrioritizeChunkUpdates.PLAYER_AFFECTED) {
+                flag = chunkrenderdispatcher$renderchunk.m_112842_();
              }
+@@ -2107,8 +_,8 @@
+          float f4 = (float)(-Mth.m_14185_(p_173013_.m_90583_().f_82480_ * 0.5D));
+          float f5 = f4 + (float)d4;
+          bufferbuilder.m_166779_(VertexFormat.Mode.QUADS, DefaultVertexFormat.f_85817_);
+-         double d5 = Math.max((double)Mth.m_14107_(d3 - d0), worldborder.m_61956_());
+-         double d6 = Math.min((double)Mth.m_14165_(d3 + d0), worldborder.m_61958_());
++         double d5 = Math.max((double)Mth.m_14134_(d3 - d0), worldborder.m_61956_());
++         double d6 = Math.min((double)Mth.lceil(d3 + d0), worldborder.m_61958_());
+          float f6 = (float)(Mth.m_14107_(d5) & 1) * 0.5F;
+          if (d2 > worldborder.m_61957_() - d0) {
+             float f7 = f6;
+@@ -2138,8 +_,8 @@
+             }
+          }
  
-             if (flag) {
-@@ -2234,7 +_,7 @@
+-         d5 = Math.max((double)Mth.m_14107_(d2 - d0), worldborder.m_61955_());
+-         d6 = Math.min((double)Mth.m_14165_(d2 + d0), worldborder.m_61957_());
++         d5 = Math.max((double)Mth.m_14134_(d2 - d0), worldborder.m_61955_());
++         d6 = Math.min((double)Mth.lceil(d2 + d0), worldborder.m_61957_());
+          f6 = (float)(Mth.m_14107_(d5) & 1) * 0.5F;
+          if (d3 > worldborder.m_61958_() - d0) {
+             float f10 = f6;
+@@ -2183,7 +_,7 @@
     }
  
     private void m_109637_(PoseStack p_109638_, VertexConsumer p_109639_, Entity p_109640_, double p_109641_, double p_109642_, double p_109643_, BlockPos p_109644_, BlockState p_109645_) {
@@ -390,7 +386,7 @@
     }
  
     public static void m_109654_(PoseStack p_109655_, VertexConsumer p_109656_, VoxelShape p_109657_, double p_109658_, double p_109659_, double p_109660_, float p_109661_, float p_109662_, float p_109663_, float p_109664_) {
-@@ -2353,21 +_,21 @@
+@@ -2307,21 +_,21 @@
     }
  
     private void m_109732_(BlockPos p_109733_, boolean p_109734_) {
@@ -421,7 +417,7 @@
              }
           }
        }
-@@ -2376,28 +_,28 @@
+@@ -2330,28 +_,28 @@
  
     public void m_109721_(BlockPos p_109722_, BlockState p_109723_, BlockState p_109724_) {
        if (this.f_109461_.m_91304_().m_119415_(p_109723_, p_109724_)) {
@@ -460,16 +456,16 @@
     }
  
     public void m_109514_(@Nullable SoundEvent p_109515_, BlockPos p_109516_) {
-@@ -2413,7 +_,7 @@
+@@ -2367,7 +_,7 @@
              this.f_109461_.f_91065_.m_93055_(recorditem.m_43050_());
           }
  
--         SoundInstance simplesoundinstance = SimpleSoundInstance.m_119747_(p_109515_, (double)p_109516_.m_123341_(), (double)p_109516_.m_123342_(), (double)p_109516_.m_123343_());
-+         SoundInstance simplesoundinstance = SimpleSoundInstance.m_119747_(p_109515_, (double)p_109516_.getX(), (double)p_109516_.getY(), (double)p_109516_.getZ());
+-         SoundInstance simplesoundinstance = SimpleSoundInstance.m_246411_(p_109515_, Vec3.m_82512_(p_109516_));
++         SoundInstance simplesoundinstance = SimpleSoundInstance.m_246411_(p_109515_, Vec3.atCenterOf(p_109516_));
           this.f_109410_.put(p_109516_, simplesoundinstance);
           this.f_109461_.m_91106_().m_120367_(simplesoundinstance);
        }
-@@ -2496,9 +_,9 @@
+@@ -2450,9 +_,9 @@
           case 1038:
              Camera camera = this.f_109461_.f_91063_.m_109153_();
              if (camera.m_90593_()) {
@@ -482,8 +478,8 @@
                 double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
                 double d4 = camera.m_90583_().f_82479_;
                 double d5 = camera.m_90583_().f_82480_;
-@@ -2677,16 +_,16 @@
-             this.f_109465_.m_104677_(p_234306_, SoundEvents.f_12031_, SoundSource.BLOCKS, 0.5F, 2.6F + (randomsource.m_188501_() - randomsource.m_188501_()) * 0.8F, false);
+@@ -2603,16 +_,16 @@
+             this.f_109465_.m_245747_(p_234306_, SoundEvents.f_12031_, SoundSource.BLOCKS, 0.5F, 2.6F + (randomsource.m_188501_() - randomsource.m_188501_()) * 0.8F, false);
  
              for(int k2 = 0; k2 < 8; ++k2) {
 -               this.f_109465_.m_7106_(ParticleTypes.f_123755_, (double)p_234306_.m_123341_() + randomsource.m_188500_(), (double)p_234306_.m_123342_() + 1.2D, (double)p_234306_.m_123343_() + randomsource.m_188500_(), 0.0D, 0.0D, 0.0D);
@@ -491,7 +487,7 @@
              }
              break;
           case 1502:
-             this.f_109465_.m_104677_(p_234306_, SoundEvents.f_12374_, SoundSource.BLOCKS, 0.5F, 2.6F + (randomsource.m_188501_() - randomsource.m_188501_()) * 0.8F, false);
+             this.f_109465_.m_245747_(p_234306_, SoundEvents.f_12374_, SoundSource.BLOCKS, 0.5F, 2.6F + (randomsource.m_188501_() - randomsource.m_188501_()) * 0.8F, false);
  
              for(int j2 = 0; j2 < 5; ++j2) {
 -               double d12 = (double)p_234306_.m_123341_() + randomsource.m_188500_() * 0.6D + 0.2D;
@@ -503,8 +499,8 @@
                 this.f_109465_.m_7106_(ParticleTypes.f_123762_, d12, d18, d25, 0.0D, 0.0D, 0.0D);
              }
              break;
-@@ -2694,9 +_,9 @@
-             this.f_109465_.m_104677_(p_234306_, SoundEvents.f_11859_, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+@@ -2620,9 +_,9 @@
+             this.f_109465_.m_245747_(p_234306_, SoundEvents.f_11859_, SoundSource.BLOCKS, 1.0F, 1.0F, false);
  
              for(int i2 = 0; i2 < 16; ++i2) {
 -               double d11 = (double)p_234306_.m_123341_() + (5.0D + randomsource.m_188500_() * 6.0D) / 16.0D;
@@ -516,7 +512,7 @@
                 this.f_109465_.m_7106_(ParticleTypes.f_123762_, d11, d17, d24, 0.0D, 0.0D, 0.0D);
              }
              break;
-@@ -2712,9 +_,9 @@
+@@ -2638,9 +_,9 @@
              int i1 = direction1.m_122429_();
              int l1 = direction1.m_122430_();
              int i3 = direction1.m_122431_();
@@ -529,7 +525,7 @@
  
              for(int i4 = 0; i4 < 10; ++i4) {
                 double d31 = randomsource.m_188500_() * 0.2D + 0.01D;
-@@ -2738,7 +_,7 @@
+@@ -2664,7 +_,7 @@
              break;
           case 2002:
           case 2007:
@@ -538,8 +534,8 @@
  
              for(int l = 0; l < 8; ++l) {
                 this.m_109735_(new ItemParticleOption(ParticleTypes.f_123752_, new ItemStack(Items.f_42736_)), vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, randomsource.m_188583_() * 0.15D, randomsource.m_188500_() * 0.2D, randomsource.m_188583_() * 0.15D);
-@@ -2766,9 +_,9 @@
-             this.f_109465_.m_104677_(p_234306_, SoundEvents.f_12436_, SoundSource.NEUTRAL, 1.0F, randomsource.m_188501_() * 0.1F + 0.9F, false);
+@@ -2692,9 +_,9 @@
+             this.f_109465_.m_245747_(p_234306_, SoundEvents.f_12436_, SoundSource.NEUTRAL, 1.0F, randomsource.m_188501_() * 0.1F + 0.9F, false);
              break;
           case 2003:
 -            double d0 = (double)p_234306_.m_123341_() + 0.5D;
@@ -551,7 +547,7 @@
  
              for(int l3 = 0; l3 < 8; ++l3) {
                 this.m_109735_(new ItemParticleOption(ParticleTypes.f_123752_, new ItemStack(Items.f_42545_)), d0, d10, d14, randomsource.m_188583_() * 0.15D, randomsource.m_188500_() * 0.2D, randomsource.m_188583_() * 0.15D);
-@@ -2781,9 +_,9 @@
+@@ -2707,9 +_,9 @@
              break;
           case 2004:
              for(int k = 0; k < 20; ++k) {
@@ -564,7 +560,7 @@
                 this.f_109465_.m_7106_(ParticleTypes.f_123762_, d9, d13, d19, 0.0D, 0.0D, 0.0D);
                 this.f_109465_.m_7106_(ParticleTypes.f_123744_, d9, d13, d19, 0.0D, 0.0D, 0.0D);
              }
-@@ -2798,7 +_,7 @@
+@@ -2724,7 +_,7 @@
                 double d16 = (double)(Mth.m_14089_(f10) * f7);
                 double d23 = 0.01D + randomsource.m_188500_() * 0.5D;
                 double d29 = (double)(Mth.m_14031_(f10) * f7);
@@ -573,7 +569,7 @@
                 if (particle1 != null) {
                    particle1.m_107268_(f7);
                 }
-@@ -2809,15 +_,15 @@
+@@ -2735,15 +_,15 @@
              }
              break;
           case 2008:
@@ -589,10 +585,10 @@
           case 3000:
 -            this.f_109465_.m_6493_(ParticleTypes.f_123812_, true, (double)p_234306_.m_123341_() + 0.5D, (double)p_234306_.m_123342_() + 0.5D, (double)p_234306_.m_123343_() + 0.5D, 0.0D, 0.0D, 0.0D);
 +            this.f_109465_.m_6493_(ParticleTypes.f_123812_, true, (double)p_234306_.getX() + 0.5D, (double)p_234306_.getY() + 0.5D, (double)p_234306_.getZ() + 0.5D, 0.0D, 0.0D, 0.0D);
-             this.f_109465_.m_104677_(p_234306_, SoundEvents.f_11858_, SoundSource.BLOCKS, 10.0F, (1.0F + (this.f_109465_.f_46441_.m_188501_() - this.f_109465_.f_46441_.m_188501_()) * 0.2F) * 0.7F, false);
+             this.f_109465_.m_245747_(p_234306_, SoundEvents.f_11858_, SoundSource.BLOCKS, 10.0F, (1.0F + (this.f_109465_.f_46441_.m_188501_() - this.f_109465_.f_46441_.m_188501_()) * 0.2F) * 0.7F, false);
              break;
           case 3001:
-@@ -2879,16 +_,16 @@
+@@ -2805,16 +_,16 @@
                    float f12 = 2.0F * randomsource.m_188501_() - 1.0F;
                    float f14 = 2.0F * randomsource.m_188501_() - 1.0F;
                    float f15 = 2.0F * randomsource.m_188501_() - 1.0F;
@@ -609,10 +605,10 @@
  
 -            this.f_109465_.m_7785_((double)p_234306_.m_123341_() + 0.5D, (double)p_234306_.m_123342_() + SculkShriekerBlock.f_222156_, (double)p_234306_.m_123343_() + 0.5D, SoundEvents.f_215750_, SoundSource.BLOCKS, 2.0F, 0.6F + this.f_109465_.f_46441_.m_188501_() * 0.4F, false);
 +            this.f_109465_.m_7785_((double)p_234306_.getX() + 0.5D, (double)p_234306_.getY() + SculkShriekerBlock.f_222156_, (double)p_234306_.getZ() + 0.5D, SoundEvents.f_215750_, SoundSource.BLOCKS, 2.0F, 0.6F + this.f_109465_.f_46441_.m_188501_() * 0.4F, false);
-       }
- 
-    }
-@@ -2900,7 +_,7 @@
+             break;
+          case 3008:
+             this.f_109465_.m_245747_(p_234306_, SoundEvents.f_271452_, SoundSource.PLAYERS, 1.0F, 1.0F, false);
+@@ -2830,7 +_,7 @@
              this.m_109765_(blockdestructionprogress1);
           }
  
@@ -621,7 +617,19 @@
              blockdestructionprogress1 = new BlockDestructionProgress(p_109775_, p_109776_);
              this.f_109408_.put(p_109775_, blockdestructionprogress1);
           }
-@@ -3058,13 +_,13 @@
+@@ -2955,9 +_,9 @@
+          return this.f_173020_ != 0;
+       }
+ 
+-      public boolean m_274540_(int p_275489_, int p_275424_, int p_275596_) {
++      public boolean isAxisAlignedWith(long p_275489_, long p_275424_, long p_275596_) {
+          BlockPos blockpos = this.f_109839_.m_112839_();
+-         return p_275489_ == blockpos.m_123341_() / 16 || p_275596_ == blockpos.m_123343_() / 16 || p_275424_ == blockpos.m_123342_() / 16;
++         return p_275489_ == blockpos.getX() / 16 || p_275596_ == blockpos.getZ() / 16 || p_275424_ == blockpos.getY() / 16;
+       }
+ 
+       public int hashCode() {
+@@ -2993,13 +_,13 @@
        }
  
        public void m_173037_(ChunkRenderDispatcher.RenderChunk p_173038_, LevelRenderer.RenderChunkInfo p_173039_) {

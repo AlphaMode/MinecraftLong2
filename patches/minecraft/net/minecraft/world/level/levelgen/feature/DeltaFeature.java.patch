@@ -1,14 +1,25 @@
 --- a/net/minecraft/world/level/levelgen/feature/DeltaFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/DeltaFeature.java
-@@ -36,7 +_,7 @@
+@@ -35,8 +_,8 @@
+       int l = deltafeatureconfiguration.m_160741_().m_214085_(randomsource);
        int i1 = Math.max(k, l);
  
-       for(BlockPos blockpos1 : BlockPos.m_121925_(blockpos, k, 0, l)) {
+-      for(BlockPos blockpos1 : BlockPos.m_121925_(blockpos, k, 0, l)) {
 -         if (blockpos1.m_123333_(blockpos) > i1) {
++      for(BlockPos blockpos1 : BlockPos.withinManhattan(blockpos, k, 0, l)) {
 +         if (blockpos1.distManhattan(blockpos) > i1) {
              break;
           }
  
+@@ -46,7 +_,7 @@
+                this.m_5974_(worldgenlevel, blockpos1, deltafeatureconfiguration.m_67611_());
+             }
+ 
+-            BlockPos blockpos2 = blockpos1.m_7918_(i, 0, j);
++            BlockPos blockpos2 = blockpos1.offset(i, 0, j);
+             if (m_65551_(worldgenlevel, blockpos2, deltafeatureconfiguration)) {
+                flag = true;
+                this.m_5974_(worldgenlevel, blockpos2, deltafeatureconfiguration.m_67608_());
 @@ -65,7 +_,7 @@
           return false;
        } else {

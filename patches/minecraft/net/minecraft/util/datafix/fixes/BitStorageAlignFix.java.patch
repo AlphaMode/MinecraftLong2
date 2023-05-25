@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/datafix/fixes/BitStorageAlignFix.java
++++ b/net/minecraft/util/datafix/fixes/BitStorageAlignFix.java
+@@ -60,7 +_,7 @@
+             int i = p_145103_.getOptional(p_14753_).map((p_145115_) -> {
+                return Math.max(4, DataFixUtils.ceillog2(p_145115_.size()));
+             }).orElse(0);
+-            return i != 0 && !Mth.m_14152_(i) ? p_145103_.update(DSL.remainderFinder(), (p_145100_) -> {
++            return i != 0 && !Mth.isPowerOfTwo(i) ? p_145103_.update(DSL.remainderFinder(), (p_145100_) -> {
+                return p_145100_.update("BlockStates", (p_145107_) -> {
+                   return m_14776_(p_145100_, p_145107_, 4096, i);
+                });

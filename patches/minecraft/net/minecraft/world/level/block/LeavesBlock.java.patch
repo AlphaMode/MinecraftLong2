@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/LeavesBlock.java
 +++ b/net/minecraft/world/level/block/LeavesBlock.java
-@@ -68,7 +_,7 @@
+@@ -69,7 +_,7 @@
  
        int i = m_54463_(p_54442_) + 1;
        if (i != 1 || p_54440_.m_61143_(f_54418_) != i) {
@@ -9,7 +9,7 @@
        }
  
        return p_54440_;
-@@ -79,7 +_,7 @@
+@@ -80,7 +_,7 @@
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
        for(Direction direction : Direction.values()) {
@@ -18,7 +18,7 @@
           i = Math.min(i, m_54463_(p_54437_.m_8055_(blockpos$mutableblockpos)) + 1);
           if (i == 1) {
              break;
-@@ -102,14 +_,14 @@
+@@ -103,9 +_,9 @@
     }
  
     public void m_214162_(BlockState p_221374_, Level p_221375_, BlockPos p_221376_, RandomSource p_221377_) {
@@ -29,12 +29,4 @@
 +            BlockPos blockpos = p_221376_.below();
              BlockState blockstate = p_221375_.m_8055_(blockpos);
              if (!blockstate.m_60815_() || !blockstate.m_60783_(p_221375_, blockpos, Direction.UP)) {
--               double d0 = (double)p_221376_.m_123341_() + p_221377_.m_188500_();
--               double d1 = (double)p_221376_.m_123342_() - 0.05D;
--               double d2 = (double)p_221376_.m_123343_() + p_221377_.m_188500_();
-+               double d0 = (double)p_221376_.getX() + p_221377_.m_188500_();
-+               double d1 = (double)p_221376_.getY() - 0.05D;
-+               double d2 = (double)p_221376_.getZ() + p_221377_.m_188500_();
-                p_221375_.m_7106_(ParticleTypes.f_123803_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-             }
-          }
+                ParticleUtils.m_272037_(p_221375_, p_221376_, p_221377_, ParticleTypes.f_123803_);

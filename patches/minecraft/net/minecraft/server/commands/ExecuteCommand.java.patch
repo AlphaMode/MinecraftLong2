@@ -1,6 +1,32 @@
 --- a/net/minecraft/server/commands/ExecuteCommand.java
 +++ b/net/minecraft/server/commands/ExecuteCommand.java
-@@ -381,20 +_,20 @@
+@@ -147,10 +_,10 @@
+          ServerLevel serverlevel = p_274814_.getSource().m_81372_();
+          double d0 = vec3.m_7096_();
+          double d1 = vec3.m_7094_();
+-         if (!serverlevel.m_7232_(SectionPos.m_235865_(d0), SectionPos.m_235865_(d1))) {
++         if (!serverlevel.hasChunk(SectionPos.blockToSectionCoord(d0), SectionPos.blockToSectionCoord(d1))) {
+             throw BlockPosArgument.f_118234_.create();
+          } else {
+-            int i = serverlevel.m_6924_(HeightmapTypeArgument.m_274370_(p_274814_, "heightmap"), Mth.m_14107_(d0), Mth.m_14107_(d1));
++            long i = serverlevel.getHeight(HeightmapTypeArgument.m_274370_(p_274814_, "heightmap"), Mth.m_14107_(d0), Mth.m_14107_(d1));
+             return p_274814_.getSource().m_81348_(new Vec3(d0, (double)i, d1));
+          }
+       })))).then(Commands.m_82127_("rotated").then(Commands.m_82129_("rot", RotationArgument.m_120479_()).redirect(literalcommandnode, (p_137291_) -> {
+@@ -266,9 +_,9 @@
+    }
+ 
+    private static boolean m_264155_(ServerLevel p_265261_, BlockPos p_265260_) {
+-      int i = SectionPos.m_123171_(p_265260_.m_123341_());
+-      int j = SectionPos.m_123171_(p_265260_.m_123343_());
+-      LevelChunk levelchunk = p_265261_.m_7726_().m_7131_(i, j);
++      long i = SectionPos.blockToSectionCoord(p_265260_.getX());
++      long j = SectionPos.blockToSectionCoord(p_265260_.getZ());
++      LevelChunk levelchunk = p_265261_.m_7726_().getChunkNow(i, j);
+       if (levelchunk != null) {
+          return levelchunk.m_6708_() == ChunkHolder.FullChunkStatus.ENTITY_TICKING;
+       } else {
+@@ -430,20 +_,20 @@
     }
  
     private static OptionalInt m_137036_(ServerLevel p_137037_, BlockPos p_137038_, BlockPos p_137039_, BlockPos p_137040_, boolean p_137041_) throws CommandSyntaxException {
@@ -9,7 +35,7 @@
 -      BlockPos blockpos = new BlockPos(boundingbox1.m_162395_() - boundingbox.m_162395_(), boundingbox1.m_162396_() - boundingbox.m_162396_(), boundingbox1.m_162398_() - boundingbox.m_162398_());
 -      int i = boundingbox.m_71056_() * boundingbox.m_71057_() * boundingbox.m_71058_();
 +      BoundingBox boundingbox = BoundingBox.fromCorners(p_137038_, p_137039_);
-+      BoundingBox boundingbox1 = BoundingBox.fromCorners(p_137040_, p_137040_.m_121955_(boundingbox.m_71053_()));
++      BoundingBox boundingbox1 = BoundingBox.fromCorners(p_137040_, p_137040_.offset(boundingbox.getLength()));
 +      BlockPos blockpos = new BlockPos(boundingbox1.minX() - boundingbox.minX(), boundingbox1.minY() - boundingbox.minY(), boundingbox1.minZ() - boundingbox.minZ());
 +      long i = boundingbox.getXSpan() * boundingbox.getYSpan() * boundingbox.getZSpan();
        if (i > 32768) {

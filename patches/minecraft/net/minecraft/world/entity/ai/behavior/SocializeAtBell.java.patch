@@ -1,11 +1,11 @@
 --- a/net/minecraft/world/entity/ai/behavior/SocializeAtBell.java
 +++ b/net/minecraft/world/entity/ai/behavior/SocializeAtBell.java
-@@ -21,7 +_,7 @@
-    protected boolean m_6114_(ServerLevel p_24170_, LivingEntity p_24171_) {
-       Brain<?> brain = p_24171_.m_6274_();
-       Optional<GlobalPos> optional = brain.m_21952_(MemoryModuleType.f_26362_);
--      return p_24170_.m_213780_().m_188503_(100) == 0 && optional.isPresent() && p_24170_.m_46472_() == optional.get().m_122640_() && optional.get().m_122646_().m_203195_(p_24171_.m_20182_(), 4.0D) && brain.m_21952_(MemoryModuleType.f_148205_).get().m_186130_((p_24189_) -> {
-+      return p_24170_.m_213780_().m_188503_(100) == 0 && optional.isPresent() && p_24170_.m_46472_() == optional.get().m_122640_() && optional.get().m_122646_().closerToCenterThan(p_24171_.m_20182_(), 4.0D) && brain.m_21952_(MemoryModuleType.f_148205_).get().m_186130_((p_24189_) -> {
-          return EntityType.f_20492_.equals(p_24189_.m_6095_());
-       });
-    }
+@@ -17,7 +_,7 @@
+             return (p_258766_, p_258767_, p_258768_) -> {
+                GlobalPos globalpos = p_258755_.m_258051_(p_258752_);
+                NearestVisibleLivingEntities nearestvisiblelivingentities = p_258755_.m_258051_(p_258753_);
+-               if (p_258766_.m_213780_().m_188503_(100) == 0 && p_258766_.m_46472_() == globalpos.m_122640_() && globalpos.m_122646_().m_203195_(p_258767_.m_20182_(), 4.0D) && nearestvisiblelivingentities.m_186130_((p_275061_) -> {
++               if (p_258766_.m_213780_().m_188503_(100) == 0 && p_258766_.m_46472_() == globalpos.m_122640_() && globalpos.m_122646_().closerToCenterThan(p_258767_.m_20182_(), 4.0D) && nearestvisiblelivingentities.m_186130_((p_275061_) -> {
+                   return EntityType.f_20492_.equals(p_275061_.m_6095_());
+                })) {
+                   nearestvisiblelivingentities.m_186116_((p_275060_) -> {

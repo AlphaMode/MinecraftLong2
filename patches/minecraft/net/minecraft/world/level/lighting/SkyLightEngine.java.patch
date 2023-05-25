@@ -1,11 +1,40 @@
 --- a/net/minecraft/world/level/lighting/SkyLightEngine.java
 +++ b/net/minecraft/world/level/lighting/SkyLightEngine.java
-@@ -64,14 +_,14 @@
+@@ -30,16 +_,16 @@
+             if (mutableint.getValue() >= 15) {
+                return 15;
+             } else {
+-               int i = BlockPos.m_121983_(p_75855_);
+-               int j = BlockPos.m_122008_(p_75855_);
+-               int k = BlockPos.m_122015_(p_75855_);
+-               int l = BlockPos.m_121983_(p_75856_);
+-               int i1 = BlockPos.m_122008_(p_75856_);
+-               int j1 = BlockPos.m_122015_(p_75856_);
+-               int k1 = Integer.signum(l - i);
+-               int l1 = Integer.signum(i1 - j);
+-               int i2 = Integer.signum(j1 - k);
+-               Direction direction = Direction.m_122378_(k1, l1, i2);
++               long i = BlockPos.getX(p_75855_);
++               long j = BlockPos.getY(p_75855_);
++               long k = BlockPos.getZ(p_75855_);
++               long l = BlockPos.getX(p_75856_);
++               long i1 = BlockPos.getY(p_75856_);
++               long j1 = BlockPos.getZ(p_75856_);
++               long k1 = java.lang.Long.signum(l - i);
++               long l1 = java.lang.Long.signum(i1 - j);
++               long i2 = java.lang.Long.signum(j1 - k);
++               Direction direction = Direction.fromNormal(k1, l1, i2);
+                if (direction == null) {
+                   throw new IllegalStateException(String.format(Locale.ROOT, "Light was spread in illegal direction %d, %d, %d", k1, l1, i2));
+                } else {
+@@ -63,21 +_,21 @@
+ 
     protected void m_7900_(long p_75845_, int p_75846_, boolean p_75847_) {
        long i = SectionPos.m_123235_(p_75845_);
-       int j = BlockPos.m_122008_(p_75845_);
+-      int j = BlockPos.m_122008_(p_75845_);
 -      int k = SectionPos.m_123207_(j);
 -      int l = SectionPos.m_123171_(j);
++      long j = BlockPos.getY(p_75845_);
 +      long k = SectionPos.sectionRelative(j);
 +      long l = SectionPos.blockToSectionCoord(j);
        int i1;
@@ -14,7 +43,41 @@
        } else {
           int j1;
 -         for(j1 = 0; !this.f_75632_.m_75791_(SectionPos.m_123186_(i, 0, -j1 - 1, 0)) && this.f_75632_.m_75870_(l - j1 - 1); ++j1) {
-+         for(j1 = 0; !this.f_75632_.m_75791_(SectionPos.m_123186_(i, 0, -j1 - 1, 0)) && this.f_75632_.hasSectionsBelow(l - j1 - 1); ++j1) {
++         for(j1 = 0; !this.f_75632_.m_75791_(SectionPos.offset(i, 0, -j1 - 1, 0)) && this.f_75632_.hasSectionsBelow(l - j1 - 1); ++j1) {
           }
  
           i1 = j1;
+       }
+ 
+-      long j3 = BlockPos.m_121910_(p_75845_, 0, -1 - i1 * 16, 0);
++      long j3 = BlockPos.offset(p_75845_, 0, -1 - i1 * 16, 0);
+       long k1 = SectionPos.m_123235_(j3);
+       if (i == k1 || this.f_75632_.m_75791_(k1)) {
+          this.m_75593_(p_75845_, j3, p_75846_, p_75847_);
+@@ -93,7 +_,7 @@
+          int j2 = 0;
+ 
+          while(true) {
+-            long k2 = BlockPos.m_121910_(p_75845_, direction.m_122429_(), -j2, direction.m_122431_());
++            long k2 = BlockPos.offset(p_75845_, direction.m_122429_(), -j2, direction.m_122431_());
+             long l2 = SectionPos.m_123235_(k2);
+             if (i == l2) {
+                this.m_75593_(p_75845_, k2, p_75846_, p_75847_);
+@@ -101,7 +_,7 @@
+             }
+ 
+             if (this.f_75632_.m_75791_(l2)) {
+-               long i3 = BlockPos.m_121910_(p_75845_, 0, -j2, 0);
++               long i3 = BlockPos.offset(p_75845_, 0, -j2, 0);
+                this.m_75593_(i3, k2, p_75846_, p_75847_);
+             }
+ 
+@@ -161,7 +_,7 @@
+       if (this.f_75632_.m_75791_(i)) {
+          super.m_6185_(p_75859_);
+       } else {
+-         for(p_75859_ = BlockPos.m_122027_(p_75859_); !this.f_75632_.m_75791_(i) && !this.f_75632_.m_75890_(i); p_75859_ = BlockPos.m_121910_(p_75859_, 0, 16, 0)) {
++         for(p_75859_ = BlockPos.m_122027_(p_75859_); !this.f_75632_.m_75791_(i) && !this.f_75632_.m_75890_(i); p_75859_ = BlockPos.offset(p_75859_, 0, 16, 0)) {
+             i = SectionPos.m_123191_(i, Direction.UP);
+          }
+ 

@@ -1,25 +1,6 @@
 --- a/net/minecraft/world/level/chunk/ChunkGenerator.java
 +++ b/net/minecraft/world/level/chunk/ChunkGenerator.java
-@@ -166,13 +_,13 @@
- 
-          for(int j1 = 0; j1 < j; ++j1) {
-             double d1 = (double)(4 * i + i * i1 * 6) + (randomsource.m_188500_() - 0.5D) * (double)i * 2.5D;
--            int k1 = (int)Math.round(Math.cos(d0) * d1);
--            int l1 = (int)Math.round(Math.sin(d0) * d1);
--            Pair<BlockPos, Holder<Biome>> pair = this.f_62137_.m_220570_(SectionPos.m_175554_(k1, 8), 0, SectionPos.m_175554_(l1, 8), 112, holderset::m_203333_, randomsource, p_223150_.m_224579_());
-+            long k1 = (int)Math.round(Math.cos(d0) * d1);
-+            long l1 = (int)Math.round(Math.sin(d0) * d1);
-+            Pair<BlockPos, Holder<Biome>> pair = this.f_62137_.findBiomeHorizontal(SectionPos.sectionToBlockCoord(k1, 8), 0, SectionPos.sectionToBlockCoord(l1, 8), 112, holderset::m_203333_, randomsource, p_223150_.m_224579_());
-             if (pair != null) {
-                BlockPos blockpos = pair.getFirst();
--               k1 = SectionPos.m_123171_(blockpos.m_123341_());
--               l1 = SectionPos.m_123171_(blockpos.m_123343_());
-+               k1 = SectionPos.blockToSectionCoord(blockpos.getX());
-+               l1 = SectionPos.blockToSectionCoord(blockpos.getZ());
-             }
- 
-             list.add(new ChunkPos(k1, l1));
-@@ -235,7 +_,7 @@
+@@ -144,7 +_,7 @@
                 Pair<BlockPos, Holder<Structure>> pair = this.m_223181_(entry.getValue(), p_223038_, structuremanager, p_223040_, p_223042_, concentricringsstructureplacement);
                 if (pair != null) {
                    BlockPos blockpos = pair.getFirst();
@@ -28,7 +9,7 @@
                    if (d0 < d2) {
                       d2 = d0;
                       pair2 = pair;
-@@ -247,18 +_,18 @@
+@@ -156,18 +_,18 @@
           }
  
           if (!list.isEmpty()) {
@@ -42,8 +23,8 @@
  
                 for(Map.Entry<StructurePlacement, Set<Holder<Structure>>> entry1 : list) {
                    RandomSpreadStructurePlacement randomspreadstructureplacement = (RandomSpreadStructurePlacement)entry1.getKey();
--                  Pair<BlockPos, Holder<Structure>> pair1 = m_223188_(entry1.getValue(), p_223038_, structuremanager, i, j, k, p_223042_, p_223038_.m_7328_(), randomspreadstructureplacement);
-+                  Pair<BlockPos, Holder<Structure>> pair1 = getNearestGeneratedStructure(entry1.getValue(), p_223038_, structuremanager, i, j, k, p_223042_, p_223038_.m_7328_(), randomspreadstructureplacement);
+-                  Pair<BlockPos, Holder<Structure>> pair1 = m_223188_(entry1.getValue(), p_223038_, structuremanager, i, j, k, p_223042_, chunkgeneratorstructurestate.m_254887_(), randomspreadstructureplacement);
++                  Pair<BlockPos, Holder<Structure>> pair1 = getNearestGeneratedStructure(entry1.getValue(), p_223038_, structuremanager, i, j, k, p_223042_, chunkgeneratorstructurestate.m_254887_(), randomspreadstructureplacement);
                    if (pair1 != null) {
                       flag = true;
 -                     double d1 = p_223040_.m_123331_(pair1.getFirst());
@@ -51,7 +32,7 @@
                       if (d1 < d2) {
                          d2 = d1;
                          pair2 = pair1;
-@@ -287,8 +_,8 @@
+@@ -196,8 +_,8 @@
           BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
           for(ChunkPos chunkpos : list) {
@@ -62,7 +43,7 @@
              boolean flag = pair == null || d1 < d0;
              if (flag) {
                 Pair<BlockPos, Holder<Structure>> pair1 = m_223198_(p_223182_, p_223183_, p_223184_, p_223186_, p_223187_, chunkpos);
-@@ -304,7 +_,7 @@
+@@ -213,7 +_,7 @@
     }
  
     @Nullable
@@ -71,7 +52,7 @@
        int i = p_223197_.m_205003_();
  
        for(int j = -p_223194_; j <= p_223194_; ++j) {
-@@ -313,9 +_,9 @@
+@@ -222,9 +_,9 @@
           for(int k = -p_223194_; k <= p_223194_; ++k) {
              boolean flag1 = k == -p_223194_ || k == p_223194_;
              if (flag || flag1) {
@@ -84,7 +65,7 @@
                 Pair<BlockPos, Holder<Structure>> pair = m_223198_(p_223189_, p_223190_, p_223191_, p_223195_, p_223197_, chunkpos);
                 if (pair != null) {
                    return pair;
-@@ -336,7 +_,7 @@
+@@ -245,7 +_,7 @@
                 return Pair.of(p_223203_.m_227039_(p_223204_), holder);
              }
  
@@ -93,16 +74,16 @@
              StructureStart structurestart = p_223201_.m_220512_(SectionPos.m_175562_(chunkaccess), holder.m_203334_(), chunkaccess);
              if (structurestart != null && structurestart.m_73603_() && (!p_223202_ || m_223059_(p_223201_, structurestart))) {
                 return Pair.of(p_223203_.m_227039_(structurestart.m_163625_()), holder);
-@@ -359,7 +_,7 @@
+@@ -268,7 +_,7 @@
     public void m_213609_(WorldGenLevel p_223087_, ChunkAccess p_223088_, StructureManager p_223089_) {
        ChunkPos chunkpos = p_223088_.m_7697_();
        if (!SharedConstants.m_183707_(chunkpos)) {
 -         SectionPos sectionpos = SectionPos.m_123196_(chunkpos, p_223087_.m_151560_());
 +         SectionPos sectionpos = SectionPos.of(chunkpos, p_223087_.getMinSection());
           BlockPos blockpos = sectionpos.m_123249_();
-          Registry<Structure> registry = p_223087_.m_5962_().m_175515_(Registry.f_235725_);
+          Registry<Structure> registry = p_223087_.m_9598_().m_175515_(Registries.f_256944_);
           Map<Integer, List<Structure>> map = registry.m_123024_().collect(Collectors.groupingBy((p_223103_) -> {
-@@ -367,10 +_,10 @@
+@@ -276,10 +_,10 @@
           }));
           List<FeatureSorter.StepFeatureData> list = this.f_223020_.get();
           WorldgenRandom worldgenrandom = new WorldgenRandom(new XoroshiroRandomSource(RandomSupport.m_224599_()));
@@ -115,28 +96,7 @@
  
              for(LevelChunkSection levelchunksection : chunkaccess.m_7103_()) {
                 levelchunksection.m_187996_().m_196879_(set::add);
-@@ -456,16 +_,16 @@
-       }
-    }
- 
--   public boolean m_223141_(Holder<StructureSet> p_223142_, RandomState p_223143_, long p_223144_, int p_223145_, int p_223146_, int p_223147_) {
-+   public boolean hasStructureChunkInRange(Holder<StructureSet> p_223142_, RandomState p_223143_, long p_223144_, long p_223145_, long p_223146_, int p_223147_) {
-       StructureSet structureset = p_223142_.m_203334_();
-       if (structureset == null) {
-          return false;
-       } else {
-          StructurePlacement structureplacement = structureset.f_210004_();
- 
--         for(int i = p_223145_ - p_223147_; i <= p_223145_ + p_223147_; ++i) {
--            for(int j = p_223146_ - p_223147_; j <= p_223146_ + p_223147_; ++j) {
--               if (structureplacement.m_227054_(this, p_223143_, p_223144_, i, j)) {
-+         for(long i = p_223145_ - p_223147_; i <= p_223145_ + p_223147_; ++i) {
-+            for(long j = p_223146_ - p_223147_; j <= p_223146_ + p_223147_; ++j) {
-+               if (structureplacement.isStructureChunk(this, p_223143_, p_223144_, i, j)) {
-                   return true;
-                }
-             }
-@@ -477,19 +_,19 @@
+@@ -367,11 +_,11 @@
  
     private static BoundingBox m_187717_(ChunkAccess p_187718_) {
        ChunkPos chunkpos = p_187718_.m_7697_();
@@ -147,13 +107,12 @@
        LevelHeightAccessor levelheightaccessor = p_187718_.m_183618_();
 -      int k = levelheightaccessor.m_141937_() + 1;
 -      int l = levelheightaccessor.m_151558_() - 1;
--      return new BoundingBox(i, k, j, i + 15, l, j + 15);
 +      long k = levelheightaccessor.getMinBuildHeight() + 1;
 +      long l = levelheightaccessor.getMaxBuildHeight() - 1;
-+      return new BoundingBox((int) i, (int) k, (int) j, (int) (i + 15), (int) l, (int) (j + 15));
+       return new BoundingBox(i, k, j, i + 15, l, j + 15);
     }
  
-    public abstract void m_214194_(WorldGenRegion p_223050_, StructureManager p_223051_, RandomState p_223052_, ChunkAccess p_223053_);
+@@ -379,7 +_,7 @@
  
     public abstract void m_6929_(WorldGenRegion p_62167_);
  
@@ -162,7 +121,7 @@
        return 64;
     }
  
-@@ -497,7 +_,7 @@
+@@ -387,7 +_,7 @@
        return this.f_62137_;
     }
  
@@ -171,7 +130,7 @@
  
     public WeightedRandomList<MobSpawnSettings.SpawnerData> m_223133_(Holder<Biome> p_223134_, StructureManager p_223135_, MobCategory p_223136_, BlockPos p_223137_) {
        Map<Structure, LongSet> map = p_223135_.m_220522_(p_223137_);
-@@ -510,7 +_,7 @@
+@@ -400,7 +_,7 @@
              Predicate<StructureStart> predicate = structurespawnoverride.f_210043_() == StructureSpawnOverride.BoundingBoxType.PIECE ? (p_223065_) -> {
                 return p_223135_.m_220497_(p_223137_, p_223065_);
              } : (p_223130_) -> {
@@ -180,24 +139,24 @@
              };
              p_223135_.m_220480_(structure, entry.getValue(), (p_223220_) -> {
                 if (mutableboolean.isFalse() && predicate.test(p_223220_)) {
-@@ -541,14 +_,14 @@
+@@ -432,14 +_,14 @@
              }
           }
  
--         if (structureplacement.m_227054_(this, p_223166_, p_223170_, chunkpos.f_45578_, chunkpos.f_45579_)) {
-+         if (structureplacement.isStructureChunk(this, p_223166_, p_223170_, chunkpos.f_45578_, chunkpos.f_45579_)) {
+-         if (structureplacement.m_255071_(p_256505_, chunkpos.f_45578_, chunkpos.f_45579_)) {
++         if (structureplacement.isStructureChunk(p_256505_, chunkpos.f_45578_, chunkpos.f_45579_)) {
              if (list.size() == 1) {
-                this.m_223104_(list.get(0), p_223167_, p_223165_, p_223166_, p_223169_, p_223170_, p_223168_, chunkpos, sectionpos);
+                this.m_223104_(list.get(0), p_255934_, p_255835_, randomstate, p_255832_, p_256505_.m_254887_(), p_255767_, chunkpos, sectionpos);
              } else {
                 ArrayList<StructureSet.StructureSelectionEntry> arraylist = new ArrayList<>(list.size());
                 arraylist.addAll(list);
                 WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
--               worldgenrandom.m_190068_(p_223170_, chunkpos.f_45578_, chunkpos.f_45579_);
-+               worldgenrandom.setLargeFeatureSeed(p_223170_, chunkpos.f_45578_, chunkpos.f_45579_);
+-               worldgenrandom.m_190068_(p_256505_.m_254887_(), chunkpos.f_45578_, chunkpos.f_45579_);
++               worldgenrandom.setLargeFeatureSeed(p_256505_.m_254887_(), chunkpos.f_45578_, chunkpos.f_45579_);
                 int i = 0;
  
                 for(StructureSet.StructureSelectionEntry structureset$structureselectionentry1 : arraylist) {
-@@ -604,19 +_,19 @@
+@@ -495,19 +_,19 @@
     public void m_223076_(WorldGenLevel p_223077_, StructureManager p_223078_, ChunkAccess p_223079_) {
        int i = 8;
        ChunkPos chunkpos = p_223079_.m_7697_();
@@ -226,10 +185,12 @@
                       p_223078_.m_220507_(sectionpos, structurestart.m_226861_(), l1, p_223079_);
                       DebugPackets.m_133711_(p_223077_, structurestart);
                    }
-@@ -647,18 +_,18 @@
+@@ -536,20 +_,20 @@
  
-    public abstract int m_6337_();
+    public abstract CompletableFuture<ChunkAccess> m_213974_(Executor p_223209_, Blender p_223210_, RandomState p_223211_, StructureManager p_223212_, ChunkAccess p_223213_);
  
+-   public abstract int m_6337_();
+-
 -   public abstract int m_142062_();
 -
 -   public abstract int m_214096_(int p_223032_, int p_223033_, Heightmap.Types p_223034_, LevelHeightAccessor p_223035_, RandomState p_223036_);
@@ -238,6 +199,8 @@
 -
 -   public int m_223221_(int p_223222_, int p_223223_, Heightmap.Types p_223224_, LevelHeightAccessor p_223225_, RandomState p_223226_) {
 -      return this.m_214096_(p_223222_, p_223223_, p_223224_, p_223225_, p_223226_);
++   public abstract long getSeaLevel();
++
 +   public abstract long getMinY();
 +
 +   public abstract long getBaseHeight(long p_223032_, long p_223033_, Heightmap.Types p_223034_, LevelHeightAccessor p_223035_, RandomState p_223036_);
@@ -254,4 +217,4 @@
 +      return this.getBaseHeight(p_223236_, p_223237_, p_223238_, p_223239_, p_223240_) - 1;
     }
  
-    public void m_223100_(RandomState p_223101_) {
+    public abstract void m_213600_(List<String> p_223175_, RandomState p_223176_, BlockPos p_223177_);

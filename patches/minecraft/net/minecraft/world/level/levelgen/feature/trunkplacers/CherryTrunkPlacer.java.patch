@@ -1,0 +1,59 @@
+--- a/net/minecraft/world/level/levelgen/feature/trunkplacers/CherryTrunkPlacer.java
++++ b/net/minecraft/world/level/levelgen/feature/trunkplacers/CherryTrunkPlacer.java
+@@ -56,7 +_,7 @@
+    }
+ 
+    public List<FoliagePlacer.FoliageAttachment> m_213934_(LevelSimulatedReader p_272827_, BiConsumer<BlockPos, BlockState> p_272650_, RandomSource p_272993_, int p_272990_, BlockPos p_273471_, TreeConfiguration p_273355_) {
+-      m_226169_(p_272827_, p_272650_, p_272993_, p_273471_.m_7495_(), p_273355_);
++      m_226169_(p_272827_, p_272650_, p_272993_, p_273471_.below(), p_273355_);
+       int i = Math.max(0, p_272990_ - 1 + this.f_271473_.m_214085_(p_272993_));
+       int j = Math.max(0, p_272990_ - 1 + this.f_271407_.m_214085_(p_272993_));
+       if (j >= i) {
+@@ -76,12 +_,12 @@
+       }
+ 
+       for(int i1 = 0; i1 < l; ++i1) {
+-         this.m_226187_(p_272827_, p_272650_, p_272993_, p_273471_.m_6630_(i1), p_273355_);
++         this.m_226187_(p_272827_, p_272650_, p_272993_, p_273471_.above(i1), p_273355_);
+       }
+ 
+       List<FoliagePlacer.FoliageAttachment> list = new ArrayList<>();
+       if (flag) {
+-         list.add(new FoliagePlacer.FoliageAttachment(p_273471_.m_6630_(l), 0, false));
++         list.add(new FoliagePlacer.FoliageAttachment(p_273471_.above(l), 0, false));
+       }
+ 
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+@@ -98,26 +_,26 @@
+    }
+ 
+    private FoliagePlacer.FoliageAttachment m_271969_(LevelSimulatedReader p_272736_, BiConsumer<BlockPos, BlockState> p_273092_, RandomSource p_273449_, int p_272659_, BlockPos p_273743_, TreeConfiguration p_273027_, Function<BlockState, BlockState> p_273558_, Direction p_273712_, int p_272980_, boolean p_272719_, BlockPos.MutableBlockPos p_273496_) {
+-      p_273496_.m_122190_(p_273743_).m_122175_(Direction.UP, p_272980_);
++      p_273496_.set(p_273743_).m_122175_(Direction.UP, p_272980_);
+       int i = p_272659_ - 1 + this.f_271123_.m_214085_(p_273449_);
+       boolean flag = p_272719_ || i < p_272980_;
+       int j = this.f_271384_.m_214085_(p_273449_) + (flag ? 1 : 0);
+-      BlockPos blockpos = p_273743_.m_5484_(p_273712_, j).m_6630_(i);
++      BlockPos blockpos = p_273743_.relative(p_273712_, j).above(i);
+       int k = flag ? 2 : 1;
+ 
+       for(int l = 0; l < k; ++l) {
+          this.m_226175_(p_272736_, p_273092_, p_273449_, p_273496_.m_122173_(p_273712_), p_273027_, p_273558_);
+       }
+ 
+-      Direction direction = blockpos.m_123342_() > p_273496_.m_123342_() ? Direction.UP : Direction.DOWN;
++      Direction direction = blockpos.getY() > p_273496_.getY() ? Direction.UP : Direction.DOWN;
+ 
+       while(true) {
+-         int i1 = p_273496_.m_123333_(blockpos);
++         int i1 = p_273496_.distManhattan(blockpos);
+          if (i1 == 0) {
+-            return new FoliagePlacer.FoliageAttachment(blockpos.m_7494_(), 0, false);
++            return new FoliagePlacer.FoliageAttachment(blockpos.above(), 0, false);
+          }
+ 
+-         float f = (float)Math.abs(blockpos.m_123342_() - p_273496_.m_123342_()) / (float)i1;
++         float f = (float)Math.abs(blockpos.getY() - p_273496_.getY()) / (float)i1;
+          boolean flag1 = p_273449_.m_188501_() < f;
+          p_273496_.m_122173_(flag1 ? direction : p_273712_);
+          this.m_226175_(p_272736_, p_273092_, p_273449_, p_273496_, p_273027_, flag1 ? Function.identity() : p_273558_);

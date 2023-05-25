@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/Turtle.java
 +++ b/net/minecraft/world/entity/animal/Turtle.java
-@@ -142,25 +_,25 @@
+@@ -143,25 +_,25 @@
  
     public void m_7380_(CompoundTag p_30176_) {
        super.m_7380_(p_30176_);
@@ -38,7 +38,7 @@
        this.m_30223_(new BlockPos(l, i1, j1));
     }
  
-@@ -172,7 +_,7 @@
+@@ -173,7 +_,7 @@
     }
  
     public static boolean m_218276_(EntityType<Turtle> p_218277_, LevelAccessor p_218278_, MobSpawnType p_218279_, BlockPos p_218280_, RandomSource p_218281_) {
@@ -47,7 +47,7 @@
     }
  
     protected void m_8099_() {
-@@ -273,7 +_,7 @@
+@@ -274,7 +_,7 @@
        if (this.m_6084_() && this.m_30206_() && this.f_30129_ >= 1 && this.f_30129_ % 5 == 0) {
           BlockPos blockpos = this.m_20183_();
           if (TurtleEggBlock.m_57762_(this.f_19853_, blockpos)) {
@@ -56,7 +56,7 @@
           }
        }
  
-@@ -292,7 +_,7 @@
+@@ -293,7 +_,7 @@
           this.m_19920_(0.1F, p_30218_);
           this.m_6478_(MoverType.SELF, this.m_20184_());
           this.m_20256_(this.m_20184_().m_82490_(0.9D));
@@ -65,7 +65,7 @@
              this.m_20256_(this.m_20184_().m_82520_(0.0D, -0.005D, 0.0D));
           }
        } else {
-@@ -363,7 +_,7 @@
+@@ -366,7 +_,7 @@
           } else if (this.f_30248_.m_217043_().m_188503_(m_186073_(700)) != 0) {
              return false;
           } else {
@@ -74,7 +74,7 @@
           }
        }
  
-@@ -378,18 +_,18 @@
+@@ -381,18 +_,18 @@
        }
  
        public boolean m_8045_() {
@@ -96,7 +96,7 @@
              Vec3 vec31 = DefaultRandomPos.m_148412_(this.f_30248_, 16, 3, vec3, (double)((float)Math.PI / 10F));
              if (vec31 == null) {
                 vec31 = DefaultRandomPos.m_148412_(this.f_30248_, 8, 7, vec3, (double)((float)Math.PI / 2F));
-@@ -450,11 +_,11 @@
+@@ -453,11 +_,11 @@
        }
  
        public boolean m_8036_() {
@@ -110,16 +110,16 @@
        }
  
        public void m_8037_() {
-@@ -466,7 +_,7 @@
+@@ -469,7 +_,7 @@
              } else if (this.f_30274_.f_30129_ > this.m_183277_(200)) {
                 Level level = this.f_30274_.f_19853_;
                 level.m_5594_((Player)null, blockpos, SoundEvents.f_12486_, SoundSource.BLOCKS, 0.3F, 0.9F + level.f_46441_.m_188501_() * 0.2F);
--               level.m_7731_(this.f_25602_.m_7494_(), Blocks.f_50578_.m_49966_().m_61124_(TurtleEggBlock.f_57754_, Integer.valueOf(this.f_30274_.f_19796_.m_188503_(4) + 1)), 3);
-+               level.m_7731_(this.f_25602_.above(), Blocks.f_50578_.m_49966_().m_61124_(TurtleEggBlock.f_57754_, Integer.valueOf(this.f_30274_.f_19796_.m_188503_(4) + 1)), 3);
-                this.f_30274_.m_30234_(false);
-                this.f_30274_.m_30236_(false);
-                this.f_30274_.m_27601_(600);
-@@ -480,7 +_,7 @@
+-               BlockPos blockpos1 = this.f_25602_.m_7494_();
++               BlockPos blockpos1 = this.f_25602_.above();
+                BlockState blockstate = Blocks.f_50578_.m_49966_().m_61124_(TurtleEggBlock.f_57754_, Integer.valueOf(this.f_30274_.f_19796_.m_188503_(4) + 1));
+                level.m_7731_(blockpos1, blockstate, 3);
+                level.m_220407_(GameEvent.f_157797_, blockpos1, GameEvent.Context.m_223719_(this.f_30274_, blockstate));
+@@ -486,7 +_,7 @@
        }
  
        protected boolean m_6465_(LevelReader p_30280_, BlockPos p_30281_) {
@@ -128,7 +128,7 @@
        }
     }
  
-@@ -495,7 +_,7 @@
+@@ -501,7 +_,7 @@
        private void m_30288_() {
           if (this.f_30284_.m_20069_()) {
              this.f_30284_.m_20256_(this.f_30284_.m_20184_().m_82520_(0.0D, 0.005D, 0.0D));
@@ -137,7 +137,7 @@
                 this.f_30284_.m_7910_(Math.max(this.f_30284_.m_6113_() / 2.0F, 0.08F));
              }
  
-@@ -539,9 +_,9 @@
+@@ -549,9 +_,9 @@
           } else {
              BlockPos blockpos = this.m_198172_(this.f_25684_.f_19853_, this.f_25684_, 7);
              if (blockpos != null) {
@@ -150,7 +150,7 @@
                 return true;
              } else {
                 return this.m_25702_();
-@@ -563,7 +_,7 @@
+@@ -573,7 +_,7 @@
              }
           }
  
@@ -159,7 +159,7 @@
        }
     }
  
-@@ -613,7 +_,7 @@
+@@ -623,7 +_,7 @@
  
        public void m_8037_() {
           if (this.f_30329_.m_21573_().m_26571_()) {
@@ -168,7 +168,7 @@
              Vec3 vec31 = DefaultRandomPos.m_148412_(this.f_30329_, 16, 3, vec3, (double)((float)Math.PI / 10F));
              if (vec31 == null) {
                 vec31 = DefaultRandomPos.m_148412_(this.f_30329_, 8, 7, vec3, (double)((float)Math.PI / 2F));
-@@ -623,7 +_,7 @@
+@@ -633,7 +_,7 @@
                 int i = Mth.m_14107_(vec31.f_82479_);
                 int j = Mth.m_14107_(vec31.f_82481_);
                 int k = 34;

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/NaturalSpawner.java
 +++ b/net/minecraft/world/level/NaturalSpawner.java
-@@ -105,7 +_,7 @@
+@@ -96,7 +_,7 @@
     }
  
     static Biome m_47095_(BlockPos p_47096_, ChunkAccess p_47097_) {
@@ -9,7 +9,7 @@
     }
  
     public static void m_47029_(ServerLevel p_47030_, LevelChunk p_47031_, NaturalSpawner.SpawnState p_47032_, boolean p_47033_, boolean p_47034_, boolean p_47035_) {
-@@ -122,7 +_,7 @@
+@@ -113,7 +_,7 @@
  
     public static void m_47045_(MobCategory p_47046_, ServerLevel p_47047_, LevelChunk p_47048_, NaturalSpawner.SpawnPredicate p_47049_, NaturalSpawner.AfterSpawnCallback p_47050_) {
        BlockPos blockpos = m_47062_(p_47047_, p_47048_);
@@ -18,7 +18,7 @@
           m_47038_(p_47046_, p_47047_, p_47048_, blockpos, p_47049_, p_47050_);
        }
     }
-@@ -138,15 +_,15 @@
+@@ -129,15 +_,15 @@
     public static void m_47038_(MobCategory p_47039_, ServerLevel p_47040_, ChunkAccess p_47041_, BlockPos p_47042_, NaturalSpawner.SpawnPredicate p_47043_, NaturalSpawner.AfterSpawnCallback p_47044_) {
        StructureManager structuremanager = p_47040_.m_215010_();
        ChunkGenerator chunkgenerator = p_47040_.m_7726_().m_8481_();
@@ -37,7 +37,7 @@
              int j1 = 6;
              MobSpawnSettings.SpawnerData mobspawnsettings$spawnerdata = null;
              SpawnGroupData spawngroupdata = null;
-@@ -156,7 +_,7 @@
+@@ -147,7 +_,7 @@
              for(int i2 = 0; i2 < k1; ++i2) {
                 l += p_47040_.f_46441_.m_188503_(6) - p_47040_.f_46441_.m_188503_(6);
                 i1 += p_47040_.f_46441_.m_188503_(6) - p_47040_.f_46441_.m_188503_(6);
@@ -46,7 +46,7 @@
                 double d0 = (double)l + 0.5D;
                 double d1 = (double)i1 + 0.5D;
                 Player player = p_47040_.m_45924_(d0, (double)i, d1, -1.0D, false);
-@@ -206,7 +_,7 @@
+@@ -197,7 +_,7 @@
     private static boolean m_47024_(ServerLevel p_47025_, ChunkAccess p_47026_, BlockPos.MutableBlockPos p_47027_, double p_47028_) {
        if (p_47028_ <= 576.0D) {
           return false;
@@ -55,7 +55,7 @@
           return false;
        } else {
           return Objects.equals(new ChunkPos(p_47027_), p_47026_.m_7697_()) || p_47025_.m_201918_(p_47027_);
-@@ -226,7 +_,7 @@
+@@ -217,7 +_,7 @@
           } else if (!SpawnPlacements.m_217074_(entitytype, p_220422_, MobSpawnType.NATURAL, p_220427_, p_220422_.f_46441_)) {
              return false;
           } else {
@@ -64,16 +64,16 @@
           }
        } else {
           return false;
-@@ -270,7 +_,7 @@
+@@ -262,7 +_,7 @@
     }
  
     public static boolean m_220455_(BlockPos p_220456_, ServerLevel p_220457_, MobCategory p_220458_, StructureManager p_220459_) {
 -      if (p_220458_ == MobCategory.MONSTER && p_220457_.m_8055_(p_220456_.m_7495_()).m_60713_(Blocks.f_50197_)) {
 +      if (p_220458_ == MobCategory.MONSTER && p_220457_.m_8055_(p_220456_.below()).m_60713_(Blocks.f_50197_)) {
-          Structure structure = p_220459_.m_220521_().m_175515_(Registry.f_235725_).m_6246_(BuiltinStructures.f_209859_);
+          Structure structure = p_220459_.m_220521_().m_175515_(Registries.f_256944_).m_6246_(BuiltinStructures.f_209859_);
           return structure == null ? false : p_220459_.m_220494_(p_220456_, structure).m_73603_();
        } else {
-@@ -280,10 +_,10 @@
+@@ -272,10 +_,10 @@
  
     private static BlockPos m_47062_(Level p_47063_, LevelChunk p_47064_) {
        ChunkPos chunkpos = p_47064_.m_7697_();
@@ -88,7 +88,7 @@
        return new BlockPos(i, l, j);
     }
  
-@@ -307,8 +_,8 @@
+@@ -299,8 +_,8 @@
        } else if (p_47055_ != null && p_47053_.m_6857_().m_61937_(p_47054_)) {
           BlockState blockstate = p_47053_.m_8055_(p_47054_);
           FluidState fluidstate = p_47053_.m_6425_(p_47054_);
@@ -99,7 +99,7 @@
           switch (p_47052_) {
              case IN_WATER:
                 return fluidstate.m_205070_(FluidTags.f_13131_) && !p_47053_.m_8055_(blockpos).m_60796_(p_47053_, blockpos);
-@@ -332,8 +_,8 @@
+@@ -324,8 +_,8 @@
        MobSpawnSettings mobspawnsettings = p_220452_.m_203334_().m_47518_();
        WeightedRandomList<MobSpawnSettings.SpawnerData> weightedrandomlist = mobspawnsettings.m_151798_(MobCategory.CREATURE);
        if (!weightedrandomlist.m_146337_()) {
@@ -110,7 +110,7 @@
  
           while(p_220454_.m_188501_() < mobspawnsettings.m_48344_()) {
              Optional<MobSpawnSettings.SpawnerData> optional = weightedrandomlist.m_216829_(p_220454_);
-@@ -341,21 +_,21 @@
+@@ -333,21 +_,21 @@
                 MobSpawnSettings.SpawnerData mobspawnsettings$spawnerdata = optional.get();
                 int k = mobspawnsettings$spawnerdata.f_48405_ + p_220454_.m_188503_(1 + mobspawnsettings$spawnerdata.f_48406_ - mobspawnsettings$spawnerdata.f_48405_);
                 SpawnGroupData spawngroupdata = null;
@@ -133,12 +133,12 @@
                          float f = mobspawnsettings$spawnerdata.f_48404_.m_20678_();
                          double d0 = Mth.m_14008_((double)l, (double)i + (double)f, (double)i + 16.0D - (double)f);
                          double d1 = Mth.m_14008_((double)i1, (double)j + (double)f, (double)j + 16.0D - (double)f);
--                        if (!p_220451_.m_45772_(mobspawnsettings$spawnerdata.f_48404_.m_20585_(d0, (double)blockpos.m_123342_(), d1)) || !SpawnPlacements.m_217074_(mobspawnsettings$spawnerdata.f_48404_, p_220451_, MobSpawnType.CHUNK_GENERATION, new BlockPos(d0, (double)blockpos.m_123342_(), d1), p_220451_.m_213780_())) {
-+                        if (!p_220451_.m_45772_(mobspawnsettings$spawnerdata.f_48404_.m_20585_(d0, (double)blockpos.getY(), d1)) || !SpawnPlacements.m_217074_(mobspawnsettings$spawnerdata.f_48404_, p_220451_, MobSpawnType.CHUNK_GENERATION, new BlockPos(d0, (double)blockpos.getY(), d1), p_220451_.m_213780_())) {
+-                        if (!p_220451_.m_45772_(mobspawnsettings$spawnerdata.f_48404_.m_20585_(d0, (double)blockpos.m_123342_(), d1)) || !SpawnPlacements.m_217074_(mobspawnsettings$spawnerdata.f_48404_, p_220451_, MobSpawnType.CHUNK_GENERATION, BlockPos.m_274561_(d0, (double)blockpos.m_123342_(), d1), p_220451_.m_213780_())) {
++                        if (!p_220451_.m_45772_(mobspawnsettings$spawnerdata.f_48404_.m_20585_(d0, (double)blockpos.getY(), d1)) || !SpawnPlacements.m_217074_(mobspawnsettings$spawnerdata.f_48404_, p_220451_, MobSpawnType.CHUNK_GENERATION, BlockPos.m_274561_(d0, (double)blockpos.getY(), d1), p_220451_.m_213780_())) {
                             continue;
                          }
  
-@@ -367,7 +_,7 @@
+@@ -363,7 +_,7 @@
                             continue;
                          }
  
@@ -147,7 +147,7 @@
                          if (entity instanceof Mob) {
                             Mob mob = (Mob)entity;
                             if (mob.m_5545_(p_220451_, MobSpawnType.CHUNK_GENERATION) && mob.m_6914_(p_220451_)) {
-@@ -391,8 +_,8 @@
+@@ -387,8 +_,8 @@
        }
     }
  
@@ -158,7 +158,7 @@
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_47068_, i, p_47069_);
        if (p_47066_.m_6042_().f_63856_()) {
           do {
-@@ -401,11 +_,11 @@
+@@ -397,11 +_,11 @@
  
           do {
              blockpos$mutableblockpos.m_122173_(Direction.DOWN);

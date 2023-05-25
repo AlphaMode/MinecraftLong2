@@ -10,10 +10,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import javax.annotation.concurrent.Immutable;
 import net.minecraft.Util;
-import net.minecraft.core.AxisCycle;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Position;
-import net.minecraft.core.Vec3i;
+import net.minecraft.core.*;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Rotation;
@@ -48,18 +45,6 @@ public class LegacyBlockPos extends Vec3i {
         super(p_121869_, p_121870_, p_121871_);
     }
 
-    public LegacyBlockPos(double p_121865_, double p_121866_, double p_121867_) {
-        super(p_121865_, p_121866_, p_121867_);
-    }
-
-    public LegacyBlockPos(Vec3 p_121873_) {
-        this(p_121873_.x, p_121873_.y, p_121873_.z);
-    }
-
-    public LegacyBlockPos(Position p_121875_) {
-        this(p_121875_.x(), p_121875_.y(), p_121875_.z());
-    }
-
     public LegacyBlockPos(Vec3i p_121877_) {
         this(p_121877_.getX(), p_121877_.getY(), p_121877_.getZ());
     }
@@ -88,6 +73,14 @@ public class LegacyBlockPos extends Vec3i {
         return new LegacyBlockPos(getX(p_122023_), getY(p_122023_), getZ(p_122023_));
     }
 
+    public static LegacyBlockPos containing(double p_275310_, double p_275414_, double p_275737_) {
+        return new LegacyBlockPos(Mth.floor(p_275310_), Mth.floor(p_275414_), Mth.floor(p_275737_));
+    }
+
+    public static LegacyBlockPos containing(Position p_275443_) {
+        return containing(p_275443_.x(), p_275443_.y(), p_275443_.z());
+    }
+
     public long asLong() {
         return asLong(this.getX(), this.getY(), this.getZ());
     }
@@ -103,12 +96,12 @@ public class LegacyBlockPos extends Vec3i {
         return p_122028_ & -16L;
     }
 
-    public LegacyBlockPos offset(double p_121879_, double p_121880_, double p_121881_) {
-        return p_121879_ == 0.0D && p_121880_ == 0.0D && p_121881_ == 0.0D ? this : new LegacyBlockPos((double)this.getX() + p_121879_, (double)this.getY() + p_121880_, (double)this.getZ() + p_121881_);
-    }
-
     public LegacyBlockPos offset(int p_121973_, int p_121974_, int p_121975_) {
         return p_121973_ == 0 && p_121974_ == 0 && p_121975_ == 0 ? this : new LegacyBlockPos(this.getX() + p_121973_, this.getY() + p_121974_, this.getZ() + p_121975_);
+    }
+
+    public Vec3 getCenter() {
+        return Vec3.atCenterOf(this);
     }
 
     public LegacyBlockPos offset(Vec3i p_121956_) {
@@ -241,9 +234,9 @@ public class LegacyBlockPos extends Vec3i {
                     if (this.counter <= 0) {
                         return this.endOfData();
                     } else {
-                        LegacyBlockPos LegacyBlockPos = this.nextPos.set(p_235644_ + p_235642_.nextInt(i), p_235645_ + p_235642_.nextInt(j), p_235646_ + p_235642_.nextInt(k));
+                        LegacyBlockPos blockpos = this.nextPos.set(p_235644_ + p_235642_.nextInt(i), p_235645_ + p_235642_.nextInt(j), p_235646_ + p_235642_.nextInt(k));
                         --this.counter;
-                        return LegacyBlockPos;
+                        return blockpos;
                     }
                 }
             };
@@ -271,8 +264,8 @@ public class LegacyBlockPos extends Vec3i {
                         this.cursor.setZ(l - (this.cursor.getZ() - l));
                         return this.cursor;
                     } else {
-                        LegacyBlockPos LegacyBlockPos;
-                        for(LegacyBlockPos = null; LegacyBlockPos == null; ++this.y) {
+                        LegacyBlockPos blockpos;
+                        for(blockpos = null; blockpos == null; ++this.y) {
                             if (this.y > this.maxY) {
                                 ++this.x;
                                 if (this.x > this.maxX) {
@@ -294,11 +287,11 @@ public class LegacyBlockPos extends Vec3i {
                             int k1 = this.currentDepth - Math.abs(i1) - Math.abs(j1);
                             if (k1 <= p_121929_) {
                                 this.zMirror = k1 != 0;
-                                LegacyBlockPos = this.cursor.set(j + i1, k + j1, l + k1);
+                                blockpos = this.cursor.set(j + i1, k + j1, l + k1);
                             }
                         }
 
-                        return LegacyBlockPos;
+                        return blockpos;
                     }
                 }
             };
@@ -306,9 +299,9 @@ public class LegacyBlockPos extends Vec3i {
     }
 
     public static Optional<LegacyBlockPos> findClosestMatch(LegacyBlockPos p_121931_, int p_121932_, int p_121933_, Predicate<LegacyBlockPos> p_121934_) {
-        for(LegacyBlockPos LegacyBlockPos : withinManhattan(p_121931_, p_121932_, p_121933_, p_121932_)) {
-            if (p_121934_.test(LegacyBlockPos)) {
-                return Optional.of(LegacyBlockPos);
+        for(LegacyBlockPos blockpos : withinManhattan(p_121931_, p_121932_, p_121933_, p_121932_)) {
+            if (p_121934_.test(blockpos)) {
+                return Optional.of(blockpos);
             }
         }
 
@@ -408,10 +401,6 @@ public class LegacyBlockPos extends Vec3i {
 
         public MutableBlockPos(double p_122126_, double p_122127_, double p_122128_) {
             this(Mth.floor(p_122126_), Mth.floor(p_122127_), Mth.floor(p_122128_));
-        }
-
-        public LegacyBlockPos offset(double p_122134_, double p_122135_, double p_122136_) {
-            return super.offset(p_122134_, p_122135_, p_122136_).immutable();
         }
 
         public LegacyBlockPos offset(int p_122163_, int p_122164_, int p_122165_) {

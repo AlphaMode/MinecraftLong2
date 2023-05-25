@@ -71,11 +71,20 @@
                    ClientboundSectionBlocksUpdatePacket clientboundsectionblocksupdatepacket = new ClientboundSectionBlocksUpdatePacket(sectionpos, shortset, levelchunksection, this.f_140018_);
                    this.m_140063_(clientboundsectionblocksupdatepacket, false);
                    clientboundsectionblocksupdatepacket.m_132992_((p_140078_, p_140079_) -> {
-@@ -271,6 +_,7 @@
- 
+@@ -272,6 +_,7 @@
        if (m_140074_(this.f_140007_).m_62427_(p_140050_)) {
           CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture1 = p_140051_.m_140292_(this, p_140050_);
-+         this.m_143017_(completablefuture1, "schedule " + p_140050_);
           this.m_143017_(completablefuture1, "schedule " + p_140050_);
++         this.m_143017_(completablefuture1, "schedule " + p_140050_);
           this.f_140001_.set(i, completablefuture1);
           return completablefuture1;
+       } else {
+@@ -421,7 +_,7 @@
+    }
+ 
+    public static ChunkStatus m_140074_(int p_140075_) {
+-      return p_140075_ < 33 ? ChunkStatus.f_62326_ : ChunkStatus.m_156185_(p_140075_ - 33);
++      return p_140075_ < 33 ? ChunkStatus.f_62326_ : ChunkStatus.getStatusAroundFullChunk(p_140075_ - 33);
+    }
+ 
+    public static ChunkHolder.FullChunkStatus m_140083_(int p_140084_) {

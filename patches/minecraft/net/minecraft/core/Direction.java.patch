@@ -1,53 +1,13 @@
 --- a/net/minecraft/core/Direction.java
 +++ b/net/minecraft/core/Direction.java
-@@ -405,7 +_,7 @@
+@@ -400,8 +_,8 @@
+    }
  
     @Nullable
-    public static Direction m_122378_(int p_122379_, int p_122380_, int p_122381_) {
+-   public static Direction m_122378_(int p_122379_, int p_122380_, int p_122381_) {
 -      return f_122350_.get(BlockPos.m_121882_(p_122379_, p_122380_, p_122381_));
++   public static Direction fromNormal(long p_122379_, long p_122380_, long p_122381_) {
 +      return f_122350_.get(BlockPos.asLong(p_122379_, p_122380_, p_122381_));
     }
  
     public static Direction m_122364_(double p_122365_) {
-@@ -497,6 +_,10 @@
-             return p_122496_;
-          }
- 
-+         public long choose(long x, long y, long z) {
-+            return x;
-+         }
-+
-          public double m_6150_(double p_122492_, double p_122493_, double p_122494_) {
-             return p_122492_;
-          }
-@@ -506,6 +_,10 @@
-             return p_122511_;
-          }
- 
-+         public long choose(long x, long y, long z) {
-+            return y;
-+         }
-+
-          public double m_6150_(double p_122506_, double p_122507_, double p_122508_) {
-             return p_122507_;
-          }
-@@ -515,6 +_,10 @@
-             return p_122526_;
-          }
- 
-+         public long choose(long x, long y, long z) {
-+            return z;
-+         }
-+
-          public double m_6150_(double p_122520_, double p_122521_, double p_122522_) {
-             return p_122522_;
-          }
-@@ -579,6 +_,8 @@
-       }
- 
-       public abstract int m_7863_(int p_122466_, int p_122467_, int p_122468_);
-+
-+      public abstract long choose(long x, long y, long z);
- 
-       public abstract double m_6150_(double p_122463_, double p_122464_, double p_122465_);
-    }

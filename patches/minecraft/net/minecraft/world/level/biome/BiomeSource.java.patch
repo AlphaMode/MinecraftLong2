@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/level/biome/BiomeSource.java
 +++ b/net/minecraft/world/level/biome/BiomeSource.java
-@@ -39,25 +_,25 @@
-       return this.f_47891_;
+@@ -40,25 +_,25 @@
+       return this.f_47891_.get();
     }
  
 -   public Set<Holder<Biome>> m_183399_(int p_186705_, int p_186706_, int p_186707_, int p_186708_, Climate.Sampler p_186709_) {
@@ -14,7 +14,7 @@
 -      int k1 = l - i + 1;
 -      int l1 = i1 - j + 1;
 -      int i2 = j1 - k + 1;
-+   public Set<Holder<Biome>> getBiomesWithin(long p_186705_, int p_186706_, long p_186707_, int p_186708_, Climate.Sampler p_186709_) {
++   public Set<Holder<Biome>> getBiomesWithin(long p_186705_, long p_186706_, long p_186707_, int p_186708_, Climate.Sampler p_186709_) {
 +      long i = QuartPos.fromBlock(p_186705_ - p_186708_);
 +      long j = QuartPos.fromBlock(p_186706_ - p_186708_);
 +      long k = QuartPos.fromBlock(p_186707_ - p_186708_);
@@ -40,18 +40,18 @@
              }
           }
        }
-@@ -66,8 +_,8 @@
+@@ -67,8 +_,8 @@
     }
  
     @Nullable
 -   public Pair<BlockPos, Holder<Biome>> m_220570_(int p_220571_, int p_220572_, int p_220573_, int p_220574_, Predicate<Holder<Biome>> p_220575_, RandomSource p_220576_, Climate.Sampler p_220577_) {
 -      return this.m_213971_(p_220571_, p_220572_, p_220573_, p_220574_, 1, p_220575_, p_220576_, false, p_220577_);
-+   public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(long p_220571_, long p_220572_, long p_220573_, int p_220574_, Predicate<Holder<Biome>> p_220575_, RandomSource p_220576_, Climate.Sampler p_220577_) {
++   public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(long p_220571_, long p_220572_, long p_220573_, long p_220574_, Predicate<Holder<Biome>> p_220575_, RandomSource p_220576_, Climate.Sampler p_220577_) {
 +      return this.findBiomeHorizontal(p_220571_, p_220572_, p_220573_, p_220574_, 1, p_220575_, p_220576_, false, p_220577_);
     }
  
     @Nullable
-@@ -77,17 +_,17 @@
+@@ -78,17 +_,17 @@
           return null;
        } else {
           int i = Math.floorDiv(p_220579_, p_220580_);
@@ -77,7 +77,7 @@
                 if (set.contains(holder)) {
                    return Pair.of(new BlockPos(j, j1, k), holder);
                 }
-@@ -99,20 +_,20 @@
+@@ -100,20 +_,20 @@
     }
  
     @Nullable
@@ -86,7 +86,7 @@
 -      int j = QuartPos.m_175400_(p_220563_);
 -      int k = QuartPos.m_175400_(p_220564_);
 -      int l = QuartPos.m_175400_(p_220562_);
-+   public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(long p_220561_, long p_220562_, long p_220563_, int p_220564_, int p_220565_, Predicate<Holder<Biome>> p_220566_, RandomSource p_220567_, boolean p_220568_, Climate.Sampler p_220569_) {
++   public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(long p_220561_, long p_220562_, long p_220563_, long p_220564_, int p_220565_, Predicate<Holder<Biome>> p_220566_, RandomSource p_220567_, boolean p_220568_, Climate.Sampler p_220569_) {
 +      long i = QuartPos.fromBlock(p_220561_);
 +      long j = QuartPos.fromBlock(p_220563_);
 +      long k = QuartPos.fromBlock(p_220564_);
@@ -107,7 +107,7 @@
                 if (p_220568_) {
                    boolean flag1 = Math.abs(i2) == k1;
                    if (!flag1 && !flag) {
-@@ -120,12 +_,12 @@
+@@ -121,12 +_,12 @@
                    }
                 }
  
@@ -124,7 +124,7 @@
                       if (p_220568_) {
                          return Pair.of(blockpos, holder);
                       }
-@@ -142,7 +_,7 @@
+@@ -143,7 +_,7 @@
        return pair;
     }
  

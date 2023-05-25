@@ -15,7 +15,7 @@
 +   private static final long f_190260_ = f_190258_;
 +   private static final long f_190261_ = 2 * f_190259_ + 1;
 +   private static final long f_190262_ = 2 * f_190260_ + 1;
-+   private static final long f_190263_ = f_190261_ + f_190262_;
++   private static final int f_190263_ = (int) (f_190261_ + f_190262_);
     private final LevelHeightAccessor f_224738_;
     private static final List<Block> f_190265_ = List.of(Blocks.f_50599_, Blocks.f_49994_, Blocks.f_50440_, Blocks.f_50069_, Blocks.f_50546_, Blocks.f_49992_, Blocks.f_49993_, Blocks.f_50195_, Blocks.f_50127_, Blocks.f_50352_, Blocks.f_50493_);
     protected static final double f_190253_ = Double.MAX_VALUE;
@@ -34,22 +34,18 @@
        }), f_190272_.optionalFieldOf("heights").forGetter((p_224762_) -> {
           return DoubleStream.of(p_224762_.f_190269_).anyMatch((p_224745_) -> {
              return p_224745_ != Double.MAX_VALUE;
-@@ -70,38 +_,38 @@
-       return p_190321_.f_190269_.length != f_190263_ ? DataResult.error("heights has to be of length " + f_190263_) : DataResult.success(p_190321_);
+@@ -72,7 +_,7 @@
+       }) : DataResult.success(p_190321_);
     }
  
 -   private BlendingData(int p_224740_, int p_224741_, Optional<double[]> p_224742_) {
--      this.f_190269_ = p_224742_.orElse(Util.m_137469_(new double[f_190263_], (p_224756_) -> {
 +   private BlendingData(long p_224740_, long p_224741_, Optional<double[]> p_224742_) {
-+      this.f_190269_ = p_224742_.orElse(Util.m_137469_(new double[(int) f_190263_], (p_224756_) -> {
+       this.f_190269_ = p_224742_.orElse(Util.m_137469_(new double[f_190263_], (p_224756_) -> {
           Arrays.fill(p_224756_, Double.MAX_VALUE);
        }));
--      this.f_190270_ = new double[f_190263_][];
--      ObjectArrayList<List<Holder<Biome>>> objectarraylist = new ObjectArrayList<>(f_190263_);
--      objectarraylist.size(f_190263_);
-+      this.f_190270_ = new double[(int) f_190263_][];
-+      ObjectArrayList<List<Holder<Biome>>> objectarraylist = new ObjectArrayList<>((int) f_190263_);
-+      objectarraylist.size((int) f_190263_);
+@@ -80,30 +_,30 @@
+       ObjectArrayList<List<Holder<Biome>>> objectarraylist = new ObjectArrayList<>(f_190263_);
+       objectarraylist.size(f_190263_);
        this.f_202276_ = objectarraylist;
 -      int i = SectionPos.m_123223_(p_224740_);
 -      int j = SectionPos.m_123223_(p_224741_) - i;
@@ -88,7 +84,7 @@
              set.add(direction8);
           }
        }
-@@ -112,69 +_,69 @@
+@@ -114,69 +_,69 @@
     private void m_190317_(ChunkAccess p_190318_, Set<Direction8> p_190319_) {
        if (!this.f_190267_) {
           if (p_190319_.contains(Direction8.NORTH) || p_190319_.contains(Direction8.WEST) || p_190319_.contains(Direction8.NORTH_WEST)) {
@@ -177,7 +173,7 @@
           }
        }
  
-@@ -196,9 +_,9 @@
+@@ -198,9 +_,9 @@
     }
  
     private double[] m_198292_(ChunkAccess p_198293_, int p_198294_, int p_198295_, int p_198296_) {
@@ -189,7 +185,7 @@
        double d0 = m_198300_(p_198293_, blockpos$mutableblockpos);
  
        for(int i = adouble.length - 2; i >= 0; --i) {
-@@ -208,25 +_,25 @@
+@@ -210,25 +_,25 @@
           d0 = d2;
        }
  
@@ -222,7 +218,7 @@
        }
  
        return objectarraylist;
-@@ -247,11 +_,11 @@
+@@ -249,42 +_,42 @@
        }
     }
  
@@ -230,21 +226,22 @@
 +   protected double getHeight(long p_190286_, long p_190287_, long p_190288_) {
        if (p_190286_ != f_190260_ && p_190288_ != f_190260_) {
 -         return p_190286_ != 0 && p_190288_ != 0 ? Double.MAX_VALUE : this.f_190269_[m_190330_(p_190286_, p_190288_)];
-+         return p_190286_ != 0 && p_190288_ != 0 ? Double.MAX_VALUE : this.f_190269_[(int) getInsideIndex((int) p_190286_, (int) p_190288_)];
++         return p_190286_ != 0 && p_190288_ != 0 ? Double.MAX_VALUE : this.f_190269_[(int) getInsideIndex(p_190286_, p_190288_)];
        } else {
 -         return this.f_190269_[m_190350_(p_190286_, p_190288_)];
 +         return this.f_190269_[(int) getOutsideIndex(p_190286_, p_190288_)];
        }
     }
  
-@@ -259,30 +_,30 @@
+-   private double m_190324_(@Nullable double[] p_190325_, int p_190326_) {
++   private double getDensity(@Nullable double[] p_190325_, long p_190326_) {
        if (p_190325_ == null) {
           return Double.MAX_VALUE;
        } else {
 -         int i = this.m_224746_(p_190326_);
 -         return i >= 0 && i < p_190325_.length ? p_190325_[i] * 0.1D : Double.MAX_VALUE;
 +         long i = this.getCellYIndex(p_190326_);
-+         return i >= 0 && i < p_190325_.length ? p_190325_[(int) i] * 0.1D : Double.MAX_VALUE; // TODO: long support
++         return i >= 0 && i < p_190325_.length ? p_190325_[(int) i] * 0.1D : Double.MAX_VALUE;
        }
     }
  
@@ -255,10 +252,10 @@
           return 0.1D;
        } else if (p_190334_ != f_190260_ && p_190336_ != f_190260_) {
 -         return p_190334_ != 0 && p_190336_ != 0 ? Double.MAX_VALUE : this.m_190324_(this.f_190270_[m_190330_(p_190334_, p_190336_)], p_190335_);
-+         return p_190334_ != 0 && p_190336_ != 0 ? Double.MAX_VALUE : this.m_190324_(this.f_190270_[(int) getInsideIndex((int) p_190334_, (int) p_190336_)], (int) p_190335_);
++         return p_190334_ != 0 && p_190336_ != 0 ? Double.MAX_VALUE : this.getDensity(this.f_190270_[(int) getInsideIndex(p_190334_, p_190336_)], p_190335_);
        } else {
 -         return this.m_190324_(this.f_190270_[m_190350_(p_190334_, p_190336_)], p_190335_);
-+         return this.m_190324_(this.f_190270_[(int) getOutsideIndex(p_190334_, p_190336_)], (int) p_190335_);
++         return this.getDensity(this.f_190270_[(int) getOutsideIndex(p_190334_, p_190336_)], p_190335_);
        }
     }
  
@@ -279,7 +276,7 @@
                 }
              }
           }
-@@ -290,82 +_,82 @@
+@@ -292,82 +_,82 @@
        }
     }
  
@@ -359,11 +356,11 @@
 +      return this.f_224738_.getMinSection() * 2;
 +   }
 +
-+   private long getCellYIndex(int p_224747_) {
++   private long getCellYIndex(long p_224747_) {
 +      return p_224747_ - this.getColumnMinY();
 +   }
 +
-+   private static long getInsideIndex(int p_190331_, int p_190332_) {
++   private static long getInsideIndex(long p_190331_, long p_190332_) {
        return f_190259_ - p_190331_ + p_190332_;
     }
  
@@ -403,7 +400,7 @@
        return p_190357_ & ~(p_190357_ >> 31);
     }
  
-@@ -374,14 +_,14 @@
+@@ -376,14 +_,14 @@
     }
  
     protected interface BiomeConsumer {

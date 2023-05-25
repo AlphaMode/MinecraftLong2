@@ -4,17 +4,17 @@
     private Supplier<ChunkHolder.FullChunkStatus> f_62790_;
     @Nullable
     private LevelChunk.PostLoadProcessor f_62791_;
--   private final Int2ObjectMap<GameEventDispatcher> f_156363_;
-+   private final it.unimi.dsi.fastutil.longs.Long2ObjectMap<GameEventDispatcher> f_156363_;
+-   private final Int2ObjectMap<GameEventListenerRegistry> f_244451_;
++   private final it.unimi.dsi.fastutil.longs.Long2ObjectMap<GameEventListenerRegistry> f_244451_;
     private final LevelChunkTicks<Block> f_62784_;
     private final LevelChunkTicks<Fluid> f_187943_;
  
 @@ -85,7 +_,7 @@
     public LevelChunk(Level p_196854_, ChunkPos p_196855_, UpgradeData p_196856_, LevelChunkTicks<Block> p_196857_, LevelChunkTicks<Fluid> p_196858_, long p_196859_, @Nullable LevelChunkSection[] p_196860_, @Nullable LevelChunk.PostLoadProcessor p_196861_, @Nullable BlendingData p_196862_) {
-       super(p_196855_, p_196856_, p_196854_, p_196854_.m_5962_().m_175515_(Registry.f_122885_), p_196859_, p_196860_, p_196862_);
+       super(p_196855_, p_196856_, p_196854_, p_196854_.m_9598_().m_175515_(Registries.f_256952_), p_196859_, p_196860_, p_196862_);
        this.f_62776_ = p_196854_;
--      this.f_156363_ = new Int2ObjectOpenHashMap<>();
-+      this.f_156363_ = new it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap<>();
+-      this.f_244451_ = new Int2ObjectOpenHashMap<>();
++      this.f_244451_ = new it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap<>();
  
        for(Heightmap.Types heightmap$types : Heightmap.Types.values()) {
           if (ChunkStatus.f_62326_.m_62500_().contains(heightmap$types)) {
@@ -22,16 +22,16 @@
        return new ChunkAccess.TicksToSave(this.f_62784_, this.f_187943_);
     }
  
--   public GameEventDispatcher m_142336_(int p_156372_) {
-+   public GameEventDispatcher getEventDispatcher(long p_156372_) {
+-   public GameEventListenerRegistry m_246686_(int p_251193_) {
++   public GameEventListenerRegistry getListenerRegistry(long p_251193_) {
        Level level = this.f_62776_;
        if (level instanceof ServerLevel serverlevel) {
-          return this.f_156363_.computeIfAbsent(p_156372_, (p_223411_) -> {
-             return new EuclideanGameEventDispatcher(serverlevel);
+          return this.f_244451_.computeIfAbsent(p_251193_, (p_248448_) -> {
+             return new EuclideanGameEventListenerRegistry(serverlevel);
           });
        } else {
--         return super.m_142336_(p_156372_);
-+         return super.getEventDispatcher(p_156372_);
+-         return super.m_246686_(p_251193_);
++         return super.getListenerRegistry(p_251193_);
        }
     }
  
@@ -156,13 +156,13 @@
           GameEventListener gameeventlistener = ((EntityBlock)block).m_214009_(p_223414_, p_223413_);
           if (gameeventlistener != null) {
 -            int i = SectionPos.m_123171_(p_223413_.m_58899_().m_123342_());
--            GameEventDispatcher gameeventdispatcher = this.m_142336_(i);
+-            GameEventListenerRegistry gameeventlistenerregistry = this.m_246686_(i);
 +            long i = SectionPos.blockToSectionCoord(p_223413_.m_58899_().getY());
-+            GameEventDispatcher gameeventdispatcher = this.getEventDispatcher(i);
-             gameeventdispatcher.m_142500_(gameeventlistener);
-             if (gameeventdispatcher.m_142086_()) {
-                this.f_156363_.remove(i);
-@@ -464,7 +_,7 @@
++            GameEventListenerRegistry gameeventlistenerregistry = this.getListenerRegistry(i);
+             gameeventlistenerregistry.m_246052_(gameeventlistener);
+             if (gameeventlistenerregistry.m_245428_()) {
+                this.f_244451_.remove(i);
+@@ -471,7 +_,7 @@
     }
  
     public Stream<BlockPos> m_6267_() {
@@ -171,7 +171,7 @@
           return this.m_8055_(p_187990_).m_60791_() != 0;
        });
     }
-@@ -475,7 +_,7 @@
+@@ -482,7 +_,7 @@
        for(int i = 0; i < this.f_187602_.length; ++i) {
           if (this.f_187602_[i] != null) {
              for(Short oshort : this.f_187602_[i]) {
@@ -180,12 +180,12 @@
                 BlockState blockstate = this.m_8055_(blockpos);
                 FluidState fluidstate = blockstate.m_60819_();
                 if (!fluidstate.m_76178_()) {
-@@ -577,7 +_,7 @@
+@@ -584,7 +_,7 @@
        if (block instanceof EntityBlock) {
           GameEventListener gameeventlistener = ((EntityBlock)block).m_214009_(p_223417_, p_223416_);
           if (gameeventlistener != null) {
--            GameEventDispatcher gameeventdispatcher = this.m_142336_(SectionPos.m_123171_(p_223416_.m_58899_().m_123342_()));
-+            GameEventDispatcher gameeventdispatcher = this.getEventDispatcher(SectionPos.blockToSectionCoord(p_223416_.m_58899_().getY()));
-             gameeventdispatcher.m_142501_(gameeventlistener);
+-            this.m_246686_(SectionPos.m_123171_(p_223416_.m_58899_().m_123342_())).m_245531_(gameeventlistener);
++            this.getListenerRegistry(SectionPos.blockToSectionCoord(p_223416_.m_58899_().getY())).m_245531_(gameeventlistener);
           }
        }
+ 

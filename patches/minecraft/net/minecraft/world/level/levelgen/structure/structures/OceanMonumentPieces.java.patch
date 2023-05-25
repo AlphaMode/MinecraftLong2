@@ -7,7 +7,7 @@
 -      public MonumentBuilding(RandomSource p_228648_, int p_228649_, int p_228650_, Direction p_228651_) {
 -         super(StructurePieceType.f_210107_, p_228651_, 0, m_163541_(p_228649_, 39, p_228650_, p_228651_, 58, 23, 58));
 +      public MonumentBuilding(RandomSource p_228648_, long p_228649_, long p_228650_, Direction p_228651_) {
-+         super(StructurePieceType.f_210107_, p_228651_, 0, m_163541_((int) p_228649_, 39, (int) p_228650_, p_228651_, 58, 23, 58));
++         super(StructurePieceType.f_210107_, p_228651_, 0, makeBoundingBox((int) p_228649_, 39, (int) p_228650_, p_228651_, 58, 23, 58));
           this.m_73519_(p_228651_);
           List<OceanMonumentPieces.RoomDefinition> list = this.m_228672_(p_228648_);
           this.f_228643_.f_228939_ = true;
@@ -1272,9 +1272,35 @@
 +         this.generateBox(p_228795_, p_228799_, 8, 0, 10, 8, 2, 10, f_228805_, f_228805_, false);
 +         this.generateBox(p_228795_, p_228799_, 6, -1, 7, 7, -1, 8, f_228806_, f_228806_, false);
 +         this.generateWaterBox(p_228795_, p_228799_, 6, -1, 3, 7, -1, 4);
-          this.m_228843_(p_228795_, p_228799_, 6, 1, 6);
+          this.m_247483_(p_228795_, p_228799_, 6, 1, 6);
        }
     }
+@@ -1355,20 +_,20 @@
+          int j = i % 5;
+          int k = i / 5 % 5;
+          int l = i / 25;
+-         BoundingBox boundingbox = m_163541_(0, 0, 0, p_228875_, p_228877_ * 8, p_228878_ * 4, p_228879_ * 8);
++         BoundingBox boundingbox = makeBoundingBox(0, 0, 0, p_228875_, p_228877_ * 8, p_228878_ * 4, p_228879_ * 8);
+          switch (p_228875_) {
+             case NORTH:
+-               boundingbox.m_162367_(j * 8, l * 4, -(k + p_228879_) * 8 + 1);
++               boundingbox.move(j * 8, l * 4, -(k + p_228879_) * 8 + 1);
+                break;
+             case SOUTH:
+-               boundingbox.m_162367_(j * 8, l * 4, k * 8);
++               boundingbox.move(j * 8, l * 4, k * 8);
+                break;
+             case WEST:
+-               boundingbox.m_162367_(-(k + p_228879_) * 8 + 1, l * 4, j * 8);
++               boundingbox.move(-(k + p_228879_) * 8 + 1, l * 4, j * 8);
+                break;
+             case EAST:
+             default:
+-               boundingbox.m_162367_(k * 8, l * 4, j * 8);
++               boundingbox.move(k * 8, l * 4, j * 8);
+          }
+ 
+          return boundingbox;
 @@ -1381,16 +_,16 @@
        protected void m_183620_(StructurePieceSerializationContext p_228872_, CompoundTag p_228873_) {
        }
@@ -1334,7 +1360,7 @@
                    }
                 }
              }
-@@ -1429,19 +_,19 @@
+@@ -1429,20 +_,20 @@
        }
  
        protected boolean m_228865_(BoundingBox p_228866_, int p_228867_, int p_228868_, int p_228869_, int p_228870_) {
@@ -1350,18 +1376,19 @@
 +         return p_228866_.intersects(Math.min(i, k), Math.min(j, l), Math.max(i, k), Math.max(j, l));
        }
  
-       protected boolean m_228843_(WorldGenLevel p_228844_, BoundingBox p_228845_, int p_228846_, int p_228847_, int p_228848_) {
--         BlockPos blockpos = this.m_163582_(p_228846_, p_228847_, p_228848_);
--         if (p_228845_.m_71051_(blockpos)) {
-+         BlockPos blockpos = this.getWorldPos(p_228846_, p_228847_, p_228848_);
-+         if (p_228845_.isInside(blockpos)) {
-             ElderGuardian elderguardian = EntityType.f_20563_.m_20615_(p_228844_.m_6018_());
-             elderguardian.m_5634_(elderguardian.m_21233_());
--            elderguardian.m_7678_((double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_(), (double)blockpos.m_123343_() + 0.5D, 0.0F, 0.0F);
-+            elderguardian.m_7678_((double)blockpos.getX() + 0.5D, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
-             elderguardian.m_6518_(p_228844_, p_228844_.m_6436_(elderguardian.m_20183_()), MobSpawnType.STRUCTURE, (SpawnGroupData)null, (CompoundTag)null);
-             p_228844_.m_47205_(elderguardian);
-             return true;
+       protected void m_247483_(WorldGenLevel p_251919_, BoundingBox p_248944_, int p_251311_, int p_249326_, int p_252095_) {
+-         BlockPos blockpos = this.m_163582_(p_251311_, p_249326_, p_252095_);
+-         if (p_248944_.m_71051_(blockpos)) {
++         BlockPos blockpos = this.getWorldPos(p_251311_, p_249326_, p_252095_);
++         if (p_248944_.isInside(blockpos)) {
+             ElderGuardian elderguardian = EntityType.f_20563_.m_20615_(p_251919_.m_6018_());
+             if (elderguardian != null) {
+                elderguardian.m_5634_(elderguardian.m_21233_());
+-               elderguardian.m_7678_((double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_(), (double)blockpos.m_123343_() + 0.5D, 0.0F, 0.0F);
++               elderguardian.m_7678_((double)blockpos.getX() + 0.5D, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
+                elderguardian.m_6518_(p_251919_, p_251919_.m_6436_(elderguardian.m_20183_()), MobSpawnType.STRUCTURE, (SpawnGroupData)null, (CompoundTag)null);
+                p_251919_.m_47205_(elderguardian);
+             }
 @@ -1474,143 +_,143 @@
  
           boolean flag = this.f_228893_ != 0 && p_228904_.m_188499_() && !this.f_228803_.f_228938_[Direction.DOWN.m_122411_()] && !this.f_228803_.f_228938_[Direction.UP.m_122411_()] && this.f_228803_.m_228951_() > 1;
@@ -1735,7 +1762,7 @@
 +            this.placeBlock(p_228929_, f_228805_, 13, 7, 20, p_228933_);
 +            this.generateBox(p_228929_, p_228933_, 6, 0, 21, 7, 4, 21, f_228805_, f_228805_, false);
 +            this.generateBox(p_228929_, p_228933_, 15, 0, 21, 16, 4, 21, f_228805_, f_228805_, false);
-             this.m_228843_(p_228929_, p_228933_, 11, 2, 16);
+             this.m_247483_(p_228929_, p_228933_, 11, 2, 16);
           } else if (this.f_228921_ == 1) {
 -            this.m_73441_(p_228929_, p_228933_, 9, 3, 18, 13, 3, 20, f_228805_, f_228805_, false);
 -            this.m_73441_(p_228929_, p_228933_, 9, 0, 18, 9, 2, 18, f_228805_, f_228805_, false);
@@ -1791,6 +1818,6 @@
 -            this.m_73441_(p_228929_, p_228933_, 14, 3, 8, 14, 3, 13, f_228806_, f_228806_, false);
 +            this.generateBox(p_228929_, p_228933_, 8, 3, 8, 8, 3, 13, f_228806_, f_228806_, false);
 +            this.generateBox(p_228929_, p_228933_, 14, 3, 8, 14, 3, 13, f_228806_, f_228806_, false);
-             this.m_228843_(p_228929_, p_228933_, 11, 5, 13);
+             this.m_247483_(p_228929_, p_228933_, 11, 5, 13);
           }
  

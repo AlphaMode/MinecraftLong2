@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/portal/PortalShape.java
 +++ b/net/minecraft/world/level/portal/PortalShape.java
-@@ -71,12 +_,12 @@
+@@ -77,12 +_,12 @@
  
     @Nullable
     private BlockPos m_77733_(BlockPos p_77734_) {
@@ -15,7 +15,7 @@
     }
  
     private int m_77745_() {
-@@ -88,7 +_,7 @@
+@@ -94,7 +_,7 @@
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
        for(int i = 0; i <= 21; ++i) {
@@ -24,7 +24,7 @@
           BlockState blockstate = this.f_77686_.m_8055_(blockpos$mutableblockpos);
           if (!m_77717_(blockstate)) {
              if (f_77685_.m_61035_(blockstate, this.f_77686_, blockpos$mutableblockpos)) {
-@@ -114,7 +_,7 @@
+@@ -120,7 +_,7 @@
  
     private boolean m_77730_(BlockPos.MutableBlockPos p_77731_, int p_77732_) {
        for(int i = 0; i < this.f_77692_; ++i) {
@@ -33,7 +33,7 @@
           if (!f_77685_.m_61035_(this.f_77686_.m_8055_(blockpos$mutableblockpos), this.f_77686_, blockpos$mutableblockpos)) {
              return false;
           }
-@@ -125,18 +_,18 @@
+@@ -131,18 +_,18 @@
  
     private int m_77728_(BlockPos.MutableBlockPos p_77729_) {
        for(int i = 0; i < 21; ++i) {
@@ -55,7 +55,7 @@
              BlockState blockstate = this.f_77686_.m_8055_(p_77729_);
              if (!m_77717_(blockstate)) {
                 return i;
-@@ -161,7 +_,7 @@
+@@ -167,7 +_,7 @@
  
     public void m_77743_() {
        BlockState blockstate = Blocks.f_50142_.m_49966_().m_61124_(NetherPortalBlock.f_54904_, this.f_77687_);
@@ -64,7 +64,7 @@
           this.f_77686_.m_7731_(p_77725_, blockstate, 18);
        });
     }
-@@ -176,7 +_,7 @@
+@@ -182,7 +_,7 @@
        BlockPos blockpos = p_77739_.f_124348_;
        double d2;
        if (d0 > 0.0D) {
@@ -73,7 +73,7 @@
           d2 = Mth.m_14008_(Mth.m_14112_(p_77741_.m_82507_(p_77740_) - (double)f, 0.0D, d0), 0.0D, 1.0D);
        } else {
           d2 = 0.5D;
-@@ -185,13 +_,13 @@
+@@ -191,13 +_,13 @@
        double d4;
        if (d1 > 0.0D) {
           Direction.Axis direction$axis = Direction.Axis.Y;
@@ -89,12 +89,12 @@
        return new Vec3(d2, d4, d3);
     }
  
-@@ -207,7 +_,7 @@
-       double d3 = (d1 - (double)p_77704_.f_20378_) * p_77703_.m_7098_();
-       double d4 = 0.5D + p_77703_.m_7094_();
+@@ -214,7 +_,7 @@
+       double d3 = (d1 - (double)entitydimensions.f_20378_) * p_259630_.m_7098_();
+       double d4 = 0.5D + p_259630_.m_7094_();
        boolean flag = direction$axis == Direction.Axis.X;
 -      Vec3 vec31 = new Vec3((double)blockpos.m_123341_() + (flag ? d2 : d4), (double)blockpos.m_123342_() + d3, (double)blockpos.m_123343_() + (flag ? d4 : d2));
 +      Vec3 vec31 = new Vec3((double)blockpos.getX() + (flag ? d2 : d4), (double)blockpos.getY() + d3, (double)blockpos.getZ() + (flag ? d4 : d2));
-       return new PortalInfo(vec31, vec3, p_77706_ + (float)i, p_77707_);
+       Vec3 vec32 = m_257963_(vec31, p_259301_, p_259166_, entitydimensions);
+       return new PortalInfo(vec32, vec3, p_259853_ + (float)i, p_259667_);
     }
- }

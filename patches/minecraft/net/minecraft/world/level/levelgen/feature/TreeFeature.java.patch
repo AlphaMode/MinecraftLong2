@@ -22,19 +22,16 @@
                 if (!p_67219_.f_68190_.m_226184_(p_67216_, blockpos$mutableblockpos) || !p_67219_.f_68193_ && m_67277_(p_67216_, blockpos$mutableblockpos)) {
                    return i - 2;
                 }
-@@ -156,9 +_,9 @@
-             });
-          }
+@@ -164,7 +_,7 @@
  
--         return BoundingBox.m_162378_(Iterables.concat(set, set1, set2, set3)).map((p_225270_) -> {
-+         return BoundingBox.unsafeEncapsulatingPositions(Iterables.concat(set, set1, set2, set3)).map((p_225270_) -> {
+          return BoundingBox.m_162378_(Iterables.concat(set, set1, set2, set3)).map((p_225270_) -> {
              DiscreteVoxelShape discretevoxelshape = m_225251_(worldgenlevel, p_225270_, set1, set3, set);
 -            StructureTemplate.m_74510_(worldgenlevel, 3, discretevoxelshape, p_225270_.m_162395_(), p_225270_.m_162396_(), p_225270_.m_162398_());
 +            StructureTemplate.updateShapeAtEdge(worldgenlevel, 3, discretevoxelshape, p_225270_.minX(), p_225270_.minY(), p_225270_.minZ());
              return true;
           }).orElse(false);
        } else {
-@@ -168,7 +_,7 @@
+@@ -174,7 +_,7 @@
  
     private static DiscreteVoxelShape m_225251_(LevelAccessor p_225252_, BoundingBox p_225253_, Set<BlockPos> p_225254_, Set<BlockPos> p_225255_, Set<BlockPos> p_225256_) {
        List<Set<BlockPos>> list = Lists.newArrayList();
@@ -43,7 +40,7 @@
        int i = 6;
  
        for(int j = 0; j < 6; ++j) {
-@@ -178,25 +_,25 @@
+@@ -184,25 +_,25 @@
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
        for(BlockPos blockpos : Lists.newArrayList(Sets.union(p_225255_, p_225256_))) {
@@ -76,7 +73,7 @@
                    }
                 }
              }
-@@ -208,12 +_,12 @@
+@@ -214,12 +_,12 @@
           Set<BlockPos> set1 = list.get(l);
  
           for(BlockPos blockpos2 : set) {
@@ -92,7 +89,7 @@
                 if (!set.contains(blockpos$mutableblockpos) && !set1.contains(blockpos$mutableblockpos)) {
                    BlockState blockstate1 = p_225252_.m_8055_(blockpos$mutableblockpos);
                    if (blockstate1.m_61138_(BlockStateProperties.f_61414_)) {
-@@ -221,8 +_,8 @@
+@@ -227,8 +_,8 @@
                       if (k > l + 1) {
                          BlockState blockstate2 = blockstate1.m_61124_(BlockStateProperties.f_61414_, Integer.valueOf(l + 1));
                          m_67256_(p_225252_, blockpos$mutableblockpos, blockstate2);

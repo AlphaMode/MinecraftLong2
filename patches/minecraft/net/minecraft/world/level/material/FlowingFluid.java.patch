@@ -29,38 +29,38 @@
                 break;
              }
 @@ -112,7 +_,7 @@
-    protected void m_76010_(LevelAccessor p_76011_, BlockPos p_76012_, FluidState p_76013_) {
+    protected void m_76010_(Level p_255851_, BlockPos p_76012_, FluidState p_76013_) {
        if (!p_76013_.m_76178_()) {
-          BlockState blockstate = p_76011_.m_8055_(p_76012_);
+          BlockState blockstate = p_255851_.m_8055_(p_76012_);
 -         BlockPos blockpos = p_76012_.m_7495_();
 +         BlockPos blockpos = p_76012_.below();
-          BlockState blockstate1 = p_76011_.m_8055_(blockpos);
-          FluidState fluidstate = this.m_76035_(p_76011_, blockpos, blockstate1);
-          if (this.m_75977_(p_76011_, p_76012_, blockstate, Direction.DOWN, blockpos, blockstate1, p_76011_.m_6425_(blockpos), fluidstate.m_76152_())) {
+          BlockState blockstate1 = p_255851_.m_8055_(blockpos);
+          FluidState fluidstate = this.m_76035_(p_255851_, blockpos, blockstate1);
+          if (this.m_75977_(p_255851_, p_76012_, blockstate, Direction.DOWN, blockpos, blockstate1, p_255851_.m_6425_(blockpos), fluidstate.m_76152_())) {
 @@ -139,7 +_,7 @@
           for(Map.Entry<Direction, FluidState> entry : map.entrySet()) {
              Direction direction = entry.getKey();
              FluidState fluidstate = entry.getValue();
 -            BlockPos blockpos = p_76016_.m_121945_(direction);
 +            BlockPos blockpos = p_76016_.relative(direction);
-             BlockState blockstate = p_76015_.m_8055_(blockpos);
-             if (this.m_75977_(p_76015_, p_76016_, p_76018_, direction, blockpos, blockstate, p_76015_.m_6425_(blockpos), fluidstate.m_76152_())) {
-                this.m_6364_(p_76015_, blockpos, blockstate, direction, fluidstate);
+             BlockState blockstate = p_256644_.m_8055_(blockpos);
+             if (this.m_75977_(p_256644_, p_76016_, p_76018_, direction, blockpos, blockstate, p_256644_.m_6425_(blockpos), fluidstate.m_76152_())) {
+                this.m_6364_(p_256644_, blockpos, blockstate, direction, fluidstate);
 @@ -154,7 +_,7 @@
        int j = 0;
  
        for(Direction direction : Direction.Plane.HORIZONTAL) {
 -         BlockPos blockpos = p_76037_.m_121945_(direction);
 +         BlockPos blockpos = p_76037_.relative(direction);
-          BlockState blockstate = p_76036_.m_8055_(blockpos);
+          BlockState blockstate = p_256464_.m_8055_(blockpos);
           FluidState fluidstate = blockstate.m_60819_();
-          if (fluidstate.m_76152_().m_6212_(this) && this.m_76061_(direction, p_76036_, p_76037_, p_76038_, blockpos, blockstate)) {
+          if (fluidstate.m_76152_().m_6212_(this) && this.m_76061_(direction, p_256464_, p_76037_, p_76038_, blockpos, blockstate)) {
 @@ -167,14 +_,14 @@
        }
  
-       if (this.m_6760_() && j >= 2) {
--         BlockState blockstate1 = p_76036_.m_8055_(p_76037_.m_7495_());
-+         BlockState blockstate1 = p_76036_.m_8055_(p_76037_.below());
+       if (this.m_6760_(p_256464_) && j >= 2) {
+-         BlockState blockstate1 = p_256464_.m_8055_(p_76037_.m_7495_());
++         BlockState blockstate1 = p_256464_.m_8055_(p_76037_.below());
           FluidState fluidstate1 = blockstate1.m_60819_();
           if (blockstate1.m_60767_().m_76333_() || this.m_76096_(fluidstate1)) {
              return this.m_76068_(false);
@@ -69,9 +69,9 @@
  
 -      BlockPos blockpos1 = p_76037_.m_7494_();
 +      BlockPos blockpos1 = p_76037_.above();
-       BlockState blockstate2 = p_76036_.m_8055_(blockpos1);
+       BlockState blockstate2 = p_256464_.m_8055_(blockpos1);
        FluidState fluidstate2 = blockstate2.m_60819_();
-       if (!fluidstate2.m_76178_() && fluidstate2.m_76152_().m_6212_(this) && this.m_76061_(Direction.UP, p_76036_, p_76037_, p_76038_, blockpos1, blockstate2)) {
+       if (!fluidstate2.m_76178_() && fluidstate2.m_76152_().m_6212_(this) && this.m_76061_(Direction.UP, p_256464_, p_76037_, p_76038_, blockpos1, blockstate2)) {
 @@ -248,8 +_,8 @@
     protected abstract void m_7456_(LevelAccessor p_76002_, BlockPos p_76003_, BlockState p_76004_);
  
@@ -90,7 +90,7 @@
 -            BlockPos blockpos = p_76028_.m_121945_(direction);
 +            BlockPos blockpos = p_76028_.relative(direction);
              short short1 = m_76058_(p_76032_, blockpos);
-             Pair<BlockState, FluidState> pair = p_76033_.computeIfAbsent(short1, (p_192916_) -> {
+             Pair<BlockState, FluidState> pair = p_76033_.computeIfAbsent(short1, (p_272588_) -> {
                 BlockState blockstate1 = p_76027_.m_8055_(blockpos);
 @@ -268,7 +_,7 @@
              FluidState fluidstate = pair.getSecond();
@@ -117,17 +117,17 @@
 -         BlockPos blockpos = p_76081_.m_121945_(direction);
 +         BlockPos blockpos = p_76081_.relative(direction);
           short short1 = m_76058_(p_76081_, blockpos);
-          Pair<BlockState, FluidState> pair = short2objectmap.computeIfAbsent(short1, (p_192907_) -> {
-             BlockState blockstate1 = p_76080_.m_8055_(blockpos);
+          Pair<BlockState, FluidState> pair = short2objectmap.computeIfAbsent(short1, (p_272585_) -> {
+             BlockState blockstate1 = p_256191_.m_8055_(blockpos);
 @@ -338,7 +_,7 @@
           FluidState fluidstate = pair.getSecond();
-          FluidState fluidstate1 = this.m_76035_(p_76080_, blockpos, blockstate);
-          if (this.m_75963_(p_76080_, fluidstate1.m_76152_(), p_76081_, p_76082_, direction, blockpos, blockstate, fluidstate)) {
+          FluidState fluidstate1 = this.m_76035_(p_256191_, blockpos, blockstate);
+          if (this.m_75963_(p_256191_, fluidstate1.m_76152_(), p_76081_, p_76082_, direction, blockpos, blockstate, fluidstate)) {
 -            BlockPos blockpos1 = blockpos.m_7495_();
 +            BlockPos blockpos1 = blockpos.below();
-             boolean flag = short2booleanmap.computeIfAbsent(short1, (p_192903_) -> {
-                BlockState blockstate1 = p_76080_.m_8055_(blockpos1);
-                return this.m_75956_(p_76080_, this.m_5615_(), blockpos, blockstate, blockpos1, blockstate1);
+             boolean flag = short2booleanmap.computeIfAbsent(short1, (p_255612_) -> {
+                BlockState blockstate1 = p_256191_.m_8055_(blockpos1);
+                return this.m_75956_(p_256191_, this.m_5615_(), blockpos, blockstate, blockpos1, blockstate1);
 @@ -414,7 +_,7 @@
     }
  

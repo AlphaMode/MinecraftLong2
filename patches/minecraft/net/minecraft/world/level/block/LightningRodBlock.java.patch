@@ -24,12 +24,12 @@
           ParticleUtils.m_144967_(p_221405_.m_61143_(f_52588_).m_122434_(), p_221406_, p_221407_, 0.125D, ParticleTypes.f_175830_, UniformInt.m_146622_(1, 2));
        }
     }
-@@ -115,7 +_,7 @@
-          BlockPos blockpos = p_153715_.m_82425_();
+@@ -116,7 +_,7 @@
           if (p_153713_.m_45527_(blockpos)) {
              LightningBolt lightningbolt = EntityType.f_20465_.m_20615_(p_153713_);
--            lightningbolt.m_20219_(Vec3.m_82539_(blockpos.m_7494_()));
-+            lightningbolt.m_20219_(Vec3.atBottomCenterOf(blockpos.above()));
-             Entity entity = p_153716_.m_37282_();
-             lightningbolt.m_20879_(entity instanceof ServerPlayer ? (ServerPlayer)entity : null);
-             p_153713_.m_7967_(lightningbolt);
+             if (lightningbolt != null) {
+-               lightningbolt.m_20219_(Vec3.m_82539_(blockpos.m_7494_()));
++               lightningbolt.m_20219_(Vec3.atBottomCenterOf(blockpos.above()));
+                Entity entity = p_153716_.m_19749_();
+                lightningbolt.m_20879_(entity instanceof ServerPlayer ? (ServerPlayer)entity : null);
+                p_153713_.m_7967_(lightningbolt);

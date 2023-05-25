@@ -1,28 +1,28 @@
 --- a/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromBlockMemory.java
 +++ b/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromBlockMemory.java
-@@ -45,7 +_,7 @@
-                int i = 0;
+@@ -18,13 +_,13 @@
+                GlobalPos globalpos = p_258717_.m_258051_(p_258711_);
+                Optional<Long> optional = p_258717_.m_257828_(p_258709_);
+                if (globalpos.m_122640_() == p_275056_.m_46472_() && (!optional.isPresent() || p_275056_.m_46467_() - optional.get() <= (long)p_259504_)) {
+-                  if (globalpos.m_122646_().m_123333_(p_275057_.m_20183_()) > p_260360_) {
++                  if (globalpos.m_122646_().distManhattan(p_275057_.m_20183_()) > p_260360_) {
+                      Vec3 vec3 = null;
+                      int i = 0;
+                      int j = 1000;
  
-                for(int j = 1000; i < 1000 && (vec3 == null || this.m_24078_(p_24060_, GlobalPos.m_122643_(p_24059_.m_46472_(), new BlockPos(vec3)))); ++i) {
--                  vec3 = DefaultRandomPos.m_148412_(p_24060_, 15, 7, Vec3.m_82539_(p_24067_.m_122646_()), (double)((float)Math.PI / 2F));
-+                  vec3 = DefaultRandomPos.m_148412_(p_24060_, 15, 7, Vec3.atBottomCenterOf(p_24067_.m_122646_()), (double)((float)Math.PI / 2F));
-                }
+-                     while(vec3 == null || BlockPos.m_274446_(vec3).m_123333_(p_275057_.m_20183_()) > p_260360_) {
+-                        vec3 = DefaultRandomPos.m_148412_(p_275057_, 15, 7, Vec3.m_82539_(globalpos.m_122646_()), (double)((float)Math.PI / 2F));
++                     while(vec3 == null || BlockPos.m_274446_(vec3).distManhattan(p_275057_.m_20183_()) > p_260360_) {
++                        vec3 = DefaultRandomPos.m_148412_(p_275057_, 15, 7, Vec3.atBottomCenterOf(globalpos.m_122646_()), (double)((float)Math.PI / 2F));
+                         ++i;
+                         if (i == 1000) {
+                            p_275057_.m_35428_(p_259685_);
+@@ -35,7 +_,7 @@
+                      }
  
-                if (i == 1000) {
-@@ -74,7 +_,7 @@
-    }
- 
-    private boolean m_24078_(Villager p_24079_, GlobalPos p_24080_) {
--      return p_24080_.m_122646_().m_123333_(p_24079_.m_20183_()) > this.f_24043_;
-+      return p_24080_.m_122646_().distManhattan(p_24079_.m_20183_()) > this.f_24043_;
-    }
- 
-    private boolean m_24072_(ServerLevel p_24073_, GlobalPos p_24074_) {
-@@ -82,6 +_,6 @@
-    }
- 
-    private boolean m_24068_(ServerLevel p_24069_, Villager p_24070_, GlobalPos p_24071_) {
--      return p_24071_.m_122640_() == p_24069_.m_46472_() && p_24071_.m_122646_().m_123333_(p_24070_.m_20183_()) <= this.f_24042_;
-+      return p_24071_.m_122640_() == p_24069_.m_46472_() && p_24071_.m_122646_().distManhattan(p_24070_.m_20183_()) <= this.f_24042_;
-    }
- }
+                      p_258710_.m_257512_(new WalkTarget(vec3, p_259842_, p_259530_));
+-                  } else if (globalpos.m_122646_().m_123333_(p_275057_.m_20183_()) > p_259530_) {
++                  } else if (globalpos.m_122646_().distManhattan(p_275057_.m_20183_()) > p_259530_) {
+                      p_258710_.m_257512_(new WalkTarget(globalpos.m_122646_(), p_259842_, p_259530_));
+                   }
+                } else {

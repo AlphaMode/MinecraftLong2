@@ -31,25 +31,31 @@
        };
        this.m_193236_(p_193235_, (p_193276_, p_193277_) -> {
           ScheduledTick<T> scheduledtick = p_193277_.m_193189_();
-@@ -261,10 +_,10 @@
+@@ -261,14 +_,14 @@
        this.f_193205_.removeIf(predicate);
     }
  
 -   public void m_193242_(BoundingBox p_193243_, Vec3i p_193244_) {
+-      this.m_264560_(this, p_193243_, p_193244_);
 +   public void copyArea(BoundingBox p_193243_, me.alphamode.mclong.core.Vec3l p_193244_) {
++      this.copyAreaFrom(this, p_193243_, p_193244_);
+    }
+ 
+-   public void m_264560_(LevelTicks<T> p_265554_, BoundingBox p_265172_, Vec3i p_265318_) {
++   public void copyAreaFrom(LevelTicks<T> p_265554_, BoundingBox p_265172_, me.alphamode.mclong.core.Vec3l p_265318_) {
        List<ScheduledTick<T>> list = new ArrayList<>();
        Predicate<ScheduledTick<T>> predicate = (p_200922_) -> {
--         return p_193243_.m_71051_(p_200922_.f_193377_());
-+         return p_193243_.isInside(p_200922_.f_193377_());
+-         return p_265172_.m_71051_(p_200922_.f_193377_());
++         return p_265172_.isInside(p_200922_.f_193377_());
        };
-       this.f_193206_.stream().filter(predicate).forEach(list::add);
-       this.f_193205_.stream().filter(predicate).forEach(list::add);
-@@ -275,7 +_,7 @@
+       p_265554_.f_193206_.stream().filter(predicate).forEach(list::add);
+       p_265554_.f_193205_.stream().filter(predicate).forEach(list::add);
+@@ -279,7 +_,7 @@
        long i = longsummarystatistics.getMin();
        long j = longsummarystatistics.getMax();
        list.forEach((p_193260_) -> {
--         this.m_183393_(new ScheduledTick<>(p_193260_.f_193376_(), p_193260_.f_193377_().m_121955_(p_193244_), p_193260_.f_193378_(), p_193260_.f_193379_(), p_193260_.f_193380_() - i + j + 1L));
-+         this.m_183393_(new ScheduledTick<>(p_193260_.f_193376_(), p_193260_.f_193377_().offset(p_193244_), p_193260_.f_193378_(), p_193260_.f_193379_(), p_193260_.f_193380_() - i + j + 1L));
+-         this.m_183393_(new ScheduledTick<>(p_193260_.f_193376_(), p_193260_.f_193377_().m_121955_(p_265318_), p_193260_.f_193378_(), p_193260_.f_193379_(), p_193260_.f_193380_() - i + j + 1L));
++         this.m_183393_(new ScheduledTick<>(p_193260_.f_193376_(), p_193260_.f_193377_().offset(p_265318_), p_193260_.f_193378_(), p_193260_.f_193379_(), p_193260_.f_193380_() - i + j + 1L));
        });
     }
  

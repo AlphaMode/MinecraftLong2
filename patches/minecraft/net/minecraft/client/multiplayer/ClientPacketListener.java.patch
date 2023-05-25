@@ -1,26 +1,46 @@
 --- a/net/minecraft/client/multiplayer/ClientPacketListener.java
 +++ b/net/minecraft/client/multiplayer/ClientPacketListener.java
-@@ -636,26 +_,26 @@
+@@ -669,15 +_,15 @@
  
     public void m_183388_(ClientboundLevelChunkWithLightPacket p_194241_) {
        PacketUtils.m_131363_(p_194241_, this, this.f_104888_);
 -      this.m_194198_(p_194241_.m_195717_(), p_194241_.m_195718_(), p_194241_.m_195719_());
 -      this.m_194202_(p_194241_.m_195717_(), p_194241_.m_195718_(), p_194241_.m_195720_());
--   }
--
--   private void m_194198_(int p_194199_, int p_194200_, ClientboundLevelChunkPacketData p_194201_) {
--      this.f_104889_.m_7726_().m_194116_(p_194199_, p_194200_, p_194201_.m_195656_(), p_194201_.m_195678_(), p_194201_.m_195657_(p_194199_, p_194200_));
--   }
--
--   private void m_194202_(int p_194203_, int p_194204_, ClientboundLightUpdatePacketData p_194205_) {
 +      this.updateLevelChunk(p_194241_.getX(), p_194241_.getZ(), p_194241_.m_195719_());
 +      this.queueLightUpdate(p_194241_.getX(), p_194241_.getZ(), p_194241_.m_195720_());
-+   }
-+
+    }
+ 
+    public void m_274374_(ClientboundChunksBiomesPacket p_275437_) {
+       PacketUtils.m_131363_(p_275437_, this, this.f_104888_);
+ 
+       for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata : p_275437_.f_273816_()) {
+-         this.f_104889_.m_7726_().m_274444_(clientboundchunksbiomespacket$chunkbiomedata.f_273927_().f_45578_, clientboundchunksbiomespacket$chunkbiomedata.f_273927_().f_45579_, clientboundchunksbiomespacket$chunkbiomedata.m_274543_());
++         this.f_104889_.m_7726_().replaceBiomes(clientboundchunksbiomespacket$chunkbiomedata.f_273927_().f_45578_, clientboundchunksbiomespacket$chunkbiomedata.f_273927_().f_45579_, clientboundchunksbiomespacket$chunkbiomedata.m_274543_());
+       }
+ 
+       for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata1 : p_275437_.f_273816_()) {
+@@ -687,8 +_,8 @@
+       for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata2 : p_275437_.f_273816_()) {
+          for(int i = -1; i <= 1; ++i) {
+             for(int j = -1; j <= 1; ++j) {
+-               for(int k = this.f_104889_.m_151560_(); k < this.f_104889_.m_151561_(); ++k) {
+-                  this.f_104888_.f_91060_.m_109770_(clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().f_45578_ + i, k, clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().f_45579_ + j);
++               for(long k = this.f_104889_.getMinSection(); k < this.f_104889_.getMaxSection(); ++k) {
++                  this.f_104888_.f_91060_.setSectionDirty(clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().f_45578_ + i, k, clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().f_45579_ + j);
+                }
+             }
+          }
+@@ -696,22 +_,22 @@
+ 
+    }
+ 
+-   private void m_194198_(int p_194199_, int p_194200_, ClientboundLevelChunkPacketData p_194201_) {
+-      this.f_104889_.m_7726_().m_194116_(p_194199_, p_194200_, p_194201_.m_195656_(), p_194201_.m_195678_(), p_194201_.m_195657_(p_194199_, p_194200_));
 +   private void updateLevelChunk(long p_194199_, long p_194200_, ClientboundLevelChunkPacketData p_194201_) {
 +      this.f_104889_.m_7726_().replaceWithPacketData(p_194199_, p_194200_, p_194201_.m_195656_(), p_194201_.m_195678_(), p_194201_.getBlockEntitiesTagsConsumer(p_194199_, p_194200_));
-+   }
-+
+    }
+ 
+-   private void m_194202_(int p_194203_, int p_194204_, ClientboundLightUpdatePacketData p_194205_) {
 +   private void queueLightUpdate(long p_194203_, long p_194204_, ClientboundLightUpdatePacketData p_194205_) {
        this.f_104889_.m_194171_(() -> {
 -         this.m_194248_(p_194203_, p_194204_, p_194205_);
@@ -40,7 +60,7 @@
        LevelLightEngine levellightengine = this.f_104889_.m_7726_().m_7827_();
        LevelChunkSection[] alevelchunksection = p_194213_.m_7103_();
        ChunkPos chunkpos = p_194213_.m_7697_();
-@@ -663,20 +_,20 @@
+@@ -719,20 +_,20 @@
  
        for(int i = 0; i < alevelchunksection.length; ++i) {
           LevelChunkSection levelchunksection = alevelchunksection[i];
@@ -68,7 +88,7 @@
        this.m_194252_(p_105014_);
     }
  
-@@ -684,12 +_,12 @@
+@@ -740,12 +_,12 @@
        this.f_104889_.m_194171_(() -> {
           LevelLightEngine levellightengine = this.f_104889_.m_5518_();
  
@@ -85,7 +105,16 @@
        });
     }
  
-@@ -2046,25 +_,25 @@
+@@ -1488,7 +_,7 @@
+          worldborder.m_61917_(p_171767_.m_178888_());
+       }
+ 
+-      worldborder.m_61923_(p_171767_.m_178891_());
++      worldborder.setAbsoluteMaxSize(p_171767_.getNewAbsoluteMaxSize());
+       worldborder.m_61952_(p_171767_.m_178893_());
+       worldborder.m_61944_(p_171767_.m_178892_());
+    }
+@@ -2206,25 +_,25 @@
  
     public void m_183514_(ClientboundLightUpdatePacket p_194243_) {
        PacketUtils.m_131363_(p_194243_, this, this.f_104888_);
@@ -118,7 +147,7 @@
     }
  
     public void m_7330_(ClientboundMerchantOffersPacket p_105034_) {
-@@ -2095,7 +_,7 @@
+@@ -2255,7 +_,7 @@
  
     public void m_8065_(ClientboundSetChunkCacheCenterPacket p_105080_) {
        PacketUtils.m_131363_(p_105080_, this, this.f_104888_);
@@ -127,8 +156,8 @@
     }
  
     public void m_214108_(ClientboundBlockChangedAckPacket p_233698_) {
-@@ -2103,14 +_,14 @@
-       this.f_104889_.m_233651_(p_233698_.f_237578_());
+@@ -2272,14 +_,14 @@
+ 
     }
  
 -   private void m_171734_(int p_171735_, int p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_, boolean p_171742_) {

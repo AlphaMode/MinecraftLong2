@@ -13,7 +13,28 @@
           boolean[] aboolean = new boolean[2048];
           int i = randomsource.m_188503_(4) + 4;
  
-@@ -86,7 +_,7 @@
+@@ -64,12 +_,12 @@
+                for(int l2 = 0; l2 < 8; ++l2) {
+                   boolean flag = !aboolean[(k1 * 16 + k) * 8 + l2] && (k1 < 15 && aboolean[((k1 + 1) * 16 + k) * 8 + l2] || k1 > 0 && aboolean[((k1 - 1) * 16 + k) * 8 + l2] || k < 15 && aboolean[(k1 * 16 + k + 1) * 8 + l2] || k > 0 && aboolean[(k1 * 16 + (k - 1)) * 8 + l2] || l2 < 7 && aboolean[(k1 * 16 + k) * 8 + l2 + 1] || l2 > 0 && aboolean[(k1 * 16 + k) * 8 + (l2 - 1)]);
+                   if (flag) {
+-                     Material material = worldgenlevel.m_8055_(blockpos.m_7918_(k1, l2, k)).m_60767_();
++                     Material material = worldgenlevel.m_8055_(blockpos.offset(k1, l2, k)).m_60767_();
+                      if (l2 >= 4 && material.m_76332_()) {
+                         return false;
+                      }
+ 
+-                     if (l2 < 4 && !material.m_76333_() && worldgenlevel.m_8055_(blockpos.m_7918_(k1, l2, k)) != blockstate1) {
++                     if (l2 < 4 && !material.m_76333_() && worldgenlevel.m_8055_(blockpos.offset(k1, l2, k)) != blockstate1) {
+                         return false;
+                      }
+                   }
+@@ -81,12 +_,12 @@
+             for(int i2 = 0; i2 < 16; ++i2) {
+                for(int i3 = 0; i3 < 8; ++i3) {
+                   if (aboolean[(l1 * 16 + i2) * 8 + i3]) {
+-                     BlockPos blockpos1 = blockpos.m_7918_(l1, i3, i2);
++                     BlockPos blockpos1 = blockpos.offset(l1, i3, i2);
+                      if (this.m_190951_(worldgenlevel.m_8055_(blockpos1))) {
                          boolean flag1 = i3 >= 4;
                          worldgenlevel.m_7731_(blockpos1, flag1 ? f_66256_ : blockstate1, 2);
                          if (flag1) {
@@ -22,3 +43,24 @@
                             this.m_159739_(worldgenlevel, blockpos1);
                          }
                       }
+@@ -102,9 +_,9 @@
+                   for(int l3 = 0; l3 < 8; ++l3) {
+                      boolean flag2 = !aboolean[(j2 * 16 + j3) * 8 + l3] && (j2 < 15 && aboolean[((j2 + 1) * 16 + j3) * 8 + l3] || j2 > 0 && aboolean[((j2 - 1) * 16 + j3) * 8 + l3] || j3 < 15 && aboolean[(j2 * 16 + j3 + 1) * 8 + l3] || j3 > 0 && aboolean[(j2 * 16 + (j3 - 1)) * 8 + l3] || l3 < 7 && aboolean[(j2 * 16 + j3) * 8 + l3 + 1] || l3 > 0 && aboolean[(j2 * 16 + j3) * 8 + (l3 - 1)]);
+                      if (flag2 && (l3 < 4 || randomsource.m_188503_(2) != 0)) {
+-                        BlockState blockstate = worldgenlevel.m_8055_(blockpos.m_7918_(j2, l3, j3));
++                        BlockState blockstate = worldgenlevel.m_8055_(blockpos.offset(j2, l3, j3));
+                         if (blockstate.m_60767_().m_76333_() && !blockstate.m_204336_(BlockTags.f_144288_)) {
+-                           BlockPos blockpos3 = blockpos.m_7918_(j2, l3, j3);
++                           BlockPos blockpos3 = blockpos.offset(j2, l3, j3);
+                            worldgenlevel.m_7731_(blockpos3, blockstate2, 2);
+                            this.m_159739_(worldgenlevel, blockpos3);
+                         }
+@@ -118,7 +_,7 @@
+             for(int k2 = 0; k2 < 16; ++k2) {
+                for(int k3 = 0; k3 < 16; ++k3) {
+                   int i4 = 4;
+-                  BlockPos blockpos2 = blockpos.m_7918_(k2, 4, k3);
++                  BlockPos blockpos2 = blockpos.offset(k2, 4, k3);
+                   if (worldgenlevel.m_204166_(blockpos2).m_203334_().m_47480_(worldgenlevel, blockpos2, false) && this.m_190951_(worldgenlevel.m_8055_(blockpos2))) {
+                      worldgenlevel.m_7731_(blockpos2, Blocks.f_50126_.m_49966_(), 2);
+                   }

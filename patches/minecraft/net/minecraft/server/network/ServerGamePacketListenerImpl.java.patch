@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -377,11 +_,11 @@
+@@ -373,11 +_,11 @@
     }
  
     private static double m_143609_(double p_143610_) {
@@ -14,7 +14,16 @@
     }
  
     public void m_5659_(ServerboundMoveVehiclePacket p_9876_) {
-@@ -1013,7 +_,7 @@
+@@ -640,7 +_,7 @@
+             structureblockentity.m_59860_(p_9919_.m_134633_());
+             structureblockentity.m_59868_(p_9919_.m_134634_());
+             structureblockentity.m_59885_(p_9919_.m_134635_());
+-            structureblockentity.m_155797_(p_9919_.m_179787_());
++            structureblockentity.setStructureSize(p_9919_.getSize());
+             structureblockentity.m_59881_(p_9919_.m_134637_());
+             structureblockentity.m_59883_(p_9919_.m_134638_());
+             structureblockentity.m_59887_(p_9919_.m_134639_());
+@@ -1002,7 +_,7 @@
           case START_DESTROY_BLOCK:
           case ABORT_DESTROY_BLOCK:
           case STOP_DESTROY_BLOCK:
@@ -23,37 +32,36 @@
              this.f_9743_.f_8906_.m_215201_(p_9889_.m_237987_());
              return;
           default:
-@@ -1039,18 +_,18 @@
-       BlockHitResult blockhitresult = p_9930_.m_134706_();
-       Vec3 vec3 = blockhitresult.m_82450_();
-       BlockPos blockpos = blockhitresult.m_82425_();
--      Vec3 vec31 = Vec3.m_82512_(blockpos);
--      if (!(this.f_9743_.m_146892_().m_82557_(vec31) > f_215198_)) {
-+      Vec3 vec31 = Vec3.atCenterOf(blockpos);
-+      if (true/*!(this.player.getEyePosition().distanceToSqr(vec31) > MAX_INTERACTION_DISTANCE)*/) {
-          Vec3 vec32 = vec3.m_82546_(vec31);
-          double d0 = 1.0000001D;
-          if (Math.abs(vec32.m_7096_()) < 1.0000001D && Math.abs(vec32.m_7098_()) < 1.0000001D && Math.abs(vec32.m_7094_()) < 1.0000001D) {
-             Direction direction = blockhitresult.m_82434_();
-             this.f_9743_.m_9243_();
--            int i = this.f_9743_.f_19853_.m_151558_();
--            if (blockpos.m_123342_() < i) {
--               if (this.f_9766_ == null && this.f_9743_.m_20275_((double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_() + 0.5D, (double)blockpos.m_123343_() + 0.5D) < 64.0D && serverlevel.m_7966_(this.f_9743_, blockpos)) {
-+            long i = this.f_9743_.f_19853_.getMaxBuildHeight();
-+            if (blockpos.getY() < i) {
-+               if (this.f_9766_ == null && this.f_9743_.m_20275_((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.5D, (double)blockpos.getZ() + 0.5D) < 64.0D && serverlevel.m_7966_(this.f_9743_, blockpos)) {
-                   InteractionResult interactionresult = this.f_9743_.f_8941_.m_7179_(this.f_9743_, serverlevel, itemstack, interactionhand, blockhitresult);
--                  if (direction == Direction.UP && !interactionresult.m_19077_() && blockpos.m_123342_() >= i - 1 && m_9790_(this.f_9743_, itemstack)) {
-+                  if (direction == Direction.UP && !interactionresult.m_19077_() && blockpos.getY() >= i - 1 && m_9790_(this.f_9743_, itemstack)) {
-                      Component component = Component.m_237110_("build.tooHigh", i - 1).m_130940_(ChatFormatting.RED);
-                      this.f_9743_.m_240418_(component, true);
-                   } else if (interactionresult.m_19080_()) {
-@@ -1063,7 +_,7 @@
-             }
+@@ -1029,18 +_,18 @@
+          BlockHitResult blockhitresult = p_9930_.m_134706_();
+          Vec3 vec3 = blockhitresult.m_82450_();
+          BlockPos blockpos = blockhitresult.m_82425_();
+-         Vec3 vec31 = Vec3.m_82512_(blockpos);
++         Vec3 vec31 = Vec3.atCenterOf(blockpos);
+          if (!(this.f_9743_.m_146892_().m_82557_(vec31) > f_215198_)) {
+             Vec3 vec32 = vec3.m_82546_(vec31);
+             double d0 = 1.0000001D;
+             if (Math.abs(vec32.m_7096_()) < 1.0000001D && Math.abs(vec32.m_7098_()) < 1.0000001D && Math.abs(vec32.m_7094_()) < 1.0000001D) {
+                Direction direction = blockhitresult.m_82434_();
+                this.f_9743_.m_9243_();
+-               int i = this.f_9743_.f_19853_.m_151558_();
+-               if (blockpos.m_123342_() < i) {
+-                  if (this.f_9766_ == null && this.f_9743_.m_20275_((double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_() + 0.5D, (double)blockpos.m_123343_() + 0.5D) < 64.0D && serverlevel.m_7966_(this.f_9743_, blockpos)) {
++               long i = this.f_9743_.f_19853_.getMaxBuildHeight();
++               if (blockpos.getY() < i) {
++                  if (this.f_9766_ == null && this.f_9743_.m_20275_((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.5D, (double)blockpos.getZ() + 0.5D) < 64.0D && serverlevel.m_7966_(this.f_9743_, blockpos)) {
+                      InteractionResult interactionresult = this.f_9743_.f_8941_.m_7179_(this.f_9743_, serverlevel, itemstack, interactionhand, blockhitresult);
+-                     if (direction == Direction.UP && !interactionresult.m_19077_() && blockpos.m_123342_() >= i - 1 && m_9790_(this.f_9743_, itemstack)) {
++                     if (direction == Direction.UP && !interactionresult.m_19077_() && blockpos.getY() >= i - 1 && m_9790_(this.f_9743_, itemstack)) {
+                         Component component = Component.m_237110_("build.tooHigh", i - 1).m_130940_(ChatFormatting.RED);
+                         this.f_9743_.m_240418_(component, true);
+                      } else if (interactionresult.m_19080_()) {
+@@ -1053,7 +_,7 @@
+                }
  
-             this.f_9743_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(serverlevel, blockpos));
--            this.f_9743_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(serverlevel, blockpos.m_121945_(direction)));
-+            this.f_9743_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(serverlevel, blockpos.relative(direction)));
-          } else {
-             f_9744_.warn("Rejecting UseItemOnPacket from {}: Location {} too far away from hit block {}.", this.f_9743_.m_36316_().getName(), vec3, blockpos);
-          }
+                this.f_9743_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(serverlevel, blockpos));
+-               this.f_9743_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(serverlevel, blockpos.m_121945_(direction)));
++               this.f_9743_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(serverlevel, blockpos.relative(direction)));
+             } else {
+                f_9744_.warn("Rejecting UseItemOnPacket from {}: Location {} too far away from hit block {}.", this.f_9743_.m_36316_().getName(), vec3, blockpos);
+             }

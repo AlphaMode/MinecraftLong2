@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -374,17 +_,17 @@
+@@ -383,17 +_,17 @@
  
     private static void m_177896_(ServerLevel p_177897_, ServerLevelData p_177898_, boolean p_177899_, boolean p_177900_) {
        if (p_177900_) {
@@ -23,16 +23,27 @@
           int k1 = 0;
           int j = 0;
           int k = 0;
-@@ -412,7 +_,7 @@
- 
-          if (p_177899_) {
-             ConfiguredFeature<?, ?> configuredfeature = MiscOverworldFeatures.f_195021_.m_203334_();
--            configuredfeature.m_224953_(p_177897_, serverchunkcache.m_8481_(), p_177897_.f_46441_, new BlockPos(p_177898_.m_6789_(), p_177898_.m_6527_(), p_177898_.m_6526_()));
-+            configuredfeature.m_224953_(p_177897_, serverchunkcache.m_8481_(), p_177897_.f_46441_, new BlockPos(p_177898_.getXSpawn(), p_177898_.getYSpawn(), p_177898_.getZSpawn()));
+@@ -423,7 +_,7 @@
+             p_177897_.m_9598_().m_6632_(Registries.f_256911_).flatMap((p_258226_) -> {
+                return p_258226_.m_203636_(MiscOverworldFeatures.f_195021_);
+             }).ifPresent((p_264729_) -> {
+-               p_264729_.m_203334_().m_224953_(p_177897_, serverchunkcache.m_8481_(), p_177897_.f_46441_, new BlockPos(p_177898_.m_6789_(), p_177898_.m_6527_(), p_177898_.m_6526_()));
++               p_264729_.m_203334_().m_224953_(p_177897_, serverchunkcache.m_8481_(), p_177897_.f_46441_, new BlockPos(p_177898_.getXSpawn(), p_177898_.getYSpawn(), p_177898_.getZSpawn()));
+             });
           }
  
-       }
-@@ -1362,7 +_,7 @@
+@@ -1237,8 +_,8 @@
+       this.f_129724_ = 0L;
+    }
+ 
+-   public int m_6329_() {
+-      return 29999984;
++   public long getAbsoluteMaxWorldSize() {
++      return java.lang.Long.MAX_VALUE;
+    }
+ 
+    public boolean m_5660_() {
+@@ -1400,7 +_,7 @@
  
     public CommandSourceStack m_129893_() {
        ServerLevel serverlevel = this.m_129783_();

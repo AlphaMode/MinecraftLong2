@@ -1,18 +1,18 @@
 --- a/net/minecraft/world/entity/ai/behavior/TryLaySpawnOnWaterNearLand.java
 +++ b/net/minecraft/world/entity/ai/behavior/TryLaySpawnOnWaterNearLand.java
-@@ -28,12 +_,12 @@
-    }
+@@ -19,12 +_,12 @@
+          return p_259781_.group(p_259781_.m_258080_(MemoryModuleType.f_26372_), p_259781_.m_257495_(MemoryModuleType.f_26370_), p_259781_.m_257495_(MemoryModuleType.f_217767_)).apply(p_259781_, (p_259765_, p_259602_, p_260037_) -> {
+             return (p_269881_, p_269882_, p_269883_) -> {
+                if (!p_269882_.m_20069_() && p_269882_.m_20096_()) {
+-                  BlockPos blockpos = p_269882_.m_20183_().m_7495_();
++                  BlockPos blockpos = p_269882_.m_20183_().below();
  
-    protected void m_6735_(ServerLevel p_217486_, Frog p_217487_, long p_217488_) {
--      BlockPos blockpos = p_217487_.m_20183_().m_7495_();
-+      BlockPos blockpos = p_217487_.m_20183_().below();
- 
-       for(Direction direction : Direction.Plane.HORIZONTAL) {
--         BlockPos blockpos1 = blockpos.m_121945_(direction);
-+         BlockPos blockpos1 = blockpos.relative(direction);
-          if (p_217486_.m_8055_(blockpos1).m_60812_(p_217486_, blockpos1).m_83263_(Direction.UP).m_83281_() && p_217486_.m_6425_(blockpos1).m_192917_(Fluids.f_76193_)) {
--            BlockPos blockpos2 = blockpos1.m_7494_();
-+            BlockPos blockpos2 = blockpos1.above();
-             if (p_217486_.m_8055_(blockpos2).m_60795_()) {
-                p_217486_.m_7731_(blockpos2, this.f_217470_.m_49966_(), 3);
-                p_217486_.m_6269_((Player)null, p_217487_, SoundEvents.f_215694_, SoundSource.BLOCKS, 1.0F, 1.0F);
+                   for(Direction direction : Direction.Plane.HORIZONTAL) {
+-                     BlockPos blockpos1 = blockpos.m_121945_(direction);
++                     BlockPos blockpos1 = blockpos.relative(direction);
+                      if (p_269881_.m_8055_(blockpos1).m_60812_(p_269881_, blockpos1).m_83263_(Direction.UP).m_83281_() && p_269881_.m_6425_(blockpos1).m_192917_(Fluids.f_76193_)) {
+-                        BlockPos blockpos2 = blockpos1.m_7494_();
++                        BlockPos blockpos2 = blockpos1.above();
+                         if (p_269881_.m_8055_(blockpos2).m_60795_()) {
+                            BlockState blockstate = p_259207_.m_49966_();
+                            p_269881_.m_7731_(blockpos2, blockstate, 3);

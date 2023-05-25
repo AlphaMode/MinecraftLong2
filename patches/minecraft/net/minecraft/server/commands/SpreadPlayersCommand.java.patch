@@ -3,9 +3,9 @@
 @@ -47,15 +_,15 @@
        p_138697_.register(Commands.m_82127_("spreadplayers").requires((p_201852_) -> {
           return p_201852_.m_6761_(2);
-       }).then(Commands.m_82129_("center", Vec2Argument.m_120822_()).then(Commands.m_82129_("spreadDistance", FloatArgumentType.floatArg(0.0F)).then(Commands.m_82129_("maxRange", FloatArgumentType.floatArg(1.0F)).then(Commands.m_82129_("respectTeams", BoolArgumentType.bool()).then(Commands.m_82129_("targets", EntityArgument.m_91460_()).executes((p_138699_) -> {
--         return m_138702_(p_138699_.getSource(), Vec2Argument.m_120825_(p_138699_, "center"), FloatArgumentType.getFloat(p_138699_, "spreadDistance"), FloatArgumentType.getFloat(p_138699_, "maxRange"), p_138699_.getSource().m_81372_().m_151558_(), BoolArgumentType.getBool(p_138699_, "respectTeams"), EntityArgument.m_91461_(p_138699_, "targets"));
-+         return spreadPlayers(p_138699_.getSource(), Vec2Argument.m_120825_(p_138699_, "center"), FloatArgumentType.getFloat(p_138699_, "spreadDistance"), FloatArgumentType.getFloat(p_138699_, "maxRange"), p_138699_.getSource().m_81372_().getMaxBuildHeight(), BoolArgumentType.getBool(p_138699_, "respectTeams"), EntityArgument.m_91461_(p_138699_, "targets"));
+       }).then(Commands.m_82129_("center", Vec2Argument.m_120822_()).then(Commands.m_82129_("spreadDistance", FloatArgumentType.floatArg(0.0F)).then(Commands.m_82129_("maxRange", FloatArgumentType.floatArg(1.0F)).then(Commands.m_82129_("respectTeams", BoolArgumentType.bool()).then(Commands.m_82129_("targets", EntityArgument.m_91460_()).executes((p_248172_) -> {
+-         return m_138702_(p_248172_.getSource(), Vec2Argument.m_120825_(p_248172_, "center"), FloatArgumentType.getFloat(p_248172_, "spreadDistance"), FloatArgumentType.getFloat(p_248172_, "maxRange"), p_248172_.getSource().m_81372_().m_151558_(), BoolArgumentType.getBool(p_248172_, "respectTeams"), EntityArgument.m_91461_(p_248172_, "targets"));
++         return spreadPlayers(p_248172_.getSource(), Vec2Argument.m_120825_(p_248172_, "center"), FloatArgumentType.getFloat(p_248172_, "spreadDistance"), FloatArgumentType.getFloat(p_248172_, "maxRange"), p_248172_.getSource().m_81372_().getMaxBuildHeight(), BoolArgumentType.getBool(p_248172_, "respectTeams"), EntityArgument.m_91461_(p_248172_, "targets"));
        }))).then(Commands.m_82127_("under").then(Commands.m_82129_("maxHeight", IntegerArgumentType.integer()).then(Commands.m_82129_("respectTeams", BoolArgumentType.bool()).then(Commands.m_82129_("targets", EntityArgument.m_91460_()).executes((p_201850_) -> {
 -         return m_138702_(p_201850_.getSource(), Vec2Argument.m_120825_(p_201850_, "center"), FloatArgumentType.getFloat(p_201850_, "spreadDistance"), FloatArgumentType.getFloat(p_201850_, "maxRange"), IntegerArgumentType.getInteger(p_201850_, "maxHeight"), BoolArgumentType.getBool(p_201850_, "respectTeams"), EntityArgument.m_91461_(p_201850_, "targets"));
 +         return spreadPlayers(p_201850_.getSource(), Vec2Argument.m_120825_(p_201850_, "center"), FloatArgumentType.getFloat(p_201850_, "spreadDistance"), FloatArgumentType.getFloat(p_201850_, "maxRange"), IntegerArgumentType.getInteger(p_201850_, "maxHeight"), BoolArgumentType.getBool(p_201850_, "respectTeams"), EntityArgument.m_91461_(p_201850_, "targets"));
@@ -62,8 +62,8 @@
              spreadplayerscommand$position = p_138732_[i++];
           }
  
--         entity.m_20324_((double)Mth.m_14107_(spreadplayerscommand$position.f_138749_) + 0.5D, (double)spreadplayerscommand$position.m_138758_(p_138731_, p_138733_), (double)Mth.m_14107_(spreadplayerscommand$position.f_138750_) + 0.5D);
-+         entity.m_20324_((double)Mth.m_14107_(spreadplayerscommand$position.f_138749_) + 0.5D, (double)spreadplayerscommand$position.getSpawnY(p_138731_, p_138733_), (double)Mth.m_14107_(spreadplayerscommand$position.f_138750_) + 0.5D);
+-         entity.m_264318_(p_138731_, (double)Mth.m_14107_(spreadplayerscommand$position.f_138749_) + 0.5D, (double)spreadplayerscommand$position.m_138758_(p_138731_, p_138733_), (double)Mth.m_14107_(spreadplayerscommand$position.f_138750_) + 0.5D, Set.of(), entity.m_146908_(), entity.m_146909_());
++         entity.m_264318_(p_138731_, (double)Mth.m_14107_(spreadplayerscommand$position.f_138749_) + 0.5D, (double)spreadplayerscommand$position.getSpawnY(p_138731_, p_138733_), (double)Mth.m_14107_(spreadplayerscommand$position.f_138750_) + 0.5D, Set.of(), entity.m_146908_(), entity.m_146909_());
           double d2 = Double.MAX_VALUE;
  
           for(SpreadPlayersCommand.Position spreadplayerscommand$position1 : p_138732_) {
@@ -93,9 +93,9 @@
        }
  
 -      public boolean m_138773_(BlockGetter p_138774_, int p_138775_) {
--         BlockPos blockpos = new BlockPos(this.f_138749_, (double)(this.m_138758_(p_138774_, p_138775_) - 1), this.f_138750_);
+-         BlockPos blockpos = BlockPos.m_274561_(this.f_138749_, (double)(this.m_138758_(p_138774_, p_138775_) - 1), this.f_138750_);
 +      public boolean isSafe(BlockGetter p_138774_, long p_138775_) {
-+         BlockPos blockpos = new BlockPos(this.f_138749_, (double)(this.getSpawnY(p_138774_, p_138775_) - 1), this.f_138750_);
++         BlockPos blockpos = BlockPos.m_274561_(this.f_138749_, (double)(this.getSpawnY(p_138774_, p_138775_) - 1), this.f_138750_);
           BlockState blockstate = p_138774_.m_8055_(blockpos);
           Material material = blockstate.m_60767_();
 -         return blockpos.m_123342_() < p_138775_ && !material.m_76332_() && material != Material.f_76309_;

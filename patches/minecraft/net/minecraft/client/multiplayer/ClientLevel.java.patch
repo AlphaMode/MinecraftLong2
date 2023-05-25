@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/multiplayer/ClientLevel.java
 +++ b/net/minecraft/client/multiplayer/ClientLevel.java
-@@ -251,7 +_,7 @@
+@@ -252,7 +_,7 @@
     }
  
     public boolean m_183599_(Entity p_194185_) {
@@ -9,7 +9,7 @@
     }
  
     public void m_104639_(Entity p_104640_) {
-@@ -294,7 +_,7 @@
+@@ -295,7 +_,7 @@
  
     public void m_171649_(ChunkPos p_171650_) {
        this.f_104558_.forEach((p_194154_, p_194155_) -> {
@@ -18,7 +18,7 @@
        });
        this.f_171631_.m_157651_(p_171650_);
     }
-@@ -305,7 +_,7 @@
+@@ -306,7 +_,7 @@
        });
     }
  
@@ -27,8 +27,8 @@
        return true;
     }
  
-@@ -344,15 +_,15 @@
-       this.f_104561_.m_6198_().m_129507_(Component.m_237115_("multiplayer.status.quitting"));
+@@ -345,15 +_,15 @@
+       this.f_104561_.m_104910_().m_129507_(Component.m_237115_("multiplayer.status.quitting"));
     }
  
 -   public void m_104784_(int p_104785_, int p_104786_, int p_104787_) {
@@ -46,7 +46,7 @@
        }
  
     }
-@@ -371,11 +_,11 @@
+@@ -372,11 +_,11 @@
        return null;
     }
  
@@ -63,7 +63,7 @@
        BlockState blockstate = this.m_8055_(p_233619_);
        blockstate.m_60734_().m_214162_(blockstate, this, p_233619_, p_233617_);
        FluidState fluidstate = this.m_6425_(p_233619_);
-@@ -384,7 +_,7 @@
+@@ -385,7 +_,7 @@
           ParticleOptions particleoptions = fluidstate.m_76189_();
           if (particleoptions != null && this.f_46441_.m_188503_(10) == 0) {
              boolean flag = blockstate.m_60783_(this, p_233619_, Direction.DOWN);
@@ -72,16 +72,16 @@
              this.m_104689_(blockpos, this.m_8055_(blockpos), particleoptions, flag);
           }
        }
-@@ -396,7 +_,7 @@
+@@ -397,7 +_,7 @@
        if (!blockstate.m_60838_(this, p_233619_)) {
-          this.m_204166_(p_233619_).m_203334_().m_47562_().ifPresent((p_194166_) -> {
-             if (p_194166_.m_220527_(this.f_46441_)) {
--               this.m_7106_(p_194166_.m_47419_(), (double)p_233619_.m_123341_() + this.f_46441_.m_188500_(), (double)p_233619_.m_123342_() + this.f_46441_.m_188500_(), (double)p_233619_.m_123343_() + this.f_46441_.m_188500_(), 0.0D, 0.0D, 0.0D);
-+               this.m_7106_(p_194166_.m_47419_(), (double)p_233619_.getX() + this.f_46441_.m_188500_(), (double)p_233619_.getY() + this.f_46441_.m_188500_(), (double)p_233619_.getZ() + this.f_46441_.m_188500_(), 0.0D, 0.0D, 0.0D);
+          this.m_204166_(p_233619_).m_203334_().m_47562_().ifPresent((p_264703_) -> {
+             if (p_264703_.m_220527_(this.f_46441_)) {
+-               this.m_7106_(p_264703_.m_47419_(), (double)p_233619_.m_123341_() + this.f_46441_.m_188500_(), (double)p_233619_.m_123342_() + this.f_46441_.m_188500_(), (double)p_233619_.m_123343_() + this.f_46441_.m_188500_(), 0.0D, 0.0D, 0.0D);
++               this.m_7106_(p_264703_.m_47419_(), (double)p_233619_.getX() + this.f_46441_.m_188500_(), (double)p_233619_.getY() + this.f_46441_.m_188500_(), (double)p_233619_.getZ() + this.f_46441_.m_188500_(), 0.0D, 0.0D, 0.0D);
              }
  
           });
-@@ -410,19 +_,19 @@
+@@ -411,19 +_,19 @@
           double d0 = voxelshape.m_83297_(Direction.Axis.Y);
           if (d0 < 1.0D) {
              if (p_104693_) {
@@ -105,7 +105,7 @@
                 }
              }
           }
-@@ -431,7 +_,7 @@
+@@ -432,7 +_,7 @@
     }
  
     private void m_104694_(BlockPos p_104695_, ParticleOptions p_104696_, VoxelShape p_104697_, double p_104698_) {
@@ -114,16 +114,7 @@
     }
  
     private void m_104592_(double p_104593_, double p_104594_, double p_104595_, double p_104596_, double p_104597_, ParticleOptions p_104598_) {
-@@ -464,7 +_,7 @@
-    }
- 
-    public void m_104677_(BlockPos p_104678_, SoundEvent p_104679_, SoundSource p_104680_, float p_104681_, float p_104682_, boolean p_104683_) {
--      this.m_7785_((double)p_104678_.m_123341_() + 0.5D, (double)p_104678_.m_123342_() + 0.5D, (double)p_104678_.m_123343_() + 0.5D, p_104679_, p_104680_, p_104681_, p_104682_, p_104683_);
-+      this.m_7785_((double)p_104678_.getX() + 0.5D, (double)p_104678_.getY() + 0.5D, (double)p_104678_.getZ() + 0.5D, p_104679_, p_104680_, p_104681_, p_104682_, p_104683_);
-    }
- 
-    public void m_7785_(double p_104600_, double p_104601_, double p_104602_, SoundEvent p_104603_, SoundSource p_104604_, float p_104605_, float p_104606_, boolean p_104607_) {
-@@ -540,12 +_,12 @@
+@@ -536,12 +_,12 @@
        this.f_104562_.m_109721_(p_104759_, p_104760_, p_104761_);
     }
  
@@ -140,16 +131,16 @@
        if (levelchunk != null) {
           levelchunk.m_196864_(true);
        }
-@@ -594,7 +_,7 @@
+@@ -590,7 +_,7 @@
        return this.f_104566_;
     }
  
 -   public Holder<Biome> m_203675_(int p_205516_, int p_205517_, int p_205518_) {
 +   public Holder<Biome> getUncachedNoiseBiome(long p_205516_, long p_205517_, long p_205518_) {
-       return this.m_5962_().m_175515_(Registry.f_122885_).m_206081_(Biomes.f_48202_);
+       return this.m_9598_().m_175515_(Registries.f_256952_).m_246971_(Biomes.f_48202_);
     }
  
-@@ -613,7 +_,7 @@
+@@ -609,7 +_,7 @@
        Vec3 vec3 = p_171661_.m_82492_(2.0D, 2.0D, 2.0D).m_82490_(0.25D);
        BiomeManager biomemanager = this.m_7062_();
        Vec3 vec31 = CubicSampler.m_130038_(vec3, (p_194161_, p_194162_, p_194163_) -> {
@@ -158,14 +149,7 @@
        });
        float f1 = Mth.m_14089_(f * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
        f1 = Mth.m_14036_(f1, 0.0F, 1.0F);
-@@ -723,24 +_,24 @@
- 
-    public int m_6171_(BlockPos p_104700_, ColorResolver p_104701_) {
-       BlockTintCache blocktintcache = this.f_104558_.get(p_104701_);
--      return blocktintcache.m_193812_(p_104700_);
-+      return (int) blocktintcache.getColor(p_104700_);
-    }
- 
+@@ -725,18 +_,18 @@
     public int m_104762_(BlockPos p_104763_, ColorResolver p_104764_) {
        int i = Minecraft.m_91087_().f_91066_.m_232121_().m_231551_();
        if (i == 0) {

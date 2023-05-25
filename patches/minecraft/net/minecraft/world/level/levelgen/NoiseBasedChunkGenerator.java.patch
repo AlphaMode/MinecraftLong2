@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
 +++ b/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
-@@ -110,79 +_,79 @@
+@@ -108,79 +_,79 @@
        return this.f_64318_.m_203565_(p_224222_);
     }
  
@@ -67,7 +67,7 @@
 +         long k2 = k1 * i1;
           double d0 = (double)l1 / (double)i1;
           double d1 = (double)i2 / (double)i1;
-          NoiseChunk noisechunk = new NoiseChunk(1, p_224241_, j2, k2, noisesettings, DensityFunctions.BeardifierMarker.INSTANCE, this.f_64318_.m_203334_(), this.f_188607_, Blender.m_190153_());
+          NoiseChunk noisechunk = new NoiseChunk(1, p_224241_, j2, k2, noisesettings, DensityFunctions.BeardifierMarker.INSTANCE, this.f_64318_.m_203334_(), this.f_188607_.get(), Blender.m_190153_());
           noisechunk.m_188791_();
           noisechunk.m_188749_(0);
  
@@ -88,7 +88,7 @@
 +               noisechunk.updateForX(p_224242_, d0);
 +               noisechunk.updateForZ(p_224243_, d1);
                 BlockState blockstate = noisechunk.m_209247_();
-                BlockState blockstate1 = blockstate == null ? this.f_64316_ : blockstate;
+                BlockState blockstate1 = blockstate == null ? this.f_64318_.m_203334_().f_64440_() : blockstate;
                 if (ablockstate != null) {
 -                  int k3 = l2 * i + i3;
 -                  ablockstate[k3] = blockstate1;
@@ -110,16 +110,16 @@
        }
     }
  
-@@ -204,7 +_,7 @@
+@@ -202,7 +_,7 @@
  
     public void m_213679_(WorldGenRegion p_224224_, long p_224225_, RandomState p_224226_, BiomeManager p_224227_, StructureManager p_224228_, ChunkAccess p_224229_, GenerationStep.Carving p_224230_) {
-       BiomeManager biomemanager = p_224227_.m_186687_((p_224281_, p_224282_, p_224283_) -> {
--         return this.f_62137_.m_203407_(p_224281_, p_224282_, p_224283_, p_224226_.m_224579_());
-+         return this.f_62137_.getNoiseBiome(p_224281_, p_224282_, p_224283_, p_224226_.m_224579_());
+       BiomeManager biomemanager = p_224227_.m_186687_((p_255581_, p_255582_, p_255583_) -> {
+-         return this.f_62137_.m_203407_(p_255581_, p_255582_, p_255583_, p_224226_.m_224579_());
++         return this.f_62137_.getNoiseBiome(p_255581_, p_255582_, p_255583_, p_224226_.m_224579_());
        });
        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.m_224599_()));
        int i = 8;
-@@ -219,16 +_,16 @@
+@@ -217,16 +_,16 @@
        for(int j = -8; j <= 8; ++j) {
           for(int k = -8; k <= 8; ++k) {
              ChunkPos chunkpos1 = new ChunkPos(chunkpos.f_45578_ + j, chunkpos.f_45579_ + k);
@@ -139,7 +139,7 @@
                 if (configuredworldcarver.m_224896_(worldgenrandom)) {
                    configuredworldcarver.m_224898_(carvingcontext, p_224229_, biomemanager::m_204214_, worldgenrandom, aquifer, chunkpos1, carvingmask);
                 }
-@@ -242,24 +_,24 @@
+@@ -240,24 +_,24 @@
  
     public CompletableFuture<ChunkAccess> m_213974_(Executor p_224312_, Blender p_224313_, RandomState p_224314_, StructureManager p_224315_, ChunkAccess p_224316_) {
        NoiseSettings noisesettings = this.f_64318_.m_203334_().f_64439_().m_224530_(p_224316_.m_183618_());
@@ -172,7 +172,7 @@
           }), Util.m_183991_()).whenCompleteAsync((p_224309_, p_224310_) -> {
              for(LevelChunkSection levelchunksection1 : set) {
                 levelchunksection1.m_63006_();
-@@ -269,71 +_,71 @@
+@@ -267,71 +_,71 @@
        }
     }
  
@@ -251,7 +251,7 @@
 +                        noisechunk.updateForZ(j4, d2);
                          BlockState blockstate = noisechunk.m_209247_();
                          if (blockstate == null) {
-                            blockstate = this.f_64316_;
+                            blockstate = this.f_64318_.m_203334_().f_64440_();
                          }
  
 -                        blockstate = this.m_198231_(noisechunk, k3, k2, j4, blockstate);
@@ -275,7 +275,7 @@
                                p_224288_.m_8113_(blockpos$mutableblockpos);
                             }
                          }
-@@ -350,28 +_,28 @@
+@@ -348,28 +_,28 @@
        return p_224288_;
     }
  
@@ -290,7 +290,8 @@
 +      return this.f_64318_.m_203334_().f_64439_().height();
     }
  
-    public int m_6337_() {
+-   public int m_6337_() {
++   public long getSeaLevel() {
        return this.f_64318_.m_203334_().f_64444_();
     }
  

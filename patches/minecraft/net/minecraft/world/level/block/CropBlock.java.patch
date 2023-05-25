@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/CropBlock.java
 +++ b/net/minecraft/world/level/block/CropBlock.java
-@@ -92,7 +_,7 @@
+@@ -92,12 +_,12 @@
  
     protected static float m_52272_(Block p_52273_, BlockGetter p_52274_, BlockPos p_52275_) {
        float f = 1.0F;
@@ -9,6 +9,12 @@
  
        for(int i = -1; i <= 1; ++i) {
           for(int j = -1; j <= 1; ++j) {
+             float f1 = 0.0F;
+-            BlockState blockstate = p_52274_.m_8055_(blockpos.m_7918_(i, 0, j));
++            BlockState blockstate = p_52274_.m_8055_(blockpos.offset(i, 0, j));
+             if (blockstate.m_60713_(Blocks.f_50093_)) {
+                f1 = 1.0F;
+                if (blockstate.m_61143_(FarmBlock.f_53243_) > 0) {
 @@ -113,16 +_,16 @@
           }
        }

@@ -1,24 +1,60 @@
 --- a/net/minecraft/network/protocol/game/ServerboundSetStructureBlockPacket.java
 +++ b/net/minecraft/network/protocol/game/ServerboundSetStructureBlockPacket.java
-@@ -52,7 +_,7 @@
+@@ -19,7 +_,7 @@
+    private final StructureMode f_134595_;
+    private final String f_134596_;
+    private final BlockPos f_134597_;
+-   private final Vec3i f_134598_;
++   private final me.alphamode.mclong.core.Vec3l f_134598_;
+    private final Mirror f_134599_;
+    private final Rotation f_134600_;
+    private final String f_134601_;
+@@ -29,7 +_,7 @@
+    private final float f_134605_;
+    private final long f_134606_;
+ 
+-   public ServerboundSetStructureBlockPacket(BlockPos p_179771_, StructureBlockEntity.UpdateType p_179772_, StructureMode p_179773_, String p_179774_, BlockPos p_179775_, Vec3i p_179776_, Mirror p_179777_, Rotation p_179778_, String p_179779_, boolean p_179780_, boolean p_179781_, boolean p_179782_, float p_179783_, long p_179784_) {
++   public ServerboundSetStructureBlockPacket(BlockPos p_179771_, StructureBlockEntity.UpdateType p_179772_, StructureMode p_179773_, String p_179774_, BlockPos p_179775_, me.alphamode.mclong.core.Vec3l p_179776_, Mirror p_179777_, Rotation p_179778_, String p_179779_, boolean p_179780_, boolean p_179781_, boolean p_179782_, float p_179783_, long p_179784_) {
+       this.f_134593_ = p_179771_;
+       this.f_134594_ = p_179772_;
+       this.f_134595_ = p_179773_;
+@@ -52,9 +_,9 @@
        this.f_134595_ = p_179786_.m_130066_(StructureMode.class);
        this.f_134596_ = p_179786_.m_130277_();
        int i = 48;
 -      this.f_134597_ = new BlockPos(Mth.m_14045_(p_179786_.readByte(), -48, 48), Mth.m_14045_(p_179786_.readByte(), -48, 48), Mth.m_14045_(p_179786_.readByte(), -48, 48));
-+      this.f_134597_ = new BlockPos(Mth.m_14053_(p_179786_.readLong(), -48, 48), Mth.m_14053_(p_179786_.readLong(), -48, 48), Mth.m_14053_(p_179786_.readLong(), -48, 48));
++      this.f_134597_ = new BlockPos(Mth.clamp(p_179786_.readLong(), -48, 48), Mth.clamp(p_179786_.readLong(), -48, 48), Mth.clamp(p_179786_.readLong(), -48, 48));
        int j = 48;
-       this.f_134598_ = new Vec3i(Mth.m_14045_(p_179786_.readByte(), 0, 48), Mth.m_14045_(p_179786_.readByte(), 0, 48), Mth.m_14045_(p_179786_.readByte(), 0, 48));
+-      this.f_134598_ = new Vec3i(Mth.m_14045_(p_179786_.readByte(), 0, 48), Mth.m_14045_(p_179786_.readByte(), 0, 48), Mth.m_14045_(p_179786_.readByte(), 0, 48));
++      this.f_134598_ = new me.alphamode.mclong.core.Vec3l(Mth.clamp(p_179786_.readLong(), 0, 48), Mth.clamp(p_179786_.readLong(), 0, 48), Mth.clamp(p_179786_.readLong(), 0, 48));
        this.f_134599_ = p_179786_.m_130066_(Mirror.class);
-@@ -71,9 +_,9 @@
+       this.f_134600_ = p_179786_.m_130066_(Rotation.class);
+       this.f_134601_ = p_179786_.m_130136_(128);
+@@ -71,12 +_,12 @@
        p_134631_.m_130068_(this.f_134594_);
        p_134631_.m_130068_(this.f_134595_);
        p_134631_.m_130070_(this.f_134596_);
 -      p_134631_.writeByte(this.f_134597_.m_123341_());
 -      p_134631_.writeByte(this.f_134597_.m_123342_());
 -      p_134631_.writeByte(this.f_134597_.m_123343_());
+-      p_134631_.writeByte(this.f_134598_.m_123341_());
+-      p_134631_.writeByte(this.f_134598_.m_123342_());
+-      p_134631_.writeByte(this.f_134598_.m_123343_());
 +      p_134631_.writeLong(this.f_134597_.getX());
 +      p_134631_.writeLong(this.f_134597_.getY());
 +      p_134631_.writeLong(this.f_134597_.getZ());
-       p_134631_.writeByte(this.f_134598_.m_123341_());
-       p_134631_.writeByte(this.f_134598_.m_123342_());
-       p_134631_.writeByte(this.f_134598_.m_123343_());
++      p_134631_.writeLong(this.f_134598_.getX());
++      p_134631_.writeLong(this.f_134598_.getY());
++      p_134631_.writeLong(this.f_134598_.getZ());
+       p_134631_.m_130068_(this.f_134599_);
+       p_134631_.m_130068_(this.f_134600_);
+       p_134631_.m_130070_(this.f_134601_);
+@@ -122,7 +_,7 @@
+       return this.f_134597_;
+    }
+ 
+-   public Vec3i m_179787_() {
++   public me.alphamode.mclong.core.Vec3l getSize() {
+       return this.f_134598_;
+    }
+ 

@@ -1,27 +1,57 @@
 --- a/net/minecraft/client/renderer/blockentity/StructureBlockRenderer.java
 +++ b/net/minecraft/client/renderer/blockentity/StructureBlockRenderer.java
-@@ -27,9 +_,9 @@
-          Vec3i vec3i = p_112583_.m_155805_();
-          if (vec3i.m_123341_() >= 1 && vec3i.m_123342_() >= 1 && vec3i.m_123343_() >= 1) {
+@@ -24,27 +_,27 @@
+    public void m_6922_(StructureBlockEntity p_112583_, float p_112584_, PoseStack p_112585_, MultiBufferSource p_112586_, int p_112587_, int p_112588_) {
+       if (Minecraft.m_91087_().f_91074_.m_36337_() || Minecraft.m_91087_().f_91074_.m_5833_()) {
+          BlockPos blockpos = p_112583_.m_59902_();
+-         Vec3i vec3i = p_112583_.m_155805_();
+-         if (vec3i.m_123341_() >= 1 && vec3i.m_123342_() >= 1 && vec3i.m_123343_() >= 1) {
++         me.alphamode.mclong.core.Vec3l vec3i = p_112583_.getStructureSize();
++         if (vec3i.getX() >= 1 && vec3i.getY() >= 1 && vec3i.getZ() >= 1) {
              if (p_112583_.m_59908_() == StructureMode.SAVE || p_112583_.m_59908_() == StructureMode.LOAD) {
 -               double d0 = (double)blockpos.m_123341_();
 -               double d1 = (double)blockpos.m_123343_();
 -               double d5 = (double)blockpos.m_123342_();
+-               double d8 = d5 + (double)vec3i.m_123342_();
 +               double d0 = (double)blockpos.getX();
 +               double d1 = (double)blockpos.getZ();
 +               double d5 = (double)blockpos.getY();
-                double d8 = d5 + (double)vec3i.m_123342_();
++               double d8 = d5 + (double)vec3i.getY();
                 double d2;
                 double d3;
-@@ -97,7 +_,7 @@
+                switch (p_112583_.m_59905_()) {
+                   case LEFT_RIGHT:
+-                     d2 = (double)vec3i.m_123341_();
+-                     d3 = (double)(-vec3i.m_123343_());
++                     d2 = (double)vec3i.getX();
++                     d3 = (double)(-vec3i.getZ());
+                      break;
+                   case FRONT_BACK:
+-                     d2 = (double)(-vec3i.m_123341_());
+-                     d3 = (double)vec3i.m_123343_();
++                     d2 = (double)(-vec3i.getX());
++                     d3 = (double)vec3i.getZ();
+                      break;
+                   default:
+-                     d2 = (double)vec3i.m_123341_();
+-                     d3 = (double)vec3i.m_123343_();
++                     d2 = (double)vec3i.getX();
++                     d3 = (double)vec3i.getZ();
+                }
+ 
+                double d4;
+@@ -97,9 +_,9 @@
     private void m_173676_(StructureBlockEntity p_173677_, VertexConsumer p_173678_, BlockPos p_173679_, PoseStack p_173680_) {
        BlockGetter blockgetter = p_173677_.m_58904_();
        BlockPos blockpos = p_173677_.m_58899_();
 -      BlockPos blockpos1 = blockpos.m_121955_(p_173679_);
 +      BlockPos blockpos1 = blockpos.offset(p_173679_);
  
-       for(BlockPos blockpos2 : BlockPos.m_121940_(blockpos1, blockpos1.m_121955_(p_173677_.m_155805_()).m_7918_(-1, -1, -1))) {
+-      for(BlockPos blockpos2 : BlockPos.m_121940_(blockpos1, blockpos1.m_121955_(p_173677_.m_155805_()).m_7918_(-1, -1, -1))) {
++      for(BlockPos blockpos2 : BlockPos.m_121940_(blockpos1, blockpos1.offset(p_173677_.getStructureSize()).offset(-1, -1, -1))) {
           BlockState blockstate = blockgetter.m_8055_(blockpos2);
+          boolean flag = blockstate.m_60795_();
+          boolean flag1 = blockstate.m_60713_(Blocks.f_50454_);
 @@ -108,12 +_,12 @@
           boolean flag4 = flag1 || flag2 || flag3;
           if (flag || flag4) {

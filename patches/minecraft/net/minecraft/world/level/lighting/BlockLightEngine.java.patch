@@ -1,13 +1,34 @@
 --- a/net/minecraft/world/level/lighting/BlockLightEngine.java
 +++ b/net/minecraft/world/level/lighting/BlockLightEngine.java
-@@ -24,8 +_,8 @@
-       int i = BlockPos.m_121983_(p_75509_);
-       int j = BlockPos.m_122008_(p_75509_);
-       int k = BlockPos.m_122015_(p_75509_);
+@@ -21,11 +_,11 @@
+    }
+ 
+    private int m_75508_(long p_75509_) {
+-      int i = BlockPos.m_121983_(p_75509_);
+-      int j = BlockPos.m_122008_(p_75509_);
+-      int k = BlockPos.m_122015_(p_75509_);
 -      BlockGetter blockgetter = this.f_75630_.m_6196_(SectionPos.m_123171_(i), SectionPos.m_123171_(k));
 -      return blockgetter != null ? blockgetter.m_7146_(this.f_75489_.m_122178_(i, j, k)) : 0;
++      long i = BlockPos.getX(p_75509_);
++      long j = BlockPos.getY(p_75509_);
++      long k = BlockPos.getZ(p_75509_);
 +      BlockGetter blockgetter = this.f_75630_.getChunkForLighting(SectionPos.blockToSectionCoord(i), SectionPos.blockToSectionCoord(k));
 +      return blockgetter != null ? blockgetter.m_7146_(this.f_75489_.set(i, j, k)) : 0;
     }
  
     protected int m_6359_(long p_75505_, long p_75506_, int p_75507_) {
+@@ -36,10 +_,10 @@
+       } else if (p_75507_ >= 15) {
+          return p_75507_;
+       } else {
+-         int i = Integer.signum(BlockPos.m_121983_(p_75506_) - BlockPos.m_121983_(p_75505_));
+-         int j = Integer.signum(BlockPos.m_122008_(p_75506_) - BlockPos.m_122008_(p_75505_));
+-         int k = Integer.signum(BlockPos.m_122015_(p_75506_) - BlockPos.m_122015_(p_75505_));
+-         Direction direction = Direction.m_122378_(i, j, k);
++         long i = java.lang.Long.signum(BlockPos.getX(p_75506_) - BlockPos.getX(p_75505_));
++         long j = java.lang.Long.signum(BlockPos.getY(p_75506_) - BlockPos.getY(p_75505_));
++         long k = java.lang.Long.signum(BlockPos.getZ(p_75506_) - BlockPos.getZ(p_75505_));
++         Direction direction = Direction.fromNormal(i, j, k);
+          if (direction == null) {
+             return 15;
+          } else {

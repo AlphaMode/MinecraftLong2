@@ -1,47 +1,51 @@
 --- a/net/minecraft/server/commands/CloneCommands.java
 +++ b/net/minecraft/server/commands/CloneCommands.java
-@@ -79,13 +_,13 @@
-    }
- 
-    private static int m_136735_(CommandSourceStack p_136736_, BlockPos p_136737_, BlockPos p_136738_, BlockPos p_136739_, Predicate<BlockInWorld> p_136740_, CloneCommands.Mode p_136741_) throws CommandSyntaxException {
--      BoundingBox boundingbox = BoundingBox.m_162375_(p_136737_, p_136738_);
-+      BoundingBox boundingbox = BoundingBox.fromCorners(p_136737_, p_136738_);
-       BlockPos blockpos = p_136739_.m_121955_(boundingbox.m_71053_());
--      BoundingBox boundingbox1 = BoundingBox.m_162375_(p_136739_, blockpos);
-+      BoundingBox boundingbox1 = BoundingBox.fromCorners(p_136739_, blockpos);
-       if (!p_136741_.m_136796_() && boundingbox1.m_71049_(boundingbox)) {
+@@ -108,16 +_,16 @@
+    private static int m_264087_(CommandSourceStack p_265047_, CloneCommands.DimensionAndPosition p_265232_, CloneCommands.DimensionAndPosition p_265188_, CloneCommands.DimensionAndPosition p_265594_, Predicate<BlockInWorld> p_265585_, CloneCommands.Mode p_265530_) throws CommandSyntaxException {
+       BlockPos blockpos = p_265232_.f_263824_();
+       BlockPos blockpos1 = p_265188_.f_263824_();
+-      BoundingBox boundingbox = BoundingBox.m_162375_(blockpos, blockpos1);
++      BoundingBox boundingbox = BoundingBox.fromCorners(blockpos, blockpos1);
+       BlockPos blockpos2 = p_265594_.f_263824_();
+-      BlockPos blockpos3 = blockpos2.m_121955_(boundingbox.m_71053_());
+-      BoundingBox boundingbox1 = BoundingBox.m_162375_(blockpos2, blockpos3);
++      BlockPos blockpos3 = blockpos2.offset(boundingbox.getLength());
++      BoundingBox boundingbox1 = BoundingBox.fromCorners(blockpos2, blockpos3);
+       ServerLevel serverlevel = p_265232_.f_263735_();
+       ServerLevel serverlevel1 = p_265594_.f_263735_();
+       if (!p_265530_.m_136796_() && serverlevel == serverlevel1 && boundingbox1.m_71049_(boundingbox)) {
           throw f_136723_.create();
        } else {
 -         int i = boundingbox.m_71056_() * boundingbox.m_71057_() * boundingbox.m_71058_();
 +         long i = boundingbox.getXSpan() * boundingbox.getYSpan() * boundingbox.getZSpan();
-          if (i > 32768) {
-             throw f_136724_.create(32768, i);
-          } else {
-@@ -95,13 +_,13 @@
-                List<CloneCommands.CloneBlockInfo> list1 = Lists.newArrayList();
-                List<CloneCommands.CloneBlockInfo> list2 = Lists.newArrayList();
-                Deque<BlockPos> deque = Lists.newLinkedList();
--               BlockPos blockpos1 = new BlockPos(boundingbox1.m_162395_() - boundingbox.m_162395_(), boundingbox1.m_162396_() - boundingbox.m_162396_(), boundingbox1.m_162398_() - boundingbox.m_162398_());
-+               BlockPos blockpos1 = new BlockPos(boundingbox1.minX() - boundingbox.minX(), boundingbox1.minY() - boundingbox.minY(), boundingbox1.minZ() - boundingbox.minZ());
+          int j = p_265047_.m_81372_().m_46469_().m_46215_(GameRules.f_263760_);
+          if (i > j) {
+             throw f_136724_.create(j, i);
+@@ -126,13 +_,13 @@
+             List<CloneCommands.CloneBlockInfo> list1 = Lists.newArrayList();
+             List<CloneCommands.CloneBlockInfo> list2 = Lists.newArrayList();
+             Deque<BlockPos> deque = Lists.newLinkedList();
+-            BlockPos blockpos4 = new BlockPos(boundingbox1.m_162395_() - boundingbox.m_162395_(), boundingbox1.m_162396_() - boundingbox.m_162396_(), boundingbox1.m_162398_() - boundingbox.m_162398_());
++            BlockPos blockpos4 = new BlockPos(boundingbox1.minX() - boundingbox.minX(), boundingbox1.minY() - boundingbox.minY(), boundingbox1.minZ() - boundingbox.minZ());
  
--               for(int j = boundingbox.m_162398_(); j <= boundingbox.m_162401_(); ++j) {
--                  for(int k = boundingbox.m_162396_(); k <= boundingbox.m_162400_(); ++k) {
--                     for(int l = boundingbox.m_162395_(); l <= boundingbox.m_162399_(); ++l) {
-+               for(long j = boundingbox.minZ(); j <= boundingbox.maxZ(); ++j) {
-+                  for(long k = boundingbox.minY(); k <= boundingbox.maxY(); ++k) {
-+                     for(long l = boundingbox.minX(); l <= boundingbox.maxX(); ++l) {
-                         BlockPos blockpos2 = new BlockPos(l, k, j);
--                        BlockPos blockpos3 = blockpos2.m_121955_(blockpos1);
-+                        BlockPos blockpos3 = blockpos2.offset(blockpos1);
-                         BlockInWorld blockinworld = new BlockInWorld(serverlevel, blockpos2, false);
-                         BlockState blockstate = blockinworld.m_61168_();
-                         if (p_136740_.test(blockinworld)) {
-@@ -168,7 +_,7 @@
-                   serverlevel.m_6289_(clonecommands$cloneblockinfo3.f_136779_, clonecommands$cloneblockinfo3.f_136780_.m_60734_());
-                }
+-            for(int k = boundingbox.m_162398_(); k <= boundingbox.m_162401_(); ++k) {
+-               for(int l = boundingbox.m_162396_(); l <= boundingbox.m_162400_(); ++l) {
+-                  for(int i1 = boundingbox.m_162395_(); i1 <= boundingbox.m_162399_(); ++i1) {
++            for(long k = boundingbox.minZ(); k <= boundingbox.maxZ(); ++k) {
++               for(long l = boundingbox.minY(); l <= boundingbox.maxY(); ++l) {
++                  for(long i1 = boundingbox.minX(); i1 <= boundingbox.maxX(); ++i1) {
+                      BlockPos blockpos5 = new BlockPos(i1, l, k);
+-                     BlockPos blockpos6 = blockpos5.m_121955_(blockpos4);
++                     BlockPos blockpos6 = blockpos5.offset(blockpos4);
+                      BlockInWorld blockinworld = new BlockInWorld(serverlevel, blockpos5, false);
+                      BlockState blockstate = blockinworld.m_61168_();
+                      if (p_265585_.test(blockinworld)) {
+@@ -199,7 +_,7 @@
+                serverlevel1.m_6289_(clonecommands$cloneblockinfo3.f_136779_, clonecommands$cloneblockinfo3.f_136780_.m_60734_());
+             }
  
--               serverlevel.m_183326_().m_193242_(boundingbox, blockpos1);
-+               serverlevel.m_183326_().copyArea(boundingbox, blockpos1);
-                if (i1 == 0) {
-                   throw f_136725_.create();
-                } else {
+-            serverlevel1.m_183326_().m_264560_(serverlevel.m_183326_(), boundingbox, blockpos4);
++            serverlevel1.m_183326_().copyAreaFrom(serverlevel.m_183326_(), boundingbox, blockpos4);
+             if (j1 == 0) {
+                throw f_136725_.create();
+             } else {

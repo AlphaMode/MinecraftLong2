@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -667,9 +_,9 @@
+@@ -659,9 +_,9 @@
  
        p_21145_.m_128379_("FallFlying", this.m_21255_());
        this.m_21257_().ifPresent((p_21099_) -> {
@@ -13,7 +13,7 @@
        });
        DataResult<Tag> dataresult = this.f_20939_.m_21914_(NbtOps.f_128958_);
        dataresult.resultOrPartial(f_201943_::error).ifPresent((p_21102_) -> {
-@@ -716,7 +_,7 @@
+@@ -708,7 +_,7 @@
        }
  
        if (p_21096_.m_128425_("SleepingX", 99) && p_21096_.m_128425_("SleepingY", 99) && p_21096_.m_128425_("SleepingZ", 99)) {
@@ -22,7 +22,7 @@
           this.m_21250_(blockpos);
           this.f_19804_.m_135381_(f_19806_, Pose.SLEEPING);
           if (!this.f_19803_) {
-@@ -1435,7 +_,7 @@
+@@ -1437,7 +_,7 @@
  
     private boolean m_21176_(BlockPos p_21177_, BlockState p_21178_) {
        if (p_21178_.m_61143_(TrapDoorBlock.f_57514_)) {
@@ -31,7 +31,7 @@
           if (blockstate.m_60713_(Blocks.f_50155_) && blockstate.m_61143_(LadderBlock.f_54337_) == p_21178_.m_61143_(TrapDoorBlock.f_54117_)) {
              return true;
           }
-@@ -1469,9 +_,9 @@
+@@ -1475,9 +_,9 @@
  
     protected void m_21229_() {
        if (!this.m_20067_()) {
@@ -44,7 +44,7 @@
           BlockState blockstate = this.f_19853_.m_8055_(new BlockPos(i, j, k));
           if (!blockstate.m_60795_()) {
              SoundType soundtype = blockstate.m_60827_();
-@@ -2108,7 +_,7 @@
+@@ -2060,7 +_,7 @@
                 d2 += (0.05D * (double)(this.m_21124_(MobEffects.f_19620_).m_19564_() + 1) - vec35.f_82480_) * 0.2D;
                 this.m_183634_();
              } else if (this.f_19853_.f_46443_ && !this.f_19853_.m_46805_(blockpos)) {
@@ -53,7 +53,7 @@
                    d2 = -0.1D;
                 } else {
                    d2 = 0.0D;
-@@ -3026,8 +_,8 @@
+@@ -3003,8 +_,8 @@
        if (level.m_46805_(blockpos)) {
           boolean flag1 = false;
  
@@ -64,7 +64,7 @@
              BlockState blockstate = level.m_8055_(blockpos1);
              if (blockstate.m_60767_().m_76334_()) {
                 flag1 = true;
-@@ -3127,7 +_,7 @@
+@@ -3104,7 +_,7 @@
     }
  
     private void m_21080_(BlockPos p_21081_) {
@@ -73,17 +73,17 @@
     }
  
     private boolean m_21334_() {
-@@ -3142,10 +_,10 @@
-          if (blockstate.m_60734_() instanceof BedBlock) {
-             this.f_19853_.m_7731_(p_147228_, blockstate.m_61124_(BedBlock.f_49441_, Boolean.valueOf(false)), 3);
-             Vec3 vec31 = BedBlock.m_49458_(this.m_6095_(), this.f_19853_, p_147228_, this.m_146908_()).orElseGet(() -> {
--               BlockPos blockpos = p_147228_.m_7494_();
+@@ -3120,10 +_,10 @@
+             Direction direction = blockstate.m_61143_(BedBlock.f_54117_);
+             this.f_19853_.m_7731_(p_261435_, blockstate.m_61124_(BedBlock.f_49441_, Boolean.valueOf(false)), 3);
+             Vec3 vec31 = BedBlock.m_260958_(this.m_6095_(), this.f_19853_, p_261435_, direction, this.m_146908_()).orElseGet(() -> {
+-               BlockPos blockpos = p_261435_.m_7494_();
 -               return new Vec3((double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_() + 0.1D, (double)blockpos.m_123343_() + 0.5D);
-+               BlockPos blockpos = p_147228_.above();
++               BlockPos blockpos = p_261435_.above();
 +               return new Vec3((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.1D, (double)blockpos.getZ() + 0.5D);
              });
--            Vec3 vec32 = Vec3.m_82539_(p_147228_).m_82546_(vec31).m_82541_();
-+            Vec3 vec32 = Vec3.atBottomCenterOf(p_147228_).m_82546_(vec31).m_82541_();
+-            Vec3 vec32 = Vec3.m_82539_(p_261435_).m_82546_(vec31).m_82541_();
++            Vec3 vec32 = Vec3.atBottomCenterOf(p_261435_).m_82546_(vec31).m_82541_();
              float f = (float)Mth.m_14175_(Mth.m_14136_(vec32.f_82481_, vec32.f_82479_) * (double)(180F / (float)Math.PI) - 90.0D);
              this.m_6034_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_);
              this.m_146922_(f);

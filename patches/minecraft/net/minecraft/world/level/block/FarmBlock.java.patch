@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/FarmBlock.java
 +++ b/net/minecraft/world/level/block/FarmBlock.java
-@@ -36,14 +_,14 @@
+@@ -38,14 +_,14 @@
  
     public BlockState m_7417_(BlockState p_53276_, Direction p_53277_, BlockState p_53278_, LevelAccessor p_53279_, BlockPos p_53280_, BlockPos p_53281_) {
        if (p_53277_ == Direction.UP && !p_53276_.m_60710_(p_53279_, p_53280_)) {
@@ -17,7 +17,7 @@
        return !blockstate.m_60767_().m_76333_() || blockstate.m_60734_() instanceof FenceGateBlock || blockstate.m_60734_() instanceof MovingPistonBlock;
     }
  
-@@ -68,7 +_,7 @@
+@@ -70,7 +_,7 @@
  
     public void m_213898_(BlockState p_221139_, ServerLevel p_221140_, BlockPos p_221141_, RandomSource p_221142_) {
        int i = p_221139_.m_61143_(f_53243_);
@@ -26,7 +26,7 @@
           if (i > 0) {
              p_221140_.m_7731_(p_221141_, p_221139_.m_61124_(f_53243_, Integer.valueOf(i - 1)), 2);
           } else if (!m_53250_(p_221140_, p_221141_)) {
-@@ -93,7 +_,7 @@
+@@ -97,12 +_,12 @@
     }
  
     private static boolean m_53250_(BlockGetter p_53251_, BlockPos p_53252_) {
@@ -35,3 +35,9 @@
        return block instanceof CropBlock || block instanceof StemBlock || block instanceof AttachedStemBlock;
     }
  
+    private static boolean m_53258_(LevelReader p_53259_, BlockPos p_53260_) {
+-      for(BlockPos blockpos : BlockPos.m_121940_(p_53260_.m_7918_(-4, 0, -4), p_53260_.m_7918_(4, 1, 4))) {
++      for(BlockPos blockpos : BlockPos.m_121940_(p_53260_.offset(-4, 0, -4), p_53260_.offset(4, 1, 4))) {
+          if (p_53259_.m_6425_(blockpos).m_205070_(FluidTags.f_13131_)) {
+             return true;
+          }

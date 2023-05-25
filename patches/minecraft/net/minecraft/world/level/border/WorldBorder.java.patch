@@ -1,7 +1,15 @@
 --- a/net/minecraft/world/level/border/WorldBorder.java
 +++ b/net/minecraft/world/level/border/WorldBorder.java
-@@ -29,23 +_,23 @@
-    public static final WorldBorder.Settings f_61907_ = new WorldBorder.Settings(0.0D, 0.0D, 0.2D, 5.0D, 5, 15, 5.9999968E7D, 0L, 0.0D);
+@@ -24,20 +_,20 @@
+    private int f_61910_ = 5;
+    private double f_61911_;
+    private double f_61912_;
+-   int f_61913_ = 29999984;
+-   private WorldBorder.BorderExtent f_61914_ = new WorldBorder.StaticBorderExtent((double)5.999997E7F);
+-   public static final WorldBorder.Settings f_61907_ = new WorldBorder.Settings(0.0D, 0.0D, 0.2D, 5.0D, 5, 15, (double)5.999997E7F, 0L, 0.0D);
++   long f_61913_ = 29999984;
++   private WorldBorder.BorderExtent f_61914_ = new WorldBorder.StaticBorderExtent(java.lang.Long.MAX_VALUE);
++   public static final WorldBorder.Settings f_61907_ = new WorldBorder.Settings(0.0D, 0.0D, 0.2D, 5.0D, 5, 15, java.lang.Long.MAX_VALUE, 0L, 0.0D);
  
     public boolean m_61937_(BlockPos p_61938_) {
 -      return (double)(p_61938_.m_123341_() + 1) > this.m_61955_() && (double)p_61938_.m_123341_() < this.m_61957_() && (double)(p_61938_.m_123343_() + 1) > this.m_61956_() && (double)p_61938_.m_123343_() < this.m_61958_();
@@ -19,8 +27,7 @@
     }
  
     public boolean m_187562_(double p_187563_, double p_187564_, double p_187565_) {
--      return p_187563_ > this.m_61955_() - p_187565_ && p_187563_ < this.m_61957_() + p_187565_ && p_187564_ > this.m_61956_() - p_187565_ && p_187564_ < this.m_61958_() + p_187565_;
-+      return true;//p_187563_ > this.getMinX() - p_187565_ && p_187563_ < this.getMaxX() + p_187565_ && p_187564_ > this.getMinZ() - p_187565_ && p_187564_ < this.getMaxZ() + p_187565_;
+@@ -45,7 +_,7 @@
     }
  
     public boolean m_61935_(AABB p_61936_) {
@@ -38,3 +45,18 @@
     }
  
     public BorderStatus m_61954_() {
+@@ -156,12 +_,12 @@
+       this.f_61905_.remove(p_156097_);
+    }
+ 
+-   public void m_61923_(int p_61924_) {
++   public void setAbsoluteMaxSize(long p_61924_) {
+       this.f_61913_ = p_61924_;
+       this.f_61914_.m_6623_();
+    }
+ 
+-   public int m_61963_() {
++   public long getAbsoluteMaxSize() {
+       return this.f_61913_;
+    }
+ 

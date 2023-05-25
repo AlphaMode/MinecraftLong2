@@ -1,9 +1,18 @@
 --- a/net/minecraft/world/level/levelgen/blending/Blender.java
 +++ b/net/minecraft/world/level/levelgen/blending/Blender.java
-@@ -49,10 +_,10 @@
+@@ -35,7 +_,7 @@
+ 
+ public class Blender {
+    private static final Blender f_190137_ = new Blender(new Long2ObjectOpenHashMap(), new Long2ObjectOpenHashMap()) {
+-      public Blender.BlendingOutput m_207242_(int p_209724_, int p_209725_) {
++      public Blender.BlendingOutput blendOffsetAndFactor(long p_209724_, long p_209725_) {
+          return new Blender.BlendingOutput(1.0D, 0.0D);
+       }
+ 
+@@ -48,10 +_,10 @@
        }
     };
-    private static final NormalNoise f_190138_ = NormalNoise.m_230511_(new XoroshiroRandomSource(42L), BuiltinRegistries.f_194654_.m_123013_(Noises.f_189286_));
+    private static final NormalNoise f_190138_ = NormalNoise.m_230511_(new XoroshiroRandomSource(42L), NoiseData.f_254655_);
 -   private static final int f_190139_ = QuartPos.m_175404_(7) - 1;
 -   private static final int f_190140_ = QuartPos.m_175406_(f_190139_ + 3);
 +   private static final long f_190139_ = QuartPos.fromSection(7) - 1;
@@ -14,7 +23,7 @@
     private static final double f_197017_ = 8.0D;
     private final Long2ObjectOpenHashMap<BlendingData> f_224696_;
     private final Long2ObjectOpenHashMap<BlendingData> f_224697_;
-@@ -66,23 +_,23 @@
+@@ -65,23 +_,23 @@
           return f_190137_;
        } else {
           ChunkPos chunkpos = p_190203_.m_143488_();
@@ -47,7 +56,7 @@
                          }
                       }
                    }
-@@ -99,10 +_,10 @@
+@@ -98,10 +_,10 @@
        this.f_224697_ = p_202198_;
     }
  
@@ -62,7 +71,7 @@
        if (d0 != Double.MAX_VALUE) {
           return new Blender.BlendingOutput(0.0D, m_190154_(d0));
        } else {
-@@ -110,7 +_,7 @@
+@@ -109,7 +_,7 @@
           MutableDouble mutabledouble1 = new MutableDouble(0.0D);
           MutableDouble mutabledouble2 = new MutableDouble(Double.POSITIVE_INFINITY);
           this.f_224696_.forEach((p_202249_, p_202250_) -> {
@@ -71,7 +80,7 @@
                 double d3 = Mth.m_184645_((double)(i - p_190199_), (double)(j - p_190200_));
                 if (!(d3 > (double)f_190139_)) {
                    if (d3 < mutabledouble2.doubleValue()) {
-@@ -142,10 +_,10 @@
+@@ -141,10 +_,10 @@
     }
  
     public double m_207103_(DensityFunction.FunctionContext p_209721_, double p_209722_) {
@@ -86,7 +95,7 @@
        if (d0 != Double.MAX_VALUE) {
           return d0;
        } else {
-@@ -153,7 +_,7 @@
+@@ -152,7 +_,7 @@
           MutableDouble mutabledouble1 = new MutableDouble(0.0D);
           MutableDouble mutabledouble2 = new MutableDouble(Double.POSITIVE_INFINITY);
           this.f_224697_.forEach((p_202241_, p_202242_) -> {
@@ -95,7 +104,7 @@
                 double d3 = Mth.m_184648_((double)(i - p_202230_), (double)((j - p_202231_) * 2), (double)(k - p_202232_));
                 if (!(d3 > 2.0D)) {
                    if (d3 < mutabledouble2.doubleValue()) {
-@@ -176,24 +_,24 @@
+@@ -175,24 +_,24 @@
        }
     }
  
@@ -127,7 +136,7 @@
              }
           }
        }
-@@ -201,24 +_,24 @@
+@@ -200,24 +_,24 @@
        return d0;
     }
  
@@ -159,7 +168,7 @@
              double d2 = Mth.m_184645_((double)(p_224707_ - p_224723_), (double)(p_224709_ - p_224724_));
              if (!(d2 > (double)f_190139_)) {
                 if (d2 < mutabledouble.doubleValue()) {
-@@ -242,24 +_,24 @@
+@@ -241,24 +_,24 @@
        ChunkPos chunkpos = p_197033_.m_7697_();
        boolean flag = p_197033_.m_187675_();
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
@@ -192,7 +201,7 @@
                 int i1 = direction == Direction.EAST ? 15 : 0;
                 int j1 = direction == Direction.WEST ? 0 : 15;
                 int k1 = direction == Direction.SOUTH ? 15 : 0;
-@@ -267,10 +_,10 @@
+@@ -266,10 +_,10 @@
  
                 for(int i2 = i1; i2 <= j1; ++i2) {
                    for(int j2 = k1; j2 <= l1; ++j2) {
@@ -206,7 +215,7 @@
                       }
                    }
                 }
-@@ -298,9 +_,9 @@
+@@ -297,9 +_,9 @@
        ImmutableMap.Builder<Direction8, BlendingData> builder = ImmutableMap.builder();
  
        for(Direction8 direction8 : Direction8.values()) {
@@ -219,7 +228,7 @@
           if (blendingdata != null) {
              builder.put(direction8, blendingdata);
           }
-@@ -356,8 +_,8 @@
+@@ -355,8 +_,8 @@
  
        double d5 = d0;
        double d2 = d1;
@@ -230,7 +239,7 @@
        return (p_224703_, p_224704_, p_224705_) -> {
           return m_197024_(p_224703_ - 8.0D - d5, p_224704_ - d4, p_224705_ - 8.0D - d2, 8.0D, d3, 8.0D);
        };
-@@ -374,7 +_,7 @@
+@@ -373,7 +_,7 @@
     }
  
     interface CellValueGetter {

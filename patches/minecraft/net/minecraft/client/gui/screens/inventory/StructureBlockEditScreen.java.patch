@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/inventory/StructureBlockEditScreen.java
 +++ b/net/minecraft/client/gui/screens/inventory/StructureBlockEditScreen.java
-@@ -184,15 +_,15 @@
+@@ -183,28 +_,28 @@
        BlockPos blockpos = this.f_99391_.m_59902_();
        this.f_99358_ = new EditBox(this.f_96547_, this.f_96543_ / 2 - 152, 80, 80, 20, Component.m_237115_("structure_block.position.x"));
        this.f_99358_.m_94199_(15);
@@ -17,5 +17,31 @@
 -      this.f_99360_.m_94144_(Integer.toString(blockpos.m_123343_()));
 +      this.f_99360_.m_94144_(java.lang.Long.toString(blockpos.getZ()));
        this.m_7787_(this.f_99360_);
-       Vec3i vec3i = this.f_99391_.m_155805_();
+-      Vec3i vec3i = this.f_99391_.m_155805_();
++      me.alphamode.mclong.core.Vec3l vec3i = this.f_99391_.getStructureSize();
        this.f_99361_ = new EditBox(this.f_96547_, this.f_96543_ / 2 - 152, 120, 80, 20, Component.m_237115_("structure_block.size.x"));
+       this.f_99361_.m_94199_(15);
+-      this.f_99361_.m_94144_(Integer.toString(vec3i.m_123341_()));
++      this.f_99361_.m_94144_(java.lang.Long.toString(vec3i.getX()));
+       this.m_7787_(this.f_99361_);
+       this.f_99362_ = new EditBox(this.f_96547_, this.f_96543_ / 2 - 72, 120, 80, 20, Component.m_237115_("structure_block.size.y"));
+       this.f_99362_.m_94199_(15);
+-      this.f_99362_.m_94144_(Integer.toString(vec3i.m_123342_()));
++      this.f_99362_.m_94144_(java.lang.Long.toString(vec3i.getY()));
+       this.m_7787_(this.f_99362_);
+       this.f_99363_ = new EditBox(this.f_96547_, this.f_96543_ / 2 + 8, 120, 80, 20, Component.m_237115_("structure_block.size.z"));
+       this.f_99363_.m_94199_(15);
+-      this.f_99363_.m_94144_(Integer.toString(vec3i.m_123343_()));
++      this.f_99363_.m_94144_(java.lang.Long.toString(vec3i.getZ()));
+       this.m_7787_(this.f_99363_);
+       this.f_99364_ = new EditBox(this.f_96547_, this.f_96543_ / 2 - 152, 120, 80, 20, Component.m_237115_("structure_block.integrity.integrity"));
+       this.f_99364_.m_94199_(15);
+@@ -332,7 +_,7 @@
+ 
+    private boolean m_99403_(StructureBlockEntity.UpdateType p_99404_) {
+       BlockPos blockpos = new BlockPos(this.m_99435_(this.f_99358_.m_94155_()), this.m_99435_(this.f_99359_.m_94155_()), this.m_99435_(this.f_99360_.m_94155_()));
+-      Vec3i vec3i = new Vec3i(this.m_99435_(this.f_99361_.m_94155_()), this.m_99435_(this.f_99362_.m_94155_()), this.m_99435_(this.f_99363_.m_94155_()));
++      me.alphamode.mclong.core.Vec3l vec3i = new me.alphamode.mclong.core.Vec3l(this.m_99435_(this.f_99361_.m_94155_()), this.m_99435_(this.f_99362_.m_94155_()), this.m_99435_(this.f_99363_.m_94155_()));
+       float f = this.m_99430_(this.f_99364_.m_94155_());
+       long i = this.m_99426_(this.f_99365_.m_94155_());
+       this.f_96541_.m_91403_().m_104955_(new ServerboundSetStructureBlockPacket(this.f_99391_.m_58899_(), p_99404_, this.f_99391_.m_59908_(), this.f_99357_.m_94155_(), blockpos, vec3i, this.f_99391_.m_59905_(), this.f_99391_.m_59906_(), this.f_99366_.m_94155_(), this.f_99391_.m_59910_(), this.f_99391_.m_59834_(), this.f_99391_.m_59835_(), f, i));

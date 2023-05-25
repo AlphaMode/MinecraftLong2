@@ -1,32 +1,70 @@
 --- a/net/minecraft/world/level/block/entity/StructureBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/StructureBlockEntity.java
-@@ -60,9 +_,9 @@
+@@ -39,7 +_,7 @@
+    private String f_59813_ = "";
+    private String f_59814_ = "";
+    private BlockPos f_59815_ = new BlockPos(0, 1, 0);
+-   private Vec3i f_59816_ = Vec3i.f_123288_;
++   private me.alphamode.mclong.core.Vec3l f_59816_ = me.alphamode.mclong.core.Vec3l.ZERO;
+    private Mirror f_59817_ = Mirror.NONE;
+    private Rotation f_59818_ = Rotation.NONE;
+    private StructureMode f_59819_;
+@@ -60,12 +_,12 @@
        p_187524_.m_128359_("name", this.m_59895_());
        p_187524_.m_128359_("author", this.f_59813_);
        p_187524_.m_128359_("metadata", this.f_59814_);
 -      p_187524_.m_128405_("posX", this.f_59815_.m_123341_());
 -      p_187524_.m_128405_("posY", this.f_59815_.m_123342_());
 -      p_187524_.m_128405_("posZ", this.f_59815_.m_123343_());
+-      p_187524_.m_128405_("sizeX", this.f_59816_.m_123341_());
+-      p_187524_.m_128405_("sizeY", this.f_59816_.m_123342_());
+-      p_187524_.m_128405_("sizeZ", this.f_59816_.m_123343_());
 +      p_187524_.m_128356_("posX", this.f_59815_.getX());
 +      p_187524_.m_128356_("posY", this.f_59815_.getY());
 +      p_187524_.m_128356_("posZ", this.f_59815_.getZ());
-       p_187524_.m_128405_("sizeX", this.f_59816_.m_123341_());
-       p_187524_.m_128405_("sizeY", this.f_59816_.m_123342_());
-       p_187524_.m_128405_("sizeZ", this.f_59816_.m_123343_());
-@@ -82,9 +_,9 @@
++      p_187524_.m_128356_("sizeX", this.f_59816_.getX());
++      p_187524_.m_128356_("sizeY", this.f_59816_.getY());
++      p_187524_.m_128356_("sizeZ", this.f_59816_.getZ());
+       p_187524_.m_128359_("rotation", this.f_59818_.toString());
+       p_187524_.m_128359_("mirror", this.f_59817_.toString());
+       p_187524_.m_128359_("mode", this.f_59819_.toString());
+@@ -82,14 +_,14 @@
        this.m_59868_(p_155800_.m_128461_("name"));
        this.f_59813_ = p_155800_.m_128461_("author");
        this.f_59814_ = p_155800_.m_128461_("metadata");
 -      int i = Mth.m_14045_(p_155800_.m_128451_("posX"), -48, 48);
 -      int j = Mth.m_14045_(p_155800_.m_128451_("posY"), -48, 48);
 -      int k = Mth.m_14045_(p_155800_.m_128451_("posZ"), -48, 48);
-+      long i = Mth.m_14053_(p_155800_.m_128454_("posX"), -48, 48);
-+      long j = Mth.m_14053_(p_155800_.m_128454_("posY"), -48, 48);
-+      long k = Mth.m_14053_(p_155800_.m_128454_("posZ"), -48, 48);
++      long i = Mth.clamp(p_155800_.m_128454_("posX"), -48, 48);
++      long j = Mth.clamp(p_155800_.m_128454_("posY"), -48, 48);
++      long k = Mth.clamp(p_155800_.m_128454_("posZ"), -48, 48);
        this.f_59815_ = new BlockPos(i, j, k);
-       int l = Mth.m_14045_(p_155800_.m_128451_("sizeX"), 0, 48);
-       int i1 = Mth.m_14045_(p_155800_.m_128451_("sizeY"), 0, 48);
-@@ -261,15 +_,15 @@
+-      int l = Mth.m_14045_(p_155800_.m_128451_("sizeX"), 0, 48);
+-      int i1 = Mth.m_14045_(p_155800_.m_128451_("sizeY"), 0, 48);
+-      int j1 = Mth.m_14045_(p_155800_.m_128451_("sizeZ"), 0, 48);
+-      this.f_59816_ = new Vec3i(l, i1, j1);
++      long l = Mth.clamp(p_155800_.m_128454_("sizeX"), 0, 48);
++      long i1 = Mth.clamp(p_155800_.m_128454_("sizeY"), 0, 48);
++      long j1 = Mth.clamp(p_155800_.m_128454_("sizeZ"), 0, 48);
++      this.f_59816_ = new me.alphamode.mclong.core.Vec3l(l, i1, j1);
+ 
+       try {
+          this.f_59818_ = Rotation.valueOf(p_155800_.m_128461_("rotation"));
+@@ -186,11 +_,11 @@
+       this.f_59815_ = p_59886_;
+    }
+ 
+-   public Vec3i m_155805_() {
++   public me.alphamode.mclong.core.Vec3l getStructureSize() {
+       return this.f_59816_;
+    }
+ 
+-   public void m_155797_(Vec3i p_155798_) {
++   public void setStructureSize(me.alphamode.mclong.core.Vec3l p_155798_) {
+       this.f_59816_ = p_155798_;
+    }
+ 
+@@ -261,16 +_,16 @@
        } else {
           BlockPos blockpos = this.m_58899_();
           int i = 80;
@@ -44,10 +82,12 @@
 +            long l = p_155790_.maxZ() - p_155790_.minZ();
              if (j > 1 && k > 1 && l > 1) {
 -               this.f_59815_ = new BlockPos(p_155790_.m_162395_() - blockpos.m_123341_() + 1, p_155790_.m_162396_() - blockpos.m_123342_() + 1, p_155790_.m_162398_() - blockpos.m_123343_() + 1);
+-               this.f_59816_ = new Vec3i(j - 1, k - 1, l - 1);
 +               this.f_59815_ = new BlockPos(p_155790_.minX() - blockpos.getX() + 1, p_155790_.minY() - blockpos.getY() + 1, p_155790_.minZ() - blockpos.getZ() + 1);
-                this.f_59816_ = new Vec3i(j - 1, k - 1, l - 1);
++               this.f_59816_ = new me.alphamode.mclong.core.Vec3l(j - 1, k - 1, l - 1);
                 this.m_6596_();
                 BlockState blockstate = this.f_58857_.m_8055_(blockpos);
+                this.f_58857_.m_7260_(blockpos, blockstate, blockstate, 3);
 @@ -317,7 +_,7 @@
  
     public boolean m_59889_(boolean p_59890_) {
@@ -57,6 +97,24 @@
           ServerLevel serverlevel = (ServerLevel)this.f_58857_;
           StructureTemplateManager structuretemplatemanager = serverlevel.m_215082_();
  
+@@ -328,7 +_,7 @@
+             return false;
+          }
+ 
+-         structuretemplate.m_163802_(this.f_58857_, blockpos, this.f_59816_, !this.f_59820_, Blocks.f_50454_);
++         structuretemplate.fillFromWorld(this.f_58857_, blockpos, this.f_59816_, !this.f_59820_, Blocks.f_50454_);
+          structuretemplate.m_74612_(this.f_59813_);
+          if (p_59890_) {
+             try {
+@@ -375,7 +_,7 @@
+          this.f_59813_ = p_59850_.m_74627_();
+       }
+ 
+-      Vec3i vec3i = p_59850_.m_163801_();
++      me.alphamode.mclong.core.Vec3l vec3i = p_59850_.getSize();
+       boolean flag = this.f_59816_.equals(vec3i);
+       if (!flag) {
+          this.f_59816_ = vec3i;
 @@ -392,7 +_,7 @@
              structureplacesettings.m_74394_().m_74383_(new BlockRotProcessor(Mth.m_14036_(this.f_59824_, 0.0F, 1.0F))).m_230324_(m_222888_(this.f_59825_));
           }

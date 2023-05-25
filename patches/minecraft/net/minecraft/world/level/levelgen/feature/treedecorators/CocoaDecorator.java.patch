@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/treedecorators/CocoaDecorator.java
 +++ b/net/minecraft/world/level/levelgen/feature/treedecorators/CocoaDecorator.java
-@@ -26,9 +_,9 @@
+@@ -26,14 +_,14 @@
        RandomSource randomsource = p_226028_.m_226067_();
        if (!(randomsource.m_188501_() >= this.f_69973_)) {
           List<BlockPos> list = p_226028_.m_226068_();
@@ -12,3 +12,9 @@
           }).forEach((p_226026_) -> {
              for(Direction direction : Direction.Plane.HORIZONTAL) {
                 if (randomsource.m_188501_() <= 0.25F) {
+                   Direction direction1 = direction.m_122424_();
+-                  BlockPos blockpos = p_226026_.m_7918_(direction1.m_122429_(), 0, direction1.m_122431_());
++                  BlockPos blockpos = p_226026_.offset(direction1.m_122429_(), 0, direction1.m_122431_());
+                   if (p_226028_.m_226059_(blockpos)) {
+                      p_226028_.m_226061_(blockpos, Blocks.f_50262_.m_49966_().m_61124_(CocoaBlock.f_51736_, Integer.valueOf(randomsource.m_188503_(3))).m_61124_(CocoaBlock.f_54117_, direction));
+                   }

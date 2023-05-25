@@ -9,6 +9,15 @@
        if (m_40627_(p_40637_.m_43722_(), level, blockpos)) {
           if (!level.f_46443_) {
              level.m_46796_(1505, blockpos, 0);
+@@ -87,7 +_,7 @@
+                BlockState blockstate = Blocks.f_50037_.m_49966_();
+ 
+                for(int j = 0; j < i / 16; ++j) {
+-                  blockpos = blockpos.m_7918_(randomsource.m_188503_(3) - 1, (randomsource.m_188503_(3) - 1) * randomsource.m_188503_(3) / 2, randomsource.m_188503_(3) - 1);
++                  blockpos = blockpos.offset(randomsource.m_188503_(3) - 1, (randomsource.m_188503_(3) - 1) * randomsource.m_188503_(3) / 2, randomsource.m_188503_(3) - 1);
+                   if (p_40633_.m_8055_(blockpos).m_60838_(p_40633_, blockpos)) {
+                      continue label78;
+                   }
 @@ -153,7 +_,7 @@
              d1 = 1.0D;
              d0 = 3.0D;
@@ -34,11 +43,11 @@
 -            double d6 = (double)p_40640_.m_123341_() + d5 + randomsource.m_188500_() * d0 * 2.0D;
 -            double d7 = (double)p_40640_.m_123342_() + randomsource.m_188500_() * d1;
 -            double d8 = (double)p_40640_.m_123343_() + d5 + randomsource.m_188500_() * d0 * 2.0D;
--            if (!p_40639_.m_8055_((new BlockPos(d6, d7, d8)).m_7495_()).m_60795_()) {
+-            if (!p_40639_.m_8055_(BlockPos.m_274561_(d6, d7, d8).m_7495_()).m_60795_()) {
 +            double d6 = (double)p_40640_.getX() + d5 + randomsource.m_188500_() * d0 * 2.0D;
 +            double d7 = (double)p_40640_.getY() + randomsource.m_188500_() * d1;
 +            double d8 = (double)p_40640_.getZ() + d5 + randomsource.m_188500_() * d0 * 2.0D;
-+            if (!p_40639_.m_8055_((new BlockPos(d6, d7, d8)).below()).m_60795_()) {
++            if (!p_40639_.m_8055_(BlockPos.m_274561_(d6, d7, d8).below()).m_60795_()) {
                 p_40639_.m_7106_(ParticleTypes.f_123748_, d6, d7, d8, d2, d3, d4);
              }
           }

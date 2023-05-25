@@ -1,40 +1,30 @@
 --- a/net/minecraft/Util.java
 +++ b/net/minecraft/Util.java
-@@ -60,10 +_,7 @@
- import java.util.function.Predicate;
- import java.util.function.Supplier;
- import java.util.function.ToIntFunction;
--import java.util.stream.Collector;
--import java.util.stream.Collectors;
--import java.util.stream.IntStream;
--import java.util.stream.Stream;
-+import java.util.stream.*;
- import javax.annotation.Nullable;
- import net.minecraft.resources.ResourceLocation;
- import net.minecraft.server.Bootstrap;
-@@ -651,6 +_,16 @@
-       }
+@@ -623,6 +_,18 @@
+       };
     }
  
 +   public static DataResult<long[]> fixedSize(java.util.stream.LongStream p_137540_, int p_137541_) {
-+      long[] aint = p_137540_.limit((p_137541_ + 1)).toArray();
++      long[] aint = p_137540_.limit((long)(p_137541_ + 1)).toArray();
 +      if (aint.length != p_137541_) {
-+         String s = "Input is not a list of " + p_137541_ + " ints";
-+         return aint.length >= p_137541_ ? DataResult.error(s, Arrays.copyOf(aint, p_137541_)) : DataResult.error(s);
++         Supplier<String> supplier = () -> {
++            return "Input is not a list of " + p_137541_ + " ints";
++         };
++         return aint.length >= p_137541_ ? DataResult.error(supplier, Arrays.copyOf(aint, p_137541_)) : DataResult.error(supplier);
 +      } else {
 +         return DataResult.success(aint);
 +      }
 +   }
 +
-    public static <T> DataResult<List<T>> m_143795_(List<T> p_143796_, int p_143797_) {
-       if (p_143796_.size() != p_143797_) {
-          String s = "Input is not a list of " + p_143797_ + " elements";
-@@ -692,30 +_,30 @@
+    public static DataResult<int[]> m_137539_(IntStream p_137540_, int p_137541_) {
+       int[] aint = p_137540_.limit((long)(p_137541_ + 1)).toArray();
+       if (aint.length != p_137541_) {
+@@ -682,30 +_,30 @@
  
     public static <T, R> Function<T, R> m_143827_(final Function<T, R> p_143828_) {
        return new Function<T, R>() {
--         private final Map<T, R> f_211548_ = Maps.newHashMap();
-+         private final Map<T, R> cache = Maps.newHashMap();
+-         private final Map<T, R> f_211548_ = new ConcurrentHashMap<>();
++         private final Map<T, R> cache = new ConcurrentHashMap<>();
  
           public R apply(T p_214691_) {
 -            return this.f_211548_.computeIfAbsent(p_214691_, p_143828_);
@@ -50,8 +40,8 @@
  
     public static <T, U, R> BiFunction<T, U, R> m_143821_(final BiFunction<T, U, R> p_143822_) {
        return new BiFunction<T, U, R>() {
--         private final Map<Pair<T, U>, R> f_214693_ = Maps.newHashMap();
-+         private final Map<Pair<T, U>, R> cache = Maps.newHashMap();
+-         private final Map<Pair<T, U>, R> f_214693_ = new ConcurrentHashMap<>();
++         private final Map<Pair<T, U>, R> cache = new ConcurrentHashMap<>();
  
           public R apply(T p_214700_, U p_214701_) {
 -            return this.f_214693_.computeIfAbsent(Pair.of(p_214700_, p_214701_), (p_214698_) -> {
@@ -66,7 +56,7 @@
           }
        };
     }
-@@ -733,6 +_,18 @@
+@@ -723,6 +_,18 @@
        for(int j = i; j > 1; --j) {
           int k = p_214660_.m_188503_(j);
           intarraylist.set(j - 1, intarraylist.set(k, intarraylist.getInt(j - 1)));
@@ -75,7 +65,7 @@
 +      return intarraylist;
 +   }
 +
-+   public static it.unimi.dsi.fastutil.longs.LongArrayList toShuffledList(LongStream p_214659_, RandomSource p_214660_) {
++   public static it.unimi.dsi.fastutil.longs.LongArrayList toShuffledList(java.util.stream.LongStream p_214659_, RandomSource p_214660_) {
 +      it.unimi.dsi.fastutil.longs.LongArrayList intarraylist = it.unimi.dsi.fastutil.longs.LongArrayList.wrap(p_214659_.toArray());
 +      int i = intarraylist.size();
 +

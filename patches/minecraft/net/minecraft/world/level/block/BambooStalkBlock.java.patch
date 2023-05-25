@@ -1,0 +1,109 @@
+--- a/net/minecraft/world/level/block/BambooStalkBlock.java
++++ b/net/minecraft/world/level/block/BambooStalkBlock.java
+@@ -80,7 +_,7 @@
+       if (!fluidstate.m_76178_()) {
+          return null;
+       } else {
+-         BlockState blockstate = p_261764_.m_43725_().m_8055_(p_261764_.m_8083_().m_7495_());
++         BlockState blockstate = p_261764_.m_43725_().m_8055_(p_261764_.m_8083_().below());
+          if (blockstate.m_204336_(BlockTags.f_13065_)) {
+             if (blockstate.m_60713_(Blocks.f_50570_)) {
+                return this.m_49966_().m_61124_(f_260603_, Integer.valueOf(0));
+@@ -88,7 +_,7 @@
+                int i = blockstate.m_61143_(f_260603_) > 0 ? 1 : 0;
+                return this.m_49966_().m_61124_(f_260603_, Integer.valueOf(i));
+             } else {
+-               BlockState blockstate1 = p_261764_.m_43725_().m_8055_(p_261764_.m_8083_().m_7494_());
++               BlockState blockstate1 = p_261764_.m_43725_().m_8055_(p_261764_.m_8083_().above());
+                return blockstate1.m_60713_(Blocks.f_50571_) ? this.m_49966_().m_61124_(f_260603_, blockstate1.m_61143_(f_260603_)) : Blocks.f_50570_.m_49966_();
+             }
+          } else {
+@@ -110,7 +_,7 @@
+ 
+    public void m_213898_(BlockState p_261931_, ServerLevel p_261751_, BlockPos p_261616_, RandomSource p_261766_) {
+       if (p_261931_.m_61143_(f_260694_) == 0) {
+-         if (p_261766_.m_188503_(3) == 0 && p_261751_.m_46859_(p_261616_.m_7494_()) && p_261751_.m_45524_(p_261616_.m_7494_(), 0) >= 9) {
++         if (p_261766_.m_188503_(3) == 0 && p_261751_.m_46859_(p_261616_.above()) && p_261751_.m_45524_(p_261616_.above(), 0) >= 9) {
+             int i = this.m_261132_(p_261751_, p_261616_) + 1;
+             if (i < 16) {
+                this.m_261305_(p_261931_, p_261751_, p_261616_, p_261766_, i);
+@@ -121,12 +_,12 @@
+    }
+ 
+    public boolean m_7898_(BlockState p_261860_, LevelReader p_262154_, BlockPos p_261493_) {
+-      return p_262154_.m_8055_(p_261493_.m_7495_()).m_204336_(BlockTags.f_13065_);
++      return p_262154_.m_8055_(p_261493_.below()).m_204336_(BlockTags.f_13065_);
+    }
+ 
+    public BlockState m_7417_(BlockState p_261476_, Direction p_261512_, BlockState p_262167_, LevelAccessor p_261956_, BlockPos p_261876_, BlockPos p_262140_) {
+       if (!p_261476_.m_60710_(p_261956_, p_261876_)) {
+-         p_261956_.m_186460_(p_261876_, this, 1);
++         p_261956_.scheduleTick(p_261876_, this, 1);
+       }
+ 
+       if (p_261512_ == Direction.UP && p_262167_.m_60713_(Blocks.f_50571_) && p_262167_.m_61143_(f_260603_) > p_261476_.m_61143_(f_260603_)) {
+@@ -139,7 +_,7 @@
+    public boolean m_7370_(LevelReader p_262065_, BlockPos p_262033_, BlockState p_261700_, boolean p_261524_) {
+       int i = this.m_261076_(p_262065_, p_262033_);
+       int j = this.m_261132_(p_262065_, p_262033_);
+-      return i + j + 1 < 16 && p_262065_.m_8055_(p_262033_.m_6630_(i)).m_61143_(f_260694_) != 1;
++      return i + j + 1 < 16 && p_262065_.m_8055_(p_262033_.above(i)).m_61143_(f_260694_) != 1;
+    }
+ 
+    public boolean m_214167_(Level p_261870_, RandomSource p_261802_, BlockPos p_262123_, BlockState p_261972_) {
+@@ -153,9 +_,9 @@
+       int l = 1 + p_262034_.m_188503_(2);
+ 
+       for(int i1 = 0; i1 < l; ++i1) {
+-         BlockPos blockpos = p_261955_.m_6630_(i);
++         BlockPos blockpos = p_261955_.above(i);
+          BlockState blockstate = p_261845_.m_8055_(blockpos);
+-         if (k >= 16 || blockstate.m_61143_(f_260694_) == 1 || !p_261845_.m_46859_(blockpos.m_7494_())) {
++         if (k >= 16 || blockstate.m_61143_(f_260694_) == 1 || !p_261845_.m_46859_(blockpos.above())) {
+             return;
+          }
+ 
+@@ -171,8 +_,8 @@
+    }
+ 
+    protected void m_261305_(BlockState p_261855_, Level p_262076_, BlockPos p_262109_, RandomSource p_261633_, int p_261759_) {
+-      BlockState blockstate = p_262076_.m_8055_(p_262109_.m_7495_());
+-      BlockPos blockpos = p_262109_.m_6625_(2);
++      BlockState blockstate = p_262076_.m_8055_(p_262109_.below());
++      BlockPos blockpos = p_262109_.below(2);
+       BlockState blockstate1 = p_262076_.m_8055_(blockpos);
+       BambooLeaves bambooleaves = BambooLeaves.NONE;
+       if (p_261759_ >= 1) {
+@@ -180,7 +_,7 @@
+             if (blockstate.m_60713_(Blocks.f_50571_) && blockstate.m_61143_(f_260716_) != BambooLeaves.NONE) {
+                bambooleaves = BambooLeaves.LARGE;
+                if (blockstate1.m_60713_(Blocks.f_50571_)) {
+-                  p_262076_.m_7731_(p_262109_.m_7495_(), blockstate.m_61124_(f_260716_, BambooLeaves.SMALL), 3);
++                  p_262076_.m_7731_(p_262109_.below(), blockstate.m_61124_(f_260716_, BambooLeaves.SMALL), 3);
+                   p_262076_.m_7731_(blockpos, blockstate1.m_61124_(f_260716_, BambooLeaves.NONE), 3);
+                }
+             }
+@@ -191,12 +_,12 @@
+ 
+       int i = p_261855_.m_61143_(f_260603_) != 1 && !blockstate1.m_60713_(Blocks.f_50571_) ? 0 : 1;
+       int j = (p_261759_ < 11 || !(p_261633_.m_188501_() < 0.25F)) && p_261759_ != 15 ? 0 : 1;
+-      p_262076_.m_7731_(p_262109_.m_7494_(), this.m_49966_().m_61124_(f_260603_, Integer.valueOf(i)).m_61124_(f_260716_, bambooleaves).m_61124_(f_260694_, Integer.valueOf(j)), 3);
++      p_262076_.m_7731_(p_262109_.above(), this.m_49966_().m_61124_(f_260603_, Integer.valueOf(i)).m_61124_(f_260716_, bambooleaves).m_61124_(f_260694_, Integer.valueOf(j)), 3);
+    }
+ 
+    protected int m_261076_(BlockGetter p_261541_, BlockPos p_261593_) {
+       int i;
+-      for(i = 0; i < 16 && p_261541_.m_8055_(p_261593_.m_6630_(i + 1)).m_60713_(Blocks.f_50571_); ++i) {
++      for(i = 0; i < 16 && p_261541_.m_8055_(p_261593_.above(i + 1)).m_60713_(Blocks.f_50571_); ++i) {
+       }
+ 
+       return i;
+@@ -204,7 +_,7 @@
+ 
+    protected int m_261132_(BlockGetter p_261927_, BlockPos p_261481_) {
+       int i;
+-      for(i = 0; i < 16 && p_261927_.m_8055_(p_261481_.m_6625_(i + 1)).m_60713_(Blocks.f_50571_); ++i) {
++      for(i = 0; i < 16 && p_261927_.m_8055_(p_261481_.below(i + 1)).m_60713_(Blocks.f_50571_); ++i) {
+       }
+ 
+       return i;

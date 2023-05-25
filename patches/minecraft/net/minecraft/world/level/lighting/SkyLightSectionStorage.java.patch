@@ -1,25 +1,70 @@
 --- a/net/minecraft/world/level/lighting/SkyLightSectionStorage.java
 +++ b/net/minecraft/world/level/lighting/SkyLightSectionStorage.java
-@@ -47,7 +_,7 @@
+@@ -21,7 +_,7 @@
+    private volatile boolean f_75865_;
+ 
+    protected SkyLightSectionStorage(LightChunkGetter p_75868_) {
+-      super(LightLayer.SKY, p_75868_, new SkyLightSectionStorage.SkyDataLayerStorageMap(new Long2ObjectOpenHashMap<>(), new Long2IntOpenHashMap(), Integer.MAX_VALUE));
++      super(LightLayer.SKY, p_75868_, new SkyLightSectionStorage.SkyDataLayerStorageMap(new Long2ObjectOpenHashMap<>(), new it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap(), Integer.MAX_VALUE));
+    }
+ 
+    protected int m_6181_(long p_75880_) {
+@@ -30,9 +_,9 @@
+ 
+    protected int m_164457_(long p_164458_, boolean p_164459_) {
+       long i = SectionPos.m_123235_(p_164458_);
+-      int j = SectionPos.m_123225_(i);
++      long j = SectionPos.y(i);
+       SkyLightSectionStorage.SkyDataLayerStorageMap skylightsectionstorage$skydatalayerstoragemap = p_164459_ ? this.f_75732_ : this.f_75731_;
+-      int k = skylightsectionstorage$skydatalayerstoragemap.f_75901_.get(SectionPos.m_123240_(i));
++      long k = skylightsectionstorage$skydatalayerstoragemap.f_75901_.get(SectionPos.m_123240_(i));
+       if (k != skylightsectionstorage$skydatalayerstoragemap.f_75900_ && j < k) {
+          DataLayer datalayer = this.m_75761_(skylightsectionstorage$skydatalayerstoragemap, i);
+          if (datalayer == null) {
+@@ -42,32 +_,32 @@
+                   return 15;
+                }
+ 
+-               p_164458_ = BlockPos.m_121910_(p_164458_, 0, 16, 0);
++               p_164458_ = BlockPos.offset(p_164458_, 0, 16, 0);
+                i = SectionPos.m_123191_(i, Direction.UP);
              }
           }
  
 -         return datalayer.m_62560_(SectionPos.m_123207_(BlockPos.m_121983_(p_164458_)), SectionPos.m_123207_(BlockPos.m_122008_(p_164458_)), SectionPos.m_123207_(BlockPos.m_122015_(p_164458_)));
-+         return datalayer.get(SectionPos.sectionRelative(BlockPos.m_121983_(p_164458_)), SectionPos.sectionRelative(BlockPos.m_122008_(p_164458_)), SectionPos.sectionRelative(BlockPos.m_122015_(p_164458_)));
++         return datalayer.get(SectionPos.sectionRelative(BlockPos.getX(p_164458_)), SectionPos.sectionRelative(BlockPos.getY(p_164458_)), SectionPos.sectionRelative(BlockPos.getZ(p_164458_)));
        } else {
           return p_164459_ && !this.m_75892_(i) ? 0 : 15;
        }
-@@ -67,7 +_,7 @@
+    }
+ 
+    protected void m_6177_(long p_75885_) {
+-      int i = SectionPos.m_123225_(p_75885_);
++      long i = SectionPos.y(p_75885_);
+       if ((this.f_75732_).f_75900_ > i) {
+          (this.f_75732_).f_75900_ = i;
+          (this.f_75732_).f_75901_.defaultReturnValue((this.f_75732_).f_75900_);
+       }
+ 
+       long j = SectionPos.m_123240_(p_75885_);
+-      int k = (this.f_75732_).f_75901_.get(j);
++      long k = (this.f_75732_).f_75901_.get(j);
+       if (k < i + 1) {
+          (this.f_75732_).f_75901_.put(j, i + 1);
           if (this.f_75864_.contains(j)) {
              this.m_75896_(p_75885_);
              if (k > (this.f_75732_).f_75900_) {
 -               long l = SectionPos.m_123209_(SectionPos.m_123213_(p_75885_), k - 1, SectionPos.m_123230_(p_75885_));
-+               long l = SectionPos.asLong(SectionPos.m_123213_(p_75885_), k - 1, SectionPos.m_123230_(p_75885_));
++               long l = SectionPos.asLong(SectionPos.x(p_75885_), k - 1, SectionPos.z(p_75885_));
                 this.m_75894_(l);
              }
  
-@@ -101,7 +_,7 @@
-       int j = SectionPos.m_123225_(p_75887_);
+@@ -98,10 +_,10 @@
+          this.m_75894_(p_75887_);
+       }
+ 
+-      int j = SectionPos.m_123225_(p_75887_);
++      long j = SectionPos.y(p_75887_);
        if ((this.f_75732_).f_75901_.get(i) == j + 1) {
           long k;
 -         for(k = p_75887_; !this.m_75791_(k) && this.m_75870_(j); k = SectionPos.m_123191_(k, Direction.DOWN)) {
@@ -27,15 +72,29 @@
              --j;
           }
  
-@@ -126,7 +_,7 @@
+@@ -124,9 +_,9 @@
+    protected void m_7358_(long p_75877_, boolean p_75878_) {
+       this.m_75785_();
        if (p_75878_ && this.f_75864_.add(p_75877_)) {
-          int i = (this.f_75732_).f_75901_.get(p_75877_);
+-         int i = (this.f_75732_).f_75901_.get(p_75877_);
++         long i = (this.f_75732_).f_75901_.get(p_75877_);
           if (i != (this.f_75732_).f_75900_) {
 -            long j = SectionPos.m_123209_(SectionPos.m_123213_(p_75877_), i - 1, SectionPos.m_123230_(p_75877_));
-+            long j = SectionPos.asLong(SectionPos.m_123213_(p_75877_), i - 1, SectionPos.m_123230_(p_75877_));
++            long j = SectionPos.asLong(SectionPos.x(p_75877_), i - 1, SectionPos.z(p_75877_));
              this.m_75896_(j);
              this.m_75881_();
           }
+@@ -146,8 +_,8 @@
+          return datalayer;
+       } else {
+          long i = SectionPos.m_123191_(p_75883_, Direction.UP);
+-         int j = (this.f_75732_).f_75901_.get(SectionPos.m_123240_(p_75883_));
+-         if (j != (this.f_75732_).f_75900_ && SectionPos.m_123225_(i) < j) {
++         long j = (this.f_75732_).f_75901_.get(SectionPos.m_123240_(p_75883_));
++         if (j != (this.f_75732_).f_75900_ && SectionPos.y(i) < j) {
+             DataLayer datalayer1;
+             while((datalayer1 = this.m_75758_(i, true)) == null) {
+                i = SectionPos.m_123191_(i, Direction.UP);
 @@ -189,9 +_,9 @@
                       }
  
@@ -43,9 +102,9 @@
 -                     int i3 = SectionPos.m_123223_(SectionPos.m_123213_(i));
 -                     int k3 = SectionPos.m_123223_(SectionPos.m_123225_(i));
 -                     int i4 = SectionPos.m_123223_(SectionPos.m_123230_(i));
-+                     long i3 = SectionPos.sectionToBlockCoord(SectionPos.m_123213_(i));
-+                     long k3 = SectionPos.sectionToBlockCoord(SectionPos.m_123225_(i));
-+                     long i4 = SectionPos.sectionToBlockCoord(SectionPos.m_123230_(i));
++                     long i3 = SectionPos.sectionToBlockCoord(SectionPos.x(i));
++                     long k3 = SectionPos.sectionToBlockCoord(SectionPos.y(i));
++                     long i4 = SectionPos.sectionToBlockCoord(SectionPos.z(i));
  
                       for(Direction direction : f_75860_) {
                          long j1 = SectionPos.m_123191_(i, direction);
@@ -84,8 +143,8 @@
                          for(int k4 = 0; k4 < 16; ++k4) {
 -                           long l4 = BlockPos.m_121882_(SectionPos.m_175554_(SectionPos.m_123213_(i), j4), SectionPos.m_123223_(SectionPos.m_123225_(i)), SectionPos.m_175554_(SectionPos.m_123230_(i), k4));
 -                           long i5 = BlockPos.m_121882_(SectionPos.m_175554_(SectionPos.m_123213_(i), j4), SectionPos.m_123223_(SectionPos.m_123225_(i)) - 1, SectionPos.m_175554_(SectionPos.m_123230_(i), k4));
-+                           long l4 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.m_123213_(i), j4), SectionPos.sectionToBlockCoord(SectionPos.m_123225_(i)), SectionPos.sectionToBlockCoord(SectionPos.m_123230_(i), k4));
-+                           long i5 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.m_123213_(i), j4), SectionPos.sectionToBlockCoord(SectionPos.m_123225_(i)) - 1, SectionPos.sectionToBlockCoord(SectionPos.m_123230_(i), k4));
++                           long l4 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.x(i), j4), SectionPos.sectionToBlockCoord(SectionPos.y(i)), SectionPos.sectionToBlockCoord(SectionPos.z(i), k4));
++                           long i5 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.x(i), j4), SectionPos.sectionToBlockCoord(SectionPos.y(i)) - 1, SectionPos.sectionToBlockCoord(SectionPos.z(i), k4));
                             p_75873_.m_75576_(l4, i5, p_75873_.m_6359_(l4, i5, 0), true);
                          }
                       }
@@ -93,7 +152,7 @@
                       for(int k = 0; k < 16; ++k) {
                          for(int l = 0; l < 16; ++l) {
 -                           long i1 = BlockPos.m_121882_(SectionPos.m_175554_(SectionPos.m_123213_(i), k), SectionPos.m_175554_(SectionPos.m_123225_(i), 15), SectionPos.m_175554_(SectionPos.m_123230_(i), l));
-+                           long i1 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.m_123213_(i), k), SectionPos.sectionToBlockCoord(SectionPos.m_123225_(i), 15), SectionPos.sectionToBlockCoord(SectionPos.m_123230_(i), l));
++                           long i1 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.x(i), k), SectionPos.sectionToBlockCoord(SectionPos.y(i), 15), SectionPos.sectionToBlockCoord(SectionPos.z(i), l));
                             p_75873_.m_75576_(Long.MAX_VALUE, i1, 0, true);
                          }
                       }
@@ -102,11 +161,11 @@
                    for(int l2 = 0; l2 < 16; ++l2) {
                       for(int j3 = 0; j3 < 16; ++j3) {
 -                        long l3 = BlockPos.m_121882_(SectionPos.m_175554_(SectionPos.m_123213_(k2), l2), SectionPos.m_175554_(SectionPos.m_123225_(k2), 15), SectionPos.m_175554_(SectionPos.m_123230_(k2), j3));
-+                        long l3 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.m_123213_(k2), l2), SectionPos.sectionToBlockCoord(SectionPos.m_123225_(k2), 15), SectionPos.sectionToBlockCoord(SectionPos.m_123230_(k2), j3));
++                        long l3 = BlockPos.asLong(SectionPos.sectionToBlockCoord(SectionPos.x(k2), l2), SectionPos.sectionToBlockCoord(SectionPos.y(k2), 15), SectionPos.sectionToBlockCoord(SectionPos.z(k2), j3));
                          p_75873_.m_75576_(Long.MAX_VALUE, l3, 15, false);
                       }
                    }
-@@ -262,7 +_,7 @@
+@@ -262,14 +_,14 @@
        }
     }
  
@@ -115,3 +174,26 @@
        return p_75871_ >= (this.f_75732_).f_75900_;
     }
  
+    protected boolean m_75890_(long p_75891_) {
+       long i = SectionPos.m_123240_(p_75891_);
+-      int j = (this.f_75732_).f_75901_.get(i);
+-      return j == (this.f_75732_).f_75900_ || SectionPos.m_123225_(p_75891_) >= j;
++      long j = (this.f_75732_).f_75901_.get(i);
++      return j == (this.f_75732_).f_75900_ || SectionPos.y(p_75891_) >= j;
+    }
+ 
+    protected boolean m_75892_(long p_75893_) {
+@@ -278,10 +_,10 @@
+    }
+ 
+    protected static final class SkyDataLayerStorageMap extends DataLayerStorageMap<SkyLightSectionStorage.SkyDataLayerStorageMap> {
+-      int f_75900_;
+-      final Long2IntOpenHashMap f_75901_;
++      long f_75900_;
++      final it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap f_75901_;
+ 
+-      public SkyDataLayerStorageMap(Long2ObjectOpenHashMap<DataLayer> p_75903_, Long2IntOpenHashMap p_75904_, int p_75905_) {
++      public SkyDataLayerStorageMap(Long2ObjectOpenHashMap<DataLayer> p_75903_, it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap p_75904_, long p_75905_) {
+          super(p_75903_);
+          this.f_75901_ = p_75904_;
+          p_75904_.defaultReturnValue(p_75905_);

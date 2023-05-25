@@ -13,7 +13,7 @@
     protected final Level f_47162_;
 @@ -37,24 +_,24 @@
        this.f_204180_ = Suppliers.memoize(() -> {
-          return p_47164_.m_5962_().m_175515_(Registry.f_122885_).m_206081_(Biomes.f_48202_);
+          return p_47164_.m_9598_().m_175515_(Registries.f_256952_).m_246971_(Biomes.f_48202_);
        });
 -      this.f_47158_ = SectionPos.m_123171_(p_47165_.m_123341_());
 -      this.f_47159_ = SectionPos.m_123171_(p_47165_.m_123343_());
@@ -24,7 +24,7 @@
 +      this.f_47159_ = SectionPos.blockToSectionCoord(p_47165_.getZ());
 +      long i = SectionPos.blockToSectionCoord(p_47166_.getX());
 +      long j = SectionPos.blockToSectionCoord(p_47166_.getZ());
-+      this.f_47160_ = new ChunkAccess[(int) (i - this.f_47158_ + 1)][(int) (j - this.f_47159_ + 1)]; // TODO: long support
++      this.f_47160_ = new ChunkAccess[(int) (i - this.f_47158_ + 1)][(int) (j - this.f_47159_ + 1)];
        ChunkSource chunksource = p_47164_.m_7726_();
        this.f_47161_ = true;
  
@@ -43,7 +43,7 @@
 -            if (chunkaccess != null && !chunkaccess.m_5566_(p_47165_.m_123342_(), p_47166_.m_123342_())) {
 +      for(long i1 = SectionPos.blockToSectionCoord(p_47165_.getX()); i1 <= SectionPos.blockToSectionCoord(p_47166_.getX()); ++i1) {
 +         for(long j1 = SectionPos.blockToSectionCoord(p_47165_.getZ()); j1 <= SectionPos.blockToSectionCoord(p_47166_.getZ()); ++j1) {
-+            ChunkAccess chunkaccess = this.f_47160_[(int) (i1 - this.f_47158_)][(int) (j1 - this.f_47159_)]; // TODO: long support
++            ChunkAccess chunkaccess = this.f_47160_[(int) (i1 - this.f_47158_)][(int) (j1 - this.f_47159_)];
 +            if (chunkaccess != null && !chunkaccess.isYSpaceEmpty(p_47165_.getY(), p_47166_.getY())) {
                 this.f_47161_ = false;
                 return;

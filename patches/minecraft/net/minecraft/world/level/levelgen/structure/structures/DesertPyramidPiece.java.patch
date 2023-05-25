@@ -1,15 +1,15 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/DesertPyramidPiece.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/DesertPyramidPiece.java
-@@ -22,7 +_,7 @@
-    public static final int f_227396_ = 21;
+@@ -27,7 +_,7 @@
     private final boolean[] f_227397_ = new boolean[4];
+    private final List<BlockPos> f_271477_ = new ArrayList<>();
  
 -   public DesertPyramidPiece(RandomSource p_227399_, int p_227400_, int p_227401_) {
 +   public DesertPyramidPiece(RandomSource p_227399_, long p_227400_, long p_227401_) {
        super(StructurePieceType.f_210106_, p_227400_, 64, p_227401_, 21, 15, 21, m_226760_(p_227399_));
     }
  
-@@ -44,11 +_,11 @@
+@@ -49,11 +_,11 @@
  
     public void m_213694_(WorldGenLevel p_227405_, StructureManager p_227406_, ChunkGenerator p_227407_, RandomSource p_227408_, BoundingBox p_227409_, ChunkPos p_227410_, BlockPos p_227411_) {
        if (this.m_192467_(p_227405_, -p_227408_.m_188503_(3))) {
@@ -24,7 +24,7 @@
           }
  
           for(int k1 = 0; k1 < this.f_72787_; ++k1) {
-@@ -62,166 +_,166 @@
+@@ -67,166 +_,166 @@
           BlockState blockstate2 = Blocks.f_50263_.m_49966_().m_61124_(StairBlock.f_56841_, Direction.SOUTH);
           BlockState blockstate3 = Blocks.f_50263_.m_49966_().m_61124_(StairBlock.f_56841_, Direction.EAST);
           BlockState blockstate = Blocks.f_50263_.m_49966_().m_61124_(StairBlock.f_56841_, Direction.WEST);
@@ -340,3 +340,196 @@
  
           for(Direction direction : Direction.Plane.HORIZONTAL) {
              if (!this.f_227397_[direction.m_122416_()]) {
+@@ -250,115 +_,115 @@
+    }
+ 
+    private void m_271901_(BlockPos p_272997_, WorldGenLevel p_272699_, BoundingBox p_273559_) {
+-      int i = p_272997_.m_123341_();
+-      int j = p_272997_.m_123342_();
+-      int k = p_272997_.m_123343_();
++      long i = p_272997_.getX();
++      long j = p_272997_.getY();
++      long k = p_272997_.getZ();
+       BlockState blockstate = Blocks.f_50263_.m_49966_();
+-      this.m_73434_(p_272699_, blockstate.m_60717_(Rotation.COUNTERCLOCKWISE_90), 12, 0, 17, p_273559_);
+-      this.m_73434_(p_272699_, blockstate.m_60717_(Rotation.COUNTERCLOCKWISE_90), 13, -1, 17, p_273559_);
+-      this.m_73434_(p_272699_, blockstate.m_60717_(Rotation.COUNTERCLOCKWISE_90), 14, -2, 17, p_273559_);
+-      this.m_73434_(p_272699_, blockstate.m_60717_(Rotation.COUNTERCLOCKWISE_90), 15, -3, 17, p_273559_);
++      this.placeBlock(p_272699_, blockstate.m_60717_(Rotation.COUNTERCLOCKWISE_90), 12, 0, 17, p_273559_);
++      this.placeBlock(p_272699_, blockstate.m_60717_(Rotation.COUNTERCLOCKWISE_90), 13, -1, 17, p_273559_);
++      this.placeBlock(p_272699_, blockstate.m_60717_(Rotation.COUNTERCLOCKWISE_90), 14, -2, 17, p_273559_);
++      this.placeBlock(p_272699_, blockstate.m_60717_(Rotation.COUNTERCLOCKWISE_90), 15, -3, 17, p_273559_);
+       BlockState blockstate1 = Blocks.f_49992_.m_49966_();
+       BlockState blockstate2 = Blocks.f_50062_.m_49966_();
+       boolean flag = p_272699_.m_213780_().m_188499_();
+-      this.m_73434_(p_272699_, blockstate1, i - 4, j + 4, k + 4, p_273559_);
+-      this.m_73434_(p_272699_, blockstate1, i - 3, j + 4, k + 4, p_273559_);
+-      this.m_73434_(p_272699_, blockstate1, i - 2, j + 4, k + 4, p_273559_);
+-      this.m_73434_(p_272699_, blockstate1, i - 1, j + 4, k + 4, p_273559_);
+-      this.m_73434_(p_272699_, blockstate1, i, j + 4, k + 4, p_273559_);
+-      this.m_73434_(p_272699_, blockstate1, i - 2, j + 3, k + 4, p_273559_);
+-      this.m_73434_(p_272699_, blockstate1, i - 1, j + 3, k + 4, p_273559_);
+-      this.m_73434_(p_272699_, blockstate1, i, j + 3, k + 4, p_273559_);
+-      this.m_73434_(p_272699_, blockstate1, i - 1, j + 2, k + 4, p_273559_);
+-      this.m_73434_(p_272699_, flag ? blockstate1 : blockstate2, i, j + 2, k + 4, p_273559_);
+-      this.m_73434_(p_272699_, flag ? blockstate1 : blockstate2, i, j + 1, k + 4, p_273559_);
++      this.placeBlock(p_272699_, blockstate1, i - 4, j + 4, k + 4, p_273559_);
++      this.placeBlock(p_272699_, blockstate1, i - 3, j + 4, k + 4, p_273559_);
++      this.placeBlock(p_272699_, blockstate1, i - 2, j + 4, k + 4, p_273559_);
++      this.placeBlock(p_272699_, blockstate1, i - 1, j + 4, k + 4, p_273559_);
++      this.placeBlock(p_272699_, blockstate1, i, j + 4, k + 4, p_273559_);
++      this.placeBlock(p_272699_, blockstate1, i - 2, j + 3, k + 4, p_273559_);
++      this.placeBlock(p_272699_, blockstate1, i - 1, j + 3, k + 4, p_273559_);
++      this.placeBlock(p_272699_, blockstate1, i, j + 3, k + 4, p_273559_);
++      this.placeBlock(p_272699_, blockstate1, i - 1, j + 2, k + 4, p_273559_);
++      this.placeBlock(p_272699_, flag ? blockstate1 : blockstate2, i, j + 2, k + 4, p_273559_);
++      this.placeBlock(p_272699_, flag ? blockstate1 : blockstate2, i, j + 1, k + 4, p_273559_);
+    }
+ 
+    private void m_272212_(BlockPos p_272733_, WorldGenLevel p_273390_, BoundingBox p_273517_) {
+-      int i = p_272733_.m_123341_();
+-      int j = p_272733_.m_123342_();
+-      int k = p_272733_.m_123343_();
++      long i = p_272733_.getX();
++      long j = p_272733_.getY();
++      long k = p_272733_.getZ();
+       BlockState blockstate = Blocks.f_50064_.m_49966_();
+       BlockState blockstate1 = Blocks.f_50063_.m_49966_();
+-      this.m_73441_(p_273390_, p_273517_, i - 3, j + 1, k - 3, i - 3, j + 1, k + 2, blockstate, blockstate, true);
+-      this.m_73441_(p_273390_, p_273517_, i + 3, j + 1, k - 3, i + 3, j + 1, k + 2, blockstate, blockstate, true);
+-      this.m_73441_(p_273390_, p_273517_, i - 3, j + 1, k - 3, i + 3, j + 1, k - 2, blockstate, blockstate, true);
+-      this.m_73441_(p_273390_, p_273517_, i - 3, j + 1, k + 3, i + 3, j + 1, k + 3, blockstate, blockstate, true);
+-      this.m_73441_(p_273390_, p_273517_, i - 3, j + 2, k - 3, i - 3, j + 2, k + 2, blockstate1, blockstate1, true);
+-      this.m_73441_(p_273390_, p_273517_, i + 3, j + 2, k - 3, i + 3, j + 2, k + 2, blockstate1, blockstate1, true);
+-      this.m_73441_(p_273390_, p_273517_, i - 3, j + 2, k - 3, i + 3, j + 2, k - 2, blockstate1, blockstate1, true);
+-      this.m_73441_(p_273390_, p_273517_, i - 3, j + 2, k + 3, i + 3, j + 2, k + 3, blockstate1, blockstate1, true);
+-      this.m_73441_(p_273390_, p_273517_, i - 3, -1, k - 3, i - 3, -1, k + 2, blockstate, blockstate, true);
+-      this.m_73441_(p_273390_, p_273517_, i + 3, -1, k - 3, i + 3, -1, k + 2, blockstate, blockstate, true);
+-      this.m_73441_(p_273390_, p_273517_, i - 3, -1, k - 3, i + 3, -1, k - 2, blockstate, blockstate, true);
+-      this.m_73441_(p_273390_, p_273517_, i - 3, -1, k + 3, i + 3, -1, k + 3, blockstate, blockstate, true);
+-      this.m_271780_(p_273517_, i - 2, j + 1, k - 2, i + 2, j + 3, k + 2);
+-      this.m_271833_(p_273390_, p_273517_, i - 2, j + 4, k - 2, i + 2, k + 2);
++      this.generateBox(p_273390_, p_273517_, i - 3, j + 1, k - 3, i - 3, j + 1, k + 2, blockstate, blockstate, true);
++      this.generateBox(p_273390_, p_273517_, i + 3, j + 1, k - 3, i + 3, j + 1, k + 2, blockstate, blockstate, true);
++      this.generateBox(p_273390_, p_273517_, i - 3, j + 1, k - 3, i + 3, j + 1, k - 2, blockstate, blockstate, true);
++      this.generateBox(p_273390_, p_273517_, i - 3, j + 1, k + 3, i + 3, j + 1, k + 3, blockstate, blockstate, true);
++      this.generateBox(p_273390_, p_273517_, i - 3, j + 2, k - 3, i - 3, j + 2, k + 2, blockstate1, blockstate1, true);
++      this.generateBox(p_273390_, p_273517_, i + 3, j + 2, k - 3, i + 3, j + 2, k + 2, blockstate1, blockstate1, true);
++      this.generateBox(p_273390_, p_273517_, i - 3, j + 2, k - 3, i + 3, j + 2, k - 2, blockstate1, blockstate1, true);
++      this.generateBox(p_273390_, p_273517_, i - 3, j + 2, k + 3, i + 3, j + 2, k + 3, blockstate1, blockstate1, true);
++      this.generateBox(p_273390_, p_273517_, i - 3, -1, k - 3, i - 3, -1, k + 2, blockstate, blockstate, true);
++      this.generateBox(p_273390_, p_273517_, i + 3, -1, k - 3, i + 3, -1, k + 2, blockstate, blockstate, true);
++      this.generateBox(p_273390_, p_273517_, i - 3, -1, k - 3, i + 3, -1, k - 2, blockstate, blockstate, true);
++      this.generateBox(p_273390_, p_273517_, i - 3, -1, k + 3, i + 3, -1, k + 3, blockstate, blockstate, true);
++      this.placeSandBox(p_273517_, i - 2, j + 1, k - 2, i + 2, j + 3, k + 2);
++      this.placeCollapsedRoof(p_273390_, p_273517_, i - 2, j + 4, k - 2, i + 2, k + 2);
+       BlockState blockstate2 = Blocks.f_50288_.m_49966_();
+       BlockState blockstate3 = Blocks.f_50298_.m_49966_();
+-      this.m_73434_(p_273390_, blockstate3, i, j, k, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i + 1, j, k - 1, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i + 1, j, k + 1, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i - 1, j, k - 1, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i - 1, j, k + 1, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i + 2, j, k, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i - 2, j, k, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i, j, k + 2, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i, j, k - 2, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i + 3, j, k, p_273517_);
+-      this.m_272150_(i + 3, j + 1, k, p_273517_);
+-      this.m_272150_(i + 3, j + 2, k, p_273517_);
+-      this.m_73434_(p_273390_, blockstate, i + 4, j + 1, k, p_273517_);
+-      this.m_73434_(p_273390_, blockstate1, i + 4, j + 2, k, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i - 3, j, k, p_273517_);
+-      this.m_272150_(i - 3, j + 1, k, p_273517_);
+-      this.m_272150_(i - 3, j + 2, k, p_273517_);
+-      this.m_73434_(p_273390_, blockstate, i - 4, j + 1, k, p_273517_);
+-      this.m_73434_(p_273390_, blockstate1, i - 4, j + 2, k, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i, j, k + 3, p_273517_);
+-      this.m_272150_(i, j + 1, k + 3, p_273517_);
+-      this.m_272150_(i, j + 2, k + 3, p_273517_);
+-      this.m_73434_(p_273390_, blockstate2, i, j, k - 3, p_273517_);
+-      this.m_272150_(i, j + 1, k - 3, p_273517_);
+-      this.m_272150_(i, j + 2, k - 3, p_273517_);
+-      this.m_73434_(p_273390_, blockstate, i, j + 1, k - 4, p_273517_);
+-      this.m_73434_(p_273390_, blockstate1, i, -2, k - 4, p_273517_);
++      this.placeBlock(p_273390_, blockstate3, i, j, k, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i + 1, j, k - 1, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i + 1, j, k + 1, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i - 1, j, k - 1, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i - 1, j, k + 1, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i + 2, j, k, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i - 2, j, k, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i, j, k + 2, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i, j, k - 2, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i + 3, j, k, p_273517_);
++      this.placeSand(i + 3, j + 1, k, p_273517_);
++      this.placeSand(i + 3, j + 2, k, p_273517_);
++      this.placeBlock(p_273390_, blockstate, i + 4, j + 1, k, p_273517_);
++      this.placeBlock(p_273390_, blockstate1, i + 4, j + 2, k, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i - 3, j, k, p_273517_);
++      this.placeSand(i - 3, j + 1, k, p_273517_);
++      this.placeSand(i - 3, j + 2, k, p_273517_);
++      this.placeBlock(p_273390_, blockstate, i - 4, j + 1, k, p_273517_);
++      this.placeBlock(p_273390_, blockstate1, i - 4, j + 2, k, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i, j, k + 3, p_273517_);
++      this.placeSand(i, j + 1, k + 3, p_273517_);
++      this.placeSand(i, j + 2, k + 3, p_273517_);
++      this.placeBlock(p_273390_, blockstate2, i, j, k - 3, p_273517_);
++      this.placeSand(i, j + 1, k - 3, p_273517_);
++      this.placeSand(i, j + 2, k - 3, p_273517_);
++      this.placeBlock(p_273390_, blockstate, i, j + 1, k - 4, p_273517_);
++      this.placeBlock(p_273390_, blockstate1, i, -2, k - 4, p_273517_);
+    }
+ 
+-   private void m_272150_(int p_273469_, int p_272983_, int p_273325_, BoundingBox p_272909_) {
+-      BlockPos blockpos = this.m_163582_(p_273469_, p_272983_, p_273325_);
+-      if (p_272909_.m_71051_(blockpos)) {
++   private void placeSand(long p_273469_, long p_272983_, long p_273325_, BoundingBox p_272909_) {
++      BlockPos blockpos = this.getWorldPos(p_273469_, p_272983_, p_273325_);
++      if (p_272909_.isInside(blockpos)) {
+          this.f_271477_.add(blockpos);
+       }
+ 
+    }
+ 
+-   private void m_271780_(BoundingBox p_272934_, int p_273391_, int p_273481_, int p_273347_, int p_273463_, int p_272814_, int p_273011_) {
+-      for(int i = p_273481_; i <= p_272814_; ++i) {
+-         for(int j = p_273391_; j <= p_273463_; ++j) {
+-            for(int k = p_273347_; k <= p_273011_; ++k) {
+-               this.m_272150_(j, i, k, p_272934_);
++   private void placeSandBox(BoundingBox p_272934_, long p_273391_, long p_273481_, long p_273347_, long p_273463_, long p_272814_, long p_273011_) {
++      for(long i = p_273481_; i <= p_272814_; ++i) {
++         for(long j = p_273391_; j <= p_273463_; ++j) {
++            for(long k = p_273347_; k <= p_273011_; ++k) {
++               this.placeSand(j, i, k, p_272934_);
+             }
+          }
+       }
+ 
+    }
+ 
+-   private void m_271881_(WorldGenLevel p_272965_, int p_272618_, int p_273415_, int p_273110_, BoundingBox p_272645_) {
++   private void placeCollapsedRoofPiece(WorldGenLevel p_272965_, long p_272618_, long p_273415_, long p_273110_, BoundingBox p_272645_) {
+       if (p_272965_.m_213780_().m_188499_()) {
+          BlockState blockstate = Blocks.f_50062_.m_49966_();
+-         this.m_73434_(p_272965_, blockstate, p_272618_, p_273415_, p_273110_, p_272645_);
++         this.placeBlock(p_272965_, blockstate, p_272618_, p_273415_, p_273110_, p_272645_);
+       } else {
+          BlockState blockstate1 = Blocks.f_49992_.m_49966_();
+-         this.m_73434_(p_272965_, blockstate1, p_272618_, p_273415_, p_273110_, p_272645_);
++         this.placeBlock(p_272965_, blockstate1, p_272618_, p_273415_, p_273110_, p_272645_);
+       }
+ 
+    }
+ 
+-   private void m_271833_(WorldGenLevel p_273438_, BoundingBox p_273058_, int p_272638_, int p_272826_, int p_273026_, int p_272750_, int p_272639_) {
+-      for(int i = p_272638_; i <= p_272750_; ++i) {
+-         for(int j = p_273026_; j <= p_272639_; ++j) {
+-            this.m_271881_(p_273438_, i, p_272826_, j, p_273058_);
++   private void placeCollapsedRoof(WorldGenLevel p_273438_, BoundingBox p_273058_, long p_272638_, long p_272826_, long p_273026_, long p_272750_, long p_272639_) {
++      for(long i = p_272638_; i <= p_272750_; ++i) {
++         for(long j = p_273026_; j <= p_272639_; ++j) {
++            this.placeCollapsedRoofPiece(p_273438_, i, p_272826_, j, p_273058_);
+          }
+       }
+ 

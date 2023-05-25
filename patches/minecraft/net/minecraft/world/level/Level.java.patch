@@ -1,20 +1,6 @@
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
-@@ -85,7 +_,7 @@
-    private final Thread f_46423_;
-    private final boolean f_46424_;
-    private int f_46425_;
--   protected int f_46435_ = RandomSource.m_216327_().m_188502_();
-+   protected long f_46435_ = RandomSource.m_216327_().m_188505_();
-    protected final int f_46436_ = 1013904223;
-    public float f_46437_;
-    public float f_46438_;
-@@ -145,32 +_,37 @@
-    }
- 
-    public boolean m_46739_(BlockPos p_46740_) {
--      return !this.m_151570_(p_46740_) && m_46457_(p_46740_);
-+      return true;//!this.isOutsideBuildHeight(p_46740_) && isInWorldBoundsHorizontal(p_46740_);
+@@ -158,28 +_,28 @@
     }
  
     public static boolean m_46741_(BlockPos p_46742_) {
@@ -27,15 +13,11 @@
 +      return true;//p_46458_.getX() >= -30000000 && p_46458_.getZ() >= -30000000 && p_46458_.getX() < 30000000 && p_46458_.getZ() < 30000000;
     }
  
-+   @Deprecated
-    private static boolean m_46724_(int p_46725_) {
+-   private static boolean m_46724_(int p_46725_) {
++   private static boolean isOutsideSpawnableHeight(long p_46725_) {
        return p_46725_ < -20000000 || p_46725_ >= 20000000;
     }
  
-+   private static boolean isOutsideSpawnableHeight(long p_46725_) {
-+      return p_46725_ < -20000000 || p_46725_ >= 20000000;
-+   }
-+
     public LevelChunk m_46745_(BlockPos p_46746_) {
 -      return this.m_6325_(SectionPos.m_123171_(p_46746_.m_123341_()), SectionPos.m_123171_(p_46746_.m_123343_()));
 +      return this.getChunk(SectionPos.blockToSectionCoord(p_46746_.getX()), SectionPos.blockToSectionCoord(p_46746_.getZ()));
@@ -55,7 +37,7 @@
        if (chunkaccess == null && p_46505_) {
           throw new IllegalStateException("Should always be able to create a chunk!");
        } else {
-@@ -292,13 +_,13 @@
+@@ -301,13 +_,13 @@
        this.f_220350_.m_213547_(p_220385_, p_220386_, p_220387_, p_220388_, p_220389_, p_220390_);
     }
  
@@ -74,7 +56,7 @@
           }
        } else {
           i = this.m_5736_() + 1;
-@@ -315,7 +_,7 @@
+@@ -324,7 +_,7 @@
        if (this.m_151570_(p_46732_)) {
           return Blocks.f_50626_.m_49966_();
        } else {
@@ -83,7 +65,7 @@
           return levelchunk.m_8055_(p_46732_);
        }
     }
-@@ -338,7 +_,7 @@
+@@ -358,7 +_,7 @@
     }
  
     public void m_5594_(@Nullable Player p_46560_, BlockPos p_46561_, SoundEvent p_46562_, SoundSource p_46563_, float p_46564_, float p_46565_) {
@@ -91,8 +73,17 @@
 +      this.m_6263_(p_46560_, (double)p_46561_.getX() + 0.5D, (double)p_46561_.getY() + 0.5D, (double)p_46561_.getZ() + 0.5D, p_46562_, p_46563_, p_46564_, p_46565_);
     }
  
-    public abstract void m_214150_(@Nullable Player p_220363_, double p_220364_, double p_220365_, double p_220366_, SoundEvent p_220367_, SoundSource p_220368_, float p_220369_, float p_220370_, long p_220371_);
-@@ -464,14 +_,14 @@
+    public abstract void m_262808_(@Nullable Player p_262953_, double p_263004_, double p_263398_, double p_263376_, Holder<SoundEvent> p_263359_, SoundSource p_263020_, float p_263055_, float p_262914_, long p_262991_);
+@@ -378,7 +_,7 @@
+    }
+ 
+    public void m_245747_(BlockPos p_250938_, SoundEvent p_252209_, SoundSource p_249161_, float p_249980_, float p_250277_, boolean p_250151_) {
+-      this.m_7785_((double)p_250938_.m_123341_() + 0.5D, (double)p_250938_.m_123342_() + 0.5D, (double)p_250938_.m_123343_() + 0.5D, p_252209_, p_249161_, p_249980_, p_250277_, p_250151_);
++      this.m_7785_((double)p_250938_.getX() + 0.5D, (double)p_250938_.getY() + 0.5D, (double)p_250938_.getZ() + 0.5D, p_252209_, p_249161_, p_249980_, p_250277_, p_250151_);
+    }
+ 
+    public void m_7785_(double p_46482_, double p_46483_, double p_46484_, SoundEvent p_46485_, SoundSource p_46486_, float p_46487_, float p_46488_, boolean p_46489_) {
+@@ -523,14 +_,14 @@
     }
  
     public boolean m_46749_(BlockPos p_46750_) {
@@ -109,16 +100,16 @@
           return chunkaccess == null ? false : chunkaccess.m_8055_(p_46579_).m_60638_(this, p_46579_, p_46580_, p_46581_);
        }
     }
-@@ -492,7 +_,7 @@
+@@ -551,7 +_,7 @@
     }
  
     public BlockPos m_220360_() {
 -      BlockPos blockpos = new BlockPos(this.f_46442_.m_6789_(), this.f_46442_.m_6527_(), this.f_46442_.m_6526_());
 +      BlockPos blockpos = new BlockPos(this.f_46442_.getXSpawn(), this.f_46442_.getYSpawn(), this.f_46442_.getZSpawn());
        if (!this.m_6857_().m_61937_(blockpos)) {
-          blockpos = this.m_5452_(Heightmap.Types.MOTION_BLOCKING, new BlockPos(this.m_6857_().m_6347_(), 0.0D, this.m_6857_().m_6345_()));
+          blockpos = this.m_5452_(Heightmap.Types.MOTION_BLOCKING, BlockPos.m_274561_(this.m_6857_().m_6347_(), 0.0D, this.m_6857_().m_6345_()));
        }
-@@ -519,8 +_,8 @@
+@@ -578,8 +_,8 @@
     }
  
     @Nullable
@@ -129,7 +120,7 @@
     }
  
     public List<Entity> m_6249_(@Nullable Entity p_46536_, AABB p_46537_, Predicate<? super Entity> p_46538_) {
-@@ -580,27 +_,27 @@
+@@ -654,27 +_,27 @@
  
     public int m_46751_(BlockPos p_46752_) {
        int i = 0;
@@ -163,7 +154,7 @@
                       return i >= 15 ? i : i;
                    }
                 }
-@@ -620,18 +_,18 @@
+@@ -694,18 +_,18 @@
     }
  
     public boolean m_46753_(BlockPos p_46754_) {
@@ -192,7 +183,7 @@
        }
     }
  
-@@ -639,7 +_,7 @@
+@@ -713,7 +_,7 @@
        int i = 0;
  
        for(Direction direction : f_46422_) {
@@ -201,7 +192,7 @@
           if (j >= 15) {
              return 15;
           }
-@@ -719,7 +_,7 @@
+@@ -796,7 +_,7 @@
           return false;
        } else if (!this.m_45527_(p_46759_)) {
           return false;
@@ -210,7 +201,7 @@
           return false;
        } else {
           Biome biome = this.m_204166_(p_46759_).m_203334_();
-@@ -770,13 +_,13 @@
+@@ -842,13 +_,13 @@
  
     public void m_46717_(BlockPos p_46718_, Block p_46719_) {
        for(Direction direction : Direction.Plane.HORIZONTAL) {
@@ -226,17 +217,12 @@
                 blockstate = this.m_8055_(blockpos);
                 if (blockstate.m_60713_(Blocks.f_50328_)) {
                    this.m_213960_(blockstate, blockpos, p_46719_, p_46718_, false);
-@@ -843,10 +_,10 @@
+@@ -915,7 +_,7 @@
  
     public abstract RecipeManager m_7465_();
  
 -   public BlockPos m_46496_(int p_46497_, int p_46498_, int p_46499_, int p_46500_) {
-+   public BlockPos getBlockRandomPos(long p_46497_, long p_46498_, long p_46499_, long p_46500_) {
++   public BlockPos getBlockRandomPos(long p_46497_, long p_46498_, long p_46499_, int p_46500_) {
        this.f_46435_ = this.f_46435_ * 3 + 1013904223;
--      int i = this.f_46435_ >> 2;
--      return new BlockPos(p_46497_ + (i & 15), p_46498_ + (i >> 16 & p_46500_), p_46499_ + (i >> 8 & 15));
-+      long i = this.f_46435_ >> 2;
-+      return new BlockPos(p_46497_ + (i & 15L), p_46498_ + (i >> 16L & p_46500_), p_46499_ + (i >> 8L & 15L));
-    }
- 
-    public boolean m_7441_() {
+       int i = this.f_46435_ >> 2;
+       return new BlockPos(p_46497_ + (i & 15), p_46498_ + (i >> 16 & p_46500_), p_46499_ + (i >> 8 & 15));

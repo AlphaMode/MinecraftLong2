@@ -1,20 +1,20 @@
 --- a/net/minecraft/world/entity/ai/behavior/LocateHidingPlace.java
 +++ b/net/minecraft/world/entity/ai/behavior/LocateHidingPlace.java
-@@ -32,7 +_,7 @@
-       }, (p_23425_) -> {
-          return true;
-       }, p_23413_.m_20183_(), this.f_23405_ + 1, PoiManager.Occupancy.ANY);
--      if (optional.isPresent() && optional.get().m_203195_(p_23413_.m_20182_(), (double)this.f_23405_)) {
-+      if (optional.isPresent() && optional.get().closerToCenterThan(p_23413_.m_20182_(), (double)this.f_23405_)) {
-          this.f_23406_ = optional;
-       } else {
-          this.f_23406_ = Optional.empty();
-@@ -64,7 +_,7 @@
-          brain.m_21936_(MemoryModuleType.f_26375_);
-          brain.m_21936_(MemoryModuleType.f_26374_);
-          brain.m_21879_(MemoryModuleType.f_26324_, GlobalPos.m_122643_(p_23415_.m_46472_(), optional.get()));
--         if (!optional.get().m_203195_(p_23416_.m_20182_(), (double)this.f_23405_)) {
-+         if (!optional.get().closerToCenterThan(p_23416_.m_20182_(), (double)this.f_23405_)) {
-             brain.m_21879_(MemoryModuleType.f_26370_, new WalkTarget(optional.get(), this.f_23403_, this.f_23405_));
-          }
-       }
+@@ -18,7 +_,7 @@
+                }, (p_23425_) -> {
+                   return true;
+                }, p_275949_.m_20183_(), p_259982_ + 1, PoiManager.Occupancy.ANY).filter((p_275936_) -> {
+-                  return p_275936_.m_203195_(p_275949_.m_20182_(), (double)p_259982_);
++                  return p_275936_.closerToCenterThan(p_275949_.m_20182_(), (double)p_259982_);
+                }).or(() -> {
+                   return p_275948_.m_8904_().m_217951_((p_217256_) -> {
+                      return p_217256_.m_203565_(PoiTypes.f_218060_);
+@@ -33,7 +_,7 @@
+                   p_258489_.m_257971_();
+                   p_258490_.m_257971_();
+                   p_258486_.m_257512_(GlobalPos.m_122643_(p_275948_.m_46472_(), p_275933_));
+-                  if (!p_275933_.m_203195_(p_275949_.m_20182_(), (double)p_259982_)) {
++                  if (!p_275933_.closerToCenterThan(p_275949_.m_20182_(), (double)p_259982_)) {
+                      p_258484_.m_257512_(new WalkTarget(p_275933_, p_259881_, p_259982_));
+                   }
+ 

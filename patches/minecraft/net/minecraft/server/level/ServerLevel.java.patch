@@ -1,6 +1,15 @@
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -237,8 +_,8 @@
+@@ -208,7 +_,7 @@
+       this.f_8552_ = new PortalForcer(this);
+       this.m_46465_();
+       this.m_46466_();
+-      this.m_6857_().m_61923_(p_214999_.m_6329_());
++      this.m_6857_().setAbsoluteMaxSize(p_214999_.getAbsoluteMaxWorldSize());
+       this.f_8565_ = this.m_8895_().m_164861_((p_184095_) -> {
+          return Raids.m_150235_(this, p_184095_);
+       }, () -> {
+@@ -239,8 +_,8 @@
        this.f_8549_.m_5557_(p_8610_);
     }
  
@@ -11,7 +20,7 @@
     }
  
     public StructureManager m_215010_() {
-@@ -379,25 +_,25 @@
+@@ -379,28 +_,28 @@
     public void m_8714_(LevelChunk p_8715_, int p_8716_) {
        ChunkPos chunkpos = p_8715_.m_7697_();
        boolean flag = this.m_46471_();
@@ -30,64 +39,50 @@
 +            boolean flag1 = this.m_46469_().m_46207_(GameRules.f_46134_) && this.f_46441_.m_188500_() < (double)difficultyinstance.m_19056_() * 0.01D && !this.m_8055_(blockpos.below()).m_60713_(Blocks.f_152587_);
              if (flag1) {
                 SkeletonHorse skeletonhorse = EntityType.f_20525_.m_20615_(this);
-                skeletonhorse.m_30923_(true);
-                skeletonhorse.m_146762_(0);
--               skeletonhorse.m_6034_((double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_());
-+               skeletonhorse.m_6034_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
-                this.m_7967_(skeletonhorse);
+                if (skeletonhorse != null) {
+                   skeletonhorse.m_30923_(true);
+                   skeletonhorse.m_146762_(0);
+-                  skeletonhorse.m_6034_((double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_());
++                  skeletonhorse.m_6034_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
+                   this.m_7967_(skeletonhorse);
+                }
              }
  
              LightningBolt lightningbolt = EntityType.f_20465_.m_20615_(this);
--            lightningbolt.m_20219_(Vec3.m_82539_(blockpos));
-+            lightningbolt.m_20219_(Vec3.atBottomCenterOf(blockpos));
-             lightningbolt.m_20874_(flag1);
-             this.m_7967_(lightningbolt);
-          }
-@@ -405,8 +_,8 @@
+             if (lightningbolt != null) {
+-               lightningbolt.m_20219_(Vec3.m_82539_(blockpos));
++               lightningbolt.m_20219_(Vec3.atBottomCenterOf(blockpos));
+                lightningbolt.m_20874_(flag1);
+                this.m_7967_(lightningbolt);
+             }
+@@ -409,8 +_,8 @@
  
        profilerfiller.m_6182_("iceandsnow");
        if (this.f_46441_.m_188503_(16) == 0) {
--         BlockPos blockpos2 = this.m_5452_(Heightmap.Types.MOTION_BLOCKING, this.m_46496_(i, 0, j, 15));
--         BlockPos blockpos3 = blockpos2.m_7495_();
-+         BlockPos blockpos2 = this.m_5452_(Heightmap.Types.MOTION_BLOCKING, this.getBlockRandomPos(i, 0, j, 15));
-+         BlockPos blockpos3 = blockpos2.below();
-          Biome biome = this.m_204166_(blockpos2).m_203334_();
-          if (biome.m_47477_(this, blockpos3)) {
-             this.m_46597_(blockpos3, Blocks.f_50126_.m_49966_());
-@@ -431,19 +_,23 @@
+-         BlockPos blockpos1 = this.m_5452_(Heightmap.Types.MOTION_BLOCKING, this.m_46496_(i, 0, j, 15));
+-         BlockPos blockpos2 = blockpos1.m_7495_();
++         BlockPos blockpos1 = this.m_5452_(Heightmap.Types.MOTION_BLOCKING, this.getBlockRandomPos(i, 0, j, 15));
++         BlockPos blockpos2 = blockpos1.below();
+          Biome biome = this.m_204166_(blockpos1).m_203334_();
+          if (biome.m_47477_(this, blockpos2)) {
+             this.m_46597_(blockpos2, Blocks.f_50126_.m_49966_());
+@@ -444,12 +_,12 @@
        if (p_8716_ > 0) {
           for(LevelChunkSection levelchunksection : p_8715_.m_7103_()) {
              if (levelchunksection.m_63014_()) {
--               int l = levelchunksection.m_63017_();
-+               long l = levelchunksection.bottomBlockY();
+-               int i1 = levelchunksection.m_63017_();
++               long i1 = levelchunksection.bottomBlockY();
  
-                for(int k = 0; k < p_8716_; ++k) {
--                  BlockPos blockpos1 = this.m_46496_(i, l, j, 15);
-+                  BlockPos blockpos1 = this.getBlockRandomPos(i, l, j, 15L);
+                for(int j1 = 0; j1 < p_8716_; ++j1) {
+-                  BlockPos blockpos3 = this.m_46496_(i, i1, j, 15);
++                  BlockPos blockpos3 = this.getBlockRandomPos(i, i1, j, 15);
                    profilerfiller.m_6180_("randomTick");
--                  BlockState blockstate = levelchunksection.m_62982_(blockpos1.m_123341_() - i, blockpos1.m_123342_() - l, blockpos1.m_123343_() - j);
--                  if (blockstate.m_60823_()) {
--                     blockstate.m_222972_(this, blockpos1, this.f_46441_);
--                  }
-+                  BlockPos tickPos = new BlockPos(blockpos1.getX() - i, blockpos1.getY() - l, blockpos1.getZ() - j);
-+                  // TODO: fix block ticking after this point
-+                  BlockState blockstate = levelchunksection.getBlockState(tickPos.getX(), tickPos.getY(), tickPos.getZ());
-+                  if (blockstate != null) {
-+                     if (blockstate.m_60823_()) {
-+                        blockstate.m_222972_(this, blockpos1, this.f_46441_);
-+                     }
- 
--                  FluidState fluidstate = blockstate.m_60819_();
--                  if (fluidstate.m_76187_()) {
--                     fluidstate.m_230562_(this, blockpos1, this.f_46441_);
-+                     FluidState fluidstate = blockstate.m_60819_();
-+                     if (fluidstate.m_76187_()) {
-+                        fluidstate.m_230562_(this, blockpos1, this.f_46441_);
-+                     }
+-                  BlockState blockstate2 = levelchunksection.m_62982_(blockpos3.m_123341_() - i, blockpos3.m_123342_() - i1, blockpos3.m_123343_() - j);
++                  BlockState blockstate2 = levelchunksection.getBlockState(blockpos3.getX() - i, blockpos3.getY() - i1, blockpos3.getZ() - j);
+                   if (blockstate2.m_60823_()) {
+                      blockstate2.m_222972_(this, blockpos3, this.f_46441_);
                    }
- 
-                   profilerfiller.m_7238_();
-@@ -459,10 +_,10 @@
+@@ -472,10 +_,10 @@
        Optional<BlockPos> optional = this.m_8904_().m_148658_((p_215059_) -> {
           return p_215059_.m_203565_(PoiTypes.f_218066_);
        }, (p_184055_) -> {
@@ -100,14 +95,14 @@
        });
     }
  
-@@ -472,15 +_,15 @@
+@@ -485,15 +_,15 @@
        if (optional.isPresent()) {
           return optional.get();
        } else {
 -         AABB aabb = (new AABB(blockpos, new BlockPos(blockpos.m_123341_(), this.m_151558_(), blockpos.m_123343_()))).m_82400_(3.0D);
 +         AABB aabb = (new AABB(blockpos, new BlockPos(blockpos.getX(), this.getMaxBuildHeight(), blockpos.getZ()))).m_82400_(3.0D);
-          List<LivingEntity> list = this.m_6443_(LivingEntity.class, aabb, (p_184067_) -> {
-             return p_184067_ != null && p_184067_.m_6084_() && this.m_45527_(p_184067_.m_20183_());
+          List<LivingEntity> list = this.m_6443_(LivingEntity.class, aabb, (p_275908_) -> {
+             return p_275908_ != null && p_275908_.m_6084_() && this.m_45527_(p_275908_.m_20183_());
           });
           if (!list.isEmpty()) {
              return list.get(this.f_46441_.m_188503_(list.size())).m_20183_();
@@ -119,7 +114,7 @@
              }
  
              return blockpos;
-@@ -814,9 +_,9 @@
+@@ -846,9 +_,9 @@
     public void m_6801_(int p_8612_, BlockPos p_8613_, int p_8614_) {
        for(ServerPlayer serverplayer : this.f_8548_.m_6846_().m_11314_()) {
           if (serverplayer != null && serverplayer.f_19853_ == this && serverplayer.m_19879_() != p_8612_) {
@@ -132,7 +127,7 @@
              if (d0 * d0 + d1 * d1 + d2 * d2 < 1024.0D) {
                 serverplayer.f_8906_.m_9829_(new ClientboundBlockDestructionPacket(p_8612_, p_8613_, p_8614_));
              }
-@@ -838,7 +_,7 @@
+@@ -875,7 +_,7 @@
     }
  
     public void m_5898_(@Nullable Player p_8684_, int p_8685_, BlockPos p_8686_, int p_8687_) {
@@ -141,40 +136,7 @@
     }
  
     public int m_143344_() {
-@@ -848,21 +_,21 @@
-    public void m_214171_(GameEvent p_215041_, Vec3 p_215042_, GameEvent.Context p_215043_) {
-       int i = p_215041_.m_157827_();
-       BlockPos blockpos = new BlockPos(p_215042_);
--      int j = SectionPos.m_123171_(blockpos.m_123341_() - i);
--      int k = SectionPos.m_123171_(blockpos.m_123342_() - i);
--      int l = SectionPos.m_123171_(blockpos.m_123343_() - i);
--      int i1 = SectionPos.m_123171_(blockpos.m_123341_() + i);
--      int j1 = SectionPos.m_123171_(blockpos.m_123342_() + i);
--      int k1 = SectionPos.m_123171_(blockpos.m_123343_() + i);
-+      long j = SectionPos.blockToSectionCoord(blockpos.getX() - i);
-+      long k = SectionPos.blockToSectionCoord(blockpos.getY() - i);
-+      long l = SectionPos.blockToSectionCoord(blockpos.getZ() - i);
-+      long i1 = SectionPos.blockToSectionCoord(blockpos.getX() + i);
-+      long j1 = SectionPos.blockToSectionCoord(blockpos.getY() + i);
-+      long k1 = SectionPos.blockToSectionCoord(blockpos.getZ() + i);
-       List<GameEvent.Message> list = new ArrayList<>();
-       boolean flag = false;
- 
--      for(int l1 = j; l1 <= i1; ++l1) {
--         for(int i2 = l; i2 <= k1; ++i2) {
--            ChunkAccess chunkaccess = this.m_7726_().m_7131_(l1, i2);
-+      for(long l1 = j; l1 <= i1; ++l1) {
-+         for(long i2 = l; i2 <= k1; ++i2) {
-+            ChunkAccess chunkaccess = this.m_7726_().getChunkNow(l1, i2);
-             if (chunkaccess != null) {
--               for(int j2 = k; j2 <= j1; ++j2) {
--                  flag |= chunkaccess.m_142336_(j2).m_213682_(p_215041_, p_215042_, p_215043_, (p_215067_, p_215068_) -> {
-+               for(long j2 = k; j2 <= j1; ++j2) {
-+                  flag |= chunkaccess.getEventDispatcher(j2).m_213682_(p_215041_, p_215042_, p_215043_, (p_215067_, p_215068_) -> {
-                      (p_215067_.m_214054_() ? list : this.f_214996_).add(new GameEvent.Message(p_215041_, p_215042_, p_215043_, p_215067_, p_215068_));
-                   });
-                }
-@@ -982,7 +_,7 @@
+@@ -972,7 +_,7 @@
           BlockEventData blockeventdata = this.f_8556_.removeFirst();
           if (this.m_220393_(blockeventdata.f_45529_())) {
              if (this.m_8698_(blockeventdata)) {
@@ -183,7 +145,7 @@
              }
           } else {
              this.f_184048_.add(blockeventdata);
-@@ -1042,7 +_,7 @@
+@@ -1032,7 +_,7 @@
           return false;
        } else {
           BlockPos blockpos = p_8637_.m_20183_();
@@ -192,7 +154,7 @@
              p_8637_.f_8906_.m_9829_(p_8642_);
              return true;
           } else {
-@@ -1119,7 +_,7 @@
+@@ -1105,7 +_,7 @@
     }
  
     public void m_8733_(BlockPos p_8734_, float p_8735_) {
@@ -201,7 +163,7 @@
        this.f_46442_.m_7250_(p_8734_, p_8735_);
        this.m_7726_().m_8438_(TicketType.f_9442_, chunkpos, 11, Unit.INSTANCE);
        this.m_7726_().m_8387_(TicketType.f_9442_, new ChunkPos(p_8734_), 11, Unit.INSTANCE);
-@@ -1131,7 +_,7 @@
+@@ -1117,7 +_,7 @@
        return (LongSet)(forcedchunkssaveddata != null ? LongSets.unmodifiable(forcedchunkssaveddata.m_46116_()) : LongSets.EMPTY_SET);
     }
  
@@ -210,7 +172,7 @@
        ForcedChunksSavedData forcedchunkssaveddata = this.m_8895_().m_164861_(ForcedChunksSavedData::m_151483_, ForcedChunksSavedData::new, "chunks");
        ChunkPos chunkpos = new ChunkPos(p_8603_, p_8604_);
        long i = chunkpos.m_45588_();
-@@ -1139,7 +_,7 @@
+@@ -1125,7 +_,7 @@
        if (p_8605_) {
           flag = forcedchunkssaveddata.m_46116_().add(i);
           if (flag) {
@@ -219,7 +181,7 @@
           }
        } else {
           flag = forcedchunkssaveddata.m_46116_().remove(i);
-@@ -1377,7 +_,7 @@
+@@ -1273,7 +_,7 @@
  
        for(TickingBlockEntity tickingblockentity : this.f_151512_) {
           BlockPos blockpos = tickingblockentity.m_142689_();
@@ -228,7 +190,7 @@
        }
  
     }
-@@ -1385,7 +_,7 @@
+@@ -1281,7 +_,7 @@
     @VisibleForTesting
     public void m_8722_(BoundingBox p_8723_) {
        this.f_8556_.removeIf((p_207568_) -> {
@@ -237,7 +199,7 @@
        });
     }
  
-@@ -1451,13 +_,13 @@
+@@ -1347,13 +_,13 @@
  
     public static void m_8617_(ServerLevel p_8618_) {
        BlockPos blockpos = f_8562_;

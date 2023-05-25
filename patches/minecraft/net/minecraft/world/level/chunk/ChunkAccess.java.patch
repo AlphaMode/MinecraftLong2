@@ -23,9 +23,9 @@
  
     }
  
--   public GameEventDispatcher m_142336_(int p_156113_) {
-+   public GameEventDispatcher getEventDispatcher(long p_156113_) {
-       return GameEventDispatcher.f_157829_;
+-   public GameEventListenerRegistry m_246686_(int p_251437_) {
++   public GameEventListenerRegistry getListenerRegistry(long p_251437_) {
+       return GameEventListenerRegistry.f_244154_;
     }
  
 @@ -128,9 +_,9 @@
@@ -155,7 +155,7 @@
 -         return this.f_187612_[j].m_204433_(p_204347_ & 3, l & 3, p_204349_ & 3);
 +         long i = QuartPos.fromBlock(this.getMinBuildHeight());
 +         long k = i + QuartPos.fromBlock(this.getHeight()) - 1;
-+         long l = Mth.m_14053_(p_204348_, i, k);
++         long l = Mth.clamp(p_204348_, i, k);
 +         long j = this.getSectionIndex(QuartPos.toBlock(l));
 +         return this.f_187612_[(int) j].getNoiseBiome(p_204347_ & 3, l & 3, p_204349_ & 3);
        } catch (Throwable throwable) {

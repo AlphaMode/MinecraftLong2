@@ -32,11 +32,11 @@
 -               blockpos$mutableblockpos1.m_142448_(l);
 +            for(long l = j; l >= this.f_77648_.getMinBuildHeight(); --l) {
 +               blockpos$mutableblockpos1.setY(l);
-                if (this.f_77648_.m_46859_(blockpos$mutableblockpos1)) {
+                if (this.m_245373_(blockpos$mutableblockpos1)) {
 -                  int i1;
--                  for(i1 = l; l > this.f_77648_.m_141937_() && this.f_77648_.m_46859_(blockpos$mutableblockpos1.m_122173_(Direction.DOWN)); --l) {
+-                  for(i1 = l; l > this.f_77648_.m_141937_() && this.m_245373_(blockpos$mutableblockpos1.m_122173_(Direction.DOWN)); --l) {
 +                  long i1;
-+                  for(i1 = l; l > this.f_77648_.getMinBuildHeight() && this.f_77648_.m_46859_(blockpos$mutableblockpos1.m_122173_(Direction.DOWN)); --l) {
++                  for(i1 = l; l > this.f_77648_.getMinBuildHeight() && this.m_245373_(blockpos$mutableblockpos1.m_122173_(Direction.DOWN)); --l) {
                    }
  
                    if (l + 4 <= i) {
@@ -64,7 +64,7 @@
           }
  
 -         blockpos = (new BlockPos(p_77667_.m_123341_(), Mth.m_14045_(p_77667_.m_123342_(), k1, i2), p_77667_.m_123343_())).m_7949_();
-+         blockpos = (new BlockPos(p_77667_.getX(), Mth.m_14053_(p_77667_.getY(), k1, i2), p_77667_.getZ())).m_7949_();
++         blockpos = (new BlockPos(p_77667_.getX(), Mth.clamp(p_77667_.getY(), k1, i2), p_77667_.getZ())).m_7949_();
           Direction direction1 = direction.m_122427_();
           if (!worldborder.m_61937_(blockpos)) {
              return Optional.empty();
@@ -95,7 +95,7 @@
              this.f_77648_.m_7731_(blockpos$mutableblockpos, blockstate, 18);
           }
        }
-@@ -165,7 +_,7 @@
+@@ -170,7 +_,7 @@
  
        for(int i = -1; i < 3; ++i) {
           for(int j = -1; j < 4; ++j) {

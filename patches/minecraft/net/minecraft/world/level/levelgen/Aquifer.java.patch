@@ -71,7 +71,7 @@
 +      protected final long f_158004_;
 +      protected final long f_158005_;
 +      protected final long f_158006_;
-       private static final int[][] f_188412_ = new int[][]{{-2, -1}, {-1, -1}, {0, -1}, {1, -1}, {-3, 0}, {-2, 0}, {-1, 0}, {0, 0}, {1, 0}, {-2, 1}, {-1, 1}, {0, 1}, {1, 1}};
+       private static final int[][] f_188412_ = new int[][]{{0, 0}, {-2, -1}, {-1, -1}, {0, -1}, {1, -1}, {-3, 0}, {-2, 0}, {-1, 0}, {1, 0}, {-2, 1}, {-1, 1}, {0, 1}, {1, 1}};
  
 -      NoiseBasedAquifer(NoiseChunk p_223891_, ChunkPos p_223892_, NoiseRouter p_223893_, PositionalRandomFactory p_223894_, int p_223895_, int p_223896_, Aquifer.FluidPicker p_223897_) {
 +      NoiseBasedAquifer(NoiseChunk p_223891_, ChunkPos p_223892_, NoiseRouter p_223893_, PositionalRandomFactory p_223894_, long p_223895_, long p_223896_, Aquifer.FluidPicker p_223897_) {
@@ -183,9 +183,9 @@
 -                        int j5 = BlockPos.m_122008_(l4) - j;
 -                        int k5 = BlockPos.m_122015_(l4) - k;
 -                        int l5 = i6 * i6 + j5 * j5 + k5 * k5;
-+                        long i6 = BlockPos.m_121983_(l4) - i;
-+                        long j5 = BlockPos.m_122008_(l4) - j;
-+                        long k5 = BlockPos.m_122015_(l4) - k;
++                        long i6 = BlockPos.getX(l4) - i;
++                        long j5 = BlockPos.getY(l4) - j;
++                        long k5 = BlockPos.getZ(l4) - k;
 +                        long l5 = i6 * i6 + j5 * j5 + k5 * k5;
                          if (k1 >= l5) {
                             l2 = k2;
@@ -247,7 +247,7 @@
              if (j == 0) {
                 return 0.0D;
              } else {
-@@ -293,15 +_,15 @@
+@@ -293,48 +_,48 @@
           }
        }
  
@@ -266,15 +266,18 @@
           return Math.floorDiv(p_158048_, 16);
        }
  
-@@ -309,32 +_,32 @@
-          int i = BlockPos.m_121983_(p_188446_);
-          int j = BlockPos.m_122008_(p_188446_);
-          int k = BlockPos.m_122015_(p_188446_);
+       private Aquifer.FluidStatus m_188445_(long p_188446_) {
+-         int i = BlockPos.m_121983_(p_188446_);
+-         int j = BlockPos.m_122008_(p_188446_);
+-         int k = BlockPos.m_122015_(p_188446_);
 -         int l = this.m_158039_(i);
 -         int i1 = this.m_158045_(j);
 -         int j1 = this.m_158047_(k);
 -         int k1 = this.m_158027_(l, i1, j1);
 -         Aquifer.FluidStatus aquifer$fluidstatus = this.f_157998_[k1];
++         long i = BlockPos.getX(p_188446_);
++         long j = BlockPos.getY(p_188446_);
++         long k = BlockPos.getZ(p_188446_);
 +         long l = this.gridX(i);
 +         long i1 = this.gridY(j);
 +         long j1 = this.gridZ(k);
@@ -283,20 +286,24 @@
           if (aquifer$fluidstatus != null) {
              return aquifer$fluidstatus;
           } else {
-             Aquifer.FluidStatus aquifer$fluidstatus1 = this.m_188447_(i, j, k);
+-            Aquifer.FluidStatus aquifer$fluidstatus1 = this.m_188447_(i, j, k);
 -            this.f_157998_[k1] = aquifer$fluidstatus1;
++            Aquifer.FluidStatus aquifer$fluidstatus1 = this.computeFluid(i, j, k);
 +            this.f_157998_.put(k1, aquifer$fluidstatus1);
              return aquifer$fluidstatus1;
           }
        }
  
-       private Aquifer.FluidStatus m_188447_(int p_188448_, int p_188449_, int p_188450_) {
+-      private Aquifer.FluidStatus m_188447_(int p_188448_, int p_188449_, int p_188450_) {
 -         Aquifer.FluidStatus aquifer$fluidstatus = this.f_188411_.m_183538_(p_188448_, p_188449_, p_188450_);
 -         int i = Integer.MAX_VALUE;
+-         int j = p_188449_ + 12;
+-         int k = p_188449_ - 12;
++      private Aquifer.FluidStatus computeFluid(long p_188448_, long p_188449_, long p_188450_) {
 +         Aquifer.FluidStatus aquifer$fluidstatus = this.f_188411_.computeFluid(p_188448_, p_188449_, p_188450_);
 +         long i = java.lang.Long.MAX_VALUE;
-          int j = p_188449_ + 12;
-          int k = p_188449_ - 12;
++         long j = p_188449_ + 12;
++         long k = p_188449_ - 12;
           boolean flag = false;
  
           for(int[] aint : f_188412_) {
@@ -333,7 +340,7 @@
        }
  
 -      private int m_223909_(int p_223910_, int p_223911_, int p_223912_, Aquifer.FluidStatus p_223913_, int p_223914_, boolean p_223915_) {
-+      private long computeSurfaceLevel(int p_223910_, int p_223911_, int p_223912_, Aquifer.FluidStatus p_223913_, long p_223914_, boolean p_223915_) {
++      private long computeSurfaceLevel(long p_223910_, long p_223911_, long p_223912_, Aquifer.FluidStatus p_223913_, long p_223914_, boolean p_223915_) {
           DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(p_223910_, p_223911_, p_223912_);
           double d0;
           double d1;
@@ -360,21 +367,42 @@
           } else {
              k = DimensionType.f_188294_;
           }
-@@ -391,7 +_,7 @@
+@@ -391,28 +_,28 @@
           return k;
        }
  
 -      private int m_223898_(int p_223899_, int p_223900_, int p_223901_, int p_223902_) {
-+      private long computeRandomizedFluidSurfaceLevel(int p_223899_, int p_223900_, int p_223901_, long p_223902_) {
++      private long computeRandomizedFluidSurfaceLevel(long p_223899_, long p_223900_, long p_223901_, long p_223902_) {
           int i = 16;
           int j = 40;
-          int k = Math.floorDiv(p_223899_, 16);
-@@ -405,7 +_,7 @@
+-         int k = Math.floorDiv(p_223899_, 16);
+-         int l = Math.floorDiv(p_223900_, 40);
+-         int i1 = Math.floorDiv(p_223901_, 16);
+-         int j1 = l * 40 + 20;
++         long k = Math.floorDiv(p_223899_, 16);
++         long l = Math.floorDiv(p_223900_, 40);
++         long i1 = Math.floorDiv(p_223901_, 16);
++         long j1 = l * 40 + 20;
+          int k1 = 10;
+          double d0 = this.f_188409_.m_207386_(new DensityFunction.SinglePointContext(k, l, i1)) * 10.0D;
+          int l1 = Mth.m_184628_(d0, 3);
+-         int i2 = j1 + l1;
++         long i2 = j1 + l1;
           return Math.min(p_223902_, i2);
        }
  
 -      private BlockState m_223903_(int p_223904_, int p_223905_, int p_223906_, Aquifer.FluidStatus p_223907_, int p_223908_) {
-+      private BlockState computeFluidType(int p_223904_, int p_223905_, int p_223906_, Aquifer.FluidStatus p_223907_, long p_223908_) {
++      private BlockState computeFluidType(long p_223904_, long p_223905_, long p_223906_, Aquifer.FluidStatus p_223907_, long p_223908_) {
           BlockState blockstate = p_223907_.f_188401_;
           if (p_223908_ <= -10 && p_223908_ != DimensionType.f_188294_ && p_223907_.f_188401_ != Blocks.f_49991_.m_49966_()) {
              int i = 64;
+             int j = 40;
+-            int k = Math.floorDiv(p_223904_, 64);
+-            int l = Math.floorDiv(p_223905_, 40);
+-            int i1 = Math.floorDiv(p_223906_, 64);
++            long k = Math.floorDiv(p_223904_, 64);
++            long l = Math.floorDiv(p_223905_, 40);
++            long i1 = Math.floorDiv(p_223906_, 64);
+             double d0 = this.f_157996_.m_207386_(new DensityFunction.SinglePointContext(k, l, i1));
+             if (Math.abs(d0) > 0.3D) {
+                blockstate = Blocks.f_49991_.m_49966_();

@@ -21,12 +21,20 @@
           return false;
        } else {
           for(int l = 0; l < 3; ++l) {
-@@ -37,7 +_,7 @@
+@@ -36,13 +_,13 @@
+             int k = randomsource.m_188503_(2);
              float f = (float)(i + j + k) * 0.333F + 0.5F;
  
-             for(BlockPos blockpos1 : BlockPos.m_121940_(blockpos.m_7918_(-i, -j, -k), blockpos.m_7918_(i, j, k))) {
+-            for(BlockPos blockpos1 : BlockPos.m_121940_(blockpos.m_7918_(-i, -j, -k), blockpos.m_7918_(i, j, k))) {
 -               if (blockpos1.m_123331_(blockpos) <= (double)(f * f)) {
++            for(BlockPos blockpos1 : BlockPos.m_121940_(blockpos.offset(-i, -j, -k), blockpos.offset(i, j, k))) {
 +               if (blockpos1.distSqr(blockpos) <= (double)(f * f)) {
-                   worldgenlevel.m_7731_(blockpos1, blockstateconfiguration.f_67547_, 4);
+                   worldgenlevel.m_7731_(blockpos1, blockstateconfiguration.f_67547_, 3);
                 }
              }
+ 
+-            blockpos = blockpos.m_7918_(-1 + randomsource.m_188503_(2), -randomsource.m_188503_(2), -1 + randomsource.m_188503_(2));
++            blockpos = blockpos.offset(-1 + randomsource.m_188503_(2), -randomsource.m_188503_(2), -1 + randomsource.m_188503_(2));
+          }
+ 
+          return true;

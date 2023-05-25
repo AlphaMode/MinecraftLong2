@@ -9,7 +9,7 @@
        return endcitypieces$endcitypiece;
     }
  
-@@ -247,14 +_,14 @@
+@@ -247,15 +_,15 @@
  
        protected void m_213704_(String p_227505_, BlockPos p_227506_, ServerLevelAccessor p_227507_, RandomSource p_227508_, BoundingBox p_227509_) {
           if (p_227505_.startsWith("Chest")) {
@@ -23,8 +23,9 @@
 +         } else if (p_227509_.isInside(p_227506_) && Level.m_46741_(p_227506_)) {
              if (p_227505_.startsWith("Sentry")) {
                 Shulker shulker = EntityType.f_20521_.m_20615_(p_227507_.m_6018_());
--               shulker.m_6034_((double)p_227506_.m_123341_() + 0.5D, (double)p_227506_.m_123342_(), (double)p_227506_.m_123343_() + 0.5D);
-+               shulker.m_6034_((double)p_227506_.getX() + 0.5D, (double)p_227506_.getY(), (double)p_227506_.getZ() + 0.5D);
-                p_227507_.m_7967_(shulker);
+                if (shulker != null) {
+-                  shulker.m_6034_((double)p_227506_.m_123341_() + 0.5D, (double)p_227506_.m_123342_(), (double)p_227506_.m_123343_() + 0.5D);
++                  shulker.m_6034_((double)p_227506_.getX() + 0.5D, (double)p_227506_.getY(), (double)p_227506_.getZ() + 0.5D);
+                   p_227507_.m_7967_(shulker);
+                }
              } else if (p_227505_.startsWith("Elytra")) {
-                ItemFrame itemframe = new ItemFrame(p_227507_.m_6018_(), p_227506_, this.f_73657_.m_74404_().m_55954_(Direction.SOUTH));

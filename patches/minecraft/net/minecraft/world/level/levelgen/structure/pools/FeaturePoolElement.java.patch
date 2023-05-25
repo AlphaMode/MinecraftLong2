@@ -1,11 +1,24 @@
 --- a/net/minecraft/world/level/levelgen/structure/pools/FeaturePoolElement.java
 +++ b/net/minecraft/world/level/levelgen/structure/pools/FeaturePoolElement.java
-@@ -60,7 +_,7 @@
+@@ -48,8 +_,8 @@
+       return compoundtag;
+    }
+ 
+-   public Vec3i m_213577_(StructureTemplateManager p_227192_, Rotation p_227193_) {
+-      return Vec3i.f_123288_;
++   public me.alphamode.mclong.core.Vec3l getSize(StructureTemplateManager p_227192_, Rotation p_227193_) {
++      return me.alphamode.mclong.core.Vec3l.ZERO;
+    }
+ 
+    public List<StructureTemplate.StructureBlockInfo> m_213638_(StructureTemplateManager p_227199_, BlockPos p_227200_, Rotation p_227201_, RandomSource p_227202_) {
+@@ -59,8 +_,8 @@
+    }
  
     public BoundingBox m_214015_(StructureTemplateManager p_227195_, BlockPos p_227196_, Rotation p_227197_) {
-       Vec3i vec3i = this.m_213577_(p_227195_, p_227197_);
+-      Vec3i vec3i = this.m_213577_(p_227195_, p_227197_);
 -      return new BoundingBox(p_227196_.m_123341_(), p_227196_.m_123342_(), p_227196_.m_123343_(), p_227196_.m_123341_() + vec3i.m_123341_(), p_227196_.m_123342_() + vec3i.m_123342_(), p_227196_.m_123343_() + vec3i.m_123343_());
-+      return new BoundingBox((int) p_227196_.getX(), (int) p_227196_.getY(), (int) p_227196_.getZ(), (int) (p_227196_.getX() + vec3i.m_123341_()), (int) (p_227196_.getY() + vec3i.m_123342_()), (int) (p_227196_.getZ() + vec3i.m_123343_()));
++      me.alphamode.mclong.core.Vec3l vec3i = this.getSize(p_227195_, p_227197_);
++      return new BoundingBox((int) p_227196_.getX(), (int) p_227196_.getY(), (int) p_227196_.getZ(), (int) (p_227196_.getX() + vec3i.getX()), (int) (p_227196_.getY() + vec3i.getY()), (int) (p_227196_.getZ() + vec3i.getZ()));
     }
  
     public boolean m_213695_(StructureTemplateManager p_227181_, WorldGenLevel p_227182_, StructureManager p_227183_, ChunkGenerator p_227184_, BlockPos p_227185_, BlockPos p_227186_, Rotation p_227187_, BoundingBox p_227188_, RandomSource p_227189_, boolean p_227190_) {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/MineshaftStructure.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/MineshaftStructure.java
-@@ -34,29 +_,29 @@
+@@ -36,29 +_,29 @@
     public Optional<Structure.GenerationStub> m_214086_(Structure.GenerationContext p_227964_) {
        p_227964_.f_226626_().m_188500_();
        ChunkPos chunkpos = p_227964_.f_226628_();
@@ -22,7 +22,8 @@
 +      MineshaftPieces.MineShaftRoom mineshaftpieces$mineshaftroom = new MineshaftPieces.MineShaftRoom(0, worldgenrandom, chunkpos.getBlockX(2), chunkpos.getBlockZ(2), this.f_227958_);
        p_227966_.m_142679_(mineshaftpieces$mineshaftroom);
        mineshaftpieces$mineshaftroom.m_214092_(mineshaftpieces$mineshaftroom, p_227966_, worldgenrandom);
-       int i = chunkgenerator.m_6337_();
+-      int i = chunkgenerator.m_6337_();
++      long i = chunkgenerator.getSeaLevel();
        if (this.f_227958_ == MineshaftStructure.Type.MESA) {
           BlockPos blockpos = p_227966_.m_192798_().m_162394_();
 -         int j = chunkgenerator.m_214096_(blockpos.m_123341_(), blockpos.m_123343_(), Heightmap.Types.WORLD_SURFACE_WG, p_227967_.f_226629_(), p_227967_.f_226624_());
@@ -30,7 +31,7 @@
 -         int l = k - blockpos.m_123342_();
 -         p_227966_.m_192781_(l);
 +         long j = chunkgenerator.getBaseHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227967_.f_226629_(), p_227967_.f_226624_());
-+         int k = j <= i ? i : Mth.m_216287_(worldgenrandom, i, (int) j);
++         long k = j <= i ? i : Mth.randomBetweenInclusive(worldgenrandom, i, j);
 +         long l = k - blockpos.getY();
 +         p_227966_.offsetPiecesVertically(l);
           return l;

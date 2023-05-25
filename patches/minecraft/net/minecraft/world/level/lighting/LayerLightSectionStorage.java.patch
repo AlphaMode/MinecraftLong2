@@ -5,7 +5,7 @@
        long i = SectionPos.m_123235_(p_75796_);
        DataLayer datalayer = this.m_75758_(i, true);
 -      return datalayer.m_62560_(SectionPos.m_123207_(BlockPos.m_121983_(p_75796_)), SectionPos.m_123207_(BlockPos.m_122008_(p_75796_)), SectionPos.m_123207_(BlockPos.m_122015_(p_75796_)));
-+      return datalayer.get(SectionPos.sectionRelative(BlockPos.m_121983_(p_75796_)), SectionPos.sectionRelative(BlockPos.m_122008_(p_75796_)), SectionPos.sectionRelative(BlockPos.m_122015_(p_75796_)));
++      return datalayer.get(SectionPos.sectionRelative(BlockPos.getX(p_75796_)), SectionPos.sectionRelative(BlockPos.getY(p_75796_)), SectionPos.sectionRelative(BlockPos.getZ(p_75796_)));
     }
  
     protected void m_75772_(long p_75773_, int p_75774_) {
@@ -14,11 +14,21 @@
  
        DataLayer datalayer = this.m_75758_(i, true);
 -      datalayer.m_62564_(SectionPos.m_123207_(BlockPos.m_121983_(p_75773_)), SectionPos.m_123207_(BlockPos.m_122008_(p_75773_)), SectionPos.m_123207_(BlockPos.m_122015_(p_75773_)), p_75774_);
-+      datalayer.set(SectionPos.sectionRelative(BlockPos.m_121983_(p_75773_)), SectionPos.sectionRelative(BlockPos.m_122008_(p_75773_)), SectionPos.sectionRelative(BlockPos.m_122015_(p_75773_)), p_75774_);
++      datalayer.set(SectionPos.sectionRelative(BlockPos.getX(p_75773_)), SectionPos.sectionRelative(BlockPos.getY(p_75773_)), SectionPos.sectionRelative(BlockPos.getZ(p_75773_)), p_75774_);
        SectionPos.m_194639_(p_75773_, this.f_75734_::add);
     }
  
-@@ -129,7 +_,7 @@
+@@ -122,14 +_,14 @@
+             this.f_75732_.m_75526_(p_75749_, this.m_7667_(p_75749_));
+             this.f_75733_.add(p_75749_);
+             this.m_6177_(p_75749_);
+-            int j = SectionPos.m_123213_(p_75749_);
+-            int k = SectionPos.m_123225_(p_75749_);
+-            int l = SectionPos.m_123230_(p_75749_);
++            long j = SectionPos.x(p_75749_);
++            long k = SectionPos.y(p_75749_);
++            long l = SectionPos.z(p_75749_);
+ 
              for(int i1 = -1; i1 <= 1; ++i1) {
                 for(int j1 = -1; j1 <= 1; ++j1) {
                    for(int k1 = -1; k1 <= 1; ++k1) {
@@ -34,9 +44,9 @@
 -            int i = SectionPos.m_123223_(SectionPos.m_123213_(p_75766_));
 -            int j = SectionPos.m_123223_(SectionPos.m_123225_(p_75766_));
 -            int k = SectionPos.m_123223_(SectionPos.m_123230_(p_75766_));
-+            long i = SectionPos.sectionToBlockCoord(SectionPos.m_123213_(p_75766_));
-+            long j = SectionPos.sectionToBlockCoord(SectionPos.m_123225_(p_75766_));
-+            long k = SectionPos.sectionToBlockCoord(SectionPos.m_123230_(p_75766_));
++            long i = SectionPos.sectionToBlockCoord(SectionPos.x(p_75766_));
++            long j = SectionPos.sectionToBlockCoord(SectionPos.y(p_75766_));
++            long k = SectionPos.sectionToBlockCoord(SectionPos.z(p_75766_));
  
              for(int l = 0; l < 16; ++l) {
                 for(int i1 = 0; i1 < 16; ++i1) {
@@ -53,9 +63,9 @@
 -         int i = SectionPos.m_123223_(SectionPos.m_123213_(p_75779_));
 -         int j = SectionPos.m_123223_(SectionPos.m_123225_(p_75779_));
 -         int k = SectionPos.m_123223_(SectionPos.m_123230_(p_75779_));
-+         long i = SectionPos.sectionToBlockCoord(SectionPos.m_123213_(p_75779_));
-+         long j = SectionPos.sectionToBlockCoord(SectionPos.m_123225_(p_75779_));
-+         long k = SectionPos.sectionToBlockCoord(SectionPos.m_123230_(p_75779_));
++         long i = SectionPos.sectionToBlockCoord(SectionPos.x(p_75779_));
++         long j = SectionPos.sectionToBlockCoord(SectionPos.y(p_75779_));
++         long k = SectionPos.sectionToBlockCoord(SectionPos.z(p_75779_));
  
           for(Direction direction : f_75737_) {
              long l = SectionPos.m_123191_(p_75779_, direction);

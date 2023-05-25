@@ -1,22 +1,24 @@
 --- a/net/minecraft/world/entity/ai/behavior/TryFindWater.java
 +++ b/net/minecraft/world/entity/ai/behavior/TryFindWater.java
-@@ -36,8 +_,8 @@
-          BlockPos blockpos2 = p_148020_.m_20183_();
+@@ -26,9 +_,9 @@
+                   BlockPos blockpos1 = null;
+                   BlockPos blockpos2 = p_259212_.m_20183_();
  
-          for(BlockPos blockpos3 : BlockPos.m_121925_(blockpos2, this.f_147998_, this.f_147998_, this.f_147998_)) {
--            if (blockpos3.m_123341_() != blockpos2.m_123341_() || blockpos3.m_123343_() != blockpos2.m_123343_()) {
--               BlockState blockstate = p_148020_.f_19853_.m_8055_(blockpos3.m_7494_());
-+            if (blockpos3.getX() != blockpos2.getX() || blockpos3.getZ() != blockpos2.getZ()) {
-+               BlockState blockstate = p_148020_.f_19853_.m_8055_(blockpos3.above());
-                BlockState blockstate1 = p_148020_.f_19853_.m_8055_(blockpos3);
-                if (blockstate1.m_60713_(Blocks.f_49990_)) {
-                   if (blockstate.m_60795_()) {
-@@ -45,7 +_,7 @@
-                      break;
-                   }
+-                  for(BlockPos blockpos3 : BlockPos.m_121925_(blockpos2, p_259298_, p_259298_, p_259298_)) {
+-                     if (blockpos3.m_123341_() != blockpos2.m_123341_() || blockpos3.m_123343_() != blockpos2.m_123343_()) {
+-                        BlockState blockstate = p_259212_.f_19853_.m_8055_(blockpos3.m_7494_());
++                  for(BlockPos blockpos3 : BlockPos.withinManhattan(blockpos2, p_259298_, p_259298_, p_259298_)) {
++                     if (blockpos3.getX() != blockpos2.getX() || blockpos3.getZ() != blockpos2.getZ()) {
++                        BlockState blockstate = p_259212_.f_19853_.m_8055_(blockpos3.above());
+                         BlockState blockstate1 = p_259212_.f_19853_.m_8055_(blockpos3);
+                         if (blockstate1.m_60713_(Blocks.f_49990_)) {
+                            if (blockstate.m_60795_()) {
+@@ -36,7 +_,7 @@
+                               break;
+                            }
  
--                  if (blockpos1 == null && !blockpos3.m_203195_(p_148020_.m_20182_(), 1.5D)) {
-+                  if (blockpos1 == null && !blockpos3.closerToCenterThan(p_148020_.m_20182_(), 1.5D)) {
-                      blockpos1 = blockpos3.m_7949_();
-                   }
-                }
+-                           if (blockpos1 == null && !blockpos3.m_203195_(p_259212_.m_20182_(), 1.5D)) {
++                           if (blockpos1 == null && !blockpos3.closerToCenterThan(p_259212_.m_20182_(), 1.5D)) {
+                               blockpos1 = blockpos3.m_7949_();
+                            }
+                         }

@@ -5,10 +5,19 @@
        BlockPos blockpos = p_159884_.m_159777_();
        WorldGenLevel worldgenlevel = p_159884_.m_159774_();
 -      blockpos = new BlockPos(blockpos.m_123341_(), p_159884_.m_159775_().m_6337_(), blockpos.m_123343_());
-+      blockpos = new BlockPos(blockpos.getX(), p_159884_.m_159775_().m_6337_(), blockpos.getZ());
++      blockpos = new BlockPos(blockpos.getX(), p_159884_.m_159775_().getSeaLevel(), blockpos.getZ());
        RandomSource randomsource = p_159884_.m_225041_();
        boolean flag = randomsource.m_188500_() > 0.7D;
        BlockState blockstate = (p_159884_.m_159778_()).f_67547_;
+@@ -111,7 +_,7 @@
+          for(int l = -i; l < i; ++l) {
+             double d0 = this.m_66022_(k, l, p_66042_, i, j, p_66041_);
+             if (d0 < 0.0D) {
+-               BlockPos blockpos = p_66038_.m_7918_(k, p_66037_, l);
++               BlockPos blockpos = p_66038_.offset(k, p_66037_, l);
+                BlockState blockstate = p_66039_.m_8055_(blockpos);
+                if (m_159885_(blockstate) || blockstate.m_60713_(Blocks.f_50127_)) {
+                   if (p_66040_) {
 @@ -128,8 +_,8 @@
     }
  
@@ -20,6 +29,15 @@
        }
  
     }
+@@ -137,7 +_,7 @@
+    private void m_225109_(LevelAccessor p_225110_, RandomSource p_225111_, BlockPos p_225112_, int p_225113_, int p_225114_, int p_225115_, int p_225116_, int p_225117_, int p_225118_, boolean p_225119_, int p_225120_, double p_225121_, boolean p_225122_, BlockState p_225123_) {
+       double d0 = p_225119_ ? this.m_66022_(p_225114_, p_225116_, BlockPos.f_121853_, p_225118_, this.m_66018_(p_225115_, p_225113_, p_225120_), p_225121_) : this.m_225088_(p_225114_, p_225116_, BlockPos.f_121853_, p_225117_, p_225111_);
+       if (d0 < 0.0D) {
+-         BlockPos blockpos = p_225112_.m_7918_(p_225114_, p_225115_, p_225116_);
++         BlockPos blockpos = p_225112_.offset(p_225114_, p_225115_, p_225116_);
+          double d1 = p_225119_ ? -0.5D : (double)(-6 - p_225111_.m_188503_(3));
+          if (d0 > d1 && p_225111_.m_188500_() > 0.9D) {
+             return;
 @@ -173,11 +_,11 @@
  
     private double m_225088_(int p_225089_, int p_225090_, BlockPos p_225091_, int p_225092_, RandomSource p_225093_) {
@@ -43,7 +61,13 @@
     }
  
     private void m_66051_(LevelAccessor p_66052_, BlockPos p_66053_, int p_66054_, int p_66055_, boolean p_66056_, int p_66057_) {
-@@ -222,9 +_,9 @@
+@@ -217,14 +_,14 @@
+       for(int j = -i; j <= i; ++j) {
+          for(int k = -i; k <= i; ++k) {
+             for(int l = 0; l <= p_66055_; ++l) {
+-               BlockPos blockpos = p_66053_.m_7918_(j, l, k);
++               BlockPos blockpos = p_66053_.offset(j, l, k);
+                BlockState blockstate = p_66052_.m_8055_(blockpos);
                 if (m_159885_(blockstate) || blockstate.m_60713_(Blocks.f_50125_)) {
                    if (this.m_66045_(p_66052_, blockpos)) {
                       this.m_5974_(p_66052_, blockpos, Blocks.f_50016_.m_49966_());

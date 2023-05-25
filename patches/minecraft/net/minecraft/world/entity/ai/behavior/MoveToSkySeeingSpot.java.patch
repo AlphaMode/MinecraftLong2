@@ -1,15 +1,18 @@
 --- a/net/minecraft/world/entity/ai/behavior/MoveToSkySeeingSpot.java
 +++ b/net/minecraft/world/entity/ai/behavior/MoveToSkySeeingSpot.java
-@@ -43,7 +_,7 @@
+@@ -37,9 +_,9 @@
+       BlockPos blockpos = p_23566_.m_20183_();
+ 
        for(int i = 0; i < 10; ++i) {
-          BlockPos blockpos1 = blockpos.m_7918_(randomsource.m_188503_(20) - 10, randomsource.m_188503_(6) - 3, randomsource.m_188503_(20) - 10);
+-         BlockPos blockpos1 = blockpos.m_7918_(randomsource.m_188503_(20) - 10, randomsource.m_188503_(6) - 3, randomsource.m_188503_(20) - 10);
++         BlockPos blockpos1 = blockpos.offset(randomsource.m_188503_(20) - 10, randomsource.m_188503_(6) - 3, randomsource.m_188503_(20) - 10);
           if (m_23558_(p_23565_, p_23566_, blockpos1)) {
 -            return Vec3.m_82539_(blockpos1);
 +            return Vec3.atBottomCenterOf(blockpos1);
           }
        }
  
-@@ -51,6 +_,6 @@
+@@ -47,6 +_,6 @@
     }
  
     public static boolean m_23558_(ServerLevel p_23559_, LivingEntity p_23560_, BlockPos p_23561_) {

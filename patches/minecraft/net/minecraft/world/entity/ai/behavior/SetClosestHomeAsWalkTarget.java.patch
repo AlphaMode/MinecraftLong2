@@ -1,11 +1,11 @@
 --- a/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
 +++ b/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
-@@ -46,7 +_,7 @@
-          Optional<BlockPos> optional = poimanager.m_27192_((p_217376_) -> {
-             return p_217376_.m_203565_(PoiTypes.f_218060_);
-          }, p_23880_.m_20183_(), 48, PoiManager.Occupancy.ANY);
--         return optional.isPresent() && !(optional.get().m_123331_(pathfindermob.m_20183_()) <= 4.0D);
-+         return optional.isPresent() && !(optional.get().distSqr(pathfindermob.m_20183_()) <= 4.0D);
-       }
-    }
- 
+@@ -40,7 +_,7 @@
+                   Optional<BlockPos> optional = poimanager.m_27192_((p_217376_) -> {
+                      return p_217376_.m_203565_(PoiTypes.f_218060_);
+                   }, p_258639_.m_20183_(), 48, PoiManager.Occupancy.ANY);
+-                  if (!optional.isEmpty() && !(optional.get().m_123331_(p_258639_.m_20183_()) <= 4.0D)) {
++                  if (!optional.isEmpty() && !(optional.get().distSqr(p_258639_.m_20183_()) <= 4.0D)) {
+                      MutableInt mutableint = new MutableInt(0);
+                      mutablelong.setValue(p_258638_.m_46467_() + (long)p_258638_.m_213780_().m_188503_(20));
+                      Predicate<BlockPos> predicate = (p_258644_) -> {

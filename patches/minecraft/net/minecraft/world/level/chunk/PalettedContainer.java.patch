@@ -1,14 +1,5 @@
 --- a/net/minecraft/world/level/chunk/PalettedContainer.java
 +++ b/net/minecraft/world/level/chunk/PalettedContainer.java
-@@ -14,6 +_,8 @@
- import java.util.function.Predicate;
- import java.util.stream.LongStream;
- import javax.annotation.Nullable;
-+
-+import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
- import net.minecraft.core.IdMap;
- import net.minecraft.network.FriendlyByteBuf;
- import net.minecraft.util.BitStorage;
 @@ -97,12 +_,12 @@
        return data1.f_188102_.m_6796_(p_63143_);
     }
@@ -91,23 +82,7 @@
        });
     }
  
-@@ -284,12 +_,12 @@
-       if (this.f_188032_.f_188102_.m_62680_() == 1) {
-          p_63100_.m_63144_(this.f_188032_.f_188102_.m_5795_(0), this.f_188032_.f_188101_.m_13521_());
-       } else {
--         Int2IntOpenHashMap int2intopenhashmap = new Int2IntOpenHashMap();
-+         Long2IntOpenHashMap int2intopenhashmap = new Long2IntOpenHashMap();
-          this.f_188032_.f_188101_.m_13519_((p_238269_) -> {
-             int2intopenhashmap.addTo(p_238269_, 1);
-          });
--         int2intopenhashmap.int2IntEntrySet().forEach((p_238271_) -> {
--            p_63100_.m_63144_(this.f_188032_.f_188102_.m_5795_(p_238271_.getIntKey()), p_238271_.getIntValue());
-+         int2intopenhashmap.long2IntEntrySet().forEach((p_238271_) -> {
-+            p_63100_.m_63144_(this.f_188032_.f_188102_.m_5795_((int) p_238271_.getLongKey()), p_238271_.getIntValue());
-          });
-       }
-    }
-@@ -310,7 +_,7 @@
+@@ -314,7 +_,7 @@
     static record Data<T>(PalettedContainer.Configuration<T> f_188100_, BitStorage f_188101_, Palette<T> f_188102_) {
        public void m_188111_(Palette<T> p_188112_, BitStorage p_188113_) {
           for(int i = 0; i < p_188113_.m_13521_(); ++i) {
@@ -116,7 +91,7 @@
              this.f_188101_.m_13524_(i, this.f_188102_.m_6796_(t));
           }
  
-@@ -391,7 +_,7 @@
+@@ -395,7 +_,7 @@
           return 1 << this.f_188140_ * 3;
        }
  

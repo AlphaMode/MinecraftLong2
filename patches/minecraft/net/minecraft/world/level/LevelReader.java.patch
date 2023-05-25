@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/LevelReader.java
 +++ b/net/minecraft/world/level/LevelReader.java
-@@ -20,13 +_,13 @@
+@@ -25,13 +_,13 @@
  
  public interface LevelReader extends BlockAndTintGetter, CollisionGetter, BiomeManager.NoiseBiomeSource {
     @Nullable
@@ -17,7 +17,7 @@
  
     int m_7445_();
  
-@@ -37,25 +_,25 @@
+@@ -42,25 +_,25 @@
     }
  
     default Stream<BlockState> m_46847_(AABB p_46848_) {
@@ -59,7 +59,7 @@
  
     boolean m_5776_();
  
-@@ -65,16 +_,16 @@
+@@ -70,16 +_,16 @@
  
     DimensionType m_6042_();
  
@@ -79,7 +79,7 @@
     }
  
     default boolean m_46859_(BlockPos p_46860_) {
-@@ -82,14 +_,14 @@
+@@ -87,14 +_,14 @@
     }
  
     default boolean m_46861_(BlockPos p_46862_) {
@@ -97,7 +97,7 @@
                 BlockState blockstate = this.m_8055_(blockpos1);
                 if (blockstate.m_60739_(this, blockpos1) > 0 && !blockstate.m_60767_().m_76332_()) {
                    return false;
-@@ -118,20 +_,20 @@
+@@ -123,20 +_,20 @@
     }
  
     default ChunkAccess m_46865_(BlockPos p_46866_) {
@@ -129,16 +129,36 @@
     }
  
     default boolean m_46801_(BlockPos p_46802_) {
-@@ -150,7 +_,7 @@
-       for(int k1 = i; k1 < j; ++k1) {
-          for(int l1 = k; l1 < l; ++l1) {
-             for(int i2 = i1; i2 < j1; ++i2) {
+@@ -144,18 +_,18 @@
+    }
+ 
+    default boolean m_46855_(AABB p_46856_) {
+-      int i = Mth.m_14107_(p_46856_.f_82288_);
+-      int j = Mth.m_14165_(p_46856_.f_82291_);
+-      int k = Mth.m_14107_(p_46856_.f_82289_);
+-      int l = Mth.m_14165_(p_46856_.f_82292_);
+-      int i1 = Mth.m_14107_(p_46856_.f_82290_);
+-      int j1 = Mth.m_14165_(p_46856_.f_82293_);
++      long i = Mth.m_14134_(p_46856_.f_82288_);
++      long j = Mth.lceil(p_46856_.f_82291_);
++      long k = Mth.m_14134_(p_46856_.f_82289_);
++      long l = Mth.lceil(p_46856_.f_82292_);
++      long i1 = Mth.m_14134_(p_46856_.f_82290_);
++      long j1 = Mth.lceil(p_46856_.f_82293_);
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-      for(int k1 = i; k1 < j; ++k1) {
+-         for(int l1 = k; l1 < l; ++l1) {
+-            for(int i2 = i1; i2 < j1; ++i2) {
 -               BlockState blockstate = this.m_8055_(blockpos$mutableblockpos.m_122178_(k1, l1, i2));
++      for(long k1 = i; k1 < j; ++k1) {
++         for(long l1 = k; l1 < l; ++l1) {
++            for(long i2 = i1; i2 < j1; ++i2) {
 +               BlockState blockstate = this.m_8055_(blockpos$mutableblockpos.set(k1, l1, i2));
                 if (!blockstate.m_60819_().m_76178_()) {
                    return true;
                 }
-@@ -166,44 +_,44 @@
+@@ -171,44 +_,44 @@
     }
  
     default int m_46849_(BlockPos p_46850_, int p_46851_) {

@@ -1,8 +1,8 @@
 --- a/net/minecraft/world/level/entity/EntitySectionStorage.java
 +++ b/net/minecraft/world/level/entity/EntitySectionStorage.java
-@@ -34,16 +_,16 @@
+@@ -34,22 +_,22 @@
  
-    public void m_188362_(AABB p_188363_, Consumer<EntitySection<T>> p_188364_) {
+    public void m_188362_(AABB p_188363_, AbortableIterationConsumer<EntitySection<T>> p_261588_) {
        int i = 2;
 -      int j = SectionPos.m_175552_(p_188363_.f_82288_ - 2.0D);
 -      int k = SectionPos.m_175552_(p_188363_.f_82289_ - 4.0D);
@@ -26,6 +26,14 @@
           LongIterator longiterator = this.f_156853_.subSet(i2, j2 + 1L).iterator();
  
           while(longiterator.hasNext()) {
+             long k2 = longiterator.nextLong();
+-            int l2 = SectionPos.m_123225_(k2);
+-            int i3 = SectionPos.m_123230_(k2);
++            long l2 = SectionPos.y(k2);
++            long i3 = SectionPos.z(k2);
+             if (l2 >= k && l2 <= j1 && i3 >= l && i3 <= k1) {
+                EntitySection<T> entitysection = this.f_156852_.get(k2);
+                if (entitysection != null && !entitysection.m_156833_() && entitysection.m_156848_().m_157694_() && p_261588_.m_260972_(entitysection).m_261146_()) {
 @@ -74,8 +_,8 @@
     }
  
@@ -42,7 +50,7 @@
  
     private static long m_156899_(long p_156900_) {
 -      return ChunkPos.m_45589_(SectionPos.m_123213_(p_156900_), SectionPos.m_123230_(p_156900_));
-+      return ChunkPos.asLong(SectionPos.m_123213_(p_156900_), SectionPos.m_123230_(p_156900_));
++      return ChunkPos.asLong(SectionPos.x(p_156900_), SectionPos.z(p_156900_));
     }
  
     public EntitySection<T> m_156893_(long p_156894_) {

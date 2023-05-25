@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/ShipwreckPieces.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/ShipwreckPieces.java
-@@ -65,24 +_,24 @@
+@@ -65,24 +_,25 @@
        protected void m_213704_(String p_229376_, BlockPos p_229377_, ServerLevelAccessor p_229378_, RandomSource p_229379_, BoundingBox p_229380_) {
           ResourceLocation resourcelocation = ShipwreckPieces.f_229342_.get(p_229376_);
           if (resourcelocation != null) {
@@ -13,16 +13,20 @@
        public void m_213694_(WorldGenLevel p_229363_, StructureManager p_229364_, ChunkGenerator p_229365_, RandomSource p_229366_, BoundingBox p_229367_, ChunkPos p_229368_, BlockPos p_229369_) {
 -         int i = p_229363_.m_151558_();
 -         int j = 0;
+-         Vec3i vec3i = this.f_73656_.m_163801_();
 +         long i = p_229363_.getMaxBuildHeight();
 +         long j = 0;
-          Vec3i vec3i = this.f_73656_.m_163801_();
++         me.alphamode.mclong.core.Vec3l vec3i = this.f_73656_.getSize();
           Heightmap.Types heightmap$types = this.f_229352_ ? Heightmap.Types.WORLD_SURFACE_WG : Heightmap.Types.OCEAN_FLOOR_WG;
-          int k = vec3i.m_123341_() * vec3i.m_123343_();
+-         int k = vec3i.m_123341_() * vec3i.m_123343_();
++         long
++                 k = vec3i.getX() * vec3i.getZ();
           if (k == 0) {
 -            j = p_229363_.m_6924_(heightmap$types, this.f_73658_.m_123341_(), this.f_73658_.m_123343_());
 +            j = p_229363_.getHeight(heightmap$types, this.f_73658_.getX(), this.f_73658_.getZ());
           } else {
-             BlockPos blockpos = this.f_73658_.m_7918_(vec3i.m_123341_() - 1, 0, vec3i.m_123343_() - 1);
+-            BlockPos blockpos = this.f_73658_.m_7918_(vec3i.m_123341_() - 1, 0, vec3i.m_123343_() - 1);
++            BlockPos blockpos = this.f_73658_.offset(vec3i.getX() - 1, 0, vec3i.getZ() - 1);
  
              for(BlockPos blockpos1 : BlockPos.m_121940_(this.f_73658_, blockpos)) {
 -               int l = p_229363_.m_6924_(heightmap$types, blockpos1.m_123341_(), blockpos1.m_123343_());
@@ -36,7 +40,7 @@
  
 -         int i1 = this.f_229352_ ? i - vec3i.m_123342_() / 2 - p_229366_.m_188503_(3) : j;
 -         this.f_73658_ = new BlockPos(this.f_73658_.m_123341_(), i1, this.f_73658_.m_123343_());
-+         long i1 = this.f_229352_ ? i - vec3i.m_123342_() / 2 - p_229366_.m_188503_(3) : j;
++         long i1 = this.f_229352_ ? i - vec3i.getY() / 2 - p_229366_.m_188503_(3) : j;
 +         this.f_73658_ = new BlockPos(this.f_73658_.getX(), i1, this.f_73658_.getZ());
           super.m_213694_(p_229363_, p_229364_, p_229365_, p_229366_, p_229367_, p_229368_, p_229369_);
        }

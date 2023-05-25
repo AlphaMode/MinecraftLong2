@@ -1,17 +1,15 @@
 --- a/net/minecraft/client/color/block/BlockTintCache.java
 +++ b/net/minecraft/client/color/block/BlockTintCache.java
-@@ -25,37 +_,37 @@
-       this.f_193809_ = p_193811_;
+@@ -26,36 +_,36 @@
     }
  
--   public int m_193812_(BlockPos p_193813_) {
+    public int m_193812_(BlockPos p_193813_) {
 -      int i = SectionPos.m_123171_(p_193813_.m_123341_());
 -      int j = SectionPos.m_123171_(p_193813_.m_123343_());
-+   public long getColor(BlockPos p_193813_) {
 +      long i = SectionPos.blockToSectionCoord(p_193813_.getX());
 +      long j = SectionPos.blockToSectionCoord(p_193813_.getZ());
        BlockTintCache.LatestCacheInfo blocktintcache$latestcacheinfo = this.f_92650_.get();
-       if (blocktintcache$latestcacheinfo.f_92665_ != i || blocktintcache$latestcacheinfo.f_92666_ != j || blocktintcache$latestcacheinfo.f_92667_ == null) {
+       if (blocktintcache$latestcacheinfo.f_92665_ != i || blocktintcache$latestcacheinfo.f_92666_ != j || blocktintcache$latestcacheinfo.f_92667_ == null || blocktintcache$latestcacheinfo.f_92667_.m_262488_()) {
           blocktintcache$latestcacheinfo.f_92665_ = i;
           blocktintcache$latestcacheinfo.f_92666_ = j;
 -         blocktintcache$latestcacheinfo.f_92667_ = this.m_193814_(i, j);
@@ -23,11 +21,11 @@
 -      int l = p_193813_.m_123343_() & 15;
 -      int i1 = l << 4 | k;
 -      int j1 = aint[i1];
-+      long[] aint = blocktintcache$latestcacheinfo.f_92667_.getLayer(p_193813_.getY());
++      int[] aint = blocktintcache$latestcacheinfo.f_92667_.getLayer(p_193813_.getY());
 +      long k = p_193813_.getX() & 15;
 +      long l = p_193813_.getZ() & 15;
 +      long i1 = l << 4 | k;
-+      long j1 = aint[(int) i1];
++      int j1 = aint[(int) i1];
        if (j1 != -1) {
           return j1;
        } else {
@@ -47,10 +45,10 @@
              for(int j = -1; j <= 1; ++j) {
 -               long k = ChunkPos.m_45589_(p_92656_ + i, p_92657_ + j);
 +               long k = ChunkPos.asLong(p_92656_ + i, p_92657_ + j);
-                this.f_92651_.remove(k);
-             }
-          }
-@@ -75,8 +_,8 @@
+                BlockTintCache.CacheData blocktintcache$cachedata = this.f_92651_.remove(k);
+                if (blocktintcache$cachedata != null) {
+                   blocktintcache$cachedata.m_262378_();
+@@ -78,8 +_,8 @@
  
     }
  
@@ -61,50 +59,22 @@
        this.f_92652_.readLock().lock();
  
        try {
-@@ -113,15 +_,15 @@
+@@ -116,12 +_,12 @@
  
     @OnlyIn(Dist.CLIENT)
     static class CacheData {
 -      private final Int2ObjectArrayMap<int[]> f_193817_ = new Int2ObjectArrayMap<>(16);
-+      private final it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap<long[]> f_193817_ = new it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap<>(16);
++      private final it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap<int[]> f_193817_ = new it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap<>(16);
        private final ReentrantReadWriteLock f_193818_ = new ReentrantReadWriteLock();
        private static final int f_193819_ = Mth.m_144944_(16);
+       private volatile boolean f_262289_;
  
 -      public int[] m_193823_(int p_193824_) {
-+      public long[] getLayer(long p_193824_) {
++      public int[] getLayer(long p_193824_) {
           this.f_193818_.readLock().lock();
  
           try {
--            int[] aint = this.f_193817_.get(p_193824_);
-+            long[] aint = this.f_193817_.get(p_193824_);
-             if (aint != null) {
-                return aint;
-             }
-@@ -131,10 +_,10 @@
- 
-          this.f_193818_.writeLock().lock();
- 
--         int[] aint1;
-+         long[] aint1;
-          try {
-             aint1 = this.f_193817_.computeIfAbsent(p_193824_, (p_193826_) -> {
--               return this.m_193822_();
-+               return this.allocateLayer();
-             });
-          } finally {
-             this.f_193818_.writeLock().unlock();
-@@ -143,8 +_,8 @@
-          return aint1;
-       }
- 
--      private int[] m_193822_() {
--         int[] aint = new int[f_193819_];
-+      private long[] allocateLayer() {
-+         long[] aint = new long[f_193819_];
-          Arrays.fill(aint, -1);
-          return aint;
-       }
-@@ -152,8 +_,8 @@
+@@ -164,8 +_,8 @@
  
     @OnlyIn(Dist.CLIENT)
     static class LatestCacheInfo {

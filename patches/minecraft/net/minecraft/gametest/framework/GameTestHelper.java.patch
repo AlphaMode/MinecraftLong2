@@ -1,6 +1,11 @@
 --- a/net/minecraft/gametest/framework/GameTestHelper.java
 +++ b/net/minecraft/gametest/framework/GameTestHelper.java
-@@ -81,7 +_,7 @@
+@@ -84,11 +_,11 @@
+    }
+ 
+    public ItemEntity m_246755_(Item p_251435_, BlockPos p_250287_) {
+-      return this.m_177189_(p_251435_, (float)p_250287_.m_123341_(), (float)p_250287_.m_123342_(), (float)p_250287_.m_123343_());
++      return this.m_177189_(p_251435_, (float)p_250287_.getX(), (float)p_250287_.getY(), (float)p_250287_.getZ());
     }
  
     public <E extends Entity> E m_177176_(EntityType<E> p_177177_, BlockPos p_177178_) {
@@ -9,16 +14,16 @@
     }
  
     public <E extends Entity> E m_177173_(EntityType<E> p_177174_, Vec3 p_177175_) {
-@@ -151,7 +_,7 @@
-    public void m_177408_(BlockPos p_177409_) {
-       BlockPos blockpos = this.m_177449_(p_177409_);
-       BlockState blockstate = this.m_177100_().m_8055_(blockpos);
--      blockstate.m_60664_(this.m_177100_(), this.m_177368_(), InteractionHand.MAIN_HAND, new BlockHitResult(Vec3.m_82512_(blockpos), Direction.NORTH, blockpos, true));
-+      blockstate.m_60664_(this.m_177100_(), this.m_177368_(), InteractionHand.MAIN_HAND, new BlockHitResult(Vec3.atCenterOf(blockpos), Direction.NORTH, blockpos, true));
+@@ -166,7 +_,7 @@
+ 
+    public void m_246440_(BlockPos p_250131_, Player p_251507_) {
+       BlockPos blockpos = this.m_177449_(p_250131_);
+-      this.m_260894_(p_250131_, p_251507_, new BlockHitResult(Vec3.m_82512_(blockpos), Direction.NORTH, blockpos, true));
++      this.m_260894_(p_250131_, p_251507_, new BlockHitResult(Vec3.atCenterOf(blockpos), Direction.NORTH, blockpos, true));
     }
  
-    public LivingEntity m_177183_(LivingEntity p_177184_) {
-@@ -464,7 +_,7 @@
+    public void m_260894_(BlockPos p_262023_, Player p_261901_, BlockHitResult p_262040_) {
+@@ -567,7 +_,7 @@
  
     public void m_177224_(BoundingBox p_177225_, BlockPos p_177226_) {
        BlockPos.m_121919_(p_177225_).forEach((p_177267_) -> {
@@ -27,7 +32,7 @@
           this.m_177268_(p_177267_, blockpos);
        });
     }
-@@ -570,9 +_,9 @@
+@@ -673,9 +_,9 @@
        serverlevel.m_8055_(blockpos).m_222972_(serverlevel, blockpos, serverlevel.f_46441_);
     }
  
@@ -39,7 +44,7 @@
     }
  
     public void m_177289_(String p_177290_, BlockPos p_177291_) {
-@@ -605,7 +_,7 @@
+@@ -708,7 +_,7 @@
  
     public BlockPos m_177449_(BlockPos p_177450_) {
        BlockPos blockpos = this.f_127595_.m_127636_();
@@ -48,7 +53,7 @@
        return StructureTemplate.m_74593_(blockpos1, Mirror.NONE, this.f_127595_.m_127646_(), blockpos);
     }
  
-@@ -613,11 +_,11 @@
+@@ -716,16 +_,16 @@
        BlockPos blockpos = this.f_127595_.m_127636_();
        Rotation rotation = this.f_127595_.m_127646_().m_55952_(Rotation.CLOCKWISE_180);
        BlockPos blockpos1 = StructureTemplate.m_74593_(p_177453_, Mirror.NONE, rotation, blockpos);
@@ -62,7 +67,13 @@
        return StructureTemplate.m_74578_(vec3.m_82549_(p_177228_), Mirror.NONE, this.f_127595_.m_127646_(), this.f_127595_.m_127636_());
     }
  
-@@ -631,7 +_,7 @@
+    public Vec3 m_247203_(Vec3 p_251543_) {
+-      Vec3 vec3 = Vec3.m_82528_(this.f_127595_.m_127636_());
++      Vec3 vec3 = Vec3.atLowerCornerOf(this.f_127595_.m_127636_());
+       return StructureTemplate.m_74578_(p_251543_.m_82546_(vec3), Mirror.NONE, this.f_127595_.m_127646_(), this.f_127595_.m_127636_());
+    }
+ 
+@@ -745,7 +_,7 @@
  
     private AABB m_177451_() {
        AABB aabb = this.f_127595_.m_177484_();
@@ -71,3 +82,14 @@
     }
  
     public void m_177292_(Consumer<BlockPos> p_177293_) {
+@@ -760,8 +_,8 @@
+    }
+ 
+    public void m_261323_(Player p_261595_, ItemStack p_262007_, BlockPos p_261973_, Direction p_262008_) {
+-      BlockPos blockpos = this.m_177449_(p_261973_.m_121945_(p_262008_));
+-      BlockHitResult blockhitresult = new BlockHitResult(Vec3.m_82512_(blockpos), p_262008_, blockpos, false);
++      BlockPos blockpos = this.m_177449_(p_261973_.relative(p_262008_));
++      BlockHitResult blockhitresult = new BlockHitResult(Vec3.atCenterOf(blockpos), p_262008_, blockpos, false);
+       UseOnContext useoncontext = new UseOnContext(p_261595_, InteractionHand.MAIN_HAND, blockhitresult);
+       p_262007_.m_41661_(useoncontext);
+    }

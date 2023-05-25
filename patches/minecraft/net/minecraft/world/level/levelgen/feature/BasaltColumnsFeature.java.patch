@@ -1,6 +1,21 @@
 --- a/net/minecraft/world/level/levelgen/feature/BasaltColumnsFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/BasaltColumnsFeature.java
-@@ -39,8 +_,8 @@
+@@ -25,12 +_,12 @@
+    }
+ 
+    public boolean m_142674_(FeaturePlaceContext<ColumnFeatureConfiguration> p_159444_) {
+-      int i = p_159444_.m_159775_().m_6337_();
++      long i = p_159444_.m_159775_().getSeaLevel();
+       BlockPos blockpos = p_159444_.m_159777_();
+       WorldGenLevel worldgenlevel = p_159444_.m_159774_();
+       RandomSource randomsource = p_159444_.m_225041_();
+       ColumnFeatureConfiguration columnfeatureconfiguration = p_159444_.m_159778_();
+-      if (!m_65154_(worldgenlevel, i, blockpos.m_122032_())) {
++      if (!canPlaceAt(worldgenlevel, i, blockpos.m_122032_())) {
+          return false;
+       } else {
+          int j = columnfeatureconfiguration.m_160720_().m_214085_(randomsource);
+@@ -39,10 +_,10 @@
           int l = flag ? 50 : 15;
           boolean flag1 = false;
  
@@ -9,28 +24,59 @@
 +         for(BlockPos blockpos1 : BlockPos.randomBetweenClosed(randomsource, l, blockpos.getX() - k, blockpos.getY(), blockpos.getZ() - k, blockpos.getX() + k, blockpos.getY(), blockpos.getZ() + k)) {
 +            int i1 = j - blockpos1.distManhattan(blockpos);
              if (i1 >= 0) {
-                flag1 |= this.m_65167_(worldgenlevel, i, blockpos1, i1, columnfeatureconfiguration.m_160717_().m_214085_(randomsource));
+-               flag1 |= this.m_65167_(worldgenlevel, i, blockpos1, i1, columnfeatureconfiguration.m_160717_().m_214085_(randomsource));
++               flag1 |= this.placeColumn(worldgenlevel, i, blockpos1, i1, columnfeatureconfiguration.m_160717_().m_214085_(randomsource));
              }
-@@ -53,8 +_,8 @@
-    private boolean m_65167_(LevelAccessor p_65168_, int p_65169_, BlockPos p_65170_, int p_65171_, int p_65172_) {
+          }
+ 
+@@ -50,17 +_,17 @@
+       }
+    }
+ 
+-   private boolean m_65167_(LevelAccessor p_65168_, int p_65169_, BlockPos p_65170_, int p_65171_, int p_65172_) {
++   private boolean placeColumn(LevelAccessor p_65168_, long p_65169_, BlockPos p_65170_, int p_65171_, int p_65172_) {
        boolean flag = false;
  
 -      for(BlockPos blockpos : BlockPos.m_121976_(p_65170_.m_123341_() - p_65172_, p_65170_.m_123342_(), p_65170_.m_123343_() - p_65172_, p_65170_.m_123341_() + p_65172_, p_65170_.m_123342_(), p_65170_.m_123343_() + p_65172_)) {
 -         int i = blockpos.m_123333_(p_65170_);
+-         BlockPos blockpos1 = m_65163_(p_65168_, p_65169_, blockpos) ? m_65158_(p_65168_, p_65169_, blockpos.m_122032_(), i) : m_65173_(p_65168_, blockpos.m_122032_(), i);
 +      for(BlockPos blockpos : BlockPos.betweenClosed(p_65170_.getX() - p_65172_, p_65170_.getY(), p_65170_.getZ() - p_65172_, p_65170_.getX() + p_65172_, p_65170_.getY(), p_65170_.getZ() + p_65172_)) {
 +         int i = blockpos.distManhattan(p_65170_);
-          BlockPos blockpos1 = m_65163_(p_65168_, p_65169_, blockpos) ? m_65158_(p_65168_, p_65169_, blockpos.m_122032_(), i) : m_65173_(p_65168_, blockpos.m_122032_(), i);
++         BlockPos blockpos1 = isAirOrLavaOcean(p_65168_, p_65169_, blockpos) ? findSurface(p_65168_, p_65169_, blockpos.m_122032_(), i) : m_65173_(p_65168_, blockpos.m_122032_(), i);
           if (blockpos1 != null) {
              int j = p_65171_ - i / 2;
-@@ -80,7 +_,7 @@
+ 
+             for(BlockPos.MutableBlockPos blockpos$mutableblockpos = blockpos1.m_122032_(); j >= 0; --j) {
+-               if (m_65163_(p_65168_, p_65169_, blockpos$mutableblockpos)) {
++               if (isAirOrLavaOcean(p_65168_, p_65169_, blockpos$mutableblockpos)) {
+                   this.m_5974_(p_65168_, blockpos$mutableblockpos, Blocks.f_50137_.m_49966_());
+                   blockpos$mutableblockpos.m_122173_(Direction.UP);
+                   flag = true;
+@@ -79,10 +_,10 @@
+    }
  
     @Nullable
-    private static BlockPos m_65158_(LevelAccessor p_65159_, int p_65160_, BlockPos.MutableBlockPos p_65161_, int p_65162_) {
+-   private static BlockPos m_65158_(LevelAccessor p_65159_, int p_65160_, BlockPos.MutableBlockPos p_65161_, int p_65162_) {
 -      while(p_65161_.m_123342_() > p_65159_.m_141937_() + 1 && p_65162_ > 0) {
++   private static BlockPos findSurface(LevelAccessor p_65159_, long p_65160_, BlockPos.MutableBlockPos p_65161_, int p_65162_) {
 +      while(p_65161_.getY() > p_65159_.getMinBuildHeight() + 1 && p_65162_ > 0) {
           --p_65162_;
-          if (m_65154_(p_65159_, p_65160_, p_65161_)) {
+-         if (m_65154_(p_65159_, p_65160_, p_65161_)) {
++         if (canPlaceAt(p_65159_, p_65160_, p_65161_)) {
              return p_65161_;
+          }
+ 
+@@ -92,8 +_,8 @@
+       return null;
+    }
+ 
+-   private static boolean m_65154_(LevelAccessor p_65155_, int p_65156_, BlockPos.MutableBlockPos p_65157_) {
+-      if (!m_65163_(p_65155_, p_65156_, p_65157_)) {
++   private static boolean canPlaceAt(LevelAccessor p_65155_, long p_65156_, BlockPos.MutableBlockPos p_65157_) {
++      if (!isAirOrLavaOcean(p_65155_, p_65156_, p_65157_)) {
+          return false;
+       } else {
+          BlockState blockstate = p_65155_.m_8055_(p_65157_.m_122173_(Direction.DOWN));
 @@ -104,7 +_,7 @@
  
     @Nullable
@@ -40,9 +86,12 @@
           --p_65176_;
           BlockState blockstate = p_65174_.m_8055_(p_65175_);
           if (f_65150_.contains(blockstate.m_60734_())) {
-@@ -123,6 +_,6 @@
+@@ -121,8 +_,8 @@
+       return null;
+    }
  
-    private static boolean m_65163_(LevelAccessor p_65164_, int p_65165_, BlockPos p_65166_) {
+-   private static boolean m_65163_(LevelAccessor p_65164_, int p_65165_, BlockPos p_65166_) {
++   private static boolean isAirOrLavaOcean(LevelAccessor p_65164_, long p_65165_, BlockPos p_65166_) {
        BlockState blockstate = p_65164_.m_8055_(p_65166_);
 -      return blockstate.m_60795_() || blockstate.m_60713_(Blocks.f_49991_) && p_65166_.m_123342_() <= p_65165_;
 +      return blockstate.m_60795_() || blockstate.m_60713_(Blocks.f_49991_) && p_65166_.getY() <= p_65165_;

@@ -21,7 +21,34 @@
           }
  
           for(int k = 0; k < i; ++k) {
-@@ -73,17 +_,17 @@
+@@ -42,15 +_,15 @@
+                for(int j1 = -l; j1 <= l; ++j1) {
+                   float f2 = (float)Mth.m_14040_(j1) - 0.25F;
+                   if ((i1 == 0 && j1 == 0 || !(f1 * f1 + f2 * f2 > f * f)) && (i1 != -l && i1 != l && j1 != -l && j1 != l || !(randomsource.m_188501_() > 0.75F))) {
+-                     BlockState blockstate = worldgenlevel.m_8055_(blockpos.m_7918_(i1, k, j1));
++                     BlockState blockstate = worldgenlevel.m_8055_(blockpos.offset(i1, k, j1));
+                      if (blockstate.m_60795_() || m_159759_(blockstate) || blockstate.m_60713_(Blocks.f_50127_) || blockstate.m_60713_(Blocks.f_50126_)) {
+-                        this.m_5974_(worldgenlevel, blockpos.m_7918_(i1, k, j1), Blocks.f_50354_.m_49966_());
++                        this.m_5974_(worldgenlevel, blockpos.offset(i1, k, j1), Blocks.f_50354_.m_49966_());
+                      }
+ 
+                      if (k != 0 && l > 1) {
+-                        blockstate = worldgenlevel.m_8055_(blockpos.m_7918_(i1, -k, j1));
++                        blockstate = worldgenlevel.m_8055_(blockpos.offset(i1, -k, j1));
+                         if (blockstate.m_60795_() || m_159759_(blockstate) || blockstate.m_60713_(Blocks.f_50127_) || blockstate.m_60713_(Blocks.f_50126_)) {
+-                           this.m_5974_(worldgenlevel, blockpos.m_7918_(i1, -k, j1), Blocks.f_50354_.m_49966_());
++                           this.m_5974_(worldgenlevel, blockpos.offset(i1, -k, j1), Blocks.f_50354_.m_49966_());
+                         }
+                      }
+                   }
+@@ -67,23 +_,23 @@
+ 
+          for(int l1 = -k1; l1 <= k1; ++l1) {
+             for(int i2 = -k1; i2 <= k1; ++i2) {
+-               BlockPos blockpos1 = blockpos.m_7918_(l1, -1, i2);
++               BlockPos blockpos1 = blockpos.offset(l1, -1, i2);
+                int j2 = 50;
+                if (Math.abs(l1) == 1 && Math.abs(i2) == 1) {
                    j2 = randomsource.m_188503_(5);
                 }
  

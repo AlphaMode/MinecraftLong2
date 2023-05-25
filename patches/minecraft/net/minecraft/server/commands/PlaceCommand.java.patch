@@ -1,15 +1,15 @@
 --- a/net/minecraft/server/commands/PlaceCommand.java
 +++ b/net/minecraft/server/commands/PlaceCommand.java
-@@ -94,7 +_,7 @@
-          String s = p_214577_.m_203543_().map((p_214584_) -> {
-             return p_214584_.m_135782_().toString();
-          }).orElse("[unregistered]");
+@@ -92,7 +_,7 @@
+          throw f_214530_.create();
+       } else {
+          String s = p_248822_.m_205785_().m_135782_().toString();
 -         p_214576_.m_81354_(Component.m_237110_("commands.place.feature.success", s, p_214578_.m_123341_(), p_214578_.m_123342_(), p_214578_.m_123343_()), true);
 +         p_214576_.m_81354_(Component.m_237110_("commands.place.feature.success", s, p_214578_.getX(), p_214578_.getY(), p_214578_.getZ()), true);
           return 1;
        }
     }
-@@ -104,7 +_,7 @@
+@@ -102,7 +_,7 @@
        if (!JigsawPlacement.m_227203_(serverlevel, p_214571_, p_214572_, p_214573_, p_214574_, false)) {
           throw f_214531_.create();
        } else {
@@ -18,7 +18,7 @@
           return 1;
        }
     }
-@@ -120,16 +_,16 @@
+@@ -118,14 +_,14 @@
           throw f_214532_.create();
        } else {
           BoundingBox boundingbox = structurestart.m_73601_();
@@ -27,19 +27,26 @@
 +         ChunkPos chunkpos = new ChunkPos(SectionPos.blockToSectionCoord(boundingbox.minX()), SectionPos.blockToSectionCoord(boundingbox.minZ()));
 +         ChunkPos chunkpos1 = new ChunkPos(SectionPos.blockToSectionCoord(boundingbox.maxX()), SectionPos.blockToSectionCoord(boundingbox.maxZ()));
           m_214543_(serverlevel, chunkpos, chunkpos1);
-          ChunkPos.m_45599_(chunkpos, chunkpos1).forEach((p_214558_) -> {
--            structurestart.m_226850_(serverlevel, serverlevel.m_215010_(), chunkgenerator, serverlevel.m_213780_(), new BoundingBox(p_214558_.m_45604_(), serverlevel.m_141937_(), p_214558_.m_45605_(), p_214558_.m_45608_(), serverlevel.m_151558_(), p_214558_.m_45609_()), p_214558_);
-+            structurestart.m_226850_(serverlevel, serverlevel.m_215010_(), chunkgenerator, serverlevel.m_213780_(), new BoundingBox((int) p_214558_.getMinBlockX(), (int) serverlevel.getMinBuildHeight(), (int) p_214558_.getMinBlockZ(), (int) p_214558_.getMaxBlockX(), (int) serverlevel.getMaxBuildHeight(), (int) p_214558_.getMaxBlockZ()), p_214558_);
+          ChunkPos.m_45599_(chunkpos, chunkpos1).forEach((p_269763_) -> {
+-            structurestart.m_226850_(serverlevel, serverlevel.m_215010_(), chunkgenerator, serverlevel.m_213780_(), new BoundingBox(p_269763_.m_45604_(), serverlevel.m_141937_(), p_269763_.m_45605_(), p_269763_.m_45608_(), serverlevel.m_151558_(), p_269763_.m_45609_()), p_269763_);
++            structurestart.m_226850_(serverlevel, serverlevel.m_215010_(), chunkgenerator, serverlevel.m_213780_(), new BoundingBox(p_269763_.getMinBlockX(), serverlevel.getMinBuildHeight(), p_269763_.getMinBlockZ(), p_269763_.getMaxBlockX(), serverlevel.getMaxBuildHeight(), p_269763_.getMaxBlockZ()), p_269763_);
           });
-          String s = p_214589_.m_203543_().map((p_214539_) -> {
-             return p_214539_.m_135782_().toString();
-          }).orElse("[unregistered]");
+          String s = p_251799_.m_205785_().m_135782_().toString();
 -         p_214588_.m_81354_(Component.m_237110_("commands.place.structure.success", s, p_214590_.m_123341_(), p_214590_.m_123342_(), p_214590_.m_123343_()), true);
 +         p_214588_.m_81354_(Component.m_237110_("commands.place.structure.success", s, p_214590_.getX(), p_214590_.getY(), p_214590_.getZ()), true);
           return 1;
        }
     }
-@@ -159,7 +_,7 @@
+@@ -145,7 +_,7 @@
+          throw f_214533_.create(p_214563_);
+       } else {
+          StructureTemplate structuretemplate = optional.get();
+-         m_214543_(serverlevel, new ChunkPos(p_214564_), new ChunkPos(p_214564_.m_121955_(structuretemplate.m_163801_())));
++         m_214543_(serverlevel, new ChunkPos(p_214564_), new ChunkPos(p_214564_.offset(structuretemplate.getSize())));
+          StructurePlaceSettings structureplacesettings = (new StructurePlaceSettings()).m_74377_(p_214566_).m_74379_(p_214565_);
+          if (p_214567_ < 1.0F) {
+             structureplacesettings.m_74394_().m_74383_(new BlockRotProcessor(p_214567_)).m_230324_(StructureBlockEntity.m_222888_((long)p_214568_));
+@@ -155,7 +_,7 @@
           if (!flag) {
              throw f_214534_.create();
           } else {

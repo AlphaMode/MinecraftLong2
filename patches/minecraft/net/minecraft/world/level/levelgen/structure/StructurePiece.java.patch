@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/level/levelgen/structure/StructurePiece.java
 +++ b/net/minecraft/world/level/levelgen/structure/StructurePiece.java
+@@ -62,7 +_,7 @@
+       this.m_73519_(i == -1 ? null : Direction.m_122407_(i));
+    }
+ 
+-   protected static BoundingBox m_163541_(int p_163542_, int p_163543_, int p_163544_, Direction p_163545_, int p_163546_, int p_163547_, int p_163548_) {
++   protected static BoundingBox makeBoundingBox(long p_163542_, long p_163543_, long p_163544_, Direction p_163545_, int p_163546_, int p_163547_, int p_163548_) {
+       return p_163545_.m_122434_() == Direction.Axis.Z ? new BoundingBox(p_163542_, p_163543_, p_163544_, p_163542_ + p_163546_ - 1, p_163543_ + p_163547_ - 1, p_163544_ + p_163548_ - 1) : new BoundingBox(p_163542_, p_163543_, p_163544_, p_163542_ + p_163548_ - 1, p_163543_ + p_163547_ - 1, p_163544_ + p_163546_ - 1);
+    }
+ 
 @@ -103,20 +_,20 @@
     }
  
@@ -283,7 +292,7 @@
  
           if (p_73408_.m_8055_(blockpos1).m_60804_(p_73408_, blockpos1)) {
              direction2 = direction2.m_122424_();
--            p_73409_.m_121945_(direction2);
+-            blockpos1 = p_73409_.m_121945_(direction2);
 +            p_73409_.relative(direction2);
           }
  

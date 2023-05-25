@@ -15,13 +15,15 @@
        super(StructurePieceType.f_210125_, 0, p_226500_);
        this.f_226493_ = p_226495_;
        this.f_72597_ = p_226496_;
-@@ -47,7 +_,7 @@
+@@ -46,8 +_,8 @@
+    public PoolElementStructurePiece(StructurePieceSerializationContext p_192406_, CompoundTag p_192407_) {
        super(StructurePieceType.f_210125_, p_192407_);
        this.f_226493_ = p_192406_.f_226956_();
-       this.f_72598_ = new BlockPos(p_192407_.m_128451_("PosX"), p_192407_.m_128451_("PosY"), p_192407_.m_128451_("PosZ"));
+-      this.f_72598_ = new BlockPos(p_192407_.m_128451_("PosX"), p_192407_.m_128451_("PosY"), p_192407_.m_128451_("PosZ"));
 -      this.f_72601_ = p_192407_.m_128451_("ground_level_delta");
++      this.f_72598_ = new BlockPos(p_192407_.m_128454_("PosX"), p_192407_.m_128454_("PosY"), p_192407_.m_128454_("PosZ"));
 +      this.f_72601_ = p_192407_.m_128454_("ground_level_delta");
-       DynamicOps<Tag> dynamicops = RegistryOps.m_206821_(NbtOps.f_128958_, p_192406_.f_192763_());
+       DynamicOps<Tag> dynamicops = RegistryOps.m_255058_(NbtOps.f_128958_, p_192406_.f_192763_());
        this.f_72597_ = StructurePoolElement.f_210468_.parse(dynamicops, p_192407_.m_128469_("pool_element")).resultOrPartial(f_72600_::error).orElseThrow(() -> {
           return new IllegalStateException("Invalid pool element found");
 @@ -62,10 +_,10 @@
@@ -36,18 +38,20 @@
 +      p_192426_.m_128356_("PosY", this.f_72598_.getY());
 +      p_192426_.m_128356_("PosZ", this.f_72598_.getZ());
 +      p_192426_.m_128356_("ground_level_delta", this.f_72601_);
-       DynamicOps<Tag> dynamicops = RegistryOps.m_206821_(NbtOps.f_128958_, p_192425_.f_192763_());
+       DynamicOps<Tag> dynamicops = RegistryOps.m_255058_(NbtOps.f_128958_, p_192425_.f_192763_());
        StructurePoolElement.f_210468_.encodeStart(dynamicops, this.f_72597_).resultOrPartial(f_72600_::error).ifPresent((p_163125_) -> {
           p_192426_.m_128365_("pool_element", p_163125_);
-@@ -89,7 +_,7 @@
+@@ -89,8 +_,8 @@
     }
  
     public void m_6324_(int p_72616_, int p_72617_, int p_72618_) {
 -      super.m_6324_(p_72616_, p_72617_, p_72618_);
+-      this.f_72598_ = this.f_72598_.m_7918_(p_72616_, p_72617_, p_72618_);
 +      super.move(p_72616_, p_72617_, p_72618_);
-       this.f_72598_ = this.f_72598_.m_7918_(p_72616_, p_72617_, p_72618_);
++      this.f_72598_ = this.f_72598_.offset(p_72616_, p_72617_, p_72618_);
     }
  
+    public Rotation m_6830_() {
 @@ -109,7 +_,7 @@
        return this.f_72598_;
     }

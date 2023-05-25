@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/Structure.java
 +++ b/net/minecraft/world/level/levelgen/structure/Structure.java
-@@ -93,36 +_,36 @@
+@@ -95,36 +_,36 @@
  
     protected static Optional<Structure.GenerationStub> m_226585_(Structure.GenerationContext p_226586_, Heightmap.Types p_226587_, Consumer<StructurePiecesBuilder> p_226588_) {
        ChunkPos chunkpos = p_226586_.f_226628_();
@@ -13,10 +13,10 @@
        return Optional.of(new Structure.GenerationStub(new BlockPos(i, k, j), p_226588_));
     }
  
-    private static boolean m_226589_(Structure.GenerationStub p_226590_, ChunkGenerator p_226591_, RandomState p_226592_, Predicate<Holder<Biome>> p_226593_) {
-       BlockPos blockpos = p_226590_.f_226669_();
--      return p_226593_.test(p_226591_.m_62218_().m_203407_(QuartPos.m_175400_(blockpos.m_123341_()), QuartPos.m_175400_(blockpos.m_123342_()), QuartPos.m_175400_(blockpos.m_123343_()), p_226592_.m_224579_()));
-+      return p_226593_.test(p_226591_.m_62218_().getNoiseBiome(QuartPos.fromBlock(blockpos.getX()), QuartPos.fromBlock(blockpos.getY()), QuartPos.fromBlock(blockpos.getZ()), p_226592_.m_224579_()));
+    private static boolean m_262828_(Structure.GenerationStub p_263042_, Structure.GenerationContext p_263005_) {
+       BlockPos blockpos = p_263042_.f_226669_();
+-      return p_263005_.f_226630_.test(p_263005_.f_226622_.m_62218_().m_203407_(QuartPos.m_175400_(blockpos.m_123341_()), QuartPos.m_175400_(blockpos.m_123342_()), QuartPos.m_175400_(blockpos.m_123343_()), p_263005_.f_226624_.m_224579_()));
++      return p_263005_.f_226630_.test(p_263005_.f_226622_.m_62218_().getNoiseBiome(QuartPos.fromBlock(blockpos.getX()), QuartPos.fromBlock(blockpos.getY()), QuartPos.fromBlock(blockpos.getZ()), p_263005_.f_226624_.m_224579_()));
     }
  
     public void m_214110_(WorldGenLevel p_226560_, StructureManager p_226561_, ChunkGenerator p_226562_, RandomSource p_226563_, BoundingBox p_226564_, ChunkPos p_226565_, PiecesContainer p_226566_) {
@@ -49,7 +49,7 @@
        return Math.min(Math.min(aint[0], aint[1]), Math.min(aint[2], aint[3]));
     }
  
-@@ -141,9 +_,9 @@
+@@ -143,9 +_,9 @@
        }
  
        ChunkPos chunkpos = p_226583_.f_226628_();
@@ -61,8 +61,8 @@
 +      return new BlockPos(k, getLowestY(p_226583_, k, l, i, j), l);
     }
  
-    public abstract Optional<Structure.GenerationStub> m_214086_(Structure.GenerationContext p_226571_);
-@@ -157,7 +_,7 @@
+    protected abstract Optional<Structure.GenerationStub> m_214086_(Structure.GenerationContext p_226571_);
+@@ -165,7 +_,7 @@
  
        private static WorldgenRandom m_226653_(long p_226654_, ChunkPos p_226655_) {
           WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));

@@ -36,7 +36,7 @@
        return new SectionPos(p_123197_.f_45578_, p_123198_, p_123197_.f_45579_);
     }
  
-@@ -50,7 +_,7 @@
+@@ -50,45 +_,45 @@
     }
  
     public static SectionPos m_235863_(Position p_235864_) {
@@ -45,7 +45,8 @@
     }
  
     public static SectionPos m_123184_(long p_123185_) {
-@@ -58,7 +_,7 @@
+-      return new SectionPos(m_123213_(p_123185_), m_123225_(p_123185_), m_123230_(p_123185_));
++      return new SectionPos(x(p_123185_), y(p_123185_), z(p_123185_));
     }
  
     public static SectionPos m_175562_(ChunkAccess p_175563_) {
@@ -54,10 +55,10 @@
     }
  
     public static long m_123191_(long p_123192_, Direction p_123193_) {
-@@ -66,29 +_,29 @@
-    }
- 
-    public static long m_123186_(long p_123187_, int p_123188_, int p_123189_, int p_123190_) {
+-      return m_123186_(p_123192_, p_123193_.m_122429_(), p_123193_.m_122430_(), p_123193_.m_122431_());
+-   }
+-
+-   public static long m_123186_(long p_123187_, int p_123188_, int p_123189_, int p_123190_) {
 -      return m_123209_(m_123213_(p_123187_) + p_123188_, m_123225_(p_123187_) + p_123189_, m_123230_(p_123187_) + p_123190_);
 -   }
 -
@@ -66,14 +67,18 @@
 -   }
 -
 -   public static int m_123171_(int p_123172_) {
-+      return asLong(m_123213_(p_123187_) + p_123188_, m_123225_(p_123187_) + p_123189_, m_123230_(p_123187_) + p_123190_);
++      return offset(p_123192_, p_123193_.m_122429_(), p_123193_.m_122430_(), p_123193_.m_122431_());
++   }
++
++   public static long offset(long p_123187_, long p_123188_, long p_123189_, long p_123190_) {
++      return asLong(x(p_123187_) + p_123188_, y(p_123187_) + p_123189_, z(p_123187_) + p_123190_);
 +   }
 +
 +   public static long posToSectionCoord(double p_175553_) {
 +      return blockToSectionCoord(Mth.m_14134_(p_175553_));
 +   }
 +
-+   public static long blockToSectionCoord(int p_123172_) {
++   public static long blockToSectionCoord(long p_123172_) {
        return p_123172_ >> 4;
     }
  
@@ -98,7 +103,7 @@
        return (short)(i << 8 | k << 4 | j << 0);
     }
  
-@@ -104,28 +_,28 @@
+@@ -104,80 +_,80 @@
        return p_123228_ >>> 4 & 15;
     }
  
@@ -136,15 +141,20 @@
  
 -   public static int m_175554_(int p_175555_, int p_175556_) {
 -      return m_123223_(p_175555_) + p_175556_;
-+   public static long sectionToBlockCoord(long p_175555_, long p_175556_) {
-+      return sectionToBlockCoord(p_175555_) + p_175556_;
-    }
- 
-    public static int m_123213_(long p_123214_) {
-@@ -140,44 +_,44 @@
-       return (int)(p_123231_ << 22 >> 42);
-    }
- 
+-   }
+-
+-   public static int m_123213_(long p_123214_) {
+-      return (int)(p_123214_ << 0 >> 42);
+-   }
+-
+-   public static int m_123225_(long p_123226_) {
+-      return (int)(p_123226_ << 44 >> 44);
+-   }
+-
+-   public static int m_123230_(long p_123231_) {
+-      return (int)(p_123231_ << 22 >> 42);
+-   }
+-
 -   public int m_123170_() {
 -      return this.m_123341_();
 -   }
@@ -179,6 +189,22 @@
 -
 -   public int m_123248_() {
 -      return m_175554_(this.m_123222_(), 15);
++   public static long sectionToBlockCoord(long p_175555_, long p_175556_) {
++      return sectionToBlockCoord(p_175555_) + p_175556_;
++   }
++
++   public static long x(long p_123214_) {
++      return (p_123214_ << 0 >> 42);
++   }
++
++   public static long y(long p_123226_) {
++      return (p_123226_ << 44 >> 44);
++   }
++
++   public static long z(long p_123231_) {
++      return (p_123231_ << 22 >> 42);
++   }
++
 +   public long x() {
 +      return this.getX();
 +   }
@@ -217,11 +243,11 @@
  
     public static long m_123235_(long p_123236_) {
 -      return m_123209_(m_123171_(BlockPos.m_121983_(p_123236_)), m_123171_(BlockPos.m_122008_(p_123236_)), m_123171_(BlockPos.m_122015_(p_123236_)));
-+      return asLong(blockToSectionCoord(BlockPos.m_121983_(p_123236_)), blockToSectionCoord(BlockPos.m_122008_(p_123236_)), blockToSectionCoord(BlockPos.m_122015_(p_123236_)));
++      return asLong(blockToSectionCoord(BlockPos.getX(p_123236_)), blockToSectionCoord(BlockPos.getY(p_123236_)), blockToSectionCoord(BlockPos.getZ(p_123236_)));
     }
  
     public static long m_123240_(long p_123241_) {
-@@ -185,7 +_,7 @@
+@@ -185,23 +_,23 @@
     }
  
     public BlockPos m_123249_() {
@@ -230,7 +256,9 @@
     }
  
     public BlockPos m_123250_() {
-@@ -194,14 +_,14 @@
+       int i = 8;
+-      return this.m_123249_().m_7918_(8, 8, 8);
++      return this.m_123249_().offset(8, 8, 8);
     }
  
     public ChunkPos m_123251_() {
@@ -313,7 +341,7 @@
  
     public static void m_194639_(long p_194640_, LongConsumer p_194641_) {
 -      m_194634_(BlockPos.m_121983_(p_194640_), BlockPos.m_122008_(p_194640_), BlockPos.m_122015_(p_194640_), p_194641_);
-+      aroundAndAtBlockPos(BlockPos.m_121983_(p_194640_), BlockPos.m_122008_(p_194640_), BlockPos.m_122015_(p_194640_), p_194641_);
++      aroundAndAtBlockPos(BlockPos.getX(p_194640_), BlockPos.getY(p_194640_), BlockPos.getZ(p_194640_), p_194641_);
     }
  
 -   public static void m_194634_(int p_194635_, int p_194636_, int p_194637_, LongConsumer p_194638_) {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/DebugLevelSource.java
 +++ b/net/minecraft/world/level/levelgen/DebugLevelSource.java
-@@ -67,16 +_,16 @@
+@@ -58,16 +_,16 @@
     public void m_213609_(WorldGenLevel p_223983_, ChunkAccess p_223984_, StructureManager p_223985_) {
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
        ChunkPos chunkpos = p_223984_.m_7697_();
@@ -24,7 +24,7 @@
           }
        }
  
-@@ -86,26 +_,26 @@
+@@ -77,24 +_,24 @@
        return CompletableFuture.completedFuture(p_223995_);
     }
  
@@ -34,9 +34,8 @@
     }
  
 -   public NoiseColumn m_214184_(int p_223959_, int p_223960_, LevelHeightAccessor p_223961_, RandomState p_223962_) {
--      return new NoiseColumn(0, new BlockState[0]);
 +   public NoiseColumn getBaseColumn(long p_223959_, long p_223960_, LevelHeightAccessor p_223961_, RandomState p_223962_) {
-+      return new NoiseColumn(0, new BlockState[]{});
+       return new NoiseColumn(0, new BlockState[0]);
     }
  
     public void m_213600_(List<String> p_223987_, RandomState p_223988_, BlockPos p_223989_) {
@@ -50,14 +49,11 @@
           p_64150_ /= 2;
           if (p_64149_ <= f_64115_ && p_64150_ <= f_64116_) {
 -            int i = Mth.m_14040_(p_64149_ * f_64115_ + p_64150_);
-+            long i = Mth.abs(p_64149_ * f_64115_ + p_64150_);
++            int i = (int) Mth.abs(p_64149_ * f_64115_ + p_64150_);
              if (i < f_64114_.size()) {
--               blockstate = f_64114_.get(i);
-+               blockstate = f_64114_.get((int) i);
+                blockstate = f_64114_.get(i);
              }
-          }
-       }
-@@ -119,11 +_,11 @@
+@@ -110,15 +_,15 @@
     public void m_6929_(WorldGenRegion p_188511_) {
     }
  
@@ -71,3 +67,8 @@
        return 384;
     }
  
+-   public int m_6337_() {
++   public long getSeaLevel() {
+       return 63;
+    }
+ }

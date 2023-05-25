@@ -1,8 +1,8 @@
 --- a/net/minecraft/world/level/pathfinder/FlyNodeEvaluator.java
 +++ b/net/minecraft/world/level/pathfinder/FlyNodeEvaluator.java
-@@ -29,9 +_,9 @@
+@@ -32,9 +_,9 @@
+    }
  
-    @Nullable
     public Node m_7171_() {
 -      int i;
 +      long i;
@@ -12,228 +12,211 @@
           BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_());
  
           for(BlockState blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos); blockstate.m_60713_(Blocks.f_49990_); blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos)) {
-@@ -43,151 +_,151 @@
-       }
- 
-       BlockPos blockpos1 = this.f_77313_.m_20183_();
--      BlockPathTypes blockpathtypes1 = this.m_164693_(blockpos1.m_123341_(), i, blockpos1.m_123343_());
-+      BlockPathTypes blockpathtypes1 = this.getCachedBlockPathType(blockpos1.getX(), i, blockpos1.getZ());
-       if (this.f_77313_.m_21439_(blockpathtypes1) < 0.0F) {
-          for(BlockPos blockpos : this.f_77313_.m_238383_()) {
--            BlockPathTypes blockpathtypes = this.m_164693_(blockpos.m_123341_(), blockpos.m_123342_(), blockpos.m_123343_());
-+            BlockPathTypes blockpathtypes = this.getCachedBlockPathType(blockpos.getX(), blockpos.getY(), blockpos.getZ());
-             if (this.f_77313_.m_21439_(blockpathtypes) >= 0.0F) {
-                return super.m_230631_(blockpos);
-             }
-          }
-       }
- 
--      return super.m_230631_(new BlockPos(blockpos1.m_123341_(), i, blockpos1.m_123343_()));
-+      return super.m_230631_(new BlockPos(blockpos1.getX(), i, blockpos1.getZ()));
+@@ -63,137 +_,137 @@
     }
  
     public Target m_7568_(double p_77229_, double p_77230_, double p_77231_) {
--      return this.m_230615_(super.m_5676_(Mth.m_14107_(p_77229_), Mth.m_14107_(p_77230_), Mth.m_14107_(p_77231_)));
-+      return this.m_230615_(super.getNode(Mth.m_14107_(p_77229_), Mth.m_14107_(p_77230_), Mth.m_14107_(p_77231_)));
+-      return this.m_230615_(this.m_5676_(Mth.m_14107_(p_77229_), Mth.m_14107_(p_77230_), Mth.m_14107_(p_77231_)));
++      return this.m_230615_(this.getNode(Mth.m_14107_(p_77229_), Mth.m_14107_(p_77230_), Mth.m_14107_(p_77231_)));
     }
  
     public int m_6065_(Node[] p_77266_, Node p_77267_) {
        int i = 0;
--      Node node = this.m_5676_(p_77267_.f_77271_, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
-+      Node node = this.getNode(p_77267_.f_77271_, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
+-      Node node = this.m_262834_(p_77267_.f_77271_, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
++      Node node = this.findAcceptedNode(p_77267_.f_77271_, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
        if (this.m_77269_(node)) {
           p_77266_[i++] = node;
        }
  
--      Node node1 = this.m_5676_(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_);
-+      Node node1 = this.getNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_);
+-      Node node1 = this.m_262834_(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_);
++      Node node1 = this.findAcceptedNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_);
        if (this.m_77269_(node1)) {
           p_77266_[i++] = node1;
        }
  
--      Node node2 = this.m_5676_(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_);
-+      Node node2 = this.getNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_);
+-      Node node2 = this.m_262834_(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_);
++      Node node2 = this.findAcceptedNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_);
        if (this.m_77269_(node2)) {
           p_77266_[i++] = node2;
        }
  
--      Node node3 = this.m_5676_(p_77267_.f_77271_, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
-+      Node node3 = this.getNode(p_77267_.f_77271_, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
+-      Node node3 = this.m_262834_(p_77267_.f_77271_, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
++      Node node3 = this.findAcceptedNode(p_77267_.f_77271_, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
        if (this.m_77269_(node3)) {
           p_77266_[i++] = node3;
        }
  
--      Node node4 = this.m_5676_(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
-+      Node node4 = this.getNode(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
+-      Node node4 = this.m_262834_(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
++      Node node4 = this.findAcceptedNode(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
        if (this.m_77269_(node4)) {
           p_77266_[i++] = node4;
        }
  
--      Node node5 = this.m_5676_(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
-+      Node node5 = this.getNode(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
+-      Node node5 = this.m_262834_(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
++      Node node5 = this.findAcceptedNode(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
        if (this.m_77269_(node5)) {
           p_77266_[i++] = node5;
        }
  
--      Node node6 = this.m_5676_(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
-+      Node node6 = this.getNode(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
+-      Node node6 = this.m_262834_(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
++      Node node6 = this.findAcceptedNode(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
        if (this.m_77269_(node6) && this.m_77263_(node) && this.m_77263_(node4)) {
           p_77266_[i++] = node6;
        }
  
--      Node node7 = this.m_5676_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
-+      Node node7 = this.getNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
+-      Node node7 = this.m_262834_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
++      Node node7 = this.findAcceptedNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
        if (this.m_77269_(node7) && this.m_77263_(node1) && this.m_77263_(node4)) {
           p_77266_[i++] = node7;
        }
  
--      Node node8 = this.m_5676_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
-+      Node node8 = this.getNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
+-      Node node8 = this.m_262834_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
++      Node node8 = this.findAcceptedNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_);
        if (this.m_77269_(node8) && this.m_77263_(node2) && this.m_77263_(node4)) {
           p_77266_[i++] = node8;
        }
  
--      Node node9 = this.m_5676_(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
-+      Node node9 = this.getNode(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
+-      Node node9 = this.m_262834_(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
++      Node node9 = this.findAcceptedNode(p_77267_.f_77271_, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
        if (this.m_77269_(node9) && this.m_77263_(node3) && this.m_77263_(node4)) {
           p_77266_[i++] = node9;
        }
  
--      Node node10 = this.m_5676_(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
-+      Node node10 = this.getNode(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
+-      Node node10 = this.m_262834_(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
++      Node node10 = this.findAcceptedNode(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
        if (this.m_77269_(node10) && this.m_77263_(node) && this.m_77263_(node5)) {
           p_77266_[i++] = node10;
        }
  
--      Node node11 = this.m_5676_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
-+      Node node11 = this.getNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
+-      Node node11 = this.m_262834_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
++      Node node11 = this.findAcceptedNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
        if (this.m_77269_(node11) && this.m_77263_(node1) && this.m_77263_(node5)) {
           p_77266_[i++] = node11;
        }
  
--      Node node12 = this.m_5676_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
-+      Node node12 = this.getNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
+-      Node node12 = this.m_262834_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
++      Node node12 = this.findAcceptedNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_);
        if (this.m_77269_(node12) && this.m_77263_(node2) && this.m_77263_(node5)) {
           p_77266_[i++] = node12;
        }
  
--      Node node13 = this.m_5676_(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
-+      Node node13 = this.getNode(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
+-      Node node13 = this.m_262834_(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
++      Node node13 = this.findAcceptedNode(p_77267_.f_77271_, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
        if (this.m_77269_(node13) && this.m_77263_(node3) && this.m_77263_(node5)) {
           p_77266_[i++] = node13;
        }
  
--      Node node14 = this.m_5676_(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
-+      Node node14 = this.getNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
+-      Node node14 = this.m_262834_(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
++      Node node14 = this.findAcceptedNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
        if (this.m_77269_(node14) && this.m_77263_(node3) && this.m_77263_(node2)) {
           p_77266_[i++] = node14;
        }
  
--      Node node15 = this.m_5676_(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
-+      Node node15 = this.getNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
+-      Node node15 = this.m_262834_(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
++      Node node15 = this.findAcceptedNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
        if (this.m_77269_(node15) && this.m_77263_(node) && this.m_77263_(node2)) {
           p_77266_[i++] = node15;
        }
  
--      Node node16 = this.m_5676_(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
-+      Node node16 = this.getNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
+-      Node node16 = this.m_262834_(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
++      Node node16 = this.findAcceptedNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_ - 1);
        if (this.m_77269_(node16) && this.m_77263_(node3) && this.m_77263_(node1)) {
           p_77266_[i++] = node16;
        }
  
--      Node node17 = this.m_5676_(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
-+      Node node17 = this.getNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
+-      Node node17 = this.m_262834_(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
++      Node node17 = this.findAcceptedNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_, p_77267_.f_77273_ + 1);
        if (this.m_77269_(node17) && this.m_77263_(node) && this.m_77263_(node1)) {
           p_77266_[i++] = node17;
        }
  
--      Node node18 = this.m_5676_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
-+      Node node18 = this.getNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
+-      Node node18 = this.m_262834_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
++      Node node18 = this.findAcceptedNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
        if (this.m_77269_(node18) && this.m_77263_(node14) && this.m_77263_(node3) && this.m_77263_(node2) && this.m_77263_(node4) && this.m_77263_(node9) && this.m_77263_(node8)) {
           p_77266_[i++] = node18;
        }
  
--      Node node19 = this.m_5676_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
-+      Node node19 = this.getNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
+-      Node node19 = this.m_262834_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
++      Node node19 = this.findAcceptedNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
        if (this.m_77269_(node19) && this.m_77263_(node15) && this.m_77263_(node) && this.m_77263_(node2) && this.m_77263_(node4) && this.m_77263_(node6) && this.m_77263_(node8)) {
           p_77266_[i++] = node19;
        }
  
--      Node node20 = this.m_5676_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
-+      Node node20 = this.getNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
+-      Node node20 = this.m_262834_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
++      Node node20 = this.findAcceptedNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ - 1);
        if (this.m_77269_(node20) && this.m_77263_(node16) && this.m_77263_(node3) && this.m_77263_(node1) && this.m_77263_(node4) && this.m_77263_(node9) && this.m_77263_(node7)) {
           p_77266_[i++] = node20;
        }
  
--      Node node21 = this.m_5676_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
-+      Node node21 = this.getNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
+-      Node node21 = this.m_262834_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
++      Node node21 = this.findAcceptedNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ + 1, p_77267_.f_77273_ + 1);
        if (this.m_77269_(node21) && this.m_77263_(node17) && this.m_77263_(node) && this.m_77263_(node1) && this.m_77263_(node4) && this.m_77263_(node6) && this.m_77263_(node7)) {
           p_77266_[i++] = node21;
        }
  
--      Node node22 = this.m_5676_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
-+      Node node22 = this.getNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
+-      Node node22 = this.m_262834_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
++      Node node22 = this.findAcceptedNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
        if (this.m_77269_(node22) && this.m_77263_(node14) && this.m_77263_(node3) && this.m_77263_(node2) && this.m_77263_(node5) && this.m_77263_(node13) && this.m_77263_(node12)) {
           p_77266_[i++] = node22;
        }
  
--      Node node23 = this.m_5676_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
-+      Node node23 = this.getNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
+-      Node node23 = this.m_262834_(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
++      Node node23 = this.findAcceptedNode(p_77267_.f_77271_ + 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
        if (this.m_77269_(node23) && this.m_77263_(node15) && this.m_77263_(node) && this.m_77263_(node2) && this.m_77263_(node5) && this.m_77263_(node10) && this.m_77263_(node12)) {
           p_77266_[i++] = node23;
        }
  
--      Node node24 = this.m_5676_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
-+      Node node24 = this.getNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
+-      Node node24 = this.m_262834_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
++      Node node24 = this.findAcceptedNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ - 1);
        if (this.m_77269_(node24) && this.m_77263_(node16) && this.m_77263_(node3) && this.m_77263_(node1) && this.m_77263_(node5) && this.m_77263_(node13) && this.m_77263_(node11)) {
           p_77266_[i++] = node24;
        }
  
--      Node node25 = this.m_5676_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
-+      Node node25 = this.getNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
+-      Node node25 = this.m_262834_(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
++      Node node25 = this.findAcceptedNode(p_77267_.f_77271_ - 1, p_77267_.f_77272_ - 1, p_77267_.f_77273_ + 1);
        if (this.m_77269_(node25) && this.m_77263_(node17) && this.m_77263_(node) && this.m_77263_(node1) && this.m_77263_(node5) && this.m_77263_(node10) && this.m_77263_(node11)) {
           p_77266_[i++] = node25;
        }
-@@ -204,12 +_,12 @@
+@@ -210,12 +_,12 @@
     }
  
     @Nullable
--   protected Node m_5676_(int p_77233_, int p_77234_, int p_77235_) {
-+   protected Node getNode(long p_77233_, long p_77234_, long p_77235_) {
+-   protected Node m_262834_(int p_262970_, int p_263018_, int p_262947_) {
++   protected Node findAcceptedNode(long p_262970_, long p_263018_, long p_262947_) {
        Node node = null;
--      BlockPathTypes blockpathtypes = this.m_164693_(p_77233_, p_77234_, p_77235_);
-+      BlockPathTypes blockpathtypes = this.getCachedBlockPathType(p_77233_, p_77234_, p_77235_);
+-      BlockPathTypes blockpathtypes = this.m_164693_(p_262970_, p_263018_, p_262947_);
++      BlockPathTypes blockpathtypes = this.getCachedBlockPathType(p_262970_, p_263018_, p_262947_);
        float f = this.f_77313_.m_21439_(blockpathtypes);
        if (f >= 0.0F) {
--         node = super.m_5676_(p_77233_, p_77234_, p_77235_);
-+         node = super.getNode(p_77233_, p_77234_, p_77235_);
-          if (node != null) {
-             node.f_77282_ = blockpathtypes;
-             node.f_77281_ = Math.max(node.f_77281_, f);
-@@ -222,17 +_,17 @@
+-         node = this.m_5676_(p_262970_, p_263018_, p_262947_);
++         node = this.getNode(p_262970_, p_263018_, p_262947_);
+          node.f_77282_ = blockpathtypes;
+          node.f_77281_ = Math.max(node.f_77281_, f);
+          if (blockpathtypes == BlockPathTypes.WALKABLE) {
+@@ -226,17 +_,17 @@
        return node;
     }
  
 -   private BlockPathTypes m_164693_(int p_164694_, int p_164695_, int p_164696_) {
--      return this.f_164687_.computeIfAbsent(BlockPos.m_121882_(p_164694_, p_164695_, p_164696_), (p_164692_) -> {
--         return this.m_7209_(this.f_77312_, p_164694_, p_164695_, p_164696_, this.f_77313_, this.f_77315_, this.f_77316_, this.f_77317_, this.m_77360_(), this.m_77357_());
+-      return this.f_164687_.computeIfAbsent(BlockPos.m_121882_(p_164694_, p_164695_, p_164696_), (p_265010_) -> {
+-         return this.m_7209_(this.f_77312_, p_164694_, p_164695_, p_164696_, this.f_77313_);
 +   private BlockPathTypes getCachedBlockPathType(long p_164694_, long p_164695_, long p_164696_) {
-+      return this.f_164687_.computeIfAbsent(BlockPos.asLong(p_164694_, p_164695_, p_164696_), (p_164692_) -> {
-+         return this.getBlockPathType(this.f_77312_, p_164694_, p_164695_, p_164696_, this.f_77313_, this.f_77315_, this.f_77316_, this.f_77317_, this.m_77360_(), this.m_77357_());
++      return this.f_164687_.computeIfAbsent(BlockPos.asLong(p_164694_, p_164695_, p_164696_), (p_265010_) -> {
++         return this.getBlockPathType(this.f_77312_, p_164694_, p_164695_, p_164696_, this.f_77313_);
        });
     }
  
--   public BlockPathTypes m_7209_(BlockGetter p_77250_, int p_77251_, int p_77252_, int p_77253_, Mob p_77254_, int p_77255_, int p_77256_, int p_77257_, boolean p_77258_, boolean p_77259_) {
-+   public BlockPathTypes getBlockPathType(BlockGetter p_77250_, long p_77251_, long p_77252_, long p_77253_, Mob p_77254_, int p_77255_, int p_77256_, int p_77257_, boolean p_77258_, boolean p_77259_) {
+-   public BlockPathTypes m_7209_(BlockGetter p_265753_, int p_265243_, int p_265376_, int p_265253_, Mob p_265367_) {
++   public BlockPathTypes getBlockPathType(BlockGetter p_265753_, long p_265243_, long p_265376_, long p_265253_, Mob p_265367_) {
        EnumSet<BlockPathTypes> enumset = EnumSet.noneOf(BlockPathTypes.class);
        BlockPathTypes blockpathtypes = BlockPathTypes.BLOCKED;
-       BlockPos blockpos = p_77254_.m_20183_();
--      blockpathtypes = super.m_77580_(p_77250_, p_77251_, p_77252_, p_77253_, p_77255_, p_77256_, p_77257_, p_77258_, p_77259_, enumset, blockpathtypes, blockpos);
-+      blockpathtypes = super.getBlockPathTypes(p_77250_, p_77251_, p_77252_, p_77253_, p_77255_, p_77256_, p_77257_, p_77258_, p_77259_, enumset, blockpathtypes, blockpos);
+       BlockPos blockpos = p_265367_.m_20183_();
+-      blockpathtypes = super.m_264561_(p_265753_, p_265243_, p_265376_, p_265253_, enumset, blockpathtypes, blockpos);
++      blockpathtypes = super.getBlockPathTypes(p_265753_, p_265243_, p_265376_, p_265253_, enumset, blockpathtypes, blockpos);
        if (enumset.contains(BlockPathTypes.FENCE)) {
           return BlockPathTypes.FENCE;
        } else {
-@@ -252,11 +_,11 @@
+@@ -256,11 +_,11 @@
        }
     }
  
@@ -247,9 +230,9 @@
 +      if (blockpathtypes == BlockPathTypes.OPEN && p_77247_ >= p_77245_.getMinBuildHeight() + 1) {
 +         BlockPathTypes blockpathtypes1 = m_77643_(p_77245_, blockpos$mutableblockpos.set(p_77246_, p_77247_ - 1, p_77248_));
           if (blockpathtypes1 != BlockPathTypes.DAMAGE_FIRE && blockpathtypes1 != BlockPathTypes.LAVA) {
-             if (blockpathtypes1 == BlockPathTypes.DAMAGE_CACTUS) {
-                blockpathtypes = BlockPathTypes.DAMAGE_CACTUS;
-@@ -277,7 +_,7 @@
+             if (blockpathtypes1 == BlockPathTypes.DAMAGE_OTHER) {
+                blockpathtypes = BlockPathTypes.DAMAGE_OTHER;
+@@ -279,7 +_,7 @@
        }
  
        if (blockpathtypes == BlockPathTypes.WALKABLE || blockpathtypes == BlockPathTypes.OPEN) {
@@ -258,3 +241,19 @@
        }
  
        return blockpathtypes;
+@@ -290,13 +_,13 @@
+       AABB aabb = p_263108_.m_20191_();
+       boolean flag = aabb.m_82309_() < 1.0D;
+       if (!flag) {
+-         return List.of(BlockPos.m_274561_(aabb.f_82288_, (double)p_263108_.m_146904_(), aabb.f_82290_), BlockPos.m_274561_(aabb.f_82288_, (double)p_263108_.m_146904_(), aabb.f_82293_), BlockPos.m_274561_(aabb.f_82291_, (double)p_263108_.m_146904_(), aabb.f_82290_), BlockPos.m_274561_(aabb.f_82291_, (double)p_263108_.m_146904_(), aabb.f_82293_));
++         return List.of(BlockPos.m_274561_(aabb.f_82288_, (double)p_263108_.getBlockY(), aabb.f_82290_), BlockPos.m_274561_(aabb.f_82288_, (double)p_263108_.getBlockY(), aabb.f_82293_), BlockPos.m_274561_(aabb.f_82291_, (double)p_263108_.getBlockY(), aabb.f_82290_), BlockPos.m_274561_(aabb.f_82291_, (double)p_263108_.getBlockY(), aabb.f_82293_));
+       } else {
+          double d0 = Math.max(0.0D, (1.5D - aabb.m_82385_()) / 2.0D);
+          double d1 = Math.max(0.0D, (1.5D - aabb.m_82362_()) / 2.0D);
+          double d2 = Math.max(0.0D, (1.5D - aabb.m_82376_()) / 2.0D);
+          AABB aabb1 = aabb.m_82377_(d1, d2, d0);
+-         return BlockPos.m_235641_(p_263108_.m_217043_(), 10, Mth.m_14107_(aabb1.f_82288_), Mth.m_14107_(aabb1.f_82289_), Mth.m_14107_(aabb1.f_82290_), Mth.m_14107_(aabb1.f_82291_), Mth.m_14107_(aabb1.f_82292_), Mth.m_14107_(aabb1.f_82293_));
++         return BlockPos.randomBetweenClosed(p_263108_.m_217043_(), 10, Mth.m_14107_(aabb1.f_82288_), Mth.m_14107_(aabb1.f_82289_), Mth.m_14107_(aabb1.f_82290_), Mth.m_14107_(aabb1.f_82291_), Mth.m_14107_(aabb1.f_82292_), Mth.m_14107_(aabb1.f_82293_));
+       }
+    }
+ }

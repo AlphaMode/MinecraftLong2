@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/state/BlockBehaviour.java
 +++ b/net/minecraft/world/level/block/state/BlockBehaviour.java
-@@ -246,7 +_,7 @@
+@@ -257,7 +_,7 @@
     /** @deprecated */
     @Deprecated
     public long m_7799_(BlockState p_60539_, BlockPos p_60540_) {
@@ -9,16 +9,7 @@
     }
  
     /** @deprecated */
-@@ -618,7 +_,7 @@
-             return Vec3.f_82478_;
-          } else {
-             Block block = this.m_60734_();
--            long i = Mth.m_14130_(p_60826_.m_123341_(), 0, p_60826_.m_123343_());
-+            long i = Mth.getSeed(p_60826_.getX(), 0, p_60826_.getZ());
-             float f = block.m_142740_();
-             double d0 = Mth.m_14008_(((double)((float)(i & 15L) / 15.0F) - 0.5D) * 0.5D, (double)(-f), (double)f);
-             double d1 = this.f_222962_ == BlockBehaviour.OffsetType.XYZ ? ((double)((float)(i >> 4 & 15L) / 15.0F) - 1.0D) * (double)block.m_142627_() : 0.0D;
-@@ -646,7 +_,7 @@
+@@ -659,7 +_,7 @@
           BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
           for(Direction direction : BlockBehaviour.f_60441_) {
@@ -27,3 +18,21 @@
              p_60706_.m_213683_(direction.m_122424_(), this.m_7160_(), blockpos$mutableblockpos, p_60707_, p_60708_, p_60709_);
           }
  
+@@ -1108,7 +_,7 @@
+             case XYZ:
+                this.f_271289_ = Optional.of((p_272562_, p_272563_, p_272564_) -> {
+                   Block block = p_272562_.m_60734_();
+-                  long i = Mth.m_14130_(p_272564_.m_123341_(), 0, p_272564_.m_123343_());
++                  long i = Mth.getSeed(p_272564_.getX(), 0, p_272564_.getZ());
+                   double d0 = ((double)((float)(i >> 4 & 15L) / 15.0F) - 1.0D) * (double)block.m_142627_();
+                   float f = block.m_142740_();
+                   double d1 = Mth.m_14008_(((double)((float)(i & 15L) / 15.0F) - 0.5D) * 0.5D, (double)(-f), (double)f);
+@@ -1119,7 +_,7 @@
+             case XZ:
+                this.f_271289_ = Optional.of((p_272565_, p_272566_, p_272567_) -> {
+                   Block block = p_272565_.m_60734_();
+-                  long i = Mth.m_14130_(p_272567_.m_123341_(), 0, p_272567_.m_123343_());
++                  long i = Mth.getSeed(p_272567_.getX(), 0, p_272567_.getZ());
+                   float f = block.m_142740_();
+                   double d0 = Mth.m_14008_(((double)((float)(i & 15L) / 15.0F) - 0.5D) * 0.5D, (double)(-f), (double)f);
+                   double d1 = Mth.m_14008_(((double)((float)(i >> 8 & 15L) / 15.0F) - 0.5D) * 0.5D, (double)(-f), (double)f);

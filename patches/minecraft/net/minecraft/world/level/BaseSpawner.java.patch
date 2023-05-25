@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/BaseSpawner.java
 +++ b/net/minecraft/world/level/BaseSpawner.java
-@@ -46,7 +_,7 @@
+@@ -49,7 +_,7 @@
     }
  
     private boolean m_151343_(Level p_151344_, BlockPos p_151345_) {
@@ -9,9 +9,9 @@
     }
  
     public void m_151319_(Level p_151320_, BlockPos p_151321_) {
-@@ -54,9 +_,9 @@
+@@ -57,9 +_,9 @@
           this.f_45446_ = this.f_45445_;
-       } else {
+       } else if (this.f_45450_ != null) {
           RandomSource randomsource = p_151320_.m_213780_();
 -         double d0 = (double)p_151321_.m_123341_() + randomsource.m_188500_();
 -         double d1 = (double)p_151321_.m_123342_() + randomsource.m_188500_();
@@ -22,10 +22,10 @@
           p_151320_.m_7106_(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
           p_151320_.m_7106_(ParticleTypes.f_123744_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
           if (this.f_45442_ > 0) {
-@@ -91,9 +_,9 @@
+@@ -95,9 +_,9 @@
+ 
                 ListTag listtag = compoundtag.m_128437_("Pos", 6);
                 int j = listtag.size();
-                RandomSource randomsource = p_151312_.m_213780_();
 -               double d0 = j >= 1 ? listtag.m_128772_(0) : (double)p_151313_.m_123341_() + (randomsource.m_188500_() - randomsource.m_188500_()) * (double)this.f_45453_ + 0.5D;
 -               double d1 = j >= 2 ? listtag.m_128772_(1) : (double)(p_151313_.m_123342_() + randomsource.m_188503_(3) - 1);
 -               double d2 = j >= 3 ? listtag.m_128772_(2) : (double)p_151313_.m_123343_() + (randomsource.m_188500_() - randomsource.m_188500_()) * (double)this.f_45453_ + 0.5D;
@@ -33,9 +33,9 @@
 +               double d1 = j >= 2 ? listtag.m_128772_(1) : (double)(p_151313_.getY() + randomsource.m_188503_(3) - 1);
 +               double d2 = j >= 3 ? listtag.m_128772_(2) : (double)p_151313_.getZ() + (randomsource.m_188500_() - randomsource.m_188500_()) * (double)this.f_45453_ + 0.5D;
                 if (p_151312_.m_45772_(optional.get().m_20585_(d0, d1, d2))) {
-                   BlockPos blockpos = new BlockPos(d0, d1, d2);
-                   if (this.f_45444_.m_186574_().isPresent()) {
-@@ -118,7 +_,7 @@
+                   BlockPos blockpos = BlockPos.m_274561_(d0, d1, d2);
+                   if (spawndata.m_186574_().isPresent()) {
+@@ -122,7 +_,7 @@
                       return;
                    }
  

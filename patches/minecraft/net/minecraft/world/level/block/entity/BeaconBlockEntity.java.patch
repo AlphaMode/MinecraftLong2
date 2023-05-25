@@ -1,26 +1,15 @@
 --- a/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
-@@ -47,8 +_,8 @@
-    private static final int f_155086_ = 10;
+@@ -50,7 +_,7 @@
     List<BeaconBlockEntity.BeaconBeamSection> f_58648_ = Lists.newArrayList();
     private List<BeaconBlockEntity.BeaconBeamSection> f_58649_ = Lists.newArrayList();
--   int f_58650_;
+    int f_58650_;
 -   private int f_58651_;
-+   long f_58650_;
 +   private long f_58651_;
     @Nullable
     MobEffect f_58652_;
     @Nullable
-@@ -61,7 +_,7 @@
-          int i;
-          switch (p_58711_) {
-             case 0:
--               i = BeaconBlockEntity.this.f_58650_;
-+               i = (int) BeaconBlockEntity.this.f_58650_;
-                break;
-             case 1:
-                i = MobEffect.m_216882_(BeaconBlockEntity.this.f_58652_);
-@@ -104,22 +_,22 @@
+@@ -106,22 +_,22 @@
     }
  
     public static void m_155107_(Level p_155108_, BlockPos p_155109_, BlockState p_155110_, BeaconBlockEntity p_155111_) {
@@ -49,7 +38,7 @@
           BlockState blockstate = p_155108_.m_8055_(blockpos);
           Block block = blockstate.m_60734_();
           if (block instanceof BeaconBeamBlock) {
-@@ -145,24 +_,24 @@
+@@ -147,14 +_,14 @@
              beaconblockentity$beaconbeamsection.m_58719_();
           }
  
@@ -58,8 +47,7 @@
           ++p_155111_.f_58651_;
        }
  
--      int j1 = p_155111_.f_58650_;
-+      long j1 = p_155111_.f_58650_;
+       int j1 = p_155111_.f_58650_;
        if (p_155108_.m_46467_() % 80L == 0L) {
           if (!p_155111_.f_58648_.isEmpty()) {
 -            p_155111_.f_58650_ = m_155092_(p_155108_, i, j, k);
@@ -67,10 +55,7 @@
           }
  
           if (p_155111_.f_58650_ > 0 && !p_155111_.f_58648_.isEmpty()) {
--            m_155097_(p_155108_, p_155109_, p_155111_.f_58650_, p_155111_.f_58652_, p_155111_.f_58653_);
-+            applyEffects(p_155108_, p_155109_, p_155111_.f_58650_, p_155111_.f_58652_, p_155111_.f_58653_);
-             m_155103_(p_155108_, p_155109_, SoundEvents.f_11737_);
-          }
+@@ -164,7 +_,7 @@
        }
  
        if (p_155111_.f_58651_ >= l) {
@@ -79,33 +64,17 @@
           boolean flag = j1 > 0;
           p_155111_.f_58648_ = p_155111_.f_58649_;
           if (!p_155108_.f_46443_) {
-@@ -171,7 +_,7 @@
-                m_155103_(p_155108_, p_155109_, SoundEvents.f_11736_);
- 
-                for(ServerPlayer serverplayer : p_155108_.m_45976_(ServerPlayer.class, (new AABB((double)i, (double)j, (double)k, (double)i, (double)(j - 4), (double)k)).m_82377_(10.0D, 5.0D, 10.0D))) {
--                  CriteriaTriggers.f_10578_.m_148029_(serverplayer, p_155111_.f_58650_);
-+                  CriteriaTriggers.f_10578_.m_148029_(serverplayer, (int) p_155111_.f_58650_);
-                }
-             } else if (flag && !flag1) {
-                m_155103_(p_155108_, p_155109_, SoundEvents.f_11738_);
-@@ -181,19 +_,24 @@
+@@ -183,19 +_,19 @@
  
     }
  
-+   @Deprecated
-    private static int m_155092_(Level p_155093_, int p_155094_, int p_155095_, int p_155096_) {
--      int i = 0;
--
--      for(int j = 1; j <= 4; i = j++) {
+-   private static int m_155092_(Level p_155093_, int p_155094_, int p_155095_, int p_155096_) {
++   private static int updateBase(Level p_155093_, long p_155094_, long p_155095_, long p_155096_) {
+       int i = 0;
+ 
+       for(int j = 1; j <= 4; i = j++) {
 -         int k = p_155095_ - j;
 -         if (k < p_155093_.m_141937_()) {
-+      return (int) updateBase(p_155093_, (long) p_155094_, (long) p_155095_, (long) p_155096_);
-+   }
-+
-+   private static long updateBase(Level p_155093_, long p_155094_, long p_155095_, long p_155096_) {
-+      long i = 0;
-+
-+      for(long j = 1; j <= 4; i = j++) {
 +         long k = p_155095_ - j;
 +         if (k < p_155093_.getMinBuildHeight()) {
              break;
@@ -120,47 +89,16 @@
                 if (!p_155093_.m_8055_(new BlockPos(l, k, i1)).m_204336_(BlockTags.f_13079_)) {
                    flag = false;
                    break;
-@@ -214,7 +_,7 @@
-       super.m_7651_();
-    }
- 
--   private static void m_155097_(Level p_155098_, BlockPos p_155099_, int p_155100_, @Nullable MobEffect p_155101_, @Nullable MobEffect p_155102_) {
-+   private static void applyEffects(Level p_155098_, BlockPos p_155099_, long p_155100_, @Nullable MobEffect p_155101_, @Nullable MobEffect p_155102_) {
-       if (!p_155098_.f_46443_ && p_155101_ != null) {
-          double d0 = (double)(p_155100_ * 10 + 10);
-          int i = 0;
-@@ -222,17 +_,17 @@
-             i = 1;
+@@ -225,7 +_,7 @@
           }
  
--         int j = (9 + p_155100_ * 2) * 20;
+          int j = (9 + p_155100_ * 2) * 20;
 -         AABB aabb = (new AABB(p_155099_)).m_82400_(d0).m_82363_(0.0D, (double)p_155098_.m_141928_(), 0.0D);
-+         long j = (9 + p_155100_ * 2) * 20;
 +         AABB aabb = (new AABB(p_155099_)).m_82400_(d0).m_82363_(0.0D, (double)p_155098_.getHeight(), 0.0D);
           List<Player> list = p_155098_.m_45976_(Player.class, aabb);
  
           for(Player player : list) {
--            player.m_7292_(new MobEffectInstance(p_155101_, j, i, true, true));
-+            player.m_7292_(new MobEffectInstance(p_155101_, (int) j, i, true, true));
-          }
- 
-          if (p_155100_ >= 4 && p_155101_ != p_155102_ && p_155102_ != null) {
-             for(Player player1 : list) {
--               player1.m_7292_(new MobEffectInstance(p_155102_, j, 0, true, true));
-+               player1.m_7292_(new MobEffectInstance(p_155102_, (int) j, 0, true, true));
-             }
-          }
- 
-@@ -276,7 +_,7 @@
-       super.m_183515_(p_187463_);
-       p_187463_.m_128405_("Primary", MobEffect.m_216882_(this.f_58652_));
-       p_187463_.m_128405_("Secondary", MobEffect.m_216882_(this.f_58653_));
--      p_187463_.m_128405_("Levels", this.f_58650_);
-+      p_187463_.m_128356_("Levels", this.f_58650_);
-       if (this.f_58654_ != null) {
-          p_187463_.m_128359_("CustomName", Component.Serializer.m_130703_(this.f_58654_));
-       }
-@@ -299,7 +_,7 @@
+@@ -310,7 +_,7 @@
  
     public void m_142339_(Level p_155091_) {
        super.m_142339_(p_155091_);

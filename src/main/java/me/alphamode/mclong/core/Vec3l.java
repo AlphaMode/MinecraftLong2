@@ -10,6 +10,7 @@ import javax.annotation.concurrent.Immutable;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
+import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
 
 @Immutable
@@ -28,12 +29,16 @@ public class Vec3l implements Comparable<Vec3l> {
 
     private static Function<Vec3l, DataResult<Vec3l>> checkOffsetAxes(int p_194646_) {
         return (p_194649_) -> {
-            return Math.abs(p_194649_.getX()) < p_194646_ && Math.abs(p_194649_.getY()) < p_194646_ && Math.abs(p_194649_.getZ()) < p_194646_ ? DataResult.success(p_194649_) : DataResult.error("Position out of range, expected at most " + p_194646_ + ": " + p_194649_);
+            return Math.abs(p_194649_.getX()) < p_194646_ && Math.abs(p_194649_.getY()) < p_194646_ && Math.abs(p_194649_.getZ()) < p_194646_ ? DataResult.success(p_194649_) : DataResult.error(() -> "Position out of range, expected at most " + p_194646_ + ": " + p_194649_);
         };
     }
 
     public static Codec<Vec3l> offsetCodec(int p_194651_) {
         return CODEC.flatXmap(checkOffsetAxes(p_194651_), checkOffsetAxes(p_194651_));
+    }
+
+    public Vec3l(Vec3i vec3i) {
+        this(vec3i.getX(), vec3i.getY(), vec3i.getZ());
     }
 
     public Vec3l(long p_123296_, long p_123297_, long p_123298_) {
@@ -235,7 +240,7 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public long get(Direction.Axis p_123305_) {
-        return p_123305_.choose(this.x, this.y, this.z);
+        return 0;//p_123305_.choose(this.x, this.y, this.z);
     }
 
     public String toString() {

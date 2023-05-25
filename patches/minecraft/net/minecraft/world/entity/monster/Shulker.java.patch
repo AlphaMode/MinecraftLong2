@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Shulker.java
 +++ b/net/minecraft/world/entity/monster/Shulker.java
-@@ -328,7 +_,7 @@
+@@ -332,7 +_,7 @@
           return false;
        } else {
           Direction direction = p_149787_.m_122424_();
@@ -9,11 +9,13 @@
              return false;
           } else {
              AABB aabb = m_149790_(direction, 1.0F).m_82338_(p_149786_).m_82406_(1.0E-6D);
-@@ -353,13 +_,13 @@
+@@ -356,14 +_,14 @@
+          BlockPos blockpos = this.m_20183_();
  
           for(int i = 0; i < 5; ++i) {
-             BlockPos blockpos1 = blockpos.m_7918_(Mth.m_216287_(this.f_19796_, -8, 8), Mth.m_216287_(this.f_19796_, -8, 8), Mth.m_216287_(this.f_19796_, -8, 8));
+-            BlockPos blockpos1 = blockpos.m_7918_(Mth.m_216287_(this.f_19796_, -8, 8), Mth.m_216287_(this.f_19796_, -8, 8), Mth.m_216287_(this.f_19796_, -8, 8));
 -            if (blockpos1.m_123342_() > this.f_19853_.m_141937_() && this.f_19853_.m_46859_(blockpos1) && this.f_19853_.m_6857_().m_61937_(blockpos1) && this.f_19853_.m_45756_(this, (new AABB(blockpos1)).m_82406_(1.0E-6D))) {
++            BlockPos blockpos1 = blockpos.offset(Mth.m_216287_(this.f_19796_, -8, 8), Mth.m_216287_(this.f_19796_, -8, 8), Mth.m_216287_(this.f_19796_, -8, 8));
 +            if (blockpos1.getY() > this.f_19853_.getMinBuildHeight() && this.f_19853_.m_46859_(blockpos1) && this.f_19853_.m_6857_().m_61937_(blockpos1) && this.f_19853_.m_45756_(this, (new AABB(blockpos1)).m_82406_(1.0E-6D))) {
                 Direction direction = this.m_149810_(blockpos1);
                 if (direction != null) {
@@ -25,7 +27,7 @@
                    this.f_19853_.m_220407_(GameEvent.f_238175_, blockpos, GameEvent.Context.m_223717_(this));
                    this.f_19804_.m_135381_(f_33401_, (byte)0);
                    this.m_6710_((LivingEntity)null);
-@@ -501,9 +_,9 @@
+@@ -504,9 +_,9 @@
           double d0 = (double)((float)this.f_33399_ - p_149767_) / 6.0D;
           d0 *= d0;
           BlockPos blockpos = this.m_20183_();

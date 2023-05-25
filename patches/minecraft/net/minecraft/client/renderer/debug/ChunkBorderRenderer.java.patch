@@ -1,38 +1,36 @@
 --- a/net/minecraft/client/renderer/debug/ChunkBorderRenderer.java
 +++ b/net/minecraft/client/renderer/debug/ChunkBorderRenderer.java
-@@ -31,13 +_,13 @@
-       Entity entity = this.f_113354_.f_91063_.m_109153_().m_90592_();
-       Tesselator tesselator = Tesselator.m_85913_();
-       BufferBuilder bufferbuilder = tesselator.m_85915_();
--      double d0 = (double)this.f_113354_.f_91073_.m_141937_() - p_113361_;
--      double d1 = (double)this.f_113354_.f_91073_.m_151558_() - p_113361_;
-+      double d0 = (double)this.f_113354_.f_91073_.getMinBuildHeight() - p_113361_;
-+      double d1 = (double)this.f_113354_.f_91073_.getMaxBuildHeight() - p_113361_;
-       RenderSystem.m_69472_();
-       RenderSystem.m_69461_();
-       ChunkPos chunkpos = entity.m_146902_();
--      double d2 = (double)chunkpos.m_45604_() - p_113360_;
--      double d3 = (double)chunkpos.m_45605_() - p_113362_;
-+      double d2 = (double)chunkpos.getMinBlockX() - p_113360_;
-+      double d3 = (double)chunkpos.getMinBlockZ() - p_113362_;
-       RenderSystem.m_69832_(1.0F);
-       bufferbuilder.m_166779_(VertexFormat.Mode.DEBUG_LINE_STRIP, DefaultVertexFormat.f_85815_);
+@@ -24,11 +_,11 @@
  
-@@ -74,7 +_,7 @@
-          bufferbuilder.m_5483_(d2 + 16.0D, d1, d3 + (double)i1).m_85950_(1.0F, 1.0F, 0.0F, 0.0F).m_5752_();
+    public void m_7790_(PoseStack p_113358_, MultiBufferSource p_113359_, double p_113360_, double p_113361_, double p_113362_) {
+       Entity entity = this.f_113354_.f_91063_.m_109153_().m_90592_();
+-      float f = (float)((double)this.f_113354_.f_91073_.m_141937_() - p_113361_);
+-      float f1 = (float)((double)this.f_113354_.f_91073_.m_151558_() - p_113361_);
++      float f = (float)((double)this.f_113354_.f_91073_.getMinBuildHeight() - p_113361_);
++      float f1 = (float)((double)this.f_113354_.f_91073_.getMaxBuildHeight() - p_113361_);
+       ChunkPos chunkpos = entity.m_146902_();
+-      float f2 = (float)((double)chunkpos.m_45604_() - p_113360_);
+-      float f3 = (float)((double)chunkpos.m_45605_() - p_113362_);
++      float f2 = (float)((double)chunkpos.getMinBlockX() - p_113360_);
++      float f3 = (float)((double)chunkpos.getMinBlockZ() - p_113362_);
+       VertexConsumer vertexconsumer = p_113359_.m_6299_(RenderType.m_269399_(1.0D));
+       Matrix4f matrix4f = p_113358_.m_85850_().m_252922_();
+ 
+@@ -65,7 +_,7 @@
+          vertexconsumer.m_252986_(matrix4f, f2 + 16.0F, f1, f3 + (float)i1).m_85950_(1.0F, 1.0F, 0.0F, 0.0F).m_5752_();
        }
  
 -      for(int j1 = this.f_113354_.f_91073_.m_141937_(); j1 <= this.f_113354_.f_91073_.m_151558_(); j1 += 2) {
 +      for(long j1 = this.f_113354_.f_91073_.getMinBuildHeight(); j1 <= this.f_113354_.f_91073_.getMaxBuildHeight(); j1 += 2) {
-          double d4 = (double)j1 - p_113361_;
+          float f4 = (float)((double)j1 - p_113361_);
           int k = j1 % 8 == 0 ? f_194450_ : f_194451_;
-          bufferbuilder.m_5483_(d2, d4, d3).m_85950_(1.0F, 1.0F, 0.0F, 0.0F).m_5752_();
-@@ -99,7 +_,7 @@
+          vertexconsumer.m_252986_(matrix4f, f2, f4, f3).m_85950_(1.0F, 1.0F, 0.0F, 0.0F).m_5752_();
+@@ -88,7 +_,7 @@
           }
        }
  
 -      for(int l1 = this.f_113354_.f_91073_.m_141937_(); l1 <= this.f_113354_.f_91073_.m_151558_(); l1 += 16) {
 +      for(long l1 = this.f_113354_.f_91073_.getMinBuildHeight(); l1 <= this.f_113354_.f_91073_.getMaxBuildHeight(); l1 += 16) {
-          double d5 = (double)l1 - p_113361_;
-          bufferbuilder.m_5483_(d2, d5, d3).m_85950_(0.25F, 0.25F, 1.0F, 0.0F).m_5752_();
-          bufferbuilder.m_5483_(d2, d5, d3).m_85950_(0.25F, 0.25F, 1.0F, 1.0F).m_5752_();
+          float f5 = (float)((double)l1 - p_113361_);
+          vertexconsumer.m_252986_(matrix4f, f2, f5, f3).m_85950_(0.25F, 0.25F, 1.0F, 0.0F).m_5752_();
+          vertexconsumer.m_252986_(matrix4f, f2, f5, f3).m_85950_(0.25F, 0.25F, 1.0F, 1.0F).m_5752_();

@@ -1,0 +1,24 @@
+--- a/net/minecraft/server/commands/SpawnArmorTrimsCommand.java
++++ b/net/minecraft/server/commands/SpawnArmorTrimsCommand.java
+@@ -84,7 +_,7 @@
+             nonnulllist.add(new ArmorTrim(registry1.m_263177_(p_267162_), registry.m_263177_(p_266759_)));
+          });
+       });
+-      BlockPos blockpos = p_266983_.m_20183_().m_5484_(p_266983_.m_6350_(), 5);
++      BlockPos blockpos = p_266983_.m_20183_().relative(p_266983_.m_6350_(), 5);
+       int i = ArmorMaterials.values().length - 1;
+       double d0 = 3.0D;
+       int j = 0;
+@@ -93,9 +_,9 @@
+       for(ArmorTrim armortrim : nonnulllist) {
+          for(ArmorMaterial armormaterial : ArmorMaterials.values()) {
+             if (armormaterial != ArmorMaterials.LEATHER) {
+-               double d1 = (double)blockpos.m_123341_() + 0.5D - (double)(j % registry1.m_13562_()) * 3.0D;
+-               double d2 = (double)blockpos.m_123342_() + 0.5D + (double)(k % i) * 3.0D;
+-               double d3 = (double)blockpos.m_123343_() + 0.5D + (double)(j / registry1.m_13562_() * 10);
++               double d1 = (double)blockpos.getX() + 0.5D - (double)(j % registry1.m_13562_()) * 3.0D;
++               double d2 = (double)blockpos.getY() + 0.5D + (double)(k % i) * 3.0D;
++               double d3 = (double)blockpos.getZ() + 0.5D + (double)(j / registry1.m_13562_() * 10);
+                ArmorStand armorstand = new ArmorStand(level, d1, d2, d3);
+                armorstand.m_146922_(180.0F);
+                armorstand.m_20242_(true);
