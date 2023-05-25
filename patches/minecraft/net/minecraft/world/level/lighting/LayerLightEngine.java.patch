@@ -1,17 +1,39 @@
 --- a/net/minecraft/world/level/lighting/LayerLightEngine.java
 +++ b/net/minecraft/world/level/lighting/LayerLightEngine.java
-@@ -45,8 +_,8 @@
+@@ -25,7 +_,7 @@
+    private boolean f_75635_;
+    protected final BlockPos.MutableBlockPos f_75633_ = new BlockPos.MutableBlockPos();
+    private static final int f_164425_ = 2;
+-   private final long[] f_75636_ = new long[2];
++   private final ChunkPos[] f_75636_ = new ChunkPos[2];
+    private final BlockGetter[] f_75637_ = new BlockGetter[2];
+ 
+    public LayerLightEngine(LightChunkGetter p_75640_, LightLayer p_75641_, S p_75642_) {
+@@ -36,25 +_,25 @@
+       this.m_75706_();
+    }
+ 
+-   protected void m_6185_(long p_75708_) {
++   protected void checkNode(BlockPos p_75708_) {
+       this.f_75632_.m_75785_();
+-      if (this.f_75632_.m_75791_(SectionPos.m_123235_(p_75708_))) {
+-         super.m_6185_(p_75708_);
++      if (this.f_75632_.storingLightForSection(SectionPos.m_123199_(p_75708_))) {
++         super.checkNode(p_75708_);
+       }
+ 
     }
  
     @Nullable
 -   private BlockGetter m_75644_(int p_75645_, int p_75646_) {
 -      long i = ChunkPos.m_45589_(p_75645_, p_75646_);
 +   private BlockGetter getChunk(long p_75645_, long p_75646_) {
-+      long i = ChunkPos.asLong(p_75645_, p_75646_);
++      ChunkPos i = new ChunkPos(p_75645_, p_75646_);
  
        for(int j = 0; j < 2; ++j) {
-          if (i == this.f_75636_[j]) {
-@@ -54,7 +_,7 @@
+-         if (i == this.f_75636_[j]) {
++         if (i.equals(this.f_75636_[j])) {
+             return this.f_75637_[j];
           }
        }
  
@@ -33,16 +55,90 @@
           if (blockgetter == null) {
              if (p_75666_ != null) {
                 p_75666_.setValue(16);
-@@ -130,7 +_,7 @@
+@@ -117,27 +_,27 @@
+       }
+    }
+ 
+-   protected boolean m_6163_(long p_75652_) {
+-      return p_75652_ == Long.MAX_VALUE;
++   protected boolean isSource(net.minecraft.core.SectionPos p_75652_) {
++      return p_75652_.equals(Long.MAX_VALUE);
+    }
+ 
+-   protected int m_6357_(long p_75657_, long p_75658_, int p_75659_) {
++   protected int getComputedLevel(net.minecraft.core.SectionPos p_75657_, ChunkPos p_75658_, int p_75659_) {
+       return 0;
+    }
+ 
+-   protected int m_6172_(long p_75705_) {
+-      return p_75705_ == Long.MAX_VALUE ? 0 : 15 - this.f_75632_.m_75795_(p_75705_);
++   protected int getLevel(SectionPos p_75705_) {
++      return 15 - this.f_75632_.getStoredLevel(p_75705_);
     }
  
     protected int m_75682_(DataLayer p_75683_, long p_75684_) {
 -      return 15 - p_75683_.m_62560_(SectionPos.m_123207_(BlockPos.m_121983_(p_75684_)), SectionPos.m_123207_(BlockPos.m_122008_(p_75684_)), SectionPos.m_123207_(BlockPos.m_122015_(p_75684_)));
+-   }
+-
+-   protected void m_7351_(long p_75654_, int p_75655_) {
+-      this.f_75632_.m_75772_(p_75654_, Math.min(15, 15 - p_75655_));
+-   }
+-
+-   protected int m_6359_(long p_75696_, long p_75697_, int p_75698_) {
 +      return 15 - p_75683_.get(SectionPos.sectionRelative(BlockPos.getX(p_75684_)), SectionPos.sectionRelative(BlockPos.getY(p_75684_)), SectionPos.sectionRelative(BlockPos.getZ(p_75684_)));
++   }
++
++   protected void setLevel(SectionPos p_75654_, int p_75655_) {
++      this.f_75632_.setStoredLevel(p_75654_, Math.min(15, 15 - p_75655_));
++   }
++
++   protected int computeLevelFromNeighbor(net.minecraft.core.SectionPos p_75696_, net.minecraft.core.SectionPos p_75697_, int p_75698_) {
+       return 0;
     }
  
-    protected void m_7351_(long p_75654_, int p_75655_) {
-@@ -206,12 +_,12 @@
+@@ -171,29 +_,28 @@
+       return p_75648_;
+    }
+ 
+-   protected void m_75660_(long p_75661_, @Nullable DataLayer p_75662_, boolean p_75663_) {
+-      this.f_75632_.m_75754_(p_75661_, p_75662_, p_75663_);
++   protected void queueSectionData(net.minecraft.core.SectionPos p_75661_, @Nullable DataLayer p_75662_, boolean p_75663_) {
++      this.f_75632_.queueSectionData(p_75661_, p_75662_, p_75663_);
+    }
+ 
+    @Nullable
+    public DataLayer m_8079_(SectionPos p_75690_) {
+-      return this.f_75632_.m_75793_(p_75690_.m_123252_());
++      return this.f_75632_.getDataLayerData(p_75690_);
+    }
+ 
+    public int m_7768_(BlockPos p_75703_) {
+       return this.f_75632_.m_6181_(p_75703_.m_121878_());
+    }
+ 
+-   public String m_6647_(long p_75694_) {
+-      return "" + this.f_75632_.m_6172_(p_75694_);
++   public String getDebugData(net.minecraft.core.SectionPos p_75694_) {
++      return "" + this.f_75632_.getLevel(p_75694_);
+    }
+ 
+    public void m_7174_(BlockPos p_75686_) {
+-      long i = p_75686_.m_121878_();
+-      this.m_6185_(i);
++      this.checkNode(p_75686_);
+ 
+       for(Direction direction : f_75634_) {
+-         this.m_6185_(BlockPos.m_121915_(i, direction));
++         this.checkNode(p_75686_.relative(direction));
+       }
+ 
+    }
+@@ -202,16 +_,16 @@
+    }
+ 
+    public void m_6191_(SectionPos p_75692_, boolean p_75693_) {
+-      this.f_75632_.m_75787_(p_75692_.m_123252_(), p_75693_);
++      this.f_75632_.updateSectionStatus(p_75692_, p_75693_);
     }
  
     public void m_6460_(ChunkPos p_75676_, boolean p_75677_) {

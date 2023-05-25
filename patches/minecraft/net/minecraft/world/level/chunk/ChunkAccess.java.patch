@@ -1,5 +1,40 @@
 --- a/net/minecraft/world/level/chunk/ChunkAccess.java
 +++ b/net/minecraft/world/level/chunk/ChunkAccess.java
+@@ -50,14 +_,23 @@
+ import net.minecraft.world.ticks.TickContainerAccess;
+ import org.slf4j.Logger;
+ 
+-public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiomeSource, StructureAccess {
++public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiomeSource, StructureAccess, ca.spottedleaf.starlight.common.chunk.ExtendedChunk {
+    private static final Logger f_187613_ = LogUtils.getLogger();
+-   private static final LongSet f_207932_ = new LongOpenHashSet();
++   private static final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> f_207932_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+    protected final ShortList[] f_187602_;
+    protected volatile boolean f_187603_;
+    private volatile boolean f_187614_;
+    protected final ChunkPos f_187604_;
+    private long f_187615_;
++
++   private volatile ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] blockNibbles;
++
++   private volatile ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] skyNibbles;
++
++   private volatile boolean[] skyEmptinessMap;
++
++   private volatile boolean[] blockEmptinessMap;
++
+    /** @deprecated */
+    @Nullable
+    @Deprecated
+@@ -69,7 +_,7 @@
+    protected BlendingData f_187607_;
+    protected final Map<Heightmap.Types, Heightmap> f_187608_ = Maps.newEnumMap(Heightmap.Types.class);
+    private final Map<Structure, StructureStart> f_187617_ = Maps.newHashMap();
+-   private final Map<Structure, LongSet> f_187618_ = Maps.newHashMap();
++   private final Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> f_187618_ = Maps.newHashMap();
+    protected final Map<BlockPos, CompoundTag> f_187609_ = Maps.newHashMap();
+    protected final Map<BlockPos, BlockEntity> f_187610_ = Maps.newHashMap();
+    protected final LevelHeightAccessor f_187611_;
 @@ -79,9 +_,9 @@
        this.f_187604_ = p_187621_;
        this.f_187606_ = p_187622_;
@@ -69,7 +104,33 @@
     }
  
     public ChunkPos m_7697_() {
-@@ -224,17 +_,17 @@
+@@ -203,38 +_,38 @@
+       this.f_187603_ = true;
+    }
+ 
+-   public LongSet m_213649_(Structure p_223017_) {
++   public it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getReferencesForStructure(Structure p_223017_) {
+       return this.f_187618_.getOrDefault(p_223017_, f_207932_);
+    }
+ 
+-   public void m_213843_(Structure p_223007_, long p_223008_) {
++   public void addReferenceForStructure(Structure p_223007_, ChunkPos p_223008_) {
+       this.f_187618_.computeIfAbsent(p_223007_, (p_223019_) -> {
+-         return new LongOpenHashSet();
++         return new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+       }).add(p_223008_);
+       this.f_187603_ = true;
+    }
+ 
+-   public Map<Structure, LongSet> m_62769_() {
++   public Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> m_62769_() {
+       return Collections.unmodifiableMap(this.f_187618_);
+    }
+ 
+-   public void m_62737_(Map<Structure, LongSet> p_187663_) {
++   public void m_62737_(Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> p_187663_) {
+       this.f_187618_.clear();
+       this.f_187618_.putAll(p_187663_);
        this.f_187603_ = true;
     }
  
@@ -186,3 +247,42 @@
        }
  
     }
+@@ -403,6 +_,38 @@
+ 
+    public LevelHeightAccessor m_183618_() {
+       return this;
++   }
++
++   public ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] getBlockNibbles() {
++      return this.blockNibbles;
++   }
++
++   public void setBlockNibbles(final ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] nibbles) {
++      this.blockNibbles = nibbles;
++   }
++
++   public ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] getSkyNibbles() {
++      return this.skyNibbles;
++   }
++
++   public void setSkyNibbles(final ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] nibbles) {
++      this.skyNibbles = nibbles;
++   }
++
++   public boolean[] getSkyEmptinessMap() {
++      return this.skyEmptinessMap;
++   }
++
++   public void setSkyEmptinessMap(final boolean[] emptinessMap) {
++      this.skyEmptinessMap = emptinessMap;
++   }
++
++   public boolean[] getBlockEmptinessMap() {
++      return this.blockEmptinessMap;
++   }
++
++   public void setBlockEmptinessMap(final boolean[] emptinessMap) {
++      this.blockEmptinessMap = emptinessMap;
+    }
+ 
+    public static record TicksToSave(SerializableTickContainer<Block> f_187680_, SerializableTickContainer<Fluid> f_187681_) {

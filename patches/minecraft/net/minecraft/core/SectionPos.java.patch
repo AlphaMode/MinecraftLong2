@@ -36,7 +36,7 @@
        return new SectionPos(p_123197_.f_45578_, p_123198_, p_123197_.f_45579_);
     }
  
-@@ -50,45 +_,45 @@
+@@ -50,45 +_,53 @@
     }
  
     public static SectionPos m_235863_(Position p_235864_) {
@@ -72,6 +72,14 @@
 +
 +   public static long offset(long p_123187_, long p_123188_, long p_123189_, long p_123190_) {
 +      return asLong(x(p_123187_) + p_123188_, y(p_123187_) + p_123189_, z(p_123187_) + p_123190_);
++   }
++
++   public SectionPos relative(Direction p_175592_) {
++      return this.relative(p_175592_, 1);
++   }
++
++   public SectionPos relative(Direction p_123321_, long p_123322_) {
++      return p_123322_ == 0 ? this : new SectionPos(this.getX() + p_123321_.m_122429_() * p_123322_, this.getY() + p_123321_.m_122430_() * p_123322_, this.getZ() + p_123321_.m_122431_() * p_123322_);
 +   }
 +
 +   public static long posToSectionCoord(double p_175553_) {
@@ -332,19 +340,18 @@
                 return true;
              } else {
                 return false;
-@@ -249,27 +_,27 @@
+@@ -248,28 +_,28 @@
+       }, false);
     }
  
-    public static void m_194642_(BlockPos p_194643_, LongConsumer p_194644_) {
+-   public static void m_194642_(BlockPos p_194643_, LongConsumer p_194644_) {
 -      m_194634_(p_194643_.m_123341_(), p_194643_.m_123342_(), p_194643_.m_123343_(), p_194644_);
-+      aroundAndAtBlockPos(p_194643_.getX(), p_194643_.getY(), p_194643_.getZ(), p_194644_);
-    }
- 
-    public static void m_194639_(long p_194640_, LongConsumer p_194641_) {
+-   }
+-
+-   public static void m_194639_(long p_194640_, LongConsumer p_194641_) {
 -      m_194634_(BlockPos.m_121983_(p_194640_), BlockPos.m_122008_(p_194640_), BlockPos.m_122015_(p_194640_), p_194641_);
-+      aroundAndAtBlockPos(BlockPos.getX(p_194640_), BlockPos.getY(p_194640_), BlockPos.getZ(p_194640_), p_194641_);
-    }
- 
+-   }
+-
 -   public static void m_194634_(int p_194635_, int p_194636_, int p_194637_, LongConsumer p_194638_) {
 -      int i = m_123171_(p_194635_ - 1);
 -      int j = m_123171_(p_194635_ + 1);
@@ -352,7 +359,15 @@
 -      int l = m_123171_(p_194636_ + 1);
 -      int i1 = m_123171_(p_194637_ - 1);
 -      int j1 = m_123171_(p_194637_ + 1);
-+   public static void aroundAndAtBlockPos(long p_194635_, long p_194636_, long p_194637_, LongConsumer p_194638_) {
++   public static void aroundAndAtBlockPos(BlockPos p_194643_, java.util.function.Consumer<SectionPos> p_194644_) {
++      aroundAndAtBlockPos(p_194643_.getX(), p_194643_.getY(), p_194643_.getZ(), p_194644_);
++   }
++
++   public static void aroundAndAtBlockPos(SectionPos p_194640_, java.util.function.Consumer<SectionPos> p_194641_) {
++      aroundAndAtBlockPos(p_194640_.minBlockX(), p_194640_.minBlockY(), p_194640_.minBlockZ(), p_194641_);
++   }
++
++   public static void aroundAndAtBlockPos(long p_194635_, long p_194636_, long p_194637_, java.util.function.Consumer<SectionPos> p_194638_) {
 +      long i = blockToSectionCoord(p_194635_ - 1);
 +      long j = blockToSectionCoord(p_194635_ + 1);
 +      long k = blockToSectionCoord(p_194636_ - 1);
@@ -361,7 +376,7 @@
 +      long j1 = blockToSectionCoord(p_194637_ + 1);
        if (i == j && k == l && i1 == j1) {
 -         p_194638_.accept(m_123209_(i, k, i1));
-+         p_194638_.accept(asLong(i, k, i1));
++         p_194638_.accept(of(i, k, i1));
        } else {
 -         for(int k1 = i; k1 <= j; ++k1) {
 -            for(int l1 = k; l1 <= l; ++l1) {
@@ -370,7 +385,7 @@
 +         for(long k1 = i; k1 <= j; ++k1) {
 +            for(long l1 = k; l1 <= l; ++l1) {
 +               for(long i2 = i1; i2 <= j1; ++i2) {
-+                  p_194638_.accept(asLong(k1, l1, i2));
++                  p_194638_.accept(of(k1, l1, i2));
                 }
              }
           }

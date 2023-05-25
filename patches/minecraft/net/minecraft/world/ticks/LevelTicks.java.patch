@@ -1,5 +1,75 @@
 --- a/net/minecraft/world/ticks/LevelTicks.java
 +++ b/net/minecraft/world/ticks/LevelTicks.java
+@@ -31,10 +_,10 @@
+    private static final Comparator<LevelChunkTicks<?>> f_193199_ = (p_193246_, p_193247_) -> {
+       return ScheduledTick.f_193374_.compare(p_193246_.m_193189_(), p_193247_.m_193189_());
+    };
+-   private final LongPredicate f_193200_;
++   private final java.util.function.Predicate<ChunkPos> f_193200_;
+    private final Supplier<ProfilerFiller> f_193201_;
+-   private final Long2ObjectMap<LevelChunkTicks<T>> f_193202_ = new Long2ObjectOpenHashMap<>();
+-   private final Long2LongMap f_193203_ = Util.m_137469_(new Long2LongOpenHashMap(), (p_193262_) -> {
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, LevelChunkTicks<T>> f_193202_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.Object2LongMap<ChunkPos> f_193203_ = Util.m_137469_(new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>(), (p_193262_) -> {
+       p_193262_.defaultReturnValue(Long.MAX_VALUE);
+    });
+    private final Queue<LevelChunkTicks<T>> f_193204_ = new PriorityQueue<>(f_193199_);
+@@ -48,26 +_,24 @@
+ 
+    };
+ 
+-   public LevelTicks(LongPredicate p_193211_, Supplier<ProfilerFiller> p_193212_) {
++   public LevelTicks(java.util.function.Predicate<ChunkPos> p_193211_, Supplier<ProfilerFiller> p_193212_) {
+       this.f_193200_ = p_193211_;
+       this.f_193201_ = p_193212_;
+    }
+ 
+    public void m_193231_(ChunkPos p_193232_, LevelChunkTicks<T> p_193233_) {
+-      long i = p_193232_.m_45588_();
+-      this.f_193202_.put(i, p_193233_);
++      this.f_193202_.put(p_193232_, p_193233_);
+       ScheduledTick<T> scheduledtick = p_193233_.m_193189_();
+       if (scheduledtick != null) {
+-         this.f_193203_.put(i, scheduledtick.f_193378_());
++         this.f_193203_.put(p_193232_, scheduledtick.f_193378_());
+       }
+ 
+       p_193233_.m_193181_(this.f_193208_);
+    }
+ 
+    public void m_193229_(ChunkPos p_193230_) {
+-      long i = p_193230_.m_45588_();
+-      LevelChunkTicks<T> levelchunkticks = this.f_193202_.remove(i);
+-      this.f_193203_.remove(i);
++      LevelChunkTicks<T> levelchunkticks = this.f_193202_.remove(p_193230_);
++      this.f_193203_.removeLong(p_193230_);
+       if (levelchunkticks != null) {
+          levelchunkticks.m_193181_((BiConsumer<LevelChunkTicks<T>, ScheduledTick<T>>)null);
+       }
+@@ -104,11 +_,11 @@
+    }
+ 
+    private void m_193216_(long p_193217_) {
+-      ObjectIterator<Long2LongMap.Entry> objectiterator = Long2LongMaps.fastIterator(this.f_193203_);
++      ObjectIterator<it.unimi.dsi.fastutil.objects.Object2LongMap.Entry<ChunkPos>> objectiterator = it.unimi.dsi.fastutil.objects.Object2LongMaps.fastIterator(this.f_193203_);
+ 
+       while(objectiterator.hasNext()) {
+-         Long2LongMap.Entry entry = objectiterator.next();
+-         long i = entry.getLongKey();
++         it.unimi.dsi.fastutil.objects.Object2LongMap.Entry<ChunkPos> entry = objectiterator.next();
++         ChunkPos i = entry.getKey();
+          long j = entry.getLongValue();
+          if (j <= p_193217_) {
+             LevelChunkTicks<T> levelchunkticks = this.f_193202_.get(i);
+@@ -156,7 +_,7 @@
+    }
+ 
+    private void m_193279_(ScheduledTick<T> p_193280_) {
+-      this.f_193203_.put(ChunkPos.m_151388_(p_193280_.f_193377_()), p_193280_.f_193378_());
++      this.f_193203_.put(new ChunkPos(p_193280_.f_193377_()), p_193280_.f_193378_());
+    }
+ 
+    private void m_193267_(Queue<LevelChunkTicks<T>> p_193268_, LevelChunkTicks<T> p_193269_, long p_193270_, int p_193271_) {
 @@ -223,14 +_,14 @@
     }
  

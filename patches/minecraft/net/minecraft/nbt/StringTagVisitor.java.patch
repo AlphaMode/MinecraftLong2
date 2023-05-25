@@ -1,0 +1,24 @@
+--- a/net/minecraft/nbt/StringTagVisitor.java
++++ b/net/minecraft/nbt/StringTagVisitor.java
+@@ -57,6 +_,21 @@
+       this.f_178156_.append(']');
+    }
+ 
++   public void visitLongByteArray(me.alphamode.mclong.nbt.LongByteArrayTag p_178162_) {
++      this.f_178156_.append("[B;");
++      it.unimi.dsi.fastutil.longs.Long2ByteMap abyte = p_178162_.getData();
++
++      abyte.forEach((aLong, aByte) -> {
++         if (aLong != 0) {
++            this.f_178156_.append(',');
++         }
++
++         this.f_178156_.append((int)aByte).append('B');
++      });
++
++      this.f_178156_.append(']');
++   }
++
+    public void m_142251_(IntArrayTag p_178174_) {
+       this.f_178156_.append("[I;");
+       int[] aint = p_178174_.m_128648_();

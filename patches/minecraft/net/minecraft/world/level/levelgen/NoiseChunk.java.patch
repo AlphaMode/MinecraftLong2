@@ -26,9 +26,12 @@
     private final Aquifer f_188728_;
     private final DensityFunction f_209162_;
     private final NoiseChunk.BlockStateFiller f_209163_;
-@@ -42,17 +_,17 @@
+@@ -40,19 +_,19 @@
+    private final NoiseChunk.FlatCache f_209164_;
+    private final NoiseChunk.FlatCache f_209165_;
     private final DensityFunctions.BeardifierOrMarker f_209166_;
-    private long f_209167_ = ChunkPos.f_45577_;
+-   private long f_209167_ = ChunkPos.f_45577_;
++   private ChunkPos f_209167_ = ChunkPos.f_45577_;
     private Blender.BlendingOutput f_209168_ = new Blender.BlendingOutput(1.0D, 0.0D);
 -   final int f_209169_;
 -   final int f_209170_;
@@ -264,9 +267,10 @@
  
 -   Blender.BlendingOutput m_209244_(int p_209245_, int p_209246_) {
 -      long i = ChunkPos.m_45589_(p_209245_, p_209246_);
+-      if (this.f_209167_ == i) {
 +   Blender.BlendingOutput getOrComputeBlendingOutput(long p_209245_, long p_209246_) {
-+      long i = ChunkPos.asLong(p_209245_, p_209246_);
-       if (this.f_209167_ == i) {
++      ChunkPos i = new ChunkPos(p_209245_, p_209246_);
++      if (this.f_209167_.equals(i)) {
           return this.f_209168_;
        } else {
           this.f_209167_ = i;
@@ -293,19 +297,30 @@
        }
  
        public void m_207362_(double[] p_209278_, DensityFunction.ContextProvider p_209279_) {
-@@ -450,9 +_,9 @@
+@@ -442,7 +_,7 @@
+ 
+    static class Cache2D implements DensityFunctions.MarkerOrMarked, NoiseChunk.NoiseChunkDensityFunction {
+       private final DensityFunction f_209284_;
+-      private long f_209285_ = ChunkPos.f_45577_;
++      private ChunkPos f_209285_ = ChunkPos.f_45577_;
+       private double f_209286_;
+ 
+       Cache2D(DensityFunction p_209288_) {
+@@ -450,10 +_,10 @@
        }
  
        public double m_207386_(DensityFunction.FunctionContext p_209290_) {
 -         int i = p_209290_.m_207115_();
 -         int j = p_209290_.m_207113_();
 -         long k = ChunkPos.m_45589_(i, j);
+-         if (this.f_209285_ == k) {
 +         long i = p_209290_.blockX();
 +         long j = p_209290_.blockZ();
-+         long k = ChunkPos.asLong(i, j);
-          if (this.f_209285_ == k) {
++         ChunkPos k = new ChunkPos(i, j);
++         if (this.f_209285_.equals(k)) {
              return this.f_209286_;
           } else {
+             this.f_209285_ = k;
 @@ -482,7 +_,7 @@
  
        CacheAllInCell(DensityFunction p_209301_) {

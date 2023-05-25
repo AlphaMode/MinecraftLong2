@@ -121,7 +121,7 @@
        return 64;
     }
  
-@@ -387,7 +_,7 @@
+@@ -387,12 +_,12 @@
        return this.f_62137_;
     }
  
@@ -129,16 +129,26 @@
 +   public abstract long getGenDepth();
  
     public WeightedRandomList<MobSpawnSettings.SpawnerData> m_223133_(Holder<Biome> p_223134_, StructureManager p_223135_, MobCategory p_223136_, BlockPos p_223137_) {
-       Map<Structure, LongSet> map = p_223135_.m_220522_(p_223137_);
-@@ -400,7 +_,7 @@
+-      Map<Structure, LongSet> map = p_223135_.m_220522_(p_223137_);
++      Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> map = p_223135_.m_220522_(p_223137_);
+ 
+-      for(Map.Entry<Structure, LongSet> entry : map.entrySet()) {
++      for(Map.Entry<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> entry : map.entrySet()) {
+          Structure structure = entry.getKey();
+          StructureSpawnOverride structurespawnoverride = structure.m_226612_().get(p_223136_);
+          if (structurespawnoverride != null) {
+@@ -400,9 +_,9 @@
              Predicate<StructureStart> predicate = structurespawnoverride.f_210043_() == StructureSpawnOverride.BoundingBoxType.PIECE ? (p_223065_) -> {
                 return p_223135_.m_220497_(p_223137_, p_223065_);
              } : (p_223130_) -> {
 -               return p_223130_.m_73601_().m_71051_(p_223137_);
 +               return p_223130_.m_73601_().isInside(p_223137_);
              };
-             p_223135_.m_220480_(structure, entry.getValue(), (p_223220_) -> {
+-            p_223135_.m_220480_(structure, entry.getValue(), (p_223220_) -> {
++            p_223135_.fillStartsForStructure(structure, entry.getValue(), (p_223220_) -> {
                 if (mutableboolean.isFalse() && predicate.test(p_223220_)) {
+                   mutableboolean.setTrue();
+                }
 @@ -432,14 +_,14 @@
              }
           }
@@ -156,7 +166,7 @@
                 int i = 0;
  
                 for(StructureSet.StructureSelectionEntry structureset$structureselectionentry1 : arraylist) {
-@@ -495,19 +_,19 @@
+@@ -495,20 +_,20 @@
     public void m_223076_(WorldGenLevel p_223077_, StructureManager p_223078_, ChunkAccess p_223079_) {
        int i = 8;
        ChunkPos chunkpos = p_223079_.m_7697_();
@@ -175,16 +185,18 @@
 -            long l1 = ChunkPos.m_45589_(j1, k1);
 +      for(long j1 = j - 8; j1 <= j + 8; ++j1) {
 +         for(long k1 = k - 8; k1 <= k + 8; ++k1) {
-+            long l1 = ChunkPos.asLong(j1, k1);
++            ChunkPos l1 = new ChunkPos(j1, k1);
  
 -            for(StructureStart structurestart : p_223077_.m_6325_(j1, k1).m_6633_().values()) {
 +            for(StructureStart structurestart : p_223077_.getChunk(j1, k1).m_6633_().values()) {
                 try {
 -                  if (structurestart.m_73603_() && structurestart.m_73601_().m_71019_(l, i1, l + 15, i1 + 15)) {
+-                     p_223078_.m_220507_(sectionpos, structurestart.m_226861_(), l1, p_223079_);
 +                  if (structurestart.m_73603_() && structurestart.m_73601_().intersects(l, i1, l + 15, i1 + 15)) {
-                      p_223078_.m_220507_(sectionpos, structurestart.m_226861_(), l1, p_223079_);
++                     p_223078_.addReferenceForStructure(sectionpos, structurestart.m_226861_(), l1, p_223079_);
                       DebugPackets.m_133711_(p_223077_, structurestart);
                    }
+                } catch (Exception exception) {
 @@ -536,20 +_,20 @@
  
     public abstract CompletableFuture<ChunkAccess> m_213974_(Executor p_223209_, Blender p_223210_, RandomState p_223211_, StructureManager p_223212_, ChunkAccess p_223213_);

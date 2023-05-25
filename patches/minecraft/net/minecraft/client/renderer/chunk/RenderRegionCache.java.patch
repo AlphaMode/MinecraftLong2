@@ -1,6 +1,11 @@
 --- a/net/minecraft/client/renderer/chunk/RenderRegionCache.java
 +++ b/net/minecraft/client/renderer/chunk/RenderRegionCache.java
-@@ -17,28 +_,28 @@
+@@ -13,32 +_,32 @@
+ 
+ @OnlyIn(Dist.CLIENT)
+ public class RenderRegionCache {
+-   private final Long2ObjectMap<RenderRegionCache.ChunkInfo> f_200460_ = new Long2ObjectOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, RenderRegionCache.ChunkInfo> f_200460_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
  
     @Nullable
     public RenderChunkRegion m_200465_(Level p_200466_, BlockPos p_200467_, BlockPos p_200468_, int p_200469_) {
@@ -21,8 +26,8 @@
 -               return new RenderRegionCache.ChunkInfo(p_200466_.m_6325_(ChunkPos.m_45592_(p_200464_), ChunkPos.m_45602_(p_200464_)));
 +      for(long i1 = i; i1 <= k; ++i1) {
 +         for(long j1 = j; j1 <= l; ++j1) {
-+            arenderregioncache$chunkinfo[(int) (i1 - i)][(int) (j1 - j)] = this.f_200460_.computeIfAbsent(ChunkPos.asLong(i1, j1), (p_200464_) -> {
-+               return new RenderRegionCache.ChunkInfo(p_200466_.getChunk(ChunkPos.m_45592_(p_200464_), ChunkPos.m_45602_(p_200464_)));
++            arenderregioncache$chunkinfo[(int) (i1 - i)][(int) (j1 - j)] = this.f_200460_.computeIfAbsent(new ChunkPos(i1, j1), (ChunkPos p_200464_) -> {
++               return new RenderRegionCache.ChunkInfo(p_200466_.getChunk(p_200464_.f_45578_, p_200464_.f_45579_));
              });
           }
        }

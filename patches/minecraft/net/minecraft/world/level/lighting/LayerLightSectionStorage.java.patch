@@ -1,112 +1,391 @@
 --- a/net/minecraft/world/level/lighting/LayerLightSectionStorage.java
 +++ b/net/minecraft/world/level/lighting/LayerLightSectionStorage.java
-@@ -71,7 +_,7 @@
-    protected int m_75795_(long p_75796_) {
-       long i = SectionPos.m_123235_(p_75796_);
-       DataLayer datalayer = this.m_75758_(i, true);
--      return datalayer.m_62560_(SectionPos.m_123207_(BlockPos.m_121983_(p_75796_)), SectionPos.m_123207_(BlockPos.m_122008_(p_75796_)), SectionPos.m_123207_(BlockPos.m_122015_(p_75796_)));
-+      return datalayer.get(SectionPos.sectionRelative(BlockPos.getX(p_75796_)), SectionPos.sectionRelative(BlockPos.getY(p_75796_)), SectionPos.sectionRelative(BlockPos.getZ(p_75796_)));
+@@ -24,17 +_,17 @@
+    private static final Direction[] f_75737_ = Direction.values();
+    private final LightLayer f_75738_;
+    private final LightChunkGetter f_75739_;
+-   protected final LongSet f_75728_ = new LongOpenHashSet();
+-   protected final LongSet f_75729_ = new LongOpenHashSet();
+-   protected final LongSet f_75730_ = new LongOpenHashSet();
++   protected final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> f_75728_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++   protected final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> f_75729_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++   protected final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> f_75730_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+    protected volatile M f_75731_;
+    protected final M f_75732_;
+-   protected final LongSet f_75733_ = new LongOpenHashSet();
+-   protected final LongSet f_75734_ = new LongOpenHashSet();
+-   protected final Long2ObjectMap<DataLayer> f_75735_ = Long2ObjectMaps.synchronize(new Long2ObjectOpenHashMap<>());
+-   private final LongSet f_75740_ = new LongOpenHashSet();
++   protected final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> f_75733_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++   protected final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> f_75734_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++   protected final it.unimi.dsi.fastutil.objects.Object2ObjectMap<SectionPos, DataLayer> f_75735_ = it.unimi.dsi.fastutil.objects.Object2ObjectMaps.synchronize(new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>());
++   private final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> f_75740_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+    private final LongSet f_75741_ = new LongOpenHashSet();
+-   private final LongSet f_75742_ = new LongOpenHashSet();
++   private final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> f_75742_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+    protected volatile boolean f_75736_;
+ 
+    protected LayerLightSectionStorage(LightLayer p_75745_, LightChunkGetter p_75746_, M p_75747_) {
+@@ -46,56 +_,52 @@
+       this.f_75731_.m_75534_();
     }
  
-    protected void m_75772_(long p_75773_, int p_75774_) {
-@@ -81,7 +_,7 @@
+-   protected boolean m_75791_(long p_75792_) {
+-      return this.m_75758_(p_75792_, true) != null;
+-   }
+-
+-   @Nullable
+-   protected DataLayer m_75758_(long p_75759_, boolean p_75760_) {
+-      return this.m_75761_((M)(p_75760_ ? this.f_75732_ : this.f_75731_), p_75759_);
+-   }
+-
+-   @Nullable
+-   protected DataLayer m_75761_(M p_75762_, long p_75763_) {
+-      return p_75762_.m_75532_(p_75763_);
+-   }
+-
+-   @Nullable
+-   public DataLayer m_75793_(long p_75794_) {
++   protected boolean storingLightForSection(SectionPos p_75792_) {
++      return this.getDataLayer(p_75792_, true) != null;
++   }
++
++   @Nullable
++   protected DataLayer getDataLayer(SectionPos p_75759_, boolean p_75760_) {
++      return this.getDataLayer(p_75760_ ? this.f_75732_ : this.f_75731_, p_75759_);
++   }
++
++   @Nullable
++   protected DataLayer getDataLayer(M p_75762_, SectionPos p_75763_) {
++      return p_75762_.getLayer(p_75763_);
++   }
++
++   @Nullable
++   public DataLayer getDataLayerData(SectionPos p_75794_) {
+       DataLayer datalayer = this.f_75735_.get(p_75794_);
+-      return datalayer != null ? datalayer : this.m_75758_(p_75794_, false);
++      return datalayer != null ? datalayer : this.getDataLayer(p_75794_, false);
+    }
+ 
+    protected abstract int m_6181_(long p_75786_);
+ 
+-   protected int m_75795_(long p_75796_) {
+-      long i = SectionPos.m_123235_(p_75796_);
+-      DataLayer datalayer = this.m_75758_(i, true);
+-      return datalayer.m_62560_(SectionPos.m_123207_(BlockPos.m_121983_(p_75796_)), SectionPos.m_123207_(BlockPos.m_122008_(p_75796_)), SectionPos.m_123207_(BlockPos.m_122015_(p_75796_)));
++   protected int getStoredLevel(SectionPos p_75796_) {
++      DataLayer datalayer = this.getDataLayer(p_75796_, true);
++      return datalayer.get(p_75796_.x(), p_75796_.y(), p_75796_.z());
+    }
+ 
+-   protected void m_75772_(long p_75773_, int p_75774_) {
+-      long i = SectionPos.m_123235_(p_75773_);
+-      if (this.f_75733_.add(i)) {
+-         this.f_75732_.m_75524_(i);
++   protected void setStoredLevel(SectionPos p_75773_, int p_75774_) {
++      if (this.f_75733_.add(p_75773_)) {
++         this.f_75732_.copyDataLayer(p_75773_);
        }
  
-       DataLayer datalayer = this.m_75758_(i, true);
+-      DataLayer datalayer = this.m_75758_(i, true);
 -      datalayer.m_62564_(SectionPos.m_123207_(BlockPos.m_121983_(p_75773_)), SectionPos.m_123207_(BlockPos.m_122008_(p_75773_)), SectionPos.m_123207_(BlockPos.m_122015_(p_75773_)), p_75774_);
-+      datalayer.set(SectionPos.sectionRelative(BlockPos.getX(p_75773_)), SectionPos.sectionRelative(BlockPos.getY(p_75773_)), SectionPos.sectionRelative(BlockPos.getZ(p_75773_)), p_75774_);
-       SectionPos.m_194639_(p_75773_, this.f_75734_::add);
+-      SectionPos.m_194639_(p_75773_, this.f_75734_::add);
++      DataLayer datalayer = this.getDataLayer(p_75773_, true);
++      datalayer.set(p_75773_.x(), p_75773_.y(), p_75773_.z(), p_75774_);
++      SectionPos.aroundAndAtBlockPos(p_75773_, this.f_75734_::add);
     }
  
-@@ -122,14 +_,14 @@
-             this.f_75732_.m_75526_(p_75749_, this.m_7667_(p_75749_));
+-   protected int m_6172_(long p_75781_) {
+-      if (p_75781_ == Long.MAX_VALUE) {
+-         return 2;
+-      } else if (this.f_75728_.contains(p_75781_)) {
++   protected int getLevel(net.minecraft.core.SectionPos p_75781_) {
++      if (this.f_75728_.contains(p_75781_)) {
+          return 0;
+       } else {
+-         return !this.f_75742_.contains(p_75781_) && this.f_75732_.m_75529_(p_75781_) ? 1 : 2;
++         return !this.f_75742_.contains(p_75781_) && this.f_75732_.hasLayer(p_75781_) ? 1 : 2;
+       }
+    }
+ 
+-   protected int m_7409_(long p_75771_) {
++   protected int getLevelFromSource(SectionPos p_75771_) {
+       if (this.f_75729_.contains(p_75771_)) {
+          return 2;
+       } else {
+@@ -103,8 +_,8 @@
+       }
+    }
+ 
+-   protected void m_7351_(long p_75749_, int p_75750_) {
+-      int i = this.m_6172_(p_75749_);
++   protected void setLevel(net.minecraft.core.SectionPos p_75749_, int p_75750_) {
++      int i = this.getLevel(p_75749_);
+       if (i != 0 && p_75750_ == 0) {
+          this.f_75728_.add(p_75749_);
+          this.f_75730_.remove(p_75749_);
+@@ -119,17 +_,17 @@
+          if (this.f_75742_.contains(p_75749_)) {
+             this.f_75742_.remove(p_75749_);
+          } else {
+-            this.f_75732_.m_75526_(p_75749_, this.m_7667_(p_75749_));
++            this.f_75732_.setLayer(p_75749_, this.createDataLayer(p_75749_));
              this.f_75733_.add(p_75749_);
-             this.m_6177_(p_75749_);
+-            this.m_6177_(p_75749_);
 -            int j = SectionPos.m_123213_(p_75749_);
 -            int k = SectionPos.m_123225_(p_75749_);
 -            int l = SectionPos.m_123230_(p_75749_);
-+            long j = SectionPos.x(p_75749_);
-+            long k = SectionPos.y(p_75749_);
-+            long l = SectionPos.z(p_75749_);
++            this.onNodeAdded(p_75749_);
++            long j = p_75749_.x();
++            long k = p_75749_.y();
++            long l = p_75749_.z();
  
              for(int i1 = -1; i1 <= 1; ++i1) {
                 for(int j1 = -1; j1 <= 1; ++j1) {
                    for(int k1 = -1; k1 <= 1; ++k1) {
 -                     this.f_75734_.add(SectionPos.m_123209_(j + j1, k + k1, l + i1));
-+                     this.f_75734_.add(SectionPos.asLong(j + j1, k + k1, l + i1));
++                     this.f_75734_.add(SectionPos.of(j + j1, k + k1, l + i1));
                    }
                 }
              }
-@@ -155,14 +_,14 @@
-                return SectionPos.m_123235_(p_75753_) == p_75766_;
+@@ -143,27 +_,27 @@
+       this.f_75736_ = !this.f_75742_.isEmpty();
+    }
+ 
+-   protected DataLayer m_7667_(long p_75797_) {
++   protected DataLayer createDataLayer(net.minecraft.core.SectionPos p_75797_) {
+       DataLayer datalayer = this.f_75735_.get(p_75797_);
+       return datalayer != null ? datalayer : new DataLayer();
+    }
+ 
+-   protected void m_75764_(LayerLightEngine<?, ?> p_75765_, long p_75766_) {
++   protected void clearQueuedSectionBlocks(LayerLightEngine<?, ?> p_75765_, net.minecraft.core.SectionPos p_75766_) {
+       if (p_75765_.m_75598_() != 0) {
+          if (p_75765_.m_75598_() < 8192) {
+-            p_75765_.m_75581_((p_75753_) -> {
+-               return SectionPos.m_123235_(p_75753_) == p_75766_;
++            p_75765_.removeIf((p_75753_) -> {
++               return p_75753_.equals(p_75766_);
              });
           } else {
 -            int i = SectionPos.m_123223_(SectionPos.m_123213_(p_75766_));
 -            int j = SectionPos.m_123223_(SectionPos.m_123225_(p_75766_));
 -            int k = SectionPos.m_123223_(SectionPos.m_123230_(p_75766_));
-+            long i = SectionPos.sectionToBlockCoord(SectionPos.x(p_75766_));
-+            long j = SectionPos.sectionToBlockCoord(SectionPos.y(p_75766_));
-+            long k = SectionPos.sectionToBlockCoord(SectionPos.z(p_75766_));
++            long i = SectionPos.sectionToBlockCoord(p_75766_.x());
++            long j = SectionPos.sectionToBlockCoord(p_75766_.y());
++            long k = SectionPos.sectionToBlockCoord(p_75766_.z());
  
              for(int l = 0; l < 16; ++l) {
                 for(int i1 = 0; i1 < 16; ++i1) {
                    for(int j1 = 0; j1 < 16; ++j1) {
 -                     long k1 = BlockPos.m_121882_(i + l, j + i1, k + j1);
+-                     p_75765_.m_75600_(k1);
 +                     long k1 = BlockPos.asLong(i + l, j + i1, k + j1);
-                      p_75765_.m_75600_(k1);
++                     p_75765_.removeFromQueue(SectionPos.m_123184_(k1));
                    }
                 }
-@@ -239,9 +_,9 @@
+             }
+@@ -178,11 +_,11 @@
  
-    private void m_75777_(LayerLightEngine<M, ?> p_75778_, long p_75779_) {
-       if (this.m_75791_(p_75779_)) {
+    protected void m_6716_(LayerLightEngine<M, ?> p_75767_, boolean p_75768_, boolean p_75769_) {
+       if (this.m_6808_() || !this.f_75735_.isEmpty()) {
+-         for(long i : this.f_75742_) {
+-            this.m_75764_(p_75767_, i);
++         for(net.minecraft.core.SectionPos i : this.f_75742_) {
++            this.clearQueuedSectionBlocks(p_75767_, i);
+             DataLayer datalayer = this.f_75735_.remove(i);
+-            DataLayer datalayer1 = this.f_75732_.m_75535_(i);
+-            if (this.f_75741_.contains(SectionPos.m_123240_(i))) {
++            DataLayer datalayer1 = this.f_75732_.removeLayer(i);
++            if (this.f_75741_.contains(SectionPos.m_123240_(i.m_123252_()))) {
+                if (datalayer != null) {
+                   this.f_75735_.put(i, datalayer);
+                } else if (datalayer1 != null) {
+@@ -193,20 +_,20 @@
+ 
+          this.f_75732_.m_75531_();
+ 
+-         for(long k : this.f_75742_) {
+-            this.m_6187_(k);
++         for(net.minecraft.core.SectionPos k : this.f_75742_) {
++            this.onNodeRemoved(k);
+          }
+ 
+          this.f_75742_.clear();
+          this.f_75736_ = false;
+ 
+-         for(Long2ObjectMap.Entry<DataLayer> entry : this.f_75735_.long2ObjectEntrySet()) {
+-            long j = entry.getLongKey();
+-            if (this.m_75791_(j)) {
++         for(it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<net.minecraft.core.SectionPos, DataLayer> entry : this.f_75735_.object2ObjectEntrySet()) {
++            net.minecraft.core.SectionPos j = entry.getKey();
++            if (this.storingLightForSection(j)) {
+                DataLayer datalayer2 = entry.getValue();
+-               if (this.f_75732_.m_75532_(j) != datalayer2) {
+-                  this.m_75764_(p_75767_, j);
+-                  this.f_75732_.m_75526_(j, datalayer2);
++               if (this.f_75732_.getLayer(j) != datalayer2) {
++                  this.clearQueuedSectionBlocks(p_75767_, j);
++                  this.f_75732_.setLayer(j, datalayer2);
+                   this.f_75733_.add(j);
+                }
+             }
+@@ -214,22 +_,22 @@
+ 
+          this.f_75732_.m_75531_();
+          if (!p_75769_) {
+-            for(long l : this.f_75735_.keySet()) {
+-               this.m_75777_(p_75767_, l);
++            for(net.minecraft.core.SectionPos l : this.f_75735_.keySet()) {
++               this.checkEdgesForSection(p_75767_, l);
+             }
+          } else {
+-            for(long i1 : this.f_75740_) {
+-               this.m_75777_(p_75767_, i1);
++            for(net.minecraft.core.SectionPos i1 : this.f_75740_) {
++               this.checkEdgesForSection(p_75767_, i1);
+             }
+          }
+ 
+          this.f_75740_.clear();
+-         ObjectIterator<Long2ObjectMap.Entry<DataLayer>> objectiterator = this.f_75735_.long2ObjectEntrySet().iterator();
++         ObjectIterator<it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<net.minecraft.core.SectionPos, DataLayer>> objectiterator = this.f_75735_.object2ObjectEntrySet().iterator();
+ 
+          while(objectiterator.hasNext()) {
+-            Long2ObjectMap.Entry<DataLayer> entry1 = objectiterator.next();
+-            long j1 = entry1.getLongKey();
+-            if (this.m_75791_(j1)) {
++            it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<net.minecraft.core.SectionPos, DataLayer> entry1 = objectiterator.next();
++            net.minecraft.core.SectionPos j1 = entry1.getKey();
++            if (this.storingLightForSection(j1)) {
+                objectiterator.remove();
+             }
+          }
+@@ -237,47 +_,47 @@
+       }
+    }
+ 
+-   private void m_75777_(LayerLightEngine<M, ?> p_75778_, long p_75779_) {
+-      if (this.m_75791_(p_75779_)) {
 -         int i = SectionPos.m_123223_(SectionPos.m_123213_(p_75779_));
 -         int j = SectionPos.m_123223_(SectionPos.m_123225_(p_75779_));
 -         int k = SectionPos.m_123223_(SectionPos.m_123230_(p_75779_));
-+         long i = SectionPos.sectionToBlockCoord(SectionPos.x(p_75779_));
-+         long j = SectionPos.sectionToBlockCoord(SectionPos.y(p_75779_));
-+         long k = SectionPos.sectionToBlockCoord(SectionPos.z(p_75779_));
++   private void checkEdgesForSection(LayerLightEngine<M, ?> p_75778_, net.minecraft.core.SectionPos p_75779_) {
++      if (this.storingLightForSection(p_75779_)) {
++         long i = SectionPos.sectionToBlockCoord(p_75779_.x());
++         long j = SectionPos.sectionToBlockCoord(p_75779_.y());
++         long k = SectionPos.sectionToBlockCoord(p_75779_.z());
  
           for(Direction direction : f_75737_) {
-             long l = SectionPos.m_123191_(p_75779_, direction);
-@@ -252,28 +_,28 @@
-                      long l1;
+-            long l = SectionPos.m_123191_(p_75779_, direction);
+-            if (!this.f_75735_.containsKey(l) && this.m_75791_(l)) {
++            SectionPos l = p_75779_.relative(direction);
++            if (!this.f_75735_.containsKey(l) && this.storingLightForSection(l)) {
+                for(int i1 = 0; i1 < 16; ++i1) {
+                   for(int j1 = 0; j1 < 16; ++j1) {
+-                     long k1;
+-                     long l1;
++                     SectionPos k1;
++                     SectionPos l1;
                       switch (direction) {
                          case DOWN:
 -                           k1 = BlockPos.m_121882_(i + j1, j, k + i1);
 -                           l1 = BlockPos.m_121882_(i + j1, j - 1, k + i1);
-+                           k1 = BlockPos.asLong(i + j1, j, k + i1);
-+                           l1 = BlockPos.asLong(i + j1, j - 1, k + i1);
++                           k1 = SectionPos.m_123199_(new BlockPos(i + j1, j, k + i1));
++                           l1 = SectionPos.m_123199_(new BlockPos(i + j1, j - 1, k + i1));
                             break;
                          case UP:
 -                           k1 = BlockPos.m_121882_(i + j1, j + 16 - 1, k + i1);
 -                           l1 = BlockPos.m_121882_(i + j1, j + 16, k + i1);
-+                           k1 = BlockPos.asLong(i + j1, j + 16 - 1, k + i1);
-+                           l1 = BlockPos.asLong(i + j1, j + 16, k + i1);
++                           k1 = SectionPos.m_123199_(new BlockPos(i + j1, j + 16 - 1, k + i1));
++                           l1 = SectionPos.m_123199_(new BlockPos(i + j1, j + 16, k + i1));
                             break;
                          case NORTH:
 -                           k1 = BlockPos.m_121882_(i + i1, j + j1, k);
 -                           l1 = BlockPos.m_121882_(i + i1, j + j1, k - 1);
-+                           k1 = BlockPos.asLong(i + i1, j + j1, k);
-+                           l1 = BlockPos.asLong(i + i1, j + j1, k - 1);
++                           k1 = SectionPos.m_123199_(new BlockPos(i + i1, j + j1, k));
++                           l1 = SectionPos.m_123199_(new BlockPos(i + i1, j + j1, k - 1));
                             break;
                          case SOUTH:
 -                           k1 = BlockPos.m_121882_(i + i1, j + j1, k + 16 - 1);
 -                           l1 = BlockPos.m_121882_(i + i1, j + j1, k + 16);
-+                           k1 = BlockPos.asLong(i + i1, j + j1, k + 16 - 1);
-+                           l1 = BlockPos.asLong(i + i1, j + j1, k + 16);
++                           k1 = SectionPos.m_123199_(new BlockPos(i + i1, j + j1, k + 16 - 1));
++                           l1 = SectionPos.m_123199_(new BlockPos(i + i1, j + j1, k + 16));
                             break;
                          case WEST:
 -                           k1 = BlockPos.m_121882_(i, j + i1, k + j1);
 -                           l1 = BlockPos.m_121882_(i - 1, j + i1, k + j1);
-+                           k1 = BlockPos.asLong(i, j + i1, k + j1);
-+                           l1 = BlockPos.asLong(i - 1, j + i1, k + j1);
++                           k1 = SectionPos.m_123199_(new BlockPos(i, j + i1, k + j1));
++                           l1 = SectionPos.m_123199_(new BlockPos(i - 1, j + i1, k + j1));
                             break;
                          default:
 -                           k1 = BlockPos.m_121882_(i + 16 - 1, j + i1, k + j1);
 -                           l1 = BlockPos.m_121882_(i + 16, j + i1, k + j1);
-+                           k1 = BlockPos.asLong(i + 16 - 1, j + i1, k + j1);
-+                           l1 = BlockPos.asLong(i + 16, j + i1, k + j1);
++                           k1 = SectionPos.m_123199_(new BlockPos(i + 16 - 1, j + i1, k + j1));
++                           l1 = SectionPos.m_123199_(new BlockPos(i + 16, j + i1, k + j1));
                       }
  
-                      p_75778_.m_75576_(k1, l1, p_75778_.m_6359_(k1, l1, p_75778_.m_6172_(k1)), false);
+-                     p_75778_.m_75576_(k1, l1, p_75778_.m_6359_(k1, l1, p_75778_.m_6172_(k1)), false);
+-                     p_75778_.m_75576_(l1, k1, p_75778_.m_6359_(l1, k1, p_75778_.m_6172_(l1)), false);
++                     p_75778_.checkEdge(k1.m_123251_(), l1, p_75778_.computeLevelFromNeighbor(k1, l1, p_75778_.getLevel(k1)), false);
++                     p_75778_.checkEdge(l1.m_123251_(), k1, p_75778_.computeLevelFromNeighbor(l1, k1, p_75778_.getLevel(l1)), false);
+                   }
+                }
+             }
+@@ -286,10 +_,10 @@
+       }
+    }
+ 
+-   protected void m_6177_(long p_75798_) {
++   protected void onNodeAdded(net.minecraft.core.SectionPos p_75798_) {
+    }
+ 
+-   protected void m_6187_(long p_75799_) {
++   protected void onNodeRemoved(net.minecraft.core.SectionPos p_75799_) {
+    }
+ 
+    protected void m_7358_(long p_75775_, boolean p_75776_) {
+@@ -304,7 +_,7 @@
+ 
+    }
+ 
+-   protected void m_75754_(long p_75755_, @Nullable DataLayer p_75756_, boolean p_75757_) {
++   protected void queueSectionData(net.minecraft.core.SectionPos p_75755_, @Nullable DataLayer p_75756_, boolean p_75757_) {
+       if (p_75756_ != null) {
+          this.f_75735_.put(p_75755_, p_75756_);
+          if (!p_75757_) {
+@@ -316,16 +_,16 @@
+ 
+    }
+ 
+-   protected void m_75787_(long p_75788_, boolean p_75789_) {
++   protected void updateSectionStatus(SectionPos p_75788_, boolean p_75789_) {
+       boolean flag = this.f_75728_.contains(p_75788_);
+       if (!flag && !p_75789_) {
+          this.f_75730_.add(p_75788_);
+-         this.m_75576_(Long.MAX_VALUE, p_75788_, 0, true);
++         this.checkEdge(net.minecraft.world.level.ChunkPos.f_45577_, p_75788_, 0, true);
+       }
+ 
+       if (flag && p_75789_) {
+          this.f_75729_.add(p_75788_);
+-         this.m_75576_(Long.MAX_VALUE, p_75788_, 2, false);
++         this.checkEdge(net.minecraft.world.level.ChunkPos.f_45577_, p_75788_, 2, false);
+       }
+ 
+    }
+@@ -346,11 +_,11 @@
+       }
+ 
+       if (!this.f_75734_.isEmpty()) {
+-         LongIterator longiterator = this.f_75734_.iterator();
++         it.unimi.dsi.fastutil.objects.ObjectIterator<SectionPos> longiterator = this.f_75734_.iterator();
+ 
+          while(longiterator.hasNext()) {
+-            long i = longiterator.nextLong();
+-            this.f_75739_.m_6506_(this.f_75738_, SectionPos.m_123184_(i));
++            SectionPos i = longiterator.next();
++            this.f_75739_.m_6506_(this.f_75738_, i);
+          }
+ 
+          this.f_75734_.clear();

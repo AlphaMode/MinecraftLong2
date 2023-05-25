@@ -1,5 +1,33 @@
 --- a/net/minecraft/server/level/ServerChunkCache.java
 +++ b/net/minecraft/server/level/ServerChunkCache.java
+@@ -60,7 +_,7 @@
+    private boolean f_8335_ = true;
+    private boolean f_8336_ = true;
+    private static final int f_143226_ = 4;
+-   private final long[] f_8337_ = new long[4];
++   private final ChunkPos[] f_8337_ = new ChunkPos[4];
+    private final ChunkStatus[] f_8338_ = new ChunkStatus[4];
+    private final ChunkAccess[] f_8339_ = new ChunkAccess[4];
+    @Nullable
+@@ -86,15 +_,15 @@
+    }
+ 
+    @Nullable
+-   private ChunkHolder m_8364_(long p_8365_) {
+-      return this.f_8325_.m_140327_(p_8365_);
++   private ChunkHolder getVisibleChunkIfPresent(ChunkPos p_8365_) {
++      return this.f_8325_.getVisibleChunkIfPresent(p_8365_);
+    }
+ 
+    public int m_8427_() {
+       return this.f_8325_.m_140368_();
+    }
+ 
+-   private void m_8366_(long p_8367_, ChunkAccess p_8368_, ChunkStatus p_8369_) {
++   private void storeInCache(ChunkPos p_8367_, ChunkAccess p_8368_, ChunkStatus p_8369_) {
+       for(int i = 3; i > 0; --i) {
+          this.f_8337_[i] = this.f_8337_[i - 1];
+          this.f_8338_[i] = this.f_8338_[i - 1];
 @@ -107,15 +_,15 @@
     }
  
@@ -15,7 +43,7 @@
           ProfilerFiller profilerfiller = this.f_8329_.m_46473_();
           profilerfiller.m_6174_("getChunk");
 -         long i = ChunkPos.m_45589_(p_8360_, p_8361_);
-+         long i = ChunkPos.asLong(p_8360_, p_8361_);
++         ChunkPos i = new ChunkPos(p_8360_, p_8361_);
  
           for(int j = 0; j < 4; ++j) {
              if (i == this.f_8337_[j] && p_8362_ == this.f_8338_[j]) {
@@ -28,7 +56,14 @@
           this.f_8332_.m_18701_(completablefuture::isDone);
           ChunkAccess chunkaccess1 = completablefuture.join().map((p_8406_) -> {
              return p_8406_;
-@@ -144,12 +_,12 @@
+@@ -138,18 +_,18 @@
+                return null;
+             }
+          });
+-         this.m_8366_(i, chunkaccess1, p_8362_);
++         this.storeInCache(i, chunkaccess1, p_8362_);
+          return chunkaccess1;
+       }
     }
  
     @Nullable
@@ -39,10 +74,28 @@
        } else {
           this.f_8329_.m_46473_().m_6174_("getChunkNow");
 -         long i = ChunkPos.m_45589_(p_8357_, p_8358_);
-+         long i = ChunkPos.asLong(p_8357_, p_8358_);
++         ChunkPos i = new ChunkPos(p_8357_, p_8358_);
  
           for(int j = 0; j < 4; ++j) {
              if (i == this.f_8337_[j] && this.f_8338_[j] == ChunkStatus.f_62326_) {
+@@ -158,7 +_,7 @@
+             }
+          }
+ 
+-         ChunkHolder chunkholder = this.m_8364_(i);
++         ChunkHolder chunkholder = this.getVisibleChunkIfPresent(i);
+          if (chunkholder == null) {
+             return null;
+          } else {
+@@ -168,7 +_,7 @@
+             } else {
+                ChunkAccess chunkaccess1 = either.left().orElse((ChunkAccess)null);
+                if (chunkaccess1 != null) {
+-                  this.m_8366_(i, chunkaccess1, ChunkStatus.f_62326_);
++                  this.storeInCache(i, chunkaccess1, ChunkStatus.f_62326_);
+                   if (chunkaccess1 instanceof LevelChunk) {
+                      return (LevelChunk)chunkaccess1;
+                   }
 @@ -186,15 +_,15 @@
        Arrays.fill(this.f_8339_, (Object)null);
     }
@@ -62,33 +115,84 @@
           }, this.f_8332_).thenCompose((p_8413_) -> {
              return p_8413_;
           });
-@@ -203,7 +_,7 @@
+@@ -203,18 +_,17 @@
        return completablefuture;
     }
  
 -   private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_8456_(int p_8457_, int p_8458_, ChunkStatus p_8459_, boolean p_8460_) {
 +   private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFutureMainThread(long p_8457_, long p_8458_, ChunkStatus p_8459_, boolean p_8460_) {
        ChunkPos chunkpos = new ChunkPos(p_8457_, p_8458_);
-       long i = chunkpos.m_45588_();
+-      long i = chunkpos.m_45588_();
        int j = 33 + ChunkStatus.m_62370_(p_8459_);
-@@ -229,14 +_,14 @@
+-      ChunkHolder chunkholder = this.m_8364_(i);
++      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(chunkpos);
+       if (p_8460_) {
+          this.f_8327_.m_140792_(TicketType.f_9449_, chunkpos, j, chunkpos);
+          if (this.m_8416_(chunkholder, j)) {
+             ProfilerFiller profilerfiller = this.f_8329_.m_46473_();
+             profilerfiller.m_6180_("chunkLoad");
+             this.m_8489_();
+-            chunkholder = this.m_8364_(i);
++            chunkholder = this.getVisibleChunkIfPresent(chunkpos);
+             profilerfiller.m_7238_();
+             if (this.m_8416_(chunkholder, j)) {
+                throw (IllegalStateException)Util.m_137570_(new IllegalStateException("No chunk holder after ticket has been added"));
+@@ -229,15 +_,15 @@
        return p_8417_ == null || p_8417_.m_140093_() > p_8418_;
     }
  
 -   public boolean m_5563_(int p_8429_, int p_8430_) {
+-      ChunkHolder chunkholder = this.m_8364_((new ChunkPos(p_8429_, p_8430_)).m_45588_());
 +   public boolean hasChunk(long p_8429_, long p_8430_) {
-       ChunkHolder chunkholder = this.m_8364_((new ChunkPos(p_8429_, p_8430_)).m_45588_());
++      ChunkHolder chunkholder = this.getVisibleChunkIfPresent((new ChunkPos(p_8429_, p_8430_)));
        int i = 33 + ChunkStatus.m_62370_(ChunkStatus.f_62326_);
        return !this.m_8416_(chunkholder, i);
     }
  
 -   public BlockGetter m_6196_(int p_8454_, int p_8455_) {
 -      long i = ChunkPos.m_45589_(p_8454_, p_8455_);
+-      ChunkHolder chunkholder = this.m_8364_(i);
 +   public BlockGetter getChunkForLighting(long p_8454_, long p_8455_) {
-+      long i = ChunkPos.asLong(p_8454_, p_8455_);
-       ChunkHolder chunkholder = this.m_8364_(i);
++      ChunkPos i = new ChunkPos(p_8454_, p_8455_);
++      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(i);
        if (chunkholder == null) {
           return null;
+       } else {
+@@ -278,11 +_,11 @@
+       }
+    }
+ 
+-   public boolean m_143239_(long p_143240_) {
+-      ChunkHolder chunkholder = this.m_8364_(p_143240_);
++   public boolean isPositionTicking(ChunkPos p_143240_) {
++      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(p_143240_);
+       if (chunkholder == null) {
+          return false;
+-      } else if (!this.f_8329_.m_183438_(p_143240_)) {
++      } else if (!this.f_8329_.shouldTickBlocksAt(p_143240_)) {
+          return false;
+       } else {
+          Either<LevelChunk, ChunkHolder.ChunkLoadingFailure> either = chunkholder.m_140026_().getNow((Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>)null);
+@@ -331,7 +_,7 @@
+          boolean flag1 = leveldata.m_6793_() % 400L == 0L;
+          profilerfiller.m_6180_("naturalSpawnCount");
+          int l = this.f_8327_.m_140816_();
+-         NaturalSpawner.SpawnState naturalspawner$spawnstate = NaturalSpawner.m_186524_(l, this.f_8329_.m_8583_(), this::m_8370_, new LocalMobCapCalculator(this.f_8325_));
++         NaturalSpawner.SpawnState naturalspawner$spawnstate = NaturalSpawner.m_186524_(l, this.f_8329_.m_8583_(), this::getFullChunk, new LocalMobCapCalculator(this.f_8325_));
+          this.f_8340_ = naturalspawner$spawnstate;
+          profilerfiller.m_6182_("filteringLoadedChunks");
+          List<ServerChunkCache.ChunkAndHolder> list = Lists.newArrayListWithCapacity(l);
+@@ -377,8 +_,8 @@
+       }
+    }
+ 
+-   private void m_8370_(long p_8371_, Consumer<LevelChunk> p_8372_) {
+-      ChunkHolder chunkholder = this.m_8364_(p_8371_);
++   private void getFullChunk(ChunkPos p_8371_, Consumer<LevelChunk> p_8372_) {
++      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(p_8371_);
+       if (chunkholder != null) {
+          chunkholder.m_140082_().getNow(ChunkHolder.f_139997_).left().ifPresent(p_8372_);
+       }
 @@ -411,9 +_,9 @@
     }
  
@@ -98,13 +202,16 @@
 -      ChunkHolder chunkholder = this.m_8364_(ChunkPos.m_45589_(i, j));
 +      long i = SectionPos.blockToSectionCoord(p_8451_.getX());
 +      long j = SectionPos.blockToSectionCoord(p_8451_.getZ());
-+      ChunkHolder chunkholder = this.m_8364_(ChunkPos.asLong(i, j));
++      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(new ChunkPos(i, j));
        if (chunkholder != null) {
           chunkholder.m_140056_(p_8451_);
        }
-@@ -424,7 +_,7 @@
+@@ -422,9 +_,9 @@
+ 
+    public void m_6506_(LightLayer p_8403_, SectionPos p_8404_) {
        this.f_8332_.execute(() -> {
-          ChunkHolder chunkholder = this.m_8364_(p_8404_.m_123251_().m_45588_());
+-         ChunkHolder chunkholder = this.m_8364_(p_8404_.m_123251_().m_45588_());
++         ChunkHolder chunkholder = this.getVisibleChunkIfPresent(p_8404_.m_123251_());
           if (chunkholder != null) {
 -            chunkholder.m_140036_(p_8403_, p_8404_.m_123206_());
 +            chunkholder.sectionLightChanged(p_8403_, p_8404_.y());

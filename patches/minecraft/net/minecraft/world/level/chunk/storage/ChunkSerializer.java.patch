@@ -61,7 +61,18 @@
                 if (chunkaccess.m_8055_(blockpos).m_60791_() != 0) {
                    protochunk.m_63277_(blockpos);
                 }
-@@ -254,7 +_,7 @@
+@@ -221,7 +_,9 @@
+       }
+ 
+       if (chunkstatus$chunktype == ChunkStatus.ChunkType.LEVELCHUNK) {
+-         return new ImposterProtoChunk((LevelChunk)chunkaccess, false);
++         var chunk = new ImposterProtoChunk((LevelChunk)chunkaccess, false);
++         ca.spottedleaf.starlight.common.util.SaveUtil.loadLightHook(p_188231_, p_188233_, p_188234_, chunk);
++         return chunk;
+       } else {
+          ProtoChunk protochunk1 = (ProtoChunk)chunkaccess;
+          ListTag listtag4 = p_188234_.m_128437_("entities", 10);
+@@ -254,9 +_,10 @@
  
           for(String s1 : compoundtag4.m_128431_()) {
              GenerationStep.Carving generationstep$carving = GenerationStep.Carving.valueOf(s1);
@@ -69,7 +80,10 @@
 +            protochunk1.m_188186_(generationstep$carving, new CarvingMask(compoundtag4.m_128467_(s1), chunkaccess.getMinBuildHeight()));
           }
  
++         ca.spottedleaf.starlight.common.util.SaveUtil.loadLightHook(p_188231_, p_188233_, p_188234_, protochunk1);
           return protochunk1;
+       }
+    }
 @@ -272,9 +_,9 @@
     public static CompoundTag m_63454_(ServerLevel p_63455_, ChunkAccess p_63456_) {
        ChunkPos chunkpos = p_63456_.m_7697_();
@@ -104,12 +118,78 @@
                 compoundtag1.m_128365_("block_states", f_188227_.encodeStart(NbtOps.f_128958_, levelchunksection.m_63019_()).getOrThrow(false, f_63449_::error));
                 compoundtag1.m_128365_("biomes", codec.encodeStart(NbtOps.f_128958_, levelchunksection.m_187996_()).getOrThrow(false, f_63449_::error));
              }
-@@ -488,7 +_,7 @@
-             if (along.length != 0) {
-                map.put(structure, new LongOpenHashSet(Arrays.stream(along).filter((p_208153_) -> {
-                   ChunkPos chunkpos = new ChunkPos(p_208153_);
+@@ -377,6 +_,7 @@
+ 
+       compoundtag.m_128365_("Heightmaps", compoundtag2);
+       compoundtag.m_128365_("structures", m_188249_(StructurePieceSerializationContext.m_192770_(p_63455_), chunkpos, p_63456_.m_6633_(), p_63456_.m_62769_()));
++      ca.spottedleaf.starlight.common.util.SaveUtil.saveLightHook(p_63455_, p_63456_,compoundtag);
+       return compoundtag;
+    }
+ 
+@@ -428,7 +_,7 @@
+       return listtag.isEmpty() ? null : listtag;
+    }
+ 
+-   private static CompoundTag m_188249_(StructurePieceSerializationContext p_188250_, ChunkPos p_188251_, Map<Structure, StructureStart> p_188252_, Map<Structure, LongSet> p_188253_) {
++   private static CompoundTag m_188249_(StructurePieceSerializationContext p_188250_, ChunkPos p_188251_, Map<Structure, StructureStart> p_188252_, Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> p_188253_) {
+       CompoundTag compoundtag = new CompoundTag();
+       CompoundTag compoundtag1 = new CompoundTag();
+       Registry<Structure> registry = p_188250_.f_192763_().m_175515_(Registries.f_256944_);
+@@ -441,10 +_,17 @@
+       compoundtag.m_128365_("starts", compoundtag1);
+       CompoundTag compoundtag2 = new CompoundTag();
+ 
+-      for(Map.Entry<Structure, LongSet> entry1 : p_188253_.entrySet()) {
++      for(Map.Entry<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> entry1 : p_188253_.entrySet()) {
+          if (!entry1.getValue().isEmpty()) {
+             ResourceLocation resourcelocation1 = registry.m_7981_(entry1.getKey());
+-            compoundtag2.m_128365_(resourcelocation1.toString(), new LongArrayTag(entry1.getValue()));
++            net.minecraft.nbt.ListTag chunks = new net.minecraft.nbt.ListTag();
++            entry1.getValue().forEach(chunkPos -> {
++               CompoundTag chunk = new CompoundTag();
++               chunk.m_128356_("x", chunkPos.f_45578_);
++               chunk.m_128356_("z", chunkPos.f_45579_);
++               chunks.add(chunk);
++            });
++            compoundtag2.m_128365_(resourcelocation1.toString(), chunks);
+          }
+       }
+ 
+@@ -473,8 +_,8 @@
+       return map;
+    }
+ 
+-   private static Map<Structure, LongSet> m_208154_(RegistryAccess p_208155_, ChunkPos p_208156_, CompoundTag p_208157_) {
+-      Map<Structure, LongSet> map = Maps.newHashMap();
++   private static Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> m_208154_(RegistryAccess p_208155_, ChunkPos p_208156_, CompoundTag p_208157_) {
++      Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> map = Maps.newHashMap();
+       Registry<Structure> registry = p_208155_.m_175515_(Registries.f_256944_);
+       CompoundTag compoundtag = p_208157_.m_128469_("References");
+ 
+@@ -484,17 +_,18 @@
+          if (structure == null) {
+             f_63449_.warn("Found reference to unknown structure '{}' in chunk {}, discarding", resourcelocation, p_208156_);
+          } else {
+-            long[] along = compoundtag.m_128467_(s);
+-            if (along.length != 0) {
+-               map.put(structure, new LongOpenHashSet(Arrays.stream(along).filter((p_208153_) -> {
+-                  ChunkPos chunkpos = new ChunkPos(p_208153_);
 -                  if (chunkpos.m_45594_(p_208156_) > 8) {
++            net.minecraft.nbt.ListTag along = compoundtag.m_128437_(s, 7);
++            if (along.size() != 0) {
++               it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> chunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++               along.forEach((p_208153_) -> {
++                  ChunkPos chunkpos = new ChunkPos(((CompoundTag) p_208153_).m_128454_("x"), ((CompoundTag) p_208153_).m_128454_("z"));
 +                  if (chunkpos.getChessboardDistance(p_208156_) > 8) {
                       f_63449_.warn("Found invalid structure reference [ {} @ {} ] for chunk {}.", resourcelocation, chunkpos, p_208156_);
-                      return false;
+-                     return false;
                    } else {
+-                     return true;
++                     chunks.add(chunkpos);
+                   }
+-               }).toArray()));
++               });
++               map.put(structure, chunks);
+             }
+          }
+       }

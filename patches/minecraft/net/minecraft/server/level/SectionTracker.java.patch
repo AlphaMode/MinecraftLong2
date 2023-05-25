@@ -1,20 +1,71 @@
 --- a/net/minecraft/server/level/SectionTracker.java
 +++ b/net/minecraft/server/level/SectionTracker.java
-@@ -16,7 +_,7 @@
+@@ -8,17 +_,17 @@
+       super(p_8274_, p_8275_, p_8276_);
+    }
+ 
+-   protected boolean m_6163_(long p_8278_) {
+-      return p_8278_ == Long.MAX_VALUE;
++   protected boolean isSource(net.minecraft.core.SectionPos p_8278_) {
++      return p_8278_.m_123251_().equals(net.minecraft.world.level.ChunkPos.f_45577_);
+    }
+ 
+-   protected void m_7900_(long p_8280_, int p_8281_, boolean p_8282_) {
++   protected void checkNeighborsAfterUpdate(net.minecraft.core.SectionPos p_8280_, int p_8281_, boolean p_8282_) {
        for(int i = -1; i <= 1; ++i) {
           for(int j = -1; j <= 1; ++j) {
              for(int k = -1; k <= 1; ++k) {
 -               long l = SectionPos.m_123186_(p_8280_, i, j, k);
-+               long l = SectionPos.offset(p_8280_, i, j, k);
-                if (l != p_8280_) {
-                   this.m_75593_(p_8280_, l, p_8281_, p_8282_);
+-               if (l != p_8280_) {
+-                  this.m_75593_(p_8280_, l, p_8281_, p_8282_);
++               SectionPos l = p_8280_.offset(i, j, k);
++               if (!l.equals(p_8280_)) {
++                  this.checkNeighbor(p_8280_, l, p_8281_, p_8282_);
                 }
-@@ -32,7 +_,7 @@
+             }
+          }
+@@ -26,19 +_,19 @@
+ 
+    }
+ 
+-   protected int m_6357_(long p_8284_, long p_8285_, int p_8286_) {
++   protected int getComputedLevel(net.minecraft.core.SectionPos p_8284_, net.minecraft.world.level.ChunkPos p_8285_, int p_8286_) {
+       int i = p_8286_;
+ 
        for(int j = -1; j <= 1; ++j) {
           for(int k = -1; k <= 1; ++k) {
              for(int l = -1; l <= 1; ++l) {
 -               long i1 = SectionPos.m_123186_(p_8284_, j, k, l);
-+               long i1 = SectionPos.offset(p_8284_, j, k, l);
-                if (i1 == p_8284_) {
-                   i1 = Long.MAX_VALUE;
+-               if (i1 == p_8284_) {
+-                  i1 = Long.MAX_VALUE;
++               SectionPos i1 = p_8284_.offset(j, k, l);
++               if (i1.equals(p_8284_)) {
++                  i1 = SectionPos.m_123184_(Long.MAX_VALUE);
                 }
+ 
+-               if (i1 != p_8285_) {
+-                  int j1 = this.m_6359_(i1, p_8284_, this.m_6172_(i1));
++               if (!i1.m_123251_().equals(p_8285_)) {
++                  int j1 = this.computeLevelFromNeighbor(i1, p_8284_, this.getLevel(i1));
+                   if (i > j1) {
+                      i = j1;
+                   }
+@@ -54,13 +_,13 @@
+       return i;
+    }
+ 
+-   protected int m_6359_(long p_8293_, long p_8294_, int p_8295_) {
+-      return p_8293_ == Long.MAX_VALUE ? this.m_7409_(p_8294_) : p_8295_ + 1;
++   protected int computeLevelFromNeighbor(SectionPos p_8293_, SectionPos p_8294_, int p_8295_) {
++      return p_8293_.m_123251_() == net.minecraft.world.level.ChunkPos.f_45577_ ? this.getLevelFromSource(p_8294_) : p_8295_ + 1;
+    }
+ 
+-   protected abstract int m_7409_(long p_8287_);
++   protected abstract int getLevelFromSource(SectionPos p_8287_);
+ 
+-   public void m_8288_(long p_8289_, int p_8290_, boolean p_8291_) {
+-      this.m_75576_(Long.MAX_VALUE, p_8289_, p_8290_, p_8291_);
++   public void update(SectionPos p_8289_, int p_8290_, boolean p_8291_) {
++      this.checkEdge(net.minecraft.world.level.ChunkPos.f_45577_, p_8289_, p_8290_, p_8291_);
+    }
+ }

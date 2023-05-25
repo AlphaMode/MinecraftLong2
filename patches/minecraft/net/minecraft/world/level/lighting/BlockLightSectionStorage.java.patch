@@ -1,11 +1,24 @@
 --- a/net/minecraft/world/level/lighting/BlockLightSectionStorage.java
 +++ b/net/minecraft/world/level/lighting/BlockLightSectionStorage.java
-@@ -15,7 +_,7 @@
+@@ -13,18 +_,16 @@
+    }
+ 
     protected int m_6181_(long p_75513_) {
-       long i = SectionPos.m_123235_(p_75513_);
-       DataLayer datalayer = this.m_75758_(i, false);
+-      long i = SectionPos.m_123235_(p_75513_);
+-      DataLayer datalayer = this.m_75758_(i, false);
 -      return datalayer == null ? 0 : datalayer.m_62560_(SectionPos.m_123207_(BlockPos.m_121983_(p_75513_)), SectionPos.m_123207_(BlockPos.m_122008_(p_75513_)), SectionPos.m_123207_(BlockPos.m_122015_(p_75513_)));
-+      return datalayer == null ? 0 : datalayer.get(SectionPos.sectionRelative(BlockPos.getX(p_75513_)), SectionPos.sectionRelative(BlockPos.getY(p_75513_)), SectionPos.sectionRelative(BlockPos.getZ(p_75513_)));
++      return 15;
     }
  
     protected static final class BlockDataLayerStorageMap extends DataLayerStorageMap<BlockLightSectionStorage.BlockDataLayerStorageMap> {
+       public BlockDataLayerStorageMap(Long2ObjectOpenHashMap<DataLayer> p_75515_) {
+-         super(p_75515_);
++         super(null);
+       }
+ 
+       public BlockLightSectionStorage.BlockDataLayerStorageMap m_5972_() {
+-         return new BlockLightSectionStorage.BlockDataLayerStorageMap(this.f_75518_.clone());
++         return new BlockLightSectionStorage.BlockDataLayerStorageMap(null);
+       }
+    }
+ }

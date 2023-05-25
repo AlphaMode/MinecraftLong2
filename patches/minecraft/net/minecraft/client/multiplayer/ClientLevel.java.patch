@@ -1,5 +1,14 @@
 --- a/net/minecraft/client/multiplayer/ClientLevel.java
 +++ b/net/minecraft/client/multiplayer/ClientLevel.java
+@@ -89,7 +_,7 @@
+ import org.slf4j.Logger;
+ 
+ @OnlyIn(Dist.CLIENT)
+-public class ClientLevel extends Level {
++public class ClientLevel extends Level implements ca.spottedleaf.starlight.common.world.ExtendedWorld {
+    private static final Logger f_233600_ = LogUtils.getLogger();
+    private static final double f_171629_ = 0.05D;
+    private static final int f_194125_ = 10;
 @@ -252,7 +_,7 @@
     }
  
@@ -245,3 +254,17 @@
        }
  
        public float m_205519_() {
+@@ -948,5 +_,13 @@
+ 
+       public void m_214006_(Entity p_233660_) {
+       }
++   }
++
++   public final net.minecraft.world.level.chunk.LevelChunk getChunkAtImmediately(final long chunkX, final long chunkZ) {
++      return this.m_7726_().getChunk(chunkX, chunkZ, false);
++   }
++
++   public final net.minecraft.world.level.chunk.ChunkAccess getAnyChunkImmediately(long chunkX, long chunkZ) {
++      return this.m_7726_().getChunk(chunkX, chunkZ, false);
+    }
+ }

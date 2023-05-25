@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/level/NaturalSpawner.java
 +++ b/net/minecraft/world/level/NaturalSpawner.java
+@@ -77,7 +_,7 @@
+          MobCategory mobcategory = entity.m_6095_().m_20674_();
+          if (mobcategory != MobCategory.MISC) {
+             BlockPos blockpos = entity.m_20183_();
+-            p_186527_.m_47103_(ChunkPos.m_151388_(blockpos), (p_275163_) -> {
++            p_186527_.query(new ChunkPos(blockpos), (p_275163_) -> {
+                MobSpawnSettings.MobSpawnCost mobspawnsettings$mobspawncost = m_47095_(blockpos, p_275163_).m_47518_().m_48345_(entity.m_6095_());
+                if (mobspawnsettings$mobspawncost != null) {
+                   potentialcalculator.m_47192_(entity.m_20183_(), mobspawnsettings$mobspawncost.f_48386_());
 @@ -96,7 +_,7 @@
     }
  
@@ -172,3 +181,12 @@
           if (p_47066_.m_8055_(blockpos).m_60647_(p_47066_, blockpos, PathComputationType.LAND)) {
              return blockpos;
           }
+@@ -417,7 +_,7 @@
+ 
+    @FunctionalInterface
+    public interface ChunkGetter {
+-      void m_47103_(long p_47104_, Consumer<LevelChunk> p_47105_);
++      void query(ChunkPos p_47104_, Consumer<LevelChunk> p_47105_);
+    }
+ 
+    @FunctionalInterface

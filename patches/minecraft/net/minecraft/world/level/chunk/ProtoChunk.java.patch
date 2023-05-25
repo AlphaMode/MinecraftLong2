@@ -1,5 +1,17 @@
 --- a/net/minecraft/world/level/chunk/ProtoChunk.java
 +++ b/net/minecraft/world/level/chunk/ProtoChunk.java
+@@ -57,6 +_,11 @@
+       super(p_188173_, p_188174_, p_188178_, p_188179_, 0L, p_188175_, p_188180_);
+       this.f_63163_ = p_188176_;
+       this.f_188165_ = p_188177_;
++      if (this instanceof net.minecraft.world.level.chunk.ImposterProtoChunk) {
++         return;
++      }
++      this.setBlockNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(f_187611_));
++      this.setSkyNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(f_187611_));
+    }
+ 
+    public TickContainerAccess<Block> m_183531_() {
 @@ -72,22 +_,22 @@
     }
  

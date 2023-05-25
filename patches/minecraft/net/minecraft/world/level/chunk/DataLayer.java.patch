@@ -1,19 +1,27 @@
 --- a/net/minecraft/world/level/chunk/DataLayer.java
 +++ b/net/minecraft/world/level/chunk/DataLayer.java
-@@ -26,12 +_,12 @@
+@@ -26,15 +_,15 @@
        this.f_62551_ = new byte[p_62554_];
     }
  
 -   public int m_62560_(int p_62561_, int p_62562_, int p_62563_) {
 -      return this.m_62570_(m_6406_(p_62561_, p_62562_, p_62563_));
-+   public int get(long p_62561_, long p_62562_, long p_62563_) {
-+      return this.m_62570_(m_6406_((int) p_62561_, (int) p_62562_, (int) p_62563_));
-    }
- 
+-   }
+-
 -   public void m_62564_(int p_62565_, int p_62566_, int p_62567_, int p_62568_) {
 -      this.m_62557_(m_6406_(p_62565_, p_62566_, p_62567_), p_62568_);
+-   }
+-
+-   private static int m_6406_(int p_62572_, int p_62573_, int p_62574_) {
++   public int get(long p_62561_, long p_62562_, long p_62563_) {
++      return this.m_62570_((int) getIndex(p_62561_, p_62562_, p_62563_));
++   }
++
 +   public void set(long p_62565_, long p_62566_, long p_62567_, int p_62568_) {
-+      this.m_62557_(m_6406_((int) p_62565_, (int) p_62566_, (int) p_62567_), p_62568_);
++      this.m_62557_((int) getIndex(p_62565_, p_62566_, p_62567_), p_62568_);
++   }
++
++   private static long getIndex(long p_62572_, long p_62573_, long p_62574_) {
+       return p_62573_ << 8 | p_62574_ << 4 | p_62572_;
     }
  
-    private static int m_6406_(int p_62572_, int p_62573_, int p_62574_) {

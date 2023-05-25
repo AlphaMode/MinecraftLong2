@@ -1,13 +1,25 @@
 --- a/net/minecraft/client/multiplayer/ClientPacketListener.java
 +++ b/net/minecraft/client/multiplayer/ClientPacketListener.java
-@@ -669,15 +_,15 @@
+@@ -669,15 +_,27 @@
  
     public void m_183388_(ClientboundLevelChunkWithLightPacket p_194241_) {
        PacketUtils.m_131363_(p_194241_, this, this.f_104888_);
 -      this.m_194198_(p_194241_.m_195717_(), p_194241_.m_195718_(), p_194241_.m_195719_());
 -      this.m_194202_(p_194241_.m_195717_(), p_194241_.m_195718_(), p_194241_.m_195720_());
 +      this.updateLevelChunk(p_194241_.getX(), p_194241_.getZ(), p_194241_.m_195719_());
-+      this.queueLightUpdate(p_194241_.getX(), p_194241_.getZ(), p_194241_.m_195720_());
++      final long chunkX = p_194241_.getX();
++      final long chunkZ = p_194241_.getZ();
++      final LevelChunk chunk = (LevelChunk)this.f_104889_.getChunk(chunkX, chunkZ, net.minecraft.world.level.chunk.ChunkStatus.f_62326_, false);
++      if (chunk == null) {
++         // failed to load
++         return;
++      }
++      // load in light data from packet immediately
++      this.applyLightData(chunkX, chunkZ, p_194241_.m_195720_());
++      this.f_104889_.m_7726_().m_7827_().clientChunkLoad(new ChunkPos(chunkX, chunkZ), chunk);
++
++      // we need this for the update chunk status call, so that it can tell starlight what sections are empty and such
++      this.enableChunkLight(chunk, chunkX, chunkZ);
     }
  
     public void m_274374_(ClientboundChunksBiomesPacket p_275437_) {
@@ -60,7 +72,7 @@
        LevelLightEngine levellightengine = this.f_104889_.m_7726_().m_7827_();
        LevelChunkSection[] alevelchunksection = p_194213_.m_7103_();
        ChunkPos chunkpos = p_194213_.m_7697_();
-@@ -719,20 +_,20 @@
+@@ -719,33 +_,33 @@
  
        for(int i = 0; i < alevelchunksection.length; ++i) {
           LevelChunkSection levelchunksection = alevelchunksection[i];
@@ -84,11 +96,12 @@
 +      long j = p_105014_.getZ();
        ClientChunkCache clientchunkcache = this.f_104889_.m_7726_();
 -      clientchunkcache.m_104455_(i, j);
+-      this.m_194252_(p_105014_);
 +      clientchunkcache.drop(i, j);
-       this.m_194252_(p_105014_);
++      this.f_104889_.m_7726_().m_7827_().clientRemoveLightData(new ChunkPos(p_105014_.getX(), p_105014_.getZ()));
     }
  
-@@ -740,12 +_,12 @@
+    private void m_194252_(ClientboundForgetLevelChunkPacket p_194253_) {
        this.f_104889_.m_194171_(() -> {
           LevelLightEngine levellightengine = this.f_104889_.m_5518_();
  
@@ -114,7 +127,7 @@
        worldborder.m_61952_(p_171767_.m_178893_());
        worldborder.m_61944_(p_171767_.m_178892_());
     }
-@@ -2206,25 +_,25 @@
+@@ -2206,25 +_,23 @@
  
     public void m_183514_(ClientboundLightUpdatePacket p_194243_) {
        PacketUtils.m_131363_(p_194243_, this, this.f_104888_);
@@ -123,10 +136,10 @@
 +      long i = p_194243_.getX();
 +      long j = p_194243_.getZ();
        ClientboundLightUpdatePacketData clientboundlightupdatepacketdata = p_194243_.m_195722_();
-       this.f_104889_.m_194171_(() -> {
+-      this.f_104889_.m_194171_(() -> {
 -         this.m_194248_(i, j, clientboundlightupdatepacketdata);
+-      });
 +         this.applyLightData(i, j, clientboundlightupdatepacketdata);
-       });
     }
  
 -   private void m_194248_(int p_194249_, int p_194250_, ClientboundLightUpdatePacketData p_194251_) {

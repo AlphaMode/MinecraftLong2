@@ -1,0 +1,96 @@
+--- a/net/minecraft/server/level/ChunkTaskPriorityQueue.java
++++ b/net/minecraft/server/level/ChunkTaskPriorityQueue.java
+@@ -16,12 +_,12 @@
+ 
+ public class ChunkTaskPriorityQueue<T> {
+    public static final int f_140508_ = ChunkMap.f_140127_ + 2;
+-   private final List<Long2ObjectLinkedOpenHashMap<List<Optional<T>>>> f_140509_ = IntStream.range(0, f_140508_).mapToObj((p_140520_) -> {
+-      return new Long2ObjectLinkedOpenHashMap<List<Optional<T>>>();
++   private final List<it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, List<Optional<T>>>> f_140509_ = IntStream.range(0, f_140508_).mapToObj((p_140520_) -> {
++      return new it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, List<Optional<T>>>();
+    }).collect(Collectors.toList());
+    private volatile int f_140510_ = f_140508_;
+    private final String f_140511_;
+-   private final LongSet f_140512_ = new LongOpenHashSet();
++   private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> f_140512_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+    private final int f_140513_;
+ 
+    public ChunkTaskPriorityQueue(String p_140516_, int p_140517_) {
+@@ -31,8 +_,8 @@
+ 
+    protected void m_140521_(int p_140522_, ChunkPos p_140523_, int p_140524_) {
+       if (p_140522_ < f_140508_) {
+-         Long2ObjectLinkedOpenHashMap<List<Optional<T>>> long2objectlinkedopenhashmap = this.f_140509_.get(p_140522_);
+-         List<Optional<T>> list = long2objectlinkedopenhashmap.remove(p_140523_.m_45588_());
++         it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, List<Optional<T>>> long2objectlinkedopenhashmap = this.f_140509_.get(p_140522_);
++         List<Optional<T>> list = long2objectlinkedopenhashmap.remove(p_140523_);
+          if (p_140522_ == this.f_140510_) {
+             while(this.m_201908_() && this.f_140509_.get(this.f_140510_).isEmpty()) {
+                ++this.f_140510_;
+@@ -40,7 +_,7 @@
+          }
+ 
+          if (list != null && !list.isEmpty()) {
+-            this.f_140509_.get(p_140524_).computeIfAbsent(p_140523_.m_45588_(), (p_140547_) -> {
++            this.f_140509_.get(p_140524_).computeIfAbsent(p_140523_, (p_140547_) -> {
+                return Lists.newArrayList();
+             }).addAll(list);
+             this.f_140510_ = Math.min(this.f_140510_, p_140524_);
+@@ -49,15 +_,15 @@
+       }
+    }
+ 
+-   protected void m_140535_(Optional<T> p_140536_, long p_140537_, int p_140538_) {
++   protected void submit(Optional<T> p_140536_, ChunkPos p_140537_, int p_140538_) {
+       this.f_140509_.get(p_140538_).computeIfAbsent(p_140537_, (p_140545_) -> {
+          return Lists.newArrayList();
+       }).add(p_140536_);
+       this.f_140510_ = Math.min(this.f_140510_, p_140538_);
+    }
+ 
+-   protected void m_140530_(long p_140531_, boolean p_140532_) {
+-      for(Long2ObjectLinkedOpenHashMap<List<Optional<T>>> long2objectlinkedopenhashmap : this.f_140509_) {
++   protected void release(ChunkPos p_140531_, boolean p_140532_) {
++      for(it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, List<Optional<T>>> long2objectlinkedopenhashmap : this.f_140509_) {
+          List<Optional<T>> list = long2objectlinkedopenhashmap.get(p_140531_);
+          if (list != null) {
+             if (p_140532_) {
+@@ -81,7 +_,7 @@
+       this.f_140512_.remove(p_140531_);
+    }
+ 
+-   private Runnable m_140525_(long p_140526_) {
++   private Runnable acquire(ChunkPos p_140526_) {
+       return () -> {
+          this.f_140512_.add(p_140526_);
+       };
+@@ -95,8 +_,8 @@
+          return null;
+       } else {
+          int i = this.f_140510_;
+-         Long2ObjectLinkedOpenHashMap<List<Optional<T>>> long2objectlinkedopenhashmap = this.f_140509_.get(i);
+-         long j = long2objectlinkedopenhashmap.firstLongKey();
++         it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, List<Optional<T>>> long2objectlinkedopenhashmap = this.f_140509_.get(i);
++         ChunkPos j = long2objectlinkedopenhashmap.firstKey();
+ 
+          List<Optional<T>> list;
+          for(list = long2objectlinkedopenhashmap.removeFirst(); this.m_201908_() && this.f_140509_.get(this.f_140510_).isEmpty(); ++this.f_140510_) {
+@@ -104,7 +_,7 @@
+ 
+          return list.stream().map((p_140529_) -> {
+             return p_140529_.<Either<T,Runnable>>map(Either::left).orElseGet(() -> {
+-               return Either.right(this.m_140525_(j));
++               return Either.right(this.acquire(j));
+             });
+          });
+       }
+@@ -119,7 +_,7 @@
+    }
+ 
+    @VisibleForTesting
+-   LongSet m_140539_() {
+-      return new LongOpenHashSet(this.f_140512_);
++   it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getAcquired() {
++      return new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(this.f_140512_);
+    }
+ }

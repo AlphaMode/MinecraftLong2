@@ -1,34 +1,56 @@
 --- a/net/minecraft/world/level/StructureManager.java
 +++ b/net/minecraft/world/level/StructureManager.java
-@@ -44,7 +_,7 @@
+@@ -44,13 +_,13 @@
     }
  
     public List<StructureStart> m_220477_(ChunkPos p_220478_, Predicate<Structure> p_220479_) {
 -      Map<Structure, LongSet> map = this.f_220460_.m_46819_(p_220478_.f_45578_, p_220478_.f_45579_, ChunkStatus.f_62316_).m_62769_();
-+      Map<Structure, LongSet> map = this.f_220460_.getChunk(p_220478_.f_45578_, p_220478_.f_45579_, ChunkStatus.f_62316_).m_62769_();
++      Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> map = this.f_220460_.getChunk(p_220478_.f_45578_, p_220478_.f_45579_, ChunkStatus.f_62316_).m_62769_();
        ImmutableList.Builder<StructureStart> builder = ImmutableList.builder();
  
-       for(Map.Entry<Structure, LongSet> entry : map.entrySet()) {
-@@ -58,7 +_,7 @@
+-      for(Map.Entry<Structure, LongSet> entry : map.entrySet()) {
++      for(Map.Entry<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> entry : map.entrySet()) {
+          Structure structure = entry.getKey();
+          if (p_220479_.test(structure)) {
+-            this.m_220480_(structure, entry.getValue(), builder::add);
++            this.fillStartsForStructure(structure, entry.getValue(), builder::add);
+          }
+       }
+ 
+@@ -58,16 +_,16 @@
     }
  
     public List<StructureStart> m_220504_(SectionPos p_220505_, Structure p_220506_) {
 -      LongSet longset = this.f_220460_.m_46819_(p_220505_.m_123170_(), p_220505_.m_123222_(), ChunkStatus.f_62316_).m_213649_(p_220506_);
-+      LongSet longset = this.f_220460_.getChunk(p_220505_.x(), p_220505_.z(), ChunkStatus.f_62316_).m_213649_(p_220506_);
++      it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = this.f_220460_.getChunk(p_220505_.x(), p_220505_.z(), ChunkStatus.f_62316_).getReferencesForStructure(p_220506_);
        ImmutableList.Builder<StructureStart> builder = ImmutableList.builder();
-       this.m_220480_(p_220506_, longset, builder::add);
+-      this.m_220480_(p_220506_, longset, builder::add);
++      this.fillStartsForStructure(p_220506_, longset, builder::add);
        return builder.build();
-@@ -66,8 +_,8 @@
+    }
  
-    public void m_220480_(Structure p_220481_, LongSet p_220482_, Consumer<StructureStart> p_220483_) {
-       for(long i : p_220482_) {
+-   public void m_220480_(Structure p_220481_, LongSet p_220482_, Consumer<StructureStart> p_220483_) {
+-      for(long i : p_220482_) {
 -         SectionPos sectionpos = SectionPos.m_123196_(new ChunkPos(i), this.f_220460_.m_151560_());
 -         StructureStart structurestart = this.m_220512_(sectionpos, p_220481_, this.f_220460_.m_46819_(sectionpos.m_123170_(), sectionpos.m_123222_(), ChunkStatus.f_62315_));
-+         SectionPos sectionpos = SectionPos.of(new ChunkPos(i), this.f_220460_.getMinSection());
++   public void fillStartsForStructure(Structure p_220481_, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> p_220482_, Consumer<StructureStart> p_220483_) {
++      for(ChunkPos i : p_220482_) {
++         SectionPos sectionpos = SectionPos.of(i, this.f_220460_.getMinSection());
 +         StructureStart structurestart = this.m_220512_(sectionpos, p_220481_, this.f_220460_.getChunk(sectionpos.x(), sectionpos.z(), ChunkStatus.f_62315_));
           if (structurestart != null && structurestart.m_73603_()) {
              p_220483_.accept(structurestart);
           }
+@@ -84,8 +_,8 @@
+       p_220520_.m_213792_(p_220518_, p_220519_);
+    }
+ 
+-   public void m_220507_(SectionPos p_220508_, Structure p_220509_, long p_220510_, StructureAccess p_220511_) {
+-      p_220511_.m_213843_(p_220509_, p_220510_);
++   public void addReferenceForStructure(SectionPos p_220508_, Structure p_220509_, ChunkPos p_220510_, StructureAccess p_220511_) {
++      p_220511_.addReferenceForStructure(p_220509_, p_220510_);
+    }
+ 
+    public boolean m_220467_() {
 @@ -94,7 +_,7 @@
  
     public StructureStart m_220494_(BlockPos p_220495_, Structure p_220496_) {
@@ -55,7 +77,8 @@
 +      return this.f_220460_.getChunk(sectionpos.x(), sectionpos.z(), ChunkStatus.f_62316_).m_187678_();
     }
  
-    public Map<Structure, LongSet> m_220522_(BlockPos p_220523_) {
+-   public Map<Structure, LongSet> m_220522_(BlockPos p_220523_) {
++   public Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> m_220522_(BlockPos p_220523_) {
        SectionPos sectionpos = SectionPos.m_123199_(p_220523_);
 -      return this.f_220460_.m_46819_(sectionpos.m_123170_(), sectionpos.m_123222_(), ChunkStatus.f_62316_).m_62769_();
 +      return this.f_220460_.getChunk(sectionpos.x(), sectionpos.z(), ChunkStatus.f_62316_).m_62769_();

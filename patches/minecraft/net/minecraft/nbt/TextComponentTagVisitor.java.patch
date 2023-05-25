@@ -1,0 +1,26 @@
+--- a/net/minecraft/nbt/TextComponentTagVisitor.java
++++ b/net/minecraft/nbt/TextComponentTagVisitor.java
+@@ -102,6 +_,23 @@
+       this.f_178248_ = mutablecomponent;
+    }
+ 
++   public void visitLongByteArray(me.alphamode.mclong.nbt.LongByteArrayTag p_178256_) {
++      Component component = Component.m_237113_("B").m_130940_(f_178235_);
++      MutableComponent mutablecomponent = Component.m_237113_("[").m_7220_(component).m_130946_(";");
++      it.unimi.dsi.fastutil.longs.Long2ByteMap abyte = p_178256_.getData();
++
++      abyte.forEach((aLong, aByte) -> {
++         MutableComponent mutablecomponent1 = Component.m_237113_(String.valueOf((int)aByte)).m_130940_(f_178234_);
++         mutablecomponent.m_130946_(" ").m_7220_(mutablecomponent1).m_7220_(component);
++         if (aLong != abyte.size() - 1) {
++            mutablecomponent.m_130946_(f_178238_);
++         }
++      });
++
++      mutablecomponent.m_130946_("]");
++      this.f_178248_ = mutablecomponent;
++   }
++
+    public void m_142251_(IntArrayTag p_178268_) {
+       Component component = Component.m_237113_("I").m_130940_(f_178235_);
+       MutableComponent mutablecomponent = Component.m_237113_("[").m_7220_(component).m_130946_(";");

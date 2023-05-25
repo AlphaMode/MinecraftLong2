@@ -1,5 +1,19 @@
 --- a/net/minecraft/world/entity/ai/village/poi/PoiManager.java
 +++ b/net/minecraft/world/entity/ai/village/poi/PoiManager.java
+@@ -47,11 +_,11 @@
+    }
+ 
+    public void m_217919_(BlockPos p_217920_, Holder<PoiType> p_217921_) {
+-      this.m_63827_(SectionPos.m_175568_(p_217920_)).m_218021_(p_217920_, p_217921_);
++      this.getOrCreate(SectionPos.m_123199_(p_217920_)).m_218021_(p_217920_, p_217921_);
+    }
+ 
+    public void m_27079_(BlockPos p_27080_) {
+-      this.m_63823_(SectionPos.m_175568_(p_27080_)).ifPresent((p_148657_) -> {
++      this.getOrLoad(SectionPos.m_123199_(p_27080_)).ifPresent((p_148657_) -> {
+          p_148657_.m_27279_(p_27080_);
+       });
+    }
 @@ -72,21 +_,21 @@
           return this.m_27117_(p_27167_, p_217938_, p_27170_);
        }).filter((p_217971_) -> {
@@ -22,7 +36,7 @@
 -      return IntStream.range(this.f_156618_.m_151560_(), this.f_156618_.m_151561_()).boxed().map((p_217886_) -> {
 -         return this.m_63823_(SectionPos.m_123196_(p_27119_, p_217886_).m_123252_());
 +      return java.util.stream.LongStream.range(this.f_156618_.getMinSection(), this.f_156618_.getMaxSection()).boxed().map((p_217886_) -> {
-+         return this.m_63823_(SectionPos.of(p_27119_, p_217886_).m_123252_());
++         return this.getOrLoad(SectionPos.of(p_27119_, p_217886_));
        }).filter(Optional::isPresent).flatMap((p_217942_) -> {
           return p_217942_.get().m_27304_(p_27118_, p_27120_);
        });
@@ -60,15 +74,89 @@
        }));
     }
  
-@@ -208,7 +_,7 @@
+@@ -151,7 +_,7 @@
+    }
+ 
+    public boolean m_27154_(BlockPos p_27155_) {
+-      return this.m_63823_(SectionPos.m_175568_(p_27155_)).map((p_217993_) -> {
++      return this.getOrLoad(SectionPos.m_123199_(p_27155_)).map((p_217993_) -> {
+          return p_217993_.m_27317_(p_27155_);
+       }).orElseThrow(() -> {
+          return Util.m_137570_(new IllegalStateException("POI never registered at " + p_27155_));
+@@ -159,13 +_,13 @@
+    }
+ 
+    public boolean m_27091_(BlockPos p_27092_, Predicate<Holder<PoiType>> p_27093_) {
+-      return this.m_63823_(SectionPos.m_175568_(p_27092_)).map((p_217925_) -> {
++      return this.getOrLoad(SectionPos.m_123199_(p_27092_)).map((p_217925_) -> {
+          return p_217925_.m_27288_(p_27092_, p_27093_);
+       }).orElse(false);
+    }
+ 
+    public Optional<Holder<PoiType>> m_27177_(BlockPos p_27178_) {
+-      return this.m_63823_(SectionPos.m_175568_(p_27178_)).flatMap((p_217974_) -> {
++      return this.getOrLoad(SectionPos.m_123199_(p_27178_)).flatMap((p_217974_) -> {
+          return p_217974_.m_27319_(p_27178_);
+       });
+    }
+@@ -174,18 +_,18 @@
+    @Deprecated
+    @VisibleForDebug
+    public int m_148653_(BlockPos p_148654_) {
+-      return this.m_63823_(SectionPos.m_175568_(p_148654_)).map((p_217912_) -> {
++      return this.getOrLoad(SectionPos.m_123199_(p_148654_)).map((p_217912_) -> {
+          return p_217912_.m_148682_(p_148654_);
+       }).orElse(0);
+    }
+ 
+    public int m_27098_(SectionPos p_27099_) {
+       this.f_27029_.m_27203_();
+-      return this.f_27029_.m_6172_(p_27099_.m_123252_());
++      return this.f_27029_.getLevel(p_27099_);
+    }
+ 
+-   boolean m_27197_(long p_27198_) {
+-      Optional<PoiSection> optional = this.m_63818_(p_27198_);
++   boolean isVillageCenter(SectionPos p_27198_) {
++      Optional<PoiSection> optional = this.get(p_27198_);
+       return optional == null ? false : optional.map((p_217883_) -> {
+          return p_217883_.m_27304_((p_217927_) -> {
+             return p_217927_.m_203656_(PoiTypeTags.f_215876_);
+@@ -198,18 +_,18 @@
+       this.f_27029_.m_27203_();
+    }
+ 
+-   protected void m_5838_(long p_27036_) {
+-      super.m_5838_(p_27036_);
+-      this.f_27029_.m_8288_(p_27036_, this.f_27029_.m_7409_(p_27036_), false);
++   protected void setDirty(SectionPos p_27036_) {
++      super.setDirty(p_27036_);
++      this.f_27029_.update(p_27036_, this.f_27029_.getLevelFromSource(p_27036_), false);
+    }
+ 
+-   protected void m_5839_(long p_27145_) {
+-      this.f_27029_.m_8288_(p_27145_, this.f_27029_.m_7409_(p_27145_), false);
++   protected void onSectionLoad(SectionPos p_27145_) {
++      this.f_27029_.update(p_27145_, this.f_27029_.getLevelFromSource(p_27145_), false);
     }
  
     public void m_27047_(ChunkPos p_27048_, LevelChunkSection p_27049_) {
 -      SectionPos sectionpos = SectionPos.m_123196_(p_27048_, SectionPos.m_123171_(p_27049_.m_63017_()));
+-      Util.m_137521_(this.m_63823_(sectionpos.m_123252_()), (p_217898_) -> {
 +      SectionPos sectionpos = SectionPos.of(p_27048_, SectionPos.blockToSectionCoord(p_27049_.bottomBlockY()));
-       Util.m_137521_(this.m_63823_(sectionpos.m_123252_()), (p_217898_) -> {
++      Util.m_137521_(this.getOrLoad(sectionpos), (p_217898_) -> {
           p_217898_.m_27302_((p_217967_) -> {
              if (m_27060_(p_27049_)) {
+                this.m_27069_(p_27049_, sectionpos, p_217967_);
+@@ -218,7 +_,7 @@
+          });
+       }, () -> {
+          if (m_27060_(p_27049_)) {
+-            PoiSection poisection = this.m_63827_(sectionpos.m_123252_());
++            PoiSection poisection = this.getOrCreate(sectionpos);
+             this.m_27069_(p_27049_, sectionpos, poisection::m_218021_);
+          }
+ 
 @@ -231,7 +_,7 @@
  
     private void m_27069_(LevelChunkSection p_27070_, SectionPos p_27071_, BiConsumer<BlockPos, Holder<PoiType>> p_27072_) {
@@ -78,16 +166,18 @@
           PoiTypes.m_218075_(blockstate).ifPresent((p_217931_) -> {
              p_27072_.accept(p_217902_, p_217931_);
           });
-@@ -239,7 +_,7 @@
+@@ -239,8 +_,8 @@
     }
  
     public void m_27056_(LevelReader p_27057_, BlockPos p_27058_, int p_27059_) {
 -      SectionPos.m_175557_(new ChunkPos(p_27058_), Math.floorDiv(p_27059_, 16), this.f_156618_.m_151560_(), this.f_156618_.m_151561_()).map((p_217979_) -> {
+-         return Pair.of(p_217979_, this.m_63823_(p_217979_.m_123252_()));
 +      SectionPos.aroundChunk(new ChunkPos(p_27058_), Math.floorDiv(p_27059_, 16), this.f_156618_.getMinSection(), this.f_156618_.getMaxSection()).map((p_217979_) -> {
-          return Pair.of(p_217979_, this.m_63823_(p_217979_.m_123252_()));
++         return Pair.of(p_217979_, this.getOrLoad(p_217979_));
        }).filter((p_217963_) -> {
           return !p_217963_.getSecond().map(PoiSection::m_27272_).orElse(false);
-@@ -248,7 +_,7 @@
+       }).map((p_217891_) -> {
+@@ -248,29 +_,29 @@
        }).filter((p_217961_) -> {
           return this.f_27030_.add(p_217961_.m_45588_());
        }).forEach((p_217889_) -> {
@@ -96,3 +186,36 @@
        });
     }
  
+    final class DistanceTracker extends SectionTracker {
+-      private final Long2ByteMap f_27200_ = new Long2ByteOpenHashMap();
++      private final it.unimi.dsi.fastutil.objects.Object2ByteMap<net.minecraft.core.SectionPos> f_27200_ = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>();
+ 
+       protected DistanceTracker() {
+          super(7, 16, 256);
+          this.f_27200_.defaultReturnValue((byte)7);
+       }
+ 
+-      protected int m_7409_(long p_27208_) {
+-         return PoiManager.this.m_27197_(p_27208_) ? 0 : 7;
+-      }
+-
+-      protected int m_6172_(long p_27210_) {
+-         return this.f_27200_.get(p_27210_);
+-      }
+-
+-      protected void m_7351_(long p_27205_, int p_27206_) {
++      protected int getLevelFromSource(SectionPos p_27208_) {
++         return PoiManager.this.isVillageCenter(p_27208_) ? 0 : 7;
++      }
++
++      protected int getLevel(net.minecraft.core.SectionPos p_27210_) {
++         return this.f_27200_.getByte(p_27210_);
++      }
++
++      protected void setLevel(net.minecraft.core.SectionPos p_27205_, int p_27206_) {
+          if (p_27206_ > 6) {
+-            this.f_27200_.remove(p_27205_);
++            this.f_27200_.removeByte(p_27205_);
+          } else {
+             this.f_27200_.put(p_27205_, (byte)p_27206_);
+          }

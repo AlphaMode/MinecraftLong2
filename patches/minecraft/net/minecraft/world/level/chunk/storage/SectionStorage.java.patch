@@ -1,16 +1,81 @@
 --- a/net/minecraft/world/level/chunk/storage/SectionStorage.java
 +++ b/net/minecraft/world/level/chunk/storage/SectionStorage.java
-@@ -94,8 +_,8 @@
+@@ -38,8 +_,8 @@
+    private static final Logger f_63772_ = LogUtils.getLogger();
+    private static final String f_156617_ = "Sections";
+    private final IOWorker f_63773_;
+-   private final Long2ObjectMap<Optional<R>> f_63774_ = new Long2ObjectOpenHashMap<>();
+-   private final LongLinkedOpenHashSet f_63775_ = new LongLinkedOpenHashSet();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<SectionPos, Optional<R>> f_63774_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<SectionPos> f_63775_ = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<>();
+    private final Function<Runnable, Codec<R>> f_63776_;
+    private final Function<Runnable, R> f_63777_;
+    private final DataFixer f_63778_;
+@@ -59,7 +_,7 @@
+ 
+    protected void m_6202_(BooleanSupplier p_63812_) {
+       while(this.m_202164_() && p_63812_.getAsBoolean()) {
+-         ChunkPos chunkpos = SectionPos.m_123184_(this.f_63775_.firstLong()).m_123251_();
++         ChunkPos chunkpos = this.f_63775_.first().m_123251_();
+          this.m_63825_(chunkpos);
+       }
+ 
+@@ -70,20 +_,20 @@
     }
  
-    protected boolean m_156630_(long p_156631_) {
+    @Nullable
+-   protected Optional<R> m_63818_(long p_63819_) {
++   protected Optional<R> get(SectionPos p_63819_) {
+       return this.f_63774_.get(p_63819_);
+    }
+ 
+-   protected Optional<R> m_63823_(long p_63824_) {
+-      if (this.m_156630_(p_63824_)) {
++   protected Optional<R> getOrLoad(SectionPos p_63824_) {
++      if (this.outsideStoredRange(p_63824_)) {
+          return Optional.empty();
+       } else {
+-         Optional<R> optional = this.m_63818_(p_63824_);
++         Optional<R> optional = this.get(p_63824_);
+          if (optional != null) {
+             return optional;
+          } else {
+-            this.m_63814_(SectionPos.m_123184_(p_63824_).m_123251_());
+-            optional = this.m_63818_(p_63824_);
++            this.m_63814_(p_63824_.m_123251_());
++            optional = this.get(p_63824_);
+             if (optional == null) {
+                throw (IllegalStateException)Util.m_137570_(new IllegalStateException());
+             } else {
+@@ -93,21 +_,21 @@
+       }
+    }
+ 
+-   protected boolean m_156630_(long p_156631_) {
 -      int i = SectionPos.m_123223_(SectionPos.m_123225_(p_156631_));
 -      return this.f_156618_.m_151562_(i);
-+      long i = SectionPos.sectionToBlockCoord(SectionPos.y(p_156631_));
++   protected boolean outsideStoredRange(SectionPos p_156631_) {
++      long i = SectionPos.sectionToBlockCoord(p_156631_.y());
 +      return this.f_156618_.isOutsideBuildHeight(i);
     }
  
-    protected R m_63827_(long p_63828_) {
+-   protected R m_63827_(long p_63828_) {
+-      if (this.m_156630_(p_63828_)) {
++   protected R getOrCreate(SectionPos p_63828_) {
++      if (this.outsideStoredRange(p_63828_)) {
+          throw (IllegalArgumentException)Util.m_137570_(new IllegalArgumentException("sectionPos out of bounds"));
+       } else {
+-         Optional<R> optional = this.m_63823_(p_63828_);
++         Optional<R> optional = this.getOrLoad(p_63828_);
+          if (optional.isPresent()) {
+             return optional.get();
+          } else {
+             R r = this.f_63777_.apply(() -> {
+-               this.m_5838_(p_63828_);
++               this.setDirty(p_63828_);
+             });
+             this.f_63774_.put(p_63828_, Optional.of(r));
+             return r;
 @@ -134,8 +_,8 @@
  
     private <T> void m_63801_(ChunkPos p_63802_, DynamicOps<T> p_63803_, @Nullable T p_63804_) {
@@ -18,11 +83,11 @@
 -         for(int i = this.f_156618_.m_151560_(); i < this.f_156618_.m_151561_(); ++i) {
 -            this.f_63774_.put(m_156627_(p_63802_, i), Optional.empty());
 +         for(long i = this.f_156618_.getMinSection(); i < this.f_156618_.getMaxSection(); ++i) {
-+            this.f_63774_.put(getKey(p_63802_, i), Optional.empty());
++            this.f_63774_.put(SectionPos.of(p_63802_, i), Optional.empty());
           }
        } else {
           Dynamic<T> dynamic1 = new Dynamic<>(p_63803_, p_63804_);
-@@ -145,9 +_,9 @@
+@@ -145,18 +_,18 @@
           Dynamic<T> dynamic = this.f_63779_.m_264080_(this.f_63778_, dynamic1, j, k);
           OptionalDynamic<T> optionaldynamic = dynamic.get("Sections");
  
@@ -30,11 +95,23 @@
 -            long i1 = m_156627_(p_63802_, l);
 -            Optional<R> optional = optionaldynamic.get(Integer.toString(l)).result().flatMap((p_223519_) -> {
 +         for(long l = this.f_156618_.getMinSection(); l < this.f_156618_.getMaxSection(); ++l) {
-+            long i1 = getKey(p_63802_, l);
++            SectionPos i1 = SectionPos.of(p_63802_, l);
 +            Optional<R> optional = optionaldynamic.get(java.lang.Long.toString(l)).result().flatMap((p_223519_) -> {
                 return this.f_63776_.apply(() -> {
-                   this.m_5838_(i1);
+-                  this.m_5838_(i1);
++                  this.setDirty(i1);
                 }).parse(p_223519_).resultOrPartial(f_63772_::error);
+             });
+             this.f_63774_.put(i1, optional);
+             optional.ifPresent((p_223523_) -> {
+-               this.m_5839_(i1);
++               this.onSectionLoad(i1);
+                if (flag) {
+-                  this.m_5838_(i1);
++                  this.setDirty(i1);
+                }
+ 
+             });
 @@ -180,15 +_,15 @@
     private <T> Dynamic<T> m_63798_(ChunkPos p_63799_, DynamicOps<T> p_63800_) {
        Map<T, T> map = Maps.newHashMap();
@@ -42,29 +119,48 @@
 -      for(int i = this.f_156618_.m_151560_(); i < this.f_156618_.m_151561_(); ++i) {
 -         long j = m_156627_(p_63799_, i);
 +      for(long i = this.f_156618_.getMinSection(); i < this.f_156618_.getMaxSection(); ++i) {
-+         long j = getKey(p_63799_, i);
++         SectionPos j = SectionPos.of(p_63799_, i);
           this.f_63775_.remove(j);
           Optional<R> optional = this.f_63774_.get(j);
           if (optional != null && optional.isPresent()) {
              DataResult<T> dataresult = this.f_63776_.apply(() -> {
-                this.m_5838_(j);
+-               this.m_5838_(j);
++               this.setDirty(j);
              }).encodeStart(p_63800_, optional.get());
 -            String s = Integer.toString(i);
 +            String s = java.lang.Long.toString(i);
              dataresult.resultOrPartial(f_63772_::error).ifPresent((p_223531_) -> {
                 map.put(p_63800_.createString(s), p_223531_);
              });
-@@ -198,8 +_,8 @@
+@@ -198,19 +_,19 @@
        return new Dynamic<>(p_63800_, p_63800_.createMap(ImmutableMap.of(p_63800_.createString("Sections"), p_63800_.createMap(map), p_63800_.createString("DataVersion"), p_63800_.createInt(SharedConstants.m_183709_().m_183476_().m_193006_()))));
     }
  
 -   private static long m_156627_(ChunkPos p_156628_, int p_156629_) {
 -      return SectionPos.m_123209_(p_156628_.f_45578_, p_156629_, p_156628_.f_45579_);
+-   }
+-
+-   protected void m_5839_(long p_63813_) {
+-   }
+-
+-   protected void m_5838_(long p_63788_) {
 +   private static long getKey(ChunkPos p_156628_, long p_156629_) {
 +      return SectionPos.asLong(p_156628_.f_45578_, p_156629_, p_156628_.f_45579_);
++   }
++
++   protected void onSectionLoad(SectionPos p_63813_) {
++   }
++
++   protected void setDirty(SectionPos p_63788_) {
+       Optional<R> optional = this.f_63774_.get(p_63788_);
+       if (optional != null && optional.isPresent()) {
+          this.f_63775_.add(p_63788_);
+       } else {
+-         f_63772_.warn("No data for position: {}", (Object)SectionPos.m_123184_(p_63788_));
++         f_63772_.warn("No data for position: {}", p_63788_);
+       }
     }
  
-    protected void m_5839_(long p_63813_) {
 @@ -220,8 +_,8 @@
  
     public void m_63796_(ChunkPos p_63797_) {

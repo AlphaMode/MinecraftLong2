@@ -1,0 +1,24 @@
+--- a/net/minecraft/nbt/SnbtPrinterTagVisitor.java
++++ b/net/minecraft/nbt/SnbtPrinterTagVisitor.java
+@@ -93,6 +_,21 @@
+       this.f_178103_ = stringbuilder.toString();
+    }
+ 
++   public void visitLongByteArray(me.alphamode.mclong.nbt.LongByteArrayTag p_178116_) {
++      StringBuilder stringbuilder = (new StringBuilder("[")).append("B").append(";");
++      it.unimi.dsi.fastutil.longs.Long2ByteMap abyte = p_178116_.getData();
++
++      abyte.forEach((aLong, aByte) -> {
++         stringbuilder.append(" ").append((int)aByte).append("B");
++         if (aLong != abyte.size() - 1) {
++            stringbuilder.append(f_178092_);
++         }
++      });
++
++      stringbuilder.append("]");
++      this.f_178103_ = stringbuilder.toString();
++   }
++
+    public void m_142251_(IntArrayTag p_178128_) {
+       StringBuilder stringbuilder = (new StringBuilder("[")).append("I").append(";");
+       int[] aint = p_178128_.m_128648_();

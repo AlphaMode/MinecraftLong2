@@ -1,0 +1,129 @@
+--- a/net/minecraft/server/level/ChunkTaskPriorityQueueSorter.java
++++ b/net/minecraft/server/level/ChunkTaskPriorityQueueSorter.java
+@@ -41,11 +_,11 @@
+       return this.f_140552_.m_201938_() || this.f_140550_.values().stream().anyMatch(ChunkTaskPriorityQueue::m_201908_);
+    }
+ 
+-   public static <T> ChunkTaskPriorityQueueSorter.Message<T> m_143181_(Function<ProcessorHandle<Unit>, T> p_143182_, long p_143183_, IntSupplier p_143184_) {
++   public static <T> ChunkTaskPriorityQueueSorter.Message<T> message(Function<ProcessorHandle<Unit>, T> p_143182_, ChunkPos p_143183_, IntSupplier p_143184_) {
+       return new ChunkTaskPriorityQueueSorter.Message<>(p_143182_, p_143183_, p_143184_);
+    }
+ 
+-   public static ChunkTaskPriorityQueueSorter.Message<Runnable> m_140624_(Runnable p_140625_, long p_140626_, IntSupplier p_140627_) {
++   public static ChunkTaskPriorityQueueSorter.Message<Runnable> message(Runnable p_140625_, ChunkPos p_140626_, IntSupplier p_140627_) {
+       return new ChunkTaskPriorityQueueSorter.Message<>((p_140634_) -> {
+          return () -> {
+             p_140625_.run();
+@@ -55,14 +_,14 @@
+    }
+ 
+    public static ChunkTaskPriorityQueueSorter.Message<Runnable> m_140642_(ChunkHolder p_140643_, Runnable p_140644_) {
+-      return m_140624_(p_140644_, p_140643_.m_140092_().m_45588_(), p_140643_::m_140094_);
++      return message(p_140644_, p_140643_.m_140092_(), p_140643_::m_140094_);
+    }
+ 
+    public static <T> ChunkTaskPriorityQueueSorter.Message<T> m_143156_(ChunkHolder p_143157_, Function<ProcessorHandle<Unit>, T> p_143158_) {
+-      return m_143181_(p_143158_, p_143157_.m_140092_().m_45588_(), p_143157_::m_140094_);
++      return message(p_143158_, p_143157_.m_140092_(), p_143157_::m_140094_);
+    }
+ 
+-   public static ChunkTaskPriorityQueueSorter.Release m_140628_(Runnable p_140629_, long p_140630_, boolean p_140631_) {
++   public static ChunkTaskPriorityQueueSorter.Release release(Runnable p_140629_, ChunkPos p_140630_, boolean p_140631_) {
+       return new ChunkTaskPriorityQueueSorter.Release(p_140629_, p_140630_, p_140631_);
+    }
+ 
+@@ -71,7 +_,7 @@
+          return new StrictQueue.IntRunnable(0, () -> {
+             this.m_140652_(p_140605_);
+             p_140610_.m_6937_(ProcessorHandle.m_18714_("chunk priority sorter around " + p_140605_.m_7326_(), (p_143176_) -> {
+-               this.m_140589_(p_140605_, p_143176_.f_140664_, p_143176_.f_140665_, p_143176_.f_140666_, p_140606_);
++               this.submit(p_140605_, p_143176_.f_140664_, p_143176_.f_140665_, p_143176_.f_140666_, p_140606_);
+             }));
+          });
+       }).join();
+@@ -81,26 +_,26 @@
+       return this.f_140552_.<ProcessorHandle<ChunkTaskPriorityQueueSorter.Release>>m_18720_((p_140581_) -> {
+          return new StrictQueue.IntRunnable(0, () -> {
+             p_140581_.m_6937_(ProcessorHandle.m_18714_("chunk priority sorter around " + p_140568_.m_7326_(), (p_143165_) -> {
+-               this.m_140569_(p_140568_, p_143165_.f_140683_, p_143165_.f_140682_, p_143165_.f_140684_);
++               this.release(p_140568_, p_143165_.f_140683_, p_143165_.f_140682_, p_143165_.f_140684_);
+             }));
+          });
+       }).join();
+    }
+ 
+-   public void m_6250_(ChunkPos p_140616_, IntSupplier p_140617_, int p_140618_, IntConsumer p_140619_) {
++   public void onLevelChange(net.minecraft.core.SectionPos p_140616_, IntSupplier p_140617_, int p_140618_, IntConsumer p_140619_) {
+       this.f_140552_.m_6937_(new StrictQueue.IntRunnable(0, () -> {
+          int i = p_140617_.getAsInt();
+          this.f_140550_.values().forEach((p_143155_) -> {
+-            p_143155_.m_140521_(i, p_140616_, p_140618_);
++            p_143155_.m_140521_(i, p_140616_.m_123251_(), p_140618_);
+          });
+          p_140619_.accept(p_140618_);
+       }));
+    }
+ 
+-   private <T> void m_140569_(ProcessorHandle<T> p_140570_, long p_140571_, Runnable p_140572_, boolean p_140573_) {
++   private <T> void release(ProcessorHandle<T> p_140570_, ChunkPos p_140571_, Runnable p_140572_, boolean p_140573_) {
+       this.f_140552_.m_6937_(new StrictQueue.IntRunnable(1, () -> {
+          ChunkTaskPriorityQueue<Function<ProcessorHandle<Unit>, T>> chunktaskpriorityqueue = this.m_140652_(p_140570_);
+-         chunktaskpriorityqueue.m_140530_(p_140571_, p_140573_);
++         chunktaskpriorityqueue.release(p_140571_, p_140573_);
+          if (this.f_140551_.remove(p_140570_)) {
+             this.m_140645_(chunktaskpriorityqueue, p_140570_);
+          }
+@@ -109,13 +_,13 @@
+       }));
+    }
+ 
+-   private <T> void m_140589_(ProcessorHandle<T> p_140590_, Function<ProcessorHandle<Unit>, T> p_140591_, long p_140592_, IntSupplier p_140593_, boolean p_140594_) {
++   private <T> void submit(ProcessorHandle<T> p_140590_, Function<ProcessorHandle<Unit>, T> p_140591_, ChunkPos p_140592_, IntSupplier p_140593_, boolean p_140594_) {
+       this.f_140552_.m_6937_(new StrictQueue.IntRunnable(2, () -> {
+          ChunkTaskPriorityQueue<Function<ProcessorHandle<Unit>, T>> chunktaskpriorityqueue = this.m_140652_(p_140590_);
+          int i = p_140593_.getAsInt();
+-         chunktaskpriorityqueue.m_140535_(Optional.of(p_140591_), p_140592_, i);
++         chunktaskpriorityqueue.submit(Optional.of(p_140591_), p_140592_, i);
+          if (p_140594_) {
+-            chunktaskpriorityqueue.m_140535_(Optional.empty(), p_140592_, i);
++            chunktaskpriorityqueue.submit(Optional.empty(), p_140592_, i);
+          }
+ 
+          if (this.f_140551_.remove(p_140590_)) {
+@@ -158,8 +_,8 @@
+    @VisibleForTesting
+    public String m_140558_() {
+       return (String)this.f_140550_.entrySet().stream().map((p_212898_) -> {
+-         return p_212898_.getKey().m_7326_() + "=[" + (String)p_212898_.getValue().m_140539_().stream().map((p_212896_) -> {
+-            return p_212896_ + ":" + new ChunkPos(p_212896_);
++         return p_212898_.getKey().m_7326_() + "=[" + (String)p_212898_.getValue().getAcquired().stream().map((p_212896_) -> {
++            return p_212896_ + ":" + p_212896_;
+          }).collect(Collectors.joining(",")) + "]";
+       }).collect(Collectors.joining(",")) + ", s=" + this.f_140551_.size();
+    }
+@@ -170,10 +_,10 @@
+ 
+    public static final class Message<T> {
+       final Function<ProcessorHandle<Unit>, T> f_140664_;
+-      final long f_140665_;
++      final ChunkPos f_140665_;
+       final IntSupplier f_140666_;
+ 
+-      Message(Function<ProcessorHandle<Unit>, T> p_140668_, long p_140669_, IntSupplier p_140670_) {
++      Message(Function<ProcessorHandle<Unit>, T> p_140668_, ChunkPos p_140669_, IntSupplier p_140670_) {
+          this.f_140664_ = p_140668_;
+          this.f_140665_ = p_140669_;
+          this.f_140666_ = p_140670_;
+@@ -182,10 +_,10 @@
+ 
+    public static final class Release {
+       final Runnable f_140682_;
+-      final long f_140683_;
++      final ChunkPos f_140683_;
+       final boolean f_140684_;
+ 
+-      Release(Runnable p_140686_, long p_140687_, boolean p_140688_) {
++      Release(Runnable p_140686_, ChunkPos p_140687_, boolean p_140688_) {
+          this.f_140682_ = p_140686_;
+          this.f_140683_ = p_140687_;
+          this.f_140684_ = p_140688_;

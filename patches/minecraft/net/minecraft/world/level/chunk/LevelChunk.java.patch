@@ -18,6 +18,28 @@
  
        for(Heightmap.Types heightmap$types : Heightmap.Types.values()) {
           if (ChunkStatus.f_62326_.m_62500_().contains(heightmap$types)) {
+@@ -96,6 +_,9 @@
+       this.f_62791_ = p_196861_;
+       this.f_62784_ = p_196857_;
+       this.f_187943_ = p_196858_;
++
++      this.setBlockNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(f_62776_));
++      this.setSkyNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(f_62776_));
+    }
+ 
+    public LevelChunk(ServerLevel p_196850_, ProtoChunk p_196851_, @Nullable LevelChunk.PostLoadProcessor p_196852_) {
+@@ -122,6 +_,11 @@
+ 
+       this.m_8094_(p_196851_.m_6332_());
+       this.f_187603_ = true;
++
++      this.setBlockNibbles(p_196851_.getBlockNibbles());
++      this.setSkyNibbles(p_196851_.getSkyNibbles());
++      this.setSkyEmptinessMap(p_196851_.getSkyEmptinessMap());
++      this.setBlockEmptinessMap(p_196851_.getBlockEmptinessMap());
+    }
+ 
+    public TickContainerAccess<Block> m_183531_() {
 @@ -136,21 +_,21 @@
        return new ChunkAccess.TicksToSave(this.f_62784_, this.f_187943_);
     }
@@ -151,6 +173,15 @@
                 return null;
              } else {
                 if (!this.f_62776_.f_46443_) {
+@@ -339,7 +_,7 @@
+             return true;
+          } else {
+             ServerLevel serverlevel = (ServerLevel)level;
+-            return this.m_6708_().m_140114_(ChunkHolder.FullChunkStatus.TICKING) && serverlevel.m_143319_(ChunkPos.m_151388_(p_156411_));
++            return this.m_6708_().m_140114_(ChunkHolder.FullChunkStatus.TICKING) && serverlevel.areEntitiesLoaded(new ChunkPos(p_156411_));
+          }
+       }
+    }
 @@ -397,8 +_,8 @@
        if (block instanceof EntityBlock) {
           GameEventListener gameeventlistener = ((EntityBlock)block).m_214009_(p_223414_, p_223413_);
