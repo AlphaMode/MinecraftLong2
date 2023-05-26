@@ -1,5 +1,15 @@
 --- a/net/minecraft/world/level/BlockCollisions.java
 +++ b/net/minecraft/world/level/BlockCollisions.java
+@@ -25,7 +_,8 @@
+    private final boolean f_186398_;
+    @Nullable
+    private BlockGetter f_186399_;
+-   private long f_186400_;
++   @Nullable
++   private ChunkPos f_186400_;
+ 
+    public BlockCollisions(CollisionGetter p_186402_, @Nullable Entity p_186403_, AABB p_186404_) {
+       this(p_186402_, p_186403_, p_186404_, false);
 @@ -38,24 +_,24 @@
        this.f_186397_ = p_186406_;
        this.f_186392_ = p_186408_;
@@ -24,11 +34,12 @@
 -      int i = SectionPos.m_123171_(p_186412_);
 -      int j = SectionPos.m_123171_(p_186413_);
 -      long k = ChunkPos.m_45589_(i, j);
+-      if (this.f_186399_ != null && this.f_186400_ == k) {
 +   private BlockGetter getChunk(long p_186412_, long p_186413_) {
 +      long i = SectionPos.blockToSectionCoord(p_186412_);
 +      long j = SectionPos.blockToSectionCoord(p_186413_);
-+      long k = ChunkPos.asLong(i, j);
-       if (this.f_186399_ != null && this.f_186400_ == k) {
++      ChunkPos k = new ChunkPos(i, j);
++      if (this.f_186399_ != null && this.f_186400_.equals(k)) {
           return this.f_186399_;
        } else {
 -         BlockGetter blockgetter = this.f_186397_.m_7925_(i, j);

@@ -387,7 +387,7 @@
              if (this.m_183751_(serverplayer, p_183889_)) {
                 builder.add(serverplayer);
              }
-@@ -989,10 +_,10 @@
+@@ -989,25 +_,25 @@
     void m_140192_(ServerPlayer p_140193_, boolean p_140194_) {
        boolean flag = this.m_140329_(p_140193_);
        boolean flag1 = this.f_140149_.m_8260_(p_140193_);
@@ -397,11 +397,17 @@
 +      long j = SectionPos.blockToSectionCoord(p_140193_.getBlockZ());
        if (p_140194_) {
 -         this.f_140149_.m_8252_(ChunkPos.m_45589_(i, j), p_140193_, flag);
-+         this.f_140149_.m_8252_(ChunkPos.asLong(i, j), p_140193_, flag);
++         this.f_140149_.addPlayer(new ChunkPos(i, j), p_140193_, flag);
           this.m_140373_(p_140193_);
           if (!flag) {
              this.f_140145_.m_140802_(SectionPos.m_235861_(p_140193_), p_140193_);
-@@ -1005,9 +_,9 @@
+          }
+       } else {
+          SectionPos sectionpos = p_140193_.m_8965_();
+-         this.f_140149_.m_8249_(sectionpos.m_123251_().m_45588_(), p_140193_);
++         this.f_140149_.removePlayer(sectionpos.m_123251_(), p_140193_);
+          if (!flag1) {
+             this.f_140145_.m_140828_(sectionpos, p_140193_);
           }
        }
  

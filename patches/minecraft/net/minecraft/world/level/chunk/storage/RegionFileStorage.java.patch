@@ -1,11 +1,20 @@
 --- a/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
+@@ -16,7 +_,7 @@
+ public final class RegionFileStorage implements AutoCloseable {
+    public static final String f_156615_ = ".mca";
+    private static final int f_156616_ = 256;
+-   private final Long2ObjectLinkedOpenHashMap<RegionFile> f_63699_ = new Long2ObjectLinkedOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, RegionFile> f_63699_ = new it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<>();
+    private final Path f_63700_;
+    private final boolean f_63701_;
+ 
 @@ -26,7 +_,7 @@
     }
  
     private RegionFile m_63711_(ChunkPos p_63712_) throws IOException {
 -      long i = ChunkPos.m_45589_(p_63712_.m_45610_(), p_63712_.m_45612_());
-+      long i = ChunkPos.asLong(p_63712_.getRegionX(), p_63712_.getRegionZ());
++      ChunkPos i = new ChunkPos(p_63712_.getRegionX(), p_63712_.getRegionZ());
        RegionFile regionfile = this.f_63699_.getAndMoveToFirst(i);
        if (regionfile != null) {
           return regionfile;

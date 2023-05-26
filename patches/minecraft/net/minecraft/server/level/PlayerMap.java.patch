@@ -1,12 +1,22 @@
 --- a/net/minecraft/server/level/PlayerMap.java
 +++ b/net/minecraft/server/level/PlayerMap.java
-@@ -7,7 +_,7 @@
+@@ -7,15 +_,15 @@
  public final class PlayerMap {
     private final Object2BooleanMap<ServerPlayer> f_8241_ = new Object2BooleanOpenHashMap<>();
  
 -   public Set<ServerPlayer> m_183926_(long p_183927_) {
 +   public Set<ServerPlayer> getPlayers(net.minecraft.world.level.ChunkPos p_183927_) {
        return this.f_8241_.keySet();
+    }
+ 
+-   public void m_8252_(long p_8253_, ServerPlayer p_8254_, boolean p_8255_) {
++   public void addPlayer(net.minecraft.world.level.ChunkPos p_8253_, ServerPlayer p_8254_, boolean p_8255_) {
+       this.f_8241_.put(p_8254_, p_8255_);
+    }
+ 
+-   public void m_8249_(long p_8250_, ServerPlayer p_8251_) {
++   public void removePlayer(net.minecraft.world.level.ChunkPos p_8250_, ServerPlayer p_8251_) {
+       this.f_8241_.removeBoolean(p_8251_);
     }
  
 @@ -35,6 +_,6 @@

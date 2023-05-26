@@ -20,10 +20,6 @@ public final class CoordinateUtils {
         return ((long)(pos.getZ() >> 4) << 32) | ((pos.getX() >> 4) & 0xFFFFFFFFL);
     }
 
-    public static long getChunkKey(final Entity entity) {
-        return ((long)(Mth.floor(entity.getZ()) >> 4) << 32) | ((Mth.floor(entity.getX()) >> 4) & 0xFFFFFFFFL);
-    }
-
     public static long getChunkKey(final ChunkPos pos) {
         return ((long)pos.z << 32) | (pos.x & 0xFFFFFFFFL);
     }

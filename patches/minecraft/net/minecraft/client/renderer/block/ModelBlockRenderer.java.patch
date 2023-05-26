@@ -114,3 +114,63 @@
           BlockState blockstate9 = p_111168_.m_8055_(blockpos$mutableblockpos);
           if (p_111173_.get(0) || !blockstate9.m_60804_(p_111168_, blockpos$mutableblockpos)) {
              i3 = modelblockrenderer$cache.m_111221_(blockstate9, p_111168_, blockpos$mutableblockpos);
+@@ -506,16 +_,16 @@
+    @OnlyIn(Dist.CLIENT)
+    static class Cache {
+       private boolean f_111214_;
+-      private final Long2IntLinkedOpenHashMap f_111215_ = Util.m_137537_(() -> {
+-         Long2IntLinkedOpenHashMap long2intlinkedopenhashmap = new Long2IntLinkedOpenHashMap(100, 0.25F) {
++      private final it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap<BlockPos> f_111215_ = Util.m_137537_(() -> {
++         it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap<BlockPos> long2intlinkedopenhashmap = new it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap<>(100, 0.25F) {
+             protected void rehash(int p_111238_) {
+             }
+          };
+          long2intlinkedopenhashmap.defaultReturnValue(Integer.MAX_VALUE);
+          return long2intlinkedopenhashmap;
+       });
+-      private final Long2FloatLinkedOpenHashMap f_111216_ = Util.m_137537_(() -> {
+-         Long2FloatLinkedOpenHashMap long2floatlinkedopenhashmap = new Long2FloatLinkedOpenHashMap(100, 0.25F) {
++      private final it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<BlockPos> f_111216_ = Util.m_137537_(() -> {
++         it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<BlockPos> long2floatlinkedopenhashmap = new it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<>(100, 0.25F) {
+             protected void rehash(int p_111245_) {
+             }
+          };
+@@ -537,9 +_,8 @@
+       }
+ 
+       public int m_111221_(BlockState p_111222_, BlockAndTintGetter p_111223_, BlockPos p_111224_) {
+-         long i = p_111224_.m_121878_();
+          if (this.f_111214_) {
+-            int j = this.f_111215_.get(i);
++            int j = this.f_111215_.getInt(p_111224_);
+             if (j != Integer.MAX_VALUE) {
+                return j;
+             }
+@@ -551,16 +_,15 @@
+                this.f_111215_.removeFirstInt();
+             }
+ 
+-            this.f_111215_.put(i, k);
++            this.f_111215_.put(p_111224_, k);
+          }
+ 
+          return k;
+       }
+ 
+       public float m_111226_(BlockState p_111227_, BlockAndTintGetter p_111228_, BlockPos p_111229_) {
+-         long i = p_111229_.m_121878_();
+          if (this.f_111214_) {
+-            float f = this.f_111216_.get(i);
++            float f = this.f_111216_.getFloat(p_111229_);
+             if (!Float.isNaN(f)) {
+                return f;
+             }
+@@ -572,7 +_,7 @@
+                this.f_111216_.removeFirstFloat();
+             }
+ 
+-            this.f_111216_.put(i, f1);
++            this.f_111216_.put(p_111229_, f1);
+          }
+ 
+          return f1;

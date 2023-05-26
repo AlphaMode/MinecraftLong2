@@ -9,10 +9,11 @@
     private final LevelEntityGetter<T> f_157640_;
  
     public TransientEntitySectionManager(Class<T> p_157643_, LevelCallback<T> p_157644_) {
-@@ -29,8 +_,8 @@
+@@ -28,9 +_,8 @@
+    }
  
     public void m_157651_(ChunkPos p_157652_) {
-       long i = p_157652_.m_45588_();
+-      long i = p_157652_.m_45588_();
 -      this.f_157639_.add(i);
 -      this.f_157638_.m_156888_(i).forEach((p_157663_) -> {
 +      this.f_157639_.add(p_157652_);
@@ -20,11 +21,14 @@
           Visibility visibility = p_157663_.m_156838_(Visibility.TICKING);
           if (!visibility.m_157691_()) {
              p_157663_.m_156845_().filter((p_157666_) -> {
-@@ -44,7 +_,7 @@
+@@ -42,9 +_,8 @@
+    }
+ 
     public void m_157658_(ChunkPos p_157659_) {
-       long i = p_157659_.m_45588_();
-       this.f_157639_.remove(i);
+-      long i = p_157659_.m_45588_();
+-      this.f_157639_.remove(i);
 -      this.f_157638_.m_156888_(i).forEach((p_157656_) -> {
++      this.f_157639_.remove(p_157659_);
 +      this.f_157638_.getExistingSectionsInChunk(p_157659_).forEach((p_157656_) -> {
           Visibility visibility = p_157656_.m_156838_(Visibility.TRACKED);
           if (visibility.m_157691_()) {

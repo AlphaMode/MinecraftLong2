@@ -1,5 +1,46 @@
 --- a/net/minecraft/network/FriendlyByteBuf.java
 +++ b/net/minecraft/network/FriendlyByteBuf.java
+@@ -439,29 +_,34 @@
+    }
+ 
+    public BlockPos m_130135_() {
+-      return BlockPos.m_122022_(this.readLong());
++      return new BlockPos(this.readLong(), this.readLong(), this.readLong());
+    }
+ 
+    public FriendlyByteBuf m_130064_(BlockPos p_130065_) {
+-      this.writeLong(p_130065_.m_121878_());
++      this.writeLong(p_130065_.getX());
++      this.writeLong(p_130065_.getY());
++      this.writeLong(p_130065_.getZ());
+       return this;
+    }
+ 
+    public ChunkPos m_178383_() {
+-      return new ChunkPos(this.readLong());
++      return new ChunkPos(this.readLong(), this.readLong());
+    }
+ 
+    public FriendlyByteBuf m_178341_(ChunkPos p_178342_) {
+-      this.writeLong(p_178342_.m_45588_());
++      this.writeLong(p_178342_.f_45578_);
++      this.writeLong(p_178342_.f_45579_);
+       return this;
+    }
+ 
+    public SectionPos m_130157_() {
+-      return SectionPos.m_123184_(this.readLong());
++      return SectionPos.of(this.readLong(), this.readLong(), this.readLong());
+    }
+ 
+    public FriendlyByteBuf m_178343_(SectionPos p_178344_) {
+-      this.writeLong(p_178344_.m_123252_());
++      this.writeLong(p_178344_.x());
++      this.writeLong(p_178344_.y());
++      this.writeLong(p_178344_.z());
+       return this;
+    }
+ 
 @@ -753,7 +_,7 @@
        float f1 = this.readFloat();
        float f2 = this.readFloat();

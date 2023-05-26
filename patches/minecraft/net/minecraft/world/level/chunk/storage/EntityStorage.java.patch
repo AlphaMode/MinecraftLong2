@@ -1,5 +1,26 @@
 --- a/net/minecraft/world/level/chunk/storage/EntityStorage.java
 +++ b/net/minecraft/world/level/chunk/storage/EntityStorage.java
+@@ -31,7 +_,7 @@
+    private static final String f_156537_ = "Position";
+    private final ServerLevel f_156538_;
+    private final IOWorker f_156539_;
+-   private final LongSet f_156540_ = new LongOpenHashSet();
++   private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> f_156540_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+    private final ProcessorMailbox<Runnable> f_182485_;
+    protected final DataFixer f_156534_;
+ 
+@@ -43,9 +_,9 @@
+    }
+ 
+    public CompletableFuture<ChunkEntities<Entity>> m_141930_(ChunkPos p_156551_) {
+-      return this.f_156540_.contains(p_156551_.m_45588_()) ? CompletableFuture.completedFuture(m_156568_(p_156551_)) : this.f_156539_.m_156587_(p_156551_).thenApplyAsync((p_223458_) -> {
++      return this.f_156540_.contains(p_156551_) ? CompletableFuture.completedFuture(m_156568_(p_156551_)) : this.f_156539_.m_156587_(p_156551_).thenApplyAsync((p_223458_) -> {
+          if (p_223458_.isEmpty()) {
+-            this.f_156540_.add(p_156551_.m_45588_());
++            this.f_156540_.add(p_156551_);
+             return m_156568_(p_156551_);
+          } else {
+             try {
 @@ -66,12 +_,12 @@
     }
  
@@ -15,3 +36,21 @@
     }
  
     private static ChunkEntities<Entity> m_156568_(ChunkPos p_156569_) {
+@@ -81,7 +_,7 @@
+    public void m_141971_(ChunkEntities<Entity> p_156559_) {
+       ChunkPos chunkpos = p_156559_.m_156791_();
+       if (p_156559_.m_156793_()) {
+-         if (this.f_156540_.add(chunkpos.m_45588_())) {
++         if (this.f_156540_.add(chunkpos)) {
+             this.f_156539_.m_63538_(chunkpos, (CompoundTag)null);
+          }
+ 
+@@ -101,7 +_,7 @@
+             f_156535_.error("Failed to store chunk {}", chunkpos, p_156554_);
+             return null;
+          });
+-         this.f_156540_.remove(chunkpos.m_45588_());
++         this.f_156540_.remove(chunkpos);
+       }
+    }
+ 

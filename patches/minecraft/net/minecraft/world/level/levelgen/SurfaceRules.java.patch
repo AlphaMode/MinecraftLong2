@@ -9,11 +9,13 @@
        }
     }
  
-@@ -262,10 +_,10 @@
+@@ -261,11 +_,11 @@
+       private final NoiseChunk f_189541_;
        private final Function<BlockPos, Holder<Biome>> f_189542_;
        final WorldGenerationContext f_189544_;
-       private long f_198278_ = Long.MAX_VALUE;
+-      private long f_198278_ = Long.MAX_VALUE;
 -      private final int[] f_198279_ = new int[4];
++      private ChunkPos f_198278_ = ChunkPos.f_45577_;
 +      private final long[] f_198279_ = new long[4];
        long f_189545_ = -9223372036854775807L;
 -      int f_189546_;
@@ -86,10 +88,11 @@
 -            int i = m_198280_(this.f_189546_);
 -            int j = m_198280_(this.f_189547_);
 -            long k = ChunkPos.m_45589_(i, j);
+-            if (this.f_198278_ != k) {
 +            long i = blockCoordToSurfaceCell(this.f_189546_);
 +            long j = blockCoordToSurfaceCell(this.f_189547_);
-+            long k = ChunkPos.asLong(i, j);
-             if (this.f_198278_ != k) {
++            ChunkPos k = new ChunkPos(i, j);
++            if (!this.f_198278_.equals(k)) {
                 this.f_198278_ = k;
 -               this.f_198279_[0] = this.f_189541_.m_198256_(m_198282_(i), m_198282_(j));
 -               this.f_198279_[1] = this.f_189541_.m_198256_(m_198282_(i + 1), m_198282_(j));

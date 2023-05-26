@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/BlockPos.java
 +++ b/net/minecraft/core/BlockPos.java
-@@ -20,13 +_,13 @@
+@@ -20,13 +_,14 @@
  import org.slf4j.Logger;
  
  @Immutable
@@ -8,6 +8,7 @@
 -   public static final Codec<BlockPos> f_121852_ = Codec.INT_STREAM.comapFlatMap((p_121967_) -> {
 -      return Util.m_137539_(p_121967_, 3).map((p_175270_) -> {
 +public class BlockPos extends me.alphamode.mclong.core.Vec3l {
++   public static final BlockPos MAX_VALUE = new BlockPos(java.lang.Long.MAX_VALUE, java.lang.Long.MAX_VALUE, java.lang.Long.MAX_VALUE);
 +   public static final Codec<BlockPos> f_121852_ = Codec.LONG_STREAM.comapFlatMap((p_121967_) -> {
 +      return Util.fixedSize(p_121967_, 3).map((p_175270_) -> {
           return new BlockPos(p_175270_[0], p_175270_[1], p_175270_[2]);
