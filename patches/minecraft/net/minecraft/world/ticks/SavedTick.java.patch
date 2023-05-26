@@ -1,5 +1,19 @@
 --- a/net/minecraft/world/ticks/SavedTick.java
 +++ b/net/minecraft/world/ticks/SavedTick.java
+@@ -34,12 +_,10 @@
+    };
+ 
+    public static <T> void m_193350_(ListTag p_193351_, Function<String, Optional<T>> p_193352_, ChunkPos p_193353_, Consumer<SavedTick<T>> p_193354_) {
+-      long i = p_193353_.m_45588_();
+-
+       for(int j = 0; j < p_193351_.size(); ++j) {
+          CompoundTag compoundtag = p_193351_.m_128728_(j);
+          m_210669_(compoundtag, p_193352_).ifPresent((p_210665_) -> {
+-            if (ChunkPos.m_151388_(p_210665_.f_193312_()) == i) {
++            if (new ChunkPos(p_210665_.f_193312_()).equals(p_193353_)) {
+                p_193354_.accept(p_210665_);
+             }
+ 
 @@ -50,7 +_,7 @@
  
     public static <T> Optional<SavedTick<T>> m_210669_(CompoundTag p_210670_, Function<String, Optional<T>> p_210671_) {

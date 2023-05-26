@@ -46,6 +46,15 @@
        if (levelchunkticks != null) {
           levelchunkticks.m_193181_((BiConsumer<LevelChunkTicks<T>, ScheduledTick<T>>)null);
        }
+@@ -75,7 +_,7 @@
+    }
+ 
+    public void m_183393_(ScheduledTick<T> p_193252_) {
+-      long i = ChunkPos.m_151388_(p_193252_.f_193377_());
++      ChunkPos i = new ChunkPos(p_193252_.f_193377_());
+       LevelChunkTicks<T> levelchunkticks = this.f_193202_.get(i);
+       if (levelchunkticks == null) {
+          Util.m_137570_(new IllegalStateException("Trying to schedule tick in not loaded position " + p_193252_.f_193377_()));
 @@ -104,11 +_,11 @@
     }
  
@@ -70,7 +79,16 @@
     }
  
     private void m_193267_(Queue<LevelChunkTicks<T>> p_193268_, LevelChunkTicks<T> p_193269_, long p_193270_, int p_193271_) {
-@@ -223,14 +_,14 @@
+@@ -206,7 +_,7 @@
+    }
+ 
+    public boolean m_183582_(BlockPos p_193254_, T p_193255_) {
+-      LevelChunkTicks<T> levelchunkticks = this.f_193202_.get(ChunkPos.m_151388_(p_193254_));
++      LevelChunkTicks<T> levelchunkticks = this.f_193202_.get(new ChunkPos(p_193254_));
+       return levelchunkticks != null && levelchunkticks.m_183582_(p_193254_, p_193255_);
+    }
+ 
+@@ -223,17 +_,17 @@
     }
  
     private void m_193236_(BoundingBox p_193237_, LevelTicks.PosAndContainerConsumer<T> p_193238_) {
@@ -88,10 +106,14 @@
 -            long k1 = ChunkPos.m_45589_(i1, j1);
 +      for(long i1 = i; i1 <= k; ++i1) {
 +         for(long j1 = j; j1 <= l; ++j1) {
-+            long k1 = ChunkPos.asLong(i1, j1);
++            ChunkPos k1 = new ChunkPos(i1, j1);
              LevelChunkTicks<T> levelchunkticks = this.f_193202_.get(k1);
              if (levelchunkticks != null) {
-                p_193238_.m_193288_(k1, levelchunkticks);
+-               p_193238_.m_193288_(k1, levelchunkticks);
++               p_193238_.accept(k1, levelchunkticks);
+             }
+          }
+       }
 @@ -242,7 +_,7 @@
  
     public void m_193234_(BoundingBox p_193235_) {
@@ -101,6 +123,15 @@
        };
        this.m_193236_(p_193235_, (p_193276_, p_193277_) -> {
           ScheduledTick<T> scheduledtick = p_193277_.m_193189_();
+@@ -252,7 +_,7 @@
+             if (scheduledtick1 != null) {
+                this.m_193279_(scheduledtick1);
+             } else {
+-               this.f_193203_.remove(p_193276_);
++               this.f_193203_.removeLong(p_193276_);
+             }
+          }
+ 
 @@ -261,14 +_,14 @@
        this.f_193205_.removeIf(predicate);
     }
@@ -129,3 +160,11 @@
        });
     }
  
+@@ -289,6 +_,6 @@
+ 
+    @FunctionalInterface
+    interface PosAndContainerConsumer<T> {
+-      void m_193288_(long p_193289_, LevelChunkTicks<T> p_193290_);
++      void accept(ChunkPos p_193289_, LevelChunkTicks<T> p_193290_);
+    }
+ }
