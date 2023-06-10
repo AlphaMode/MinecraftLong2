@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/entity/animal/Cat.java
 +++ b/net/minecraft/world/entity/animal/Cat.java
 @@ -490,7 +_,7 @@
-                BlockState blockstate = this.f_28198_.f_19853_.m_8055_(blockpos);
+                BlockState blockstate = this.f_28198_.m_9236_().m_8055_(blockpos);
                 if (blockstate.m_204336_(BlockTags.f_13038_)) {
                    this.f_28200_ = blockstate.m_61145_(BedBlock.f_54117_).map((p_28209_) -> {
 -                     return blockpos.m_121945_(p_28209_.m_122424_());
@@ -28,12 +28,12 @@
 +         blockpos$mutableblockpos.set(this.f_28198_.m_21523_() ? this.f_28198_.m_21524_().m_20183_() : this.f_28198_.m_20183_());
 +         this.f_28198_.m_20984_((double)(blockpos$mutableblockpos.getX() + randomsource.m_188503_(11) - 5), (double)(blockpos$mutableblockpos.getY() + randomsource.m_188503_(5) - 2), (double)(blockpos$mutableblockpos.getZ() + randomsource.m_188503_(11) - 5), false);
 +         blockpos$mutableblockpos.set(this.f_28198_.m_20183_());
-          LootTable loottable = this.f_28198_.f_19853_.m_7654_().m_129898_().m_79217_(BuiltInLootTables.f_78724_);
-          LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)this.f_28198_.f_19853_)).m_78972_(LootContextParams.f_81460_, this.f_28198_.m_20182_()).m_78972_(LootContextParams.f_81455_, this.f_28198_).m_230911_(randomsource);
+          LootTable loottable = this.f_28198_.m_9236_().m_7654_().m_278653_().m_278676_(BuiltInLootTables.f_78724_);
+          LootParams lootparams = (new LootParams.Builder((ServerLevel)this.f_28198_.m_9236_())).m_287286_(LootContextParams.f_81460_, this.f_28198_.m_20182_()).m_287286_(LootContextParams.f_81455_, this.f_28198_).m_287235_(LootContextParamSets.f_81416_);
  
-          for(ItemStack itemstack : loottable.m_230922_(lootcontext$builder.m_78975_(LootContextParamSets.f_81416_))) {
--            this.f_28198_.f_19853_.m_7967_(new ItemEntity(this.f_28198_.f_19853_, (double)blockpos$mutableblockpos.m_123341_() - (double)Mth.m_14031_(this.f_28198_.f_20883_ * ((float)Math.PI / 180F)), (double)blockpos$mutableblockpos.m_123342_(), (double)blockpos$mutableblockpos.m_123343_() + (double)Mth.m_14089_(this.f_28198_.f_20883_ * ((float)Math.PI / 180F)), itemstack));
-+            this.f_28198_.f_19853_.m_7967_(new ItemEntity(this.f_28198_.f_19853_, (double)blockpos$mutableblockpos.getX() - (double)Mth.m_14031_(this.f_28198_.f_20883_ * ((float)Math.PI / 180F)), (double)blockpos$mutableblockpos.getY(), (double)blockpos$mutableblockpos.getZ() + (double)Mth.m_14089_(this.f_28198_.f_20883_ * ((float)Math.PI / 180F)), itemstack));
+          for(ItemStack itemstack : loottable.m_287195_(lootparams)) {
+-            this.f_28198_.m_9236_().m_7967_(new ItemEntity(this.f_28198_.m_9236_(), (double)blockpos$mutableblockpos.m_123341_() - (double)Mth.m_14031_(this.f_28198_.f_20883_ * ((float)Math.PI / 180F)), (double)blockpos$mutableblockpos.m_123342_(), (double)blockpos$mutableblockpos.m_123343_() + (double)Mth.m_14089_(this.f_28198_.f_20883_ * ((float)Math.PI / 180F)), itemstack));
++            this.f_28198_.m_9236_().m_7967_(new ItemEntity(this.f_28198_.m_9236_(), (double)blockpos$mutableblockpos.getX() - (double)Mth.m_14031_(this.f_28198_.f_20883_ * ((float)Math.PI / 180F)), (double)blockpos$mutableblockpos.getY(), (double)blockpos$mutableblockpos.getZ() + (double)Mth.m_14089_(this.f_28198_.f_20883_ * ((float)Math.PI / 180F)), itemstack));
           }
  
        }

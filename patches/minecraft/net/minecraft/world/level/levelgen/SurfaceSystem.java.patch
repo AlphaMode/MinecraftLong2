@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/SurfaceSystem.java
 +++ b/net/minecraft/world/level/levelgen/SurfaceSystem.java
-@@ -67,17 +_,17 @@
+@@ -66,17 +_,17 @@
     public void m_224648_(RandomState p_224649_, BiomeManager p_224650_, Registry<Biome> p_224651_, boolean p_224652_, WorldGenerationContext p_224653_, final ChunkAccess p_224654_, NoiseChunk p_224655_, SurfaceRules.RuleSource p_224656_) {
        final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
        final ChunkPos chunkpos = p_224654_.m_7697_();
@@ -25,7 +25,7 @@
                 if (!p_190009_.m_60819_().m_76178_()) {
                    p_224654_.m_8113_(blockpos$mutableblockpos);
                 }
-@@ -95,24 +_,24 @@
+@@ -94,24 +_,24 @@
  
        for(int k = 0; k < 16; ++k) {
           for(int l = 0; l < 16; ++l) {
@@ -63,7 +63,7 @@
                 if (blockstate.m_60795_()) {
                    i2 = 0;
                    j2 = Integer.MIN_VALUE;
-@@ -124,8 +_,8 @@
+@@ -123,8 +_,8 @@
                    if (k2 >= i3) {
                       k2 = DimensionType.f_188294_;
  
@@ -74,7 +74,7 @@
                          if (!this.m_189952_(blockstate1)) {
                             k2 = j3 + 1;
                             break;
-@@ -134,31 +_,31 @@
+@@ -133,31 +_,31 @@
                    }
  
                    ++i2;
@@ -114,7 +114,7 @@
        return this.f_189892_.m_75380_((double)p_202190_, 0.0D, (double)p_202191_);
     }
  
-@@ -171,16 +_,16 @@
+@@ -170,16 +_,16 @@
     public Optional<BlockState> m_189971_(SurfaceRules.RuleSource p_189972_, CarvingContext p_189973_, Function<BlockPos, Holder<Biome>> p_189974_, ChunkAccess p_189975_, NoiseChunk p_189976_, BlockPos p_189977_, boolean p_189978_) {
        SurfaceRules.Context surfacerules$context = new SurfaceRules.Context(this, p_189973_.m_224851_(), p_189975_, p_189976_, p_189974_, p_189973_.m_190651_().m_175515_(Registries.f_256952_), p_189973_);
        SurfaceRules.SurfaceRule surfacerules$surfacerule = p_189972_.apply(surfacerules$context);
@@ -138,7 +138,7 @@
        double d0 = 0.2D;
        double d1 = Math.min(Math.abs(this.f_189910_.m_75380_((double)p_189956_, 0.0D, (double)p_189957_) * 8.25D), this.f_189908_.m_75380_((double)p_189956_ * 0.2D, 0.0D, (double)p_189957_ * 0.2D) * 15.0D);
        if (!(d1 <= 0.0D)) {
-@@ -190,8 +_,8 @@
+@@ -189,8 +_,8 @@
           double d5 = 64.0D + Math.min(d1 * d1 * 2.5D, Math.ceil(d4 * 50.0D) + 24.0D);
           int i = Mth.m_14107_(d5);
           if (p_189958_ <= i) {
@@ -149,7 +149,7 @@
                 if (blockstate.m_60713_(this.f_189904_.m_60734_())) {
                    break;
                 }
-@@ -201,15 +_,15 @@
+@@ -200,15 +_,15 @@
                 }
              }
  
@@ -168,7 +168,7 @@
        double d0 = 1.28D;
        double d1 = Math.min(Math.abs(this.f_189913_.m_75380_((double)p_189939_, 0.0D, (double)p_189940_) * 8.25D), this.f_189911_.m_75380_((double)p_189939_ * 1.28D, 0.0D, (double)p_189940_ * 1.28D) * 15.0D);
        if (!(d1 <= 1.8D)) {
-@@ -217,7 +_,7 @@
+@@ -216,7 +_,7 @@
           double d4 = 1.5D;
           double d5 = Math.abs(this.f_189912_.m_75380_((double)p_189939_ * 1.17D, 0.0D, (double)p_189940_ * 1.17D) * 1.5D);
           double d6 = Math.min(d1 * d1 * 1.2D, Math.ceil(d5 * 40.0D) + 14.0D);
@@ -177,7 +177,7 @@
              d6 -= 2.0D;
           }
  
-@@ -231,18 +_,18 @@
+@@ -230,18 +_,18 @@
           }
  
           double d7 = d6;
@@ -188,9 +188,9 @@
           int k = 0;
  
 -         for(int l = Math.max(p_189941_, (int)d6 + 1); l >= p_189935_; --l) {
--            if (p_189937_.m_183556_(l).m_60795_() && l < (int)d7 && randomsource.m_188500_() > 0.01D || p_189937_.m_183556_(l).m_60767_() == Material.f_76305_ && l > (int)d2 && l < this.f_189905_ && d2 != 0.0D && randomsource.m_188500_() > 0.15D) {
+-            if (p_189937_.m_183556_(l).m_60795_() && l < (int)d7 && randomsource.m_188500_() > 0.01D || p_189937_.m_183556_(l).m_60713_(Blocks.f_49990_) && l > (int)d2 && l < this.f_189905_ && d2 != 0.0D && randomsource.m_188500_() > 0.15D) {
 +         for(long l = Math.max(p_189941_, (int)d6 + 1); l >= p_189935_; --l) {
-+            if (p_189937_.getBlock(l).m_60795_() && l < (int)d7 && randomsource.m_188500_() > 0.01D || p_189937_.getBlock(l).m_60767_() == Material.f_76305_ && l > (int)d2 && l < this.f_189905_ && d2 != 0.0D && randomsource.m_188500_() > 0.15D) {
++            if (p_189937_.getBlock(l).m_60795_() && l < (int)d7 && randomsource.m_188500_() > 0.01D || p_189937_.getBlock(l).m_60713_(Blocks.f_49990_) && l > (int)d2 && l < this.f_189905_ && d2 != 0.0D && randomsource.m_188500_() > 0.15D) {
                 if (k <= i && l > j) {
 -                  p_189937_.m_183639_(l, f_189902_);
 +                  p_189937_.setBlock(l, f_189902_);
@@ -201,7 +201,7 @@
                 }
              }
           }
-@@ -297,8 +_,8 @@
+@@ -296,8 +_,8 @@
  
     }
  

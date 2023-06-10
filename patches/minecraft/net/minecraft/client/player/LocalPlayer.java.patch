@@ -1,15 +1,15 @@
 --- a/net/minecraft/client/player/LocalPlayer.java
 +++ b/net/minecraft/client/player/LocalPlayer.java
-@@ -182,7 +_,7 @@
+@@ -184,7 +_,7 @@
     }
  
     public void m_8119_() {
--      if (this.f_19853_.m_151577_(this.m_146903_(), this.m_146907_())) {
-+      if (this.f_19853_.hasChunkAt(this.getBlockX(), this.getBlockZ())) {
+-      if (this.m_9236_().m_151577_(this.m_146903_(), this.m_146907_())) {
++      if (this.m_9236_().hasChunkAt(this.getBlockX(), this.getBlockZ())) {
           super.m_8119_();
           if (this.m_20159_()) {
-             this.f_108617_.m_104955_(new ServerboundMovePlayerPacket.Rot(this.m_146908_(), this.m_146909_(), this.f_19861_));
-@@ -395,8 +_,8 @@
+             this.f_108617_.m_104955_(new ServerboundMovePlayerPacket.Rot(this.m_146908_(), this.m_146909_(), this.m_20096_()));
+@@ -398,8 +_,8 @@
     private void m_108704_(double p_108705_, double p_108706_) {
        BlockPos blockpos = BlockPos.m_274561_(p_108705_, this.m_20186_(), p_108706_);
        if (this.m_108746_(blockpos)) {
@@ -20,7 +20,7 @@
           Direction direction = null;
           double d2 = Double.MAX_VALUE;
           Direction[] adirection = new Direction[]{Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH};
-@@ -404,7 +_,7 @@
+@@ -407,7 +_,7 @@
           for(Direction direction1 : adirection) {
              double d3 = direction1.m_122434_().m_6150_(d0, 0.0D, d1);
              double d4 = direction1.m_122421_() == Direction.AxisDirection.POSITIVE ? 1.0D - d3 : d3;
@@ -29,42 +29,42 @@
                 d2 = d4;
                 direction = direction1;
              }
-@@ -424,7 +_,7 @@
+@@ -427,7 +_,7 @@
  
     private boolean m_108746_(BlockPos p_108747_) {
        AABB aabb = this.m_20191_();
 -      AABB aabb1 = (new AABB((double)p_108747_.m_123341_(), aabb.f_82289_, (double)p_108747_.m_123343_(), (double)p_108747_.m_123341_() + 1.0D, aabb.f_82292_, (double)p_108747_.m_123343_() + 1.0D)).m_82406_(1.0E-7D);
 +      AABB aabb1 = (new AABB((double)p_108747_.getX(), aabb.f_82289_, (double)p_108747_.getZ(), (double)p_108747_.getX() + 1.0D, aabb.f_82292_, (double)p_108747_.getZ() + 1.0D)).m_82406_(1.0E-7D);
-       return this.f_19853_.m_186437_(this, aabb1);
+       return this.m_9236_().m_186437_(this, aabb1);
     }
  
-@@ -600,7 +_,7 @@
+@@ -603,7 +_,7 @@
     public void m_172530_() {
        this.m_20124_(Pose.STANDING);
-       if (this.f_19853_ != null) {
--         for(double d0 = this.m_20186_(); d0 > (double)this.f_19853_.m_141937_() && d0 < (double)this.f_19853_.m_151558_(); ++d0) {
-+         for(double d0 = this.m_20186_(); d0 > (double)this.f_19853_.getMinBuildHeight() && d0 < (double)this.f_19853_.getMaxBuildHeight(); ++d0) {
+       if (this.m_9236_() != null) {
+-         for(double d0 = this.m_20186_(); d0 > (double)this.m_9236_().m_141937_() && d0 < (double)this.m_9236_().m_151558_(); ++d0) {
++         for(double d0 = this.m_20186_(); d0 > (double)this.m_9236_().getMinBuildHeight() && d0 < (double)this.m_9236_().getMaxBuildHeight(); ++d0) {
              this.m_6034_(this.m_20185_(), d0, this.m_20189_());
-             if (this.f_19853_.m_45786_(this)) {
+             if (this.m_9236_().m_45786_(this)) {
                 break;
-@@ -882,7 +_,7 @@
+@@ -877,7 +_,7 @@
              BlockPos blockpos = BlockPos.m_274561_(this.m_20185_(), this.m_20191_().f_82292_, this.m_20189_());
-             BlockState blockstate = this.f_19853_.m_8055_(blockpos);
-             if (blockstate.m_60742_(this.f_19853_, blockpos, collisioncontext).m_83281_()) {
+             BlockState blockstate = this.m_9236_().m_8055_(blockpos);
+             if (blockstate.m_60742_(this.m_9236_(), blockpos, collisioncontext).m_83281_()) {
 -               blockpos = blockpos.m_7494_();
 +               blockpos = blockpos.above();
-                BlockState blockstate1 = this.f_19853_.m_8055_(blockpos);
-                if (blockstate1.m_60742_(this.f_19853_, blockpos, collisioncontext).m_83281_()) {
+                BlockState blockstate1 = this.m_9236_().m_8055_(blockpos);
+                if (blockstate1.m_60742_(this.m_9236_(), blockpos, collisioncontext).m_83281_()) {
                    float f6 = 7.0F;
-@@ -918,18 +_,18 @@
+@@ -913,18 +_,18 @@
                          BlockPos blockpos1 = BlockPos.m_274446_(vec311);
  
                          for(int i = 1; (float)i < f7; ++i) {
 -                           BlockPos blockpos2 = blockpos1.m_6630_(i);
 +                           BlockPos blockpos2 = blockpos1.above(i);
-                            BlockState blockstate2 = this.f_19853_.m_8055_(blockpos2);
+                            BlockState blockstate2 = this.m_9236_().m_8055_(blockpos2);
                             VoxelShape voxelshape;
-                            if (!(voxelshape = blockstate2.m_60742_(this.f_19853_, blockpos2, collisioncontext)).m_83281_()) {
+                            if (!(voxelshape = blockstate2.m_60742_(this.m_9236_(), blockpos2, collisioncontext)).m_83281_()) {
 -                              f11 = (float)voxelshape.m_83297_(Direction.Axis.Y) + (float)blockpos2.m_123342_();
 +                              f11 = (float)voxelshape.m_83297_(Direction.Axis.Y) + (float)blockpos2.getY();
                                if ((double)f11 - this.m_20186_() > (double)f7) {
@@ -75,6 +75,6 @@
                             if (i > 1) {
 -                              blockpos = blockpos.m_7494_();
 +                              blockpos = blockpos.above();
-                               BlockState blockstate3 = this.f_19853_.m_8055_(blockpos);
-                               if (!blockstate3.m_60742_(this.f_19853_, blockpos, collisioncontext).m_83281_()) {
+                               BlockState blockstate3 = this.m_9236_().m_8055_(blockpos);
+                               if (!blockstate3.m_60742_(this.m_9236_(), blockpos, collisioncontext).m_83281_()) {
                                   return;

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/material/FlowingFluid.java
 +++ b/net/minecraft/world/level/material/FlowingFluid.java
-@@ -52,14 +_,14 @@
+@@ -53,14 +_,14 @@
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
        for(Direction direction : Direction.Plane.HORIZONTAL) {
@@ -11,13 +11,13 @@
              float f = fluidstate.m_76182_();
              float f1 = 0.0F;
              if (f == 0.0F) {
-                if (!p_75987_.m_8055_(blockpos$mutableblockpos).m_60767_().m_76334_()) {
+                if (!p_75987_.m_8055_(blockpos$mutableblockpos).m_280555_()) {
 -                  BlockPos blockpos = blockpos$mutableblockpos.m_7495_();
 +                  BlockPos blockpos = blockpos$mutableblockpos.below();
                    FluidState fluidstate1 = p_75987_.m_6425_(blockpos);
                    if (this.m_76094_(fluidstate1)) {
                       f = fluidstate1.m_76182_();
-@@ -82,8 +_,8 @@
+@@ -83,8 +_,8 @@
        Vec3 vec3 = new Vec3(d0, 0.0D, d1);
        if (p_75989_.m_61143_(f_75947_)) {
           for(Direction direction1 : Direction.Plane.HORIZONTAL) {
@@ -28,7 +28,7 @@
                 vec3 = vec3.m_82541_().m_82520_(0.0D, -6.0D, 0.0D);
                 break;
              }
-@@ -112,7 +_,7 @@
+@@ -113,7 +_,7 @@
     protected void m_76010_(Level p_255851_, BlockPos p_76012_, FluidState p_76013_) {
        if (!p_76013_.m_76178_()) {
           BlockState blockstate = p_255851_.m_8055_(p_76012_);
@@ -37,7 +37,7 @@
           BlockState blockstate1 = p_255851_.m_8055_(blockpos);
           FluidState fluidstate = this.m_76035_(p_255851_, blockpos, blockstate1);
           if (this.m_75977_(p_255851_, p_76012_, blockstate, Direction.DOWN, blockpos, blockstate1, p_255851_.m_6425_(blockpos), fluidstate.m_76152_())) {
-@@ -139,7 +_,7 @@
+@@ -140,7 +_,7 @@
           for(Map.Entry<Direction, FluidState> entry : map.entrySet()) {
              Direction direction = entry.getKey();
              FluidState fluidstate = entry.getValue();
@@ -46,7 +46,7 @@
              BlockState blockstate = p_256644_.m_8055_(blockpos);
              if (this.m_75977_(p_256644_, p_76016_, p_76018_, direction, blockpos, blockstate, p_256644_.m_6425_(blockpos), fluidstate.m_76152_())) {
                 this.m_6364_(p_256644_, blockpos, blockstate, direction, fluidstate);
-@@ -154,7 +_,7 @@
+@@ -155,7 +_,7 @@
        int j = 0;
  
        for(Direction direction : Direction.Plane.HORIZONTAL) {
@@ -55,14 +55,14 @@
           BlockState blockstate = p_256464_.m_8055_(blockpos);
           FluidState fluidstate = blockstate.m_60819_();
           if (fluidstate.m_76152_().m_6212_(this) && this.m_76061_(direction, p_256464_, p_76037_, p_76038_, blockpos, blockstate)) {
-@@ -167,14 +_,14 @@
+@@ -168,14 +_,14 @@
        }
  
        if (this.m_6760_(p_256464_) && j >= 2) {
 -         BlockState blockstate1 = p_256464_.m_8055_(p_76037_.m_7495_());
 +         BlockState blockstate1 = p_256464_.m_8055_(p_76037_.below());
           FluidState fluidstate1 = blockstate1.m_60819_();
-          if (blockstate1.m_60767_().m_76333_() || this.m_76096_(fluidstate1)) {
+          if (blockstate1.m_280296_() || this.m_76096_(fluidstate1)) {
              return this.m_76068_(false);
           }
        }
@@ -72,7 +72,7 @@
        BlockState blockstate2 = p_256464_.m_8055_(blockpos1);
        FluidState fluidstate2 = blockstate2.m_60819_();
        if (!fluidstate2.m_76178_() && fluidstate2.m_76152_().m_6212_(this) && this.m_76061_(Direction.UP, p_256464_, p_76037_, p_76038_, blockpos1, blockstate2)) {
-@@ -248,8 +_,8 @@
+@@ -249,8 +_,8 @@
     protected abstract void m_7456_(LevelAccessor p_76002_, BlockPos p_76003_, BlockState p_76004_);
  
     private static short m_76058_(BlockPos p_76059_, BlockPos p_76060_) {
@@ -83,16 +83,16 @@
        return (short)((i + 128 & 255) << 8 | j + 128 & 255);
     }
  
-@@ -258,7 +_,7 @@
+@@ -259,7 +_,7 @@
  
        for(Direction direction : Direction.Plane.HORIZONTAL) {
           if (direction != p_76030_) {
 -            BlockPos blockpos = p_76028_.m_121945_(direction);
 +            BlockPos blockpos = p_76028_.relative(direction);
              short short1 = m_76058_(p_76032_, blockpos);
-             Pair<BlockState, FluidState> pair = p_76033_.computeIfAbsent(short1, (p_272588_) -> {
+             Pair<BlockState, FluidState> pair = p_76033_.computeIfAbsent(short1, (p_284932_) -> {
                 BlockState blockstate1 = p_76027_.m_8055_(blockpos);
-@@ -268,7 +_,7 @@
+@@ -269,7 +_,7 @@
              FluidState fluidstate = pair.getSecond();
              if (this.m_75963_(p_76027_, this.m_5615_(), p_76028_, p_76031_, direction, blockpos, blockstate, fluidstate)) {
                 boolean flag = p_76034_.computeIfAbsent(short1, (p_192912_) -> {
@@ -101,7 +101,7 @@
                    BlockState blockstate1 = p_76027_.m_8055_(blockpos1);
                    return this.m_75956_(p_76027_, this.m_5615_(), blockpos, blockstate, blockpos1, blockstate1);
                 });
-@@ -311,7 +_,7 @@
+@@ -312,7 +_,7 @@
        int i = 0;
  
        for(Direction direction : Direction.Plane.HORIZONTAL) {
@@ -110,16 +110,16 @@
           FluidState fluidstate = p_76020_.m_6425_(blockpos);
           if (this.m_76096_(fluidstate)) {
              ++i;
-@@ -328,7 +_,7 @@
+@@ -329,7 +_,7 @@
        Short2BooleanMap short2booleanmap = new Short2BooleanOpenHashMap();
  
        for(Direction direction : Direction.Plane.HORIZONTAL) {
 -         BlockPos blockpos = p_76081_.m_121945_(direction);
 +         BlockPos blockpos = p_76081_.relative(direction);
           short short1 = m_76058_(p_76081_, blockpos);
-          Pair<BlockState, FluidState> pair = short2objectmap.computeIfAbsent(short1, (p_272585_) -> {
+          Pair<BlockState, FluidState> pair = short2objectmap.computeIfAbsent(short1, (p_284929_) -> {
              BlockState blockstate1 = p_256191_.m_8055_(blockpos);
-@@ -338,7 +_,7 @@
+@@ -339,7 +_,7 @@
           FluidState fluidstate = pair.getSecond();
           FluidState fluidstate1 = this.m_76035_(p_256191_, blockpos, blockstate);
           if (this.m_75963_(p_256191_, fluidstate1.m_76152_(), p_76081_, p_76082_, direction, blockpos, blockstate, fluidstate)) {

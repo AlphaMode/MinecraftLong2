@@ -1,34 +1,34 @@
 --- a/net/minecraft/util/profiling/jfr/event/ChunkGenerationEvent.java
 +++ b/net/minecraft/util/profiling/jfr/event/ChunkGenerationEvent.java
 @@ -23,16 +_,16 @@
-    public static final EventType f_195534_ = EventType.getEventType(ChunkGenerationEvent.class);
+    public static final EventType TYPE = EventType.getEventType(ChunkGenerationEvent.class);
     @Name("worldPosX")
     @Label("First Block X World Position")
--   public final int f_195539_;
-+   public final long f_195539_;
+-   public final int worldPosX;
++   public final long worldPosX;
     @Name("worldPosZ")
     @Label("First Block Z World Position")
--   public final int f_195540_;
-+   public final long f_195540_;
+-   public final int worldPosZ;
++   public final long worldPosZ;
     @Name("chunkPosX")
     @Label("Chunk X Position")
--   public final int f_195535_;
-+   public final long f_195535_;
+-   public final int chunkPosX;
++   public final long chunkPosX;
     @Name("chunkPosZ")
     @Label("Chunk Z Position")
--   public final int f_195536_;
-+   public final long f_195536_;
+-   public final int chunkPosZ;
++   public final long chunkPosZ;
     @Name("status")
     @Label("Status")
-    public final String f_195538_;
+    public final String targetStatus;
 @@ -45,8 +_,8 @@
-       this.f_195537_ = p_195544_.toString();
-       this.f_195535_ = p_195543_.f_45578_;
-       this.f_195536_ = p_195543_.f_45579_;
--      this.f_195539_ = p_195543_.m_45604_();
--      this.f_195540_ = p_195543_.m_45605_();
-+      this.f_195539_ = p_195543_.getMinBlockX();
-+      this.f_195540_ = p_195543_.getMinBlockZ();
+       this.level = p_195544_.toString();
+       this.chunkPosX = p_195543_.f_45578_;
+       this.chunkPosZ = p_195543_.f_45579_;
+-      this.worldPosX = p_195543_.m_45604_();
+-      this.worldPosZ = p_195543_.m_45605_();
++      this.worldPosX = p_195543_.getMinBlockX();
++      this.worldPosZ = p_195543_.getMinBlockZ();
     }
  
     public static class Fields {

@@ -1,15 +1,6 @@
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -154,7 +_,7 @@
- import net.minecraft.world.ticks.LevelTicks;
- import org.slf4j.Logger;
- 
--public class ServerLevel extends Level implements WorldGenLevel {
-+public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.starlight.common.world.ExtendedWorld {
-    public static final BlockPos f_8562_ = new BlockPos(100, 50, 0);
-    public static final IntProvider f_263704_ = UniformInt.m_146622_(12000, 180000);
-    public static final IntProvider f_263681_ = UniformInt.m_146622_(12000, 24000);
-@@ -174,8 +_,8 @@
+@@ -177,8 +_,8 @@
     private final SleepStatus f_143245_;
     private int f_8551_;
     private final PortalForcer f_8552_;
@@ -20,7 +11,7 @@
     final Set<Mob> f_143246_ = new ObjectOpenHashSet<>();
     volatile boolean f_200893_;
     protected final Raids f_8565_;
-@@ -208,7 +_,7 @@
+@@ -212,7 +_,7 @@
        this.f_8552_ = new PortalForcer(this);
        this.m_46465_();
        this.m_46466_();
@@ -29,7 +20,7 @@
        this.f_8565_ = this.m_8895_().m_164861_((p_184095_) -> {
           return Raids.m_150235_(this, p_184095_);
        }, () -> {
-@@ -239,8 +_,8 @@
+@@ -257,8 +_,8 @@
        this.f_8549_.m_5557_(p_8610_);
     }
  
@@ -40,7 +31,7 @@
     }
  
     public StructureManager m_215010_() {
-@@ -308,7 +_,7 @@
+@@ -326,7 +_,7 @@
                    profilerfiller.m_6180_("checkDespawn");
                    p_184065_.m_6043_();
                    profilerfiller.m_7238_();
@@ -49,7 +40,7 @@
                       Entity entity = p_184065_.m_20202_();
                       if (entity != null) {
                          if (!entity.m_213877_() && entity.m_20363_(p_184065_)) {
-@@ -334,8 +_,8 @@
+@@ -352,8 +_,8 @@
        profilerfiller.m_7238_();
     }
  
@@ -60,7 +51,7 @@
     }
  
     protected void m_8809_() {
-@@ -379,28 +_,28 @@
+@@ -397,28 +_,28 @@
     public void m_8714_(LevelChunk p_8715_, int p_8716_) {
        ChunkPos chunkpos = p_8715_.m_7697_();
        boolean flag = this.m_46471_();
@@ -95,7 +86,7 @@
                 lightningbolt.m_20874_(flag1);
                 this.m_7967_(lightningbolt);
              }
-@@ -409,8 +_,8 @@
+@@ -427,8 +_,8 @@
  
        profilerfiller.m_6182_("iceandsnow");
        if (this.f_46441_.m_188503_(16) == 0) {
@@ -106,23 +97,25 @@
           Biome biome = this.m_204166_(blockpos1).m_203334_();
           if (biome.m_47477_(this, blockpos2)) {
              this.m_46597_(blockpos2, Blocks.f_50126_.m_49966_());
-@@ -444,12 +_,12 @@
-       if (p_8716_ > 0) {
-          for(LevelChunkSection levelchunksection : p_8715_.m_7103_()) {
+@@ -465,13 +_,13 @@
+          for(int l = 0; l < alevelchunksection.length; ++l) {
+             LevelChunkSection levelchunksection = alevelchunksection[l];
              if (levelchunksection.m_63014_()) {
--               int i1 = levelchunksection.m_63017_();
-+               long i1 = levelchunksection.bottomBlockY();
+-               int j1 = p_8715_.m_151568_(l);
+-               int k1 = SectionPos.m_123223_(j1);
++               long j1 = p_8715_.getSectionYFromSectionIndex(l);
++               long k1 = SectionPos.sectionToBlockCoord(j1);
  
-                for(int j1 = 0; j1 < p_8716_; ++j1) {
--                  BlockPos blockpos3 = this.m_46496_(i, i1, j, 15);
-+                  BlockPos blockpos3 = this.getBlockRandomPos(i, i1, j, 15);
+                for(int l1 = 0; l1 < p_8716_; ++l1) {
+-                  BlockPos blockpos3 = this.m_46496_(i, k1, j, 15);
++                  BlockPos blockpos3 = this.getBlockRandomPos(i, k1, j, 15);
                    profilerfiller.m_6180_("randomTick");
--                  BlockState blockstate2 = levelchunksection.m_62982_(blockpos3.m_123341_() - i, blockpos3.m_123342_() - i1, blockpos3.m_123343_() - j);
-+                  BlockState blockstate2 = levelchunksection.getBlockState(blockpos3.getX() - i, blockpos3.getY() - i1, blockpos3.getZ() - j);
+-                  BlockState blockstate2 = levelchunksection.m_62982_(blockpos3.m_123341_() - i, blockpos3.m_123342_() - k1, blockpos3.m_123343_() - j);
++                  BlockState blockstate2 = levelchunksection.getBlockState(blockpos3.getX() - i, blockpos3.getY() - k1, blockpos3.getZ() - j);
                    if (blockstate2.m_60823_()) {
                       blockstate2.m_222972_(this, blockpos3, this.f_46441_);
                    }
-@@ -472,10 +_,10 @@
+@@ -494,10 +_,10 @@
        Optional<BlockPos> optional = this.m_8904_().m_148658_((p_215059_) -> {
           return p_215059_.m_203565_(PoiTypes.f_218066_);
        }, (p_184055_) -> {
@@ -135,14 +128,14 @@
        });
     }
  
-@@ -485,15 +_,15 @@
+@@ -507,15 +_,15 @@
        if (optional.isPresent()) {
           return optional.get();
        } else {
 -         AABB aabb = (new AABB(blockpos, new BlockPos(blockpos.m_123341_(), this.m_151558_(), blockpos.m_123343_()))).m_82400_(3.0D);
 +         AABB aabb = (new AABB(blockpos, new BlockPos(blockpos.getX(), this.getMaxBuildHeight(), blockpos.getZ()))).m_82400_(3.0D);
-          List<LivingEntity> list = this.m_6443_(LivingEntity.class, aabb, (p_275908_) -> {
-             return p_275908_ != null && p_275908_.m_6084_() && this.m_45527_(p_275908_.m_20183_());
+          List<LivingEntity> list = this.m_6443_(LivingEntity.class, aabb, (p_289308_) -> {
+             return p_289308_ != null && p_289308_.m_6084_() && this.m_45527_(p_289308_.m_20183_());
           });
           if (!list.isEmpty()) {
              return list.get(this.f_46441_.m_188503_(list.size())).m_20183_();
@@ -154,10 +147,10 @@
              }
  
              return blockpos;
-@@ -846,9 +_,9 @@
+@@ -868,9 +_,9 @@
     public void m_6801_(int p_8612_, BlockPos p_8613_, int p_8614_) {
        for(ServerPlayer serverplayer : this.f_8548_.m_6846_().m_11314_()) {
-          if (serverplayer != null && serverplayer.f_19853_ == this && serverplayer.m_19879_() != p_8612_) {
+          if (serverplayer != null && serverplayer.m_9236_() == this && serverplayer.m_19879_() != p_8612_) {
 -            double d0 = (double)p_8613_.m_123341_() - serverplayer.m_20185_();
 -            double d1 = (double)p_8613_.m_123342_() - serverplayer.m_20186_();
 -            double d2 = (double)p_8613_.m_123343_() - serverplayer.m_20189_();
@@ -167,7 +160,7 @@
              if (d0 * d0 + d1 * d1 + d2 * d2 < 1024.0D) {
                 serverplayer.f_8906_.m_9829_(new ClientboundBlockDestructionPacket(p_8612_, p_8613_, p_8614_));
              }
-@@ -875,7 +_,7 @@
+@@ -897,7 +_,7 @@
     }
  
     public void m_5898_(@Nullable Player p_8684_, int p_8685_, BlockPos p_8686_, int p_8687_) {
@@ -176,7 +169,7 @@
     }
  
     public int m_143344_() {
-@@ -972,7 +_,7 @@
+@@ -994,7 +_,7 @@
           BlockEventData blockeventdata = this.f_8556_.removeFirst();
           if (this.m_220393_(blockeventdata.f_45529_())) {
              if (this.m_8698_(blockeventdata)) {
@@ -185,7 +178,7 @@
              }
           } else {
              this.f_184048_.add(blockeventdata);
-@@ -1032,7 +_,7 @@
+@@ -1054,7 +_,7 @@
           return false;
        } else {
           BlockPos blockpos = p_8637_.m_20183_();
@@ -194,7 +187,7 @@
              p_8637_.f_8906_.m_9829_(p_8642_);
              return true;
           } else {
-@@ -1105,7 +_,7 @@
+@@ -1127,7 +_,7 @@
     }
  
     public void m_8733_(BlockPos p_8734_, float p_8735_) {
@@ -203,7 +196,7 @@
        this.f_46442_.m_7250_(p_8734_, p_8735_);
        this.m_7726_().m_8438_(TicketType.f_9442_, chunkpos, 11, Unit.INSTANCE);
        this.m_7726_().m_8387_(TicketType.f_9442_, new ChunkPos(p_8734_), 11, Unit.INSTANCE);
-@@ -1117,7 +_,7 @@
+@@ -1139,7 +_,7 @@
        return (LongSet)(forcedchunkssaveddata != null ? LongSets.unmodifiable(forcedchunkssaveddata.m_46116_()) : LongSets.EMPTY_SET);
     }
  
@@ -212,7 +205,7 @@
        ForcedChunksSavedData forcedchunkssaveddata = this.m_8895_().m_164861_(ForcedChunksSavedData::m_151483_, ForcedChunksSavedData::new, "chunks");
        ChunkPos chunkpos = new ChunkPos(p_8603_, p_8604_);
        long i = chunkpos.m_45588_();
-@@ -1125,7 +_,7 @@
+@@ -1147,7 +_,7 @@
        if (p_8605_) {
           flag = forcedchunkssaveddata.m_46116_().add(i);
           if (flag) {
@@ -221,7 +214,7 @@
           }
        } else {
           flag = forcedchunkssaveddata.m_46116_().remove(i);
-@@ -1273,7 +_,7 @@
+@@ -1295,7 +_,7 @@
  
        for(TickingBlockEntity tickingblockentity : this.f_151512_) {
           BlockPos blockpos = tickingblockentity.m_142689_();
@@ -230,7 +223,7 @@
        }
  
     }
-@@ -1281,7 +_,7 @@
+@@ -1303,7 +_,7 @@
     @VisibleForTesting
     public void m_8722_(BoundingBox p_8723_) {
        this.f_8556_.removeIf((p_207568_) -> {
@@ -239,7 +232,7 @@
        });
     }
  
-@@ -1347,13 +_,13 @@
+@@ -1369,13 +_,13 @@
  
     public static void m_8617_(ServerLevel p_8618_) {
        BlockPos blockpos = f_8562_;
@@ -258,7 +251,7 @@
           p_8618_.m_46597_(p_184101_, Blocks.f_50080_.m_49966_());
        });
     }
-@@ -1389,16 +_,16 @@
+@@ -1411,16 +_,16 @@
        return "Chunks[S] W: " + this.f_8547_.m_6754_() + " E: " + this.f_143244_.m_157572_();
     }
  
@@ -280,29 +273,3 @@
     }
  
     public boolean m_201918_(BlockPos p_201919_) {
-@@ -1482,5 +_,25 @@
-       public void m_214006_(Entity p_215086_) {
-          p_215086_.m_213651_(DynamicGameEventListener::m_223641_);
-       }
-+   }
-+
-+   public final net.minecraft.world.level.chunk.LevelChunk getChunkAtImmediately(final long chunkX, final long chunkZ) {
-+      final ChunkMap storage = this.f_8547_.f_8325_;
-+      final net.minecraft.server.level.ChunkHolder holder = storage.getVisibleChunkIfPresent(new ChunkPos(chunkX, chunkZ));
-+
-+      if (holder == null) {
-+         return null;
-+      }
-+
-+      final com.mojang.datafixers.util.Either<net.minecraft.world.level.chunk.ChunkAccess, net.minecraft.server.level.ChunkHolder.ChunkLoadingFailure> either = holder.m_140047_(net.minecraft.world.level.chunk.ChunkStatus.f_62326_).getNow(null);
-+
-+      return either == null ? null : (net.minecraft.world.level.chunk.LevelChunk)either.left().orElse(null);
-+   }
-+
-+   public final net.minecraft.world.level.chunk.ChunkAccess getAnyChunkImmediately(final long chunkX, final long chunkZ) {
-+      final ChunkMap storage = this.f_8547_.f_8325_;
-+      final net.minecraft.server.level.ChunkHolder holder = storage.getVisibleChunkIfPresent(new ChunkPos(chunkX, chunkZ));
-+
-+      return holder == null ? null : holder.m_140089_();
-    }
- }

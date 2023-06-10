@@ -1,0 +1,74 @@
+--- a/net/minecraft/world/level/SignalGetter.java
++++ b/net/minecraft/world/level/SignalGetter.java
+@@ -16,27 +_,27 @@
+ 
+    default int m_277173_(BlockPos p_277959_) {
+       int i = 0;
+-      i = Math.max(i, this.m_277075_(p_277959_.m_7495_(), Direction.DOWN));
++      i = Math.max(i, this.m_277075_(p_277959_.below(), Direction.DOWN));
+       if (i >= 15) {
+          return i;
+       } else {
+-         i = Math.max(i, this.m_277075_(p_277959_.m_7494_(), Direction.UP));
++         i = Math.max(i, this.m_277075_(p_277959_.above(), Direction.UP));
+          if (i >= 15) {
+             return i;
+          } else {
+-            i = Math.max(i, this.m_277075_(p_277959_.m_122012_(), Direction.NORTH));
++            i = Math.max(i, this.m_277075_(p_277959_.north(), Direction.NORTH));
+             if (i >= 15) {
+                return i;
+             } else {
+-               i = Math.max(i, this.m_277075_(p_277959_.m_122019_(), Direction.SOUTH));
++               i = Math.max(i, this.m_277075_(p_277959_.south(), Direction.SOUTH));
+                if (i >= 15) {
+                   return i;
+                } else {
+-                  i = Math.max(i, this.m_277075_(p_277959_.m_122024_(), Direction.WEST));
++                  i = Math.max(i, this.m_277075_(p_277959_.west(), Direction.WEST));
+                   if (i >= 15) {
+                      return i;
+                   } else {
+-                     i = Math.max(i, this.m_277075_(p_277959_.m_122029_(), Direction.EAST));
++                     i = Math.max(i, this.m_277075_(p_277959_.east(), Direction.EAST));
+                      return i >= 15 ? i : i;
+                   }
+                }
+@@ -69,18 +_,18 @@
+    }
+ 
+    default boolean m_276867_(BlockPos p_277626_) {
+-      if (this.m_277185_(p_277626_.m_7495_(), Direction.DOWN) > 0) {
+-         return true;
+-      } else if (this.m_277185_(p_277626_.m_7494_(), Direction.UP) > 0) {
+-         return true;
+-      } else if (this.m_277185_(p_277626_.m_122012_(), Direction.NORTH) > 0) {
+-         return true;
+-      } else if (this.m_277185_(p_277626_.m_122019_(), Direction.SOUTH) > 0) {
+-         return true;
+-      } else if (this.m_277185_(p_277626_.m_122024_(), Direction.WEST) > 0) {
++      if (this.m_277185_(p_277626_.below(), Direction.DOWN) > 0) {
++         return true;
++      } else if (this.m_277185_(p_277626_.above(), Direction.UP) > 0) {
++         return true;
++      } else if (this.m_277185_(p_277626_.north(), Direction.NORTH) > 0) {
++         return true;
++      } else if (this.m_277185_(p_277626_.south(), Direction.SOUTH) > 0) {
++         return true;
++      } else if (this.m_277185_(p_277626_.west(), Direction.WEST) > 0) {
+          return true;
+       } else {
+-         return this.m_277185_(p_277626_.m_122029_(), Direction.EAST) > 0;
++         return this.m_277185_(p_277626_.east(), Direction.EAST) > 0;
+       }
+    }
+ 
+@@ -88,7 +_,7 @@
+       int i = 0;
+ 
+       for(Direction direction : f_276432_) {
+-         int j = this.m_277185_(p_277977_.m_121945_(direction), direction);
++         int j = this.m_277185_(p_277977_.relative(direction), direction);
+          if (j >= 15) {
+             return 15;
+          }

@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ChunkTracker.java
 +++ b/net/minecraft/server/level/ChunkTracker.java
-@@ -8,41 +_,42 @@
+@@ -8,21 +_,22 @@
        super(p_140701_, p_140702_, p_140703_);
     }
  
@@ -11,27 +11,29 @@
     }
  
 -   protected void m_7900_(long p_140707_, int p_140708_, boolean p_140709_) {
--      ChunkPos chunkpos = new ChunkPos(p_140707_);
--      int i = chunkpos.f_45578_;
--      int j = chunkpos.f_45579_;
 +   @Override
 +   protected void checkNeighborsAfterUpdate(net.minecraft.core.SectionPos p_140707_, int p_140708_, boolean p_140709_) {
-+      ChunkPos chunkpos = p_140707_.m_123251_();
-+      long i = chunkpos.f_45578_;
-+      long j = chunkpos.f_45579_;
+       if (!p_140709_ || p_140708_ < this.f_75537_ - 2) {
+-         ChunkPos chunkpos = new ChunkPos(p_140707_);
+-         int i = chunkpos.f_45578_;
+-         int j = chunkpos.f_45579_;
++         ChunkPos chunkpos = p_140707_.m_123251_();
++         long i = chunkpos.f_45578_;
++         long j = chunkpos.f_45579_;
  
-       for(int k = -1; k <= 1; ++k) {
-          for(int l = -1; l <= 1; ++l) {
--            long i1 = ChunkPos.m_45589_(i + k, j + l);
--            if (i1 != p_140707_) {
--               this.m_75593_(p_140707_, i1, p_140708_, p_140709_);
-+            ChunkPos i1 = new ChunkPos(i + k, j + l);
-+            if (!i1.equals(p_140707_)) {
-+               this.checkNeighbor(p_140707_, net.minecraft.core.SectionPos.of(i1, 0), p_140708_, p_140709_);
+          for(int k = -1; k <= 1; ++k) {
+             for(int l = -1; l <= 1; ++l) {
+-               long i1 = ChunkPos.m_45589_(i + k, j + l);
+-               if (i1 != p_140707_) {
+-                  this.m_75593_(p_140707_, i1, p_140708_, p_140709_);
++               ChunkPos i1 = new ChunkPos(i + k, j + l);
++               if (!i1.equals(chunkpos)) {
++                  this.checkNeighbor(p_140707_, net.minecraft.core.SectionPos.of(i1, p_140707_.y()), p_140708_, p_140709_);
+                }
              }
           }
+@@ -30,21 +_,21 @@
        }
- 
     }
  
 -   protected int m_6357_(long p_140711_, long p_140712_, int p_140713_) {
@@ -59,7 +61,7 @@
                 if (i > k1) {
                    i = k1;
                 }
-@@ -57,13 +_,13 @@
+@@ -59,13 +_,13 @@
        return i;
     }
  

@@ -1,24 +1,24 @@
 --- a/net/minecraft/server/commands/PlaceCommand.java
 +++ b/net/minecraft/server/commands/PlaceCommand.java
-@@ -92,7 +_,7 @@
-          throw f_214530_.create();
+@@ -93,7 +_,7 @@
        } else {
           String s = p_248822_.m_205785_().m_135782_().toString();
--         p_214576_.m_81354_(Component.m_237110_("commands.place.feature.success", s, p_214578_.m_123341_(), p_214578_.m_123342_(), p_214578_.m_123343_()), true);
-+         p_214576_.m_81354_(Component.m_237110_("commands.place.feature.success", s, p_214578_.getX(), p_214578_.getY(), p_214578_.getZ()), true);
+          p_214576_.m_288197_(() -> {
+-            return Component.m_237110_("commands.place.feature.success", s, p_214578_.m_123341_(), p_214578_.m_123342_(), p_214578_.m_123343_());
++            return Component.m_237110_("commands.place.feature.success", s, p_214578_.getX(), p_214578_.getY(), p_214578_.getZ());
+          }, true);
           return 1;
        }
-    }
-@@ -102,7 +_,7 @@
-       if (!JigsawPlacement.m_227203_(serverlevel, p_214571_, p_214572_, p_214573_, p_214574_, false)) {
+@@ -105,7 +_,7 @@
           throw f_214531_.create();
        } else {
--         p_214570_.m_81354_(Component.m_237110_("commands.place.jigsaw.success", p_214574_.m_123341_(), p_214574_.m_123342_(), p_214574_.m_123343_()), true);
-+         p_214570_.m_81354_(Component.m_237110_("commands.place.jigsaw.success", p_214574_.getX(), p_214574_.getY(), p_214574_.getZ()), true);
+          p_214570_.m_288197_(() -> {
+-            return Component.m_237110_("commands.place.jigsaw.success", p_214574_.m_123341_(), p_214574_.m_123342_(), p_214574_.m_123343_());
++            return Component.m_237110_("commands.place.jigsaw.success", p_214574_.getX(), p_214574_.getY(), p_214574_.getZ());
+          }, true);
           return 1;
        }
-    }
-@@ -118,14 +_,14 @@
+@@ -122,15 +_,15 @@
           throw f_214532_.create();
        } else {
           BoundingBox boundingbox = structurestart.m_73601_();
@@ -27,17 +27,18 @@
 +         ChunkPos chunkpos = new ChunkPos(SectionPos.blockToSectionCoord(boundingbox.minX()), SectionPos.blockToSectionCoord(boundingbox.minZ()));
 +         ChunkPos chunkpos1 = new ChunkPos(SectionPos.blockToSectionCoord(boundingbox.maxX()), SectionPos.blockToSectionCoord(boundingbox.maxZ()));
           m_214543_(serverlevel, chunkpos, chunkpos1);
-          ChunkPos.m_45599_(chunkpos, chunkpos1).forEach((p_269763_) -> {
--            structurestart.m_226850_(serverlevel, serverlevel.m_215010_(), chunkgenerator, serverlevel.m_213780_(), new BoundingBox(p_269763_.m_45604_(), serverlevel.m_141937_(), p_269763_.m_45605_(), p_269763_.m_45608_(), serverlevel.m_151558_(), p_269763_.m_45609_()), p_269763_);
-+            structurestart.m_226850_(serverlevel, serverlevel.m_215010_(), chunkgenerator, serverlevel.m_213780_(), new BoundingBox(p_269763_.getMinBlockX(), serverlevel.getMinBuildHeight(), p_269763_.getMinBlockZ(), p_269763_.getMaxBlockX(), serverlevel.getMaxBuildHeight(), p_269763_.getMaxBlockZ()), p_269763_);
+          ChunkPos.m_45599_(chunkpos, chunkpos1).forEach((p_289290_) -> {
+-            structurestart.m_226850_(serverlevel, serverlevel.m_215010_(), chunkgenerator, serverlevel.m_213780_(), new BoundingBox(p_289290_.m_45604_(), serverlevel.m_141937_(), p_289290_.m_45605_(), p_289290_.m_45608_(), serverlevel.m_151558_(), p_289290_.m_45609_()), p_289290_);
++            structurestart.m_226850_(serverlevel, serverlevel.m_215010_(), chunkgenerator, serverlevel.m_213780_(), new BoundingBox(p_289290_.getMinBlockX(), serverlevel.getMinBuildHeight(), p_289290_.getMinBlockZ(), p_289290_.getMaxBlockX(), serverlevel.getMaxBuildHeight(), p_289290_.getMaxBlockZ()), p_289290_);
           });
           String s = p_251799_.m_205785_().m_135782_().toString();
--         p_214588_.m_81354_(Component.m_237110_("commands.place.structure.success", s, p_214590_.m_123341_(), p_214590_.m_123342_(), p_214590_.m_123343_()), true);
-+         p_214588_.m_81354_(Component.m_237110_("commands.place.structure.success", s, p_214590_.getX(), p_214590_.getY(), p_214590_.getZ()), true);
+          p_214588_.m_288197_(() -> {
+-            return Component.m_237110_("commands.place.structure.success", s, p_214590_.m_123341_(), p_214590_.m_123342_(), p_214590_.m_123343_());
++            return Component.m_237110_("commands.place.structure.success", s, p_214590_.getX(), p_214590_.getY(), p_214590_.getZ());
+          }, true);
           return 1;
        }
-    }
-@@ -145,7 +_,7 @@
+@@ -151,7 +_,7 @@
           throw f_214533_.create(p_214563_);
        } else {
           StructureTemplate structuretemplate = optional.get();
@@ -46,12 +47,12 @@
           StructurePlaceSettings structureplacesettings = (new StructurePlaceSettings()).m_74377_(p_214566_).m_74379_(p_214565_);
           if (p_214567_ < 1.0F) {
              structureplacesettings.m_74394_().m_74383_(new BlockRotProcessor(p_214567_)).m_230324_(StructureBlockEntity.m_222888_((long)p_214568_));
-@@ -155,7 +_,7 @@
-          if (!flag) {
+@@ -162,7 +_,7 @@
              throw f_214534_.create();
           } else {
--            p_214562_.m_81354_(Component.m_237110_("commands.place.template.success", p_214563_, p_214564_.m_123341_(), p_214564_.m_123342_(), p_214564_.m_123343_()), true);
-+            p_214562_.m_81354_(Component.m_237110_("commands.place.template.success", p_214563_, p_214564_.getX(), p_214564_.getY(), p_214564_.getZ()), true);
+             p_214562_.m_288197_(() -> {
+-               return Component.m_237110_("commands.place.template.success", p_214563_, p_214564_.m_123341_(), p_214564_.m_123342_(), p_214564_.m_123343_());
++               return Component.m_237110_("commands.place.template.success", p_214563_, p_214564_.getX(), p_214564_.getY(), p_214564_.getZ());
+             }, true);
              return 1;
           }
-       }

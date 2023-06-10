@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/net/minecraft/world/level/chunk/LevelChunk.java
-@@ -74,7 +_,7 @@
-    private Supplier<ChunkHolder.FullChunkStatus> f_62790_;
+@@ -72,7 +_,7 @@
+    private Supplier<FullChunkStatus> f_62790_;
     @Nullable
     private LevelChunk.PostLoadProcessor f_62791_;
 -   private final Int2ObjectMap<GameEventListenerRegistry> f_244451_;
@@ -9,7 +9,7 @@
     private final LevelChunkTicks<Block> f_62784_;
     private final LevelChunkTicks<Fluid> f_187943_;
  
-@@ -85,7 +_,7 @@
+@@ -83,7 +_,7 @@
     public LevelChunk(Level p_196854_, ChunkPos p_196855_, UpgradeData p_196856_, LevelChunkTicks<Block> p_196857_, LevelChunkTicks<Fluid> p_196858_, long p_196859_, @Nullable LevelChunkSection[] p_196860_, @Nullable LevelChunk.PostLoadProcessor p_196861_, @Nullable BlendingData p_196862_) {
        super(p_196855_, p_196856_, p_196854_, p_196854_.m_9598_().m_175515_(Registries.f_256952_), p_196859_, p_196860_, p_196862_);
        this.f_62776_ = p_196854_;
@@ -18,29 +18,7 @@
  
        for(Heightmap.Types heightmap$types : Heightmap.Types.values()) {
           if (ChunkStatus.f_62326_.m_62500_().contains(heightmap$types)) {
-@@ -96,6 +_,9 @@
-       this.f_62791_ = p_196861_;
-       this.f_62784_ = p_196857_;
-       this.f_187943_ = p_196858_;
-+
-+      this.setBlockNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(f_62776_));
-+      this.setSkyNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(f_62776_));
-    }
- 
-    public LevelChunk(ServerLevel p_196850_, ProtoChunk p_196851_, @Nullable LevelChunk.PostLoadProcessor p_196852_) {
-@@ -122,6 +_,11 @@
- 
-       this.m_8094_(p_196851_.m_6332_());
-       this.f_187603_ = true;
-+
-+      this.setBlockNibbles(p_196851_.getBlockNibbles());
-+      this.setSkyNibbles(p_196851_.getSkyNibbles());
-+      this.setSkyEmptinessMap(p_196851_.getSkyEmptinessMap());
-+      this.setBlockEmptinessMap(p_196851_.getBlockEmptinessMap());
-    }
- 
-    public TickContainerAccess<Block> m_183531_() {
-@@ -136,21 +_,21 @@
+@@ -135,21 +_,21 @@
        return new ChunkAccess.TicksToSave(this.f_62784_, this.f_187943_);
     }
  
@@ -48,8 +26,9 @@
 +   public GameEventListenerRegistry getListenerRegistry(long p_251193_) {
        Level level = this.f_62776_;
        if (level instanceof ServerLevel serverlevel) {
-          return this.f_244451_.computeIfAbsent(p_251193_, (p_248448_) -> {
-             return new EuclideanGameEventListenerRegistry(serverlevel);
+          return this.f_244451_.computeIfAbsent(p_251193_, (p_281221_) -> {
+-            return new EuclideanGameEventListenerRegistry(serverlevel, p_251193_, this::m_280642_);
++            return new EuclideanGameEventListenerRegistry(serverlevel, p_251193_, this::removeGameEventListenerRegistry);
           });
        } else {
 -         return super.m_246686_(p_251193_);
@@ -67,7 +46,7 @@
        if (this.f_62776_.m_46659_()) {
           BlockState blockstate = null;
           if (j == 60) {
-@@ -158,17 +_,17 @@
+@@ -157,17 +_,17 @@
           }
  
           if (j == 70) {
@@ -89,7 +68,7 @@
                 }
              }
  
-@@ -177,7 +_,7 @@
+@@ -176,7 +_,7 @@
              CrashReport crashreport = CrashReport.m_127521_(throwable, "Getting block state");
              CrashReportCategory crashreportcategory = crashreport.m_127514_("Block being got");
              crashreportcategory.m_128165_("Location", () -> {
@@ -98,7 +77,7 @@
              });
              throw new ReportedException(crashreport);
           }
-@@ -185,16 +_,16 @@
+@@ -184,16 +_,16 @@
     }
  
     public FluidState m_6425_(BlockPos p_62895_) {
@@ -120,7 +99,7 @@
              }
           }
  
-@@ -203,7 +_,7 @@
+@@ -202,7 +_,7 @@
           CrashReport crashreport = CrashReport.m_127521_(throwable, "Getting fluid state");
           CrashReportCategory crashreportcategory = crashreport.m_127514_("Block being got");
           crashreportcategory.m_128165_("Location", () -> {
@@ -129,7 +108,7 @@
           });
           throw new ReportedException(crashreport);
        }
-@@ -211,24 +_,24 @@
+@@ -210,24 +_,24 @@
  
     @Nullable
     public BlockState m_6978_(BlockPos p_62865_, BlockState p_62866_, boolean p_62867_) {
@@ -164,7 +143,16 @@
              boolean flag1 = levelchunksection.m_188008_();
              if (flag != flag1) {
                 this.f_62776_.m_7726_().m_7827_().m_75834_(p_62865_, flag1);
-@@ -241,7 +_,7 @@
+@@ -236,7 +_,7 @@
+             if (LightEngine.m_284387_(this, p_62865_, blockstate, p_62866_)) {
+                ProfilerFiller profilerfiller = this.f_62776_.m_46473_();
+                profilerfiller.m_6180_("updateSkyLightSources");
+-               this.f_283754_.m_284521_(this, j, i, l);
++               this.f_283754_.update(this, j, i, l);
+                profilerfiller.m_6182_("queueCheckLight");
+                this.f_62776_.m_7726_().m_7827_().m_7174_(p_62865_);
+                profilerfiller.m_7238_();
+@@ -249,7 +_,7 @@
                 this.m_8114_(p_62865_);
              }
  
@@ -173,16 +161,16 @@
                 return null;
              } else {
                 if (!this.f_62776_.f_46443_) {
-@@ -339,7 +_,7 @@
+@@ -347,7 +_,7 @@
              return true;
           } else {
              ServerLevel serverlevel = (ServerLevel)level;
--            return this.m_6708_().m_140114_(ChunkHolder.FullChunkStatus.TICKING) && serverlevel.m_143319_(ChunkPos.m_151388_(p_156411_));
-+            return this.m_6708_().m_140114_(ChunkHolder.FullChunkStatus.TICKING) && serverlevel.areEntitiesLoaded(new ChunkPos(p_156411_));
+-            return this.m_287138_().m_287205_(FullChunkStatus.BLOCK_TICKING) && serverlevel.m_143319_(ChunkPos.m_151388_(p_156411_));
++            return this.m_287138_().m_287205_(FullChunkStatus.BLOCK_TICKING) && serverlevel.areEntitiesLoaded(new ChunkPos(p_156411_));
           }
        }
     }
-@@ -397,8 +_,8 @@
+@@ -405,15 +_,15 @@
        if (block instanceof EntityBlock) {
           GameEventListener gameeventlistener = ((EntityBlock)block).m_214009_(p_223414_, p_223413_);
           if (gameeventlistener != null) {
@@ -191,18 +179,17 @@
 +            long i = SectionPos.blockToSectionCoord(p_223413_.m_58899_().getY());
 +            GameEventListenerRegistry gameeventlistenerregistry = this.getListenerRegistry(i);
              gameeventlistenerregistry.m_246052_(gameeventlistener);
-             if (gameeventlistenerregistry.m_245428_()) {
-                this.f_244451_.remove(i);
-@@ -471,7 +_,7 @@
+          }
+       }
+ 
     }
  
-    public Stream<BlockPos> m_6267_() {
--      return StreamSupport.stream(BlockPos.m_121976_(this.f_187604_.m_45604_(), this.m_141937_(), this.f_187604_.m_45605_(), this.f_187604_.m_45608_(), this.m_151558_() - 1, this.f_187604_.m_45609_()).spliterator(), false).filter((p_187990_) -> {
-+      return StreamSupport.stream(BlockPos.betweenClosed(this.f_187604_.getMinBlockX(), this.getMinBuildHeight(), this.f_187604_.getMinBlockZ(), this.f_187604_.getMaxBlockX(), this.getMaxBuildHeight() - 1, this.f_187604_.getMaxBlockZ()).spliterator(), false).filter((p_187990_) -> {
-          return this.m_8055_(p_187990_).m_60791_() != 0;
-       });
+-   private void m_280642_(int p_283355_) {
++   private void removeGameEventListenerRegistry(long p_283355_) {
+       this.f_244451_.remove(p_283355_);
     }
-@@ -482,7 +_,7 @@
+ 
+@@ -486,7 +_,7 @@
        for(int i = 0; i < this.f_187602_.length; ++i) {
           if (this.f_187602_[i] != null) {
              for(Short oshort : this.f_187602_[i]) {
@@ -211,7 +198,7 @@
                 BlockState blockstate = this.m_8055_(blockpos);
                 FluidState fluidstate = blockstate.m_60819_();
                 if (!fluidstate.m_76178_()) {
-@@ -584,7 +_,7 @@
+@@ -588,7 +_,7 @@
        if (block instanceof EntityBlock) {
           GameEventListener gameeventlistener = ((EntityBlock)block).m_214009_(p_223417_, p_223416_);
           if (gameeventlistener != null) {

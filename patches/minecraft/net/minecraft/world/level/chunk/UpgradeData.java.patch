@@ -35,7 +35,7 @@
                 blockstate1 = m_63335_(blockstate1, direction, level, blockpos, blockpos$mutableblockpos);
              }
  
-@@ -166,7 +_,7 @@
+@@ -166,26 +_,26 @@
        LevelAccessor levelaccessor = p_63348_.m_62953_();
  
        for(int i = 0; i < this.f_63324_.length; ++i) {
@@ -44,14 +44,21 @@
           int[] aint = this.f_63324_[i];
           this.f_63324_[i] = null;
           if (aint != null && aint.length > 0) {
-@@ -177,13 +_,13 @@
-                int k = j & 15;
-                int l = j >> 8 & 15;
-                int i1 = j >> 4 & 15;
--               blockpos$mutableblockpos.m_122178_(chunkpos.m_45604_() + k, levelchunksection.m_63017_() + l, chunkpos.m_45605_() + i1);
--               BlockState blockstate = palettedcontainer.m_63085_(j);
-+               blockpos$mutableblockpos.set(chunkpos.getMinBlockX() + k, levelchunksection.bottomBlockY() + l, chunkpos.getMinBlockZ() + i1);
-+               BlockState blockstate = palettedcontainer.get(j);
+             Direction[] adirection = Direction.values();
+             PalettedContainer<BlockState> palettedcontainer = levelchunksection.m_63019_();
+-            int j = p_63348_.m_151568_(i);
+-            int k = SectionPos.m_123223_(j);
++            long j = p_63348_.getSectionYFromSectionIndex(i);
++            long k = SectionPos.sectionToBlockCoord(j);
+ 
+             for(int l : aint) {
+                int i1 = l & 15;
+                int j1 = l >> 8 & 15;
+                int k1 = l >> 4 & 15;
+-               blockpos$mutableblockpos.m_122178_(chunkpos.m_45604_() + i1, k + j1, chunkpos.m_45605_() + k1);
+-               BlockState blockstate = palettedcontainer.m_63085_(l);
++               blockpos$mutableblockpos.set(chunkpos.getMinBlockX() + i1, k + j1, chunkpos.getMinBlockZ() + k1);
++               BlockState blockstate = palettedcontainer.get(l);
                 BlockState blockstate1 = blockstate;
  
                 for(Direction direction : adirection) {
@@ -62,16 +69,16 @@
                       blockstate1 = m_63335_(blockstate1, direction, levelaccessor, blockpos$mutableblockpos, blockpos$mutableblockpos1);
                    }
                 }
-@@ -195,7 +_,7 @@
+@@ -197,7 +_,7 @@
  
-       for(int j1 = 0; j1 < this.f_63324_.length; ++j1) {
-          if (this.f_63324_[j1] != null) {
--            f_63321_.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.m_151568_(j1), chunkpos.f_45578_, chunkpos.f_45579_);
-+            f_63321_.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.getSectionYFromSectionIndex(j1), chunkpos.f_45578_, chunkpos.f_45579_);
+       for(int l1 = 0; l1 < this.f_63324_.length; ++l1) {
+          if (this.f_63324_[l1] != null) {
+-            f_63321_.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.m_151568_(l1), chunkpos.f_45578_, chunkpos.f_45579_);
++            f_63321_.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.getSectionYFromSectionIndex(l1), chunkpos.f_45578_, chunkpos.f_45579_);
           }
  
-          this.f_63324_[j1] = null;
-@@ -335,7 +_,7 @@
+          this.f_63324_[l1] = null;
+@@ -337,7 +_,7 @@
                       p_63430_.m_7731_(blockpos, blockstate.m_61124_(BlockStateProperties.f_61414_, Integer.valueOf(j)), 18);
                       if (i != 7) {
                          for(Direction direction : f_63363_) {

@@ -42,8 +42,8 @@
  
           label129:
           for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : structurepoolelement.m_213638_(this.f_227256_, blockpos, rotation, this.f_210320_)) {
-             Direction direction = JigsawBlock.m_54250_(structuretemplate$structureblockinfo.f_74676_);
-             BlockPos blockpos1 = structuretemplate$structureblockinfo.f_74675_;
+             Direction direction = JigsawBlock.m_54250_(structuretemplate$structureblockinfo.f_74676_());
+             BlockPos blockpos1 = structuretemplate$structureblockinfo.f_74675_();
 -            BlockPos blockpos2 = blockpos1.m_121945_(direction);
 -            int j = blockpos1.m_123342_() - i;
 -            int k = -1;
@@ -69,11 +69,11 @@
 -                           int l;
 -                           if (p_227268_ && boundingbox1.m_71057_() <= 16) {
 -                              l = list1.stream().mapToInt((p_255598_) -> {
--                                 if (!boundingbox1.m_71051_(p_255598_.f_74675_.m_121945_(JigsawBlock.m_54250_(p_255598_.f_74676_)))) {
+-                                 if (!boundingbox1.m_71051_(p_255598_.f_74675_().m_121945_(JigsawBlock.m_54250_(p_255598_.f_74676_())))) {
 +                           long l;
 +                           if (p_227268_ && boundingbox1.getYSpan() <= 16) {
 +                              l = list1.stream().mapToLong((p_255598_) -> {
-+                                 if (!boundingbox1.isInside(p_255598_.f_74675_.relative(JigsawBlock.m_54250_(p_255598_.f_74676_)))) {
++                                 if (!boundingbox1.isInside(p_255598_.f_74675_().relative(JigsawBlock.m_54250_(p_255598_.f_74676_())))) {
                                      return 0;
                                   } else {
                                      ResourceKey<StructureTemplatePool> resourcekey1 = m_254924_(p_255598_);
@@ -99,7 +99,7 @@
 @@ -268,36 +_,36 @@
                             for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo1 : list1) {
                                if (JigsawBlock.m_54245_(structuretemplate$structureblockinfo, structuretemplate$structureblockinfo1)) {
-                                  BlockPos blockpos3 = structuretemplate$structureblockinfo1.f_74675_;
+                                  BlockPos blockpos3 = structuretemplate$structureblockinfo1.f_74675_();
 -                                 BlockPos blockpos4 = blockpos2.m_121996_(blockpos3);
 +                                 BlockPos blockpos4 = blockpos2.subtract(blockpos3);
                                   BoundingBox boundingbox2 = structurepoolelement1.m_214015_(this.f_227256_, blockpos4, rotation1);
@@ -108,10 +108,10 @@
                                   StructureTemplatePool.Projection structuretemplatepool$projection1 = structurepoolelement1.m_210539_();
                                   boolean flag2 = structuretemplatepool$projection1 == StructureTemplatePool.Projection.RIGID;
 -                                 int j1 = blockpos3.m_123342_();
--                                 int k1 = j - j1 + JigsawBlock.m_54250_(structuretemplate$structureblockinfo.f_74676_).m_122430_();
+-                                 int k1 = j - j1 + JigsawBlock.m_54250_(structuretemplate$structureblockinfo.f_74676_()).m_122430_();
 -                                 int l1;
 +                                 long j1 = blockpos3.getY();
-+                                 long k1 = j - j1 + JigsawBlock.m_54250_(structuretemplate$structureblockinfo.f_74676_).m_122430_();
++                                 long k1 = j - j1 + JigsawBlock.m_54250_(structuretemplate$structureblockinfo.f_74676_()).m_122430_();
 +                                 long l1;
                                   if (flag && flag2) {
                                      l1 = i + k1;

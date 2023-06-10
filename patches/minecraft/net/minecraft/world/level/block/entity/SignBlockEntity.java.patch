@@ -1,11 +1,31 @@
 --- a/net/minecraft/world/level/block/entity/SignBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/SignBlockEntity.java
-@@ -210,7 +_,7 @@
-    public CommandSourceStack m_59735_(@Nullable ServerPlayer p_59736_) {
-       String s = p_59736_ == null ? "Sign" : p_59736_.m_7755_().getString();
-       Component component = (Component)(p_59736_ == null ? Component.m_237113_("Sign") : p_59736_.m_5446_());
--      return new CommandSourceStack(CommandSource.f_80164_, Vec3.m_82512_(this.f_58858_), Vec2.f_82462_, (ServerLevel)this.f_58857_, 2, s, component, this.f_58857_.m_7654_(), p_59736_);
-+      return new CommandSourceStack(CommandSource.f_80164_, Vec3.atCenterOf(this.f_58858_), Vec2.f_82462_, (ServerLevel)this.f_58857_, 2, s, component, this.f_58857_.m_7654_(), p_59736_);
+@@ -55,8 +_,8 @@
+       Block $$2 = this.m_58900_().m_60734_();
+       if ($$2 instanceof SignBlock signblock) {
+          Vec3 vec3 = signblock.m_278172_(this.m_58900_());
+-         double d0 = p_277382_.m_20185_() - ((double)this.m_58899_().m_123341_() + vec3.f_82479_);
+-         double d1 = p_277382_.m_20189_() - ((double)this.m_58899_().m_123343_() + vec3.f_82481_);
++         double d0 = p_277382_.m_20185_() - ((double)this.m_58899_().getX() + vec3.f_82479_);
++         double d1 = p_277382_.m_20189_() - ((double)this.m_58899_().getZ() + vec3.f_82481_);
+          float f = signblock.m_276903_(this.m_58900_());
+          float f1 = (float)(Mth.m_14136_(d1, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+          return Mth.m_14145_(f, f1) <= 90.0F;
+@@ -216,7 +_,7 @@
+    private static CommandSourceStack m_278808_(@Nullable Player p_279428_, Level p_279359_, BlockPos p_279430_) {
+       String s = p_279428_ == null ? "Sign" : p_279428_.m_7755_().getString();
+       Component component = (Component)(p_279428_ == null ? Component.m_237113_("Sign") : p_279428_.m_5446_());
+-      return new CommandSourceStack(CommandSource.f_80164_, Vec3.m_82512_(p_279430_), Vec2.f_82462_, (ServerLevel)p_279359_, 2, s, component, p_279359_.m_7654_(), p_279428_);
++      return new CommandSourceStack(CommandSource.f_80164_, Vec3.atCenterOf(p_279430_), Vec2.f_82462_, (ServerLevel)p_279359_, 2, s, component, p_279359_.m_7654_(), p_279428_);
     }
  
-    public DyeColor m_59753_() {
+    public ClientboundBlockEntityDataPacket m_58483_() {
+@@ -261,7 +_,7 @@
+ 
+    public boolean m_276813_(UUID p_277978_) {
+       Player player = this.f_58857_.m_46003_(p_277978_);
+-      return player == null || player.m_20275_((double)this.m_58899_().m_123341_(), (double)this.m_58899_().m_123342_(), (double)this.m_58899_().m_123343_()) > 64.0D;
++      return player == null || player.m_20275_((double)this.m_58899_().getX(), (double)this.m_58899_().getY(), (double)this.m_58899_().getZ()) > 64.0D;
+    }
+ 
+    public static void m_276836_(Level p_277662_, BlockPos p_278050_, BlockState p_277927_, SignBlockEntity p_277928_) {

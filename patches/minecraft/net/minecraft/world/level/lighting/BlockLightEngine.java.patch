@@ -1,113 +1,132 @@
 --- a/net/minecraft/world/level/lighting/BlockLightEngine.java
 +++ b/net/minecraft/world/level/lighting/BlockLightEngine.java
-@@ -21,100 +_,15 @@
+@@ -22,48 +_,48 @@
+       super(p_278252_, p_278255_);
     }
  
-    private int m_75508_(long p_75509_) {
--      int i = BlockPos.m_121983_(p_75509_);
--      int j = BlockPos.m_122008_(p_75509_);
--      int k = BlockPos.m_122015_(p_75509_);
--      BlockGetter blockgetter = this.f_75630_.m_6196_(SectionPos.m_123171_(i), SectionPos.m_123171_(k));
--      return blockgetter != null ? blockgetter.m_7146_(this.f_75489_.m_122178_(i, j, k)) : 0;
--   }
--
--   protected int m_6359_(long p_75505_, long p_75506_, int p_75507_) {
--      if (p_75506_ == Long.MAX_VALUE) {
--         return 15;
--      } else if (p_75505_ == Long.MAX_VALUE) {
--         return p_75507_ + 15 - this.m_75508_(p_75506_);
--      } else if (p_75507_ >= 15) {
--         return p_75507_;
--      } else {
--         int i = Integer.signum(BlockPos.m_121983_(p_75506_) - BlockPos.m_121983_(p_75505_));
--         int j = Integer.signum(BlockPos.m_122008_(p_75506_) - BlockPos.m_122008_(p_75505_));
--         int k = Integer.signum(BlockPos.m_122015_(p_75506_) - BlockPos.m_122015_(p_75505_));
--         Direction direction = Direction.m_122378_(i, j, k);
--         if (direction == null) {
--            return 15;
--         } else {
--            MutableInt mutableint = new MutableInt();
--            BlockState blockstate = this.m_75664_(p_75506_, mutableint);
--            if (mutableint.getValue() >= 15) {
--               return 15;
--            } else {
--               BlockState blockstate1 = this.m_75664_(p_75505_, (MutableInt)null);
--               VoxelShape voxelshape = this.m_75678_(blockstate1, p_75505_, direction);
--               VoxelShape voxelshape1 = this.m_75678_(blockstate, p_75506_, direction.m_122424_());
--               return Shapes.m_83145_(voxelshape, voxelshape1) ? 15 : p_75507_ + Math.max(1, mutableint.getValue());
--            }
--         }
--      }
--   }
--
--   protected void m_7900_(long p_75494_, int p_75495_, boolean p_75496_) {
--      long i = SectionPos.m_123235_(p_75494_);
--
--      for(Direction direction : f_75488_) {
--         long j = BlockPos.m_121915_(p_75494_, direction);
--         long k = SectionPos.m_123235_(j);
--         if (i == k || this.f_75632_.m_75791_(k)) {
--            this.m_75593_(p_75494_, j, p_75495_, p_75496_);
--         }
--      }
--
--   }
--
--   protected int m_6357_(long p_75498_, long p_75499_, int p_75500_) {
--      int i = p_75500_;
--      if (Long.MAX_VALUE != p_75499_) {
--         int j = this.m_6359_(Long.MAX_VALUE, p_75498_, 0);
--         if (p_75500_ > j) {
--            i = j;
--         }
--
--         if (i == 0) {
--            return i;
--         }
--      }
--
--      long j1 = SectionPos.m_123235_(p_75498_);
--      DataLayer datalayer = this.f_75632_.m_75758_(j1, true);
--
--      for(Direction direction : f_75488_) {
--         long k = BlockPos.m_121915_(p_75498_, direction);
--         if (k != p_75499_) {
--            long l = SectionPos.m_123235_(k);
--            DataLayer datalayer1;
--            if (j1 == l) {
--               datalayer1 = datalayer;
--            } else {
--               datalayer1 = this.f_75632_.m_75758_(l, true);
--            }
--
--            if (datalayer1 != null) {
--               int i1 = this.m_6359_(k, p_75498_, this.m_75682_(datalayer1, k));
--               if (i > i1) {
--                  i = i1;
--               }
--
--               if (i == 0) {
--                  return i;
--               }
--            }
--         }
--      }
--
--      return i;
--   }
--
--   public void m_8116_(BlockPos p_75502_, int p_75503_) {
--      this.f_75632_.m_75785_();
--      this.m_75576_(Long.MAX_VALUE, p_75502_.m_121878_(), 15 - p_75503_, true);
-+      long i = BlockPos.getX(p_75509_);
-+      long j = BlockPos.getY(p_75509_);
-+      long k = BlockPos.getZ(p_75509_);
-+      BlockGetter blockgetter = this.f_75630_.getChunkForLighting(SectionPos.blockToSectionCoord(i), SectionPos.blockToSectionCoord(k));
-+      return blockgetter != null ? blockgetter.m_7146_(this.f_75489_.set(i, j, k)) : 0;
-+   }
-+
-+   @Override
-+   protected void checkNeighborsAfterUpdate(SectionPos p_75563_, int p_75564_, boolean p_75565_) {
-+
+-   protected void m_75858_(long p_285169_) {
+-      long i = SectionPos.m_123235_(p_285169_);
+-      if (this.f_283849_.m_75791_(i)) {
+-         BlockState blockstate = this.m_284512_(this.f_75489_.m_122188_(p_285169_));
+-         int j = this.m_284436_(p_285169_, blockstate);
+-         int k = this.f_283849_.m_75795_(p_285169_);
++   protected void checkNode(BlockPos p_285169_) {
++      SectionPos i = SectionPos.m_123199_(p_285169_);
++      if (this.f_283849_.storingLightForSection(i)) {
++         BlockState blockstate = this.m_284512_(this.f_75489_.set(p_285169_));
++         int j = this.getEmission(p_285169_, blockstate);
++         int k = this.f_283849_.getStoredLevel(p_285169_);
+          if (j < k) {
+-            this.f_283849_.m_75772_(p_285169_, 0);
+-            this.m_284343_(p_285169_, LightEngine.QueueEntry.m_284290_(k));
++            this.f_283849_.setStoredLevel(p_285169_, 0);
++            this.enqueueDecrease(p_285169_, new BlockPos(LightEngine.QueueEntry.m_284290_(k), 0, 0));
+          } else {
+-            this.m_284343_(p_285169_, f_283854_);
++            this.enqueueDecrease(p_285169_, new BlockPos(f_283854_, 0, 0));
+          }
+ 
+          if (j > 0) {
+-            this.m_284218_(p_285169_, LightEngine.QueueEntry.m_284185_(j, m_284265_(blockstate)));
++            this.enqueueIncrease(p_285169_, new BlockPos(LightEngine.QueueEntry.m_284185_(j, m_284265_(blockstate)), 0, 0));
+          }
+ 
+       }
     }
- }
+ 
+-   protected void m_284316_(long p_285500_, long p_285410_, int p_285492_) {
++   protected void propagateIncrease(BlockPos p_285500_, long p_285410_, int p_285492_) {
+       BlockState blockstate = null;
+ 
+       for(Direction direction : f_283814_) {
+          if (LightEngine.QueueEntry.m_284416_(p_285410_, direction)) {
+-            long i = BlockPos.m_121915_(p_285500_, direction);
+-            if (this.f_283849_.m_75791_(SectionPos.m_123235_(i))) {
+-               int j = this.f_283849_.m_75795_(i);
++            BlockPos i = p_285500_.relative(direction);
++            if (this.f_283849_.storingLightForSection(SectionPos.m_123199_(i))) {
++               int j = this.f_283849_.getStoredLevel(i);
+                int k = p_285492_ - 1;
+                if (k > j) {
+-                  this.f_75489_.m_122188_(i);
++                  this.f_75489_.set(i);
+                   BlockState blockstate1 = this.m_284512_(this.f_75489_);
+                   int l = p_285492_ - this.m_284404_(blockstate1, this.f_75489_);
+                   if (l > j) {
+                      if (blockstate == null) {
+-                        blockstate = LightEngine.QueueEntry.m_284390_(p_285410_) ? Blocks.f_50016_.m_49966_() : this.m_284512_(this.f_75489_.m_122188_(p_285500_));
++                        blockstate = LightEngine.QueueEntry.m_284390_(p_285410_) ? Blocks.f_50016_.m_49966_() : this.m_284512_(this.f_75489_.set(p_285500_));
+                      }
+ 
+-                     if (!this.m_284187_(p_285500_, blockstate, i, blockstate1, direction)) {
+-                        this.f_283849_.m_75772_(i, l);
++                     if (!this.shapeOccludes(p_285500_, blockstate, i, blockstate1, direction)) {
++                        this.f_283849_.setStoredLevel(i, l);
+                         if (l > 1) {
+-                           this.m_284218_(i, LightEngine.QueueEntry.m_284188_(l, m_284265_(blockstate1), direction.m_122424_()));
++                           this.enqueueIncrease(i, new BlockPos(LightEngine.QueueEntry.m_284188_(l, m_284265_(blockstate1), direction.m_122424_()), 0, 0));
+                         }
+                      }
+                   }
+@@ -74,28 +_,28 @@
+ 
+    }
+ 
+-   protected void m_284321_(long p_285435_, long p_285230_) {
++   protected void propagateDecrease(BlockPos p_285435_, long p_285230_) {
+       int i = LightEngine.QueueEntry.m_284170_(p_285230_);
+ 
+       for(Direction direction : f_283814_) {
+          if (LightEngine.QueueEntry.m_284416_(p_285230_, direction)) {
+-            long j = BlockPos.m_121915_(p_285435_, direction);
+-            if (this.f_283849_.m_75791_(SectionPos.m_123235_(j))) {
+-               int k = this.f_283849_.m_75795_(j);
++            BlockPos j = p_285435_.relative(direction);
++            if (this.f_283849_.storingLightForSection(SectionPos.m_123199_(j))) {
++               int k = this.f_283849_.getStoredLevel(j);
+                if (k != 0) {
+                   if (k <= i - 1) {
+-                     BlockState blockstate = this.m_284512_(this.f_75489_.m_122188_(j));
+-                     int l = this.m_284436_(j, blockstate);
+-                     this.f_283849_.m_75772_(j, 0);
++                     BlockState blockstate = this.m_284512_(this.f_75489_.set(j));
++                     int l = this.getEmission(j, blockstate);
++                     this.f_283849_.setStoredLevel(j, 0);
+                      if (l < k) {
+-                        this.m_284343_(j, LightEngine.QueueEntry.m_284546_(k, direction.m_122424_()));
++                        this.enqueueDecrease(j, new BlockPos(LightEngine.QueueEntry.m_284546_(k, direction.m_122424_()), 0, 0));
+                      }
+ 
+                      if (l > 0) {
+-                        this.m_284218_(j, LightEngine.QueueEntry.m_284185_(l, m_284265_(blockstate)));
++                        this.enqueueIncrease(j, new BlockPos(LightEngine.QueueEntry.m_284185_(l, m_284265_(blockstate)), 0, 0));
+                      }
+                   } else {
+-                     this.m_284218_(j, LightEngine.QueueEntry.m_284128_(k, false, direction.m_122424_()));
++                     this.enqueueIncrease(j, new BlockPos(LightEngine.QueueEntry.m_284128_(k, false, direction.m_122424_()), 0, 0));
+                   }
+                }
+             }
+@@ -104,18 +_,18 @@
+ 
+    }
+ 
+-   private int m_284436_(long p_285243_, BlockState p_284973_) {
++   private int getEmission(BlockPos p_285243_, BlockState p_284973_) {
+       int i = p_284973_.m_60791_();
+-      return i > 0 && this.f_283849_.m_284382_(SectionPos.m_123235_(p_285243_)) ? i : 0;
++      return i > 0 && this.f_283849_.lightOnInSection(SectionPos.m_123199_(p_285243_)) ? i : 0;
+    }
+ 
+    public void m_142519_(ChunkPos p_285274_) {
+       this.m_9335_(p_285274_, true);
+-      LightChunk lightchunk = this.f_283884_.m_6196_(p_285274_.f_45578_, p_285274_.f_45579_);
++      LightChunk lightchunk = this.f_283884_.getChunkForLighting(p_285274_.f_45578_, p_285274_.f_45579_);
+       if (lightchunk != null) {
+          lightchunk.m_284254_((p_285266_, p_285452_) -> {
+             int i = p_285452_.m_60791_();
+-            this.m_284218_(p_285266_.m_121878_(), LightEngine.QueueEntry.m_284185_(i, m_284265_(p_285452_)));
++            this.enqueueIncrease(p_285266_, new BlockPos(LightEngine.QueueEntry.m_284185_(i, m_284265_(p_285452_)), 0, 0));
+          });
+       }
+ 

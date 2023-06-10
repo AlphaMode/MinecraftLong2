@@ -1,15 +1,6 @@
 --- a/net/minecraft/client/multiplayer/ClientLevel.java
 +++ b/net/minecraft/client/multiplayer/ClientLevel.java
-@@ -89,7 +_,7 @@
- import org.slf4j.Logger;
- 
- @OnlyIn(Dist.CLIENT)
--public class ClientLevel extends Level {
-+public class ClientLevel extends Level implements ca.spottedleaf.starlight.common.world.ExtendedWorld {
-    private static final Logger f_233600_ = LogUtils.getLogger();
-    private static final double f_171629_ = 0.05D;
-    private static final int f_194125_ = 10;
-@@ -252,7 +_,7 @@
+@@ -256,7 +_,7 @@
     }
  
     public boolean m_183599_(Entity p_194185_) {
@@ -18,7 +9,7 @@
     }
  
     public void m_104639_(Entity p_104640_) {
-@@ -295,7 +_,7 @@
+@@ -299,7 +_,7 @@
  
     public void m_171649_(ChunkPos p_171650_) {
        this.f_104558_.forEach((p_194154_, p_194155_) -> {
@@ -27,7 +18,7 @@
        });
        this.f_171631_.m_157651_(p_171650_);
     }
-@@ -306,7 +_,7 @@
+@@ -310,7 +_,7 @@
        });
     }
  
@@ -36,7 +27,7 @@
        return true;
     }
  
-@@ -345,15 +_,15 @@
+@@ -349,15 +_,15 @@
        this.f_104561_.m_104910_().m_129507_(Component.m_237115_("multiplayer.status.quitting"));
     }
  
@@ -55,7 +46,7 @@
        }
  
     }
-@@ -372,11 +_,11 @@
+@@ -376,11 +_,11 @@
        return null;
     }
  
@@ -72,7 +63,7 @@
        BlockState blockstate = this.m_8055_(p_233619_);
        blockstate.m_60734_().m_214162_(blockstate, this, p_233619_, p_233617_);
        FluidState fluidstate = this.m_6425_(p_233619_);
-@@ -385,7 +_,7 @@
+@@ -389,7 +_,7 @@
           ParticleOptions particleoptions = fluidstate.m_76189_();
           if (particleoptions != null && this.f_46441_.m_188503_(10) == 0) {
              boolean flag = blockstate.m_60783_(this, p_233619_, Direction.DOWN);
@@ -81,7 +72,7 @@
              this.m_104689_(blockpos, this.m_8055_(blockpos), particleoptions, flag);
           }
        }
-@@ -397,7 +_,7 @@
+@@ -401,7 +_,7 @@
        if (!blockstate.m_60838_(this, p_233619_)) {
           this.m_204166_(p_233619_).m_203334_().m_47562_().ifPresent((p_264703_) -> {
              if (p_264703_.m_220527_(this.f_46441_)) {
@@ -90,7 +81,7 @@
              }
  
           });
-@@ -411,19 +_,19 @@
+@@ -415,19 +_,19 @@
           double d0 = voxelshape.m_83297_(Direction.Axis.Y);
           if (d0 < 1.0D) {
              if (p_104693_) {
@@ -114,7 +105,7 @@
                 }
              }
           }
-@@ -432,7 +_,7 @@
+@@ -436,7 +_,7 @@
     }
  
     private void m_104694_(BlockPos p_104695_, ParticleOptions p_104696_, VoxelShape p_104697_, double p_104698_) {
@@ -123,7 +114,7 @@
     }
  
     private void m_104592_(double p_104593_, double p_104594_, double p_104595_, double p_104596_, double p_104597_, ParticleOptions p_104598_) {
-@@ -536,12 +_,12 @@
+@@ -540,8 +_,8 @@
        this.f_104562_.m_109721_(p_104759_, p_104760_, p_104761_);
     }
  
@@ -133,14 +124,8 @@
 +      this.f_104562_.setSectionDirtyWithNeighbors(p_104794_, p_104795_, p_104796_);
     }
  
--   public void m_197405_(int p_197406_, int p_197407_) {
--      LevelChunk levelchunk = this.f_104559_.m_62227_(p_197406_, p_197407_, false);
-+   public void setLightReady(long p_197406_, long p_197407_) {
-+      LevelChunk levelchunk = this.f_104559_.getChunk(p_197406_, p_197407_, false);
-       if (levelchunk != null) {
-          levelchunk.m_196864_(true);
-       }
-@@ -590,7 +_,7 @@
+    public void m_6801_(int p_104634_, BlockPos p_104635_, int p_104636_) {
+@@ -586,7 +_,7 @@
        return this.f_104566_;
     }
  
@@ -149,7 +134,7 @@
        return this.m_9598_().m_175515_(Registries.f_256952_).m_246971_(Biomes.f_48202_);
     }
  
-@@ -609,7 +_,7 @@
+@@ -605,7 +_,7 @@
        Vec3 vec3 = p_171661_.m_82492_(2.0D, 2.0D, 2.0D).m_82490_(0.25D);
        BiomeManager biomemanager = this.m_7062_();
        Vec3 vec31 = CubicSampler.m_130038_(vec3, (p_194161_, p_194162_, p_194163_) -> {
@@ -158,7 +143,7 @@
        });
        float f1 = Mth.m_14089_(f * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
        f1 = Mth.m_14036_(f1, 0.0F, 1.0F);
-@@ -725,18 +_,18 @@
+@@ -722,18 +_,18 @@
     public int m_104762_(BlockPos p_104763_, ColorResolver p_104764_) {
        int i = Minecraft.m_91087_().f_91066_.m_232121_().m_231551_();
        if (i == 0) {
@@ -181,7 +166,7 @@
              k += (j1 & 16711680) >> 16;
              l += (j1 & '\uff00') >> 8;
           }
-@@ -797,9 +_,9 @@
+@@ -794,9 +_,9 @@
        private final boolean f_104830_;
        private final GameRules f_104831_;
        private final boolean f_104832_;
@@ -194,7 +179,7 @@
        private float f_104836_;
        private long f_104837_;
        private long f_104838_;
-@@ -814,15 +_,15 @@
+@@ -811,15 +_,15 @@
           this.f_104831_ = new GameRules();
        }
  
@@ -213,7 +198,7 @@
           return this.f_104835_;
        }
  
-@@ -838,15 +_,15 @@
+@@ -835,15 +_,15 @@
           return this.f_104838_;
        }
  
@@ -232,7 +217,7 @@
           this.f_104835_ = p_104872_;
        }
  
-@@ -863,9 +_,9 @@
+@@ -860,9 +_,9 @@
        }
  
        public void m_7250_(BlockPos p_104854_, float p_104855_) {
@@ -245,7 +230,7 @@
           this.f_104836_ = p_104855_;
        }
  
-@@ -910,7 +_,7 @@
+@@ -907,7 +_,7 @@
        }
  
        public double m_171687_(LevelHeightAccessor p_171688_) {
@@ -254,17 +239,3 @@
        }
  
        public float m_205519_() {
-@@ -948,5 +_,13 @@
- 
-       public void m_214006_(Entity p_233660_) {
-       }
-+   }
-+
-+   public final net.minecraft.world.level.chunk.LevelChunk getChunkAtImmediately(final long chunkX, final long chunkZ) {
-+      return this.m_7726_().getChunk(chunkX, chunkZ, false);
-+   }
-+
-+   public final net.minecraft.world.level.chunk.ChunkAccess getAnyChunkImmediately(long chunkX, long chunkZ) {
-+      return this.m_7726_().getChunk(chunkX, chunkZ, false);
-    }
- }

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/state/BlockBehaviour.java
 +++ b/net/minecraft/world/level/block/state/BlockBehaviour.java
-@@ -257,7 +_,7 @@
+@@ -251,7 +_,7 @@
     /** @deprecated */
     @Deprecated
     public long m_7799_(BlockState p_60539_, BlockPos p_60540_) {
@@ -9,37 +9,7 @@
     }
  
     /** @deprecated */
-@@ -419,7 +_,7 @@
-       return this.f_60439_.f_60888_;
-    }
- 
--   public abstract static class BlockStateBase extends StateHolder<Block, BlockState> {
-+   public abstract static class BlockStateBase extends StateHolder<Block, BlockState> implements ca.spottedleaf.starlight.common.blockstate.ExtendedAbstractBlockState {
-       private final int f_60594_;
-       private final boolean f_60595_;
-       private final boolean f_60596_;
-@@ -440,6 +_,10 @@
-       private FluidState f_243896_ = Fluids.f_76191_.m_76145_();
-       private boolean f_244227_;
- 
-+      private int opacityIfCached;
-+
-+      private boolean isConditionallyFullOpaque;
-+
-       protected BlockStateBase(Block p_60608_, ImmutableMap<Property<?>, Comparable<?>> p_60609_, MapCodec<BlockState> p_60610_) {
-          super(p_60608_, p_60609_, p_60610_);
-          BlockBehaviour.Properties blockbehaviour$properties = p_60608_.f_60439_;
-@@ -466,7 +_,8 @@
-          if (!this.m_60734_().m_49967_()) {
-             this.f_60593_ = new BlockBehaviour.BlockStateBase.Cache(this.m_7160_());
-          }
--
-+         this.isConditionallyFullOpaque = this.f_60601_ & this.f_60595_;
-+         this.opacityIfCached = this.f_60593_ == null || this.isConditionallyFullOpaque ? -1 : this.f_60593_.f_60848_;
-       }
- 
-       public Block m_60734_() {
-@@ -659,7 +_,7 @@
+@@ -707,7 +_,7 @@
           BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
           for(Direction direction : BlockBehaviour.f_60441_) {
@@ -48,24 +18,7 @@
              p_60706_.m_213683_(direction.m_122424_(), this.m_7160_(), blockpos$mutableblockpos, p_60707_, p_60708_, p_60709_);
           }
  
-@@ -821,6 +_,16 @@
-          return this.f_244264_;
-       }
- 
-+      @Override
-+      public final boolean isConditionallyFullOpaque() {
-+         return this.isConditionallyFullOpaque;
-+      }
-+
-+      @Override
-+      public final int getOpacityIfCached() {
-+         return this.opacityIfCached;
-+      }
-+
-       static final class Cache {
-          private static final Direction[] f_60845_ = Direction.values();
-          private static final int f_60846_ = SupportType.values().length;
-@@ -1108,7 +_,7 @@
+@@ -1198,7 +_,7 @@
              case XYZ:
                 this.f_271289_ = Optional.of((p_272562_, p_272563_, p_272564_) -> {
                    Block block = p_272562_.m_60734_();
@@ -74,7 +27,7 @@
                    double d0 = ((double)((float)(i >> 4 & 15L) / 15.0F) - 1.0D) * (double)block.m_142627_();
                    float f = block.m_142740_();
                    double d1 = Mth.m_14008_(((double)((float)(i & 15L) / 15.0F) - 0.5D) * 0.5D, (double)(-f), (double)f);
-@@ -1119,7 +_,7 @@
+@@ -1209,7 +_,7 @@
              case XZ:
                 this.f_271289_ = Optional.of((p_272565_, p_272566_, p_272567_) -> {
                    Block block = p_272565_.m_60734_();

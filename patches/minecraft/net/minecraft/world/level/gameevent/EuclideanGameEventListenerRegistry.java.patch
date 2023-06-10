@@ -1,0 +1,32 @@
+--- a/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java
++++ b/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java
+@@ -16,10 +_,10 @@
+    private final List<GameEventListener> f_244008_ = Lists.newArrayList();
+    private boolean f_244249_;
+    private final ServerLevel f_244607_;
+-   private final int f_279540_;
++   private final long f_279540_;
+    private final EuclideanGameEventListenerRegistry.OnEmptyAction f_279576_;
+ 
+-   public EuclideanGameEventListenerRegistry(ServerLevel p_281505_, int p_283450_, EuclideanGameEventListenerRegistry.OnEmptyAction p_282325_) {
++   public EuclideanGameEventListenerRegistry(ServerLevel p_281505_, long p_283450_, EuclideanGameEventListenerRegistry.OnEmptyAction p_282325_) {
+       this.f_244607_ = p_281505_;
+       this.f_279540_ = p_283450_;
+       this.f_279576_ = p_282325_;
+@@ -47,7 +_,7 @@
+       }
+ 
+       if (this.f_244422_.isEmpty()) {
+-         this.f_279576_.m_280077_(this.f_279540_);
++         this.f_279576_.apply(this.f_279540_);
+       }
+ 
+    }
+@@ -101,6 +_,6 @@
+ 
+    @FunctionalInterface
+    public interface OnEmptyAction {
+-      void m_280077_(int p_282867_);
++      void apply(long p_282867_);
+    }
+ }

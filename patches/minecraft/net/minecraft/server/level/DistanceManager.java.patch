@@ -1,9 +1,9 @@
 --- a/net/minecraft/server/level/DistanceManager.java
 +++ b/net/minecraft/server/level/DistanceManager.java
-@@ -43,8 +_,8 @@
+@@ -39,8 +_,8 @@
+    static final Logger f_140758_ = LogUtils.getLogger();
+    static final int f_140759_ = ChunkLevel.m_287154_(FullChunkStatus.ENTITY_TICKING);
     private static final int f_143206_ = 4;
-    private static final int f_183899_ = 32;
-    private static final int f_183900_ = 33;
 -   final Long2ObjectMap<ObjectSet<ServerPlayer>> f_140760_ = new Long2ObjectOpenHashMap<>();
 -   final Long2ObjectOpenHashMap<SortedArraySet<Ticket<?>>> f_140761_ = new Long2ObjectOpenHashMap<>();
 +   final it.unimi.dsi.fastutil.objects.Object2ObjectMap<net.minecraft.core.SectionPos, ObjectSet<ServerPlayer>> f_140760_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
@@ -11,7 +11,7 @@
     private final DistanceManager.ChunkTicketTracker f_140762_ = new DistanceManager.ChunkTicketTracker();
     private final DistanceManager.FixedPlayerDistanceChunkTracker f_140763_ = new DistanceManager.FixedPlayerDistanceChunkTracker(8);
     private final TickingTracker f_183901_ = new TickingTracker();
-@@ -53,7 +_,7 @@
+@@ -49,7 +_,7 @@
     final ChunkTaskPriorityQueueSorter f_140766_;
     final ProcessorHandle<ChunkTaskPriorityQueueSorter.Message<Runnable>> f_140767_;
     final ProcessorHandle<ChunkTaskPriorityQueueSorter.Release> f_140768_;
@@ -20,7 +20,7 @@
     final Executor f_140770_;
     private long f_140771_;
     private int f_183902_ = 10;
-@@ -69,10 +_,10 @@
+@@ -65,10 +_,10 @@
  
     protected void m_140776_() {
        ++this.f_140771_;
@@ -33,7 +33,7 @@
           Iterator<Ticket<?>> iterator = entry.getValue().iterator();
           boolean flag = false;
  
-@@ -81,12 +_,12 @@
+@@ -77,12 +_,12 @@
              if (ticket.m_9434_(this.f_140771_)) {
                 iterator.remove();
                 flag = true;
@@ -48,8 +48,8 @@
           }
  
           if (entry.getValue().isEmpty()) {
-@@ -100,13 +_,13 @@
-       return !p_140798_.isEmpty() ? p_140798_.m_14262_().m_9433_() : ChunkMap.f_140127_ + 1;
+@@ -96,13 +_,13 @@
+       return !p_140798_.isEmpty() ? p_140798_.m_14262_().m_9433_() : ChunkLevel.f_286967_ + 1;
     }
  
 -   protected abstract boolean m_7009_(long p_140779_);
@@ -69,7 +69,7 @@
  
     public boolean m_140805_(ChunkMap p_140806_) {
        this.f_140763_.m_6410_();
-@@ -125,14 +_,14 @@
+@@ -121,14 +_,14 @@
           return true;
        } else {
           if (!this.f_140769_.isEmpty()) {
@@ -88,7 +88,7 @@
                    if (chunkholder == null) {
                       throw new IllegalStateException();
                    }
-@@ -140,7 +_,7 @@
+@@ -136,7 +_,7 @@
                    CompletableFuture<Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>> completablefuture = chunkholder.m_140073_();
                    completablefuture.thenAccept((p_183905_) -> {
                       this.f_140770_.execute(() -> {
@@ -97,7 +97,7 @@
                          }, j, false));
                       });
                    });
-@@ -154,19 +_,19 @@
+@@ -150,19 +_,19 @@
        }
     }
  
@@ -122,7 +122,7 @@
        if (sortedarrayset.remove(p_140820_)) {
        }
  
-@@ -174,33 +_,31 @@
+@@ -170,33 +_,31 @@
           this.f_140761_.remove(p_140819_);
        }
  
@@ -142,7 +142,7 @@
     }
  
     public <T> void m_140840_(TicketType<T> p_140841_, ChunkPos p_140842_, int p_140843_, T p_140844_) {
-       Ticket<T> ticket = new Ticket<>(p_140841_, 33 - p_140843_, p_140844_);
+       Ticket<T> ticket = new Ticket<>(p_140841_, ChunkLevel.m_287154_(FullChunkStatus.FULL) - p_140843_, p_140844_);
 -      long i = p_140842_.m_45588_();
 -      this.m_140784_(i, ticket);
 -      this.f_183901_.m_184151_(i, ticket);
@@ -151,7 +151,7 @@
     }
  
     public <T> void m_140849_(TicketType<T> p_140850_, ChunkPos p_140851_, int p_140852_, T p_140853_) {
-       Ticket<T> ticket = new Ticket<>(p_140850_, 33 - p_140852_, p_140853_);
+       Ticket<T> ticket = new Ticket<>(p_140850_, ChunkLevel.m_287154_(FullChunkStatus.FULL) - p_140852_, p_140853_);
 -      long i = p_140851_.m_45588_();
 -      this.m_140818_(i, ticket);
 -      this.f_183901_.m_184165_(i, ticket);
@@ -164,10 +164,10 @@
        return this.f_140761_.computeIfAbsent(p_140858_, (p_183923_) -> {
           return SortedArraySet.m_14246_(4);
        });
-@@ -208,37 +_,34 @@
+@@ -204,37 +_,34 @@
  
     protected void m_140799_(ChunkPos p_140800_, boolean p_140801_) {
-       Ticket<ChunkPos> ticket = new Ticket<>(TicketType.f_9445_, 31, p_140800_);
+       Ticket<ChunkPos> ticket = new Ticket<>(TicketType.f_9445_, ChunkMap.f_143033_, p_140800_);
 -      long i = p_140800_.m_45588_();
        if (p_140801_) {
 -         this.m_140784_(i, ticket);
@@ -213,16 +213,16 @@
           this.f_183901_.m_184168_(TicketType.f_9444_, chunkpos, this.m_183918_(), chunkpos);
        }
  
-@@ -248,15 +_,15 @@
-       return Math.max(0, 31 - this.f_183902_);
+@@ -244,15 +_,15 @@
+       return Math.max(0, ChunkLevel.m_287154_(FullChunkStatus.ENTITY_TICKING) - this.f_183902_);
     }
  
 -   public boolean m_183913_(long p_183914_) {
--      return this.f_183901_.m_6172_(p_183914_) < 32;
+-      return ChunkLevel.m_287155_(this.f_183901_.m_6172_(p_183914_));
 -   }
 -
 -   public boolean m_183916_(long p_183917_) {
--      return this.f_183901_.m_6172_(p_183917_) < 33;
+-      return ChunkLevel.m_287283_(this.f_183901_.m_6172_(p_183917_));
 -   }
 -
 -   protected String m_140838_(long p_140839_) {
@@ -238,7 +238,7 @@
        SortedArraySet<Ticket<?>> sortedarrayset = this.f_140761_.get(p_140839_);
        return sortedarrayset != null && !sortedarrayset.isEmpty() ? sortedarrayset.m_14262_().toString() : "no_ticket";
     }
-@@ -278,7 +_,7 @@
+@@ -274,7 +_,7 @@
        return this.f_140763_.f_140886_.size();
     }
  
@@ -247,7 +247,7 @@
        this.f_140763_.m_6410_();
        return this.f_140763_.f_140886_.containsKey(p_140848_);
     }
-@@ -289,8 +_,8 @@
+@@ -285,8 +_,8 @@
  
     private void m_143207_(String p_143208_) {
        try (FileOutputStream fileoutputstream = new FileOutputStream(new File(p_143208_))) {
@@ -258,7 +258,7 @@
  
              for(Ticket<?> ticket : entry.getValue()) {
                 fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + ticket.m_9428_() + "\t" + ticket.m_9433_() + "\t\n").getBytes(StandardCharsets.UTF_8));
-@@ -309,10 +_,10 @@
+@@ -305,10 +_,10 @@
  
     public void m_201910_() {
        ImmutableSet<TicketType<?>> immutableset = ImmutableSet.of(TicketType.f_9449_, TicketType.f_9448_, TicketType.f_9446_);
@@ -271,7 +271,7 @@
           Iterator<Ticket<?>> iterator = entry.getValue().iterator();
           boolean flag = false;
  
-@@ -321,12 +_,12 @@
+@@ -317,12 +_,12 @@
              if (!immutableset.contains(ticket.m_9428_())) {
                 iterator.remove();
                 flag = true;
@@ -286,8 +286,8 @@
           }
  
           if (entry.getValue().isEmpty()) {
-@@ -345,7 +_,7 @@
-          super(ChunkMap.f_140127_ + 2, 16, 256);
+@@ -343,7 +_,7 @@
+          super(f_286988_ + 1, 16, 256);
        }
  
 -      protected int m_7031_(long p_140883_) {
@@ -295,7 +295,7 @@
           SortedArraySet<Ticket<?>> sortedarrayset = DistanceManager.this.f_140761_.get(p_140883_);
           if (sortedarrayset == null) {
              return Integer.MAX_VALUE;
-@@ -354,9 +_,10 @@
+@@ -352,9 +_,10 @@
           }
        }
  
@@ -309,8 +309,8 @@
              if (chunkholder != null) {
                 return chunkholder.m_140093_();
              }
-@@ -365,11 +_,12 @@
-          return ChunkMap.f_140127_ + 1;
+@@ -363,11 +_,12 @@
+          return f_286988_;
        }
  
 -      protected void m_7351_(long p_140880_, int p_140881_) {
@@ -318,14 +318,14 @@
 +      protected void setLevel(net.minecraft.core.SectionPos p_140880_, int p_140881_) {
 +         ChunkPos pos = p_140880_.m_123251_();
 +         ChunkHolder chunkholder = DistanceManager.this.getChunk(pos);
-          int i = chunkholder == null ? ChunkMap.f_140127_ + 1 : chunkholder.m_140093_();
+          int i = chunkholder == null ? f_286988_ : chunkholder.m_140093_();
           if (i != p_140881_) {
 -            chunkholder = DistanceManager.this.m_7288_(p_140880_, p_140881_, chunkholder, i);
 +            chunkholder = DistanceManager.this.updateChunkScheduling(pos, p_140881_, chunkholder, i);
              if (chunkholder != null) {
                 DistanceManager.this.f_140765_.add(chunkholder);
              }
-@@ -383,7 +_,7 @@
+@@ -381,7 +_,7 @@
     }
  
     class FixedPlayerDistanceChunkTracker extends ChunkTracker {
@@ -334,7 +334,7 @@
        protected final int f_140887_;
  
        protected FixedPlayerDistanceChunkTracker(int p_140891_) {
-@@ -392,29 +_,29 @@
+@@ -390,29 +_,29 @@
           this.f_140886_.defaultReturnValue((byte)(p_140891_ + 2));
        }
  
@@ -379,7 +379,7 @@
           ObjectSet<ServerPlayer> objectset = DistanceManager.this.f_140760_.get(p_140903_);
           return objectset != null && !objectset.isEmpty();
        }
-@@ -425,10 +_,10 @@
+@@ -423,10 +_,10 @@
  
        private void m_143212_(String p_143213_) {
           try (FileOutputStream fileoutputstream = new FileOutputStream(new File(p_143213_))) {
@@ -393,7 +393,7 @@
              }
           } catch (IOException ioexception) {
              DistanceManager.f_140758_.error("Failed to dump chunks to {}", p_143213_, ioexception);
-@@ -439,8 +_,8 @@
+@@ -437,8 +_,8 @@
  
     class PlayerTicketTracker extends DistanceManager.FixedPlayerDistanceChunkTracker {
        private int f_140905_;
@@ -404,7 +404,7 @@
  
        protected PlayerTicketTracker(int p_140910_) {
           super(p_140910_);
-@@ -448,44 +_,45 @@
+@@ -446,44 +_,45 @@
           this.f_140906_.defaultReturnValue(p_140910_ + 2);
        }
  
@@ -418,7 +418,7 @@
 +         for(it.unimi.dsi.fastutil.objects.Object2ByteMap.Entry<net.minecraft.core.SectionPos> entry : this.f_140886_.object2ByteEntrySet()) {
              byte b0 = entry.getByteValue();
 -            long i = entry.getLongKey();
--            this.m_140918_(i, b0, this.m_140932_(b0), b0 <= p_140913_ - 2);
+-            this.m_140918_(i, b0, this.m_140932_(b0), b0 <= p_140913_);
 +            net.minecraft.core.SectionPos i = entry.getKey();
 +            this.onLevelChange(i, b0, this.m_140932_(b0), b0 <= p_140913_ - 2);
           }
@@ -466,7 +466,7 @@
              }
           }
  
-@@ -494,24 +_,24 @@
+@@ -492,24 +_,24 @@
        public void m_6410_() {
           super.m_6410_();
           if (!this.f_140907_.isEmpty()) {

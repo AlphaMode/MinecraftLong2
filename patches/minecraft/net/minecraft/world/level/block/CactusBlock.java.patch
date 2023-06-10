@@ -22,23 +22,22 @@
        }
  
        return super.m_7417_(p_51157_, p_51158_, p_51159_, p_51160_, p_51161_, p_51162_);
-@@ -79,15 +_,15 @@
+@@ -79,14 +_,14 @@
  
     public boolean m_7898_(BlockState p_51153_, LevelReader p_51154_, BlockPos p_51155_) {
        for(Direction direction : Direction.Plane.HORIZONTAL) {
 -         BlockState blockstate = p_51154_.m_8055_(p_51155_.m_121945_(direction));
+-         if (blockstate.m_280296_() || p_51154_.m_6425_(p_51155_.m_121945_(direction)).m_205070_(FluidTags.f_13132_)) {
 +         BlockState blockstate = p_51154_.m_8055_(p_51155_.relative(direction));
-          Material material = blockstate.m_60767_();
--         if (material.m_76333_() || p_51154_.m_6425_(p_51155_.m_121945_(direction)).m_205070_(FluidTags.f_13132_)) {
-+         if (material.m_76333_() || p_51154_.m_6425_(p_51155_.relative(direction)).m_205070_(FluidTags.f_13132_)) {
++         if (blockstate.m_280296_() || p_51154_.m_6425_(p_51155_.relative(direction)).m_205070_(FluidTags.f_13132_)) {
              return false;
           }
        }
  
 -      BlockState blockstate1 = p_51154_.m_8055_(p_51155_.m_7495_());
--      return (blockstate1.m_60713_(Blocks.f_50128_) || blockstate1.m_60713_(Blocks.f_49992_) || blockstate1.m_60713_(Blocks.f_49993_)) && !p_51154_.m_8055_(p_51155_.m_7494_()).m_60767_().m_76332_();
+-      return (blockstate1.m_60713_(Blocks.f_50128_) || blockstate1.m_204336_(BlockTags.f_13029_)) && !p_51154_.m_8055_(p_51155_.m_7494_()).m_278721_();
 +      BlockState blockstate1 = p_51154_.m_8055_(p_51155_.below());
-+      return (blockstate1.m_60713_(Blocks.f_50128_) || blockstate1.m_60713_(Blocks.f_49992_) || blockstate1.m_60713_(Blocks.f_49993_)) && !p_51154_.m_8055_(p_51155_.above()).m_60767_().m_76332_();
++      return (blockstate1.m_60713_(Blocks.f_50128_) || blockstate1.m_204336_(BlockTags.f_13029_)) && !p_51154_.m_8055_(p_51155_.above()).m_278721_();
     }
  
     public void m_7892_(BlockState p_51148_, Level p_51149_, BlockPos p_51150_, Entity p_51151_) {

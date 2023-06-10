@@ -1,0 +1,191 @@
+--- a/net/minecraft/world/level/lighting/LightEngine.java
++++ b/net/minecraft/world/level/lighting/LightEngine.java
+@@ -26,9 +_,9 @@
+    protected static final Direction[] f_283814_ = Direction.values();
+    protected final LightChunkGetter f_283884_;
+    protected final S f_283849_;
+-   private final LongOpenHashSet f_283863_ = new LongOpenHashSet(512, 0.5F);
+-   private final LongArrayFIFOQueue f_283823_ = new LongArrayFIFOQueue();
+-   private final LongArrayFIFOQueue f_283934_ = new LongArrayFIFOQueue();
++   private final it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<net.minecraft.core.BlockPos> f_283863_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(512, 0.5F);
++   private final it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<BlockPos> f_283823_ = new it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<>();
++   private final it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<BlockPos> f_283934_ = new it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<>();
+    private final BlockPos.MutableBlockPos f_283920_ = new BlockPos.MutableBlockPos();
+    private static final int f_283860_ = 2;
+    private final long[] f_283833_ = new long[2];
+@@ -69,9 +_,9 @@
+    }
+ 
+    protected BlockState m_284512_(BlockPos p_285338_) {
+-      int i = SectionPos.m_123171_(p_285338_.m_123341_());
+-      int j = SectionPos.m_123171_(p_285338_.m_123343_());
+-      LightChunk lightchunk = this.m_284303_(i, j);
++      long i = SectionPos.blockToSectionCoord(p_285338_.getX());
++      long j = SectionPos.blockToSectionCoord(p_285338_.getZ());
++      LightChunk lightchunk = this.getChunk(i, j);
+       return lightchunk == null ? Blocks.f_50752_.m_49966_() : lightchunk.m_8055_(p_285338_);
+    }
+ 
+@@ -79,19 +_,19 @@
+       return Math.max(1, p_285084_.m_60739_(this.f_283884_.m_7653_(), p_285057_));
+    }
+ 
+-   protected boolean m_284187_(long p_285115_, BlockState p_285154_, long p_284957_, BlockState p_285155_, Direction p_285327_) {
+-      VoxelShape voxelshape = this.m_284428_(p_285154_, p_285115_, p_285327_);
+-      VoxelShape voxelshape1 = this.m_284428_(p_285155_, p_284957_, p_285327_.m_122424_());
++   protected boolean shapeOccludes(BlockPos p_285115_, BlockState p_285154_, BlockPos p_284957_, BlockState p_285155_, Direction p_285327_) {
++      VoxelShape voxelshape = this.getOcclusionShape(p_285154_, p_285115_, p_285327_);
++      VoxelShape voxelshape1 = this.getOcclusionShape(p_285155_, p_284957_, p_285327_.m_122424_());
+       return Shapes.m_83145_(voxelshape, voxelshape1);
+    }
+ 
+-   protected VoxelShape m_284428_(BlockState p_285136_, long p_285517_, Direction p_285376_) {
+-      return m_284189_(this.f_283884_.m_7653_(), this.f_283920_.m_122188_(p_285517_), p_285136_, p_285376_);
++   protected VoxelShape getOcclusionShape(BlockState p_285136_, BlockPos p_285517_, Direction p_285376_) {
++      return m_284189_(this.f_283884_.m_7653_(), this.f_283920_.set(p_285517_), p_285136_, p_285376_);
+    }
+ 
+    @Nullable
+-   protected LightChunk m_284303_(int p_284967_, int p_285447_) {
+-      long i = ChunkPos.m_45589_(p_284967_, p_285447_);
++   protected LightChunk getChunk(long p_284967_, long p_285447_) {
++      long i = ChunkPos.asLong(p_284967_, p_285447_);
+ 
+       for(int j = 0; j < 2; ++j) {
+          if (i == this.f_283833_[j]) {
+@@ -99,7 +_,7 @@
+          }
+       }
+ 
+-      LightChunk lightchunk = this.f_283884_.m_6196_(p_284967_, p_285447_);
++      LightChunk lightchunk = this.f_283884_.getChunkForLighting(p_284967_, p_285447_);
+ 
+       for(int k = 1; k > 0; --k) {
+          this.f_283833_[k] = this.f_283833_[k - 1];
+@@ -112,35 +_,35 @@
+    }
+ 
+    private void m_284550_() {
+-      Arrays.fill(this.f_283833_, ChunkPos.f_45577_);
++      Arrays.fill(this.f_283833_, java.lang.Long.MAX_VALUE);
+       Arrays.fill(this.f_283888_, (Object)null);
+    }
+ 
+    public void m_7174_(BlockPos p_285352_) {
+-      this.f_283863_.add(p_285352_.m_121878_());
++      this.f_283863_.add(p_285352_);
+    }
+ 
+-   public void m_284203_(long p_285221_, @Nullable DataLayer p_285427_) {
+-      this.f_283849_.m_284542_(p_285221_, p_285427_);
++   public void queueSectionData(SectionPos p_285221_, @Nullable DataLayer p_285427_) {
++      this.f_283849_.queueSectionData(p_285221_, p_285427_);
+    }
+ 
+    public void m_284245_(ChunkPos p_285314_, boolean p_284937_) {
+-      this.f_283849_.m_75782_(SectionPos.m_284454_(p_285314_.f_45578_, p_285314_.f_45579_), p_284937_);
++      this.f_283849_.retainData(SectionPos.getZeroNode(p_285314_.f_45578_, p_285314_.f_45579_), p_284937_);
+    }
+ 
+    public void m_6191_(SectionPos p_285167_, boolean p_284934_) {
+-      this.f_283849_.m_75787_(p_285167_.m_123252_(), p_284934_);
++      this.f_283849_.updateSectionStatus(p_285167_, p_284934_);
+    }
+ 
+    public void m_9335_(ChunkPos p_285116_, boolean p_285522_) {
+-      this.f_283849_.m_284259_(SectionPos.m_284454_(p_285116_.f_45578_, p_285116_.f_45579_), p_285522_);
++      this.f_283849_.setLightEnabled(SectionPos.getZeroNode(p_285116_.f_45578_, p_285116_.f_45579_), p_285522_);
+    }
+ 
+    public int m_9323_() {
+-      LongIterator longiterator = this.f_283863_.iterator();
++      it.unimi.dsi.fastutil.objects.ObjectIterator<net.minecraft.core.BlockPos> longiterator = this.f_283863_.iterator();
+ 
+       while(longiterator.hasNext()) {
+-         this.m_75858_(longiterator.nextLong());
++         this.checkNode(longiterator.next());
+       }
+ 
+       this.f_283863_.clear();
+@@ -157,17 +_,17 @@
+    private int m_284361_() {
+       int i;
+       for(i = 0; !this.f_283934_.isEmpty(); ++i) {
+-         long j = this.f_283934_.dequeueLong();
+-         long k = this.f_283934_.dequeueLong();
+-         int l = this.f_283849_.m_75795_(j);
+-         int i1 = LightEngine.QueueEntry.m_284170_(k);
+-         if (LightEngine.QueueEntry.m_284312_(k) && l < i1) {
+-            this.f_283849_.m_75772_(j, i1);
++         BlockPos j = this.f_283934_.dequeue();
++         BlockPos k = this.f_283934_.dequeue();
++         int l = this.f_283849_.getStoredLevel(j);
++         int i1 = LightEngine.QueueEntry.m_284170_(k.getX());
++         if (LightEngine.QueueEntry.m_284312_(k.getX()) && l < i1) {
++            this.f_283849_.setStoredLevel(j, i1);
+             l = i1;
+          }
+ 
+          if (l == i1) {
+-            this.m_284316_(j, k, l);
++            this.propagateIncrease(j, k.getX(), l);
+          }
+       }
+ 
+@@ -177,20 +_,20 @@
+    private int m_284399_() {
+       int i;
+       for(i = 0; !this.f_283823_.isEmpty(); ++i) {
+-         long j = this.f_283823_.dequeueLong();
+-         long k = this.f_283823_.dequeueLong();
+-         this.m_284321_(j, k);
++         BlockPos j = this.f_283823_.dequeue();
++         BlockPos k = this.f_283823_.dequeue();
++         this.propagateDecrease(j, k.getX());
+       }
+ 
+       return i;
+    }
+ 
+-   protected void m_284343_(long p_285228_, long p_285464_) {
++   protected void enqueueDecrease(BlockPos p_285228_, BlockPos p_285464_) {
+       this.f_283823_.enqueue(p_285228_);
+       this.f_283823_.enqueue(p_285464_);
+    }
+ 
+-   protected void m_284218_(long p_285223_, long p_285022_) {
++   protected void enqueueIncrease(BlockPos p_285223_, BlockPos p_285022_) {
+       this.f_283934_.enqueue(p_285223_);
+       this.f_283934_.enqueue(p_285022_);
+    }
+@@ -201,11 +_,11 @@
+ 
+    @Nullable
+    public DataLayer m_8079_(SectionPos p_285093_) {
+-      return this.f_283849_.m_75793_(p_285093_.m_123252_());
++      return this.f_283849_.getDataLayerData(p_285093_);
+    }
+ 
+    public int m_7768_(BlockPos p_285149_) {
+-      return this.f_283849_.m_6181_(p_285149_.m_121878_());
++      return this.f_283849_.getLightValue(p_285149_);
+    }
+ 
+    public String m_284216_(long p_285363_) {
+@@ -216,11 +_,11 @@
+       return this.f_283849_.m_284291_(p_285320_);
+    }
+ 
+-   protected abstract void m_75858_(long p_285507_);
+-
+-   protected abstract void m_284316_(long p_285325_, long p_285026_, int p_285197_);
+-
+-   protected abstract void m_284321_(long p_284941_, long p_285213_);
++   protected abstract void checkNode(BlockPos p_285507_);
++
++   protected abstract void propagateIncrease(BlockPos p_285325_, long p_285026_, int p_285197_);
++
++   protected abstract void propagateDecrease(BlockPos p_284941_, long p_285213_);
+ 
+    public static class QueueEntry {
+       private static final int f_283813_ = 4;

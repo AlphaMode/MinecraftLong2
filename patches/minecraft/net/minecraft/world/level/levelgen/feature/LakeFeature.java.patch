@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/LakeFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/LakeFeature.java
-@@ -27,10 +_,10 @@
+@@ -26,10 +_,10 @@
        WorldGenLevel worldgenlevel = p_159958_.m_159774_();
        RandomSource randomsource = p_159958_.m_225041_();
        LakeFeature.Configuration lakefeature$configuration = p_159958_.m_159778_();
@@ -13,22 +13,22 @@
           boolean[] aboolean = new boolean[2048];
           int i = randomsource.m_188503_(4) + 4;
  
-@@ -64,12 +_,12 @@
+@@ -63,12 +_,12 @@
                 for(int l2 = 0; l2 < 8; ++l2) {
                    boolean flag = !aboolean[(k1 * 16 + k) * 8 + l2] && (k1 < 15 && aboolean[((k1 + 1) * 16 + k) * 8 + l2] || k1 > 0 && aboolean[((k1 - 1) * 16 + k) * 8 + l2] || k < 15 && aboolean[(k1 * 16 + k + 1) * 8 + l2] || k > 0 && aboolean[(k1 * 16 + (k - 1)) * 8 + l2] || l2 < 7 && aboolean[(k1 * 16 + k) * 8 + l2 + 1] || l2 > 0 && aboolean[(k1 * 16 + k) * 8 + (l2 - 1)]);
                    if (flag) {
--                     Material material = worldgenlevel.m_8055_(blockpos.m_7918_(k1, l2, k)).m_60767_();
-+                     Material material = worldgenlevel.m_8055_(blockpos.offset(k1, l2, k)).m_60767_();
-                      if (l2 >= 4 && material.m_76332_()) {
+-                     BlockState blockstate3 = worldgenlevel.m_8055_(blockpos.m_7918_(k1, l2, k));
++                     BlockState blockstate3 = worldgenlevel.m_8055_(blockpos.offset(k1, l2, k));
+                      if (l2 >= 4 && blockstate3.m_278721_()) {
                          return false;
                       }
  
--                     if (l2 < 4 && !material.m_76333_() && worldgenlevel.m_8055_(blockpos.m_7918_(k1, l2, k)) != blockstate1) {
-+                     if (l2 < 4 && !material.m_76333_() && worldgenlevel.m_8055_(blockpos.offset(k1, l2, k)) != blockstate1) {
+-                     if (l2 < 4 && !blockstate3.m_280296_() && worldgenlevel.m_8055_(blockpos.m_7918_(k1, l2, k)) != blockstate1) {
++                     if (l2 < 4 && !blockstate3.m_280296_() && worldgenlevel.m_8055_(blockpos.offset(k1, l2, k)) != blockstate1) {
                          return false;
                       }
                    }
-@@ -81,12 +_,12 @@
+@@ -80,12 +_,12 @@
              for(int i2 = 0; i2 < 16; ++i2) {
                 for(int i3 = 0; i3 < 8; ++i3) {
                    if (aboolean[(l1 * 16 + i2) * 8 + i3]) {
@@ -43,19 +43,19 @@
                             this.m_159739_(worldgenlevel, blockpos1);
                          }
                       }
-@@ -102,9 +_,9 @@
+@@ -101,9 +_,9 @@
                    for(int l3 = 0; l3 < 8; ++l3) {
                       boolean flag2 = !aboolean[(j2 * 16 + j3) * 8 + l3] && (j2 < 15 && aboolean[((j2 + 1) * 16 + j3) * 8 + l3] || j2 > 0 && aboolean[((j2 - 1) * 16 + j3) * 8 + l3] || j3 < 15 && aboolean[(j2 * 16 + j3 + 1) * 8 + l3] || j3 > 0 && aboolean[(j2 * 16 + (j3 - 1)) * 8 + l3] || l3 < 7 && aboolean[(j2 * 16 + j3) * 8 + l3 + 1] || l3 > 0 && aboolean[(j2 * 16 + j3) * 8 + (l3 - 1)]);
                       if (flag2 && (l3 < 4 || randomsource.m_188503_(2) != 0)) {
 -                        BlockState blockstate = worldgenlevel.m_8055_(blockpos.m_7918_(j2, l3, j3));
 +                        BlockState blockstate = worldgenlevel.m_8055_(blockpos.offset(j2, l3, j3));
-                         if (blockstate.m_60767_().m_76333_() && !blockstate.m_204336_(BlockTags.f_144288_)) {
+                         if (blockstate.m_280296_() && !blockstate.m_204336_(BlockTags.f_144288_)) {
 -                           BlockPos blockpos3 = blockpos.m_7918_(j2, l3, j3);
 +                           BlockPos blockpos3 = blockpos.offset(j2, l3, j3);
                             worldgenlevel.m_7731_(blockpos3, blockstate2, 2);
                             this.m_159739_(worldgenlevel, blockpos3);
                          }
-@@ -118,7 +_,7 @@
+@@ -117,7 +_,7 @@
              for(int k2 = 0; k2 < 16; ++k2) {
                 for(int k3 = 0; k3 < 16; ++k3) {
                    int i4 = 4;

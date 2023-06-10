@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/pathfinder/WalkNodeEvaluator.java
 +++ b/net/minecraft/world/level/pathfinder/WalkNodeEvaluator.java
-@@ -50,7 +_,7 @@
+@@ -48,7 +_,7 @@
  
     public Node m_7171_() {
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
@@ -9,12 +9,12 @@
        BlockState blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos.m_122169_(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_()));
        if (!this.f_77313_.m_203441_(blockstate.m_60819_())) {
           if (this.m_77361_() && this.f_77313_.m_20069_()) {
-@@ -67,10 +_,10 @@
+@@ -65,10 +_,10 @@
              i = Mth.m_14107_(this.f_77313_.m_20186_() + 0.5D);
           } else {
              BlockPos blockpos;
--            for(blockpos = this.f_77313_.m_20183_(); (this.f_77312_.m_8055_(blockpos).m_60795_() || this.f_77312_.m_8055_(blockpos).m_60647_(this.f_77312_, blockpos, PathComputationType.LAND)) && blockpos.m_123342_() > this.f_77313_.f_19853_.m_141937_(); blockpos = blockpos.m_7495_()) {
-+            for(blockpos = this.f_77313_.m_20183_(); (this.f_77312_.m_8055_(blockpos).m_60795_() || this.f_77312_.m_8055_(blockpos).m_60647_(this.f_77312_, blockpos, PathComputationType.LAND)) && blockpos.getY() > this.f_77313_.f_19853_.getMinBuildHeight(); blockpos = blockpos.below()) {
+-            for(blockpos = this.f_77313_.m_20183_(); (this.f_77312_.m_8055_(blockpos).m_60795_() || this.f_77312_.m_8055_(blockpos).m_60647_(this.f_77312_, blockpos, PathComputationType.LAND)) && blockpos.m_123342_() > this.f_77313_.m_9236_().m_141937_(); blockpos = blockpos.m_7495_()) {
++            for(blockpos = this.f_77313_.m_20183_(); (this.f_77312_.m_8055_(blockpos).m_60795_() || this.f_77312_.m_8055_(blockpos).m_60647_(this.f_77312_, blockpos, PathComputationType.LAND)) && blockpos.getY() > this.f_77313_.m_9236_().getMinBuildHeight(); blockpos = blockpos.below()) {
              }
  
 -            i = blockpos.m_7494_().m_123342_();
@@ -22,7 +22,7 @@
           }
        } else {
           while(this.f_77313_.m_203441_(blockstate.m_60819_())) {
-@@ -82,14 +_,14 @@
+@@ -80,14 +_,14 @@
        }
  
        BlockPos blockpos1 = this.f_77313_.m_20183_();
@@ -39,7 +39,7 @@
     }
  
     protected Node m_230631_(BlockPos p_230632_) {
-@@ -105,55 +_,55 @@
+@@ -103,55 +_,55 @@
     }
  
     public Target m_7568_(double p_77550_, double p_77551_, double p_77552_) {
@@ -106,7 +106,7 @@
        if (this.m_77629_(p_77641_, node2, node, node7)) {
           p_77640_[i++] = node7;
        }
-@@ -205,13 +_,13 @@
+@@ -203,13 +_,13 @@
     }
  
     protected double m_142213_(BlockPos p_164733_) {
@@ -123,7 +123,7 @@
     }
  
     protected boolean m_141974_() {
-@@ -219,18 +_,18 @@
+@@ -217,18 +_,18 @@
     }
  
     @Nullable
@@ -146,7 +146,7 @@
           }
  
           if (m_230625_(p_164732_) && node != null && node.f_77281_ >= 0.0F && !this.m_77624_(node)) {
-@@ -239,7 +_,7 @@
+@@ -237,7 +_,7 @@
  
           if (blockpathtypes != BlockPathTypes.WALKABLE && (!this.m_141974_() || blockpathtypes != BlockPathTypes.WATER)) {
              if ((node == null || node.f_77281_ < 0.0F) && p_164729_ > 0 && (blockpathtypes != BlockPathTypes.FENCE || this.m_255100_()) && blockpathtypes != BlockPathTypes.UNPASSABLE_RAIL && blockpathtypes != BlockPathTypes.TRAPDOOR && blockpathtypes != BlockPathTypes.POWDER_SNOW) {
@@ -155,7 +155,7 @@
                 if (node != null && (node.f_77282_ == BlockPathTypes.OPEN || node.f_77282_ == BlockPathTypes.WALKABLE) && this.f_77313_.m_20205_() < 1.0F) {
                    double d2 = (double)(p_164726_ - p_164731_.m_122429_()) + 0.5D;
                    double d3 = (double)(p_164728_ - p_164731_.m_122431_()) + 0.5D;
-@@ -251,50 +_,50 @@
+@@ -249,50 +_,50 @@
              }
  
              if (!this.m_141974_() && blockpathtypes == BlockPathTypes.WATER && !this.m_77361_()) {
@@ -164,8 +164,8 @@
                    return node;
                 }
  
--               while(p_164727_ > this.f_77313_.f_19853_.m_141937_()) {
-+               while(p_164727_ > this.f_77313_.f_19853_.getMinBuildHeight()) {
+-               while(p_164727_ > this.f_77313_.m_9236_().m_141937_()) {
++               while(p_164727_ > this.f_77313_.m_9236_().getMinBuildHeight()) {
                    --p_164727_;
 -                  blockpathtypes = this.m_77567_(this.f_77313_, p_164726_, p_164727_, p_164728_);
 +                  blockpathtypes = this.getCachedBlockType(this.f_77313_, p_164726_, p_164727_, p_164728_);
@@ -185,9 +185,9 @@
  
                 while(blockpathtypes == BlockPathTypes.OPEN) {
                    --p_164727_;
--                  if (p_164727_ < this.f_77313_.f_19853_.m_141937_()) {
+-                  if (p_164727_ < this.f_77313_.m_9236_().m_141937_()) {
 -                     return this.m_230627_(p_164726_, i, p_164728_);
-+                  if (p_164727_ < this.f_77313_.f_19853_.getMinBuildHeight()) {
++                  if (p_164727_ < this.f_77313_.m_9236_().getMinBuildHeight()) {
 +                     return this.getBlockedNode(p_164726_, i, p_164728_);
                    }
  
@@ -218,7 +218,7 @@
                 node.f_77279_ = true;
                 node.f_77282_ = blockpathtypes;
                 node.f_77281_ = blockpathtypes.m_77124_();
-@@ -311,15 +_,15 @@
+@@ -309,15 +_,15 @@
        return Math.max(1.125D, (double)this.f_77313_.m_274421_());
     }
  
@@ -238,7 +238,7 @@
        node.f_77282_ = BlockPathTypes.BLOCKED;
        node.f_77281_ = -1.0F;
        return node;
-@@ -331,10 +_,10 @@
+@@ -329,10 +_,10 @@
        });
     }
  
@@ -251,7 +251,7 @@
        if (enumset.contains(BlockPathTypes.FENCE)) {
           return BlockPathTypes.FENCE;
        } else if (enumset.contains(BlockPathTypes.UNPASSABLE_RAIL)) {
-@@ -356,14 +_,14 @@
+@@ -354,14 +_,14 @@
        }
     }
  
@@ -271,7 +271,7 @@
                 blockpathtypes = this.m_264405_(p_265227_, p_265515_, blockpathtypes);
                 if (i == 0 && j == 0 && k == 0) {
                    p_265458_ = blockpathtypes;
-@@ -387,7 +_,7 @@
+@@ -385,7 +_,7 @@
           p_265551_ = BlockPathTypes.BLOCKED;
        }
  
@@ -280,7 +280,7 @@
           p_265551_ = BlockPathTypes.UNPASSABLE_RAIL;
        }
  
-@@ -395,26 +_,26 @@
+@@ -393,26 +_,26 @@
     }
  
     protected BlockPathTypes m_77572_(Mob p_77573_, BlockPos p_77574_) {
@@ -317,7 +317,7 @@
           blockpathtypes = blockpathtypes1 != BlockPathTypes.WALKABLE && blockpathtypes1 != BlockPathTypes.OPEN && blockpathtypes1 != BlockPathTypes.WATER && blockpathtypes1 != BlockPathTypes.LAVA ? BlockPathTypes.WALKABLE : BlockPathTypes.OPEN;
           if (blockpathtypes1 == BlockPathTypes.DAMAGE_FIRE) {
              blockpathtypes = BlockPathTypes.DAMAGE_FIRE;
-@@ -434,22 +_,22 @@
+@@ -436,22 +_,22 @@
        }
  
        if (blockpathtypes == BlockPathTypes.WALKABLE) {

@@ -1,24 +1,24 @@
 --- a/net/minecraft/network/protocol/game/ClientboundLightUpdatePacketData.java
 +++ b/net/minecraft/network/protocol/game/ClientboundLightUpdatePacketData.java
-@@ -29,7 +_,7 @@
+@@ -27,7 +_,7 @@
        this.f_195727_ = Lists.newArrayList();
        this.f_195728_ = Lists.newArrayList();
  
--      for(int i = 0; i < p_195732_.m_164446_(); ++i) {
-+      for(int i = 0; i < p_195732_.getLightSectionCount(); ++i) {
-          if (p_195733_ == null || p_195733_.get(i)) {
-             this.m_195741_(p_195731_, p_195732_, LightLayer.SKY, i, this.f_195723_, this.f_195725_, this.f_195727_);
+-      for(int i = 0; i < p_285143_.m_164446_(); ++i) {
++      for(int i = 0; i < p_285143_.getLightSectionCount(); ++i) {
+          if (p_285253_ == null || p_285253_.get(i)) {
+             this.m_195741_(p_285385_, p_285143_, LightLayer.SKY, i, this.f_195723_, this.f_195725_, this.f_195727_);
           }
-@@ -41,7 +_,7 @@
+@@ -39,7 +_,7 @@
  
     }
  
 -   public ClientboundLightUpdatePacketData(FriendlyByteBuf p_195737_, int p_195738_, int p_195739_) {
 +   public ClientboundLightUpdatePacketData(FriendlyByteBuf p_195737_, long p_195738_, long p_195739_) {
-       this.f_195729_ = p_195737_.readBoolean();
        this.f_195723_ = p_195737_.m_178384_();
        this.f_195724_ = p_195737_.m_178384_();
-@@ -66,7 +_,7 @@
+       this.f_195725_ = p_195737_.m_178384_();
+@@ -62,7 +_,7 @@
     }
  
     private void m_195741_(ChunkPos p_195742_, LevelLightEngine p_195743_, LightLayer p_195744_, int p_195745_, BitSet p_195746_, BitSet p_195747_, List<byte[]> p_195748_) {

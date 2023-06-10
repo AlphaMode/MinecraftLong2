@@ -1,15 +1,33 @@
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -329,7 +_,7 @@
+@@ -291,12 +_,12 @@
+          double d1 = this.m_20186_();
+          double d2 = this.m_20189_();
+          BlockPos blockpos = this.m_20183_();
+-         if (p_20993_.m_123341_() != blockpos.m_123341_() || p_20993_.m_123343_() != blockpos.m_123343_()) {
+-            double d3 = d0 - (double)p_20993_.m_123341_() - 0.5D;
+-            double d5 = d2 - (double)p_20993_.m_123343_() - 0.5D;
++         if (p_20993_.getX() != blockpos.getX() || p_20993_.getZ() != blockpos.getZ()) {
++            double d3 = d0 - (double)p_20993_.getX() - 0.5D;
++            double d5 = d2 - (double)p_20993_.getZ() - 0.5D;
+             double d6 = Math.max(Math.abs(d3), Math.abs(d5));
+-            d0 = (double)p_20993_.m_123341_() + 0.5D + d3 / d6 * 0.5D;
+-            d2 = (double)p_20993_.m_123343_() + 0.5D + d5 / d6 * 0.5D;
++            d0 = (double)p_20993_.getX() + 0.5D + d3 / d6 * 0.5D;
++            d2 = (double)p_20993_.getZ() + 0.5D + d5 / d6 * 0.5D;
+          }
+ 
+          float f = (float)Mth.m_14167_(this.f_19789_ - 3.0F);
+@@ -346,7 +_,7 @@
                 if (d0 < 0.0D) {
-                   double d1 = this.f_19853_.m_6857_().m_61965_();
+                   double d1 = this.m_9236_().m_6857_().m_61965_();
                    if (d1 > 0.0D) {
--                     this.m_6469_(this.m_269291_().m_269318_(), (float)Math.max(1, Mth.m_14107_(-d0 * d1)));
+-                     this.m_6469_(this.m_269291_().m_287287_(), (float)Math.max(1, Mth.m_14107_(-d0 * d1)));
 +                     this.m_6469_(this.m_269291_().m_269318_(), (float)Math.max(1, Mth.m_14134_(-d0 * d1)));
                    }
                 }
              }
-@@ -659,9 +_,9 @@
+@@ -676,9 +_,9 @@
  
        p_21145_.m_128379_("FallFlying", this.m_21255_());
        this.m_21257_().ifPresent((p_21099_) -> {
@@ -22,7 +40,7 @@
        });
        DataResult<Tag> dataresult = this.f_20939_.m_21914_(NbtOps.f_128958_);
        dataresult.resultOrPartial(f_201943_::error).ifPresent((p_21102_) -> {
-@@ -708,7 +_,7 @@
+@@ -725,7 +_,7 @@
        }
  
        if (p_21096_.m_128425_("SleepingX", 99) && p_21096_.m_128425_("SleepingY", 99) && p_21096_.m_128425_("SleepingZ", 99)) {
@@ -31,16 +49,16 @@
           this.m_21250_(blockpos);
           this.f_19804_.m_135381_(f_19806_, Pose.SLEEPING);
           if (!this.f_19803_) {
-@@ -1437,7 +_,7 @@
+@@ -1469,7 +_,7 @@
  
     private boolean m_21176_(BlockPos p_21177_, BlockState p_21178_) {
        if (p_21178_.m_61143_(TrapDoorBlock.f_57514_)) {
--         BlockState blockstate = this.f_19853_.m_8055_(p_21177_.m_7495_());
-+         BlockState blockstate = this.f_19853_.m_8055_(p_21177_.below());
+-         BlockState blockstate = this.m_9236_().m_8055_(p_21177_.m_7495_());
++         BlockState blockstate = this.m_9236_().m_8055_(p_21177_.below());
           if (blockstate.m_60713_(Blocks.f_50155_) && blockstate.m_61143_(LadderBlock.f_54337_) == p_21178_.m_61143_(TrapDoorBlock.f_54117_)) {
              return true;
           }
-@@ -1475,9 +_,9 @@
+@@ -1507,9 +_,9 @@
  
     protected void m_21229_() {
        if (!this.m_20067_()) {
@@ -50,19 +68,19 @@
 +         long i = Mth.m_14134_(this.m_20185_());
 +         long j = Mth.m_14134_(this.m_20186_() - (double)0.2F);
 +         long k = Mth.m_14134_(this.m_20189_());
-          BlockState blockstate = this.f_19853_.m_8055_(new BlockPos(i, j, k));
+          BlockState blockstate = this.m_9236_().m_8055_(new BlockPos(i, j, k));
           if (!blockstate.m_60795_()) {
              SoundType soundtype = blockstate.m_60827_();
-@@ -2060,7 +_,7 @@
+@@ -2086,7 +_,7 @@
+             if (this.m_21023_(MobEffects.f_19620_)) {
                 d2 += (0.05D * (double)(this.m_21124_(MobEffects.f_19620_).m_19564_() + 1) - vec35.f_82480_) * 0.2D;
-                this.m_183634_();
-             } else if (this.f_19853_.f_46443_ && !this.f_19853_.m_46805_(blockpos)) {
--               if (this.m_20186_() > (double)this.f_19853_.m_141937_()) {
-+               if (this.m_20186_() > (double)this.f_19853_.getMinBuildHeight()) {
+             } else if (this.m_9236_().f_46443_ && !this.m_9236_().m_46805_(blockpos)) {
+-               if (this.m_20186_() > (double)this.m_9236_().m_141937_()) {
++               if (this.m_20186_() > (double)this.m_9236_().getMinBuildHeight()) {
                    d2 = -0.1D;
                 } else {
                    d2 = 0.0D;
-@@ -3003,8 +_,8 @@
+@@ -3038,8 +_,8 @@
        if (level.m_46805_(blockpos)) {
           boolean flag1 = false;
  
@@ -71,9 +89,9 @@
 +         while(!flag1 && blockpos.getY() > level.getMinBuildHeight()) {
 +            BlockPos blockpos1 = blockpos.below();
              BlockState blockstate = level.m_8055_(blockpos1);
-             if (blockstate.m_60767_().m_76334_()) {
+             if (blockstate.m_280555_()) {
                 flag1 = true;
-@@ -3104,7 +_,7 @@
+@@ -3139,7 +_,7 @@
     }
  
     private void m_21080_(BlockPos p_21081_) {
@@ -82,10 +100,10 @@
     }
  
     private boolean m_21334_() {
-@@ -3120,10 +_,10 @@
+@@ -3155,10 +_,10 @@
              Direction direction = blockstate.m_61143_(BedBlock.f_54117_);
-             this.f_19853_.m_7731_(p_261435_, blockstate.m_61124_(BedBlock.f_49441_, Boolean.valueOf(false)), 3);
-             Vec3 vec31 = BedBlock.m_260958_(this.m_6095_(), this.f_19853_, p_261435_, direction, this.m_146908_()).orElseGet(() -> {
+             this.m_9236_().m_7731_(p_261435_, blockstate.m_61124_(BedBlock.f_49441_, Boolean.valueOf(false)), 3);
+             Vec3 vec31 = BedBlock.m_260958_(this.m_6095_(), this.m_9236_(), p_261435_, direction, this.m_146908_()).orElseGet(() -> {
 -               BlockPos blockpos = p_261435_.m_7494_();
 -               return new Vec3((double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_() + 0.1D, (double)blockpos.m_123343_() + 0.5D);
 +               BlockPos blockpos = p_261435_.above();

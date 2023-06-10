@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/DiodeBlock.java
 +++ b/net/minecraft/world/level/block/DiodeBlock.java
-@@ -32,7 +_,7 @@
+@@ -33,7 +_,7 @@
     }
  
     public boolean m_7898_(BlockState p_52538_, LevelReader p_52539_, BlockPos p_52540_) {
@@ -9,7 +9,7 @@
     }
  
     public void m_213897_(BlockState p_221065_, ServerLevel p_221066_, BlockPos p_221067_, RandomSource p_221068_) {
-@@ -72,7 +_,7 @@
+@@ -73,7 +_,7 @@
           p_52526_.m_7471_(p_52527_, false);
  
           for(Direction direction : Direction.values()) {
@@ -18,25 +18,25 @@
           }
  
        }
-@@ -106,7 +_,7 @@
+@@ -107,7 +_,7 @@
  
     protected int m_7312_(Level p_52544_, BlockPos p_52545_, BlockState p_52546_) {
        Direction direction = p_52546_.m_61143_(f_54117_);
 -      BlockPos blockpos = p_52545_.m_121945_(direction);
 +      BlockPos blockpos = p_52545_.relative(direction);
-       int i = p_52544_.m_46681_(blockpos, direction);
+       int i = p_52544_.m_277185_(blockpos, direction);
        if (i >= 15) {
           return i;
-@@ -120,7 +_,7 @@
-       Direction direction = p_52550_.m_61143_(f_54117_);
+@@ -122,7 +_,7 @@
        Direction direction1 = direction.m_122427_();
        Direction direction2 = direction.m_122428_();
--      return Math.max(this.m_52551_(p_52548_, p_52549_.m_121945_(direction1), direction1), this.m_52551_(p_52548_, p_52549_.m_121945_(direction2), direction2));
-+      return Math.max(this.m_52551_(p_52548_, p_52549_.relative(direction1), direction1), this.m_52551_(p_52548_, p_52549_.relative(direction2), direction2));
+       boolean flag = this.m_276978_();
+-      return Math.max(p_277358_.m_277094_(p_277763_.m_121945_(direction1), direction1, flag), p_277358_.m_277094_(p_277763_.m_121945_(direction2), direction2, flag));
++      return Math.max(p_277358_.m_277094_(p_277763_.relative(direction1), direction1, flag), p_277358_.m_277094_(p_277763_.relative(direction2), direction2, flag));
     }
  
-    protected int m_52551_(LevelReader p_52552_, BlockPos p_52553_, Direction p_52554_) {
-@@ -146,7 +_,7 @@
+    public boolean m_7899_(BlockState p_52572_) {
+@@ -135,7 +_,7 @@
  
     public void m_6402_(Level p_52506_, BlockPos p_52507_, BlockState p_52508_, LivingEntity p_52509_, ItemStack p_52510_) {
        if (this.m_7320_(p_52506_, p_52507_, p_52508_)) {
@@ -45,7 +45,7 @@
        }
  
     }
-@@ -164,7 +_,7 @@
+@@ -153,7 +_,7 @@
  
     protected void m_52580_(Level p_52581_, BlockPos p_52582_, BlockState p_52583_) {
        Direction direction = p_52583_.m_61143_(f_54117_);
@@ -54,7 +54,7 @@
        p_52581_.m_46586_(blockpos, this, p_52582_);
        p_52581_.m_46590_(blockpos, this, direction);
     }
-@@ -183,7 +_,7 @@
+@@ -172,7 +_,7 @@
  
     public boolean m_52573_(BlockGetter p_52574_, BlockPos p_52575_, BlockState p_52576_) {
        Direction direction = p_52576_.m_61143_(f_54117_).m_122424_();

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/Bee.java
 +++ b/net/minecraft/world/entity/animal/Bee.java
-@@ -259,10 +_,10 @@
+@@ -258,10 +_,10 @@
     }
  
     void m_27880_(BlockPos p_27881_) {
@@ -13,7 +13,7 @@
        if (j > 2) {
           i = 4;
        } else if (j < -2) {
-@@ -271,7 +_,7 @@
+@@ -270,7 +_,7 @@
  
        int k = 6;
        int l = 8;
@@ -22,7 +22,7 @@
        if (i1 < 15) {
           k = i1 / 2;
           l = i1 / 2;
-@@ -530,7 +_,7 @@
+@@ -529,7 +_,7 @@
     protected PathNavigation m_6037_(Level p_27815_) {
        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, p_27815_) {
           public boolean m_6342_(BlockPos p_27947_) {
@@ -31,7 +31,7 @@
           }
  
           public void m_7638_() {
-@@ -622,7 +_,7 @@
+@@ -621,7 +_,7 @@
     }
  
     boolean m_27816_(BlockPos p_27817_, int p_27818_) {
@@ -40,16 +40,16 @@
     }
  
     abstract class BaseBeeGoal extends Goal {
-@@ -680,7 +_,7 @@
+@@ -679,7 +_,7 @@
  
     class BeeEnterHiveGoal extends Bee.BaseBeeGoal {
        public boolean m_7989_() {
 -         if (Bee.this.m_27854_() && Bee.this.m_27866_() && Bee.this.f_27698_.m_203195_(Bee.this.m_20182_(), 2.0D)) {
 +         if (Bee.this.m_27854_() && Bee.this.m_27866_() && Bee.this.f_27698_.closerToCenterThan(Bee.this.m_20182_(), 2.0D)) {
-             BlockEntity blockentity = Bee.this.f_19853_.m_7702_(Bee.this.f_27698_);
+             BlockEntity blockentity = Bee.this.m_9236_().m_7702_(Bee.this.f_27698_);
              if (blockentity instanceof BeehiveBlockEntity) {
                 BeehiveBlockEntity beehiveblockentity = (BeehiveBlockEntity)blockentity;
-@@ -777,7 +_,7 @@
+@@ -776,7 +_,7 @@
  
        private boolean m_27990_(BlockPos p_27991_) {
           Bee.this.f_21344_.m_26529_(10.0F);
@@ -58,16 +58,16 @@
           return Bee.this.f_21344_.m_26570_() != null && Bee.this.f_21344_.m_26570_().m_77403_();
        }
  
-@@ -888,7 +_,7 @@
+@@ -887,7 +_,7 @@
        public void m_8037_() {
           if (Bee.this.f_19796_.m_188503_(this.m_183277_(30)) == 0) {
              for(int i = 1; i <= 2; ++i) {
 -               BlockPos blockpos = Bee.this.m_20183_().m_6625_(i);
 +               BlockPos blockpos = Bee.this.m_20183_().below(i);
-                BlockState blockstate = Bee.this.f_19853_.m_8055_(blockpos);
+                BlockState blockstate = Bee.this.m_9236_().m_8055_(blockpos);
                 Block block = blockstate.m_60734_();
-                boolean flag = false;
-@@ -977,7 +_,7 @@
+                BlockState blockstate1 = null;
+@@ -972,7 +_,7 @@
              return p_218130_.m_203656_(PoiTypeTags.f_215877_);
           }, blockpos, 20, PoiManager.Occupancy.ANY);
           return stream.map(PoiRecord::m_27257_).filter(Bee.this::m_27884_).sorted(Comparator.comparingDouble((p_148811_) -> {
@@ -76,7 +76,7 @@
           })).collect(Collectors.toList());
        }
     }
-@@ -1043,7 +_,7 @@
+@@ -1038,7 +_,7 @@
              Optional<BlockPos> optional = this.m_28090_();
              if (optional.isPresent()) {
                 Bee.this.f_27697_ = optional.get();
@@ -85,7 +85,7 @@
                 return true;
              } else {
                 Bee.this.f_27714_ = Mth.m_216271_(Bee.this.f_19796_, 20, 60);
-@@ -1108,7 +_,7 @@
+@@ -1103,7 +_,7 @@
           if (this.f_28068_ > 600) {
              Bee.this.f_27697_ = null;
           } else {
@@ -94,18 +94,18 @@
              if (vec3.m_82554_(Bee.this.m_20182_()) > 1.0D) {
                 this.f_28067_ = vec3;
                 this.m_28088_();
-@@ -1169,8 +_,8 @@
+@@ -1164,8 +_,8 @@
              for(int j = 0; (double)j < p_28077_; ++j) {
                 for(int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
                    for(int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
 -                     blockpos$mutableblockpos.m_122154_(blockpos, k, i - 1, l);
--                     if (blockpos.m_123314_(blockpos$mutableblockpos, p_28077_) && p_28076_.test(Bee.this.f_19853_.m_8055_(blockpos$mutableblockpos))) {
+-                     if (blockpos.m_123314_(blockpos$mutableblockpos, p_28077_) && p_28076_.test(Bee.this.m_9236_().m_8055_(blockpos$mutableblockpos))) {
 +                     blockpos$mutableblockpos.setWithOffset(blockpos, k, i - 1, l);
-+                     if (blockpos.closerThan(blockpos$mutableblockpos, p_28077_) && p_28076_.test(Bee.this.f_19853_.m_8055_(blockpos$mutableblockpos))) {
++                     if (blockpos.closerThan(blockpos$mutableblockpos, p_28077_) && p_28076_.test(Bee.this.m_9236_().m_8055_(blockpos$mutableblockpos))) {
                          return Optional.of(blockpos$mutableblockpos);
                       }
                    }
-@@ -1209,7 +_,7 @@
+@@ -1204,7 +_,7 @@
        private Vec3 m_28097_() {
           Vec3 vec3;
           if (Bee.this.m_27872_() && !Bee.this.m_27816_(Bee.this.f_27698_, 22)) {

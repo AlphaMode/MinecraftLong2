@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/XoroshiroRandomSource.java
 +++ b/net/minecraft/world/level/levelgen/XoroshiroRandomSource.java
-@@ -62,6 +_,10 @@
+@@ -72,6 +_,10 @@
        return this.f_190099_.m_190096_();
     }
  
@@ -11,18 +11,21 @@
     public boolean m_188499_() {
        return (this.f_190099_.m_190096_() & 1L) != 0L;
     }
-@@ -100,7 +_,13 @@
+@@ -109,11 +_,16 @@
        }
  
        public RandomSource m_213715_(int p_224691_, int p_224692_, int p_224693_) {
 -         long i = Mth.m_14130_(p_224691_, p_224692_, p_224693_);
 +         long i = Mth.getSeed(p_224691_, p_224692_, p_224693_);
-+         long j = i ^ this.f_190123_;
-+         return new XoroshiroRandomSource(j, this.f_190124_);
-+      }
-+
-+      public RandomSource at(long p_224691_, long p_224692_, long p_224693_) {
-+         long i = Mth.getSeed(p_224691_, p_224692_, p_224693_);
           long j = i ^ this.f_190123_;
           return new XoroshiroRandomSource(j, this.f_190124_);
        }
+ 
++      public RandomSource at(long p_224691_, long p_224692_, long p_224693_) {
++         long i = Mth.getSeed(p_224691_, p_224692_, p_224693_);
++         long j = i ^ this.f_190123_;
++         return new XoroshiroRandomSource(j, this.f_190124_);
++      }
+       public RandomSource m_214111_(String p_224695_) {
+          RandomSupport.Seed128bit randomsupport$seed128bit = RandomSupport.m_288212_(p_224695_);
+          return new XoroshiroRandomSource(randomsupport$seed128bit.m_288194_(this.f_190123_, this.f_190124_));

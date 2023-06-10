@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/BlockPos.java
 +++ b/net/minecraft/core/BlockPos.java
-@@ -20,13 +_,14 @@
+@@ -27,13 +_,14 @@
  import org.slf4j.Logger;
  
  @Immutable
@@ -10,7 +10,7 @@
 +public class BlockPos extends me.alphamode.mclong.core.Vec3l {
 +   public static final BlockPos MAX_VALUE = new BlockPos(java.lang.Long.MAX_VALUE, java.lang.Long.MAX_VALUE, java.lang.Long.MAX_VALUE);
 +   public static final Codec<BlockPos> f_121852_ = Codec.LONG_STREAM.comapFlatMap((p_121967_) -> {
-+      return Util.fixedSize(p_121967_, 3).map((p_175270_) -> {
++      return Util.m_287262_(p_121967_, 3).map((p_175270_) -> {
           return new BlockPos(p_175270_[0], p_175270_[1], p_175270_[2]);
        });
     }, (p_121924_) -> {
@@ -19,7 +19,7 @@
     }).stable();
     private static final Logger f_121854_ = LogUtils.getLogger();
     public static final BlockPos f_121853_ = new BlockPos(0, 0, 0);
-@@ -40,40 +_,44 @@
+@@ -47,40 +_,44 @@
     private static final int f_121861_ = f_121857_;
     private static final int f_121862_ = f_121857_ + f_121856_;
  
@@ -84,7 +84,7 @@
     }
  
     public static BlockPos m_274446_(Position p_275443_) {
-@@ -81,10 +_,10 @@
+@@ -88,10 +_,10 @@
     }
  
     public long m_121878_() {
@@ -97,7 +97,7 @@
        long i = 0L;
        i |= ((long)p_121883_ & f_121858_) << f_121862_;
        i |= ((long)p_121884_ & f_121859_) << 0;
-@@ -95,94 +_,98 @@
+@@ -102,94 +_,98 @@
        return p_122028_ & -16L;
     }
  
@@ -269,7 +269,7 @@
        }
     }
  
-@@ -192,20 +_,20 @@
+@@ -199,20 +_,20 @@
           default:
              return this;
           case CLOCKWISE_90:
@@ -297,7 +297,7 @@
     }
  
     public BlockPos m_7949_() {
-@@ -213,27 +_,27 @@
+@@ -220,33 +_,33 @@
     }
  
     public BlockPos.MutableBlockPos m_122032_() {
@@ -308,6 +308,13 @@
     public static Iterable<BlockPos> m_235650_(RandomSource p_235651_, int p_235652_, BlockPos p_235653_, int p_235654_) {
 -      return m_235641_(p_235651_, p_235652_, p_235653_.m_123341_() - p_235654_, p_235653_.m_123342_() - p_235654_, p_235653_.m_123343_() - p_235654_, p_235653_.m_123341_() + p_235654_, p_235653_.m_123342_() + p_235654_, p_235653_.m_123343_() + p_235654_);
 +      return randomBetweenClosed(p_235651_, p_235652_, p_235653_.getX() - p_235654_, p_235653_.getY() - p_235654_, p_235653_.getZ() - p_235654_, p_235653_.getX() + p_235654_, p_235653_.getY() + p_235654_, p_235653_.getZ() + p_235654_);
+    }
+ 
+    /** @deprecated */
+    @Deprecated
+    public static Stream<BlockPos> m_284476_(BlockPos p_284978_) {
+-      return Stream.of(p_284978_, p_284978_.m_122019_(), p_284978_.m_122029_(), p_284978_.m_122019_().m_122029_());
++      return Stream.of(p_284978_, p_284978_.south(), p_284978_.east(), p_284978_.south().east());
     }
  
 -   public static Iterable<BlockPos> m_235641_(RandomSource p_235642_, int p_235643_, int p_235644_, int p_235645_, int p_235646_, int p_235647_, int p_235648_, int p_235649_) {
@@ -333,7 +340,7 @@
                    --this.f_122040_;
                    return blockpos;
                 }
-@@ -242,25 +_,25 @@
+@@ -255,25 +_,25 @@
        };
     }
  
@@ -369,7 +376,7 @@
                    return this.f_122067_;
                 } else {
                    BlockPos blockpos;
-@@ -281,12 +_,12 @@
+@@ -294,12 +_,12 @@
                          this.f_122072_ = -this.f_122070_;
                       }
  
@@ -386,7 +393,7 @@
                       }
                    }
  
-@@ -298,7 +_,7 @@
+@@ -311,7 +_,7 @@
     }
  
     public static Optional<BlockPos> m_121930_(BlockPos p_121931_, int p_121932_, int p_121933_, Predicate<BlockPos> p_121934_) {
@@ -395,7 +402,7 @@
           if (p_121934_.test(blockpos)) {
              return Optional.of(blockpos);
           }
-@@ -307,12 +_,12 @@
+@@ -320,12 +_,12 @@
        return Optional.empty();
     }
  
@@ -411,7 +418,7 @@
     }
  
     public static Stream<BlockPos> m_121990_(BlockPos p_121991_, BlockPos p_121992_) {
-@@ -320,22 +_,22 @@
+@@ -333,22 +_,22 @@
     }
  
     public static Stream<BlockPos> m_121919_(BoundingBox p_121920_) {
@@ -447,7 +454,7 @@
        return () -> {
           return new AbstractIterator<BlockPos>() {
              private final BlockPos.MutableBlockPos f_122090_ = new BlockPos.MutableBlockPos();
-@@ -345,12 +_,12 @@
+@@ -358,12 +_,12 @@
                 if (this.f_122091_ == l) {
                    return this.endOfData();
                 } else {
@@ -465,7 +472,7 @@
                 }
              }
           };
-@@ -367,15 +_,15 @@
+@@ -380,15 +_,15 @@
              private int f_122108_ = -1;
              private int f_122109_;
              private int f_122110_;
@@ -488,7 +495,7 @@
                 if (this.f_122110_ >= this.f_122109_) {
                    if (this.f_122108_ >= this.f_122107_) {
                       return this.endOfData();
-@@ -398,110 +_,110 @@
+@@ -439,110 +_,110 @@
           this(0, 0, 0);
        }
  

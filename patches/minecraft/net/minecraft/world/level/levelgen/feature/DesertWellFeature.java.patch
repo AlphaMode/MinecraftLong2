@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/DesertWellFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/DesertWellFeature.java
-@@ -31,7 +_,7 @@
+@@ -29,7 +_,7 @@
        WorldGenLevel worldgenlevel = p_159571_.m_159774_();
        BlockPos blockpos = p_159571_.m_159777_();
  
@@ -9,7 +9,7 @@
        }
  
        if (!f_65593_.test(worldgenlevel.m_8055_(blockpos))) {
-@@ -39,7 +_,7 @@
+@@ -37,7 +_,7 @@
        } else {
           for(int i = -2; i <= 2; ++i) {
              for(int j = -2; j <= 2; ++j) {
@@ -18,16 +18,16 @@
                    return false;
                 }
              }
-@@ -48,7 +_,7 @@
-          for(int l = -1; l <= 0; ++l) {
-             for(int l1 = -2; l1 <= 2; ++l1) {
+@@ -46,7 +_,7 @@
+          for(int l = -2; l <= 0; ++l) {
+             for(int i1 = -2; i1 <= 2; ++i1) {
                 for(int k = -2; k <= 2; ++k) {
--                  worldgenlevel.m_7731_(blockpos.m_7918_(l1, l, k), this.f_65595_, 2);
-+                  worldgenlevel.m_7731_(blockpos.offset(l1, l, k), this.f_65595_, 2);
+-                  worldgenlevel.m_7731_(blockpos.m_7918_(i1, l, k), this.f_65595_, 2);
++                  worldgenlevel.m_7731_(blockpos.offset(i1, l, k), this.f_65595_, 2);
                 }
              }
           }
-@@ -60,37 +_,37 @@
+@@ -54,50 +_,50 @@
           worldgenlevel.m_7731_(blockpos, this.f_65596_, 2);
  
           for(Direction direction : Direction.Plane.HORIZONTAL) {
@@ -35,11 +35,20 @@
 +            worldgenlevel.m_7731_(blockpos.relative(direction), this.f_65596_, 2);
           }
  
-          for(int i1 = -2; i1 <= 2; ++i1) {
+-         BlockPos blockpos1 = blockpos.m_7495_();
++         BlockPos blockpos1 = blockpos.below();
+          worldgenlevel.m_7731_(blockpos1, this.f_276683_, 2);
+ 
+          for(Direction direction1 : Direction.Plane.HORIZONTAL) {
+-            worldgenlevel.m_7731_(blockpos1.m_121945_(direction1), this.f_276683_, 2);
++            worldgenlevel.m_7731_(blockpos1.relative(direction1), this.f_276683_, 2);
+          }
+ 
+          for(int j1 = -2; j1 <= 2; ++j1) {
              for(int i2 = -2; i2 <= 2; ++i2) {
-                if (i1 == -2 || i1 == 2 || i2 == -2 || i2 == 2) {
--                  worldgenlevel.m_7731_(blockpos.m_7918_(i1, 1, i2), this.f_65595_, 2);
-+                  worldgenlevel.m_7731_(blockpos.offset(i1, 1, i2), this.f_65595_, 2);
+                if (j1 == -2 || j1 == 2 || i2 == -2 || i2 == 2) {
+-                  worldgenlevel.m_7731_(blockpos.m_7918_(j1, 1, i2), this.f_65595_, 2);
++                  worldgenlevel.m_7731_(blockpos.offset(j1, 1, i2), this.f_65595_, 2);
                 }
              }
           }
@@ -53,45 +62,36 @@
 +         worldgenlevel.m_7731_(blockpos.offset(0, 1, 2), this.f_65594_, 2);
 +         worldgenlevel.m_7731_(blockpos.offset(0, 1, -2), this.f_65594_, 2);
  
-          for(int j1 = -1; j1 <= 1; ++j1) {
+          for(int k1 = -1; k1 <= 1; ++k1) {
              for(int j2 = -1; j2 <= 1; ++j2) {
-                if (j1 == 0 && j2 == 0) {
--                  worldgenlevel.m_7731_(blockpos.m_7918_(j1, 4, j2), this.f_65595_, 2);
-+                  worldgenlevel.m_7731_(blockpos.offset(j1, 4, j2), this.f_65595_, 2);
+                if (k1 == 0 && j2 == 0) {
+-                  worldgenlevel.m_7731_(blockpos.m_7918_(k1, 4, j2), this.f_65595_, 2);
++                  worldgenlevel.m_7731_(blockpos.offset(k1, 4, j2), this.f_65595_, 2);
                 } else {
--                  worldgenlevel.m_7731_(blockpos.m_7918_(j1, 4, j2), this.f_65594_, 2);
-+                  worldgenlevel.m_7731_(blockpos.offset(j1, 4, j2), this.f_65594_, 2);
+-                  worldgenlevel.m_7731_(blockpos.m_7918_(k1, 4, j2), this.f_65594_, 2);
++                  worldgenlevel.m_7731_(blockpos.offset(k1, 4, j2), this.f_65594_, 2);
                 }
              }
           }
  
-          for(int k1 = 1; k1 <= 3; ++k1) {
--            worldgenlevel.m_7731_(blockpos.m_7918_(-1, k1, -1), this.f_65595_, 2);
--            worldgenlevel.m_7731_(blockpos.m_7918_(-1, k1, 1), this.f_65595_, 2);
--            worldgenlevel.m_7731_(blockpos.m_7918_(1, k1, -1), this.f_65595_, 2);
--            worldgenlevel.m_7731_(blockpos.m_7918_(1, k1, 1), this.f_65595_, 2);
-+            worldgenlevel.m_7731_(blockpos.offset(-1, k1, -1), this.f_65595_, 2);
-+            worldgenlevel.m_7731_(blockpos.offset(-1, k1, 1), this.f_65595_, 2);
-+            worldgenlevel.m_7731_(blockpos.offset(1, k1, -1), this.f_65595_, 2);
-+            worldgenlevel.m_7731_(blockpos.offset(1, k1, 1), this.f_65595_, 2);
+          for(int l1 = 1; l1 <= 3; ++l1) {
+-            worldgenlevel.m_7731_(blockpos.m_7918_(-1, l1, -1), this.f_65595_, 2);
+-            worldgenlevel.m_7731_(blockpos.m_7918_(-1, l1, 1), this.f_65595_, 2);
+-            worldgenlevel.m_7731_(blockpos.m_7918_(1, l1, -1), this.f_65595_, 2);
+-            worldgenlevel.m_7731_(blockpos.m_7918_(1, l1, 1), this.f_65595_, 2);
++            worldgenlevel.m_7731_(blockpos.offset(-1, l1, -1), this.f_65595_, 2);
++            worldgenlevel.m_7731_(blockpos.offset(-1, l1, 1), this.f_65595_, 2);
++            worldgenlevel.m_7731_(blockpos.offset(1, l1, -1), this.f_65595_, 2);
++            worldgenlevel.m_7731_(blockpos.offset(1, l1, 1), this.f_65595_, 2);
           }
  
+-         List<BlockPos> list = List.of(blockpos, blockpos.m_122029_(), blockpos.m_122019_(), blockpos.m_122024_(), blockpos.m_122012_());
++         List<BlockPos> list = List.of(blockpos, blockpos.east(), blockpos.south(), blockpos.west(), blockpos.north());
+          RandomSource randomsource = p_159571_.m_225041_();
+-         m_277210_(worldgenlevel, Util.m_214621_(list, randomsource).m_6625_(1));
+-         m_277210_(worldgenlevel, Util.m_214621_(list, randomsource).m_6625_(2));
++         m_277210_(worldgenlevel, Util.m_214621_(list, randomsource).below(1));
++         m_277210_(worldgenlevel, Util.m_214621_(list, randomsource).below(2));
           return true;
-@@ -98,12 +_,12 @@
+       }
     }
- 
-    private static void m_272121_(WorldGenLevel p_272978_, BlockPos p_273348_, RandomSource p_273431_) {
--      BlockPos blockpos = p_273348_.m_7918_(0, -1, 0);
-+      BlockPos blockpos = p_273348_.offset(0, -1, 0);
-       ObjectArrayList<BlockPos> objectarraylist = Util.m_137469_(new ObjectArrayList<>(), (p_273498_) -> {
--         p_273498_.add(blockpos.m_122029_());
--         p_273498_.add(blockpos.m_122019_());
--         p_273498_.add(blockpos.m_122024_());
--         p_273498_.add(blockpos.m_122012_());
-+         p_273498_.add(blockpos.east());
-+         p_273498_.add(blockpos.south());
-+         p_273498_.add(blockpos.west());
-+         p_273498_.add(blockpos.north());
-       });
-       Util.m_214673_(objectarraylist, p_273431_);
-       MutableInt mutableint = new MutableInt(p_273431_.m_216339_(2, 4));

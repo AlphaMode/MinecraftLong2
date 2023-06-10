@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/TreeFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/TreeFeature.java
-@@ -76,9 +_,9 @@
+@@ -66,9 +_,9 @@
        BlockPos blockpos = p_225264_.f_225455_.map((p_225286_) -> {
           return p_225286_.m_225891_(p_225260_, p_225259_);
        }).orElse(p_225260_);
@@ -13,7 +13,7 @@
           OptionalInt optionalint = p_225264_.f_68191_.m_68295_();
           int k1 = this.m_67215_(p_225258_, i, blockpos, p_225264_);
           if (k1 >= i || !optionalint.isEmpty() && k1 >= optionalint.getAsInt()) {
-@@ -107,7 +_,7 @@
+@@ -97,7 +_,7 @@
  
           for(int k = -j; k <= j; ++k) {
              for(int l = -j; l <= j; ++l) {
@@ -22,7 +22,7 @@
                 if (!p_67219_.f_68190_.m_226184_(p_67216_, blockpos$mutableblockpos) || !p_67219_.f_68193_ && m_67277_(p_67216_, blockpos$mutableblockpos)) {
                    return i - 2;
                 }
-@@ -164,7 +_,7 @@
+@@ -154,7 +_,7 @@
  
           return BoundingBox.m_162378_(Iterables.concat(set, set1, set2, set3)).map((p_225270_) -> {
              DiscreteVoxelShape discretevoxelshape = m_225251_(worldgenlevel, p_225270_, set1, set3, set);
@@ -31,17 +31,17 @@
              return true;
           }).orElse(false);
        } else {
-@@ -174,7 +_,7 @@
+@@ -163,7 +_,7 @@
+    }
  
     private static DiscreteVoxelShape m_225251_(LevelAccessor p_225252_, BoundingBox p_225253_, Set<BlockPos> p_225254_, Set<BlockPos> p_225255_, Set<BlockPos> p_225256_) {
-       List<Set<BlockPos>> list = Lists.newArrayList();
 -      DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape(p_225253_.m_71056_(), p_225253_.m_71057_(), p_225253_.m_71058_());
 +      DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape((int) p_225253_.getXSpan(), (int) p_225253_.getYSpan(), (int) p_225253_.getZSpan());
-       int i = 6;
+       int i = 7;
+       List<Set<BlockPos>> list = Lists.newArrayList();
  
-       for(int j = 0; j < 6; ++j) {
-@@ -184,25 +_,25 @@
-       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+@@ -172,8 +_,8 @@
+       }
  
        for(BlockPos blockpos : Lists.newArrayList(Sets.union(p_225255_, p_225256_))) {
 -         if (p_225253_.m_71051_(blockpos)) {
@@ -51,52 +51,33 @@
           }
        }
  
-       for(BlockPos blockpos1 : Lists.newArrayList(p_225254_)) {
--         if (p_225253_.m_71051_(blockpos1)) {
--            discretevoxelshape.m_142703_(blockpos1.m_123341_() - p_225253_.m_162395_(), blockpos1.m_123342_() - p_225253_.m_162396_(), blockpos1.m_123343_() - p_225253_.m_162398_());
-+         if (p_225253_.isInside(blockpos1)) {
-+            discretevoxelshape.fill(blockpos1.getX() - p_225253_.minX(), blockpos1.getY() - p_225253_.minY(), blockpos1.getZ() - p_225253_.minZ());
-          }
- 
-          for(Direction direction : Direction.values()) {
--            blockpos$mutableblockpos.m_122159_(blockpos1, direction);
-+            blockpos$mutableblockpos.setWithOffset(blockpos1, direction);
-             if (!p_225254_.contains(blockpos$mutableblockpos)) {
-                BlockState blockstate = p_225252_.m_8055_(blockpos$mutableblockpos);
-                if (blockstate.m_61138_(BlockStateProperties.f_61414_)) {
-                   list.get(0).add(blockpos$mutableblockpos.m_7949_());
-                   m_67256_(p_225252_, blockpos$mutableblockpos, blockstate.m_61124_(BlockStateProperties.f_61414_, Integer.valueOf(1)));
--                  if (p_225253_.m_71051_(blockpos$mutableblockpos)) {
--                     discretevoxelshape.m_142703_(blockpos$mutableblockpos.m_123341_() - p_225253_.m_162395_(), blockpos$mutableblockpos.m_123342_() - p_225253_.m_162396_(), blockpos$mutableblockpos.m_123343_() - p_225253_.m_162398_());
-+                  if (p_225253_.isInside(blockpos$mutableblockpos)) {
-+                     discretevoxelshape.fill(blockpos$mutableblockpos.getX() - p_225253_.minX(), blockpos$mutableblockpos.getY() - p_225253_.minY(), blockpos$mutableblockpos.getZ() - p_225253_.minZ());
-                   }
+@@ -190,21 +_,21 @@
+             Iterator<BlockPos> iterator = list.get(k1).iterator();
+             BlockPos blockpos1 = iterator.next();
+             iterator.remove();
+-            if (p_225253_.m_71051_(blockpos1)) {
++            if (p_225253_.isInside(blockpos1)) {
+                if (k1 != 0) {
+                   BlockState blockstate = p_225252_.m_8055_(blockpos1);
+                   m_67256_(p_225252_, blockpos1, blockstate.m_61124_(BlockStateProperties.f_61414_, Integer.valueOf(k1)));
                 }
-             }
-@@ -214,12 +_,12 @@
-          Set<BlockPos> set1 = list.get(l);
  
-          for(BlockPos blockpos2 : set) {
--            if (p_225253_.m_71051_(blockpos2)) {
--               discretevoxelshape.m_142703_(blockpos2.m_123341_() - p_225253_.m_162395_(), blockpos2.m_123342_() - p_225253_.m_162396_(), blockpos2.m_123343_() - p_225253_.m_162398_());
-+            if (p_225253_.isInside(blockpos2)) {
-+               discretevoxelshape.fill(blockpos2.getX() - p_225253_.minX(), blockpos2.getY() - p_225253_.minY(), blockpos2.getZ() - p_225253_.minZ());
-             }
+-               discretevoxelshape.m_142703_(blockpos1.m_123341_() - p_225253_.m_162395_(), blockpos1.m_123342_() - p_225253_.m_162396_(), blockpos1.m_123343_() - p_225253_.m_162398_());
++               discretevoxelshape.fill(blockpos1.getX() - p_225253_.minX(), blockpos1.getY() - p_225253_.minY(), blockpos1.getZ() - p_225253_.minZ());
  
-             for(Direction direction1 : Direction.values()) {
--               blockpos$mutableblockpos.m_122159_(blockpos2, direction1);
-+               blockpos$mutableblockpos.setWithOffset(blockpos2, direction1);
-                if (!set.contains(blockpos$mutableblockpos) && !set1.contains(blockpos$mutableblockpos)) {
-                   BlockState blockstate1 = p_225252_.m_8055_(blockpos$mutableblockpos);
-                   if (blockstate1.m_61138_(BlockStateProperties.f_61414_)) {
-@@ -227,8 +_,8 @@
-                      if (k > l + 1) {
-                         BlockState blockstate2 = blockstate1.m_61124_(BlockStateProperties.f_61414_, Integer.valueOf(l + 1));
-                         m_67256_(p_225252_, blockpos$mutableblockpos, blockstate2);
--                        if (p_225253_.m_71051_(blockpos$mutableblockpos)) {
--                           discretevoxelshape.m_142703_(blockpos$mutableblockpos.m_123341_() - p_225253_.m_162395_(), blockpos$mutableblockpos.m_123342_() - p_225253_.m_162396_(), blockpos$mutableblockpos.m_123343_() - p_225253_.m_162398_());
-+                        if (p_225253_.isInside(blockpos$mutableblockpos)) {
-+                           discretevoxelshape.fill(blockpos$mutableblockpos.getX() - p_225253_.minX(), blockpos$mutableblockpos.getY() - p_225253_.minY(), blockpos$mutableblockpos.getZ() - p_225253_.minZ());
-                         }
- 
-                         set1.add(blockpos$mutableblockpos.m_7949_());
+                for(Direction direction : Direction.values()) {
+-                  blockpos$mutableblockpos.m_122159_(blockpos1, direction);
+-                  if (p_225253_.m_71051_(blockpos$mutableblockpos)) {
+-                     int k = blockpos$mutableblockpos.m_123341_() - p_225253_.m_162395_();
+-                     int l = blockpos$mutableblockpos.m_123342_() - p_225253_.m_162396_();
+-                     int i1 = blockpos$mutableblockpos.m_123343_() - p_225253_.m_162398_();
+-                     if (!discretevoxelshape.m_6696_(k, l, i1)) {
++                  blockpos$mutableblockpos.setWithOffset(blockpos1, direction);
++                  if (p_225253_.isInside(blockpos$mutableblockpos)) {
++                     long k = blockpos$mutableblockpos.getX() - p_225253_.minX();
++                     long l = blockpos$mutableblockpos.getY() - p_225253_.minY();
++                     long i1 = blockpos$mutableblockpos.getZ() - p_225253_.minZ();
++                     if (!discretevoxelshape.m_6696_((int) k, (int) l, (int) i1)) {
+                         BlockState blockstate1 = p_225252_.m_8055_(blockpos$mutableblockpos);
+                         OptionalInt optionalint = LeavesBlock.m_277200_(blockstate1);
+                         if (!optionalint.isEmpty()) {

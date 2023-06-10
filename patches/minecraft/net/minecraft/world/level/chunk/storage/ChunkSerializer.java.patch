@@ -29,50 +29,32 @@
           if (l >= 0 && l < alevelchunksection.length) {
              PalettedContainer<BlockState> palettedcontainer;
              if (compoundtag.m_128425_("block_states", 10)) {
-@@ -118,7 +_,7 @@
+@@ -118,8 +_,8 @@
              }
  
-             LevelChunkSection levelchunksection = new LevelChunkSection(k, palettedcontainer, palettedcontainerro);
+             LevelChunkSection levelchunksection = new LevelChunkSection(palettedcontainer, palettedcontainerro);
 -            alevelchunksection[l] = levelchunksection;
+-            SectionPos sectionpos = SectionPos.m_123196_(p_188233_, k);
++            SectionPos sectionpos = SectionPos.of(p_188233_, k);
 +            alevelchunksection[(int) l] = levelchunksection;
-             p_188232_.m_27047_(p_188233_, levelchunksection);
+             p_188232_.m_280570_(sectionpos, levelchunksection);
           }
  
-@@ -131,11 +_,11 @@
+@@ -132,11 +_,11 @@
+             }
+ 
+             if (flag3) {
+-               levellightengine.m_284126_(LightLayer.BLOCK, SectionPos.m_123196_(p_188233_, k), new DataLayer(compoundtag.m_128463_("BlockLight")));
++               levellightengine.m_284126_(LightLayer.BLOCK, SectionPos.of(p_188233_, k), new DataLayer(compoundtag.m_128463_("BlockLight")));
              }
  
              if (flag4) {
--               levellightengine.m_5687_(LightLayer.BLOCK, SectionPos.m_123196_(p_188233_, k), new DataLayer(compoundtag.m_128463_("BlockLight")), true);
-+               levellightengine.m_5687_(LightLayer.BLOCK, SectionPos.of(p_188233_, k), new DataLayer(compoundtag.m_128463_("BlockLight")), true);
-             }
- 
-             if (flag5) {
--               levellightengine.m_5687_(LightLayer.SKY, SectionPos.m_123196_(p_188233_, k), new DataLayer(compoundtag.m_128463_("SkyLight")), true);
-+               levellightengine.m_5687_(LightLayer.SKY, SectionPos.of(p_188233_, k), new DataLayer(compoundtag.m_128463_("SkyLight")), true);
+-               levellightengine.m_284126_(LightLayer.SKY, SectionPos.m_123196_(p_188233_, k), new DataLayer(compoundtag.m_128463_("SkyLight")));
++               levellightengine.m_284126_(LightLayer.SKY, SectionPos.of(p_188233_, k), new DataLayer(compoundtag.m_128463_("SkyLight")));
              }
           }
        }
-@@ -181,7 +_,7 @@
-          BelowZeroRetrogen belowzeroretrogen = protochunk.m_183376_();
-          boolean flag3 = chunkstatus.m_62427_(ChunkStatus.f_62323_) || belowzeroretrogen != null && belowzeroretrogen.m_188466_().m_62427_(ChunkStatus.f_62323_);
-          if (!flag && flag3) {
--            for(BlockPos blockpos : BlockPos.m_121976_(p_188233_.m_45604_(), p_188231_.m_141937_(), p_188233_.m_45605_(), p_188233_.m_45608_(), p_188231_.m_151558_() - 1, p_188233_.m_45609_())) {
-+            for(BlockPos blockpos : BlockPos.betweenClosed(p_188233_.getMinBlockX(), p_188231_.getMinBuildHeight(), p_188233_.getMinBlockZ(), p_188233_.getMaxBlockX(), p_188231_.getMaxBuildHeight() - 1, p_188233_.getMaxBlockZ())) {
-                if (chunkaccess.m_8055_(blockpos).m_60791_() != 0) {
-                   protochunk.m_63277_(blockpos);
-                }
-@@ -221,7 +_,9 @@
-       }
- 
-       if (chunkstatus$chunktype == ChunkStatus.ChunkType.LEVELCHUNK) {
--         return new ImposterProtoChunk((LevelChunk)chunkaccess, false);
-+         var chunk = new ImposterProtoChunk((LevelChunk)chunkaccess, false);
-+         ca.spottedleaf.starlight.common.util.SaveUtil.loadLightHook(p_188231_, p_188233_, p_188234_, chunk);
-+         return chunk;
-       } else {
-          ProtoChunk protochunk1 = (ProtoChunk)chunkaccess;
-          ListTag listtag4 = p_188234_.m_128437_("entities", 10);
-@@ -254,9 +_,10 @@
+@@ -232,7 +_,7 @@
  
           for(String s1 : compoundtag4.m_128431_()) {
              GenerationStep.Carving generationstep$carving = GenerationStep.Carving.valueOf(s1);
@@ -80,11 +62,8 @@
 +            protochunk1.m_188186_(generationstep$carving, new CarvingMask(compoundtag4.m_128467_(s1), chunkaccess.getMinBuildHeight()));
           }
  
-+         ca.spottedleaf.starlight.common.util.SaveUtil.loadLightHook(p_188231_, p_188233_, p_188234_, protochunk1);
           return protochunk1;
-       }
-    }
-@@ -272,9 +_,9 @@
+@@ -250,9 +_,9 @@
     public static CompoundTag m_63454_(ServerLevel p_63455_, ChunkAccess p_63456_) {
        ChunkPos chunkpos = p_63456_.m_7697_();
        CompoundTag compoundtag = NbtUtils.m_264171_(new CompoundTag());
@@ -96,8 +75,8 @@
 +      compoundtag.m_128356_("zPos", chunkpos.f_45579_);
        compoundtag.m_128356_("LastUpdate", p_63455_.m_46467_());
        compoundtag.m_128356_("InhabitedTime", p_63456_.m_6319_());
-       compoundtag.m_128359_("Status", p_63456_.m_6415_().m_62467_());
-@@ -304,15 +_,15 @@
+       compoundtag.m_128359_("Status", BuiltInRegistries.f_256940_.m_7981_(p_63456_.m_6415_()).toString());
+@@ -282,15 +_,15 @@
        Codec<PalettedContainerRO<Holder<Biome>>> codec = m_188260_(registry);
        boolean flag = p_63456_.m_6332_();
  
@@ -118,15 +97,7 @@
                 compoundtag1.m_128365_("block_states", f_188227_.encodeStart(NbtOps.f_128958_, levelchunksection.m_63019_()).getOrThrow(false, f_63449_::error));
                 compoundtag1.m_128365_("biomes", codec.encodeStart(NbtOps.f_128958_, levelchunksection.m_187996_()).getOrThrow(false, f_63449_::error));
              }
-@@ -377,6 +_,7 @@
- 
-       compoundtag.m_128365_("Heightmaps", compoundtag2);
-       compoundtag.m_128365_("structures", m_188249_(StructurePieceSerializationContext.m_192770_(p_63455_), chunkpos, p_63456_.m_6633_(), p_63456_.m_62769_()));
-+      ca.spottedleaf.starlight.common.util.SaveUtil.saveLightHook(p_63455_, p_63456_,compoundtag);
-       return compoundtag;
-    }
- 
-@@ -428,7 +_,7 @@
+@@ -405,7 +_,7 @@
        return listtag.isEmpty() ? null : listtag;
     }
  
@@ -135,7 +106,7 @@
        CompoundTag compoundtag = new CompoundTag();
        CompoundTag compoundtag1 = new CompoundTag();
        Registry<Structure> registry = p_188250_.f_192763_().m_175515_(Registries.f_256944_);
-@@ -441,10 +_,17 @@
+@@ -418,10 +_,17 @@
        compoundtag.m_128365_("starts", compoundtag1);
        CompoundTag compoundtag2 = new CompoundTag();
  
@@ -155,7 +126,7 @@
           }
        }
  
-@@ -473,8 +_,8 @@
+@@ -450,8 +_,8 @@
        return map;
     }
  
@@ -166,7 +137,7 @@
        Registry<Structure> registry = p_208155_.m_175515_(Registries.f_256944_);
        CompoundTag compoundtag = p_208157_.m_128469_("References");
  
-@@ -484,17 +_,18 @@
+@@ -461,17 +_,18 @@
           if (structure == null) {
              f_63449_.warn("Found reference to unknown structure '{}' in chunk {}, discarding", resourcelocation, p_208156_);
           } else {

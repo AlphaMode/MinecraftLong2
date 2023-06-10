@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/blending/BlendingData.java
 +++ b/net/minecraft/world/level/levelgen/blending/BlendingData.java
-@@ -40,12 +_,12 @@
+@@ -41,12 +_,12 @@
     private static final double f_224736_ = 1.0D;
     private static final double f_224737_ = -1.0D;
     private static final int f_190257_ = 2;
@@ -19,7 +19,7 @@
     private final LevelHeightAccessor f_224738_;
     private static final List<Block> f_190265_ = List.of(Blocks.f_50599_, Blocks.f_49994_, Blocks.f_50440_, Blocks.f_50069_, Blocks.f_50546_, Blocks.f_49992_, Blocks.f_49993_, Blocks.f_50195_, Blocks.f_50127_, Blocks.f_50352_, Blocks.f_50493_);
     protected static final double f_190253_ = Double.MAX_VALUE;
-@@ -55,10 +_,10 @@
+@@ -56,10 +_,10 @@
     private final transient double[][] f_190270_;
     private static final Codec<double[]> f_190272_ = Codec.DOUBLE.listOf().xmap(Doubles::toArray, Doubles::asList);
     public static final Codec<BlendingData> f_190254_ = RecordCodecBuilder.<BlendingData>create((p_224754_) -> {
@@ -34,7 +34,7 @@
        }), f_190272_.optionalFieldOf("heights").forGetter((p_224762_) -> {
           return DoubleStream.of(p_224762_.f_190269_).anyMatch((p_224745_) -> {
              return p_224745_ != Double.MAX_VALUE;
-@@ -72,7 +_,7 @@
+@@ -73,7 +_,7 @@
        }) : DataResult.success(p_190321_);
     }
  
@@ -43,7 +43,7 @@
        this.f_190269_ = p_224742_.orElse(Util.m_137469_(new double[f_190263_], (p_224756_) -> {
           Arrays.fill(p_224756_, Double.MAX_VALUE);
        }));
-@@ -80,30 +_,30 @@
+@@ -81,30 +_,31 @@
        ObjectArrayList<List<Holder<Biome>>> objectarraylist = new ObjectArrayList<>(f_190263_);
        objectarraylist.size(f_190263_);
        this.f_202276_ = objectarraylist;
@@ -61,12 +61,13 @@
 +   public static BlendingData getOrUpdateBlendingData(WorldGenRegion p_190305_, long p_190306_, long p_190307_) {
 +      ChunkAccess chunkaccess = p_190305_.getChunk(p_190306_, p_190307_);
        BlendingData blendingdata = chunkaccess.m_183407_();
-       if (blendingdata == null) {
-          return null;
-       } else {
+       if (blendingdata != null && chunkaccess.m_284331_().m_62427_(ChunkStatus.f_62317_)) {
 -         blendingdata.m_190317_(chunkaccess, m_197065_(p_190305_, p_190306_, p_190307_, false));
 +         blendingdata.m_190317_(chunkaccess, sideByGenerationAge(p_190305_, p_190306_, p_190307_, false));
           return blendingdata;
+       } else {
++         blendingdata.m_190317_(chunkaccess, sideByGenerationAge(p_190305_, p_190306_, p_190307_, false));
+          return null;
        }
     }
  
@@ -84,7 +85,7 @@
              set.add(direction8);
           }
        }
-@@ -114,69 +_,69 @@
+@@ -115,69 +_,69 @@
     private void m_190317_(ChunkAccess p_190318_, Set<Direction8> p_190319_) {
        if (!this.f_190267_) {
           if (p_190319_.contains(Direction8.NORTH) || p_190319_.contains(Direction8.WEST) || p_190319_.contains(Direction8.NORTH_WEST)) {
@@ -173,7 +174,7 @@
           }
        }
  
-@@ -198,9 +_,9 @@
+@@ -199,9 +_,9 @@
     }
  
     private double[] m_198292_(ChunkAccess p_198293_, int p_198294_, int p_198295_, int p_198296_) {
@@ -185,7 +186,7 @@
        double d0 = m_198300_(p_198293_, blockpos$mutableblockpos);
  
        for(int i = adouble.length - 2; i >= 0; --i) {
-@@ -210,25 +_,25 @@
+@@ -211,25 +_,25 @@
           d0 = d2;
        }
  
@@ -218,7 +219,7 @@
        }
  
        return objectarraylist;
-@@ -249,42 +_,42 @@
+@@ -250,42 +_,42 @@
        }
     }
  
@@ -276,7 +277,7 @@
                 }
              }
           }
-@@ -292,82 +_,82 @@
+@@ -293,82 +_,82 @@
        }
     }
  
@@ -400,7 +401,7 @@
        return p_190357_ & ~(p_190357_ >> 31);
     }
  
-@@ -376,14 +_,14 @@
+@@ -377,14 +_,14 @@
     }
  
     protected interface BiomeConsumer {

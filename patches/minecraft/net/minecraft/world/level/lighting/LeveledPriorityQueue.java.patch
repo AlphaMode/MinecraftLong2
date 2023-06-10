@@ -1,0 +1,54 @@
+--- a/net/minecraft/world/level/lighting/LeveledPriorityQueue.java
++++ b/net/minecraft/world/level/lighting/LeveledPriorityQueue.java
+@@ -4,15 +_,15 @@
+ 
+ public class LeveledPriorityQueue {
+    private final int f_278119_;
+-   private final LongLinkedOpenHashSet[] f_278115_;
++   private final it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<net.minecraft.core.SectionPos>[] f_278115_;
+    private int f_278122_;
+ 
+    public LeveledPriorityQueue(int p_278289_, final int p_278259_) {
+       this.f_278119_ = p_278289_;
+-      this.f_278115_ = new LongLinkedOpenHashSet[p_278289_];
++      this.f_278115_ = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet[p_278289_];
+ 
+       for(int i = 0; i < p_278289_; ++i) {
+-         this.f_278115_[i] = new LongLinkedOpenHashSet(p_278259_, 0.5F) {
++         this.f_278115_[i] = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<>(p_278259_, 0.5F) {
+             protected void rehash(int p_278313_) {
+                if (p_278313_ > p_278259_) {
+                   super.rehash(p_278313_);
+@@ -25,9 +_,9 @@
+       this.f_278122_ = p_278289_;
+    }
+ 
+-   public long m_278178_() {
+-      LongLinkedOpenHashSet longlinkedopenhashset = this.f_278115_[this.f_278122_];
+-      long i = longlinkedopenhashset.removeFirstLong();
++   public net.minecraft.core.SectionPos removeFirstLong() {
++      it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<net.minecraft.core.SectionPos> longlinkedopenhashset = this.f_278115_[this.f_278122_];
++      net.minecraft.core.SectionPos i = longlinkedopenhashset.removeFirst();
+       if (longlinkedopenhashset.isEmpty()) {
+          this.m_278149_(this.f_278119_);
+       }
+@@ -39,8 +_,8 @@
+       return this.f_278122_ >= this.f_278119_;
+    }
+ 
+-   public void m_278203_(long p_278232_, int p_278338_, int p_278345_) {
+-      LongLinkedOpenHashSet longlinkedopenhashset = this.f_278115_[p_278338_];
++   public void dequeue(net.minecraft.core.SectionPos p_278232_, int p_278338_, int p_278345_) {
++      it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<net.minecraft.core.SectionPos> longlinkedopenhashset = this.f_278115_[p_278338_];
+       longlinkedopenhashset.remove(p_278232_);
+       if (longlinkedopenhashset.isEmpty() && this.f_278122_ == p_278338_) {
+          this.m_278149_(p_278345_);
+@@ -48,7 +_,7 @@
+ 
+    }
+ 
+-   public void m_278202_(long p_278311_, int p_278335_) {
++   public void enqueue(net.minecraft.core.SectionPos p_278311_, int p_278335_) {
+       this.f_278115_[p_278335_].add(p_278311_);
+       if (this.f_278122_ > p_278335_) {
+          this.f_278122_ = p_278335_;

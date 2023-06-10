@@ -1,25 +1,6 @@
 --- a/net/minecraft/Util.java
 +++ b/net/minecraft/Util.java
-@@ -623,6 +_,18 @@
-       };
-    }
- 
-+   public static DataResult<long[]> fixedSize(java.util.stream.LongStream p_137540_, int p_137541_) {
-+      long[] aint = p_137540_.limit((long)(p_137541_ + 1)).toArray();
-+      if (aint.length != p_137541_) {
-+         Supplier<String> supplier = () -> {
-+            return "Input is not a list of " + p_137541_ + " ints";
-+         };
-+         return aint.length >= p_137541_ ? DataResult.error(supplier, Arrays.copyOf(aint, p_137541_)) : DataResult.error(supplier);
-+      } else {
-+         return DataResult.success(aint);
-+      }
-+   }
-+
-    public static DataResult<int[]> m_137539_(IntStream p_137540_, int p_137541_) {
-       int[] aint = p_137540_.limit((long)(p_137541_ + 1)).toArray();
-       if (aint.length != p_137541_) {
-@@ -682,30 +_,30 @@
+@@ -695,30 +_,30 @@
  
     public static <T, R> Function<T, R> m_143827_(final Function<T, R> p_143828_) {
        return new Function<T, R>() {
@@ -56,7 +37,7 @@
           }
        };
     }
-@@ -723,6 +_,18 @@
+@@ -736,6 +_,18 @@
        for(int j = i; j > 1; --j) {
           int k = p_214660_.m_188503_(j);
           intarraylist.set(j - 1, intarraylist.set(k, intarraylist.getInt(j - 1)));

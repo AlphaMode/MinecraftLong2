@@ -56,7 +56,7 @@
 -   }
 -
 -   protected T m_63085_(int p_63086_) {
-+      this.f_188032_.f_188101_.m_13524_((int) p_63133_, i);
++      this.f_188032_.f_188101_.set((int) p_63133_, i);
 +   }
 +
 +   public T get(long p_63088_, long p_63089_, long p_63090_) {
@@ -82,15 +82,26 @@
        });
     }
  
-@@ -314,7 +_,7 @@
+@@ -314,8 +_,8 @@
     static record Data<T>(PalettedContainer.Configuration<T> f_188100_, BitStorage f_188101_, Palette<T> f_188102_) {
        public void m_188111_(Palette<T> p_188112_, BitStorage p_188113_) {
           for(int i = 0; i < p_188113_.m_13521_(); ++i) {
 -            T t = p_188112_.m_5795_(p_188113_.m_13514_(i));
+-            this.f_188101_.m_13524_(i, this.f_188102_.m_6796_(t));
 +            T t = p_188112_.m_5795_(p_188113_.get(i));
-             this.f_188101_.m_13524_(i, this.f_188102_.m_6796_(t));
++            this.f_188101_.set(i, this.f_188102_.m_6796_(t));
           }
  
+       }
+@@ -369,7 +_,7 @@
+       public static final PalettedContainer.Strategy f_188138_ = new PalettedContainer.Strategy(2) {
+          public <A> PalettedContainer.Configuration<A> m_183248_(IdMap<A> p_188162_, int p_188163_) {
+             PalettedContainer.Configuration palettedcontainer$configuration;
+-            switch (p_188163_) {
++            switch ((int) p_188163_) {
+                case 0:
+                   palettedcontainer$configuration = new PalettedContainer.Configuration(f_188134_, p_188163_);
+                   break;
 @@ -395,7 +_,7 @@
           return 1 << this.f_188140_ * 3;
        }

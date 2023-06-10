@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ChunkHolder.java
 +++ b/net/minecraft/server/level/ChunkHolder.java
-@@ -79,7 +_,7 @@
+@@ -75,7 +_,7 @@
        this.f_140007_ = this.f_140006_;
        this.f_140008_ = this.f_140006_;
        this.m_140027_(p_142987_);
@@ -9,7 +9,7 @@
     }
  
     public CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_140047_(ChunkStatus p_140048_) {
-@@ -153,17 +_,17 @@
+@@ -149,17 +_,17 @@
     public void m_140056_(BlockPos p_140057_) {
        LevelChunk levelchunk = this.m_140085_();
        if (levelchunk != null) {
@@ -29,10 +29,10 @@
  
 -   public void m_140036_(LightLayer p_140037_, int p_140038_) {
 +   public void sectionLightChanged(LightLayer p_140037_, long p_140038_) {
-       Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure> either = this.m_140080_(ChunkStatus.f_62322_).getNow((Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>)null);
+       Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure> either = this.m_140080_(ChunkStatus.f_279614_).getNow((Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>)null);
        if (either != null) {
           ChunkAccess chunkaccess = either.left().orElse((ChunkAccess)null);
-@@ -171,14 +_,14 @@
+@@ -167,14 +_,14 @@
              chunkaccess.m_8092_(true);
              LevelChunk levelchunk = this.m_140085_();
              if (levelchunk != null) {
@@ -52,35 +52,35 @@
                    }
  
                 }
-@@ -206,15 +_,15 @@
-          for(int l = 0; l < this.f_140011_.length; ++l) {
-             ShortSet shortset = this.f_140011_[l];
-             if (shortset != null) {
--               int k = this.f_142983_.m_151568_(l);
--               SectionPos sectionpos = SectionPos.m_123196_(p_140055_.m_7697_(), k);
-+               long k = this.f_142983_.getSectionYFromSectionIndex(l);
-+               SectionPos sectionpos = SectionPos.of(p_140055_.m_7697_(), k);
-                if (shortset.size() == 1) {
-                   BlockPos blockpos = sectionpos.m_123245_(shortset.iterator().nextShort());
-                   BlockState blockstate = level.m_8055_(blockpos);
-                   this.m_140063_(new ClientboundBlockUpdatePacket(blockpos, blockstate), false);
-                   this.m_140032_(level, blockpos, blockstate);
-                } else {
--                  LevelChunkSection levelchunksection = p_140055_.m_183278_(l);
-+                  LevelChunkSection levelchunksection = p_140055_.getSection(l);
-                   ClientboundSectionBlocksUpdatePacket clientboundsectionblocksupdatepacket = new ClientboundSectionBlocksUpdatePacket(sectionpos, shortset, levelchunksection, this.f_140018_);
-                   this.m_140063_(clientboundsectionblocksupdatepacket, false);
-                   clientboundsectionblocksupdatepacket.m_132992_((p_140078_, p_140079_) -> {
-@@ -272,6 +_,7 @@
-       if (m_140074_(this.f_140007_).m_62427_(p_140050_)) {
+@@ -205,15 +_,15 @@
+                if (shortset != null) {
+                   this.f_140011_[j] = null;
+                   if (!list1.isEmpty()) {
+-                     int i = this.f_142983_.m_151568_(j);
+-                     SectionPos sectionpos = SectionPos.m_123196_(p_140055_.m_7697_(), i);
++                     long i = this.f_142983_.getSectionYFromSectionIndex(j);
++                     SectionPos sectionpos = SectionPos.of(p_140055_.m_7697_(), i);
+                      if (shortset.size() == 1) {
+                         BlockPos blockpos = sectionpos.m_123245_(shortset.iterator().nextShort());
+                         BlockState blockstate = level.m_8055_(blockpos);
+                         this.m_288202_(list1, new ClientboundBlockUpdatePacket(blockpos, blockstate));
+                         this.m_288224_(list1, level, blockpos, blockstate);
+                      } else {
+-                        LevelChunkSection levelchunksection = p_140055_.m_183278_(j);
++                        LevelChunkSection levelchunksection = p_140055_.getSection(j);
+                         ClientboundSectionBlocksUpdatePacket clientboundsectionblocksupdatepacket = new ClientboundSectionBlocksUpdatePacket(sectionpos, shortset, levelchunksection);
+                         this.m_288202_(list1, clientboundsectionblocksupdatepacket);
+                         clientboundsectionblocksupdatepacket.m_132992_((p_288761_, p_288762_) -> {
+@@ -271,6 +_,7 @@
+       if (ChunkLevel.m_287158_(this.f_140007_).m_62427_(p_140050_)) {
           CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture1 = p_140051_.m_140292_(this, p_140050_);
           this.m_143017_(completablefuture1, "schedule " + p_140050_);
 +         this.m_143017_(completablefuture1, "schedule " + p_140050_);
           this.f_140001_.set(i, completablefuture1);
           return completablefuture1;
        } else {
-@@ -416,12 +_,12 @@
-          this.m_142992_(p_143004_, chunkholder$fullchunkstatus1);
+@@ -415,7 +_,7 @@
+          this.m_287189_(p_143004_, fullchunkstatus1);
        }
  
 -      this.f_140015_.m_6250_(this.f_140009_, this::m_140094_, this.f_140007_, this::m_140086_);
@@ -88,13 +88,7 @@
        this.f_140006_ = this.f_140007_;
     }
  
-    public static ChunkStatus m_140074_(int p_140075_) {
--      return p_140075_ < 33 ? ChunkStatus.f_62326_ : ChunkStatus.m_156185_(p_140075_ - 33);
-+      return p_140075_ < 33 ? ChunkStatus.f_62326_ : ChunkStatus.getStatusAroundFullChunk(p_140075_ - 33);
-    }
- 
-    public static ChunkHolder.FullChunkStatus m_140083_(int p_140084_) {
-@@ -493,7 +_,7 @@
+@@ -473,7 +_,7 @@
  
     @FunctionalInterface
     public interface LevelChangeListener {

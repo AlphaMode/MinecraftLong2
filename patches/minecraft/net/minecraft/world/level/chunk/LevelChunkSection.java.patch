@@ -1,36 +1,7 @@
 --- a/net/minecraft/world/level/chunk/LevelChunkSection.java
 +++ b/net/minecraft/world/level/chunk/LevelChunkSection.java
-@@ -19,7 +_,7 @@
-    public static final int f_156456_ = 16;
-    public static final int f_156457_ = 4096;
-    public static final int f_187994_ = 2;
--   private final int f_62968_;
-+   private final long f_62968_;
-    private short f_62969_;
-    private short f_62970_;
-    private short f_62971_;
-@@ -27,28 +_,28 @@
-    private PalettedContainerRO<Holder<Biome>> f_187995_;
- 
-    public LevelChunkSection(int p_238255_, PalettedContainer<BlockState> p_238256_, PalettedContainerRO<Holder<Biome>> p_238257_) {
--      this.f_62968_ = m_156458_(p_238255_);
-+      this.f_62968_ = getBottomBlockY(p_238255_);
-       this.f_62972_ = p_238256_;
-       this.f_187995_ = p_238257_;
-       this.m_63018_();
-    }
- 
--   public LevelChunkSection(int p_188001_, Registry<Biome> p_188002_) {
--      this.f_62968_ = m_156458_(p_188001_);
-+   public LevelChunkSection(long p_188001_, Registry<Biome> p_188002_) {
-+      this.f_62968_ = getBottomBlockY(p_188001_);
-       this.f_62972_ = new PalettedContainer<>(Block.f_49791_, Blocks.f_50016_.m_49966_(), PalettedContainer.Strategy.f_188137_);
-       this.f_187995_ = new PalettedContainer<>(p_188002_.m_206115_(), p_188002_.m_246971_(Biomes.f_48202_), PalettedContainer.Strategy.f_188138_);
-    }
- 
--   public static int m_156458_(int p_156459_) {
-+   public static long getBottomBlockY(long p_156459_) {
-       return p_156459_ << 4;
+@@ -35,12 +_,12 @@
+       this.f_187995_ = new PalettedContainer<>(p_282873_.m_206115_(), p_282873_.m_246971_(Biomes.f_48202_), PalettedContainer.Strategy.f_188138_);
     }
  
 -   public BlockState m_62982_(int p_62983_, int p_62984_, int p_62985_) {
@@ -46,7 +17,7 @@
     }
  
     public void m_62981_() {
-@@ -59,16 +_,16 @@
+@@ -51,16 +_,16 @@
        this.f_62972_.m_63120_();
     }
  
@@ -68,16 +39,7 @@
        }
  
        FluidState fluidstate = blockstate.m_60819_();
-@@ -114,7 +_,7 @@
-       return this.f_62971_ > 0;
-    }
- 
--   public int m_63017_() {
-+   public long bottomBlockY() {
-       return this.f_62968_;
-    }
- 
-@@ -186,19 +_,19 @@
+@@ -174,18 +_,18 @@
        return this.f_62972_.m_63109_(p_63003_);
     }
  
@@ -87,18 +49,16 @@
 +      return this.f_187995_.get(p_204434_, p_204435_, p_204436_);
     }
  
--   public void m_188003_(BiomeResolver p_188004_, Climate.Sampler p_188005_, int p_188006_, int p_188007_) {
-+   public void fillBiomesFromNoise(BiomeResolver p_188004_, Climate.Sampler p_188005_, long p_188006_, long p_188007_) {
+-   public void m_280631_(BiomeResolver p_282075_, Climate.Sampler p_283084_, int p_282310_, int p_281510_, int p_283057_) {
++   public void fillBiomesFromNoise(BiomeResolver p_282075_, Climate.Sampler p_283084_, long p_282310_, long p_281510_, long p_283057_) {
        PalettedContainer<Holder<Biome>> palettedcontainer = this.f_187995_.m_238334_();
--      int i = QuartPos.m_175400_(this.m_63017_());
-+      long i = QuartPos.fromBlock(this.bottomBlockY());
-       int j = 4;
+       int i = 4;
  
-       for(int k = 0; k < 4; ++k) {
-          for(int l = 0; l < 4; ++l) {
-             for(int i1 = 0; i1 < 4; ++i1) {
--               palettedcontainer.m_63127_(k, l, i1, p_188004_.m_203407_(p_188006_ + k, i + l, p_188007_ + i1, p_188005_));
-+               palettedcontainer.getAndSetUnchecked(k, l, i1, p_188004_.getNoiseBiome(p_188006_ + k, i + l, p_188007_ + i1, p_188005_));
+       for(int j = 0; j < 4; ++j) {
+          for(int k = 0; k < 4; ++k) {
+             for(int l = 0; l < 4; ++l) {
+-               palettedcontainer.m_63127_(j, k, l, p_282075_.m_203407_(p_282310_ + j, p_281510_ + k, p_283057_ + l, p_283084_));
++               palettedcontainer.getAndSetUnchecked(j, k, l, p_282075_.getNoiseBiome(p_282310_ + j, p_281510_ + k, p_283057_ + l, p_283084_));
              }
           }
        }

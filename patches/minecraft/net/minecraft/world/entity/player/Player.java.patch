@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
-@@ -174,7 +_,7 @@
+@@ -175,7 +_,7 @@
        this.f_36084_ = p_252153_;
        this.f_36095_ = new InventoryMenu(this.f_36093_, !p_250508_.f_46443_, this);
        this.f_36096_ = this.f_36095_;
@@ -9,7 +9,7 @@
        this.f_20896_ = 180.0F;
     }
  
-@@ -257,8 +_,8 @@
+@@ -258,8 +_,8 @@
        }
  
        int i = 29999999;
@@ -20,23 +20,24 @@
        if (d0 != this.m_20185_() || d1 != this.m_20189_()) {
           this.m_6034_(d0, this.m_20186_(), d1);
        }
-@@ -1302,8 +_,8 @@
+@@ -1303,9 +_,9 @@
           return Optional.empty();
        } else {
-          boolean flag = block.m_5568_();
--         boolean flag1 = p_36131_.m_8055_(p_36132_.m_7494_()).m_60734_().m_5568_();
+          boolean flag = block.m_48673_(blockstate);
+-         BlockState blockstate1 = p_36131_.m_8055_(p_36132_.m_7494_());
++         BlockState blockstate1 = p_36131_.m_8055_(p_36132_.above());
+          boolean flag1 = blockstate1.m_60734_().m_48673_(blockstate1);
 -         return flag && flag1 ? Optional.of(new Vec3((double)p_36132_.m_123341_() + 0.5D, (double)p_36132_.m_123342_() + 0.1D, (double)p_36132_.m_123343_() + 0.5D)) : Optional.empty();
-+         boolean flag1 = p_36131_.m_8055_(p_36132_.above()).m_60734_().m_5568_();
 +         return flag && flag1 ? Optional.of(new Vec3((double)p_36132_.getX() + 0.5D, (double)p_36132_.getY() + 0.1D, (double)p_36132_.getZ() + 0.5D)) : Optional.empty();
        }
     }
  
-@@ -1626,7 +_,7 @@
+@@ -1651,7 +_,7 @@
        if (this.f_36077_.f_35938_) {
           return true;
        } else {
 -         BlockPos blockpos = p_36205_.m_121945_(p_36206_.m_122424_());
 +         BlockPos blockpos = p_36205_.relative(p_36206_.m_122424_());
-          BlockInWorld blockinworld = new BlockInWorld(this.f_19853_, blockpos, false);
-          return p_36207_.m_204121_(this.f_19853_.m_9598_().m_175515_(Registries.f_256747_), blockinworld);
+          BlockInWorld blockinworld = new BlockInWorld(this.m_9236_(), blockpos, false);
+          return p_36207_.m_204121_(this.m_9236_().m_9598_().m_175515_(Registries.f_256747_), blockinworld);
        }

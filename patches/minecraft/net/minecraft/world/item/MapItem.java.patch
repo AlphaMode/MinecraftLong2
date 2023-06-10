@@ -35,7 +35,7 @@
 @@ -118,7 +_,7 @@
                       int j2 = (j / i + k1 - 64) * i;
                       int k2 = (k / i + l1 - 64) * i;
-                      Multiset<MaterialColor> multiset = LinkedHashMultiset.create();
+                      Multiset<MapColor> multiset = LinkedHashMultiset.create();
 -                     LevelChunk levelchunk = p_42894_.m_6325_(SectionPos.m_123171_(j2), SectionPos.m_123171_(k2));
 +                     LevelChunk levelchunk = p_42894_.getChunk(SectionPos.blockToSectionCoord(j2), SectionPos.blockToSectionCoord(k2));
                       if (!levelchunk.m_6430_()) {
@@ -59,8 +59,8 @@
 -                                       blockpos$mutableblockpos.m_142448_(k3);
 +                                       blockpos$mutableblockpos.setY(k3);
                                         blockstate = levelchunk.m_8055_(blockpos$mutableblockpos);
--                                    } while(blockstate.m_60780_(p_42894_, blockpos$mutableblockpos) == MaterialColor.f_76398_ && k3 > p_42894_.m_141937_());
-+                                    } while(blockstate.m_60780_(p_42894_, blockpos$mutableblockpos) == MaterialColor.f_76398_ && k3 > p_42894_.getMinBuildHeight());
+-                                    } while(blockstate.m_284242_(p_42894_, blockpos$mutableblockpos) == MapColor.f_283808_ && k3 > p_42894_.m_141937_());
++                                    } while(blockstate.m_284242_(p_42894_, blockpos$mutableblockpos) == MapColor.f_283808_ && k3 > p_42894_.getMinBuildHeight());
  
 -                                    if (k3 > p_42894_.m_141937_() && !blockstate.m_60819_().m_76178_()) {
 -                                       int l3 = k3 - 1;
@@ -85,7 +85,7 @@
 -                                 p_42896_.m_77930_(p_42894_, blockpos$mutableblockpos.m_123341_(), blockpos$mutableblockpos.m_123343_());
 +                                 p_42896_.checkBanners(p_42894_, blockpos$mutableblockpos.getX(), blockpos$mutableblockpos.getZ());
                                   d1 += (double)k3 / (double)(i * i);
-                                  multiset.add(blockstate.m_60780_(p_42894_, blockpos$mutableblockpos));
+                                  multiset.add(blockstate.m_284242_(p_42894_, blockpos$mutableblockpos));
                                }
 @@ -228,7 +_,7 @@
  

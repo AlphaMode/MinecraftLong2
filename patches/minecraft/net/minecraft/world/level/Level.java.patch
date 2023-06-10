@@ -1,15 +1,6 @@
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
-@@ -70,7 +_,7 @@
- import net.minecraft.world.phys.Vec3;
- import net.minecraft.world.scores.Scoreboard;
- 
--public abstract class Level implements LevelAccessor, AutoCloseable {
-+public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedleaf.starlight.common.world.ExtendedWorld {
-    public static final Codec<ResourceKey<Level>> f_46427_ = ResourceKey.m_195966_(Registries.f_256858_);
-    public static final ResourceKey<Level> f_46428_ = ResourceKey.m_135785_(Registries.f_256858_, new ResourceLocation("overworld"));
-    public static final ResourceKey<Level> f_46429_ = ResourceKey.m_135785_(Registries.f_256858_, new ResourceLocation("the_nether"));
-@@ -158,28 +_,28 @@
+@@ -157,28 +_,28 @@
     }
  
     public static boolean m_46741_(BlockPos p_46742_) {
@@ -46,7 +37,7 @@
        if (chunkaccess == null && p_46505_) {
           throw new IllegalStateException("Should always be able to create a chunk!");
        } else {
-@@ -301,17 +_,13 @@
+@@ -294,17 +_,13 @@
        this.f_220350_.m_213547_(p_220385_, p_220386_, p_220387_, p_220388_, p_220389_, p_220390_);
     }
  
@@ -69,7 +60,7 @@
  
        return i;
     }
-@@ -324,7 +_,7 @@
+@@ -317,7 +_,7 @@
        if (this.m_151570_(p_46732_)) {
           return Blocks.f_50626_.m_49966_();
        } else {
@@ -78,7 +69,7 @@
           return levelchunk.m_8055_(p_46732_);
        }
     }
-@@ -358,7 +_,7 @@
+@@ -351,7 +_,7 @@
     }
  
     public void m_5594_(@Nullable Player p_46560_, BlockPos p_46561_, SoundEvent p_46562_, SoundSource p_46563_, float p_46564_, float p_46565_) {
@@ -87,7 +78,7 @@
     }
  
     public abstract void m_262808_(@Nullable Player p_262953_, double p_263004_, double p_263398_, double p_263376_, Holder<SoundEvent> p_263359_, SoundSource p_263020_, float p_263055_, float p_262914_, long p_262991_);
-@@ -378,7 +_,7 @@
+@@ -371,7 +_,7 @@
     }
  
     public void m_245747_(BlockPos p_250938_, SoundEvent p_252209_, SoundSource p_249161_, float p_249980_, float p_250277_, boolean p_250151_) {
@@ -96,7 +87,7 @@
     }
  
     public void m_7785_(double p_46482_, double p_46483_, double p_46484_, SoundEvent p_46485_, SoundSource p_46486_, float p_46487_, float p_46488_, boolean p_46489_) {
-@@ -444,12 +_,12 @@
+@@ -437,12 +_,12 @@
        return true;
     }
  
@@ -111,7 +102,7 @@
     }
  
     public Explosion m_254849_(@Nullable Entity p_256599_, double p_255914_, double p_255684_, double p_255843_, float p_256310_, Level.ExplosionInteraction p_256178_) {
-@@ -523,14 +_,14 @@
+@@ -516,14 +_,14 @@
     }
  
     public boolean m_46749_(BlockPos p_46750_) {
@@ -128,7 +119,7 @@
           return chunkaccess == null ? false : chunkaccess.m_8055_(p_46579_).m_60638_(this, p_46579_, p_46580_, p_46581_);
        }
     }
-@@ -551,7 +_,7 @@
+@@ -544,7 +_,7 @@
     }
  
     public BlockPos m_220360_() {
@@ -137,7 +128,7 @@
        if (!this.m_6857_().m_61937_(blockpos)) {
           blockpos = this.m_5452_(Heightmap.Types.MOTION_BLOCKING, BlockPos.m_274561_(this.m_6857_().m_6347_(), 0.0D, this.m_6857_().m_6345_()));
        }
-@@ -578,8 +_,8 @@
+@@ -571,8 +_,8 @@
     }
  
     @Nullable
@@ -148,79 +139,7 @@
     }
  
     public List<Entity> m_6249_(@Nullable Entity p_46536_, AABB p_46537_, Predicate<? super Entity> p_46538_) {
-@@ -654,27 +_,27 @@
- 
-    public int m_46751_(BlockPos p_46752_) {
-       int i = 0;
--      i = Math.max(i, this.m_46852_(p_46752_.m_7495_(), Direction.DOWN));
-+      i = Math.max(i, this.m_46852_(p_46752_.below(), Direction.DOWN));
-       if (i >= 15) {
-          return i;
-       } else {
--         i = Math.max(i, this.m_46852_(p_46752_.m_7494_(), Direction.UP));
-+         i = Math.max(i, this.m_46852_(p_46752_.above(), Direction.UP));
-          if (i >= 15) {
-             return i;
-          } else {
--            i = Math.max(i, this.m_46852_(p_46752_.m_122012_(), Direction.NORTH));
-+            i = Math.max(i, this.m_46852_(p_46752_.north(), Direction.NORTH));
-             if (i >= 15) {
-                return i;
-             } else {
--               i = Math.max(i, this.m_46852_(p_46752_.m_122019_(), Direction.SOUTH));
-+               i = Math.max(i, this.m_46852_(p_46752_.south(), Direction.SOUTH));
-                if (i >= 15) {
-                   return i;
-                } else {
--                  i = Math.max(i, this.m_46852_(p_46752_.m_122024_(), Direction.WEST));
-+                  i = Math.max(i, this.m_46852_(p_46752_.west(), Direction.WEST));
-                   if (i >= 15) {
-                      return i;
-                   } else {
--                     i = Math.max(i, this.m_46852_(p_46752_.m_122029_(), Direction.EAST));
-+                     i = Math.max(i, this.m_46852_(p_46752_.east(), Direction.EAST));
-                      return i >= 15 ? i : i;
-                   }
-                }
-@@ -694,18 +_,18 @@
-    }
- 
-    public boolean m_46753_(BlockPos p_46754_) {
--      if (this.m_46681_(p_46754_.m_7495_(), Direction.DOWN) > 0) {
--         return true;
--      } else if (this.m_46681_(p_46754_.m_7494_(), Direction.UP) > 0) {
--         return true;
--      } else if (this.m_46681_(p_46754_.m_122012_(), Direction.NORTH) > 0) {
--         return true;
--      } else if (this.m_46681_(p_46754_.m_122019_(), Direction.SOUTH) > 0) {
--         return true;
--      } else if (this.m_46681_(p_46754_.m_122024_(), Direction.WEST) > 0) {
-+      if (this.m_46681_(p_46754_.below(), Direction.DOWN) > 0) {
-+         return true;
-+      } else if (this.m_46681_(p_46754_.above(), Direction.UP) > 0) {
-+         return true;
-+      } else if (this.m_46681_(p_46754_.north(), Direction.NORTH) > 0) {
-+         return true;
-+      } else if (this.m_46681_(p_46754_.south(), Direction.SOUTH) > 0) {
-+         return true;
-+      } else if (this.m_46681_(p_46754_.west(), Direction.WEST) > 0) {
-          return true;
-       } else {
--         return this.m_46681_(p_46754_.m_122029_(), Direction.EAST) > 0;
-+         return this.m_46681_(p_46754_.east(), Direction.EAST) > 0;
-       }
-    }
- 
-@@ -713,7 +_,7 @@
-       int i = 0;
- 
-       for(Direction direction : f_46422_) {
--         int j = this.m_46681_(p_46756_.m_121945_(direction), direction);
-+         int j = this.m_46681_(p_46756_.relative(direction), direction);
-          if (j >= 15) {
-             return 15;
-          }
-@@ -796,7 +_,7 @@
+@@ -715,7 +_,7 @@
           return false;
        } else if (!this.m_45527_(p_46759_)) {
           return false;
@@ -229,7 +148,7 @@
           return false;
        } else {
           Biome biome = this.m_204166_(p_46759_).m_203334_();
-@@ -842,13 +_,13 @@
+@@ -761,13 +_,13 @@
  
     public void m_46717_(BlockPos p_46718_, Block p_46719_) {
        for(Direction direction : Direction.Plane.HORIZONTAL) {
@@ -245,7 +164,7 @@
                 blockstate = this.m_8055_(blockpos);
                 if (blockstate.m_60713_(Blocks.f_50328_)) {
                    this.m_213960_(blockstate, blockpos, p_46719_, p_46718_, false);
-@@ -915,7 +_,7 @@
+@@ -834,7 +_,7 @@
  
     public abstract RecipeManager m_7465_();
  

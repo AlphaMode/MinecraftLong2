@@ -1,156 +1,92 @@
 --- a/net/minecraft/server/level/ThreadedLevelLightEngine.java
 +++ b/net/minecraft/server/level/ThreadedLevelLightEngine.java
-@@ -32,6 +_,64 @@
-    private volatile int f_9301_ = 5;
-    private final AtomicBoolean f_9302_ = new AtomicBoolean();
- 
-+   private final it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap<ChunkPos> chunksBeingWorkedOn = new it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap<>();
-+
-+   private void queueTaskForSection(final long chunkX, final long chunkY, final long chunkZ, final java.util.function.Supplier<CompletableFuture<Void>> runnable) {
-+      final net.minecraft.server.level.ServerLevel world = (net.minecraft.server.level.ServerLevel)this.getLightEngine().getWorld();
-+
-+      final ChunkAccess center = this.getLightEngine().getAnyChunkNow(chunkX, chunkZ);
-+      if (center == null || !center.m_6415_().m_62427_(net.minecraft.world.level.chunk.ChunkStatus.f_62323_)) {
-+         // do not accept updates in unlit chunks, unless we might be generating a chunk. thanks to the amazing
-+         // chunk scheduling, we could be lighting and generating a chunk at the same time
-+         return;
-+      }
-+
-+      if (center.m_6415_() != net.minecraft.world.level.chunk.ChunkStatus.f_62326_) {
-+         // do not keep chunk loaded, we are probably in a gen thread
-+         // if we proceed to add a ticket the chunk will be loaded, which is not what we want (avoid cascading gen)
-+         runnable.get();
-+         return;
-+      }
-+
-+      if (!world.m_7726_().f_8325_.getMainThreadExecutor().m_18695_()) {
-+         // ticket logic is not safe to run off-main, re-schedule
-+         world.m_7726_().f_8325_.getMainThreadExecutor().execute(() -> {
-+            this.queueTaskForSection(chunkX, chunkY, chunkZ, runnable);
-+         });
-+         return;
-+      }
-+
-+      final ChunkPos key = new ChunkPos(chunkX, chunkZ);
-+
-+      final CompletableFuture<Void> updateFuture = runnable.get();
-+
-+      if (updateFuture == null) {
-+         // not scheduled
-+         return;
-+      }
-+
-+      final int references = this.chunksBeingWorkedOn.addTo(key, 1);
-+      if (references == 0) {
-+         final ChunkPos pos = new ChunkPos(chunkX, chunkZ);
-+         world.m_7726_().m_8387_(ca.spottedleaf.starlight.common.light.StarLightInterface.CHUNK_WORK_TICKET, pos, 0, pos);
-+      }
-+
-+      updateFuture.thenAcceptAsync((final Void ignore) -> {
-+         final int newReferences = this.chunksBeingWorkedOn.get(key);
-+         if (newReferences == 1) {
-+            this.chunksBeingWorkedOn.remove(key);
-+            final ChunkPos pos = new ChunkPos(chunkX, chunkZ);
-+            world.m_7726_().m_8438_(ca.spottedleaf.starlight.common.light.StarLightInterface.CHUNK_WORK_TICKET, pos, 0, pos);
-+         } else {
-+            this.chunksBeingWorkedOn.put(key, newReferences - 1);
-+         }
-+      }, world.m_7726_().f_8325_.getMainThreadExecutor()).whenComplete((final Void ignore, final Throwable thr) -> {
-+         if (thr != null) {
-+            f_9296_.error("Failed to remove ticket level for post chunk task " + new ChunkPos(chunkX, chunkZ), thr);
-+         }
-+      });
-+   }
-+
-    public ThreadedLevelLightEngine(LightChunkGetter p_9305_, ChunkMap p_9306_, boolean p_9307_, ProcessorMailbox<Runnable> p_9308_, ProcessorHandle<ChunkTaskPriorityQueueSorter.Message<Runnable>> p_9309_) {
-       super(p_9305_, true, p_9307_);
-       this.f_9299_ = p_9306_;
-@@ -51,85 +_,45 @@
-    }
+@@ -49,7 +_,7 @@
  
     public void m_7174_(BlockPos p_9357_) {
--      BlockPos blockpos = p_9357_.m_7949_();
--      this.m_9312_(SectionPos.m_123171_(p_9357_.m_123341_()), SectionPos.m_123171_(p_9357_.m_123343_()), ThreadedLevelLightEngine.TaskType.POST_UPDATE, Util.m_137474_(() -> {
--         super.m_7174_(blockpos);
--      }, () -> {
--         return "checkBlock " + blockpos;
--      }));
-+      final BlockPos posCopy = p_9357_.m_7949_();
-+      this.queueTaskForSection(posCopy.getX() >> 4, posCopy.getY() >> 4, posCopy.getZ() >> 4, () -> {
-+         return this.getLightEngine().blockChange(posCopy);
-+      });
+       BlockPos blockpos = p_9357_.m_7949_();
+-      this.m_9312_(SectionPos.m_123171_(p_9357_.m_123341_()), SectionPos.m_123171_(p_9357_.m_123343_()), ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
++      this.addTask(SectionPos.blockToSectionCoord(p_9357_.getX()), SectionPos.blockToSectionCoord(p_9357_.getZ()), ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
+          super.m_7174_(blockpos);
+       }, () -> {
+          return "checkBlock " + blockpos;
+@@ -57,19 +_,19 @@
     }
  
     protected void m_9330_(ChunkPos p_9331_) {
 -      this.m_9317_(p_9331_.f_45578_, p_9331_.f_45579_, () -> {
--         return 0;
--      }, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
--         super.m_6462_(p_9331_, false);
--         super.m_6460_(p_9331_, false);
--
++      this.addTask(p_9331_.f_45578_, p_9331_.f_45579_, () -> {
+          return 0;
+       }, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
+          super.m_6462_(p_9331_, false);
+          super.m_9335_(p_9331_, false);
+ 
 -         for(int i = this.m_164447_(); i < this.m_164448_(); ++i) {
--            super.m_5687_(LightLayer.BLOCK, SectionPos.m_123196_(p_9331_, i), (DataLayer)null, true);
--            super.m_5687_(LightLayer.SKY, SectionPos.m_123196_(p_9331_, i), (DataLayer)null, true);
--         }
--
+-            super.m_284126_(LightLayer.BLOCK, SectionPos.m_123196_(p_9331_, i), (DataLayer)null);
+-            super.m_284126_(LightLayer.SKY, SectionPos.m_123196_(p_9331_, i), (DataLayer)null);
++         for(long i = this.getMinLightSection(); i < this.getMaxLightSection(); ++i) {
++            super.m_284126_(LightLayer.BLOCK, SectionPos.of(p_9331_, i), (DataLayer)null);
++            super.m_284126_(LightLayer.SKY, SectionPos.of(p_9331_, i), (DataLayer)null);
+          }
+ 
 -         for(int j = this.f_164445_.m_151560_(); j < this.f_164445_.m_151561_(); ++j) {
 -            super.m_6191_(SectionPos.m_123196_(p_9331_, j), true);
--         }
--
--      }, () -> {
--         return "updateChunkStatus " + p_9331_ + " true";
--      }));
++         for(long j = this.f_164445_.getMinSection(); j < this.f_164445_.getMaxSection(); ++j) {
++            super.m_6191_(SectionPos.of(p_9331_, j), true);
+          }
+ 
+       }, () -> {
+@@ -78,7 +_,7 @@
     }
  
     public void m_6191_(SectionPos p_9364_, boolean p_9365_) {
 -      this.m_9317_(p_9364_.m_123170_(), p_9364_.m_123222_(), () -> {
--         return 0;
--      }, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
--         super.m_6191_(p_9364_, p_9365_);
--      }, () -> {
--         return "updateSectionStatus " + p_9364_ + " " + p_9365_;
--      }));
-+      this.queueTaskForSection(p_9364_.getX(), p_9364_.getY(), p_9364_.getZ(), () -> {
-+         return this.getLightEngine().sectionChange(p_9364_, p_9365_);
-+      });
++      this.addTask(p_9364_.x(), p_9364_.z(), () -> {
+          return 0;
+       }, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
+          super.m_6191_(p_9364_, p_9365_);
+@@ -88,7 +_,7 @@
     }
  
-    public void m_6460_(ChunkPos p_9336_, boolean p_9337_) {
+    public void m_142519_(ChunkPos p_285029_) {
+-      this.m_9312_(p_285029_.f_45578_, p_285029_.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
++      this.addTask(p_285029_.f_45578_, p_285029_.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
+          super.m_142519_(p_285029_);
+       }, () -> {
+          return "propagateLight " + p_285029_;
+@@ -96,7 +_,7 @@
+    }
+ 
+    public void m_9335_(ChunkPos p_9336_, boolean p_9337_) {
 -      this.m_9312_(p_9336_.f_45578_, p_9336_.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
--         super.m_6460_(p_9336_, p_9337_);
--      }, () -> {
--         return "enableLight " + p_9336_ + " " + p_9337_;
--      }));
-+      // light impl does not need to do this
++      this.addTask(p_9336_.f_45578_, p_9336_.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
+          super.m_9335_(p_9336_, p_9337_);
+       }, () -> {
+          return "enableLight " + p_9336_ + " " + p_9337_;
+@@ -104,7 +_,7 @@
     }
  
-    public void m_5687_(LightLayer p_9339_, SectionPos p_9340_, @Nullable DataLayer p_9341_, boolean p_9342_) {
--      this.m_9317_(p_9340_.m_123170_(), p_9340_.m_123222_(), () -> {
--         return 0;
--      }, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
--         super.m_5687_(p_9339_, p_9340_, p_9341_, p_9342_);
--      }, () -> {
--         return "queueData " + p_9340_;
--      }));
--   }
--
+    public void m_284126_(LightLayer p_285046_, SectionPos p_285496_, @Nullable DataLayer p_285495_) {
+-      this.m_9317_(p_285496_.m_123170_(), p_285496_.m_123222_(), () -> {
++      this.addTask(p_285496_.x(), p_285496_.z(), () -> {
+          return 0;
+       }, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
+          super.m_284126_(p_285046_, p_285496_, p_285495_);
+@@ -113,22 +_,22 @@
+       }));
+    }
+ 
 -   private void m_9312_(int p_9313_, int p_9314_, ThreadedLevelLightEngine.TaskType p_9315_, Runnable p_9316_) {
 -      this.m_9317_(p_9313_, p_9314_, this.f_9299_.m_140371_(ChunkPos.m_45589_(p_9313_, p_9314_)), p_9315_, p_9316_);
--   }
--
--   private void m_9317_(int p_9318_, int p_9319_, IntSupplier p_9320_, ThreadedLevelLightEngine.TaskType p_9321_, Runnable p_9322_) {
--      this.f_9300_.m_6937_(ChunkTaskPriorityQueueSorter.m_140624_(() -> {
-+      // load hooks inside ChunkSerializer
-+   }
-+
 +   private void addTask(long p_9313_, long p_9314_, ThreadedLevelLightEngine.TaskType p_9315_, Runnable p_9316_) {
 +      this.addTask(p_9313_, p_9314_, this.f_9299_.getChunkQueueLevel(new ChunkPos(p_9313_, p_9314_)), p_9315_, p_9316_);
-+   }
-+
+    }
+ 
+-   private void m_9317_(int p_9318_, int p_9319_, IntSupplier p_9320_, ThreadedLevelLightEngine.TaskType p_9321_, Runnable p_9322_) {
+-      this.f_9300_.m_6937_(ChunkTaskPriorityQueueSorter.m_140624_(() -> {
 +   private void addTask(long p_9318_, long p_9319_, IntSupplier p_9320_, ThreadedLevelLightEngine.TaskType p_9321_, Runnable p_9322_) {
 +      this.f_9300_.m_6937_(ChunkTaskPriorityQueueSorter.message(() -> {
           this.f_9298_.add(Pair.of(p_9321_, p_9322_));
-          if (this.f_9298_.size() >= this.f_9301_) {
+          if (this.f_9298_.size() >= 1000) {
              this.m_9366_();
           }
  
@@ -160,79 +96,52 @@
  
     public void m_6462_(ChunkPos p_9370_, boolean p_9371_) {
 -      this.m_9317_(p_9370_.f_45578_, p_9370_.f_45579_, () -> {
--         return 0;
--      }, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
--         super.m_6462_(p_9370_, p_9371_);
--      }, () -> {
--         return "retainData " + p_9370_;
--      }));
-+      // light impl does not need to do this
-    }
++      this.addTask(p_9370_.f_45578_, p_9370_.f_45579_, () -> {
+          return 0;
+       }, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
+          super.m_6462_(p_9370_, p_9371_);
+@@ -139,14 +_,14 @@
  
-    public CompletableFuture<ChunkAccess> m_215136_(ChunkAccess p_215137_) {
-@@ -140,41 +_,36 @@
-       }, () -> {
-          return "retainData: " + chunkpos;
-       }), (p_215152_) -> {
--         this.m_9312_(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, p_215152_);
-+         this.addTask(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, p_215152_);
+    public CompletableFuture<ChunkAccess> m_284138_(ChunkAccess p_285128_, boolean p_285441_) {
+       ChunkPos chunkpos = p_285128_.m_7697_();
+-      this.m_9312_(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
++      this.addTask(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
+          LevelChunkSection[] alevelchunksection = p_285128_.m_7103_();
+ 
+-         for(int i = 0; i < p_285128_.m_151559_(); ++i) {
++         for(int i = 0; i < p_285128_.getSectionsCount(); ++i) {
+             LevelChunkSection levelchunksection = alevelchunksection[i];
+             if (!levelchunksection.m_188008_()) {
+-               int j = this.f_164445_.m_151568_(i);
+-               super.m_6191_(SectionPos.m_123196_(chunkpos, j), false);
++               long j = this.f_164445_.getSectionYFromSectionIndex(i);
++               super.m_6191_(SectionPos.of(chunkpos, j), false);
+             }
+          }
+ 
+@@ -158,14 +_,14 @@
+          super.m_6462_(chunkpos, false);
+          return p_285128_;
+       }, (p_215135_) -> {
+-         this.m_9312_(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_215135_);
++         this.addTask(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_215135_);
        });
     }
  
     public CompletableFuture<ChunkAccess> m_9353_(ChunkAccess p_9354_, boolean p_9355_) {
--      ChunkPos chunkpos = p_9354_.m_7697_();
--      p_9354_.m_8094_(false);
+       ChunkPos chunkpos = p_9354_.m_7697_();
+       p_9354_.m_8094_(false);
 -      this.m_9312_(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
--         LevelChunkSection[] alevelchunksection = p_9354_.m_7103_();
--
--         for(int i = 0; i < p_9354_.m_151559_(); ++i) {
--            LevelChunkSection levelchunksection = alevelchunksection[i];
--            if (!levelchunksection.m_188008_()) {
--               int j = this.f_164445_.m_151568_(i);
--               super.m_6191_(SectionPos.m_123196_(chunkpos, j), false);
--            }
--         }
--
--         super.m_6460_(chunkpos, true);
--         if (!p_9355_) {
--            p_9354_.m_6267_().forEach((p_215147_) -> {
--               super.m_8116_(p_215147_, p_9354_.m_7146_(p_215147_));
--            });
--         }
--
--      }, () -> {
--         return "lightChunk " + chunkpos + " " + p_9355_;
--      }));
-+      final ChunkPos chunkPos = p_9354_.m_7697_();
-+
-       return CompletableFuture.supplyAsync(() -> {
--         p_9354_.m_8094_(true);
--         super.m_6462_(chunkpos, false);
--         this.f_9299_.m_140375_(chunkpos);
-+         final Boolean[] emptySections = ca.spottedleaf.starlight.common.light.StarLightEngine.getEmptySectionsForChunk(p_9354_);
-+         if (!p_9355_) {
-+            p_9354_.m_8094_(false);
-+            this.getLightEngine().lightChunk(p_9354_, emptySections);
-+            p_9354_.m_8094_(true);
-+         } else {
-+            this.getLightEngine().forceLoadInChunk(p_9354_, emptySections);
-+            // can't really force the chunk to be edged checked, as we need neighbouring chunks - but we don't have
-+            // them, so if it's not loaded then i guess we can't do edge checks. later loads of the chunk should
-+            // catch what we miss here.
-+            this.getLightEngine().checkChunkEdges(chunkPos.f_45578_, chunkPos.f_45579_);
-+         }
-+
-+         this.f_9299_.m_140375_(chunkPos);
++      this.addTask(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
+          if (!p_9355_) {
+             super.m_142519_(chunkpos);
+          }
+@@ -178,7 +_,7 @@
+          this.f_9299_.m_140375_(chunkpos);
           return p_9354_;
--      }, (p_215135_) -> {
--         this.m_9312_(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_215135_);
-+      }, (runnable) -> {
-+         this.getLightEngine().scheduleChunkLight(chunkPos, runnable);
-+         this.m_9409_();
-+      }).whenComplete((final ChunkAccess c, final Throwable throwable) -> {
-+         if (throwable != null) {
-+            f_9296_.error("Failed to light chunk " + chunkPos, throwable);
-+         }
+       }, (p_280982_) -> {
+-         this.m_9312_(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_280982_);
++         this.addTask(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_280982_);
        });
     }
  

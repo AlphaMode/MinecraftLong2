@@ -1,0 +1,26 @@
+--- a/net/minecraft/world/level/gameevent/vibrations/VibrationSystem.java
++++ b/net/minecraft/world/level/gameevent/vibrations/VibrationSystem.java
+@@ -208,7 +_,7 @@
+       }
+ 
+       public static float m_280659_(BlockPos p_282413_, BlockPos p_281960_) {
+-         return (float)Math.sqrt(p_282413_.m_123331_(p_281960_));
++         return (float)Math.sqrt(p_282413_.distSqr(p_281960_));
+       }
+ 
+       private static boolean m_280258_(Level p_283225_, Vec3 p_283328_, Vec3 p_283163_) {
+@@ -300,10 +_,10 @@
+       private static boolean m_280446_(Level p_282735_, BlockPos p_281722_) {
+          ChunkPos chunkpos = new ChunkPos(p_281722_);
+ 
+-         for(int i = chunkpos.f_45578_ - 1; i < chunkpos.f_45578_ + 1; ++i) {
+-            for(int j = chunkpos.f_45579_ - 1; j < chunkpos.f_45579_ + 1; ++j) {
+-               ChunkAccess chunkaccess = p_282735_.m_7726_().m_7131_(i, j);
+-               if (chunkaccess == null || !p_282735_.m_183438_(chunkaccess.m_7697_().m_45588_())) {
++         for(long i = chunkpos.f_45578_ - 1; i < chunkpos.f_45578_ + 1; ++i) {
++            for(long j = chunkpos.f_45579_ - 1; j < chunkpos.f_45579_ + 1; ++j) {
++               ChunkAccess chunkaccess = p_282735_.m_7726_().getChunkNow(i, j);
++               if (chunkaccess == null || !p_282735_.shouldTickBlocksAt(chunkaccess.m_7697_())) {
+                   return false;
+                }
+             }

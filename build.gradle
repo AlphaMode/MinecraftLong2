@@ -54,7 +54,7 @@ ext {
     MODLAUNCHER_VERSION = '10.0.8'
     SECUREJARHANDLER_VERSION = '2.1.4'
     BOOTSTRAPLAUNCHER_VERSION = '1.1.2'
-    ASM_VERSION = '9.3'
+    ASM_VERSION = '9.5'
     INSTALLER_VERSION = '2.1.+'
     MIXIN_VERSION = '0.8.5'
     TERMINALCONSOLEAPPENDER_VERSION = '1.2.0'
@@ -73,7 +73,7 @@ ext {
     APACHE_COMMONS_LANG3_VERSION = '3.12.0'
     JOPT_SIMPLE_VERSION = '5.0.4'
     COMMONS_IO_VERSION = '2.11.0'
-    JARJAR_VERSION = '0.3.16'
+    JARJAR_VERSION = '0.3.19'
 
     GIT_INFO = gradleutils.gitInfo
     VERSION = gradleutils.getFilteredMCTagOffsetBranchVersion(true, '[0-9]', MC_VERSION)
@@ -762,31 +762,12 @@ project(':mclong') {
         libraries.addAll downloadLibraries.librariesOutput.map { rf -> Files.readAllLines(rf.asFile.toPath()).stream().map(File::new).collect(java.util.stream.Collectors.toList()) }
     }
 
-    task findFieldInstanceChecks(type: FieldCompareFinder, dependsOn: ['createJoinedSRG']) {
-        jar = createJoinedSRG.output
-        output = rootProject.file('src/main/resources/coremods/field_to_instanceof.json')
-        fields {
-            /* 1.17 changed most things to use Tags. So this isn't nessasary anymore so just make an empty list
-            bows {
-                cls = 'net/minecraft/world/item/Items'
-                name = 'f_42411_'
-                replacement = 'net/minecraft/world/item/BowItem'
-            }
-            crossbows {
-                cls = 'net/minecraft/world/item/Items'
-                name = 'f_42717_'
-                replacement = 'net/minecraft/world/item/CrossbowItem'
-            }
-            */
-        }
-    }
-
     tasks.register('checkAll') {
         dependsOn 'checkLicenses'
         group = 'checks'
     }
     tasks.register('checkAllAndFix') {
-        dependsOn 'findFinalizeSpawnTargets', 'findFieldInstanceChecks', 'checkLicenses'
+        dependsOn 'checkLicenses'
         group = 'checks'
     }
 

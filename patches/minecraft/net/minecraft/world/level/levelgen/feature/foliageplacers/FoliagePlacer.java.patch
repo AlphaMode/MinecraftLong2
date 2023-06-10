@@ -9,7 +9,14 @@
                 m_272253_(p_225629_, p_272772_, p_225631_, p_225632_, blockpos$mutableblockpos);
              }
           }
-@@ -90,7 +_,7 @@
+@@ -85,13 +_,13 @@
+    protected final void m_272160_(LevelSimulatedReader p_273087_, FoliagePlacer.FoliageSetter p_273225_, RandomSource p_272629_, TreeConfiguration p_272885_, BlockPos p_273412_, int p_272712_, int p_272656_, boolean p_272689_, float p_273464_, float p_273068_) {
+       this.m_225628_(p_273087_, p_273225_, p_272629_, p_272885_, p_273412_, p_272712_, p_272656_, p_272689_);
+       int i = p_272689_ ? 1 : 0;
+-      BlockPos blockpos = p_273412_.m_7495_();
++      BlockPos blockpos = p_273412_.below();
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
        for(Direction direction : Direction.Plane.HORIZONTAL) {
           Direction direction1 = direction.m_122427_();
           int j = direction1.m_122421_() == Direction.AxisDirection.POSITIVE ? p_272712_ + i : p_272712_;
@@ -18,3 +25,12 @@
           int k = -p_272712_;
  
           while(k < p_272712_ + i) {
+@@ -111,7 +_,7 @@
+    }
+ 
+    private static boolean m_277091_(LevelSimulatedReader p_277577_, FoliagePlacer.FoliageSetter p_277449_, RandomSource p_277966_, TreeConfiguration p_277897_, float p_277979_, BlockPos p_277833_, BlockPos.MutableBlockPos p_277567_) {
+-      if (p_277567_.m_123333_(p_277833_) >= 7) {
++      if (p_277567_.distManhattan(p_277833_) >= 7) {
+          return false;
+       } else {
+          return p_277966_.m_188501_() > p_277979_ ? false : m_272253_(p_277577_, p_277449_, p_277966_, p_277897_, p_277567_);

@@ -1,15 +1,15 @@
 --- a/net/minecraft/world/level/levelgen/feature/MonsterRoomFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/MonsterRoomFeature.java
-@@ -49,7 +_,7 @@
+@@ -48,7 +_,7 @@
        for(int k2 = k; k2 <= l; ++k2) {
           for(int l2 = -1; l2 <= 4; ++l2) {
              for(int i3 = l1; i3 <= i2; ++i3) {
 -               BlockPos blockpos1 = blockpos.m_7918_(k2, l2, i3);
 +               BlockPos blockpos1 = blockpos.offset(k2, l2, i3);
-                Material material = worldgenlevel.m_8055_(blockpos1).m_60767_();
-                boolean flag = material.m_76333_();
+                boolean flag = worldgenlevel.m_8055_(blockpos1).m_280296_();
                 if (l2 == -1 && !flag) {
-@@ -60,7 +_,7 @@
+                   return false;
+@@ -58,7 +_,7 @@
                    return false;
                 }
  
@@ -18,23 +18,23 @@
                    ++j2;
                 }
              }
-@@ -71,13 +_,13 @@
+@@ -69,13 +_,13 @@
           for(int k3 = k; k3 <= l; ++k3) {
              for(int i4 = 3; i4 >= -1; --i4) {
                 for(int k4 = l1; k4 <= i2; ++k4) {
--                  BlockPos blockpos2 = blockpos.m_7918_(k3, i4, k4);
-+                  BlockPos blockpos2 = blockpos.offset(k3, i4, k4);
-                   BlockState blockstate = worldgenlevel.m_8055_(blockpos2);
+-                  BlockPos blockpos3 = blockpos.m_7918_(k3, i4, k4);
++                  BlockPos blockpos3 = blockpos.offset(k3, i4, k4);
+                   BlockState blockstate = worldgenlevel.m_8055_(blockpos3);
                    if (k3 != k && i4 != -1 && k4 != l1 && k3 != l && i4 != 4 && k4 != i2) {
                       if (!blockstate.m_60713_(Blocks.f_50087_) && !blockstate.m_60713_(Blocks.f_50085_)) {
-                         this.m_159742_(worldgenlevel, blockpos2, f_66342_, predicate);
+                         this.m_159742_(worldgenlevel, blockpos3, f_66342_, predicate);
                       }
--                  } else if (blockpos2.m_123342_() >= worldgenlevel.m_141937_() && !worldgenlevel.m_8055_(blockpos2.m_7495_()).m_60767_().m_76333_()) {
-+                  } else if (blockpos2.getY() >= worldgenlevel.getMinBuildHeight() && !worldgenlevel.m_8055_(blockpos2.below()).m_60767_().m_76333_()) {
-                      worldgenlevel.m_7731_(blockpos2, f_66342_, 2);
-                   } else if (blockstate.m_60767_().m_76333_() && !blockstate.m_60713_(Blocks.f_50087_)) {
+-                  } else if (blockpos3.m_123342_() >= worldgenlevel.m_141937_() && !worldgenlevel.m_8055_(blockpos3.m_7495_()).m_280296_()) {
++                  } else if (blockpos3.getY() >= worldgenlevel.getMinBuildHeight() && !worldgenlevel.m_8055_(blockpos3.below()).m_280296_()) {
+                      worldgenlevel.m_7731_(blockpos3, f_66342_, 2);
+                   } else if (blockstate.m_280296_() && !blockstate.m_60713_(Blocks.f_50087_)) {
                       if (i4 == -1 && randomsource.m_188503_(4) != 0) {
-@@ -92,15 +_,15 @@
+@@ -90,15 +_,15 @@
  
           for(int l3 = 0; l3 < 2; ++l3) {
              for(int j4 = 0; j4 < 3; ++j4) {
@@ -44,17 +44,17 @@
 +               long l4 = blockpos.getX() + randomsource.m_188503_(j * 2 + 1) - j;
 +               long i5 = blockpos.getY();
 +               long j5 = blockpos.getZ() + randomsource.m_188503_(k1 * 2 + 1) - k1;
-                BlockPos blockpos3 = new BlockPos(l4, i5, j5);
-                if (worldgenlevel.m_46859_(blockpos3)) {
+                BlockPos blockpos2 = new BlockPos(l4, i5, j5);
+                if (worldgenlevel.m_46859_(blockpos2)) {
                    int j3 = 0;
  
                    for(Direction direction : Direction.Plane.HORIZONTAL) {
--                     if (worldgenlevel.m_8055_(blockpos3.m_121945_(direction)).m_60767_().m_76333_()) {
-+                     if (worldgenlevel.m_8055_(blockpos3.relative(direction)).m_60767_().m_76333_()) {
+-                     if (worldgenlevel.m_8055_(blockpos2.m_121945_(direction)).m_280296_()) {
++                     if (worldgenlevel.m_8055_(blockpos2.relative(direction)).m_280296_()) {
                          ++j3;
                       }
                    }
-@@ -120,7 +_,7 @@
+@@ -118,7 +_,7 @@
              SpawnerBlockEntity spawnerblockentity = (SpawnerBlockEntity)blockentity;
              spawnerblockentity.m_252803_(this.m_225153_(randomsource), randomsource);
           } else {

@@ -1,11 +1,10 @@
 --- a/net/minecraft/world/level/chunk/ChunkAccess.java
 +++ b/net/minecraft/world/level/chunk/ChunkAccess.java
-@@ -50,14 +_,23 @@
- import net.minecraft.world.ticks.TickContainerAccess;
+@@ -54,14 +_,18 @@
  import org.slf4j.Logger;
  
--public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiomeSource, StructureAccess {
-+public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiomeSource, StructureAccess, ca.spottedleaf.starlight.common.chunk.ExtendedChunk {
+ public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiomeSource, LightChunk, StructureAccess {
+-   public static final int f_279635_ = -1;
     private static final Logger f_187613_ = LogUtils.getLogger();
 -   private static final LongSet f_207932_ = new LongOpenHashSet();
 +   private static final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> f_207932_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
@@ -15,10 +14,6 @@
     protected final ChunkPos f_187604_;
     private long f_187615_;
 +
-+   private volatile ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] blockNibbles;
-+
-+   private volatile ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] skyNibbles;
-+
 +   private volatile boolean[] skyEmptinessMap;
 +
 +   private volatile boolean[] blockEmptinessMap;
@@ -26,16 +21,16 @@
     /** @deprecated */
     @Nullable
     @Deprecated
-@@ -69,7 +_,7 @@
-    protected BlendingData f_187607_;
+@@ -74,7 +_,7 @@
     protected final Map<Heightmap.Types, Heightmap> f_187608_ = Maps.newEnumMap(Heightmap.Types.class);
+    protected ChunkSkyLightSources f_283754_;
     private final Map<Structure, StructureStart> f_187617_ = Maps.newHashMap();
 -   private final Map<Structure, LongSet> f_187618_ = Maps.newHashMap();
 +   private final Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> f_187618_ = Maps.newHashMap();
     protected final Map<BlockPos, CompoundTag> f_187609_ = Maps.newHashMap();
     protected final Map<BlockPos, BlockEntity> f_187610_ = Maps.newHashMap();
     protected final LevelHeightAccessor f_187611_;
-@@ -79,9 +_,9 @@
+@@ -84,9 +_,9 @@
        this.f_187604_ = p_187621_;
        this.f_187606_ = p_187622_;
        this.f_187611_ = p_187623_;
@@ -45,16 +40,9 @@
 -      this.f_187602_ = new ShortList[p_187623_.m_151559_()];
 +      this.f_187602_ = new ShortList[(int) p_187623_.getSectionsCount()];
        this.f_187607_ = p_187627_;
+       this.f_283754_ = new ChunkSkyLightSources(p_187623_);
        if (p_187626_ != null) {
-          if (this.f_187612_.length == p_187626_.length) {
-@@ -97,13 +_,13 @@
-    private static void m_187634_(LevelHeightAccessor p_187635_, Registry<Biome> p_187636_, LevelChunkSection[] p_187637_) {
-       for(int i = 0; i < p_187637_.length; ++i) {
-          if (p_187637_[i] == null) {
--            p_187637_[i] = new LevelChunkSection(p_187635_.m_151568_(i), p_187636_);
-+            p_187637_[i] = new LevelChunkSection(p_187635_.getSectionYFromSectionIndex(i), p_187636_);
-          }
-       }
+@@ -109,7 +_,7 @@
  
     }
  
@@ -63,19 +51,19 @@
        return GameEventListenerRegistry.f_244154_;
     }
  
-@@ -128,9 +_,9 @@
-       return null;
-    }
- 
+@@ -137,9 +_,9 @@
+    @Deprecated(
+       forRemoval = true
+    )
 -   public int m_62098_() {
 +   public long getHighestSectionPosition() {
-       LevelChunkSection levelchunksection = this.m_62074_();
--      return levelchunksection == null ? this.m_141937_() : levelchunksection.m_63017_();
-+      return levelchunksection == null ? this.getMinBuildHeight() : levelchunksection.bottomBlockY();
+       int i = this.m_280525_();
+-      return i == -1 ? this.m_141937_() : SectionPos.m_123223_(this.m_151568_(i));
++      return i == -1 ? this.getMinBuildHeight() : SectionPos.sectionToBlockCoord(this.getSectionYFromSectionIndex(i));
     }
  
     public Set<BlockPos> m_5928_() {
-@@ -143,8 +_,8 @@
+@@ -152,8 +_,8 @@
        return this.f_187612_;
     }
  
@@ -86,7 +74,7 @@
     }
  
     public Collection<Map.Entry<Heightmap.Types, Heightmap>> m_6890_() {
-@@ -165,7 +_,7 @@
+@@ -174,7 +_,7 @@
        return this.f_187608_.get(p_187659_) != null;
     }
  
@@ -95,7 +83,7 @@
        Heightmap heightmap = this.f_187608_.get(p_62080_);
        if (heightmap == null) {
           if (SharedConstants.f_136183_ && this instanceof LevelChunk) {
-@@ -176,7 +_,7 @@
+@@ -185,7 +_,7 @@
           heightmap = this.f_187608_.get(p_62080_);
        }
  
@@ -104,7 +92,7 @@
     }
  
     public ChunkPos m_7697_() {
-@@ -203,38 +_,38 @@
+@@ -212,38 +_,38 @@
        this.f_187603_ = true;
     }
  
@@ -159,7 +147,7 @@
              return false;
           }
        }
-@@ -263,7 +_,7 @@
+@@ -283,7 +_,7 @@
     }
  
     public void m_6561_(short p_62092_, int p_62093_) {
@@ -168,7 +156,30 @@
     }
  
     public void m_5604_(CompoundTag p_62091_) {
-@@ -315,12 +_,12 @@
+@@ -307,17 +_,17 @@
+    public void m_284478_(Predicate<BlockState> p_285343_, BiConsumer<BlockPos, BlockState> p_285030_) {
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-      for(int i = this.m_151560_(); i < this.m_151561_(); ++i) {
+-         LevelChunkSection levelchunksection = this.m_183278_(this.m_151566_(i));
++      for(long i = this.getMinSection(); i < this.getMaxSection(); ++i) {
++         LevelChunkSection levelchunksection = this.getSection(this.getSectionIndexFromSectionY(i));
+          if (levelchunksection.m_63002_(p_285343_)) {
+-            BlockPos blockpos = SectionPos.m_123196_(this.f_187604_, i).m_123249_();
++            BlockPos blockpos = SectionPos.of(this.f_187604_, i).m_123249_();
+ 
+             for(int j = 0; j < 16; ++j) {
+                for(int k = 0; k < 16; ++k) {
+                   for(int l = 0; l < 16; ++l) {
+-                     BlockState blockstate = levelchunksection.m_62982_(l, j, k);
++                     BlockState blockstate = levelchunksection.getBlockState(l, j, k);
+                      if (p_285343_.test(blockstate)) {
+-                        p_285030_.accept(blockpos$mutableblockpos.m_122154_(blockpos, l, j, k), blockstate);
++                        p_285030_.accept(blockpos$mutableblockpos.setWithOffset(blockpos, l, j, k), blockstate);
+                      }
+                   }
+                }
+@@ -362,12 +_,12 @@
        this.f_187615_ = p_62099_;
     }
  
@@ -185,7 +196,7 @@
     }
  
     public boolean m_6332_() {
-@@ -332,12 +_,12 @@
+@@ -379,12 +_,12 @@
        this.m_8092_(true);
     }
  
@@ -202,7 +213,7 @@
     }
  
     public NoiseChunk m_223012_(Function<ChunkAccess, NoiseChunk> p_223013_) {
-@@ -358,18 +_,18 @@
+@@ -405,18 +_,18 @@
        return this.f_223003_;
     }
  
@@ -228,7 +239,7 @@
           });
           throw new ReportedException(crashreport);
        }
-@@ -377,13 +_,13 @@
+@@ -424,14 +_,14 @@
  
     public void m_183442_(BiomeResolver p_187638_, Climate.Sampler p_187639_) {
        ChunkPos chunkpos = this.m_7697_();
@@ -240,49 +251,12 @@
  
 -      for(int k = levelheightaccessor.m_151560_(); k < levelheightaccessor.m_151561_(); ++k) {
 -         LevelChunkSection levelchunksection = this.m_183278_(this.m_151566_(k));
--         levelchunksection.m_188003_(p_187638_, p_187639_, i, j);
+-         int l = QuartPos.m_175404_(k);
+-         levelchunksection.m_280631_(p_187638_, p_187639_, i, l, j);
 +      for(long k = levelheightaccessor.getMinSection(); k < levelheightaccessor.getMaxSection(); ++k) {
 +         LevelChunkSection levelchunksection = this.getSection(this.getSectionIndexFromSectionY(k));
-+         levelchunksection.fillBiomesFromNoise(p_187638_, p_187639_, i, j);
++         long l = QuartPos.fromSection(k);
++         levelchunksection.fillBiomesFromNoise(p_187638_, p_187639_, i, l, j);
        }
  
     }
-@@ -403,6 +_,38 @@
- 
-    public LevelHeightAccessor m_183618_() {
-       return this;
-+   }
-+
-+   public ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] getBlockNibbles() {
-+      return this.blockNibbles;
-+   }
-+
-+   public void setBlockNibbles(final ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] nibbles) {
-+      this.blockNibbles = nibbles;
-+   }
-+
-+   public ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] getSkyNibbles() {
-+      return this.skyNibbles;
-+   }
-+
-+   public void setSkyNibbles(final ca.spottedleaf.starlight.common.light.SWMRNibbleArray[] nibbles) {
-+      this.skyNibbles = nibbles;
-+   }
-+
-+   public boolean[] getSkyEmptinessMap() {
-+      return this.skyEmptinessMap;
-+   }
-+
-+   public void setSkyEmptinessMap(final boolean[] emptinessMap) {
-+      this.skyEmptinessMap = emptinessMap;
-+   }
-+
-+   public boolean[] getBlockEmptinessMap() {
-+      return this.blockEmptinessMap;
-+   }
-+
-+   public void setBlockEmptinessMap(final boolean[] emptinessMap) {
-+      this.blockEmptinessMap = emptinessMap;
-    }
- 
-    public static record TicksToSave(SerializableTickContainer<Block> f_187680_, SerializableTickContainer<Fluid> f_187681_) {

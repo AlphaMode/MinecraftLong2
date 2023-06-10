@@ -1,28 +1,28 @@
 --- a/net/minecraft/client/multiplayer/ClientPacketListener.java
 +++ b/net/minecraft/client/multiplayer/ClientPacketListener.java
-@@ -669,15 +_,27 @@
+@@ -671,15 +_,15 @@
  
     public void m_183388_(ClientboundLevelChunkWithLightPacket p_194241_) {
        PacketUtils.m_131363_(p_194241_, this, this.f_104888_);
--      this.m_194198_(p_194241_.m_195717_(), p_194241_.m_195718_(), p_194241_.m_195719_());
--      this.m_194202_(p_194241_.m_195717_(), p_194241_.m_195718_(), p_194241_.m_195720_());
-+      this.updateLevelChunk(p_194241_.getX(), p_194241_.getZ(), p_194241_.m_195719_());
-+      final long chunkX = p_194241_.getX();
-+      final long chunkZ = p_194241_.getZ();
-+      final LevelChunk chunk = (LevelChunk)this.f_104889_.getChunk(chunkX, chunkZ, net.minecraft.world.level.chunk.ChunkStatus.f_62326_, false);
-+      if (chunk == null) {
-+         // failed to load
-+         return;
-+      }
-+      // load in light data from packet immediately
-+      this.applyLightData(chunkX, chunkZ, p_194241_.m_195720_());
-+      this.f_104889_.m_7726_().m_7827_().clientChunkLoad(new ChunkPos(chunkX, chunkZ), chunk);
-+
-+      // we need this for the update chunk status call, so that it can tell starlight what sections are empty and such
-+      this.enableChunkLight(chunk, chunkX, chunkZ);
-    }
+-      int i = p_194241_.m_195717_();
+-      int j = p_194241_.m_195718_();
+-      this.m_194198_(i, j, p_194241_.m_195719_());
++      long i = p_194241_.getX();
++      long j = p_194241_.getZ();
++      this.updateLevelChunk(i, j, p_194241_.m_195719_());
+       ClientboundLightUpdatePacketData clientboundlightupdatepacketdata = p_194241_.m_195720_();
+       this.f_104889_.m_194171_(() -> {
+-         this.m_194248_(i, j, clientboundlightupdatepacketdata);
+-         LevelChunk levelchunk = this.f_104889_.m_7726_().m_62227_(i, j, false);
++         this.applyLightData(i, j, clientboundlightupdatepacketdata);
++         LevelChunk levelchunk = this.f_104889_.m_7726_().getChunk(i, j, false);
+          if (levelchunk != null) {
+-            this.m_194212_(levelchunk, i, j);
++            this.enableChunkLight(levelchunk, i, j);
+          }
  
-    public void m_274374_(ClientboundChunksBiomesPacket p_275437_) {
+       });
+@@ -689,7 +_,7 @@
        PacketUtils.m_131363_(p_275437_, this, this.f_104888_);
  
        for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata : p_275437_.f_273816_()) {
@@ -31,7 +31,7 @@
        }
  
        for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata1 : p_275437_.f_273816_()) {
-@@ -687,8 +_,8 @@
+@@ -699,8 +_,8 @@
        for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata2 : p_275437_.f_273816_()) {
           for(int i = -1; i <= 1; ++i) {
              for(int j = -1; j <= 1; ++j) {
@@ -42,7 +42,7 @@
                 }
              }
           }
-@@ -696,22 +_,22 @@
+@@ -708,47 +_,47 @@
  
     }
  
@@ -52,27 +52,11 @@
 +      this.f_104889_.m_7726_().replaceWithPacketData(p_194199_, p_194200_, p_194201_.m_195656_(), p_194201_.m_195678_(), p_194201_.getBlockEntitiesTagsConsumer(p_194199_, p_194200_));
     }
  
--   private void m_194202_(int p_194203_, int p_194204_, ClientboundLightUpdatePacketData p_194205_) {
-+   private void queueLightUpdate(long p_194203_, long p_194204_, ClientboundLightUpdatePacketData p_194205_) {
-       this.f_104889_.m_194171_(() -> {
--         this.m_194248_(p_194203_, p_194204_, p_194205_);
--         LevelChunk levelchunk = this.f_104889_.m_7726_().m_62227_(p_194203_, p_194204_, false);
-+         this.applyLightData(p_194203_, p_194204_, p_194205_);
-+         LevelChunk levelchunk = this.f_104889_.m_7726_().getChunk(p_194203_, p_194204_, false);
-          if (levelchunk != null) {
--            this.m_194212_(levelchunk, p_194203_, p_194204_);
-+            this.enableChunkLight(levelchunk, p_194203_, p_194204_);
-          }
- 
-       });
-    }
- 
 -   private void m_194212_(LevelChunk p_194213_, int p_194214_, int p_194215_) {
 +   private void enableChunkLight(LevelChunk p_194213_, long p_194214_, long p_194215_) {
        LevelLightEngine levellightengine = this.f_104889_.m_7726_().m_7827_();
        LevelChunkSection[] alevelchunksection = p_194213_.m_7103_();
        ChunkPos chunkpos = p_194213_.m_7697_();
-@@ -719,33 +_,33 @@
  
        for(int i = 0; i < alevelchunksection.length; ++i) {
           LevelChunkSection levelchunksection = alevelchunksection[i];
@@ -84,8 +68,6 @@
 +         this.f_104889_.setSectionDirtyWithNeighbors(p_194214_, j, p_194215_);
        }
  
--      this.f_104889_.m_197405_(p_194214_, p_194215_);
-+      this.f_104889_.setLightReady(p_194214_, p_194215_);
     }
  
     public void m_5729_(ClientboundForgetLevelChunkPacket p_105014_) {
@@ -96,29 +78,33 @@
 +      long j = p_105014_.getZ();
        ClientChunkCache clientchunkcache = this.f_104889_.m_7726_();
 -      clientchunkcache.m_104455_(i, j);
--      this.m_194252_(p_105014_);
 +      clientchunkcache.drop(i, j);
-+      this.f_104889_.m_7726_().m_7827_().clientRemoveLightData(new ChunkPos(p_105014_.getX(), p_105014_.getZ()));
+       this.m_194252_(p_105014_);
     }
  
     private void m_194252_(ClientboundForgetLevelChunkPacket p_194253_) {
+-      ChunkPos chunkpos = new ChunkPos(p_194253_.m_132149_(), p_194253_.m_132152_());
++      ChunkPos chunkpos = new ChunkPos(p_194253_.getX(), p_194253_.getZ());
        this.f_104889_.m_194171_(() -> {
           LevelLightEngine levellightengine = this.f_104889_.m_5518_();
+          levellightengine.m_9335_(chunkpos, false);
  
--         for(int i = this.f_104889_.m_151560_(); i < this.f_104889_.m_151561_(); ++i) {
--            levellightengine.m_6191_(SectionPos.m_123173_(p_194253_.m_132149_(), i, p_194253_.m_132152_()), true);
-+         for(long i = this.f_104889_.getMinSection(); i < this.f_104889_.getMaxSection(); ++i) {
-+            levellightengine.m_6191_(SectionPos.of(p_194253_.getX(), i, p_194253_.getZ()), true);
+-         for(int i = levellightengine.m_164447_(); i < levellightengine.m_164448_(); ++i) {
+-            SectionPos sectionpos = SectionPos.m_123196_(chunkpos, i);
++         for(long i = levellightengine.getMinLightSection(); i < levellightengine.getMaxLightSection(); ++i) {
++            SectionPos sectionpos = SectionPos.of(chunkpos, i);
+             levellightengine.m_284126_(LightLayer.BLOCK, sectionpos, (DataLayer)null);
+             levellightengine.m_284126_(LightLayer.SKY, sectionpos, (DataLayer)null);
           }
  
--         levellightengine.m_6460_(new ChunkPos(p_194253_.m_132149_(), p_194253_.m_132152_()), false);
--         this.f_104889_.m_197405_(p_194253_.m_132149_(), p_194253_.m_132152_());
-+         levellightengine.m_6460_(new ChunkPos(p_194253_.getX(), p_194253_.getZ()), false);
-+         this.f_104889_.setLightReady(p_194253_.getX(), p_194253_.getZ());
-       });
-    }
+-         for(int j = this.f_104889_.m_151560_(); j < this.f_104889_.m_151561_(); ++j) {
+-            levellightengine.m_6191_(SectionPos.m_123196_(chunkpos, j), true);
++         for(long j = this.f_104889_.getMinSection(); j < this.f_104889_.getMaxSection(); ++j) {
++            levellightengine.m_6191_(SectionPos.of(chunkpos, j), true);
+          }
  
-@@ -1488,7 +_,7 @@
+       });
+@@ -1507,7 +_,7 @@
           worldborder.m_61917_(p_171767_.m_178888_());
        }
  
@@ -127,7 +113,7 @@
        worldborder.m_61952_(p_171767_.m_178893_());
        worldborder.m_61944_(p_171767_.m_178892_());
     }
-@@ -2206,25 +_,23 @@
+@@ -2235,24 +_,22 @@
  
     public void m_183514_(ClientboundLightUpdatePacket p_194243_) {
        PacketUtils.m_131363_(p_194243_, this, this.f_104888_);
@@ -148,19 +134,17 @@
        BitSet bitset = p_194251_.m_195740_();
        BitSet bitset1 = p_194251_.m_195751_();
        Iterator<byte[]> iterator = p_194251_.m_195754_().iterator();
--      this.m_171734_(p_194249_, p_194250_, levellightengine, LightLayer.SKY, bitset, bitset1, iterator, p_194251_.m_195760_());
-+      this.readSectionList(p_194249_, p_194250_, levellightengine, LightLayer.SKY, bitset, bitset1, iterator, p_194251_.m_195760_());
+-      this.m_171734_(p_194249_, p_194250_, levellightengine, LightLayer.SKY, bitset, bitset1, iterator);
++      this.readSectionList(p_194249_, p_194250_, levellightengine, LightLayer.SKY, bitset, bitset1, iterator);
        BitSet bitset2 = p_194251_.m_195757_();
        BitSet bitset3 = p_194251_.m_195758_();
        Iterator<byte[]> iterator1 = p_194251_.m_195759_().iterator();
--      this.m_171734_(p_194249_, p_194250_, levellightengine, LightLayer.BLOCK, bitset2, bitset3, iterator1, p_194251_.m_195760_());
--      this.f_104889_.m_197405_(p_194249_, p_194250_);
-+      this.readSectionList(p_194249_, p_194250_, levellightengine, LightLayer.BLOCK, bitset2, bitset3, iterator1, p_194251_.m_195760_());
-+      this.f_104889_.setLightReady(p_194249_, p_194250_);
+-      this.m_171734_(p_194249_, p_194250_, levellightengine, LightLayer.BLOCK, bitset2, bitset3, iterator1);
++      this.readSectionList(p_194249_, p_194250_, levellightengine, LightLayer.BLOCK, bitset2, bitset3, iterator1);
+       levellightengine.m_9335_(new ChunkPos(p_194249_, p_194250_), true);
     }
  
-    public void m_7330_(ClientboundMerchantOffersPacket p_105034_) {
-@@ -2255,7 +_,7 @@
+@@ -2284,7 +_,7 @@
  
     public void m_8065_(ClientboundSetChunkCacheCenterPacket p_105080_) {
        PacketUtils.m_131363_(p_105080_, this, this.f_104888_);
@@ -169,22 +153,22 @@
     }
  
     public void m_214108_(ClientboundBlockChangedAckPacket p_233698_) {
-@@ -2272,14 +_,14 @@
+@@ -2301,14 +_,14 @@
  
     }
  
--   private void m_171734_(int p_171735_, int p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_, boolean p_171742_) {
+-   private void m_171734_(int p_171735_, int p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_) {
 -      for(int i = 0; i < p_171737_.m_164446_(); ++i) {
 -         int j = p_171737_.m_164447_() + i;
-+   private void readSectionList(long p_171735_, long p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_, boolean p_171742_) {
++   private void readSectionList(long p_171735_, long p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_) {
 +      for(int i = 0; i < p_171737_.getLightSectionCount(); ++i) {
 +         long j = p_171737_.getMinLightSection() + i;
           boolean flag = p_171739_.get(i);
           boolean flag1 = p_171740_.get(i);
           if (flag || flag1) {
--            p_171737_.m_5687_(p_171738_, SectionPos.m_123173_(p_171735_, j, p_171736_), flag ? new DataLayer((byte[])p_171741_.next().clone()) : new DataLayer(), p_171742_);
+-            p_171737_.m_284126_(p_171738_, SectionPos.m_123173_(p_171735_, j, p_171736_), flag ? new DataLayer((byte[])p_171741_.next().clone()) : new DataLayer());
 -            this.f_104889_.m_104793_(p_171735_, j, p_171736_);
-+            p_171737_.m_5687_(p_171738_, SectionPos.of(p_171735_, j, p_171736_), flag ? new DataLayer((byte[])p_171741_.next().clone()) : new DataLayer(), p_171742_);
++            p_171737_.m_284126_(p_171738_, SectionPos.of(p_171735_, j, p_171736_), flag ? new DataLayer((byte[])p_171741_.next().clone()) : new DataLayer());
 +            this.f_104889_.setSectionDirtyWithNeighbors(p_171735_, j, p_171736_);
           }
        }

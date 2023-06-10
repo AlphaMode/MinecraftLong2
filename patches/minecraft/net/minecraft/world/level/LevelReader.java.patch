@@ -1,8 +1,8 @@
 --- a/net/minecraft/world/level/LevelReader.java
 +++ b/net/minecraft/world/level/LevelReader.java
-@@ -25,13 +_,13 @@
+@@ -24,13 +_,13 @@
  
- public interface LevelReader extends BlockAndTintGetter, CollisionGetter, BiomeManager.NoiseBiomeSource {
+ public interface LevelReader extends BlockAndTintGetter, CollisionGetter, SignalGetter, BiomeManager.NoiseBiomeSource {
     @Nullable
 -   ChunkAccess m_6522_(int p_46823_, int p_46824_, ChunkStatus p_46825_, boolean p_46826_);
 +   ChunkAccess getChunk(long p_46823_, long p_46824_, ChunkStatus p_46825_, boolean p_46826_);
@@ -17,7 +17,7 @@
  
     int m_7445_();
  
-@@ -42,25 +_,25 @@
+@@ -41,25 +_,25 @@
     }
  
     default Stream<BlockState> m_46847_(AABB p_46848_) {
@@ -59,7 +59,7 @@
  
     boolean m_5776_();
  
-@@ -70,16 +_,16 @@
+@@ -69,16 +_,16 @@
  
     DimensionType m_6042_();
  
@@ -79,7 +79,7 @@
     }
  
     default boolean m_46859_(BlockPos p_46860_) {
-@@ -87,14 +_,14 @@
+@@ -86,14 +_,14 @@
     }
  
     default boolean m_46861_(BlockPos p_46862_) {
@@ -95,9 +95,9 @@
 -            for(BlockPos blockpos1 = blockpos.m_7495_(); blockpos1.m_123342_() > p_46862_.m_123342_(); blockpos1 = blockpos1.m_7495_()) {
 +            for(BlockPos blockpos1 = blockpos.below(); blockpos1.getY() > p_46862_.getY(); blockpos1 = blockpos1.below()) {
                 BlockState blockstate = this.m_8055_(blockpos1);
-                if (blockstate.m_60739_(this, blockpos1) > 0 && !blockstate.m_60767_().m_76332_()) {
+                if (blockstate.m_60739_(this, blockpos1) > 0 && !blockstate.m_278721_()) {
                    return false;
-@@ -123,20 +_,20 @@
+@@ -118,20 +_,20 @@
     }
  
     default ChunkAccess m_46865_(BlockPos p_46866_) {
@@ -129,7 +129,7 @@
     }
  
     default boolean m_46801_(BlockPos p_46802_) {
-@@ -144,18 +_,18 @@
+@@ -139,18 +_,18 @@
     }
  
     default boolean m_46855_(AABB p_46856_) {
@@ -158,7 +158,7 @@
                 if (!blockstate.m_60819_().m_76178_()) {
                    return true;
                 }
-@@ -171,44 +_,44 @@
+@@ -166,44 +_,44 @@
     }
  
     default int m_46849_(BlockPos p_46850_, int p_46851_) {

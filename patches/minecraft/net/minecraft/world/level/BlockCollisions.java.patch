@@ -1,31 +1,32 @@
 --- a/net/minecraft/world/level/BlockCollisions.java
 +++ b/net/minecraft/world/level/BlockCollisions.java
-@@ -25,7 +_,8 @@
+@@ -26,8 +_,9 @@
     private final boolean f_186398_;
     @Nullable
     private BlockGetter f_186399_;
 -   private long f_186400_;
+    private final BiFunction<BlockPos.MutableBlockPos, VoxelShape, T> f_285595_;
 +   @Nullable
 +   private ChunkPos f_186400_;
  
-    public BlockCollisions(CollisionGetter p_186402_, @Nullable Entity p_186403_, AABB p_186404_) {
-       this(p_186402_, p_186403_, p_186404_, false);
-@@ -38,24 +_,24 @@
-       this.f_186397_ = p_186406_;
-       this.f_186392_ = p_186408_;
-       this.f_186398_ = p_186409_;
--      int i = Mth.m_14107_(p_186408_.f_82288_ - 1.0E-7D) - 1;
--      int j = Mth.m_14107_(p_186408_.f_82291_ + 1.0E-7D) + 1;
--      int k = Mth.m_14107_(p_186408_.f_82289_ - 1.0E-7D) - 1;
--      int l = Mth.m_14107_(p_186408_.f_82292_ + 1.0E-7D) + 1;
--      int i1 = Mth.m_14107_(p_186408_.f_82290_ - 1.0E-7D) - 1;
--      int j1 = Mth.m_14107_(p_186408_.f_82293_ + 1.0E-7D) + 1;
-+      long i = Mth.m_14134_(p_186408_.f_82288_ - 1.0E-7D) - 1;
-+      long j = Mth.m_14134_(p_186408_.f_82291_ + 1.0E-7D) + 1;
-+      long k = Mth.m_14134_(p_186408_.f_82289_ - 1.0E-7D) - 1;
-+      long l = Mth.m_14134_(p_186408_.f_82292_ + 1.0E-7D) + 1;
-+      long i1 = Mth.m_14134_(p_186408_.f_82290_ - 1.0E-7D) - 1;
-+      long j1 = Mth.m_14134_(p_186408_.f_82293_ + 1.0E-7D) + 1;
+    public BlockCollisions(CollisionGetter p_286817_, @Nullable Entity p_286246_, AABB p_286624_, boolean p_286354_, BiFunction<BlockPos.MutableBlockPos, VoxelShape, T> p_286303_) {
+       this.f_186393_ = p_286246_ == null ? CollisionContext.m_82749_() : CollisionContext.m_82750_(p_286246_);
+@@ -37,24 +_,24 @@
+       this.f_186392_ = p_286624_;
+       this.f_186398_ = p_286354_;
+       this.f_285595_ = p_286303_;
+-      int i = Mth.m_14107_(p_286624_.f_82288_ - 1.0E-7D) - 1;
+-      int j = Mth.m_14107_(p_286624_.f_82291_ + 1.0E-7D) + 1;
+-      int k = Mth.m_14107_(p_286624_.f_82289_ - 1.0E-7D) - 1;
+-      int l = Mth.m_14107_(p_286624_.f_82292_ + 1.0E-7D) + 1;
+-      int i1 = Mth.m_14107_(p_286624_.f_82290_ - 1.0E-7D) - 1;
+-      int j1 = Mth.m_14107_(p_286624_.f_82293_ + 1.0E-7D) + 1;
++      long i = Mth.m_14134_(p_286624_.f_82288_ - 1.0E-7D) - 1;
++      long j = Mth.m_14134_(p_286624_.f_82291_ + 1.0E-7D) + 1;
++      long k = Mth.m_14134_(p_286624_.f_82289_ - 1.0E-7D) - 1;
++      long l = Mth.m_14134_(p_286624_.f_82292_ + 1.0E-7D) + 1;
++      long i1 = Mth.m_14134_(p_286624_.f_82290_ - 1.0E-7D) - 1;
++      long j1 = Mth.m_14134_(p_286624_.f_82293_ + 1.0E-7D) + 1;
        this.f_186394_ = new Cursor3D(i, k, i1, j, l, j1);
     }
  
@@ -47,8 +48,8 @@
           this.f_186399_ = blockgetter;
           this.f_186400_ = k;
           return blockgetter;
-@@ -65,20 +_,20 @@
-    protected VoxelShape computeNext() {
+@@ -64,20 +_,20 @@
+    protected T computeNext() {
        while(true) {
           if (this.f_186394_.m_122304_()) {
 -            int i = this.f_186394_.m_122305_();

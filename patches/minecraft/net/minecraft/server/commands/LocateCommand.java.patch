@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/LocateCommand.java
 +++ b/net/minecraft/server/commands/LocateCommand.java
-@@ -140,19 +_,19 @@
+@@ -140,10 +_,10 @@
  
     private static int m_262858_(CommandSourceStack p_262983_, BlockPos p_263016_, Pair<BlockPos, ? extends Holder<?>> p_262941_, String p_263083_, boolean p_263010_, String p_263048_, Duration p_263040_) {
        BlockPos blockpos = p_262941_.getFirst();
@@ -13,8 +13,9 @@
 +      Component component = ComponentUtils.m_130748_(Component.m_237110_("chat.coordinates", blockpos.getX(), s, blockpos.getZ())).m_130938_((p_214489_) -> {
 +         return p_214489_.m_131140_(ChatFormatting.GREEN).m_131142_(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + blockpos.getX() + " " + s + " " + blockpos.getZ())).m_131144_(new HoverEvent(HoverEvent.Action.f_130831_, Component.m_237115_("chat.coordinates.tooltip")));
        });
-       p_262983_.m_81354_(Component.m_237110_(p_263083_, p_263048_, component, i), false);
-       f_262750_.info("Locating element " + p_263048_ + " took " + p_263040_.toMillis() + " ms");
+       p_262983_.m_288197_(() -> {
+          return Component.m_237110_(p_263083_, p_263048_, component, i);
+@@ -152,9 +_,9 @@
        return i;
     }
  

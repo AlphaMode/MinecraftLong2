@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/FarmBlock.java
 +++ b/net/minecraft/world/level/block/FarmBlock.java
-@@ -38,14 +_,14 @@
+@@ -39,14 +_,14 @@
  
     public BlockState m_7417_(BlockState p_53276_, Direction p_53277_, BlockState p_53278_, LevelAccessor p_53279_, BlockPos p_53280_, BlockPos p_53281_) {
        if (p_53277_ == Direction.UP && !p_53276_.m_60710_(p_53279_, p_53280_)) {
@@ -14,10 +14,10 @@
     public boolean m_7898_(BlockState p_53272_, LevelReader p_53273_, BlockPos p_53274_) {
 -      BlockState blockstate = p_53273_.m_8055_(p_53274_.m_7494_());
 +      BlockState blockstate = p_53273_.m_8055_(p_53274_.above());
-       return !blockstate.m_60767_().m_76333_() || blockstate.m_60734_() instanceof FenceGateBlock || blockstate.m_60734_() instanceof MovingPistonBlock;
+       return !blockstate.m_280296_() || blockstate.m_60734_() instanceof FenceGateBlock || blockstate.m_60734_() instanceof MovingPistonBlock;
     }
  
-@@ -70,7 +_,7 @@
+@@ -71,7 +_,7 @@
  
     public void m_213898_(BlockState p_221139_, ServerLevel p_221140_, BlockPos p_221141_, RandomSource p_221142_) {
        int i = p_221139_.m_61143_(f_53243_);
@@ -26,13 +26,12 @@
           if (i > 0) {
              p_221140_.m_7731_(p_221141_, p_221139_.m_61124_(f_53243_, Integer.valueOf(i - 1)), 2);
           } else if (!m_53250_(p_221140_, p_221141_)) {
-@@ -97,12 +_,12 @@
+@@ -98,11 +_,11 @@
     }
  
-    private static boolean m_53250_(BlockGetter p_53251_, BlockPos p_53252_) {
--      Block block = p_53251_.m_8055_(p_53252_.m_7494_()).m_60734_();
-+      Block block = p_53251_.m_8055_(p_53252_.above()).m_60734_();
-       return block instanceof CropBlock || block instanceof StemBlock || block instanceof AttachedStemBlock;
+    private static boolean m_53250_(BlockGetter p_279219_, BlockPos p_279209_) {
+-      return p_279219_.m_8055_(p_279209_.m_7494_()).m_204336_(BlockTags.f_279534_);
++      return p_279219_.m_8055_(p_279209_.above()).m_204336_(BlockTags.f_279534_);
     }
  
     private static boolean m_53258_(LevelReader p_53259_, BlockPos p_53260_) {
