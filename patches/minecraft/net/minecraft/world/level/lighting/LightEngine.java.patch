@@ -158,7 +158,7 @@
        this.f_283934_.enqueue(p_285223_);
        this.f_283934_.enqueue(p_285022_);
     }
-@@ -201,11 +_,11 @@
+@@ -201,26 +_,26 @@
  
     @Nullable
     public DataLayer m_8079_(SectionPos p_285093_) {
@@ -168,19 +168,32 @@
  
     public int m_7768_(BlockPos p_285149_) {
 -      return this.f_283849_.m_6181_(p_285149_.m_121878_());
-+      return this.f_283849_.getLightValue(p_285149_);
-    }
- 
-    public String m_284216_(long p_285363_) {
-@@ -216,11 +_,11 @@
-       return this.f_283849_.m_284291_(p_285320_);
-    }
- 
+-   }
+-
+-   public String m_284216_(long p_285363_) {
+-      return this.m_284437_(p_285363_).m_284377_();
+-   }
+-
+-   public LayerLightSectionStorage.SectionType m_284437_(long p_285320_) {
+-      return this.f_283849_.m_284291_(p_285320_);
+-   }
+-
 -   protected abstract void m_75858_(long p_285507_);
 -
 -   protected abstract void m_284316_(long p_285325_, long p_285026_, int p_285197_);
 -
 -   protected abstract void m_284321_(long p_284941_, long p_285213_);
++      return this.f_283849_.getLightValue(p_285149_);
++   }
++
++   public String getDebugData(SectionPos p_285363_) {
++      return this.getDebugSectionType(p_285363_).m_284377_();
++   }
++
++   public LayerLightSectionStorage.SectionType getDebugSectionType(SectionPos p_285320_) {
++      return this.f_283849_.getDebugSectionType(p_285320_);
++   }
++
 +   protected abstract void checkNode(BlockPos p_285507_);
 +
 +   protected abstract void propagateIncrease(BlockPos p_285325_, long p_285026_, int p_285197_);

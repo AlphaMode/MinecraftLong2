@@ -149,22 +149,22 @@
           this.f_283847_ = false;
  
 -         for(long i : this.f_75742_) {
-+         for(net.minecraft.core.SectionPos i : this.f_75742_) {
++         for(SectionPos i : this.f_75742_) {
              DataLayer datalayer = this.f_75735_.remove(i);
 -            DataLayer datalayer1 = this.f_75732_.m_75535_(i);
 -            if (this.f_75741_.contains(SectionPos.m_123240_(i))) {
 +            DataLayer datalayer1 = this.f_75732_.removeLayer(i);
-+            if (this.f_75741_.contains(i)) {
++            if (this.f_75741_.contains(SectionPos.getZeroNode(i.x(), i.z()))) {
                 if (datalayer != null) {
                    this.f_75735_.put(i, datalayer);
                 } else if (datalayer1 != null) {
-@@ -138,21 +_,20 @@
+@@ -138,21 +_,21 @@
  
           this.f_75732_.m_75531_();
  
 -         for(long k : this.f_75742_) {
 -            this.m_6187_(k);
-+         for(net.minecraft.core.SectionPos k : this.f_75742_) {
++         for(SectionPos k : this.f_75742_) {
 +            this.onNodeRemoved(k);
              this.f_75733_.add(k);
           }
@@ -173,12 +173,12 @@
 -         ObjectIterator<Long2ObjectMap.Entry<DataLayer>> objectiterator = Long2ObjectMaps.fastIterator(this.f_75735_);
 +         ObjectIterator<it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<SectionPos, DataLayer>> objectiterator = it.unimi.dsi.fastutil.objects.Object2ObjectMaps.fastIterator(this.f_75735_);
  
--         while(objectiterator.hasNext()) {
+          while(objectiterator.hasNext()) {
 -            Long2ObjectMap.Entry<DataLayer> entry = objectiterator.next();
 -            long j = entry.getLongKey();
 -            if (this.m_75791_(j)) {
-+         for(it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<net.minecraft.core.SectionPos, DataLayer> entry : this.f_75735_.object2ObjectEntrySet()) {
-+            net.minecraft.core.SectionPos j = entry.getKey();
++            it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<SectionPos, DataLayer> entry = objectiterator.next();
++            SectionPos j = entry.getKey();
 +            if (this.storingLightForSection(j)) {
                 DataLayer datalayer2 = entry.getValue();
 -               if (this.f_75732_.m_75532_(j) != datalayer2) {
@@ -217,7 +217,7 @@
 -      long i = SectionPos.m_123240_(p_285433_);
 -      return this.f_283775_.contains(i);
 +   protected boolean lightOnInSection(SectionPos p_285433_) {
-+      return this.f_283775_.contains(p_285433_);
++      return this.f_283775_.contains(SectionPos.getZeroNode(p_285433_.x(), p_285433_.z()));
     }
  
 -   public void m_75782_(long p_75783_, boolean p_75784_) {
@@ -272,8 +272,9 @@
 -            this.m_284497_(p_285451_);
 +            this.initializeSection(p_285451_);
           }
-       } else if (this.f_283872_.remove(p_285451_) != 0) {
+-      } else if (this.f_283872_.remove(p_285451_) != 0) {
 -         this.m_284475_(p_285451_);
++      } else if (this.f_283872_.removeByte(p_285451_) != 0) {
 +         this.removeSection(p_285451_);
        }
  
@@ -314,3 +315,14 @@
           }
  
           this.f_75734_.clear();
+@@ -273,8 +_,8 @@
+ 
+    }
+ 
+-   public LayerLightSectionStorage.SectionType m_284291_(long p_285114_) {
+-      return LayerLightSectionStorage.SectionState.m_284376_(this.f_283872_.get(p_285114_));
++   public LayerLightSectionStorage.SectionType getDebugSectionType(SectionPos p_285114_) {
++      return LayerLightSectionStorage.SectionState.m_284376_(this.f_283872_.getByte(p_285114_));
+    }
+ 
+    protected static class SectionState {

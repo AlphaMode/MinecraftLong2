@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/lighting/SkyLightSectionStorage.java
 +++ b/net/minecraft/world/level/lighting/SkyLightSectionStorage.java
-@@ -11,62 +_,62 @@
+@@ -11,84 +_,84 @@
  
  public class SkyLightSectionStorage extends LayerLightSectionStorage<SkyLightSectionStorage.SkyDataLayerStorageMap> {
     protected SkyLightSectionStorage(LightChunkGetter p_75868_) {
@@ -32,7 +32,7 @@
 +         DataLayer datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i);
           if (datalayer == null) {
 -            for(p_164458_ = BlockPos.m_122027_(p_164458_); datalayer == null; datalayer = this.m_75761_(skylightsectionstorage$skydatalayerstoragemap, i)) {
-+            for(p_164458_ = /*BlockPos.getFlatIndex(*/p_164458_/*)*/; datalayer == null; datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i)) {
++            for(p_164458_ = new BlockPos(p_164458_.getX(), 0, p_164458_.getZ()); datalayer == null; datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i)) {
                 ++j;
                 if (j >= k) {
                    return 15;
@@ -73,12 +73,13 @@
 -   protected void m_6187_(long p_75887_) {
 -      long i = SectionPos.m_123240_(p_75887_);
 -      int j = SectionPos.m_123225_(p_75887_);
+-      if ((this.f_75732_).f_75901_.get(i) == j + 1) {
+-         long k;
+-         for(k = p_75887_; !this.m_75791_(k) && this.m_75870_(j); k = SectionPos.m_123191_(k, Direction.DOWN)) {
 +   protected void onNodeRemoved(SectionPos p_75887_) {
 +      SectionPos i = SectionPos.getZeroNode(p_75887_.x(), p_75887_.z());
 +      long j = p_75887_.y();
-       if ((this.f_75732_).f_75901_.get(i) == j + 1) {
--         long k;
--         for(k = p_75887_; !this.m_75791_(k) && this.m_75870_(j); k = SectionPos.m_123191_(k, Direction.DOWN)) {
++      if ((this.f_75732_).f_75901_.getLong(i) == j + 1) {
 +         SectionPos k;
 +         for(k = p_75887_; !this.storingLightForSection(k) && this.hasLightDataAtOrBelow(j); k = k.relative(Direction.DOWN)) {
              --j;
@@ -88,8 +89,10 @@
 +         if (this.storingLightForSection(k)) {
              (this.f_75732_).f_75901_.put(i, j + 1);
           } else {
-             (this.f_75732_).f_75901_.remove(i);
-@@ -75,20 +_,20 @@
+-            (this.f_75732_).f_75901_.remove(i);
++            (this.f_75732_).f_75901_.removeLong(i);
+          }
+       }
  
     }
  
@@ -101,7 +104,7 @@
        } else {
 -         int i = (this.f_75732_).f_75901_.get(SectionPos.m_123240_(p_75883_));
 -         if (i != (this.f_75732_).f_75900_ && SectionPos.m_123225_(p_75883_) < i) {
-+         long i = (this.f_75732_).f_75901_.get(SectionPos.getZeroNode(p_75883_.x(), p_75883_.z()));
++         long i = (this.f_75732_).f_75901_.getLong(SectionPos.getZeroNode(p_75883_.x(), p_75883_.z()));
 +         if (i != (this.f_75732_).f_75900_ && p_75883_.y() < i) {
              DataLayer datalayer1;
 -            for(long j = SectionPos.m_123191_(p_75883_, Direction.UP); (datalayer1 = this.m_75758_(j, true)) == null; j = SectionPos.m_123191_(j, Direction.UP)) {

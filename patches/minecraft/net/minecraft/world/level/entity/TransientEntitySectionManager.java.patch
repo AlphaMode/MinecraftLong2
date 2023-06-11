@@ -17,7 +17,7 @@
 -      this.f_157639_.add(i);
 -      this.f_157638_.m_156888_(i).forEach((p_157663_) -> {
 +      this.f_157639_.add(p_157652_);
-+      this.f_157638_.getExistingSectionsInChunk(p_157652_).forEach((p_157663_) -> {
++      this.f_157638_.m_156888_(p_157652_.m_45588_()).forEach((p_157663_) -> {
           Visibility visibility = p_157663_.m_156838_(Visibility.TICKING);
           if (!visibility.m_157691_()) {
              p_157663_.m_156845_().filter((p_157666_) -> {
@@ -29,7 +29,7 @@
 -      this.f_157639_.remove(i);
 -      this.f_157638_.m_156888_(i).forEach((p_157656_) -> {
 +      this.f_157639_.remove(p_157659_);
-+      this.f_157638_.getExistingSectionsInChunk(p_157659_).forEach((p_157656_) -> {
++      this.f_157638_.m_156888_(p_157659_.m_45588_()).forEach((p_157656_) -> {
           Visibility visibility = p_157656_.m_156838_(Visibility.TRACKED);
           if (visibility.m_157691_()) {
              p_157656_.m_156845_().filter((p_157661_) -> {
@@ -40,7 +40,7 @@
 -      long i = SectionPos.m_175568_(p_157654_.m_20183_());
 -      EntitySection<T> entitysection = this.f_157638_.m_156893_(i);
 +      SectionPos i = SectionPos.m_123199_(p_157654_.m_20183_());
-+      EntitySection<T> entitysection = this.f_157638_.getOrCreateSection(i);
++      EntitySection<T> entitysection = this.f_157638_.m_156893_(i.m_123252_());
        entitysection.m_188346_(p_157654_);
        p_157654_.m_141960_(new TransientEntitySectionManager.Callback(p_157654_, i, entitysection));
        this.f_157636_.m_141989_(p_157654_);
@@ -52,7 +52,7 @@
 +   void removeSectionIfEmpty(SectionPos p_157649_, EntitySection<T> p_157650_) {
        if (p_157650_.m_156833_()) {
 -         this.f_157638_.m_156897_(p_157649_);
-+         this.f_157638_.remove(p_157649_);
++         this.f_157638_.m_156897_(p_157649_.m_123252_());
        }
  
     }
@@ -86,7 +86,7 @@
 -            TransientEntitySectionManager.this.m_157648_(this.f_157669_, this.f_157670_);
 -            EntitySection<T> entitysection = TransientEntitySectionManager.this.f_157638_.m_156893_(i);
 +            TransientEntitySectionManager.this.removeSectionIfEmpty(this.f_157669_, this.f_157670_);
-+            EntitySection<T> entitysection = TransientEntitySectionManager.this.f_157638_.getOrCreateSection(i);
++            EntitySection<T> entitysection = TransientEntitySectionManager.this.f_157638_.m_156893_(i.m_123252_());
              entitysection.m_188346_(this.f_157668_);
              this.f_157670_ = entitysection;
              this.f_157669_ = i;
