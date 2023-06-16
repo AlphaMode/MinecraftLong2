@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/level/pathfinder/FlyNodeEvaluator.java
 +++ b/net/minecraft/world/level/pathfinder/FlyNodeEvaluator.java
+@@ -15,7 +_,7 @@
+ import net.minecraft.world.phys.AABB;
+ 
+ public class FlyNodeEvaluator extends WalkNodeEvaluator {
+-   private final Long2ObjectMap<BlockPathTypes> f_164687_ = new Long2ObjectOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, BlockPathTypes> f_164687_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+    private static final float f_262722_ = 1.5F;
+    private static final int f_262734_ = 10;
+ 
 @@ -32,9 +_,9 @@
     }
  
@@ -201,7 +210,7 @@
 -      return this.f_164687_.computeIfAbsent(BlockPos.m_121882_(p_164694_, p_164695_, p_164696_), (p_265010_) -> {
 -         return this.m_7209_(this.f_77312_, p_164694_, p_164695_, p_164696_, this.f_77313_);
 +   private BlockPathTypes getCachedBlockPathType(long p_164694_, long p_164695_, long p_164696_) {
-+      return this.f_164687_.computeIfAbsent(BlockPos.asLong(p_164694_, p_164695_, p_164696_), (p_265010_) -> {
++      return this.f_164687_.computeIfAbsent(new BlockPos(p_164694_, p_164695_, p_164696_), (p_265010_) -> {
 +         return this.getBlockPathType(this.f_77312_, p_164694_, p_164695_, p_164696_, this.f_77313_);
        });
     }

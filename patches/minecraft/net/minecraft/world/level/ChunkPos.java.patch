@@ -1,8 +1,11 @@
 --- a/net/minecraft/world/level/ChunkPos.java
 +++ b/net/minecraft/world/level/ChunkPos.java
-@@ -10,7 +_,7 @@
+@@ -8,9 +_,9 @@
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.SectionPos;
  
- public class ChunkPos {
+-public class ChunkPos {
++public class ChunkPos implements java.lang.Comparable<ChunkPos> {
     private static final int f_199440_ = 1056;
 -   public static final long f_45577_ = m_45589_(1875066, 1875066);
 +   public static final ChunkPos f_45577_ = new ChunkPos(java.lang.Long.MAX_VALUE, java.lang.Long.MAX_VALUE);
@@ -81,7 +84,7 @@
     }
  
     public static int m_220343_(int p_220344_, int p_220345_) {
-@@ -88,60 +_,60 @@
+@@ -88,60 +_,69 @@
        }
     }
  
@@ -110,6 +113,15 @@
 -   }
 -
 -   public int m_45610_() {
++   @Override
++   public int compareTo(ChunkPos o) {
++      if (this.f_45578_ == o.f_45578_) {
++         return (int) (this.f_45579_ == o.f_45579_ ? 0 : this.f_45579_ - o.f_45579_);
++      } else {
++         return (int) (this.f_45578_ - o.f_45578_);
++      }
++   }
++
 +   public long getMiddleBlockX() {
 +      return this.getBlockX(8);
 +   }

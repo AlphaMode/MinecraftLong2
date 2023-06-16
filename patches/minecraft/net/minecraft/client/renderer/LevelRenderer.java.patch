@@ -1,5 +1,14 @@
 --- a/net/minecraft/client/renderer/LevelRenderer.java
 +++ b/net/minecraft/client/renderer/LevelRenderer.java
+@@ -189,7 +_,7 @@
+    private final RunningTrimmedMean f_109476_ = new RunningTrimmedMean(100);
+    private int f_109477_;
+    private final Int2ObjectMap<BlockDestructionProgress> f_109408_ = new Int2ObjectOpenHashMap<>();
+-   private final Long2ObjectMap<SortedSet<BlockDestructionProgress>> f_109409_ = new Long2ObjectOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, SortedSet<BlockDestructionProgress>> f_109409_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+    private final Map<BlockPos, SoundInstance> f_109410_ = Maps.newHashMap();
+    @Nullable
+    private RenderTarget f_109411_;
 @@ -210,17 +_,17 @@
     private double f_109419_ = Double.MIN_VALUE;
     private double f_109420_ = Double.MIN_VALUE;
@@ -318,15 +327,17 @@
                 ++this.f_109439_;
                 if (entity.f_19797_ == 0) {
                    entity.f_19790_ = entity.m_20185_();
-@@ -1229,7 +_,7 @@
+@@ -1229,8 +_,8 @@
                 BlockPos blockpos4 = blockentity1.m_58899_();
                 MultiBufferSource multibuffersource1 = multibuffersource$buffersource;
                 p_109600_.m_85836_();
 -               p_109600_.m_85837_((double)blockpos4.m_123341_() - d0, (double)blockpos4.m_123342_() - d1, (double)blockpos4.m_123343_() - d2);
+-               SortedSet<BlockDestructionProgress> sortedset = this.f_109409_.get(blockpos4.m_121878_());
 +               p_109600_.m_85837_((double)blockpos4.getX() - d0, (double)blockpos4.getY() - d1, (double)blockpos4.getZ() - d2);
-                SortedSet<BlockDestructionProgress> sortedset = this.f_109409_.get(blockpos4.m_121878_());
++               SortedSet<BlockDestructionProgress> sortedset = this.f_109409_.get(blockpos4);
                 if (sortedset != null && !sortedset.isEmpty()) {
                    int j = sortedset.last().m_139988_();
+                   if (j >= 0) {
 @@ -1253,7 +_,7 @@
           for(BlockEntity blockentity : this.f_109468_) {
              BlockPos blockpos3 = blockentity.m_58899_();
@@ -336,13 +347,17 @@
              this.f_172946_.m_112267_(blockentity, p_109601_, p_109600_, multibuffersource$buffersource);
              p_109600_.m_85849_();
           }
-@@ -1280,15 +_,15 @@
+@@ -1278,17 +_,17 @@
  
-       for(Long2ObjectMap.Entry<SortedSet<BlockDestructionProgress>> entry : this.f_109409_.long2ObjectEntrySet()) {
-          BlockPos blockpos2 = BlockPos.m_122022_(entry.getLongKey());
+       profilerfiller.m_6182_("destroyProgress");
+ 
+-      for(Long2ObjectMap.Entry<SortedSet<BlockDestructionProgress>> entry : this.f_109409_.long2ObjectEntrySet()) {
+-         BlockPos blockpos2 = BlockPos.m_122022_(entry.getLongKey());
 -         double d3 = (double)blockpos2.m_123341_() - d0;
 -         double d4 = (double)blockpos2.m_123342_() - d1;
 -         double d5 = (double)blockpos2.m_123343_() - d2;
++      for(it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<BlockPos, SortedSet<BlockDestructionProgress>> entry : this.f_109409_.object2ObjectEntrySet()) {
++         BlockPos blockpos2 = entry.getKey();
 +         double d3 = (double)blockpos2.getX() - d0;
 +         double d4 = (double)blockpos2.getY() - d1;
 +         double d5 = (double)blockpos2.getZ() - d2;
@@ -397,6 +412,15 @@
              Matrix4f matrix4f = p_271014_.m_85850_().m_252922_();
              if (this.f_109461_.f_90978_) {
                 VertexConsumer vertexconsumer1 = p_270107_.m_6299_(RenderType.m_110504_());
+@@ -1687,7 +_,7 @@
+    }
+ 
+    private void m_109765_(BlockDestructionProgress p_109766_) {
+-      long i = p_109766_.m_139985_().m_121878_();
++      BlockPos i = p_109766_.m_139985_();
+       Set<BlockDestructionProgress> set = this.f_109409_.get(i);
+       set.remove(p_109766_);
+       if (set.isEmpty()) {
 @@ -1876,15 +_,15 @@
           double d2 = (p_253843_ + d1) / 12.0D;
           double d3 = (double)(f - (float)p_253663_ + 0.33F);
@@ -689,7 +713,7 @@
              break;
           case 3008:
              BlockState blockstate = Block.m_49803_(p_234307_);
-@@ -2880,7 +_,7 @@
+@@ -2880,14 +_,14 @@
              this.m_109765_(blockdestructionprogress1);
           }
  
@@ -698,6 +722,14 @@
              blockdestructionprogress1 = new BlockDestructionProgress(p_109775_, p_109776_);
              this.f_109408_.put(p_109775_, blockdestructionprogress1);
           }
+ 
+          blockdestructionprogress1.m_139981_(p_109777_);
+          blockdestructionprogress1.m_139986_(this.f_109477_);
+-         this.f_109409_.computeIfAbsent(blockdestructionprogress1.m_139985_().m_121878_(), (p_234254_) -> {
++         this.f_109409_.computeIfAbsent(blockdestructionprogress1.m_139985_(), (p_234254_) -> {
+             return Sets.newTreeSet();
+          }).add(blockdestructionprogress1);
+       } else {
 @@ -3005,9 +_,9 @@
           return this.f_173020_ != 0;
        }

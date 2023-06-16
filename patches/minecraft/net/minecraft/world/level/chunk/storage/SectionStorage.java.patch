@@ -144,8 +144,8 @@
 -   }
 -
 -   protected void m_5838_(long p_63788_) {
-+   private static long getKey(ChunkPos p_156628_, long p_156629_) {
-+      return SectionPos.asLong(p_156628_.f_45578_, p_156629_, p_156628_.f_45579_);
++   private static SectionPos getKey(ChunkPos p_156628_, long p_156629_) {
++      return SectionPos.of(p_156628_.f_45578_, p_156629_, p_156628_.f_45579_);
 +   }
 +
 +   protected void onSectionLoad(SectionPos p_63813_) {
@@ -168,7 +168,7 @@
 -         for(int i = this.f_156618_.m_151560_(); i < this.f_156618_.m_151561_(); ++i) {
 -            long j = m_156627_(p_63797_, i);
 +         for(long i = this.f_156618_.getMinSection(); i < this.f_156618_.getMaxSection(); ++i) {
-+            long j = getKey(p_63797_, i);
++            SectionPos j = getKey(p_63797_, i);
              if (this.f_63775_.contains(j)) {
                 this.m_63825_(p_63797_);
                 return;

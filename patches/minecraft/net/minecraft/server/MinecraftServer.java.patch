@@ -32,6 +32,20 @@
              });
           }
  
+@@ -462,11 +_,10 @@
+       for(ServerLevel serverlevel1 : this.f_129762_.values()) {
+          ForcedChunksSavedData forcedchunkssaveddata = serverlevel1.m_8895_().m_164858_(ForcedChunksSavedData::m_151483_, "chunks");
+          if (forcedchunkssaveddata != null) {
+-            LongIterator longiterator = forcedchunkssaveddata.m_46116_().iterator();
++            it.unimi.dsi.fastutil.objects.ObjectIterator<ChunkPos> longiterator = forcedchunkssaveddata.getChunks().iterator();
+ 
+             while(longiterator.hasNext()) {
+-               long i = longiterator.nextLong();
+-               ChunkPos chunkpos = new ChunkPos(i);
++               ChunkPos chunkpos = longiterator.next();
+                serverlevel1.m_7726_().m_6692_(chunkpos, true);
+             }
+          }
 @@ -1238,8 +_,8 @@
        this.f_129724_ = 0L;
     }

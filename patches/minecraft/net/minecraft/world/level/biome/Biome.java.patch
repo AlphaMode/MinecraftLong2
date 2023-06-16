@@ -1,5 +1,17 @@
 --- a/net/minecraft/world/level/biome/Biome.java
 +++ b/net/minecraft/world/level/biome/Biome.java
+@@ -66,9 +_,9 @@
+    private final BiomeGenerationSettings f_47438_;
+    private final MobSpawnSettings f_47439_;
+    private final BiomeSpecialEffects f_47443_;
+-   private final ThreadLocal<Long2FloatLinkedOpenHashMap> f_47444_ = ThreadLocal.withInitial(() -> {
++   private final ThreadLocal<it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<BlockPos>> f_47444_ = ThreadLocal.withInitial(() -> {
+       return Util.m_137537_(() -> {
+-         Long2FloatLinkedOpenHashMap long2floatlinkedopenhashmap = new Long2FloatLinkedOpenHashMap(1024, 0.25F) {
++         it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<BlockPos> long2floatlinkedopenhashmap = new it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<>(1024, 0.25F) {
+             protected void rehash(int p_47580_) {
+             }
+          };
 @@ -106,9 +_,9 @@
  
     private float m_47528_(BlockPos p_47529_) {
@@ -13,6 +25,27 @@
        } else {
           return f;
        }
+@@ -117,9 +_,8 @@
+    /** @deprecated */
+    @Deprecated
+    private float m_47505_(BlockPos p_47506_) {
+-      long i = p_47506_.m_121878_();
+-      Long2FloatLinkedOpenHashMap long2floatlinkedopenhashmap = this.f_47444_.get();
+-      float f = long2floatlinkedopenhashmap.get(i);
++      it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<BlockPos> long2floatlinkedopenhashmap = this.f_47444_.get();
++      float f = long2floatlinkedopenhashmap.get(p_47506_);
+       if (!Float.isNaN(f)) {
+          return f;
+       } else {
+@@ -128,7 +_,7 @@
+             long2floatlinkedopenhashmap.removeFirstFloat();
+          }
+ 
+-         long2floatlinkedopenhashmap.put(i, f1);
++         long2floatlinkedopenhashmap.put(p_47506_, f1);
+          return f1;
+       }
+    }
 @@ -141,7 +_,7 @@
        if (this.m_198906_(p_47482_)) {
           return false;

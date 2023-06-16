@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/level/pathfinder/SwimNodeEvaluator.java
 +++ b/net/minecraft/world/level/pathfinder/SwimNodeEvaluator.java
+@@ -17,7 +_,7 @@
+ 
+ public class SwimNodeEvaluator extends NodeEvaluator {
+    private final boolean f_77455_;
+-   private final Long2ObjectMap<BlockPathTypes> f_192951_ = new Long2ObjectOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, BlockPathTypes> f_192951_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+ 
+    public SwimNodeEvaluator(boolean p_77457_) {
+       this.f_77455_ = p_77457_;
 @@ -34,11 +_,11 @@
     }
  
@@ -57,7 +66,7 @@
 -      return this.f_192951_.computeIfAbsent(BlockPos.m_121882_(p_192968_, p_192969_, p_192970_), (p_192957_) -> {
 -         return this.m_8086_(this.f_77312_, p_192968_, p_192969_, p_192970_);
 +   protected BlockPathTypes getCachedBlockType(long p_192968_, long p_192969_, long p_192970_) {
-+      return this.f_192951_.computeIfAbsent(BlockPos.asLong(p_192968_, p_192969_, p_192970_), (p_192957_) -> {
++      return this.f_192951_.computeIfAbsent(new BlockPos(p_192968_, p_192969_, p_192970_), (p_192957_) -> {
 +         return this.getBlockPathType(this.f_77312_, p_192968_, p_192969_, p_192970_);
        });
     }

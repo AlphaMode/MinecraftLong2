@@ -1,11 +1,281 @@
 --- a/net/minecraft/world/level/entity/PersistentEntitySectionManager.java
 +++ b/net/minecraft/world/level/entity/PersistentEntitySectionManager.java
-@@ -332,7 +_,7 @@
-             EntitySection<T> entitysection = this.f_157495_.m_156895_(p_157521_);
+@@ -36,9 +_,9 @@
+    private final EntityLookup<T> f_157494_;
+    final EntitySectionStorage<T> f_157495_;
+    private final LevelEntityGetter<T> f_157496_;
+-   private final Long2ObjectMap<Visibility> f_157497_ = new Long2ObjectOpenHashMap<>();
+-   private final Long2ObjectMap<PersistentEntitySectionManager.ChunkLoadStatus> f_157498_ = new Long2ObjectOpenHashMap<>();
+-   private final LongSet f_157499_ = new LongOpenHashSet();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, Visibility> f_157497_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, PersistentEntitySectionManager.ChunkLoadStatus> f_157498_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> f_157499_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+    private final Queue<ChunkEntities<T>> f_157500_ = Queues.newConcurrentLinkedQueue();
+ 
+    public PersistentEntitySectionManager(Class<T> p_157503_, LevelCallback<T> p_157504_, EntityPersistentStorage<T> p_157505_) {
+@@ -51,9 +_,9 @@
+       this.f_157496_ = new LevelEntityGetterAdapter<>(this.f_157494_, this.f_157495_);
+    }
+ 
+-   void m_157509_(long p_157510_, EntitySection<T> p_157511_) {
++   void removeSectionIfEmpty(SectionPos p_157510_, EntitySection<T> p_157511_) {
+       if (p_157511_.m_156833_()) {
+-         this.f_157495_.m_156897_(p_157510_);
++         this.f_157495_.remove(p_157510_);
+       }
+ 
+    }
+@@ -75,8 +_,8 @@
+       if (!this.m_157557_(p_157539_)) {
+          return false;
+       } else {
+-         long i = SectionPos.m_175568_(p_157539_.m_20183_());
+-         EntitySection<T> entitysection = this.f_157495_.m_156893_(i);
++         SectionPos i = SectionPos.m_123199_(p_157539_.m_20183_());
++         EntitySection<T> entitysection = this.f_157495_.getOrCreateSection(i);
+          entitysection.m_188346_(p_157539_);
+          p_157539_.m_141960_(new PersistentEntitySectionManager.Callback(p_157539_, i, entitysection));
+          if (!p_157540_) {
+@@ -136,17 +_,16 @@
+    }
+ 
+    public void m_157527_(ChunkPos p_157528_, Visibility p_157529_) {
+-      long i = p_157528_.m_45588_();
+       if (p_157529_ == Visibility.HIDDEN) {
+-         this.f_157497_.remove(i);
+-         this.f_157499_.add(i);
++         this.f_157497_.remove(p_157528_);
++         this.f_157499_.add(p_157528_);
+       } else {
+-         this.f_157497_.put(i, p_157529_);
+-         this.f_157499_.remove(i);
+-         this.m_157555_(i);
++         this.f_157497_.put(p_157528_, p_157529_);
++         this.f_157499_.remove(p_157528_);
++         this.ensureChunkQueuedForLoad(p_157528_);
+       }
+ 
+-      this.f_157495_.m_156888_(i).forEach((p_157545_) -> {
++      this.f_157495_.getExistingSectionsInChunk(p_157528_).forEach((p_157545_) -> {
+          Visibility visibility = p_157545_.m_156838_(p_157529_);
+          boolean flag = visibility.m_157694_();
+          boolean flag1 = p_157529_.m_157694_();
+@@ -177,50 +_,50 @@
+       });
+    }
+ 
+-   private void m_157555_(long p_157556_) {
++   private void ensureChunkQueuedForLoad(ChunkPos p_157556_) {
+       PersistentEntitySectionManager.ChunkLoadStatus persistententitysectionmanager$chunkloadstatus = this.f_157498_.get(p_157556_);
+       if (persistententitysectionmanager$chunkloadstatus == PersistentEntitySectionManager.ChunkLoadStatus.FRESH) {
+-         this.m_157562_(p_157556_);
++         this.requestChunkLoad(p_157556_);
+       }
+ 
+    }
+ 
+-   private boolean m_157512_(long p_157513_, Consumer<T> p_157514_) {
++   private boolean storeChunkSections(ChunkPos p_157513_, Consumer<T> p_157514_) {
+       PersistentEntitySectionManager.ChunkLoadStatus persistententitysectionmanager$chunkloadstatus = this.f_157498_.get(p_157513_);
+       if (persistententitysectionmanager$chunkloadstatus == PersistentEntitySectionManager.ChunkLoadStatus.PENDING) {
+          return false;
+       } else {
+-         List<T> list = this.f_157495_.m_156888_(p_157513_).flatMap((p_157542_) -> {
++         List<T> list = this.f_157495_.getExistingSectionsInChunk(p_157513_).flatMap((p_157542_) -> {
+             return p_157542_.m_156845_().filter(EntityAccess::m_142391_);
+          }).collect(Collectors.toList());
+          if (list.isEmpty()) {
+             if (persistententitysectionmanager$chunkloadstatus == PersistentEntitySectionManager.ChunkLoadStatus.LOADED) {
+-               this.f_157493_.m_141971_(new ChunkEntities<>(new ChunkPos(p_157513_), ImmutableList.of()));
++               this.f_157493_.m_141971_(new ChunkEntities<>(p_157513_, ImmutableList.of()));
+             }
+ 
+             return true;
+          } else if (persistententitysectionmanager$chunkloadstatus == PersistentEntitySectionManager.ChunkLoadStatus.FRESH) {
+-            this.m_157562_(p_157513_);
++            this.requestChunkLoad(p_157513_);
+             return false;
+          } else {
+-            this.f_157493_.m_141971_(new ChunkEntities<>(new ChunkPos(p_157513_), list));
++            this.f_157493_.m_141971_(new ChunkEntities<>(p_157513_, list));
+             list.forEach(p_157514_);
+             return true;
+          }
+       }
+    }
+ 
+-   private void m_157562_(long p_157563_) {
++   private void requestChunkLoad(ChunkPos p_157563_) {
+       this.f_157498_.put(p_157563_, PersistentEntitySectionManager.ChunkLoadStatus.PENDING);
+-      ChunkPos chunkpos = new ChunkPos(p_157563_);
++      ChunkPos chunkpos = p_157563_;
+       this.f_157493_.m_141930_(chunkpos).thenAccept(this.f_157500_::add).exceptionally((p_157532_) -> {
+          f_157490_.error("Failed to read chunk {}", chunkpos, p_157532_);
+          return null;
+       });
+    }
+ 
+-   private boolean m_157568_(long p_157569_) {
+-      boolean flag = this.m_157512_(p_157569_, (p_157595_) -> {
++   private boolean processChunkUnload(ChunkPos p_157569_) {
++      boolean flag = this.storeChunkSections(p_157569_, (p_157595_) -> {
+          p_157595_.m_142429_().forEach(this::m_157585_);
+       });
+       if (!flag) {
+@@ -237,8 +_,8 @@
+    }
+ 
+    private void m_157577_() {
+-      this.f_157499_.removeIf((long p_157584_) -> {
+-         return this.f_157497_.get(p_157584_) != Visibility.HIDDEN ? true : this.m_157568_(p_157584_);
++      this.f_157499_.removeIf((p_157584_) -> {
++         return this.f_157497_.get(p_157584_) != Visibility.HIDDEN ? true : this.processChunkUnload(p_157584_);
+       });
+    }
+ 
+@@ -248,7 +_,7 @@
+          chunkentities.m_156792_().forEach((p_157593_) -> {
+             this.m_157538_(p_157593_, true);
+          });
+-         this.f_157498_.put(chunkentities.m_156791_().m_45588_(), PersistentEntitySectionManager.ChunkLoadStatus.LOADED);
++         this.f_157498_.put(chunkentities.m_156791_(), PersistentEntitySectionManager.ChunkLoadStatus.LOADED);
+       }
+ 
+    }
+@@ -258,12 +_,12 @@
+       this.m_157577_();
+    }
+ 
+-   private LongSet m_157587_() {
+-      LongSet longset = this.f_157495_.m_156857_();
++   private it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getAllChunksToSave() {
++      it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = this.f_157495_.getAllChunksWithExistingSections();
+ 
+-      for(Long2ObjectMap.Entry<PersistentEntitySectionManager.ChunkLoadStatus> entry : Long2ObjectMaps.fastIterable(this.f_157498_)) {
++      for(it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<ChunkPos, PersistentEntitySectionManager.ChunkLoadStatus> entry : it.unimi.dsi.fastutil.objects.Object2ObjectMaps.fastIterable(this.f_157498_)) {
+          if (entry.getValue() == PersistentEntitySectionManager.ChunkLoadStatus.LOADED) {
+-            longset.add(entry.getLongKey());
++            longset.add(entry.getKey());
+          }
+       }
+ 
+@@ -271,12 +_,12 @@
+    }
+ 
+    public void m_157554_() {
+-      this.m_157587_().forEach((long p_157579_) -> {
++      this.getAllChunksToSave().forEach((p_157579_) -> {
+          boolean flag = this.f_157497_.get(p_157579_) == Visibility.HIDDEN;
+          if (flag) {
+-            this.m_157568_(p_157579_);
++            this.processChunkUnload(p_157579_);
+          } else {
+-            this.m_157512_(p_157579_, (p_157591_) -> {
++            this.storeChunkSections(p_157579_, (p_157591_) -> {
+             });
+          }
+ 
+@@ -284,14 +_,14 @@
+    }
+ 
+    public void m_157561_() {
+-      LongSet longset = this.m_157587_();
++      it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = this.getAllChunksToSave();
+ 
+       while(!longset.isEmpty()) {
+          this.f_157493_.m_182219_(false);
+          this.m_157582_();
+-         longset.removeIf((long p_157574_) -> {
++         longset.removeIf((p_157574_) -> {
+             boolean flag = this.f_157497_.get(p_157574_) == Visibility.HIDDEN;
+-            return flag ? this.m_157568_(p_157574_) : this.m_157512_(p_157574_, (p_157589_) -> {
++            return flag ? this.processChunkUnload(p_157574_) : this.storeChunkSections(p_157574_, (p_157589_) -> {
+             });
+          });
+       }
+@@ -313,26 +_,26 @@
+    }
+ 
+    public boolean m_202167_(BlockPos p_202168_) {
+-      return this.f_157497_.get(ChunkPos.m_151388_(p_202168_)).m_157691_();
++      return this.f_157497_.get(new ChunkPos(p_202168_)).m_157691_();
+    }
+ 
+    public boolean m_202165_(ChunkPos p_202166_) {
+-      return this.f_157497_.get(p_202166_.m_45588_()).m_157691_();
++      return this.f_157497_.get(p_202166_).m_157691_();
+    }
+ 
+-   public boolean m_157507_(long p_157508_) {
++   public boolean areEntitiesLoaded(ChunkPos p_157508_) {
+       return this.f_157498_.get(p_157508_) == PersistentEntitySectionManager.ChunkLoadStatus.LOADED;
+    }
+ 
+    public void m_157548_(Writer p_157549_) throws IOException {
+       CsvOutput csvoutput = CsvOutput.m_13619_().m_13630_("x").m_13630_("y").m_13630_("z").m_13630_("visibility").m_13630_("load_status").m_13630_("entity_count").m_13628_(p_157549_);
+-      this.f_157495_.m_156857_().forEach((long p_157517_) -> {
++      this.f_157495_.getAllChunksWithExistingSections().forEach((p_157517_) -> {
+          PersistentEntitySectionManager.ChunkLoadStatus persistententitysectionmanager$chunkloadstatus = this.f_157498_.get(p_157517_);
+-         this.f_157495_.m_156861_(p_157517_).forEach((p_157521_) -> {
+-            EntitySection<T> entitysection = this.f_157495_.m_156895_(p_157521_);
++         this.f_157495_.getExistingSectionPositionsInChunk(p_157517_).forEach((p_157521_) -> {
++            EntitySection<T> entitysection = this.f_157495_.getSection(p_157521_);
              if (entitysection != null) {
                 try {
 -                  csvoutput.m_13624_(SectionPos.m_123213_(p_157521_), SectionPos.m_123225_(p_157521_), SectionPos.m_123230_(p_157521_), entitysection.m_156848_(), persistententitysectionmanager$chunkloadstatus, entitysection.m_156849_());
-+                  csvoutput.m_13624_(SectionPos.x(p_157521_), SectionPos.y(p_157521_), SectionPos.z(p_157521_), entitysection.m_156848_(), persistententitysectionmanager$chunkloadstatus, entitysection.m_156849_());
++                  csvoutput.m_13624_(p_157521_.x(), p_157521_.y(), p_157521_.z(), entitysection.m_156848_(), persistententitysectionmanager$chunkloadstatus, entitysection.m_156849_());
                 } catch (IOException ioexception) {
                    throw new UncheckedIOException(ioexception);
                 }
+@@ -349,10 +_,10 @@
+ 
+    class Callback implements EntityInLevelCallback {
+       private final T f_157609_;
+-      private long f_157610_;
++      private SectionPos f_157610_;
+       private EntitySection<T> f_157611_;
+ 
+-      Callback(T p_157614_, long p_157615_, EntitySection<T> p_157616_) {
++      Callback(T p_157614_, SectionPos p_157615_, EntitySection<T> p_157616_) {
+          this.f_157609_ = p_157614_;
+          this.f_157610_ = p_157615_;
+          this.f_157611_ = p_157616_;
+@@ -360,15 +_,15 @@
+ 
+       public void m_142044_() {
+          BlockPos blockpos = this.f_157609_.m_20183_();
+-         long i = SectionPos.m_175568_(blockpos);
+-         if (i != this.f_157610_) {
++         SectionPos i = SectionPos.m_123199_(blockpos);
++         if (!i.equals(this.f_157610_)) {
+             Visibility visibility = this.f_157611_.m_156848_();
+             if (!this.f_157611_.m_188355_(this.f_157609_)) {
+-               PersistentEntitySectionManager.f_157490_.warn("Entity {} wasn't found in section {} (moving to {})", this.f_157609_, SectionPos.m_123184_(this.f_157610_), i);
++               PersistentEntitySectionManager.f_157490_.warn("Entity {} wasn't found in section {} (moving to {})", this.f_157609_, this.f_157610_, i);
+             }
+ 
+-            PersistentEntitySectionManager.this.m_157509_(this.f_157610_, this.f_157611_);
+-            EntitySection<T> entitysection = PersistentEntitySectionManager.this.f_157495_.m_156893_(i);
++            PersistentEntitySectionManager.this.removeSectionIfEmpty(this.f_157610_, this.f_157611_);
++            EntitySection<T> entitysection = PersistentEntitySectionManager.this.f_157495_.getOrCreateSection(i);
+             entitysection.m_188346_(this.f_157609_);
+             this.f_157611_ = entitysection;
+             this.f_157610_ = i;
+@@ -411,7 +_,7 @@
+ 
+       public void m_142472_(Entity.RemovalReason p_157619_) {
+          if (!this.f_157611_.m_188355_(this.f_157609_)) {
+-            PersistentEntitySectionManager.f_157490_.warn("Entity {} wasn't found in section {} (destroying due to {})", this.f_157609_, SectionPos.m_123184_(this.f_157610_), p_157619_);
++            PersistentEntitySectionManager.f_157490_.warn("Entity {} wasn't found in section {} (destroying due to {})", this.f_157609_, this.f_157610_, p_157619_);
+          }
+ 
+          Visibility visibility = PersistentEntitySectionManager.m_157535_(this.f_157609_, this.f_157611_.m_156848_());
+@@ -429,7 +_,7 @@
+ 
+          PersistentEntitySectionManager.this.f_157491_.remove(this.f_157609_.m_20148_());
+          this.f_157609_.m_141960_(f_156799_);
+-         PersistentEntitySectionManager.this.m_157509_(this.f_157610_, this.f_157611_);
++         PersistentEntitySectionManager.this.removeSectionIfEmpty(this.f_157610_, this.f_157611_);
+       }
+    }
+ 

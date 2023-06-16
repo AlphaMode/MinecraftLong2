@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/level/pathfinder/WalkNodeEvaluator.java
 +++ b/net/minecraft/world/level/pathfinder/WalkNodeEvaluator.java
+@@ -31,7 +_,7 @@
+ public class WalkNodeEvaluator extends NodeEvaluator {
+    public static final double f_164724_ = 0.5D;
+    private static final double f_254631_ = 1.125D;
+-   private final Long2ObjectMap<BlockPathTypes> f_77545_ = new Long2ObjectOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, BlockPathTypes> f_77545_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+    private final Object2BooleanMap<AABB> f_77546_ = new Object2BooleanOpenHashMap<>();
+ 
+    public void m_6028_(PathNavigationRegion p_77620_, Mob p_77621_) {
 @@ -48,7 +_,7 @@
  
     public Node m_7171_() {
@@ -292,7 +301,7 @@
 -      return this.f_77545_.computeIfAbsent(BlockPos.m_121882_(p_77569_, p_77570_, p_77571_), (p_265015_) -> {
 -         return this.m_7209_(this.f_77312_, p_77569_, p_77570_, p_77571_, p_77568_);
 +   protected BlockPathTypes getCachedBlockType(Mob p_77568_, long p_77569_, long p_77570_, long p_77571_) {
-+      return this.f_77545_.computeIfAbsent(BlockPos.asLong(p_77569_, p_77570_, p_77571_), (p_265015_) -> {
++      return this.f_77545_.computeIfAbsent(new BlockPos(p_77569_, p_77570_, p_77571_), (p_265015_) -> {
 +         return this.getBlockPathType(this.f_77312_, p_77569_, p_77570_, p_77571_, p_77568_);
        });
     }

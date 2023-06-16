@@ -1,0 +1,36 @@
+--- a/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
++++ b/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
+@@ -23,7 +_,7 @@
+    private static final int f_148279_ = 40;
+    private static final int f_148280_ = 5;
+    private static final int f_148281_ = 20;
+-   private final Long2LongMap f_26676_ = new Long2LongOpenHashMap();
++   private final it.unimi.dsi.fastutil.objects.Object2LongMap<BlockPos> f_26676_ = new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>();
+    private int f_26677_;
+    private long f_26678_;
+ 
+@@ -41,13 +_,12 @@
+          this.f_26678_ = p_26685_.m_46467_() + (long)p_26685_.m_213780_().m_188503_(20);
+          PoiManager poimanager = p_26685_.m_8904_();
+          Predicate<BlockPos> predicate = (p_26688_) -> {
+-            long i = p_26688_.m_121878_();
+-            if (this.f_26676_.containsKey(i)) {
++            if (this.f_26676_.containsKey(p_26688_)) {
+                return false;
+             } else if (++this.f_26677_ >= 5) {
+                return false;
+             } else {
+-               this.f_26676_.put(i, this.f_26678_ + 40L);
++               this.f_26676_.put(p_26688_, this.f_26678_ + 40L);
+                return true;
+             }
+          };
+@@ -62,7 +_,7 @@
+                p_26686_.m_6274_().m_21879_(MemoryModuleType.f_26380_, blockpos);
+             }
+          } else if (this.f_26677_ < 5) {
+-            this.f_26676_.long2LongEntrySet().removeIf((p_217821_) -> {
++            this.f_26676_.object2LongEntrySet().removeIf((p_217821_) -> {
+                return p_217821_.getLongValue() < this.f_26678_;
+             });
+          }

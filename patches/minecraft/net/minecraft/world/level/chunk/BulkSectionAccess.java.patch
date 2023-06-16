@@ -1,15 +1,30 @@
 --- a/net/minecraft/world/level/chunk/BulkSectionAccess.java
 +++ b/net/minecraft/world/level/chunk/BulkSectionAccess.java
+@@ -11,10 +_,10 @@
+ 
+ public class BulkSectionAccess implements AutoCloseable {
+    private final LevelAccessor f_156098_;
+-   private final Long2ObjectMap<LevelChunkSection> f_156099_ = new Long2ObjectOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<SectionPos, LevelChunkSection> f_156099_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+    @Nullable
+    private LevelChunkSection f_156100_;
+-   private long f_156101_;
++   private SectionPos f_156101_;
+ 
+    public BulkSectionAccess(LevelAccessor p_156103_) {
+       this.f_156098_ = p_156103_;
 @@ -22,13 +_,13 @@
  
     @Nullable
     public LevelChunkSection m_156104_(BlockPos p_156105_) {
 -      int i = this.f_156098_.m_151564_(p_156105_.m_123342_());
 -      if (i >= 0 && i < this.f_156098_.m_151559_()) {
+-         long j = SectionPos.m_175568_(p_156105_);
+-         if (this.f_156100_ == null || this.f_156101_ != j) {
 +      long i = this.f_156098_.getSectionIndex(p_156105_.getY());
 +      if (i >= 0 && i < this.f_156098_.getSectionsCount()) {
-          long j = SectionPos.m_175568_(p_156105_);
-          if (this.f_156100_ == null || this.f_156101_ != j) {
++         SectionPos j = SectionPos.m_123199_(p_156105_);
++         if (this.f_156100_ == null || !this.f_156101_.equals(j)) {
              this.f_156100_ = this.f_156099_.computeIfAbsent(j, (p_156109_) -> {
 -               ChunkAccess chunkaccess = this.f_156098_.m_6325_(SectionPos.m_123171_(p_156105_.m_123341_()), SectionPos.m_123171_(p_156105_.m_123343_()));
 -               LevelChunkSection levelchunksection = chunkaccess.m_183278_(i);

@@ -495,6 +495,25 @@
                 if (this.f_122110_ >= this.f_122109_) {
                    if (this.f_122108_ >= this.f_122107_) {
                       return this.endOfData();
+@@ -408,7 +_,7 @@
+ 
+    public static int m_276833_(BlockPos p_278078_, int p_277385_, int p_277666_, BiConsumer<BlockPos, Consumer<BlockPos>> p_277755_, Predicate<BlockPos> p_278094_) {
+       Queue<Pair<BlockPos, Integer>> queue = new ArrayDeque<>();
+-      LongSet longset = new LongOpenHashSet();
++      it.unimi.dsi.fastutil.objects.ObjectSet<BlockPos> longset = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+       queue.add(Pair.of(p_278078_, 0));
+       int i = 0;
+ 
+@@ -416,8 +_,7 @@
+          Pair<BlockPos, Integer> pair = queue.poll();
+          BlockPos blockpos = pair.getLeft();
+          int j = pair.getRight();
+-         long k = blockpos.m_121878_();
+-         if (longset.add(k) && p_278094_.test(blockpos)) {
++         if (longset.add(blockpos) && p_278094_.test(blockpos)) {
+             ++i;
+             if (i >= p_277666_) {
+                return i;
 @@ -439,110 +_,110 @@
           this(0, 0, 0);
        }

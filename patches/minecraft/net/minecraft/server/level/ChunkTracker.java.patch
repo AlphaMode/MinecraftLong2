@@ -51,12 +51,13 @@
 -            long j1 = ChunkPos.m_45589_(j + l, k + i1);
 -            if (j1 == p_140711_) {
 +            ChunkPos j1 = new ChunkPos(j + l, k + i1);
-+            if (j1 == chunkpos) {
++            if (j1.equals(chunkpos)) {
                 j1 = ChunkPos.f_45577_;
              }
  
-             if (j1 != p_140712_) {
+-            if (j1 != p_140712_) {
 -               int k1 = this.m_6359_(j1, p_140711_, this.m_6172_(j1));
++            if (!j1.equals(p_140712_)) {
 +               int k1 = this.computeLevelFromNeighbor(net.minecraft.core.SectionPos.of(j1, 0), p_140711_, this.getLevel(net.minecraft.core.SectionPos.of(j1, 0)));
                 if (i > k1) {
                    i = k1;
@@ -68,7 +69,7 @@
 -   protected int m_6359_(long p_140720_, long p_140721_, int p_140722_) {
 -      return p_140720_ == ChunkPos.f_45577_ ? this.m_7031_(p_140721_) : p_140722_ + 1;
 +   protected int computeLevelFromNeighbor(net.minecraft.core.SectionPos p_140720_, net.minecraft.core.SectionPos p_140721_, int p_140722_) {
-+      return p_140720_.m_123251_() == ChunkPos.f_45577_ ? this.getLevelFromSource(p_140721_) : p_140722_ + 1;
++      return p_140720_.m_123251_().equals(ChunkPos.f_45577_) ? this.getLevelFromSource(p_140721_) : p_140722_ + 1;
     }
  
 -   protected abstract int m_7031_(long p_140714_);

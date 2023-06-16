@@ -1,11 +1,20 @@
 --- a/net/minecraft/server/level/TicketType.java
 +++ b/net/minecraft/server/level/TicketType.java
-@@ -19,7 +_,7 @@
-    public static final TicketType<ChunkPos> f_9444_ = m_9462_("player", Comparator.comparingLong(ChunkPos::m_45588_));
-    public static final TicketType<ChunkPos> f_9445_ = m_9462_("forced", Comparator.comparingLong(ChunkPos::m_45588_));
-    public static final TicketType<ChunkPos> f_9446_ = m_9462_("light", Comparator.comparingLong(ChunkPos::m_45588_));
+@@ -16,12 +_,12 @@
+    public static final TicketType<Unit> f_9443_ = m_9462_("dragon", (p_9460_, p_9461_) -> {
+       return 0;
+    });
+-   public static final TicketType<ChunkPos> f_9444_ = m_9462_("player", Comparator.comparingLong(ChunkPos::m_45588_));
+-   public static final TicketType<ChunkPos> f_9445_ = m_9462_("forced", Comparator.comparingLong(ChunkPos::m_45588_));
+-   public static final TicketType<ChunkPos> f_9446_ = m_9462_("light", Comparator.comparingLong(ChunkPos::m_45588_));
 -   public static final TicketType<BlockPos> f_9447_ = m_9465_("portal", Vec3i::compareTo, 300);
++   public static final TicketType<ChunkPos> f_9444_ = m_9462_("player", ChunkPos::compareTo);
++   public static final TicketType<ChunkPos> f_9445_ = m_9462_("forced", ChunkPos::compareTo);
++   public static final TicketType<ChunkPos> f_9446_ = m_9462_("light", ChunkPos::compareTo);
 +   public static final TicketType<BlockPos> f_9447_ = m_9465_("portal", me.alphamode.mclong.core.Vec3l::compareTo, 300);
     public static final TicketType<Integer> f_9448_ = m_9465_("post_teleport", Integer::compareTo, 5);
-    public static final TicketType<ChunkPos> f_9449_ = m_9465_("unknown", Comparator.comparingLong(ChunkPos::m_45588_), 1);
+-   public static final TicketType<ChunkPos> f_9449_ = m_9465_("unknown", Comparator.comparingLong(ChunkPos::m_45588_), 1);
++   public static final TicketType<ChunkPos> f_9449_ = m_9465_("unknown", ChunkPos::compareTo, 1);
  
+    public static <T> TicketType<T> m_9462_(String p_9463_, Comparator<T> p_9464_) {
+       return new TicketType<>(p_9463_, p_9464_, 0L);

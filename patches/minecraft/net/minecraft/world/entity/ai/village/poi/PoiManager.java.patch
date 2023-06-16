@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/entity/ai/village/poi/PoiManager.java
 +++ b/net/minecraft/world/entity/ai/village/poi/PoiManager.java
+@@ -39,7 +_,7 @@
+    public static final int f_148565_ = 6;
+    public static final int f_148566_ = 1;
+    private final PoiManager.DistanceTracker f_27029_;
+-   private final LongSet f_27030_ = new LongOpenHashSet();
++   private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> f_27030_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+ 
+    public PoiManager(Path p_217869_, DataFixer p_217870_, boolean p_217871_, RegistryAccess p_217872_, LevelHeightAccessor p_217873_) {
+       super(p_217869_, PoiSection::m_27295_, PoiSection::new, p_217870_, DataFixTypes.POI_CHUNK, p_217871_, p_217872_, p_217873_);
 @@ -47,11 +_,11 @@
     }
  
@@ -164,7 +173,7 @@
           PoiTypes.m_218075_(blockstate).ifPresent((p_217931_) -> {
              p_27072_.accept(p_217902_, p_217931_);
           });
-@@ -238,8 +_,8 @@
+@@ -238,38 +_,36 @@
     }
  
     public void m_27056_(LevelReader p_27057_, BlockPos p_27058_, int p_27059_) {
@@ -175,11 +184,12 @@
        }).filter((p_217963_) -> {
           return !p_217963_.getSecond().map(PoiSection::m_27272_).orElse(false);
        }).map((p_217891_) -> {
-@@ -247,29 +_,29 @@
-       }).filter((p_217961_) -> {
-          return this.f_27030_.add(p_217961_.m_45588_());
-       }).forEach((p_217889_) -> {
+          return p_217891_.getFirst().m_123251_();
+-      }).filter((p_217961_) -> {
+-         return this.f_27030_.add(p_217961_.m_45588_());
+-      }).forEach((p_217889_) -> {
 -         p_27057_.m_46819_(p_217889_.f_45578_, p_217889_.f_45579_, ChunkStatus.f_62314_);
++      }).filter(this.f_27030_::add).forEach((p_217889_) -> {
 +         p_27057_.getChunk(p_217889_.f_45578_, p_217889_.f_45579_, ChunkStatus.f_62314_);
        });
     }

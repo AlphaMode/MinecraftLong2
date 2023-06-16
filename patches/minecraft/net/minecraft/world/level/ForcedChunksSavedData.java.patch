@@ -1,0 +1,46 @@
+--- a/net/minecraft/world/level/ForcedChunksSavedData.java
++++ b/net/minecraft/world/level/ForcedChunksSavedData.java
+@@ -8,26 +_,37 @@
+ public class ForcedChunksSavedData extends SavedData {
+    public static final String f_151479_ = "chunks";
+    private static final String f_151480_ = "Forced";
+-   private final LongSet f_46114_;
++   private final it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> f_46114_;
+ 
+-   private ForcedChunksSavedData(LongSet p_151482_) {
++   private ForcedChunksSavedData(it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> p_151482_) {
+       this.f_46114_ = p_151482_;
+    }
+ 
+    public ForcedChunksSavedData() {
+-      this(new LongOpenHashSet());
++      this(new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>());
+    }
+ 
+    public static ForcedChunksSavedData m_151483_(CompoundTag p_151484_) {
+-      return new ForcedChunksSavedData(new LongOpenHashSet(p_151484_.m_128467_("Forced")));
++      it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> chunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++      var forced = p_151484_.m_128437_(f_151480_, 10);
++      forced.stream().map(CompoundTag.class::cast).forEach(chunk -> {
++         chunks.add(new net.minecraft.world.level.ChunkPos(chunk.m_128454_("x"), chunk.m_128454_("z")));
++      });
++      return new ForcedChunksSavedData(chunks);
+    }
+ 
+    public CompoundTag m_7176_(CompoundTag p_46120_) {
+-      p_46120_.m_128388_("Forced", this.f_46114_.toLongArray());
++      var chunksTag = new net.minecraft.nbt.ListTag();
++      this.f_46114_.forEach(chunkPos -> {
++         CompoundTag chunk = new CompoundTag();
++         chunk.m_128356_("x", chunkPos.f_45578_);
++         chunk.m_128356_("z", chunkPos.f_45579_);
++      });
++      p_46120_.m_128365_(f_151480_, chunksTag);
+       return p_46120_;
+    }
+ 
+-   public LongSet m_46116_() {
++   public it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> getChunks() {
+       return this.f_46114_;
+    }
+ }

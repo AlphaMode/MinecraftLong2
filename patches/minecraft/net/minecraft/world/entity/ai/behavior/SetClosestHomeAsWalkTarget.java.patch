@@ -1,6 +1,15 @@
 --- a/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
 +++ b/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
-@@ -40,7 +_,7 @@
+@@ -28,7 +_,7 @@
+    private static final int f_147883_ = 4;
+ 
+    public static BehaviorControl<PathfinderMob> m_257524_(float p_259960_) {
+-      Long2LongMap long2longmap = new Long2LongOpenHashMap();
++      it.unimi.dsi.fastutil.objects.Object2LongMap<BlockPos> long2longmap = new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap();
+       MutableLong mutablelong = new MutableLong(0L);
+       return BehaviorBuilder.m_258034_((p_258633_) -> {
+          return p_258633_.group(p_258633_.m_258080_(MemoryModuleType.f_26370_), p_258633_.m_258080_(MemoryModuleType.f_26359_)).apply(p_258633_, (p_258626_, p_258627_) -> {
+@@ -40,17 +_,16 @@
                    Optional<BlockPos> optional = poimanager.m_27192_((p_217376_) -> {
                       return p_217376_.m_203565_(PoiTypes.f_218060_);
                    }, p_258639_.m_20183_(), 48, PoiManager.Occupancy.ANY);
@@ -9,3 +18,24 @@
                       MutableInt mutableint = new MutableInt(0);
                       mutablelong.setValue(p_258638_.m_46467_() + (long)p_258638_.m_213780_().m_188503_(20));
                       Predicate<BlockPos> predicate = (p_258644_) -> {
+-                        long i = p_258644_.m_121878_();
+-                        if (long2longmap.containsKey(i)) {
++                        if (long2longmap.containsKey(p_258644_)) {
+                            return false;
+                         } else if (mutableint.incrementAndGet() >= 5) {
+                            return false;
+                         } else {
+-                           long2longmap.put(i, mutablelong.getValue() + 40L);
++                           long2longmap.put(p_258644_, mutablelong.getValue() + 40L);
+                            return true;
+                         }
+                      };
+@@ -66,7 +_,7 @@
+                            DebugPackets.m_133719_(p_258638_, blockpos);
+                         }
+                      } else if (mutableint.getValue() < 5) {
+-                        long2longmap.long2LongEntrySet().removeIf((p_258629_) -> {
++                        long2longmap.object2LongEntrySet().removeIf((p_258629_) -> {
+                            return p_258629_.getLongValue() < mutablelong.getValue();
+                         });
+                      }

@@ -1,5 +1,29 @@
 --- a/net/minecraft/world/level/levelgen/structure/LegacyStructureDataHandler.java
 +++ b/net/minecraft/world/level/levelgen/structure/LegacyStructureDataHandler.java
+@@ -42,7 +_,7 @@
+    });
+    private static final Set<String> f_209874_ = Set.of("pillager_outpost", "mineshaft", "mansion", "jungle_pyramid", "desert_pyramid", "igloo", "ruined_portal", "shipwreck", "swamp_hut", "stronghold", "monument", "ocean_ruin", "fortress", "endcity", "buried_treasure", "village", "nether_fossil", "bastion_remnant");
+    private final boolean f_71301_;
+-   private final Map<String, Long2ObjectMap<CompoundTag>> f_71302_ = Maps.newHashMap();
++   private final Map<String, it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, CompoundTag>> f_71302_ = Maps.newHashMap();
+    private final Map<String, StructureFeatureIndexSavedData> f_71303_ = Maps.newHashMap();
+    private final List<String> f_71304_;
+    private final List<String> f_71305_;
+@@ -60,11 +_,11 @@
+       this.f_71301_ = flag;
+    }
+ 
+-   public void m_71318_(long p_71319_) {
++   public void removeIndex(ChunkPos p_71319_) {
+       for(String s : this.f_71304_) {
+          StructureFeatureIndexSavedData structurefeatureindexsaveddata = this.f_71303_.get(s);
+-         if (structurefeatureindexsaveddata != null && structurefeatureindexsaveddata.m_73373_(p_71319_)) {
+-            structurefeatureindexsaveddata.m_73375_(p_71319_);
++         if (structurefeatureindexsaveddata != null && structurefeatureindexsaveddata.hasUnhandledIndex(p_71319_)) {
++            structurefeatureindexsaveddata.removeIndex(p_71319_);
+             structurefeatureindexsaveddata.m_77762_();
+          }
+       }
 @@ -74,7 +_,7 @@
     public CompoundTag m_71326_(CompoundTag p_71327_) {
        CompoundTag compoundtag = p_71327_.m_128469_("Level");
@@ -34,7 +58,7 @@
           return false;
        } else {
 -         return this.f_71302_.get(p_71317_) != null && this.f_71303_.get(f_71299_.get(p_71317_)).m_73369_(ChunkPos.m_45589_(p_71315_, p_71316_));
-+         return this.f_71302_.get(p_71317_) != null && this.f_71303_.get(f_71299_.get(p_71317_)).m_73369_(ChunkPos.asLong(p_71315_, p_71316_));
++         return this.f_71302_.get(p_71317_) != null && this.f_71303_.get(f_71299_.get(p_71317_)).hasStartIndex(new ChunkPos(p_71315_, p_71316_));
        }
     }
  
@@ -45,25 +69,56 @@
        } else {
           for(String s : this.f_71305_) {
 -            if (this.f_71302_.get(s) != null && this.f_71303_.get(f_71299_.get(s)).m_73373_(ChunkPos.m_45589_(p_71312_, p_71313_))) {
-+            if (this.f_71302_.get(s) != null && this.f_71303_.get(f_71299_.get(s)).m_73373_(ChunkPos.asLong(p_71312_, p_71313_))) {
++            if (this.f_71302_.get(s) != null && this.f_71303_.get(f_71299_.get(s)).hasUnhandledIndex(new ChunkPos(p_71312_, p_71313_))) {
                 return true;
              }
           }
+@@ -133,11 +_,10 @@
+       CompoundTag compoundtag2 = compoundtag1.m_128469_("Starts");
+ 
+       for(String s : this.f_71305_) {
+-         Long2ObjectMap<CompoundTag> long2objectmap = this.f_71302_.get(s);
++         it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, CompoundTag> long2objectmap = this.f_71302_.get(s);
+          if (long2objectmap != null) {
+-            long i = p_71330_.m_45588_();
+-            if (this.f_71303_.get(f_71299_.get(s)).m_73373_(i)) {
+-               CompoundTag compoundtag3 = long2objectmap.get(i);
++            if (this.f_71303_.get(f_71299_.get(s)).hasUnhandledIndex(p_71330_)) {
++               CompoundTag compoundtag3 = long2objectmap.get(p_71330_);
+                if (compoundtag3 != null) {
+                   compoundtag2.m_128365_(s, compoundtag3);
+                }
 @@ -166,7 +_,7 @@
  
              for(String s1 : compoundtag.m_128431_()) {
                 CompoundTag compoundtag1 = compoundtag.m_128469_(s1);
 -               long i = ChunkPos.m_45589_(compoundtag1.m_128451_("ChunkX"), compoundtag1.m_128451_("ChunkZ"));
-+               long i = ChunkPos.asLong(compoundtag1.m_128451_("ChunkX"), compoundtag1.m_128451_("ChunkZ"));
++               ChunkPos i = new ChunkPos(compoundtag1.m_128454_("ChunkX"), compoundtag1.m_128454_("ChunkZ"));
                 ListTag listtag = compoundtag1.m_128437_("Children", 10);
                 if (!listtag.isEmpty()) {
                    String s3 = listtag.m_128728_(0).m_128461_("id");
+@@ -178,13 +_,13 @@
+ 
+                String s6 = compoundtag1.m_128461_("id");
+                this.f_71302_.computeIfAbsent(s6, (p_71335_) -> {
+-                  return new Long2ObjectOpenHashMap();
++                  return new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap();
+                }).put(i, compoundtag1);
+             }
+ 
+             String s5 = s + "_index";
+             StructureFeatureIndexSavedData structurefeatureindexsaveddata = p_71321_.m_164861_(StructureFeatureIndexSavedData::m_163534_, StructureFeatureIndexSavedData::new, s5);
+-            if (!structurefeatureindexsaveddata.m_73364_().isEmpty()) {
++            if (!structurefeatureindexsaveddata.getAll().isEmpty()) {
+                this.f_71303_.put(s, structurefeatureindexsaveddata);
+             } else {
+                StructureFeatureIndexSavedData structurefeatureindexsaveddata1 = new StructureFeatureIndexSavedData();
 @@ -192,7 +_,7 @@
  
                 for(String s2 : compoundtag.m_128431_()) {
                    CompoundTag compoundtag2 = compoundtag.m_128469_(s2);
 -                  structurefeatureindexsaveddata1.m_73365_(ChunkPos.m_45589_(compoundtag2.m_128451_("ChunkX"), compoundtag2.m_128451_("ChunkZ")));
-+                  structurefeatureindexsaveddata1.m_73365_(ChunkPos.asLong(compoundtag2.m_128451_("ChunkX"), compoundtag2.m_128451_("ChunkZ")));
++                  structurefeatureindexsaveddata1.addIndex(new ChunkPos(compoundtag2.m_128454_("ChunkX"), compoundtag2.m_128454_("ChunkZ")));
                 }
  
                 structurefeatureindexsaveddata1.m_77762_();

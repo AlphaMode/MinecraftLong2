@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/level/chunk/storage/IOWorker.java
 +++ b/net/minecraft/world/level/chunk/storage/IOWorker.java
+@@ -34,7 +_,7 @@
+    private final ProcessorMailbox<StrictQueue.IntRunnable> f_63517_;
+    private final RegionFileStorage f_63518_;
+    private final Map<ChunkPos, IOWorker.PendingStore> f_63519_ = Maps.newLinkedHashMap();
+-   private final Long2ObjectLinkedOpenHashMap<CompletableFuture<BitSet>> f_223459_ = new Long2ObjectLinkedOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, CompletableFuture<BitSet>> f_223459_ = new it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<>();
+    private static final int f_223460_ = 1024;
+ 
+    protected IOWorker(Path p_196930_, boolean p_196931_, String p_196932_) {
 @@ -42,24 +_,24 @@
        this.f_63517_ = new ProcessorMailbox<>(new StrictQueue.FixedPriorityQueue(IOWorker.Priority.values().length), Util.m_183992_(), "IOWorker-" + p_196932_);
     }
@@ -45,7 +54,7 @@
 -   private CompletableFuture<BitSet> m_223463_(int p_223464_, int p_223465_) {
 -      long i = ChunkPos.m_45589_(p_223464_, p_223465_);
 +   private CompletableFuture<BitSet> getOrCreateOldDataForRegion(long p_223464_, long p_223465_) {
-+      long i = ChunkPos.asLong(p_223464_, p_223465_);
++      ChunkPos i = new ChunkPos(p_223464_, p_223465_);
        synchronized(this.f_223459_) {
           CompletableFuture<BitSet> completablefuture = this.f_223459_.getAndMoveToFirst(i);
           if (completablefuture == null) {

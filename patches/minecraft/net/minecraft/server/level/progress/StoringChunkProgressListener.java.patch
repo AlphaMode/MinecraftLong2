@@ -1,10 +1,42 @@
 --- a/net/minecraft/server/level/progress/StoringChunkProgressListener.java
 +++ b/net/minecraft/server/level/progress/StoringChunkProgressListener.java
-@@ -66,6 +_,6 @@
+@@ -7,7 +_,7 @@
+ 
+ public class StoringChunkProgressListener implements ChunkProgressListener {
+    private final LoggerChunkProgressListener f_9653_;
+-   private final Long2ObjectOpenHashMap<ChunkStatus> f_9654_;
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, ChunkStatus> f_9654_;
+    private ChunkPos f_9655_ = new ChunkPos(0, 0);
+    private final int f_9656_;
+    private final int f_9657_;
+@@ -19,7 +_,7 @@
+       this.f_9656_ = p_9661_ * 2 + 1;
+       this.f_9657_ = p_9661_ + ChunkStatus.m_62421_();
+       this.f_9658_ = this.f_9657_ * 2 + 1;
+-      this.f_9654_ = new Long2ObjectOpenHashMap<>();
++      this.f_9654_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+    }
+ 
+    public void m_7647_(ChunkPos p_9667_) {
+@@ -33,9 +_,9 @@
+       if (this.f_9659_) {
+          this.f_9653_.m_5511_(p_9669_, p_9670_);
+          if (p_9670_ == null) {
+-            this.f_9654_.remove(p_9669_.m_45588_());
++            this.f_9654_.remove(p_9669_);
+          } else {
+-            this.f_9654_.put(p_9669_.m_45588_(), p_9670_);
++            this.f_9654_.put(p_9669_, p_9670_);
+          }
+ 
+       }
+@@ -65,7 +_,7 @@
+    }
  
     @Nullable
-    public ChunkStatus m_9663_(int p_9664_, int p_9665_) {
+-   public ChunkStatus m_9663_(int p_9664_, int p_9665_) {
 -      return this.f_9654_.get(ChunkPos.m_45589_(p_9664_ + this.f_9655_.f_45578_ - this.f_9657_, p_9665_ + this.f_9655_.f_45579_ - this.f_9657_));
-+      return this.f_9654_.get(ChunkPos.asLong(p_9664_ + this.f_9655_.f_45578_ - this.f_9657_, p_9665_ + this.f_9655_.f_45579_ - this.f_9657_));
++   public ChunkStatus getStatus(long p_9664_, long p_9665_) {
++      return this.f_9654_.get(new ChunkPos(p_9664_ + this.f_9655_.f_45578_ - this.f_9657_, p_9665_ + this.f_9655_.f_45579_ - this.f_9657_));
     }
  }

@@ -1,11 +1,36 @@
 --- a/net/minecraft/server/commands/ForceLoadCommand.java
 +++ b/net/minecraft/server/commands/ForceLoadCommand.java
-@@ -92,7 +_,7 @@
+@@ -53,7 +_,7 @@
+       ChunkPos chunkpos = p_137684_.m_143196_();
+       ServerLevel serverlevel = p_137683_.m_81372_();
        ResourceKey<Level> resourcekey = serverlevel.m_46472_();
-       LongSet longset = serverlevel.m_8902_();
+-      boolean flag = serverlevel.m_8902_().contains(chunkpos.m_45588_());
++      boolean flag = serverlevel.getForcedChunks().contains(chunkpos);
+       if (flag) {
+          p_137683_.m_288197_(() -> {
+             return Component.m_237110_("commands.forceload.query.success", chunkpos, resourcekey.m_135782_());
+@@ -67,10 +_,10 @@
+    private static int m_137680_(CommandSourceStack p_137681_) {
+       ServerLevel serverlevel = p_137681_.m_81372_();
+       ResourceKey<Level> resourcekey = serverlevel.m_46472_();
+-      LongSet longset = serverlevel.m_8902_();
++      it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = serverlevel.getForcedChunks();
+       int i = longset.size();
+       if (i > 0) {
+-         String s = Joiner.on(", ").join(longset.stream().sorted().map(ChunkPos::new).map(ChunkPos::toString).iterator());
++         String s = Joiner.on(", ").join(longset.stream().sorted().map(ChunkPos::toString).iterator());
+          if (i == 1) {
+             p_137681_.m_288197_(() -> {
+                return Component.m_237110_("commands.forceload.list.single", resourcekey.m_135782_(), s);
+@@ -90,9 +_,9 @@
+    private static int m_137695_(CommandSourceStack p_137696_) {
+       ServerLevel serverlevel = p_137696_.m_81372_();
+       ResourceKey<Level> resourcekey = serverlevel.m_46472_();
+-      LongSet longset = serverlevel.m_8902_();
++      it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = serverlevel.getForcedChunks();
        longset.forEach((p_137675_) -> {
 -         serverlevel.m_8602_(ChunkPos.m_45592_(p_137675_), ChunkPos.m_45602_(p_137675_), false);
-+         serverlevel.setChunkForced(ChunkPos.m_45592_(p_137675_), ChunkPos.m_45602_(p_137675_), false);
++         serverlevel.setChunkForced(p_137675_.f_45578_, p_137675_.f_45579_, false);
        });
        p_137696_.m_288197_(() -> {
           return Component.m_237110_("commands.forceload.removed.all", resourcekey.m_135782_());

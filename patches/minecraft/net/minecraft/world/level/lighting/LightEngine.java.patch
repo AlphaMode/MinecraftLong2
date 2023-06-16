@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/lighting/LightEngine.java
 +++ b/net/minecraft/world/level/lighting/LightEngine.java
-@@ -26,9 +_,9 @@
+@@ -26,12 +_,12 @@
     protected static final Direction[] f_283814_ = Direction.values();
     protected final LightChunkGetter f_283884_;
     protected final S f_283849_;
@@ -12,7 +12,11 @@
 +   private final it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<BlockPos> f_283934_ = new it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<>();
     private final BlockPos.MutableBlockPos f_283920_ = new BlockPos.MutableBlockPos();
     private static final int f_283860_ = 2;
-    private final long[] f_283833_ = new long[2];
+-   private final long[] f_283833_ = new long[2];
++   private final ChunkPos[] f_283833_ = new ChunkPos[2];
+    private final LightChunk[] f_283888_ = new LightChunk[2];
+ 
+    protected LightEngine(LightChunkGetter p_285189_, S p_284964_) {
 @@ -69,9 +_,9 @@
     }
  
@@ -26,7 +30,7 @@
        return lightchunk == null ? Blocks.f_50752_.m_49966_() : lightchunk.m_8055_(p_285338_);
     }
  
-@@ -79,19 +_,19 @@
+@@ -79,27 +_,27 @@
        return Math.max(1, p_285084_.m_60739_(this.f_283884_.m_7653_(), p_285057_));
     }
  
@@ -49,11 +53,12 @@
 -   protected LightChunk m_284303_(int p_284967_, int p_285447_) {
 -      long i = ChunkPos.m_45589_(p_284967_, p_285447_);
 +   protected LightChunk getChunk(long p_284967_, long p_285447_) {
-+      long i = ChunkPos.asLong(p_284967_, p_285447_);
++      ChunkPos i = new ChunkPos(p_284967_, p_285447_);
  
        for(int j = 0; j < 2; ++j) {
-          if (i == this.f_283833_[j]) {
-@@ -99,7 +_,7 @@
+-         if (i == this.f_283833_[j]) {
++         if (i.equals(this.f_283833_[j])) {
+             return this.f_283888_[j];
           }
        }
  
@@ -62,13 +67,7 @@
  
        for(int k = 1; k > 0; --k) {
           this.f_283833_[k] = this.f_283833_[k - 1];
-@@ -112,35 +_,35 @@
-    }
- 
-    private void m_284550_() {
--      Arrays.fill(this.f_283833_, ChunkPos.f_45577_);
-+      Arrays.fill(this.f_283833_, java.lang.Long.MAX_VALUE);
-       Arrays.fill(this.f_283888_, (Object)null);
+@@ -117,30 +_,30 @@
     }
  
     public void m_7174_(BlockPos p_285352_) {
