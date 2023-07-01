@@ -102,7 +102,7 @@ abstract class CheckSAS extends CheckTask {
         }
         return false
     }
-
+    
     protected static findChildMethods(Map<String, InheritanceData> json, String cls, String desc) {
         return json.values().findAll{ it.methods != null && it.methods[desc] != null && it.methods[desc].override == cls && isSided(it.methods[desc]) }
                 .collect { it.name + ' ' + desc.replace(' ', '') } as TreeSet

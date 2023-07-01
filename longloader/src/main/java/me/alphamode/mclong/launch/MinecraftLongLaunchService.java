@@ -1,46 +1,35 @@
 package me.alphamode.mclong.launch;
 
-import cpw.mods.modlauncher.api.ILaunchHandlerService;
 import cpw.mods.modlauncher.api.ITransformingClassLoaderBuilder;
 import cpw.mods.modlauncher.api.ServiceRunner;
-import net.minecraftforge.fml.loading.targets.ArgumentList;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Stream;
 
-public class MinecraftLongLaunchService implements ILaunchHandlerService {
+public class MinecraftLongLaunchService extends CommonLaunch {
+    public static final String VERSION = "1.20.1-0.0.0";
+    public static final String VERSION_MCP = "1.20.1-20230612.114412";
     @Override
     public String name() {
         return "minecraftlong";
     }
 
-    @SuppressWarnings("removal")
+    @Override
+    public LocatedPaths getMinecraftPaths() {
+        var mc = LibraryFinder.findPathForMaven("net.minecraft", "client", "", "srg", VERSION_MCP);
+        var mcextra = LibraryFinder.findPathForMaven("net.minecraft", "client", "", "extra", VERSION_MCP);
+        var mcstream = Stream.<Path>builder().add(mc).add(mcextra);
+        var modstream = Stream.<List<Path>>builder();
+
+        processMCStream(mcstream, modstream);
+
+        return new LocatedPaths(mcstream.build().toList(), (a,b) -> true, modstream.build().toList(), List.of());
+    }
+
     @Override
     public void configureTransformationClassLoader(ITransformingClassLoaderBuilder builder) {
 
-    }
-
-    protected String[] preLaunch(String[] arguments, ModuleLayer layer) {
-        var args = ArgumentList.from(arguments);
-
-        String username = args.get("username");
-        if (username != null) { // Replace '#' placeholders with random numbers
-            Matcher m = Pattern.compile("#+").matcher(username);
-            StringBuffer replaced = new StringBuffer();
-            while (m.find()) {
-                m.appendReplacement(replaced, getRandomNumbers(m.group().length()));
-            }
-            m.appendTail(replaced);
-            args.put("username", replaced.toString());
-        } else {
-            args.putLazy("username", "Dev");
-        }
-
-        if (!args.hasValue("accessToken")) {
-            args.put("accessToken", "0");
-        }
-
-        return args.getArguments();
     }
 
     @Override
@@ -48,12 +37,14 @@ public class MinecraftLongLaunchService implements ILaunchHandlerService {
         return () -> {
             var args = preLaunch(arguments, layer);
 
-            Class.forName(layer.findModule("minecraft").orElseThrow(), "net.minecraft.client.main.Main").getMethod("main", String[].class).invoke(null, (Object) args);
+            Class.forName(layer.findModule("client").orElseThrow(),"net.minecraft.client.main.Main").getMethod("main", String[].class).invoke(null, (Object)args);
         };
     }
 
-    private static String getRandomNumbers(int length) {
-        // Generate a time-based random number, to mimic how n.m.client.Main works
-        return Long.toString(System.nanoTime() % (int) Math.pow(10, length));
+    protected void processMCStream(Stream.Builder<Path> mc, Stream.Builder<List<Path>> mods) {
+        var forgepatches = LibraryFinder.findPathForMaven("net.minecraftforge", "mclong", "", "client", VERSION);
+        var forgejar = LibraryFinder.findPathForMaven("net.minecraftforge", "mclong", "", "universal", VERSION);
+        mc.add(forgepatches);
+        mods.add(List.of(forgejar));
     }
 }

@@ -30,9 +30,9 @@ abstract class LauncherJson extends DefaultTask {
     LauncherJson() {
         getOutput().convention(project.layout.buildDirectory.file('version.json'))
 
-        dependsOn(':fmlloader:jar', 'universalJar')
+        dependsOn(':longloader:jar', 'universalJar')
         getInput().from(project.tasks.universalJar.archiveFile,
-                project.project(':fmlloader').jar.archiveFile,
+                project.project(':longloader').jar.archiveFile,
                 vanilla)
                 
         project.afterEvaluate {
