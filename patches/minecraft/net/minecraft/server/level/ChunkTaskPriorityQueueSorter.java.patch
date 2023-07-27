@@ -41,7 +41,7 @@
              }));
           });
        }).join();
-@@ -81,26 +_,26 @@
+@@ -81,13 +_,13 @@
        return this.f_140552_.<ProcessorHandle<ChunkTaskPriorityQueueSorter.Release>>m_18720_((p_140581_) -> {
           return new StrictQueue.IntRunnable(0, () -> {
              p_140581_.m_6937_(ProcessorHandle.m_18714_("chunk priority sorter around " + p_140568_.m_7326_(), (p_143165_) -> {
@@ -53,14 +53,11 @@
     }
  
 -   public void m_6250_(ChunkPos p_140616_, IntSupplier p_140617_, int p_140618_, IntConsumer p_140619_) {
-+   public void onLevelChange(net.minecraft.core.SectionPos p_140616_, IntSupplier p_140617_, int p_140618_, IntConsumer p_140619_) {
++   public void m_6250_(net.minecraft.world.level.ChunkPos p_140616_, IntSupplier p_140617_, int p_140618_, IntConsumer p_140619_) {
        this.f_140552_.m_6937_(new StrictQueue.IntRunnable(0, () -> {
           int i = p_140617_.getAsInt();
           this.f_140550_.values().forEach((p_143155_) -> {
--            p_143155_.m_140521_(i, p_140616_, p_140618_);
-+            p_143155_.m_140521_(i, p_140616_.m_123251_(), p_140618_);
-          });
-          p_140619_.accept(p_140618_);
+@@ -97,10 +_,10 @@
        }));
     }
  

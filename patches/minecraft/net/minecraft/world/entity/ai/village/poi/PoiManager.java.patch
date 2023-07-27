@@ -196,7 +196,7 @@
  
     final class DistanceTracker extends SectionTracker {
 -      private final Long2ByteMap f_27200_ = new Long2ByteOpenHashMap();
-+      private final it.unimi.dsi.fastutil.objects.Object2ByteMap<net.minecraft.core.SectionPos> f_27200_ = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>();
++      private final it.unimi.dsi.fastutil.objects.Object2ByteMap<SectionPos> f_27200_ = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>();
  
        protected DistanceTracker() {
           super(7, 16, 256);
@@ -216,11 +216,11 @@
 +         return PoiManager.this.isVillageCenter(p_27208_) ? 0 : 7;
 +      }
 +
-+      protected int getLevel(net.minecraft.core.SectionPos p_27210_) {
++      protected int getLevel(SectionPos p_27210_) {
 +         return this.f_27200_.getByte(p_27210_);
 +      }
 +
-+      protected void setLevel(net.minecraft.core.SectionPos p_27205_, int p_27206_) {
++      protected void setLevel(SectionPos p_27205_, int p_27206_) {
           if (p_27206_ > 6) {
 -            this.f_27200_.remove(p_27205_);
 +            this.f_27200_.removeByte(p_27205_);

@@ -9,20 +9,26 @@
     private ResourceKey<Level> f_8935_ = Level.f_46428_;
     @Nullable
     private BlockPos f_8936_;
-@@ -260,7 +_,7 @@
+@@ -259,8 +_,8 @@
+    private void m_9201_(ServerLevel p_9202_) {
        BlockPos blockpos = p_9202_.m_220360_();
        if (p_9202_.m_6042_().f_223549_() && p_9202_.m_7654_().m_129910_().m_5464_() != GameType.ADVENTURE) {
-          int i = Math.max(0, this.f_8924_.m_129803_(p_9202_));
+-         int i = Math.max(0, this.f_8924_.m_129803_(p_9202_));
 -         int j = Mth.m_14107_(p_9202_.m_6857_().m_61941_((double)blockpos.m_123341_(), (double)blockpos.m_123343_()));
-+         int j = Mth.m_14107_(p_9202_.m_6857_().m_61941_((double)blockpos.getX(), (double)blockpos.getZ()));
++         long i = Math.max(0, this.f_8924_.m_129803_(p_9202_));
++         long j = Mth.m_14134_(p_9202_.m_6857_().m_61941_((double)blockpos.getX(), (double)blockpos.getZ()));
           if (j < i) {
              i = j;
           }
-@@ -279,7 +_,7 @@
+@@ -277,9 +_,9 @@
+ 
+          for(int l1 = 0; l1 < i1; ++l1) {
              int i2 = (k1 + j1 * l1) % i1;
-             int j2 = i2 % (i * 2 + 1);
-             int k2 = i2 / (i * 2 + 1);
+-            int j2 = i2 % (i * 2 + 1);
+-            int k2 = i2 / (i * 2 + 1);
 -            BlockPos blockpos1 = PlayerRespawnLogic.m_183928_(p_9202_, blockpos.m_123341_() + j2 - i, blockpos.m_123343_() + k2 - i);
++            long j2 = i2 % (i * 2 + 1);
++            long k2 = i2 / (i * 2 + 1);
 +            BlockPos blockpos1 = PlayerRespawnLogic.getOverworldRespawnPos(p_9202_, blockpos.getX() + j2 - i, blockpos.getZ() + k2 - i);
              if (blockpos1 != null) {
                 this.m_20035_(blockpos1, 0.0F, 0.0F);

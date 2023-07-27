@@ -1,11 +1,22 @@
 --- a/net/minecraft/server/level/SectionTracker.java
 +++ b/net/minecraft/server/level/SectionTracker.java
-@@ -8,14 +_,14 @@
+@@ -3,19 +_,24 @@
+ import net.minecraft.core.SectionPos;
+ import net.minecraft.world.level.lighting.DynamicGraphMinFixedPoint;
+ 
+-public abstract class SectionTracker extends DynamicGraphMinFixedPoint {
++public abstract class SectionTracker extends DynamicGraphMinFixedPoint<SectionPos> {
+    protected SectionTracker(int p_8274_, int p_8275_, int p_8276_) {
        super(p_8274_, p_8275_, p_8276_);
     }
  
 -   protected void m_7900_(long p_8280_, int p_8281_, boolean p_8282_) {
-+   protected void checkNeighborsAfterUpdate(net.minecraft.core.SectionPos p_8280_, int p_8281_, boolean p_8282_) {
++   @Override
++   protected SectionPos createPosFromBlockPos(net.minecraft.core.BlockPos blockPos) {
++      return SectionPos.m_123199_(blockPos);
++   }
++
++   protected void checkNeighborsAfterUpdate(SectionPos p_8280_, int p_8281_, boolean p_8282_) {
        if (!p_8282_ || p_8281_ < this.f_75537_ - 2) {
           for(int i = -1; i <= 1; ++i) {
              for(int j = -1; j <= 1; ++j) {
@@ -24,7 +35,7 @@
     }
  
 -   protected int m_6357_(long p_8284_, long p_8285_, int p_8286_) {
-+   protected int getComputedLevel(net.minecraft.core.SectionPos p_8284_, net.minecraft.world.level.ChunkPos p_8285_, int p_8286_) {
++   protected int getComputedLevel(SectionPos p_8284_, SectionPos p_8285_, int p_8286_) {
        int i = p_8286_;
  
        for(int j = -1; j <= 1; ++j) {
@@ -40,7 +51,7 @@
  
 -               if (i1 != p_8285_) {
 -                  int j1 = this.m_6359_(i1, p_8284_, this.m_6172_(i1));
-+               if (!i1.m_123251_().equals(p_8285_)) {
++               if (!i1.equals(p_8285_)) {
 +                  int j1 = this.computeLevelFromNeighbor(i1, p_8284_, this.getLevel(i1));
                    if (i > j1) {
                       i = j1;
@@ -56,11 +67,11 @@
     }
  
 -   protected abstract int m_7409_(long p_8287_);
-+   protected abstract int getLevelFromSource(SectionPos p_8287_);
++   protected abstract int getLevelFromSource(net.minecraft.core.SectionPos p_8287_);
  
 -   public void m_8288_(long p_8289_, int p_8290_, boolean p_8291_) {
 -      this.m_75576_(Long.MAX_VALUE, p_8289_, p_8290_, p_8291_);
 +   public void update(SectionPos p_8289_, int p_8290_, boolean p_8291_) {
-+      this.checkEdge(net.minecraft.world.level.ChunkPos.f_45577_, p_8289_, p_8290_, p_8291_);
++      this.checkEdge(SectionPos.of(net.minecraft.world.level.ChunkPos.f_45577_, java.lang.Long.MAX_VALUE), p_8289_, p_8290_, p_8291_);
     }
  }

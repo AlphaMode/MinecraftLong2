@@ -33,6 +33,37 @@
                 return this.m_9236_().m_8055_(p_289495_).m_60812_(this.m_9236_(), p_289495_);
              });
              if (d1 + d2 <= d3) {
+@@ -293,9 +_,9 @@
+             this.m_20256_(this.m_20184_().m_82520_(0.0D, d0, 0.0D));
+          }
+ 
+-         int k = Mth.m_14107_(this.m_20185_());
+-         int i = Mth.m_14107_(this.m_20186_());
+-         int j = Mth.m_14107_(this.m_20189_());
++         long k = Mth.m_14134_(this.m_20185_());
++         long i = Mth.m_14134_(this.m_20186_());
++         long j = Mth.m_14134_(this.m_20189_());
+          if (this.m_9236_().m_8055_(new BlockPos(k, i - 1, j)).m_204336_(BlockTags.f_13034_)) {
+             --i;
+          }
+@@ -306,7 +_,7 @@
+          if (this.f_287786_) {
+             this.m_6401_(blockpos, blockstate);
+             if (blockstate.m_60713_(Blocks.f_50285_)) {
+-               this.m_6025_(k, i, j, blockstate.m_61143_(PoweredRailBlock.f_55215_));
++               this.activateMinecart(k, i, j, blockstate.m_61143_(PoweredRailBlock.f_55215_));
+             }
+          } else {
+             this.m_38163_();
+@@ -364,7 +_,7 @@
+       return (this.m_20069_() ? 4.0D : 8.0D) / 20.0D;
+    }
+ 
+-   public void m_6025_(int p_38111_, int p_38112_, int p_38113_, boolean p_38114_) {
++   public void activateMinecart(long p_38111_, long p_38112_, long p_38113_, boolean p_38114_) {
+    }
+ 
+    protected void m_38163_() {
 @@ -388,7 +_,7 @@
        double d1 = this.m_20186_();
        double d2 = this.m_20189_();
@@ -71,18 +102,22 @@
        vec31 = this.m_20184_();
        this.m_6478_(MoverType.SELF, new Vec3(Mth.m_14008_(d24 * vec31.f_82479_, -d25, d25), 0.0D, Mth.m_14008_(d24 * vec31.f_82481_, -d25, d25)));
 -      if (vec3i.m_123342_() != 0 && Mth.m_14107_(this.m_20185_()) - p_38156_.m_123341_() == vec3i.m_123341_() && Mth.m_14107_(this.m_20189_()) - p_38156_.m_123343_() == vec3i.m_123343_()) {
-+      if (vec3i.m_123342_() != 0 && Mth.m_14107_(this.m_20185_()) - p_38156_.getX() == vec3i.m_123341_() && Mth.m_14107_(this.m_20189_()) - p_38156_.getZ() == vec3i.m_123343_()) {
++      if (vec3i.m_123342_() != 0 && Mth.m_14134_(this.m_20185_()) - p_38156_.getX() == vec3i.m_123341_() && Mth.m_14134_(this.m_20189_()) - p_38156_.getZ() == vec3i.m_123343_()) {
           this.m_6034_(this.m_20185_(), this.m_20186_() + (double)vec3i.m_123342_(), this.m_20189_());
 -      } else if (vec3i1.m_123342_() != 0 && Mth.m_14107_(this.m_20185_()) - p_38156_.m_123341_() == vec3i1.m_123341_() && Mth.m_14107_(this.m_20189_()) - p_38156_.m_123343_() == vec3i1.m_123343_()) {
-+      } else if (vec3i1.m_123342_() != 0 && Mth.m_14107_(this.m_20185_()) - p_38156_.getX() == vec3i1.m_123341_() && Mth.m_14107_(this.m_20189_()) - p_38156_.getZ() == vec3i1.m_123343_()) {
++      } else if (vec3i1.m_123342_() != 0 && Mth.m_14134_(this.m_20185_()) - p_38156_.getX() == vec3i1.m_123341_() && Mth.m_14134_(this.m_20189_()) - p_38156_.getZ() == vec3i1.m_123343_()) {
           this.m_6034_(this.m_20185_(), this.m_20186_() + (double)vec3i1.m_123342_(), this.m_20189_());
        }
  
-@@ -502,10 +_,10 @@
+@@ -500,12 +_,12 @@
+          this.m_6034_(this.m_20185_(), vec33.f_82480_, this.m_20189_());
+       }
  
-       int j = Mth.m_14107_(this.m_20185_());
-       int i = Mth.m_14107_(this.m_20189_());
+-      int j = Mth.m_14107_(this.m_20185_());
+-      int i = Mth.m_14107_(this.m_20189_());
 -      if (j != p_38156_.m_123341_() || i != p_38156_.m_123343_()) {
++      long j = Mth.m_14134_(this.m_20185_());
++      long i = Mth.m_14134_(this.m_20189_());
 +      if (j != p_38156_.getX() || i != p_38156_.getZ()) {
           Vec3 vec35 = this.m_20184_();
           double d26 = vec35.m_165924_();
@@ -115,3 +150,41 @@
                    d21 = -0.02D;
                 }
              }
+@@ -563,9 +_,9 @@
+ 
+    @Nullable
+    public Vec3 m_38096_(double p_38097_, double p_38098_, double p_38099_, double p_38100_) {
+-      int i = Mth.m_14107_(p_38097_);
+-      int j = Mth.m_14107_(p_38098_);
+-      int k = Mth.m_14107_(p_38099_);
++      long i = Mth.m_14134_(p_38097_);
++      long j = Mth.m_14134_(p_38098_);
++      long k = Mth.m_14134_(p_38099_);
+       if (this.m_9236_().m_8055_(new BlockPos(i, j - 1, k)).m_204336_(BlockTags.f_13034_)) {
+          --j;
+       }
+@@ -588,9 +_,9 @@
+          d1 /= d2;
+          p_38097_ += d0 * p_38100_;
+          p_38099_ += d1 * p_38100_;
+-         if (vec3i.m_123342_() != 0 && Mth.m_14107_(p_38097_) - i == vec3i.m_123341_() && Mth.m_14107_(p_38099_) - k == vec3i.m_123343_()) {
++         if (vec3i.m_123342_() != 0 && Mth.m_14134_(p_38097_) - i == vec3i.m_123341_() && Mth.m_14134_(p_38099_) - k == vec3i.m_123343_()) {
+             p_38098_ += (double)vec3i.m_123342_();
+-         } else if (vec3i1.m_123342_() != 0 && Mth.m_14107_(p_38097_) - i == vec3i1.m_123341_() && Mth.m_14107_(p_38099_) - k == vec3i1.m_123343_()) {
++         } else if (vec3i1.m_123342_() != 0 && Mth.m_14134_(p_38097_) - i == vec3i1.m_123341_() && Mth.m_14134_(p_38099_) - k == vec3i1.m_123343_()) {
+             p_38098_ += (double)vec3i1.m_123342_();
+          }
+ 
+@@ -602,9 +_,9 @@
+ 
+    @Nullable
+    public Vec3 m_38179_(double p_38180_, double p_38181_, double p_38182_) {
+-      int i = Mth.m_14107_(p_38180_);
+-      int j = Mth.m_14107_(p_38181_);
+-      int k = Mth.m_14107_(p_38182_);
++      long i = Mth.m_14134_(p_38180_);
++      long j = Mth.m_14134_(p_38181_);
++      long k = Mth.m_14134_(p_38182_);
+       if (this.m_9236_().m_8055_(new BlockPos(i, j - 1, k)).m_204336_(BlockTags.f_13034_)) {
+          --j;
+       }

@@ -60,7 +60,7 @@
           Visibility visibility = p_157545_.m_156838_(p_157529_);
           boolean flag = visibility.m_157694_();
           boolean flag1 = p_157529_.m_157694_();
-@@ -177,50 +_,50 @@
+@@ -177,50 +_,49 @@
        });
     }
  
@@ -108,9 +108,10 @@
 +   private void requestChunkLoad(ChunkPos p_157563_) {
        this.f_157498_.put(p_157563_, PersistentEntitySectionManager.ChunkLoadStatus.PENDING);
 -      ChunkPos chunkpos = new ChunkPos(p_157563_);
-+      ChunkPos chunkpos = p_157563_;
-       this.f_157493_.m_141930_(chunkpos).thenAccept(this.f_157500_::add).exceptionally((p_157532_) -> {
-          f_157490_.error("Failed to read chunk {}", chunkpos, p_157532_);
+-      this.f_157493_.m_141930_(chunkpos).thenAccept(this.f_157500_::add).exceptionally((p_157532_) -> {
+-         f_157490_.error("Failed to read chunk {}", chunkpos, p_157532_);
++      this.f_157493_.m_141930_(p_157563_).thenAccept(this.f_157500_::add).exceptionally((p_157532_) -> {
++         f_157490_.error("Failed to read chunk {}", p_157563_, p_157532_);
           return null;
        });
     }

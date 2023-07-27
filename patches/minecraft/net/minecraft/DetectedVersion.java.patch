@@ -1,0 +1,22 @@
+--- a/net/minecraft/DetectedVersion.java
++++ b/net/minecraft/DetectedVersion.java
+@@ -28,7 +_,7 @@
+ 
+    private DetectedVersion() {
+       this.f_132478_ = UUID.randomUUID().toString().replaceAll("-", "");
+-      this.f_132479_ = "1.20.1";
++      this.f_132479_ = SharedConstants.f_142952_;
+       this.f_132480_ = true;
+       this.f_132481_ = new DataVersion(3465, "main");
+       this.f_132482_ = SharedConstants.m_136192_();
+@@ -38,8 +_,8 @@
+    }
+ 
+    private DetectedVersion(JsonObject p_132489_) {
+-      this.f_132478_ = GsonHelper.m_13906_(p_132489_, "id");
+-      this.f_132479_ = GsonHelper.m_13906_(p_132489_, "name");
++      this.f_132478_ = GsonHelper.m_13906_(p_132489_, "id") + "-long";
++      this.f_132479_ = GsonHelper.m_13906_(p_132489_, "name") + " Long";
+       this.f_132480_ = GsonHelper.m_13912_(p_132489_, "stable");
+       this.f_132481_ = new DataVersion(GsonHelper.m_13927_(p_132489_, "world_version"), GsonHelper.m_13851_(p_132489_, "series_id", DataVersion.f_192993_));
+       this.f_132482_ = GsonHelper.m_13927_(p_132489_, "protocol_version");

@@ -6,7 +6,7 @@
     private static final int f_143206_ = 4;
 -   final Long2ObjectMap<ObjectSet<ServerPlayer>> f_140760_ = new Long2ObjectOpenHashMap<>();
 -   final Long2ObjectOpenHashMap<SortedArraySet<Ticket<?>>> f_140761_ = new Long2ObjectOpenHashMap<>();
-+   final it.unimi.dsi.fastutil.objects.Object2ObjectMap<net.minecraft.core.SectionPos, ObjectSet<ServerPlayer>> f_140760_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
++   final it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, ObjectSet<ServerPlayer>> f_140760_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
 +   final it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, SortedArraySet<Ticket<?>>> f_140761_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
     private final DistanceManager.ChunkTicketTracker f_140762_ = new DistanceManager.ChunkTicketTracker();
     private final DistanceManager.FixedPlayerDistanceChunkTracker f_140763_ = new DistanceManager.FixedPlayerDistanceChunkTracker(8);
@@ -44,7 +44,7 @@
  
           if (flag) {
 -            this.f_140762_.m_140715_(entry.getLongKey(), m_140797_(entry.getValue()), false);
-+            this.f_140762_.update(net.minecraft.core.SectionPos.of(entry.getKey(), 0), m_140797_(entry.getValue()), false);
++            this.f_140762_.update(entry.getKey(), m_140797_(entry.getValue()), false);
           }
  
           if (entry.getValue().isEmpty()) {
@@ -59,13 +59,13 @@
 -
 -   @Nullable
 -   protected abstract ChunkHolder m_7288_(long p_140780_, int p_140781_, @Nullable ChunkHolder p_140782_, int p_140783_);
-+   protected abstract boolean isChunkToRemove(net.minecraft.world.level.ChunkPos p_140779_);
++   protected abstract boolean isChunkToRemove(ChunkPos p_140779_);
 +
 +   @Nullable
-+   protected abstract ChunkHolder getChunk(net.minecraft.world.level.ChunkPos p_140817_);
++   protected abstract ChunkHolder getChunk(ChunkPos p_140817_);
 +
 +   @Nullable
-+   protected abstract ChunkHolder updateChunkScheduling(net.minecraft.world.level.ChunkPos p_140780_, int p_140781_, @Nullable ChunkHolder p_140782_, int p_140783_);
++   protected abstract ChunkHolder updateChunkScheduling(ChunkPos p_140780_, int p_140781_, @Nullable ChunkHolder p_140782_, int p_140783_);
  
     public boolean m_140805_(ChunkMap p_140806_) {
        this.f_140763_.m_6410_();
@@ -110,7 +110,7 @@
        ticket.m_9429_(this.f_140771_);
        if (p_140786_.m_9433_() < i) {
 -         this.f_140762_.m_140715_(p_140785_, p_140786_.m_9433_(), true);
-+         this.f_140762_.update(net.minecraft.core.SectionPos.of(p_140785_, 0), p_140786_.m_9433_(), true);
++         this.f_140762_.update(p_140785_, p_140786_.m_9433_(), true);
        }
  
     }
@@ -127,7 +127,7 @@
        }
  
 -      this.f_140762_.m_140715_(p_140819_, m_140797_(sortedarrayset), false);
-+      this.f_140762_.update(SectionPos.of(p_140819_, 0), m_140797_(sortedarrayset), false);
++      this.f_140762_.update(p_140819_, m_140797_(sortedarrayset), false);
     }
  
     public <T> void m_140792_(TicketType<T> p_140793_, ChunkPos p_140794_, int p_140795_, T p_140796_) {
@@ -187,13 +187,13 @@
        ChunkPos chunkpos = p_140803_.m_123251_();
 -      long i = chunkpos.m_45588_();
 -      this.f_140760_.computeIfAbsent(i, (p_183921_) -> {
-+      this.f_140760_.computeIfAbsent(p_140803_, (p_183921_) -> {
++      this.f_140760_.computeIfAbsent(chunkpos, (p_183921_) -> {
           return new ObjectOpenHashSet();
        }).add(p_140804_);
 -      this.f_140763_.m_140715_(i, 0, true);
 -      this.f_140764_.m_140715_(i, 0, true);
-+      this.f_140763_.update(p_140803_, 0, true);
-+      this.f_140764_.update(p_140803_, 0, true);
++      this.f_140763_.update(chunkpos, 0, true);
++      this.f_140764_.update(chunkpos, 0, true);
        this.f_183901_.m_184154_(TicketType.f_9444_, chunkpos, this.m_183918_(), chunkpos);
     }
  
@@ -201,15 +201,15 @@
        ChunkPos chunkpos = p_140829_.m_123251_();
 -      long i = chunkpos.m_45588_();
 -      ObjectSet<ServerPlayer> objectset = this.f_140760_.get(i);
-+      ObjectSet<ServerPlayer> objectset = this.f_140760_.get(p_140829_);
++      ObjectSet<ServerPlayer> objectset = this.f_140760_.get(chunkpos);
        objectset.remove(p_140830_);
        if (objectset.isEmpty()) {
 -         this.f_140760_.remove(i);
 -         this.f_140763_.m_140715_(i, Integer.MAX_VALUE, false);
 -         this.f_140764_.m_140715_(i, Integer.MAX_VALUE, false);
-+         this.f_140760_.remove(p_140829_);
-+         this.f_140763_.update(p_140829_, Integer.MAX_VALUE, false);
-+         this.f_140764_.update(p_140829_, Integer.MAX_VALUE, false);
++         this.f_140760_.remove(chunkpos);
++         this.f_140763_.update(chunkpos, Integer.MAX_VALUE, false);
++         this.f_140764_.update(chunkpos, Integer.MAX_VALUE, false);
           this.f_183901_.m_184168_(TicketType.f_9444_, chunkpos, this.m_183918_(), chunkpos);
        }
  
@@ -226,11 +226,11 @@
 -   }
 -
 -   protected String m_140838_(long p_140839_) {
-+   public boolean inEntityTickingRange(net.minecraft.core.SectionPos p_183914_) {
++   public boolean inEntityTickingRange(ChunkPos p_183914_) {
 +      return this.f_183901_.getLevel(p_183914_) < 32;
 +   }
 +
-+   public boolean inBlockTickingRange(net.minecraft.core.SectionPos p_183917_) {
++   public boolean inBlockTickingRange(ChunkPos p_183917_) {
 +      return this.f_183901_.getLevel(p_183917_) < 33;
 +   }
 +
@@ -282,7 +282,7 @@
  
           if (flag) {
 -            this.f_140762_.m_140715_(entry.getLongKey(), m_140797_(entry.getValue()), false);
-+            this.f_140762_.update(net.minecraft.core.SectionPos.of(entry.getKey(), 0), m_140797_(entry.getValue()), false);
++            this.f_140762_.update(entry.getKey(), m_140797_(entry.getValue()), false);
           }
  
           if (entry.getValue().isEmpty()) {
@@ -291,7 +291,7 @@
        }
  
 -      protected int m_7031_(long p_140883_) {
-+      protected int getLevelFromSource(net.minecraft.core.SectionPos p_140883_) {
++      protected int getLevelFromSource(net.minecraft.world.level.ChunkPos p_140883_) {
           SortedArraySet<Ticket<?>> sortedarrayset = DistanceManager.this.f_140761_.get(p_140883_);
           if (sortedarrayset == null) {
              return Integer.MAX_VALUE;
@@ -302,8 +302,8 @@
 -      protected int m_6172_(long p_140885_) {
 -         if (!DistanceManager.this.m_7009_(p_140885_)) {
 -            ChunkHolder chunkholder = DistanceManager.this.m_7316_(p_140885_);
-+      protected int getLevel(net.minecraft.core.SectionPos p_140885_) {
-+         var chunk = p_140885_.m_123251_();
++      protected int getLevel(net.minecraft.world.level.ChunkPos p_140885_) {
++         var chunk = p_140885_;
 +         if (!DistanceManager.this.isChunkToRemove(chunk)) {
 +            ChunkHolder chunkholder = DistanceManager.this.getChunk(chunk);
              if (chunkholder != null) {
@@ -315,8 +315,8 @@
  
 -      protected void m_7351_(long p_140880_, int p_140881_) {
 -         ChunkHolder chunkholder = DistanceManager.this.m_7316_(p_140880_);
-+      protected void setLevel(net.minecraft.core.SectionPos p_140880_, int p_140881_) {
-+         ChunkPos pos = p_140880_.m_123251_();
++      protected void setLevel(net.minecraft.world.level.ChunkPos p_140880_, int p_140881_) {
++         ChunkPos pos = p_140880_;
 +         ChunkHolder chunkholder = DistanceManager.this.getChunk(pos);
           int i = chunkholder == null ? f_286988_ : chunkholder.m_140093_();
           if (i != p_140881_) {
@@ -330,7 +330,7 @@
  
     class FixedPlayerDistanceChunkTracker extends ChunkTracker {
 -      protected final Long2ByteMap f_140886_ = new Long2ByteOpenHashMap();
-+      protected final it.unimi.dsi.fastutil.objects.Object2ByteMap<net.minecraft.core.SectionPos> f_140886_ = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>();
++      protected final it.unimi.dsi.fastutil.objects.Object2ByteMap<net.minecraft.world.level.ChunkPos> f_140886_ = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>();
        protected final int f_140887_;
  
        protected FixedPlayerDistanceChunkTracker(int p_140891_) {
@@ -340,12 +340,12 @@
  
 -      protected int m_6172_(long p_140901_) {
 -         return this.f_140886_.get(p_140901_);
-+      protected int getLevel(net.minecraft.core.SectionPos p_140901_) {
++      protected int getLevel(net.minecraft.world.level.ChunkPos p_140901_) {
 +         return this.f_140886_.getByte(p_140901_);
        }
  
 -      protected void m_7351_(long p_140893_, int p_140894_) {
-+      protected void setLevel(net.minecraft.core.SectionPos p_140893_, int p_140894_) {
++      protected void setLevel(net.minecraft.world.level.ChunkPos p_140893_, int p_140894_) {
           byte b0;
           if (p_140894_ > this.f_140887_) {
 -            b0 = this.f_140886_.remove(p_140893_);
@@ -368,39 +368,36 @@
 +         this.onLevelChange(p_140893_, b0, p_140894_);
 +      }
 +
-+      protected void onLevelChange(net.minecraft.core.SectionPos p_140895_, int p_140896_, int p_140897_) {
++      protected void onLevelChange(net.minecraft.world.level.ChunkPos p_140895_, int p_140896_, int p_140897_) {
 +      }
 +
-+      protected int getLevelFromSource(net.minecraft.core.SectionPos p_140899_) {
++      protected int getLevelFromSource(ChunkPos p_140899_) {
 +         return this.havePlayer(p_140899_) ? 0 : Integer.MAX_VALUE;
 +      }
 +
-+      private boolean havePlayer(net.minecraft.core.SectionPos p_140903_) {
++      private boolean havePlayer(ChunkPos p_140903_) {
           ObjectSet<ServerPlayer> objectset = DistanceManager.this.f_140760_.get(p_140903_);
           return objectset != null && !objectset.isEmpty();
        }
-@@ -423,10 +_,10 @@
+@@ -423,8 +_,8 @@
  
        private void m_143212_(String p_143213_) {
           try (FileOutputStream fileoutputstream = new FileOutputStream(new File(p_143213_))) {
 -            for(Long2ByteMap.Entry entry : this.f_140886_.long2ByteEntrySet()) {
 -               ChunkPos chunkpos = new ChunkPos(entry.getLongKey());
-+            for(it.unimi.dsi.fastutil.objects.Object2ByteMap.Entry<net.minecraft.core.SectionPos> entry : this.f_140886_.object2ByteEntrySet()) {
-+               net.minecraft.core.SectionPos chunkpos = entry.getKey();
++            for(it.unimi.dsi.fastutil.objects.Object2ByteMap.Entry<net.minecraft.world.level.ChunkPos> entry : this.f_140886_.object2ByteEntrySet()) {
++               net.minecraft.world.level.ChunkPos chunkpos = entry.getKey();
                 String s = Byte.toString(entry.getByteValue());
--               fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
-+               fileoutputstream.write((chunkpos.x() + "\t" + chunkpos.z() + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
+                fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
              }
-          } catch (IOException ioexception) {
-             DistanceManager.f_140758_.error("Failed to dump chunks to {}", p_143213_, ioexception);
 @@ -437,8 +_,8 @@
  
     class PlayerTicketTracker extends DistanceManager.FixedPlayerDistanceChunkTracker {
        private int f_140905_;
 -      private final Long2IntMap f_140906_ = Long2IntMaps.synchronize(new Long2IntOpenHashMap());
 -      private final LongSet f_140907_ = new LongOpenHashSet();
-+      private final it.unimi.dsi.fastutil.objects.Object2IntMap<net.minecraft.core.SectionPos> f_140906_ = it.unimi.dsi.fastutil.objects.Object2IntMaps.synchronize(new it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap<>());
-+      private final it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.core.SectionPos> f_140907_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++      private final it.unimi.dsi.fastutil.objects.Object2IntMap<net.minecraft.world.level.ChunkPos> f_140906_ = it.unimi.dsi.fastutil.objects.Object2IntMaps.synchronize(new it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap<>());
++      private final it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> f_140907_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
  
        protected PlayerTicketTracker(int p_140910_) {
           super(p_140910_);
@@ -409,17 +406,17 @@
        }
  
 -      protected void m_8002_(long p_140915_, int p_140916_, int p_140917_) {
-+      protected void onLevelChange(net.minecraft.core.SectionPos p_140915_, int p_140916_, int p_140917_) {
++      protected void onLevelChange(net.minecraft.world.level.ChunkPos p_140915_, int p_140916_, int p_140917_) {
           this.f_140907_.add(p_140915_);
        }
  
        public void m_140912_(int p_140913_) {
 -         for(Long2ByteMap.Entry entry : this.f_140886_.long2ByteEntrySet()) {
-+         for(it.unimi.dsi.fastutil.objects.Object2ByteMap.Entry<net.minecraft.core.SectionPos> entry : this.f_140886_.object2ByteEntrySet()) {
++         for(it.unimi.dsi.fastutil.objects.Object2ByteMap.Entry<net.minecraft.world.level.ChunkPos> entry : this.f_140886_.object2ByteEntrySet()) {
              byte b0 = entry.getByteValue();
 -            long i = entry.getLongKey();
 -            this.m_140918_(i, b0, this.m_140932_(b0), b0 <= p_140913_);
-+            net.minecraft.core.SectionPos i = entry.getKey();
++            net.minecraft.world.level.ChunkPos i = entry.getKey();
 +            this.onLevelChange(i, b0, this.m_140932_(b0), b0 <= p_140913_ - 2);
           }
  
@@ -427,8 +424,8 @@
        }
  
 -      private void m_140918_(long p_140919_, int p_140920_, boolean p_140921_, boolean p_140922_) {
-+      private void onLevelChange(net.minecraft.core.SectionPos p_140919_, int p_140920_, boolean p_140921_, boolean p_140922_) {
-+         var chunkPos = p_140919_.m_123251_();
++      private void onLevelChange(net.minecraft.world.level.ChunkPos p_140919_, int p_140920_, boolean p_140921_, boolean p_140922_) {
++         var chunkPos = p_140919_;
           if (p_140921_ != p_140922_) {
 -            Ticket<?> ticket = new Ticket<>(TicketType.f_9444_, DistanceManager.f_140759_, new ChunkPos(p_140919_));
 +            Ticket<?> ticket = new Ticket<>(TicketType.f_9444_, DistanceManager.f_140759_, chunkPos);
@@ -471,19 +468,19 @@
           super.m_6410_();
           if (!this.f_140907_.isEmpty()) {
 -            LongIterator longiterator = this.f_140907_.iterator();
-+            it.unimi.dsi.fastutil.objects.ObjectIterator<net.minecraft.core.SectionPos> longiterator = this.f_140907_.iterator();
++            it.unimi.dsi.fastutil.objects.ObjectIterator<net.minecraft.world.level.ChunkPos> longiterator = this.f_140907_.iterator();
  
              while(longiterator.hasNext()) {
 -               long i = longiterator.nextLong();
 -               int j = this.f_140906_.get(i);
 -               int k = this.m_6172_(i);
-+               net.minecraft.core.SectionPos i = longiterator.next();
++               net.minecraft.world.level.ChunkPos i = longiterator.next();
 +               int j = this.f_140906_.getInt(i);
 +               int k = this.getLevel(i);
                 if (j != k) {
 -                  DistanceManager.this.f_140766_.m_6250_(new ChunkPos(i), () -> {
 -                     return this.f_140906_.get(i);
-+                  DistanceManager.this.f_140766_.onLevelChange(i, () -> {
++                  DistanceManager.this.f_140766_.m_6250_(i, () -> {
 +                     return this.f_140906_.getInt(i);
                    }, k, (p_140928_) -> {
                       if (p_140928_ >= this.f_140906_.defaultReturnValue()) {

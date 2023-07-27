@@ -1,5 +1,51 @@
 --- a/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
 +++ b/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
+@@ -35,8 +_,8 @@
+    private static final int f_164766_ = 64;
+    public static final int f_164764_ = 4;
+    public static final int f_181307_ = 256;
+-   public final int f_256718_;
+-   public final int f_256789_;
++   public final long f_256718_;
++   public final long f_256789_;
+    public final ResourceKey<Level> f_77887_;
+    private final boolean f_77888_;
+    private final boolean f_77889_;
+@@ -50,7 +_,7 @@
+    private final Map<String, MapFrame> f_77898_ = Maps.newHashMap();
+    private int f_181308_;
+ 
+-   private MapItemSavedData(int p_164768_, int p_164769_, byte p_164770_, boolean p_164771_, boolean p_164772_, boolean p_164773_, ResourceKey<Level> p_164774_) {
++   private MapItemSavedData(long p_164768_, long p_164769_, byte p_164770_, boolean p_164771_, boolean p_164772_, boolean p_164773_, ResourceKey<Level> p_164774_) {
+       this.f_77890_ = p_164770_;
+       this.f_256718_ = p_164768_;
+       this.f_256789_ = p_164769_;
+@@ -63,10 +_,10 @@
+ 
+    public static MapItemSavedData m_164780_(double p_164781_, double p_164782_, byte p_164783_, boolean p_164784_, boolean p_164785_, ResourceKey<Level> p_164786_) {
+       int i = 128 * (1 << p_164783_);
+-      int j = Mth.m_14107_((p_164781_ + 64.0D) / (double)i);
+-      int k = Mth.m_14107_((p_164782_ + 64.0D) / (double)i);
+-      int l = j * i + i / 2 - 64;
+-      int i1 = k * i + i / 2 - 64;
++      long j = Mth.m_14134_((p_164781_ + 64.0D) / (double)i);
++      long k = Mth.m_14134_((p_164782_ + 64.0D) / (double)i);
++      long l = j * i + i / 2 - 64;
++      long i1 = k * i + i / 2 - 64;
+       return new MapItemSavedData(l, i1, p_164783_, p_164784_, p_164785_, false, p_164786_);
+    }
+ 
+@@ -78,8 +_,8 @@
+       ResourceKey<Level> resourcekey = DimensionType.m_63911_(new Dynamic<>(NbtOps.f_128958_, p_164808_.m_128423_("dimension"))).resultOrPartial(f_77895_::error).orElseThrow(() -> {
+          return new IllegalArgumentException("Invalid map dimension: " + p_164808_.m_128423_("dimension"));
+       });
+-      int i = p_164808_.m_128451_("xCenter");
+-      int j = p_164808_.m_128451_("zCenter");
++      long i = p_164808_.m_128454_("xCenter");
++      long j = p_164808_.m_128454_("zCenter");
+       byte b0 = (byte)Mth.m_14045_(p_164808_.m_128445_("scale"), 0, 4);
+       boolean flag = !p_164808_.m_128425_("trackingPosition", 1) || p_164808_.m_128471_("trackingPosition");
+       boolean flag1 = p_164808_.m_128471_("unlimitedTracking");
 @@ -95,7 +_,7 @@
        for(int k = 0; k < listtag.size(); ++k) {
           MapBanner mapbanner = MapBanner.m_77777_(listtag.m_128728_(k));
@@ -18,6 +64,17 @@
        }
  
        return mapitemsaveddata;
+@@ -113,8 +_,8 @@
+       ResourceLocation.f_135803_.encodeStart(NbtOps.f_128958_, this.f_77887_.m_135782_()).resultOrPartial(f_77895_::error).ifPresent((p_77954_) -> {
+          p_77956_.m_128365_("dimension", p_77954_);
+       });
+-      p_77956_.m_128405_("xCenter", this.f_256718_);
+-      p_77956_.m_128405_("zCenter", this.f_256789_);
++      p_77956_.m_128356_("xCenter", this.f_256718_);
++      p_77956_.m_128356_("zCenter", this.f_256789_);
+       p_77956_.m_128344_("scale", this.f_77890_);
+       p_77956_.m_128382_("colors", this.f_77891_);
+       p_77956_.m_128379_("trackingPosition", this.f_77888_);
 @@ -185,7 +_,7 @@
           }
  

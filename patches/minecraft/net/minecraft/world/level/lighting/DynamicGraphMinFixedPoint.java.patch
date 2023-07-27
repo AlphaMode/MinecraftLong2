@@ -1,11 +1,18 @@
 --- a/net/minecraft/world/level/lighting/DynamicGraphMinFixedPoint.java
 +++ b/net/minecraft/world/level/lighting/DynamicGraphMinFixedPoint.java
-@@ -12,7 +_,7 @@
+@@ -7,12 +_,12 @@
+ import java.util.function.LongPredicate;
+ import net.minecraft.util.Mth;
+ 
+-public abstract class DynamicGraphMinFixedPoint {
++public abstract class DynamicGraphMinFixedPoint<Pos> {
+    public static final long f_278132_ = Long.MAX_VALUE;
     private static final int f_164422_ = 255;
     protected final int f_75537_;
-    private final LeveledPriorityQueue f_278118_;
+-   private final LeveledPriorityQueue f_278118_;
 -   private final Long2ByteMap f_75539_;
-+   private final it.unimi.dsi.fastutil.objects.Object2ByteMap<net.minecraft.core.SectionPos> f_75539_;
++   private final LeveledPriorityQueue<Pos> f_278118_;
++   private final it.unimi.dsi.fastutil.objects.Object2ByteMap<Pos> f_75539_;
     private volatile boolean f_75541_;
  
     protected DynamicGraphMinFixedPoint(int p_75543_, int p_75544_, final int p_75545_) {
@@ -18,13 +25,13 @@
              protected void rehash(int p_75611_) {
                 if (p_75611_ > p_75545_) {
                    super.rehash(p_75611_);
-@@ -33,42 +_,42 @@
+@@ -33,42 +_,44 @@
        }
     }
  
 -   protected void m_75600_(long p_75601_) {
 -      int i = this.f_75539_.remove(p_75601_) & 255;
-+   protected void removeFromQueue(net.minecraft.core.SectionPos p_75601_) {
++   protected void removeFromQueue(Pos p_75601_) {
 +      int i = this.f_75539_.removeByte(p_75601_) & 255;
        if (i != 255) {
 -         int j = this.m_6172_(p_75601_);
@@ -39,9 +46,9 @@
 -   public void m_75581_(LongPredicate p_75582_) {
 -      LongList longlist = new LongArrayList();
 -      this.f_75539_.keySet().forEach((long p_75586_) -> {
-+   public void removeIf(java.util.function.Predicate<net.minecraft.core.SectionPos> p_75582_) {
-+      it.unimi.dsi.fastutil.objects.ObjectList<net.minecraft.core.SectionPos> longlist = new it.unimi.dsi.fastutil.objects.ObjectArrayList<>();
-+      this.f_75539_.keySet().forEach((net.minecraft.core.SectionPos p_75586_) -> {
++   public void removeIf(java.util.function.Predicate<Pos> p_75582_) {
++      it.unimi.dsi.fastutil.objects.ObjectList<Pos> longlist = new it.unimi.dsi.fastutil.objects.ObjectArrayList<>();
++      this.f_75539_.keySet().forEach((Pos p_75586_) -> {
           if (p_75582_.test(p_75586_)) {
              longlist.add(p_75586_);
           }
@@ -57,20 +64,22 @@
  
 -   protected void m_6185_(long p_75602_) {
 -      this.m_75576_(p_75602_, p_75602_, this.f_75537_ - 1, false);
++   protected abstract Pos createPosFromBlockPos(net.minecraft.core.BlockPos blockPos);
++
 +   protected void checkNode(net.minecraft.core.BlockPos p_75602_) {
-+      this.checkEdge(new net.minecraft.world.level.ChunkPos(p_75602_), net.minecraft.core.SectionPos.m_123199_(p_75602_), this.f_75537_ - 1, false);
++      this.checkEdge(createPosFromBlockPos(p_75602_), createPosFromBlockPos(p_75602_), this.f_75537_ - 1, false);
     }
  
 -   protected void m_75576_(long p_75577_, long p_75578_, int p_75579_, boolean p_75580_) {
 -      this.m_75569_(p_75577_, p_75578_, p_75579_, this.m_6172_(p_75578_), this.f_75539_.get(p_75578_) & 255, p_75580_);
-+   protected void checkEdge(net.minecraft.world.level.ChunkPos p_75577_, net.minecraft.core.SectionPos p_75578_, int p_75579_, boolean p_75580_) {
++   protected void checkEdge(Pos p_75577_, Pos p_75578_, int p_75579_, boolean p_75580_) {
 +      this.checkEdge(p_75577_, p_75578_, p_75579_, this.getLevel(p_75578_), this.f_75539_.getByte(p_75578_) & 255, p_75580_);
        this.f_75541_ = !this.f_278118_.m_278192_();
     }
  
 -   private void m_75569_(long p_75570_, long p_75571_, int p_75572_, int p_75573_, int p_75574_, boolean p_75575_) {
 -      if (!this.m_6163_(p_75571_)) {
-+   private void checkEdge(net.minecraft.world.level.ChunkPos p_75570_, net.minecraft.core.SectionPos p_75571_, int p_75572_, int p_75573_, int p_75574_, boolean p_75575_) {
++   private void checkEdge(Pos p_75570_, Pos p_75571_, int p_75572_, int p_75573_, int p_75574_, boolean p_75575_) {
 +      if (!this.isSource(p_75571_)) {
           p_75572_ = Mth.m_14045_(p_75572_, 0, this.f_75537_ - 1);
           p_75573_ = Mth.m_14045_(p_75573_, 0, this.f_75537_ - 1);
@@ -107,12 +116,12 @@
 -   protected final void m_75593_(long p_75594_, long p_75595_, int p_75596_, boolean p_75597_) {
 -      int i = this.f_75539_.get(p_75595_) & 255;
 -      int j = Mth.m_14045_(this.m_6359_(p_75594_, p_75595_, p_75596_), 0, this.f_75537_ - 1);
-+   protected final void checkNeighbor(net.minecraft.core.SectionPos p_75594_, net.minecraft.core.SectionPos p_75595_, int p_75596_, boolean p_75597_) {
++   protected final void checkNeighbor(Pos p_75594_, Pos p_75595_, int p_75596_, boolean p_75597_) {
 +      int i = this.f_75539_.getByte(p_75595_) & 255;
 +      int j = Mth.m_14045_(this.computeLevelFromNeighbor(p_75594_, p_75595_, p_75596_), 0, this.f_75537_ - 1);
        if (p_75597_) {
 -         this.m_75569_(p_75594_, p_75595_, j, this.m_6172_(p_75595_), i, p_75597_);
-+         this.checkEdge(p_75594_.m_123251_(), p_75595_, j, this.getLevel(p_75595_), i, true);
++         this.checkEdge(p_75594_, p_75595_, j, this.getLevel(p_75595_), i, true);
        } else {
           boolean flag = i == 255;
           int k;
@@ -125,7 +134,7 @@
  
           if (j == k) {
 -            this.m_75569_(p_75594_, p_75595_, this.f_75537_ - 1, flag ? k : this.m_6172_(p_75595_), i, p_75597_);
-+            this.checkEdge(p_75594_.m_123251_(), p_75595_, this.f_75537_ - 1, flag ? k : this.getLevel(p_75595_), i, false);
++            this.checkEdge(p_75594_, p_75595_, this.f_75537_ - 1, flag ? k : this.getLevel(p_75595_), i, false);
           }
        }
  
@@ -136,7 +145,7 @@
 -            long i = this.f_278118_.m_278178_();
 -            int j = Mth.m_14045_(this.m_6172_(i), 0, this.f_75537_ - 1);
 -            int k = this.f_75539_.remove(i) & 255;
-+            net.minecraft.core.SectionPos i = this.f_278118_.removeFirstLong();
++            Pos i = this.f_278118_.removeFirstLong();
 +            int j = Mth.m_14045_(this.getLevel(i), 0, this.f_75537_ - 1);
 +            int k = this.f_75539_.removeByte(i) & 255;
              if (k < j) {
@@ -164,7 +173,7 @@
  
 -   protected boolean m_6163_(long p_75551_) {
 -      return p_75551_ == Long.MAX_VALUE;
-+   protected boolean isSource(net.minecraft.core.SectionPos p_75551_) {
++   protected boolean isSource(Pos p_75551_) {
 +      return false;
     }
  
@@ -177,13 +186,13 @@
 -   protected abstract void m_7351_(long p_75552_, int p_75553_);
 -
 -   protected abstract int m_6359_(long p_75590_, long p_75591_, int p_75592_);
-+   protected abstract int getComputedLevel(net.minecraft.core.SectionPos p_75566_, net.minecraft.world.level.ChunkPos p_75567_, int p_75568_);
++   protected abstract int getComputedLevel(Pos p_75566_, Pos p_75567_, int p_75568_);
 +
-+   protected abstract void checkNeighborsAfterUpdate(net.minecraft.core.SectionPos p_75563_, int p_75564_, boolean p_75565_);
++   protected abstract void checkNeighborsAfterUpdate(Pos p_75563_, int p_75564_, boolean p_75565_);
 +
-+   protected abstract int getLevel(net.minecraft.core.SectionPos p_75599_);
++   protected abstract int getLevel(Pos p_75599_);
 +
-+   protected abstract void setLevel(net.minecraft.core.SectionPos p_75552_, int p_75553_);
++   protected abstract void setLevel(Pos p_75552_, int p_75553_);
 +
-+   protected abstract int computeLevelFromNeighbor(net.minecraft.core.SectionPos p_75590_, net.minecraft.core.SectionPos p_75591_, int p_75592_);
++   protected abstract int computeLevelFromNeighbor(Pos p_75590_, Pos p_75591_, int p_75592_);
  }

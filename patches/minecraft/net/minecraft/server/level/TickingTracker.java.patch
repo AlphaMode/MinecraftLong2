@@ -6,7 +6,7 @@
     private static final int f_184142_ = 4;
 -   protected final Long2ByteMap f_184141_ = new Long2ByteOpenHashMap();
 -   private final Long2ObjectOpenHashMap<SortedArraySet<Ticket<?>>> f_184143_ = new Long2ObjectOpenHashMap<>();
-+   protected final it.unimi.dsi.fastutil.objects.Object2ByteMap<net.minecraft.core.SectionPos> f_184141_ = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>();
++   protected final it.unimi.dsi.fastutil.objects.Object2ByteMap<net.minecraft.world.level.ChunkPos> f_184141_ = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>();
 +   private final it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, SortedArraySet<Ticket<?>>> f_184143_ = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
  
     public TickingTracker() {
@@ -31,7 +31,7 @@
        sortedarrayset.add(p_184153_);
        if (p_184153_.m_9433_() < i) {
 -         this.m_140715_(p_184152_, p_184153_.m_9433_(), true);
-+         this.update(net.minecraft.core.SectionPos.of(p_184152_, 0), p_184153_.m_9433_(), true);
++         this.update(p_184152_, p_184153_.m_9433_(), true);
        }
  
     }
@@ -46,7 +46,7 @@
        }
  
 -      this.m_140715_(p_184166_, this.m_184159_(sortedarrayset), false);
-+      this.update(net.minecraft.core.SectionPos.of(p_184166_, 0), this.m_184159_(sortedarrayset), false);
++      this.update(p_184166_, this.m_184159_(sortedarrayset), false);
     }
  
     public <T> void m_184154_(TicketType<T> p_184155_, ChunkPos p_184156_, int p_184157_, T p_184158_) {
@@ -90,9 +90,8 @@
     }
  
 -   protected int m_7031_(long p_184164_) {
--      SortedArraySet<Ticket<?>> sortedarrayset = this.f_184143_.get(p_184164_);
-+   protected int getLevelFromSource(net.minecraft.core.SectionPos p_184164_) {
-+      SortedArraySet<Ticket<?>> sortedarrayset = this.f_184143_.get(p_184164_.m_123251_());
++   protected int getLevelFromSource(net.minecraft.world.level.ChunkPos p_184164_) {
+       SortedArraySet<Ticket<?>> sortedarrayset = this.f_184143_.get(p_184164_);
        return sortedarrayset != null && !sortedarrayset.isEmpty() ? sortedarrayset.m_14262_().m_9433_() : Integer.MAX_VALUE;
     }
  
@@ -105,11 +104,11 @@
 -   }
 -
 -   protected void m_7351_(long p_184149_, int p_184150_) {
-+   protected int getLevel(net.minecraft.core.SectionPos p_184174_) {
-+      return this.f_184141_.getByte(p_184174_);
++   protected int getLevel(net.minecraft.world.level.ChunkPos p_184162_) {
++      return this.f_184141_.getByte(p_184162_);
 +   }
 +
-+   protected void setLevel(net.minecraft.core.SectionPos p_184149_, int p_184150_) {
++   protected void setLevel(net.minecraft.world.level.ChunkPos p_184149_, int p_184150_) {
        if (p_184150_ > 33) {
 -         this.f_184141_.remove(p_184149_);
 +         this.f_184141_.removeByte(p_184149_);

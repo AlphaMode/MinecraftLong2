@@ -1,10 +1,33 @@
 --- a/net/minecraft/world/entity/vehicle/Boat.java
 +++ b/net/minecraft/world/entity/vehicle/Boat.java
-@@ -453,7 +_,7 @@
+@@ -439,21 +_,21 @@
  
-          for(int l1 = i; l1 < j; ++l1) {
-             for(int i2 = i1; i2 < j1; ++i2) {
+    public float m_38371_() {
+       AABB aabb = this.m_20191_();
+-      int i = Mth.m_14107_(aabb.f_82288_);
+-      int j = Mth.m_14165_(aabb.f_82291_);
+-      int k = Mth.m_14107_(aabb.f_82292_);
+-      int l = Mth.m_14165_(aabb.f_82292_ - this.f_38281_);
+-      int i1 = Mth.m_14107_(aabb.f_82290_);
+-      int j1 = Mth.m_14165_(aabb.f_82293_);
++      long i = Mth.m_14134_(aabb.f_82288_);
++      long j = Mth.lceil(aabb.f_82291_);
++      long k = Mth.m_14134_(aabb.f_82292_);
++      long l = Mth.lceil(aabb.f_82292_ - this.f_38281_);
++      long i1 = Mth.m_14134_(aabb.f_82290_);
++      long j1 = Mth.lceil(aabb.f_82293_);
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+       label39:
+-      for(int k1 = k; k1 < l; ++k1) {
++      for(long k1 = k; k1 < l; ++k1) {
+          float f = 0.0F;
+ 
+-         for(int l1 = i; l1 < j; ++l1) {
+-            for(int i2 = i1; i2 < j1; ++i2) {
 -               blockpos$mutableblockpos.m_122178_(l1, k1, i2);
++         for(long l1 = i; l1 < j; ++l1) {
++            for(long i2 = i1; i2 < j1; ++i2) {
 +               blockpos$mutableblockpos.set(l1, k1, i2);
                 FluidState fluidstate = this.m_9236_().m_6425_(blockpos$mutableblockpos);
                 if (fluidstate.m_205070_(FluidTags.f_13131_)) {
@@ -18,29 +41,98 @@
           }
        }
  
-@@ -493,7 +_,7 @@
+@@ -476,24 +_,24 @@
+    public float m_38377_() {
+       AABB aabb = this.m_20191_();
+       AABB aabb1 = new AABB(aabb.f_82288_, aabb.f_82289_ - 0.001D, aabb.f_82290_, aabb.f_82291_, aabb.f_82289_, aabb.f_82293_);
+-      int i = Mth.m_14107_(aabb1.f_82288_) - 1;
+-      int j = Mth.m_14165_(aabb1.f_82291_) + 1;
+-      int k = Mth.m_14107_(aabb1.f_82289_) - 1;
+-      int l = Mth.m_14165_(aabb1.f_82292_) + 1;
+-      int i1 = Mth.m_14107_(aabb1.f_82290_) - 1;
+-      int j1 = Mth.m_14165_(aabb1.f_82293_) + 1;
++      long i = Mth.m_14134_(aabb1.f_82288_) - 1;
++      long j = Mth.lceil(aabb1.f_82291_) + 1;
++      long k = Mth.m_14134_(aabb1.f_82289_) - 1;
++      long l = Mth.lceil(aabb1.f_82292_) + 1;
++      long i1 = Mth.m_14134_(aabb1.f_82290_) - 1;
++      long j1 = Mth.lceil(aabb1.f_82293_) + 1;
+       VoxelShape voxelshape = Shapes.m_83064_(aabb1);
+       float f = 0.0F;
+       int k1 = 0;
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-      for(int l1 = i; l1 < j; ++l1) {
+-         for(int i2 = i1; i2 < j1; ++i2) {
++      for(long l1 = i; l1 < j; ++l1) {
++         for(long i2 = i1; i2 < j1; ++i2) {
+             int j2 = (l1 != i && l1 != j - 1 ? 0 : 1) + (i2 != i1 && i2 != j1 - 1 ? 0 : 1);
              if (j2 != 2) {
-                for(int k2 = k; k2 < l; ++k2) {
+-               for(int k2 = k; k2 < l; ++k2) {
++               for(long k2 = k; k2 < l; ++k2) {
                    if (j2 <= 0 || k2 != k && k2 != l - 1) {
 -                     blockpos$mutableblockpos.m_122178_(l1, k2, i2);
 +                     blockpos$mutableblockpos.set(l1, k2, i2);
                       BlockState blockstate = this.m_9236_().m_8055_(blockpos$mutableblockpos);
                       if (!(blockstate.m_60734_() instanceof WaterlilyBlock) && Shapes.m_83157_(blockstate.m_60812_(this.m_9236_(), blockpos$mutableblockpos).m_83216_((double)l1, (double)k2, (double)i2), voxelshape, BooleanOp.f_82689_)) {
                          f += blockstate.m_60734_().m_49958_();
-@@ -523,7 +_,7 @@
-       for(int k1 = i; k1 < j; ++k1) {
-          for(int l1 = k; l1 < l; ++l1) {
-             for(int i2 = i1; i2 < j1; ++i2) {
+@@ -510,20 +_,20 @@
+ 
+    private boolean m_38393_() {
+       AABB aabb = this.m_20191_();
+-      int i = Mth.m_14107_(aabb.f_82288_);
+-      int j = Mth.m_14165_(aabb.f_82291_);
+-      int k = Mth.m_14107_(aabb.f_82289_);
+-      int l = Mth.m_14165_(aabb.f_82289_ + 0.001D);
+-      int i1 = Mth.m_14107_(aabb.f_82290_);
+-      int j1 = Mth.m_14165_(aabb.f_82293_);
++      long i = Mth.m_14134_(aabb.f_82288_);
++      long j = Mth.lceil(aabb.f_82291_);
++      long k = Mth.m_14134_(aabb.f_82289_);
++      long l = Mth.lceil(aabb.f_82289_ + 0.001D);
++      long i1 = Mth.m_14134_(aabb.f_82290_);
++      long j1 = Mth.lceil(aabb.f_82293_);
+       boolean flag = false;
+       this.f_38277_ = -Double.MAX_VALUE;
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-      for(int k1 = i; k1 < j; ++k1) {
+-         for(int l1 = k; l1 < l; ++l1) {
+-            for(int i2 = i1; i2 < j1; ++i2) {
 -               blockpos$mutableblockpos.m_122178_(k1, l1, i2);
++      for(long k1 = i; k1 < j; ++k1) {
++         for(long l1 = k; l1 < l; ++l1) {
++            for(long i2 = i1; i2 < j1; ++i2) {
 +               blockpos$mutableblockpos.set(k1, l1, i2);
                 FluidState fluidstate = this.m_9236_().m_6425_(blockpos$mutableblockpos);
                 if (fluidstate.m_205070_(FluidTags.f_13131_)) {
                    float f = (float)l1 + fluidstate.m_76155_(this.m_9236_(), blockpos$mutableblockpos);
-@@ -553,9 +_,9 @@
-       for(int k1 = i; k1 < j; ++k1) {
-          for(int l1 = k; l1 < l; ++l1) {
-             for(int i2 = i1; i2 < j1; ++i2) {
+@@ -541,21 +_,21 @@
+    private Boat.Status m_38394_() {
+       AABB aabb = this.m_20191_();
+       double d0 = aabb.f_82292_ + 0.001D;
+-      int i = Mth.m_14107_(aabb.f_82288_);
+-      int j = Mth.m_14165_(aabb.f_82291_);
+-      int k = Mth.m_14107_(aabb.f_82292_);
+-      int l = Mth.m_14165_(d0);
+-      int i1 = Mth.m_14107_(aabb.f_82290_);
+-      int j1 = Mth.m_14165_(aabb.f_82293_);
++      long i = Mth.m_14134_(aabb.f_82288_);
++      long j = Mth.lceil(aabb.f_82291_);
++      long k = Mth.m_14134_(aabb.f_82292_);
++      long l = Mth.lceil(d0);
++      long i1 = Mth.m_14134_(aabb.f_82290_);
++      long j1 = Mth.lceil(aabb.f_82293_);
+       boolean flag = false;
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-      for(int k1 = i; k1 < j; ++k1) {
+-         for(int l1 = k; l1 < l; ++l1) {
+-            for(int i2 = i1; i2 < j1; ++i2) {
 -               blockpos$mutableblockpos.m_122178_(k1, l1, i2);
++      for(long k1 = i; k1 < j; ++k1) {
++         for(long l1 = k; l1 < l; ++l1) {
++            for(long i2 = i1; i2 < j1; ++i2) {
 +               blockpos$mutableblockpos.set(k1, l1, i2);
                 FluidState fluidstate = this.m_9236_().m_6425_(blockpos$mutableblockpos);
 -               if (fluidstate.m_205070_(FluidTags.f_13131_) && d0 < (double)((float)blockpos$mutableblockpos.m_123342_() + fluidstate.m_76155_(this.m_9236_(), blockpos$mutableblockpos))) {

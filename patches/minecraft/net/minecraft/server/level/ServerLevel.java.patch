@@ -45,7 +45,7 @@
                    p_184065_.m_6043_();
                    profilerfiller.m_7238_();
 -                  if (this.f_8547_.f_8325_.m_143145_().m_183913_(p_184065_.m_146902_().m_45588_())) {
-+                  if (this.f_8547_.f_8325_.m_143145_().inEntityTickingRange(net.minecraft.core.SectionPos.of(p_184065_.m_146902_(), 0))) {
++                  if (this.f_8547_.f_8325_.m_143145_().inEntityTickingRange(p_184065_.m_146902_())) {
                       Entity entity = p_184065_.m_20202_();
                       if (entity != null) {
                          if (!entity.m_213877_() && entity.m_20363_(p_184065_)) {
@@ -56,7 +56,7 @@
 -   public boolean m_183438_(long p_184059_) {
 -      return this.f_8547_.f_8325_.m_143145_().m_183916_(p_184059_);
 +   public boolean shouldTickBlocksAt(ChunkPos p_184059_) {
-+      return this.f_8547_.f_8325_.m_143145_().inBlockTickingRange(net.minecraft.core.SectionPos.of(p_184059_, 0));
++      return this.f_8547_.f_8325_.m_143145_().inBlockTickingRange(p_184059_);
     }
  
     protected void m_8809_() {
@@ -289,7 +289,7 @@
  
     public boolean m_143340_(BlockPos p_143341_) {
 -      return this.f_143244_.m_202167_(p_143341_) && this.f_8547_.f_8325_.m_143145_().m_183913_(ChunkPos.m_151388_(p_143341_));
-+      return this.f_143244_.m_202167_(p_143341_) && this.f_8547_.f_8325_.m_143145_().inEntityTickingRange(net.minecraft.core.SectionPos.m_123199_(p_143341_));
++      return this.f_143244_.m_202167_(p_143341_) && this.f_8547_.f_8325_.m_143145_().inEntityTickingRange(new ChunkPos(p_143341_));
     }
  
     public boolean m_201918_(BlockPos p_201919_) {
