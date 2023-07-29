@@ -28,7 +28,7 @@
 +         list.add(String.format(Locale.ROOT, "Legacy XYZ: %.3f / %.5f / %.3f", this.f_94030_.m_91288_().m_20185_(), this.f_94030_.m_91288_().m_20186_(), this.f_94030_.m_91288_().m_20189_()));
 +         list.add(String.format(Locale.ROOT, "XYZ: %.3f / %.5f / %.3f", this.f_94030_.m_91288_().getBigX(), this.f_94030_.m_91288_().getBigY(), this.f_94030_.m_91288_().getBigZ()));
 +         list.add(String.format(Locale.ROOT, "Block: %d %d %d [%d %d %d]", blockpos.getBigX(), blockpos.getBigY(), blockpos.getBigZ(), blockpos.getBigX().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), blockpos.getBigY().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), blockpos.getBigZ().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN)));
-+         list.add(String.format(Locale.ROOT, "Chunk: %d %d %d [%d %d in r.%d.%d.mca]", chunkpos.f_45578_, SectionPos.blockToSectionCoord(blockpos.getBigY()), chunkpos.f_45579_, chunkpos.getRegionLocalX(), chunkpos.getRegionLocalZ(), chunkpos.getRegionX(), chunkpos.getRegionZ()));
++         list.add(String.format(Locale.ROOT, "Chunk: %d %d %d [%d %d in r.%d.%d.mca]", chunkpos.x(), SectionPos.blockToSectionCoord(blockpos.getBigY()), chunkpos.z(), chunkpos.getRegionLocalX(), chunkpos.getRegionLocalZ(), chunkpos.getRegionX(), chunkpos.getRegionZ()));
           list.add(String.format(Locale.ROOT, "Facing: %s (%s) (%.1f / %.1f)", direction, s1, Mth.m_14177_(entity.m_146908_()), Mth.m_14177_(entity.m_146909_())));
           LevelChunk levelchunk = this.m_94085_();
           if (levelchunk.m_6430_()) {
@@ -64,7 +64,7 @@
           ServerLevel serverlevel = this.m_94081_();
           if (serverlevel != null) {
 -            this.f_94036_ = serverlevel.m_7726_().m_8431_(this.f_94034_.f_45578_, this.f_94034_.f_45579_, ChunkStatus.f_62326_, false).thenApply((p_205369_) -> {
-+            this.f_94036_ = serverlevel.m_7726_().getChunkFuture(this.f_94034_.f_45578_, this.f_94034_.f_45579_, ChunkStatus.f_62326_, false).thenApply((p_205369_) -> {
++            this.f_94036_ = serverlevel.m_7726_().getChunkFuture(this.f_94034_.x(), this.f_94034_.z(), ChunkStatus.f_62326_, false).thenApply((p_205369_) -> {
                 return p_205369_.map((p_205371_) -> {
                    return (LevelChunk)p_205371_;
                 }, (p_205363_) -> {
@@ -73,7 +73,7 @@
     private LevelChunk m_94085_() {
        if (this.f_94035_ == null) {
 -         this.f_94035_ = this.f_94030_.f_91073_.m_6325_(this.f_94034_.f_45578_, this.f_94034_.f_45579_);
-+         this.f_94035_ = this.f_94030_.f_91073_.getChunk(this.f_94034_.f_45578_, this.f_94034_.f_45579_);
++         this.f_94035_ = this.f_94030_.f_91073_.getChunk(this.f_94034_.x(), this.f_94034_.z());
        }
  
        return this.f_94035_;

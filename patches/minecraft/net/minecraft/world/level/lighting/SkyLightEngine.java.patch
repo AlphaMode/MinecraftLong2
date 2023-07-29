@@ -335,17 +335,17 @@
 -         long k = SectionPos.m_284454_(p_285459_.f_45578_, p_285459_.f_45579_);
 -         int l = this.f_283849_.m_284384_(k);
 -         int i1 = Math.max(this.f_283849_.m_284293_(), j);
-+         ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285459_.f_45578_, p_285459_.f_45579_), this.f_283855_);
++         ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285459_.x(), p_285459_.z()), this.f_283855_);
 +         long i = chunkskylightsources.getHighestLowestSourceY() - 1;
 +         long j = SectionPos.blockToSectionCoord(i) + 1;
-+         SectionPos k = SectionPos.getZeroNode(p_285459_.f_45578_, p_285459_.f_45579_);
++         SectionPos k = SectionPos.getZeroNode(p_285459_.x(), p_285459_.z());
 +         long l = this.f_283849_.getTopSectionY(k);
 +         long i1 = Math.max(this.f_283849_.getBottomSectionY(), j);
  
 -         for(int j1 = l - 1; j1 >= i1; --j1) {
 -            DataLayer datalayer = this.f_283849_.m_284157_(SectionPos.m_123209_(p_285459_.f_45578_, j1, p_285459_.f_45579_));
 +         for(long j1 = l - 1; j1 >= i1; --j1) {
-+            DataLayer datalayer = this.f_283849_.getDataLayerToWrite(SectionPos.of(p_285459_.f_45578_, j1, p_285459_.f_45579_));
++            DataLayer datalayer = this.f_283849_.getDataLayerToWrite(SectionPos.of(p_285459_.x(), j1, p_285459_.z()));
              if (datalayer != null && datalayer.m_62575_()) {
                 datalayer.m_284173_(15);
              }
@@ -364,23 +364,23 @@
 -      int k = this.f_283849_.m_284293_();
 -      int l = SectionPos.m_123223_(p_285333_.f_45578_);
 -      int i1 = SectionPos.m_123223_(p_285333_.f_45579_);
-+      SectionPos i = SectionPos.getZeroNode(p_285333_.f_45578_, p_285333_.f_45579_);
++      SectionPos i = SectionPos.getZeroNode(p_285333_.x(), p_285333_.z());
 +      this.f_283849_.setLightEnabled(i, true);
-+      ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_, p_285333_.f_45579_), this.f_283855_);
-+      ChunkSkyLightSources chunkskylightsources1 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_, p_285333_.f_45579_ - 1), this.f_283855_);
-+      ChunkSkyLightSources chunkskylightsources2 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_, p_285333_.f_45579_ + 1), this.f_283855_);
-+      ChunkSkyLightSources chunkskylightsources3 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_ - 1, p_285333_.f_45579_), this.f_283855_);
-+      ChunkSkyLightSources chunkskylightsources4 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_ + 1, p_285333_.f_45579_), this.f_283855_);
++      ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x(), p_285333_.z()), this.f_283855_);
++      ChunkSkyLightSources chunkskylightsources1 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x(), p_285333_.z() - 1), this.f_283855_);
++      ChunkSkyLightSources chunkskylightsources2 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x(), p_285333_.z() + 1), this.f_283855_);
++      ChunkSkyLightSources chunkskylightsources3 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x() - 1, p_285333_.z()), this.f_283855_);
++      ChunkSkyLightSources chunkskylightsources4 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x() + 1, p_285333_.z()), this.f_283855_);
 +      long j = this.f_283849_.getTopSectionY(i);
 +      long k = this.f_283849_.getBottomSectionY();
-+      long l = SectionPos.sectionToBlockCoord(p_285333_.f_45578_);
-+      long i1 = SectionPos.sectionToBlockCoord(p_285333_.f_45579_);
++      long l = SectionPos.sectionToBlockCoord(p_285333_.x());
++      long i1 = SectionPos.sectionToBlockCoord(p_285333_.z());
  
 -      for(int j1 = j - 1; j1 >= k; --j1) {
 -         long k1 = SectionPos.m_123209_(p_285333_.f_45578_, j1, p_285333_.f_45579_);
 -         DataLayer datalayer = this.f_283849_.m_284157_(k1);
 +      for(long j1 = j - 1; j1 >= k; --j1) {
-+         SectionPos k1 = SectionPos.of(p_285333_.f_45578_, j1, p_285333_.f_45579_);
++         SectionPos k1 = SectionPos.of(p_285333_.x(), j1, p_285333_.z());
 +         DataLayer datalayer = this.f_283849_.getDataLayerToWrite(k1);
           if (datalayer != null) {
 -            int l1 = SectionPos.m_123223_(j1);

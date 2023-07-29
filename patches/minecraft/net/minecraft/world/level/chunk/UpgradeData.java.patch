@@ -65,7 +65,7 @@
 -                  blockpos$mutableblockpos1.m_122159_(blockpos$mutableblockpos, direction);
 -                  if (SectionPos.m_123171_(blockpos$mutableblockpos.m_123341_()) == chunkpos.f_45578_ && SectionPos.m_123171_(blockpos$mutableblockpos.m_123343_()) == chunkpos.f_45579_) {
 +                  blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, direction);
-+                  if (SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getX()) == chunkpos.f_45578_ && SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getZ()) == chunkpos.f_45579_) {
++                  if (SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getX()) == chunkpos.x() && SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getZ()) == chunkpos.z()) {
                       blockstate1 = m_63335_(blockstate1, direction, levelaccessor, blockpos$mutableblockpos, blockpos$mutableblockpos1);
                    }
                 }
@@ -74,7 +74,7 @@
        for(int l1 = 0; l1 < this.f_63324_.length; ++l1) {
           if (this.f_63324_[l1] != null) {
 -            f_63321_.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.m_151568_(l1), chunkpos.f_45578_, chunkpos.f_45579_);
-+            f_63321_.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.getSectionYFromSectionIndex(l1), chunkpos.f_45578_, chunkpos.f_45579_);
++            f_63321_.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.getSectionYFromSectionIndex(l1), chunkpos.x(), chunkpos.z());
           }
  
           this.f_63324_[l1] = null;

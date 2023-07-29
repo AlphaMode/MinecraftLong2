@@ -14,15 +14,17 @@
     }
  
 -   public boolean m_223471_(ChunkPos p_223472_, int p_223473_) {
+-      ChunkPos chunkpos = new ChunkPos(p_223472_.f_45578_ - p_223473_, p_223472_.f_45579_ - p_223473_);
+-      ChunkPos chunkpos1 = new ChunkPos(p_223472_.f_45578_ + p_223473_, p_223472_.f_45579_ + p_223473_);
 +   public boolean isOldChunkAround(ChunkPos p_223472_, long p_223473_) {
-       ChunkPos chunkpos = new ChunkPos(p_223472_.f_45578_ - p_223473_, p_223472_.f_45579_ - p_223473_);
-       ChunkPos chunkpos1 = new ChunkPos(p_223472_.f_45578_ + p_223473_, p_223472_.f_45579_ + p_223473_);
++      ChunkPos chunkpos = new ChunkPos(p_223472_.x() - p_223473_, p_223472_.z() - p_223473_);
++      ChunkPos chunkpos1 = new ChunkPos(p_223472_.x() + p_223473_, p_223472_.z() + p_223473_);
  
 -      for(int i = chunkpos.m_45610_(); i <= chunkpos1.m_45610_(); ++i) {
 -         for(int j = chunkpos.m_45612_(); j <= chunkpos1.m_45612_(); ++j) {
 -            BitSet bitset = this.m_223463_(i, j).join();
-+      for(long i = chunkpos.getRegionX(); i <= chunkpos1.getRegionX(); ++i) {
-+         for(long j = chunkpos.getRegionZ(); j <= chunkpos1.getRegionZ(); ++j) {
++      for(java.math.BigInteger i = chunkpos.getRegionX(); i.compareTo(chunkpos1.getRegionX()) <= 0; i = i.add(java.math.BigInteger.ONE)) {
++         for(java.math.BigInteger j = chunkpos.getRegionZ(); j.compareTo(chunkpos1.getRegionZ()) <= 0; j = j.add(java.math.BigInteger.ONE)) {
 +            BitSet bitset = this.getOrCreateOldDataForRegion(i, j).join();
              if (!bitset.isEmpty()) {
 -               ChunkPos chunkpos2 = ChunkPos.m_220337_(i, j);
@@ -31,10 +33,10 @@
 -               int i1 = Math.min(chunkpos1.f_45578_ - chunkpos2.f_45578_, 31);
 -               int j1 = Math.min(chunkpos1.f_45579_ - chunkpos2.f_45579_, 31);
 +               ChunkPos chunkpos2 = ChunkPos.minFromRegion(i, j);
-+               long k = Math.max(chunkpos.f_45578_ - chunkpos2.f_45578_, 0);
-+               long l = Math.max(chunkpos.f_45579_ - chunkpos2.f_45579_, 0);
-+               long i1 = Math.min(chunkpos1.f_45578_ - chunkpos2.f_45578_, 31);
-+               long j1 = Math.min(chunkpos1.f_45579_ - chunkpos2.f_45579_, 31);
++               long k = Math.max(chunkpos.x() - chunkpos2.x(), 0);
++               long l = Math.max(chunkpos.z() - chunkpos2.z(), 0);
++               long i1 = Math.min(chunkpos1.x() - chunkpos2.x(), 31);
++               long j1 = Math.min(chunkpos1.z() - chunkpos2.z(), 31);
  
 -               for(int k1 = k; k1 <= i1; ++k1) {
 -                  for(int l1 = l; l1 <= j1; ++l1) {
@@ -53,7 +55,7 @@
  
 -   private CompletableFuture<BitSet> m_223463_(int p_223464_, int p_223465_) {
 -      long i = ChunkPos.m_45589_(p_223464_, p_223465_);
-+   private CompletableFuture<BitSet> getOrCreateOldDataForRegion(long p_223464_, long p_223465_) {
++   private CompletableFuture<BitSet> getOrCreateOldDataForRegion(java.math.BigInteger p_223464_, java.math.BigInteger p_223465_) {
 +      ChunkPos i = new ChunkPos(p_223464_, p_223465_);
        synchronized(this.f_223459_) {
           CompletableFuture<BitSet> completablefuture = this.f_223459_.getAndMoveToFirst(i);
@@ -68,7 +70,7 @@
     }
  
 -   private CompletableFuture<BitSet> m_223489_(int p_223490_, int p_223491_) {
-+   private CompletableFuture<BitSet> createOldDataForRegion(long p_223490_, long p_223491_) {
++   private CompletableFuture<BitSet> createOldDataForRegion(java.math.BigInteger p_223490_, java.math.BigInteger p_223491_) {
        return CompletableFuture.supplyAsync(() -> {
 -         ChunkPos chunkpos = ChunkPos.m_220337_(p_223490_, p_223491_);
 -         ChunkPos chunkpos1 = ChunkPos.m_220340_(p_223490_, p_223491_);
@@ -83,7 +85,7 @@
                 if (this.m_223484_(compoundtag)) {
 -                  int i = p_223480_.m_45614_() * 32 + p_223480_.m_45613_();
 -                  bitset.set(i);
-+                  long i = p_223480_.getRegionLocalZ() * 32 + p_223480_.getRegionLocalX();
++                  long i = p_223480_.getRegionLocalZ().multiply(java.math.BigInteger.valueOf(32)).add(p_223480_.getRegionLocalX()).longValue();
 +                  bitset.set((int) i);
                 }
              }

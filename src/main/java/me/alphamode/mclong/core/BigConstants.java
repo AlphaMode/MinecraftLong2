@@ -7,6 +7,7 @@ public class BigConstants {
     public static final BigDecimal POSITIVE_INFINITY = BigDecimal.valueOf(Double.MAX_VALUE);
     public static final BigDecimal NEGATIVE_INFINITY = BigDecimal.valueOf(Double.MAX_VALUE);
     public static final BigDecimal ALMOST_ONE = BigDecimal.valueOf(0.9999999D);
+    public static final BigDecimal FIND_BITS = BigDecimal.valueOf(1.0000001D);
     public static final BigDecimal PARTICLES = BigDecimal.valueOf(0.25D);
     public static final BigDecimal EPSILON = BigDecimal.valueOf(1.0E-7D);
     public static final BigDecimal ENTITY = BigDecimal.valueOf(1.0E-6D);

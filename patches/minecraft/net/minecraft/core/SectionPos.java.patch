@@ -9,7 +9,7 @@
     public static final int f_175535_ = 4;
     public static final int f_175536_ = 16;
     public static final int f_175539_ = 15;
-@@ -29,19 +_,27 @@
+@@ -29,20 +_,28 @@
     private static final int f_175550_ = 0;
     private static final int f_175551_ = 4;
  
@@ -36,10 +36,12 @@
     }
  
 -   public static SectionPos m_123196_(ChunkPos p_123197_, int p_123198_) {
+-      return new SectionPos(p_123197_.f_45578_, p_123198_, p_123197_.f_45579_);
 +   public static SectionPos of(ChunkPos p_123197_, long p_123198_) {
-       return new SectionPos(p_123197_.f_45578_, p_123198_, p_123197_.f_45579_);
++      return new SectionPos(p_123197_.x(), p_123198_, p_123197_.z());
     }
  
+    public static SectionPos m_235861_(EntityAccess p_235862_) {
 @@ -50,45 +_,69 @@
     }
  
@@ -133,7 +135,7 @@
        return (short)(i << 8 | k << 4 | j << 0);
     }
  
-@@ -104,84 +_,92 @@
+@@ -104,84 +_,96 @@
        return p_123228_ >>> 4 & 15;
     }
  
@@ -221,6 +223,10 @@
 -      return m_175554_(this.m_123222_(), 15);
 +   public static java.math.BigInteger sectionToBlockCoord(java.math.BigInteger p_123224_) {
 +      return p_123224_.shiftLeft(4);
++   }
++
++   public static java.math.BigInteger sectionToBlockCoord(java.math.BigInteger blockCord, long offset) {
++      return sectionToBlockCoord(blockCord).add(java.math.BigInteger.valueOf(offset));
 +   }
 +
 +   public static long sectionToBlockCoord(long p_175555_, long p_175556_) {
@@ -359,8 +365,8 @@
 +   }
 +
 +   public static Stream<SectionPos> aroundChunk(ChunkPos p_175558_, long p_175559_, long p_175560_, long p_175561_) {
-+      long i = p_175558_.f_45578_;
-+      long j = p_175558_.f_45579_;
++      long i = p_175558_.x();
++      long j = p_175558_.z();
 +      return betweenClosedStream(i - p_175559_, p_175560_, j - p_175559_, i + p_175559_, p_175561_ - 1, j + p_175559_);
 +   }
 +

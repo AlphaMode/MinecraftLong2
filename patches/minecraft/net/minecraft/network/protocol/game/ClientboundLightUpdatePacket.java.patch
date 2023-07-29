@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/protocol/game/ClientboundLightUpdatePacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundLightUpdatePacket.java
-@@ -8,8 +_,8 @@
+@@ -8,25 +_,25 @@
  import net.minecraft.world.level.lighting.LevelLightEngine;
  
  public class ClientboundLightUpdatePacket implements Packet<ClientGamePacketListener> {
@@ -11,7 +11,11 @@
     private final ClientboundLightUpdatePacketData f_195721_;
  
     public ClientboundLightUpdatePacket(ChunkPos p_285255_, LevelLightEngine p_285409_, @Nullable BitSet p_285387_, @Nullable BitSet p_285074_) {
-@@ -19,14 +_,14 @@
+-      this.f_132323_ = p_285255_.f_45578_;
+-      this.f_132324_ = p_285255_.f_45579_;
++      this.f_132323_ = p_285255_.x();
++      this.f_132324_ = p_285255_.z();
+       this.f_195721_ = new ClientboundLightUpdatePacketData(p_285255_, p_285409_, p_285387_, p_285074_);
     }
  
     public ClientboundLightUpdatePacket(FriendlyByteBuf p_178918_) {

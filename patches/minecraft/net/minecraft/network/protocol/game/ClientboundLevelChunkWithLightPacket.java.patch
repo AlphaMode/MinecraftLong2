@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/protocol/game/ClientboundLevelChunkWithLightPacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundLevelChunkWithLightPacket.java
-@@ -9,8 +_,8 @@
+@@ -9,29 +_,29 @@
  import net.minecraft.world.level.lighting.LevelLightEngine;
  
  public class ClientboundLevelChunkWithLightPacket implements Packet<ClientGamePacketListener> {
@@ -11,7 +11,14 @@
     private final ClientboundLevelChunkPacketData f_195701_;
     private final ClientboundLightUpdatePacketData f_195702_;
  
-@@ -23,15 +_,15 @@
+    public ClientboundLevelChunkWithLightPacket(LevelChunk p_285290_, LevelLightEngine p_285254_, @Nullable BitSet p_285350_, @Nullable BitSet p_285304_) {
+       ChunkPos chunkpos = p_285290_.m_7697_();
+-      this.f_195699_ = chunkpos.f_45578_;
+-      this.f_195700_ = chunkpos.f_45579_;
++      this.f_195699_ = chunkpos.x();
++      this.f_195700_ = chunkpos.z();
+       this.f_195701_ = new ClientboundLevelChunkPacketData(p_285290_);
+       this.f_195702_ = new ClientboundLightUpdatePacketData(chunkpos, p_285254_, p_285350_, p_285304_);
     }
  
     public ClientboundLevelChunkWithLightPacket(FriendlyByteBuf p_195710_) {

@@ -96,23 +96,26 @@
           }
  
        });
-@@ -689,7 +_,7 @@
+@@ -689,18 +_,18 @@
        PacketUtils.m_131363_(p_275437_, this, this.f_104888_);
  
        for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata : p_275437_.f_273816_()) {
 -         this.f_104889_.m_7726_().m_274444_(clientboundchunksbiomespacket$chunkbiomedata.f_273927_().f_45578_, clientboundchunksbiomespacket$chunkbiomedata.f_273927_().f_45579_, clientboundchunksbiomespacket$chunkbiomedata.m_274543_());
-+         this.f_104889_.m_7726_().replaceBiomes(clientboundchunksbiomespacket$chunkbiomedata.f_273927_().f_45578_, clientboundchunksbiomespacket$chunkbiomedata.f_273927_().f_45579_, clientboundchunksbiomespacket$chunkbiomedata.m_274543_());
++         this.f_104889_.m_7726_().replaceBiomes(clientboundchunksbiomespacket$chunkbiomedata.f_273927_().x(), clientboundchunksbiomespacket$chunkbiomedata.f_273927_().z(), clientboundchunksbiomespacket$chunkbiomedata.m_274543_());
        }
  
        for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata1 : p_275437_.f_273816_()) {
-@@ -699,8 +_,8 @@
+-         this.f_104889_.m_171649_(new ChunkPos(clientboundchunksbiomespacket$chunkbiomedata1.f_273927_().f_45578_, clientboundchunksbiomespacket$chunkbiomedata1.f_273927_().f_45579_));
++         this.f_104889_.m_171649_(new ChunkPos(clientboundchunksbiomespacket$chunkbiomedata1.f_273927_().x(), clientboundchunksbiomespacket$chunkbiomedata1.f_273927_().z()));
+       }
+ 
        for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata2 : p_275437_.f_273816_()) {
           for(int i = -1; i <= 1; ++i) {
              for(int j = -1; j <= 1; ++j) {
 -               for(int k = this.f_104889_.m_151560_(); k < this.f_104889_.m_151561_(); ++k) {
 -                  this.f_104888_.f_91060_.m_109770_(clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().f_45578_ + i, k, clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().f_45579_ + j);
 +               for(long k = this.f_104889_.getMinSection(); k < this.f_104889_.getMaxSection(); ++k) {
-+                  this.f_104888_.f_91060_.setSectionDirty(clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().f_45578_ + i, k, clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().f_45579_ + j);
++                  this.f_104888_.f_91060_.setSectionDirty(clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().x() + i, k, clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().z() + j);
                 }
              }
           }

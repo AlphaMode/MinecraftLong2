@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/placement/RandomSpreadStructurePlacement.java
 +++ b/net/minecraft/world/level/levelgen/structure/placement/RandomSpreadStructurePlacement.java
-@@ -48,19 +_,19 @@
+@@ -48,20 +_,20 @@
        return this.f_204975_;
     }
  
@@ -21,8 +21,10 @@
  
 -   protected boolean m_214090_(ChunkGeneratorStructureState p_256267_, int p_256050_, int p_255975_) {
 -      ChunkPos chunkpos = this.m_227008_(p_256267_.m_254887_(), p_256050_, p_255975_);
+-      return chunkpos.f_45578_ == p_256050_ && chunkpos.f_45579_ == p_255975_;
 +   protected boolean isPlacementChunk(ChunkGeneratorStructureState p_256267_, long p_256050_, long p_255975_) {
 +      ChunkPos chunkpos = this.getPotentialStructureChunk(p_256267_.m_254887_(), p_256050_, p_255975_);
-       return chunkpos.f_45578_ == p_256050_ && chunkpos.f_45579_ == p_255975_;
++      return chunkpos.x() == p_256050_ && chunkpos.z() == p_255975_;
     }
  
+    public StructurePlacementType<?> m_203443_() {

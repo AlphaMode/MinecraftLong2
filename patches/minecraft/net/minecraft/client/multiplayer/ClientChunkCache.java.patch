@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/multiplayer/ClientChunkCache.java
 +++ b/net/minecraft/client/multiplayer/ClientChunkCache.java
-@@ -46,7 +_,7 @@
+@@ -46,20 +_,20 @@
        return this.f_104409_;
     }
  
@@ -9,7 +9,9 @@
        if (p_104439_ == null) {
           return false;
        } else {
-@@ -55,11 +_,11 @@
+          ChunkPos chunkpos = p_104439_.m_7697_();
+-         return chunkpos.f_45578_ == p_104440_ && chunkpos.f_45579_ == p_104441_;
++         return chunkpos.x() == p_104440_ && chunkpos.z() == p_104441_;
        }
     }
  
@@ -93,8 +95,8 @@
                 ChunkPos chunkpos = levelchunk.m_7697_();
 -               if (clientchunkcache$storage.m_104500_(chunkpos.f_45578_, chunkpos.f_45579_)) {
 -                  clientchunkcache$storage.m_104484_(clientchunkcache$storage.m_104481_(chunkpos.f_45578_, chunkpos.f_45579_), levelchunk);
-+               if (clientchunkcache$storage.inRange(chunkpos.f_45578_, chunkpos.f_45579_)) {
-+                  clientchunkcache$storage.m_104484_(clientchunkcache$storage.getIndex(chunkpos.f_45578_, chunkpos.f_45579_), levelchunk);
++               if (clientchunkcache$storage.inRange(chunkpos.x(), chunkpos.z())) {
++                  clientchunkcache$storage.m_104484_(clientchunkcache$storage.getIndex(chunkpos.x(), chunkpos.z()), levelchunk);
                 }
              }
           }
@@ -136,7 +138,7 @@
           return Math.abs(p_104501_ - this.f_104469_) <= this.f_104467_ && Math.abs(p_104502_ - this.f_104470_) <= this.f_104467_;
        }
  
-@@ -220,9 +_,9 @@
+@@ -220,12 +_,12 @@
           try (FileOutputStream fileoutputstream = new FileOutputStream(p_171623_)) {
              int i = ClientChunkCache.this.f_104410_.f_104467_;
  
@@ -148,4 +150,8 @@
 +                  LevelChunk levelchunk = ClientChunkCache.this.f_104410_.f_104466_.get(ClientChunkCache.this.f_104410_.getIndex(k, j));
                    if (levelchunk != null) {
                       ChunkPos chunkpos = levelchunk.m_7697_();
-                      fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + levelchunk.m_6430_() + "\n").getBytes(StandardCharsets.UTF_8));
+-                     fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + levelchunk.m_6430_() + "\n").getBytes(StandardCharsets.UTF_8));
++                     fileoutputstream.write((chunkpos.x() + "\t" + chunkpos.z() + "\t" + levelchunk.m_6430_() + "\n").getBytes(StandardCharsets.UTF_8));
+                   }
+                }
+             }

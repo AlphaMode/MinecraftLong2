@@ -50,8 +50,8 @@
 -      double d1 = (double)SectionPos.m_175554_(p_140227_.f_45579_, 8);
 -      double d2 = d0 - p_140228_.m_20185_();
 -      double d3 = d1 - p_140228_.m_20189_();
-+      double d0 = (double)SectionPos.sectionToBlockCoord(p_140227_.f_45578_, 8);
-+      double d1 = (double)SectionPos.sectionToBlockCoord(p_140227_.f_45579_, 8);
++      double d0 = (double)SectionPos.sectionToBlockCoord(p_140227_.x(), 8);
++      double d1 = (double)SectionPos.sectionToBlockCoord(p_140227_.z(), 8);
 +      double d2 = java.math.BigDecimal.valueOf(d0).subtract(p_140228_.getBigX()).doubleValue();
 +      double d3 = java.math.BigDecimal.valueOf(d1).subtract(p_140228_.getBigZ()).doubleValue();
        return d2 * d2 + d3 * d3;
@@ -117,8 +117,8 @@
           ChunkPos chunkpos = p_281446_.m_140092_();
 -         int i = chunkpos.f_45578_;
 -         int j = chunkpos.f_45579_;
-+         long i = chunkpos.f_45578_;
-+         long j = chunkpos.f_45579_;
++         long i = chunkpos.x();
++         long j = chunkpos.z();
  
           for(int k = -p_282030_; k <= p_282030_; ++k) {
              for(int l = -p_282030_; l <= p_282030_; ++l) {
@@ -206,12 +206,14 @@
     }
  
     private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_140360_(ChunkHolder p_140361_, ChunkStatus p_140362_) {
-@@ -650,7 +_,7 @@
+@@ -649,8 +_,8 @@
+                exception.getStackTrace();
                 CrashReport crashreport = CrashReport.m_127521_(exception, "Exception generating new chunk");
                 CrashReportCategory crashreportcategory = crashreport.m_127514_("Chunk to be generated");
-                crashreportcategory.m_128159_("Location", String.format(Locale.ROOT, "%d,%d", chunkpos.f_45578_, chunkpos.f_45579_));
+-               crashreportcategory.m_128159_("Location", String.format(Locale.ROOT, "%d,%d", chunkpos.f_45578_, chunkpos.f_45579_));
 -               crashreportcategory.m_128159_("Position hash", ChunkPos.m_45589_(chunkpos.f_45578_, chunkpos.f_45579_));
-+               crashreportcategory.m_128159_("Position hash", ChunkPos.asLong(chunkpos.f_45578_, chunkpos.f_45579_));
++               crashreportcategory.m_128159_("Location", String.format(Locale.ROOT, "%d,%d", chunkpos.x(), chunkpos.z()));
++               crashreportcategory.m_128159_("Position hash", ChunkPos.asLong(chunkpos.x(), chunkpos.z()));
                 crashreportcategory.m_128159_("Generator", this.f_140136_);
                 this.f_140135_.execute(() -> {
                    throw new ReportedException(crashreport);
@@ -242,7 +244,15 @@
              long j = this.f_202981_.getOrDefault(i, -1L);
              long k = System.currentTimeMillis();
              if (k < j) {
-@@ -830,7 +_,7 @@
+@@ -823,14 +_,14 @@
+             this.m_140229_(chunkpos, chunkstatus.m_62494_());
+             return true;
+          } catch (Exception exception) {
+-            f_140128_.error("Failed to save chunk {},{}", chunkpos.f_45578_, chunkpos.f_45579_, exception);
++            f_140128_.error("Failed to save chunk {},{}", chunkpos.x(), chunkpos.z(), exception);
+             return false;
+          }
+       }
     }
  
     private boolean m_140425_(ChunkPos p_140426_) {
@@ -257,8 +267,8 @@
                 SectionPos sectionpos = p_214864_.m_8965_();
 -               boolean flag = m_200878_(chunkpos.f_45578_, chunkpos.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), j);
 -               boolean flag1 = m_200878_(chunkpos.f_45578_, chunkpos.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), this.f_140126_);
-+               boolean flag = isChunkInRange(chunkpos.f_45578_, chunkpos.f_45579_, sectionpos.x(), sectionpos.z(), j);
-+               boolean flag1 = isChunkInRange(chunkpos.f_45578_, chunkpos.f_45579_, sectionpos.x(), sectionpos.z(), this.f_140126_);
++               boolean flag = isChunkInRange(chunkpos.x(), chunkpos.z(), sectionpos.x(), sectionpos.z(), j);
++               boolean flag1 = isChunkInRange(chunkpos.x(), chunkpos.z(), sectionpos.x(), sectionpos.z(), this.f_140126_);
                 this.m_183754_(p_214864_, chunkpos, mutableobject, flag, flag1);
              });
           }
@@ -286,7 +296,7 @@
              return p_214932_ instanceof LevelChunk ? Optional.of((LevelChunk)p_214932_) : Optional.empty();
           });
 -         csvoutput.m_13624_(chunkpos.f_45578_, chunkpos.f_45579_, chunkholder.m_140093_(), optional.isPresent(), optional.map(ChunkAccess::m_6415_).orElse((ChunkStatus)null), optional1.map(LevelChunk::m_287138_).orElse((FullChunkStatus)null), m_140278_(chunkholder.m_140082_()), m_140278_(chunkholder.m_140026_()), m_140278_(chunkholder.m_140073_()), this.f_140145_.m_140838_(i), this.m_183879_(chunkpos), optional1.map((p_214953_) -> {
-+         csvoutput.m_13624_(chunkpos.f_45578_, chunkpos.f_45579_, chunkholder.m_140093_(), optional.isPresent(), optional.map(ChunkAccess::m_6415_).orElse((ChunkStatus)null), optional1.map(LevelChunk::m_287138_).orElse((FullChunkStatus)null), m_140278_(chunkholder.m_140082_()), m_140278_(chunkholder.m_140026_()), m_140278_(chunkholder.m_140073_()), this.f_140145_.getTicketDebugString(chunkpos), this.m_183879_(chunkpos), optional1.map((p_214953_) -> {
++         csvoutput.m_13624_(chunkpos.x(), chunkpos.z(), chunkholder.m_140093_(), optional.isPresent(), optional.map(ChunkAccess::m_6415_).orElse((ChunkStatus)null), optional1.map(LevelChunk::m_287138_).orElse((FullChunkStatus)null), m_140278_(chunkholder.m_140082_()), m_140278_(chunkholder.m_140026_()), m_140278_(chunkholder.m_140073_()), this.f_140145_.getTicketDebugString(chunkpos), this.m_183879_(chunkpos), optional1.map((p_214953_) -> {
              return p_214953_.m_62954_().size();
 -         }).orElse(0), tickingtracker.m_184175_(i), tickingtracker.m_6172_(i), optional1.map((p_214946_) -> {
 +         }).orElse(0), tickingtracker.getTicketDebugString(chunkpos), tickingtracker.getLevel(chunkpos), optional1.map((p_214946_) -> {
@@ -455,7 +465,7 @@
        for(ServerPlayer serverplayer : set) {
           SectionPos sectionpos = serverplayer.m_8965_();
 -         if (p_183802_ && m_183828_(p_183801_.f_45578_, p_183801_.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), this.f_140126_) || !p_183802_ && m_200878_(p_183801_.f_45578_, p_183801_.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), this.f_140126_)) {
-+         if (p_183802_ && isChunkOnRangeBorder(p_183801_.f_45578_, p_183801_.f_45579_, sectionpos.x(), sectionpos.z(), this.f_140126_) || !p_183802_ && isChunkInRange(p_183801_.f_45578_, p_183801_.f_45579_, sectionpos.x(), sectionpos.z(), this.f_140126_)) {
++         if (p_183802_ && isChunkOnRangeBorder(p_183801_.x(), p_183801_.z(), sectionpos.x(), sectionpos.z(), this.f_140126_) || !p_183802_ && isChunkInRange(p_183801_.x(), p_183801_.z(), sectionpos.x(), sectionpos.z(), this.f_140126_)) {
              builder.add(serverplayer);
           }
        }
@@ -473,7 +483,7 @@
              levelchunk = levelchunk1;
           } else {
 -            levelchunk = this.f_140133_.m_6325_(chunkpos.f_45578_, chunkpos.f_45579_);
-+            levelchunk = this.f_140133_.getChunk(chunkpos.f_45578_, chunkpos.f_45579_);
++            levelchunk = this.f_140133_.getChunk(chunkpos.x(), chunkpos.z());
           }
  
           for(ServerPlayer serverplayer : this.m_183262_(chunkpos, false)) {

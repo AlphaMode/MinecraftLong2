@@ -29,7 +29,7 @@
        CompoundTag compoundtag = p_71327_.m_128469_("Level");
        ChunkPos chunkpos = new ChunkPos(compoundtag.m_128451_("xPos"), compoundtag.m_128451_("zPos"));
 -      if (this.m_71311_(chunkpos.f_45578_, chunkpos.f_45579_)) {
-+      if (this.isUnhandledStructureStart(chunkpos.f_45578_, chunkpos.f_45579_)) {
++      if (this.isUnhandledStructureStart(chunkpos.x(), chunkpos.z())) {
           p_71327_ = this.m_71328_(p_71327_, chunkpos);
        }
  
@@ -41,8 +41,8 @@
 -               for(int k = chunkpos.f_45579_ - 8; k <= chunkpos.f_45579_ + 8; ++k) {
 -                  if (this.m_71314_(j, k, s)) {
 -                     longlist.add(ChunkPos.m_45589_(j, k));
-+            for(long j = chunkpos.f_45578_ - 8; j <= chunkpos.f_45578_ + 8; ++j) {
-+               for(long k = chunkpos.f_45579_ - 8; k <= chunkpos.f_45579_ + 8; ++k) {
++            for(long j = chunkpos.x() - 8; j <= chunkpos.x() + 8; ++j) {
++               for(long k = chunkpos.z() - 8; k <= chunkpos.z() + 8; ++k) {
 +                  if (this.hasLegacyStart(j, k, s)) {
 +                     longlist.add(ChunkPos.asLong(j, k));
                    }

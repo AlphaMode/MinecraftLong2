@@ -119,12 +119,14 @@
        });
        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.m_224599_()));
        int i = 8;
-@@ -217,16 +_,16 @@
+@@ -216,17 +_,17 @@
+ 
        for(int j = -8; j <= 8; ++j) {
           for(int k = -8; k <= 8; ++k) {
-             ChunkPos chunkpos1 = new ChunkPos(chunkpos.f_45578_ + j, chunkpos.f_45579_ + k);
+-            ChunkPos chunkpos1 = new ChunkPos(chunkpos.f_45578_ + j, chunkpos.f_45579_ + k);
 -            ChunkAccess chunkaccess = p_224224_.m_6325_(chunkpos1.f_45578_, chunkpos1.f_45579_);
-+            ChunkAccess chunkaccess = p_224224_.getChunk(chunkpos1.f_45578_, chunkpos1.f_45579_);
++            ChunkPos chunkpos1 = new ChunkPos(chunkpos.x() + j, chunkpos.z() + k);
++            ChunkAccess chunkaccess = p_224224_.getChunk(chunkpos1.x(), chunkpos1.z());
              BiomeGenerationSettings biomegenerationsettings = chunkaccess.m_223014_(() -> {
 -               return this.m_223131_(this.f_62137_.m_203407_(QuartPos.m_175400_(chunkpos1.m_45604_()), 0, QuartPos.m_175400_(chunkpos1.m_45605_()), p_224226_.m_224579_()));
 +               return this.m_223131_(this.f_62137_.getNoiseBiome(QuartPos.fromBlock(chunkpos1.getMinBlockX()), 0, QuartPos.fromBlock(chunkpos1.getMinBlockZ()), p_224226_.m_224579_()));
@@ -135,7 +137,7 @@
              for(Holder<ConfiguredWorldCarver<?>> holder : iterable) {
                 ConfiguredWorldCarver<?> configuredworldcarver = holder.m_203334_();
 -               worldgenrandom.m_190068_(p_224225_ + (long)l, chunkpos1.f_45578_, chunkpos1.f_45579_);
-+               worldgenrandom.setLargeFeatureSeed(p_224225_ + (long)l, chunkpos1.f_45578_, chunkpos1.f_45579_);
++               worldgenrandom.setLargeFeatureSeed(p_224225_ + (long)l, chunkpos1.x(), chunkpos1.z());
                 if (configuredworldcarver.m_224896_(worldgenrandom)) {
                    configuredworldcarver.m_224898_(carvingcontext, p_224229_, biomemanager::m_204214_, worldgenrandom, aquifer, chunkpos1, carvingmask);
                 }

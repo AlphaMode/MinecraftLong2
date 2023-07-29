@@ -18,7 +18,14 @@
                    }
                 }
              }
-@@ -102,14 +_,14 @@
+@@ -96,20 +_,20 @@
+    }
+ 
+    private Path m_63684_(ChunkPos p_63685_) {
+-      String s = "c." + p_63685_.f_45578_ + "." + p_63685_.f_45579_ + ".mcc";
++      String s = "c." + p_63685_.x() + "." + p_63685_.z() + ".mcc";
+       return this.f_63622_.resolve(s);
+    }
  
     @Nullable
     public synchronized DataInputStream m_63645_(ChunkPos p_63646_) throws IOException {
@@ -94,7 +101,7 @@
  
     private static int m_63688_(ChunkPos p_63689_) {
 -      return p_63689_.m_45613_() + p_63689_.m_45614_() * 32;
-+      return (int) (p_63689_.getRegionLocalX() + p_63689_.getRegionLocalZ() * 32);
++      return p_63689_.getRegionLocalX().add(p_63689_.getRegionLocalZ().multiply(java.math.BigInteger.valueOf(32))).intValue();
     }
  
     public void close() throws IOException {

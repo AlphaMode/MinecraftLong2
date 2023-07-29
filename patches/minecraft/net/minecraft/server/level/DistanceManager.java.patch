@@ -247,7 +247,7 @@
        this.f_140763_.m_6410_();
        return this.f_140763_.f_140886_.containsKey(p_140848_);
     }
-@@ -285,8 +_,8 @@
+@@ -285,11 +_,11 @@
  
     private void m_143207_(String p_143208_) {
        try (FileOutputStream fileoutputstream = new FileOutputStream(new File(p_143208_))) {
@@ -257,7 +257,11 @@
 +            ChunkPos chunkpos = entry.getKey();
  
              for(Ticket<?> ticket : entry.getValue()) {
-                fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + ticket.m_9428_() + "\t" + ticket.m_9433_() + "\t\n").getBytes(StandardCharsets.UTF_8));
+-               fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + ticket.m_9428_() + "\t" + ticket.m_9433_() + "\t\n").getBytes(StandardCharsets.UTF_8));
++               fileoutputstream.write((chunkpos.x() + "\t" + chunkpos.z() + "\t" + ticket.m_9428_() + "\t" + ticket.m_9433_() + "\t\n").getBytes(StandardCharsets.UTF_8));
+             }
+          }
+       } catch (IOException ioexception) {
 @@ -305,10 +_,10 @@
  
     public void m_201910_() {
@@ -379,7 +383,7 @@
           ObjectSet<ServerPlayer> objectset = DistanceManager.this.f_140760_.get(p_140903_);
           return objectset != null && !objectset.isEmpty();
        }
-@@ -423,8 +_,8 @@
+@@ -423,10 +_,10 @@
  
        private void m_143212_(String p_143213_) {
           try (FileOutputStream fileoutputstream = new FileOutputStream(new File(p_143213_))) {
@@ -388,8 +392,11 @@
 +            for(it.unimi.dsi.fastutil.objects.Object2ByteMap.Entry<net.minecraft.world.level.ChunkPos> entry : this.f_140886_.object2ByteEntrySet()) {
 +               net.minecraft.world.level.ChunkPos chunkpos = entry.getKey();
                 String s = Byte.toString(entry.getByteValue());
-                fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
+-               fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
++               fileoutputstream.write((chunkpos.x() + "\t" + chunkpos.z() + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
              }
+          } catch (IOException ioexception) {
+             DistanceManager.f_140758_.error("Failed to dump chunks to {}", p_143213_, ioexception);
 @@ -437,8 +_,8 @@
  
     class PlayerTicketTracker extends DistanceManager.FixedPlayerDistanceChunkTracker {

@@ -63,6 +63,15 @@
           }
  
           return protochunk1;
+@@ -240,7 +_,7 @@
+    }
+ 
+    private static void m_188239_(ChunkPos p_188240_, int p_188241_, String p_188242_) {
+-      f_63449_.error("Recoverable errors when loading section [" + p_188240_.f_45578_ + ", " + p_188241_ + ", " + p_188240_.f_45579_ + "]: " + p_188242_);
++      f_63449_.error("Recoverable errors when loading section [" + p_188240_.x() + ", " + p_188241_ + ", " + p_188240_.z() + "]: " + p_188242_);
+    }
+ 
+    private static Codec<PalettedContainerRO<Holder<Biome>>> m_188260_(Registry<Biome> p_188261_) {
 @@ -250,9 +_,9 @@
     public static CompoundTag m_63454_(ServerLevel p_63455_, ChunkAccess p_63456_) {
        ChunkPos chunkpos = p_63456_.m_7697_();
@@ -70,9 +79,9 @@
 -      compoundtag.m_128405_("xPos", chunkpos.f_45578_);
 -      compoundtag.m_128405_("yPos", p_63456_.m_151560_());
 -      compoundtag.m_128405_("zPos", chunkpos.f_45579_);
-+      compoundtag.m_128356_("xPos", chunkpos.f_45578_);
++      compoundtag.m_128356_("xPos", chunkpos.x());
 +      compoundtag.m_128356_("yPos", p_63456_.getMinSection());
-+      compoundtag.m_128356_("zPos", chunkpos.f_45579_);
++      compoundtag.m_128356_("zPos", chunkpos.z());
        compoundtag.m_128356_("LastUpdate", p_63455_.m_46467_());
        compoundtag.m_128356_("InhabitedTime", p_63456_.m_6319_());
        compoundtag.m_128359_("Status", BuiltInRegistries.f_256940_.m_7981_(p_63456_.m_6415_()).toString());
@@ -118,8 +127,8 @@
 +            net.minecraft.nbt.ListTag chunks = new net.minecraft.nbt.ListTag();
 +            entry1.getValue().forEach(chunkPos -> {
 +               CompoundTag chunk = new CompoundTag();
-+               chunk.m_128356_("x", chunkPos.f_45578_);
-+               chunk.m_128356_("z", chunkPos.f_45579_);
++               chunk.m_128356_("x", chunkPos.x());
++               chunk.m_128356_("z", chunkPos.z());
 +               chunks.add(chunk);
 +            });
 +            compoundtag2.m_128365_(resourcelocation1.toString(), chunks);

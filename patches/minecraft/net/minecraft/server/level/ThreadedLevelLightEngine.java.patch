@@ -14,7 +14,7 @@
  
     protected void m_9330_(ChunkPos p_9331_) {
 -      this.m_9317_(p_9331_.f_45578_, p_9331_.f_45579_, () -> {
-+      this.addTask(p_9331_.f_45578_, p_9331_.f_45579_, () -> {
++      this.addTask(p_9331_.x(), p_9331_.z(), () -> {
           return 0;
        }, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
           super.m_6462_(p_9331_, false);
@@ -49,7 +49,7 @@
  
     public void m_142519_(ChunkPos p_285029_) {
 -      this.m_9312_(p_285029_.f_45578_, p_285029_.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
-+      this.addTask(p_285029_.f_45578_, p_285029_.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
++      this.addTask(p_285029_.x(), p_285029_.z(), ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
           super.m_142519_(p_285029_);
        }, () -> {
           return "propagateLight " + p_285029_;
@@ -58,7 +58,7 @@
  
     public void m_9335_(ChunkPos p_9336_, boolean p_9337_) {
 -      this.m_9312_(p_9336_.f_45578_, p_9336_.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
-+      this.addTask(p_9336_.f_45578_, p_9336_.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
++      this.addTask(p_9336_.x(), p_9336_.z(), ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
           super.m_9335_(p_9336_, p_9337_);
        }, () -> {
           return "enableLight " + p_9336_ + " " + p_9337_;
@@ -96,7 +96,7 @@
  
     public void m_6462_(ChunkPos p_9370_, boolean p_9371_) {
 -      this.m_9317_(p_9370_.f_45578_, p_9370_.f_45579_, () -> {
-+      this.addTask(p_9370_.f_45578_, p_9370_.f_45579_, () -> {
++      this.addTask(p_9370_.x(), p_9370_.z(), () -> {
           return 0;
        }, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
           super.m_6462_(p_9370_, p_9371_);
@@ -105,7 +105,7 @@
     public CompletableFuture<ChunkAccess> m_284138_(ChunkAccess p_285128_, boolean p_285441_) {
        ChunkPos chunkpos = p_285128_.m_7697_();
 -      this.m_9312_(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
-+      this.addTask(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
++      this.addTask(chunkpos.x(), chunkpos.z(), ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
           LevelChunkSection[] alevelchunksection = p_285128_.m_7103_();
  
 -         for(int i = 0; i < p_285128_.m_151559_(); ++i) {
@@ -124,7 +124,7 @@
           return p_285128_;
        }, (p_215135_) -> {
 -         this.m_9312_(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_215135_);
-+         this.addTask(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_215135_);
++         this.addTask(chunkpos.x(), chunkpos.z(), ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_215135_);
        });
     }
  
@@ -132,7 +132,7 @@
        ChunkPos chunkpos = p_9354_.m_7697_();
        p_9354_.m_8094_(false);
 -      this.m_9312_(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
-+      this.addTask(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
++      this.addTask(chunkpos.x(), chunkpos.z(), ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.m_137474_(() -> {
           if (!p_9355_) {
              super.m_142519_(chunkpos);
           }
@@ -141,7 +141,7 @@
           return p_9354_;
        }, (p_280982_) -> {
 -         this.m_9312_(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_280982_);
-+         this.addTask(chunkpos.f_45578_, chunkpos.f_45579_, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_280982_);
++         this.addTask(chunkpos.x(), chunkpos.z(), ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_280982_);
        });
     }
  

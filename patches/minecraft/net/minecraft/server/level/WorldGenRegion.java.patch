@@ -30,19 +30,29 @@
 -         int j = p_9515_ - this.f_9487_.f_45579_;
 -         chunkaccess = this.f_9475_.get(i + j * this.f_9478_);
 +      if (this.hasChunk(p_9514_, p_9515_)) {
-+         long i = p_9514_ - this.f_9487_.f_45578_;
-+         long j = p_9515_ - this.f_9487_.f_45579_;
++         long i = p_9514_ - this.f_9487_.x();
++         long j = p_9515_ - this.f_9487_.z();
 +         chunkaccess = this.f_9475_.get((int) (i + j * this.f_9478_));
           if (chunkaccess.m_6415_().m_62427_(p_9516_)) {
              return chunkaccess;
           }
+@@ -139,7 +_,7 @@
+          return null;
+       } else {
+          f_9474_.error("Requested chunk : {} {}", p_9514_, p_9515_);
+-         f_9474_.error("Region bounds : {} {} | {} {}", this.f_9487_.f_45578_, this.f_9487_.f_45579_, this.f_9488_.f_45578_, this.f_9488_.f_45579_);
++         f_9474_.error("Region bounds : {} {} | {} {}", this.f_9487_.x(), this.f_9487_.z(), this.f_9488_.x(), this.f_9488_.z());
+          if (chunkaccess != null) {
+             throw (RuntimeException)Util.m_137570_(new RuntimeException(String.format(Locale.ROOT, "Chunk is not of correct status. Expecting %s, got %s | %s %s", p_9516_, chunkaccess.m_6415_(), p_9514_, p_9515_)));
+          } else {
 @@ -148,12 +_,12 @@
        }
     }
  
 -   public boolean m_7232_(int p_9574_, int p_9575_) {
+-      return p_9574_ >= this.f_9487_.f_45578_ && p_9574_ <= this.f_9488_.f_45578_ && p_9575_ >= this.f_9487_.f_45579_ && p_9575_ <= this.f_9488_.f_45579_;
 +   public boolean hasChunk(long p_9574_, long p_9575_) {
-       return p_9574_ >= this.f_9487_.f_45578_ && p_9574_ <= this.f_9488_.f_45578_ && p_9575_ >= this.f_9487_.f_45579_ && p_9575_ <= this.f_9488_.f_45579_;
++      return p_9574_ >= this.f_9487_.x() && p_9574_ <= this.f_9488_.x() && p_9575_ >= this.f_9487_.z() && p_9575_ <= this.f_9488_.z();
     }
  
     public BlockState m_8055_(BlockPos p_9587_) {
@@ -73,8 +83,8 @@
        ChunkPos chunkpos = this.m_143488_();
 -      int k = Math.abs(chunkpos.f_45578_ - i);
 -      int l = Math.abs(chunkpos.f_45579_ - j);
-+      long k = Math.abs(chunkpos.f_45578_ - i);
-+      long l = Math.abs(chunkpos.f_45579_ - j);
++      long k = Math.abs(chunkpos.x() - i);
++      long l = Math.abs(chunkpos.z() - j);
        if (k <= this.f_143481_ && l <= this.f_143481_) {
           if (this.f_143479_.m_187679_()) {
              LevelHeightAccessor levelheightaccessor = this.f_143479_.m_183618_();

@@ -15,10 +15,27 @@
  
     public static VoxelShape m_83040_() {
        return f_83038_;
-@@ -39,11 +_,19 @@
-       }
-    }
+@@ -33,17 +_,25 @@
  
+    public static VoxelShape m_83048_(double p_83049_, double p_83050_, double p_83051_, double p_83052_, double p_83053_, double p_83054_) {
+       if (!(p_83049_ > p_83052_) && !(p_83050_ > p_83053_) && !(p_83051_ > p_83054_)) {
+-         return m_166049_(p_83049_, p_83050_, p_83051_, p_83052_, p_83053_, p_83054_);
+-      } else {
+-         throw new IllegalArgumentException("The min values need to be smaller or equals to the max values");
+-      }
+-   }
+-
+-   public static VoxelShape m_166049_(double p_166050_, double p_166051_, double p_166052_, double p_166053_, double p_166054_, double p_166055_) {
+-      if (!(p_166053_ - p_166050_ < 1.0E-7D) && !(p_166054_ - p_166051_ < 1.0E-7D) && !(p_166055_ - p_166052_ < 1.0E-7D)) {
+-         int i = m_83041_(p_166050_, p_166053_);
+-         int j = m_83041_(p_166051_, p_166054_);
+-         int k = m_83041_(p_166052_, p_166055_);
++         return create(java.math.BigDecimal.valueOf(p_83049_), java.math.BigDecimal.valueOf(p_83050_), java.math.BigDecimal.valueOf(p_83051_), java.math.BigDecimal.valueOf(p_83052_), java.math.BigDecimal.valueOf(p_83053_), java.math.BigDecimal.valueOf(p_83054_));
++      } else {
++         throw new IllegalArgumentException("The min values need to be smaller or equals to the max values");
++      }
++   }
++
 +   public static VoxelShape box(java.math.BigDecimal p_83049_, java.math.BigDecimal p_83050_, java.math.BigDecimal p_83051_, java.math.BigDecimal p_83052_, java.math.BigDecimal p_83053_, java.math.BigDecimal p_83054_) {
 +      if (!(p_83049_.compareTo(p_83052_) > 0) && !(p_83050_.compareTo(p_83053_) > 0) && !(p_83051_.compareTo(p_83054_) > 0)) {
 +         return create(p_83049_, p_83050_, p_83051_, p_83052_, p_83053_, p_83054_);
@@ -27,45 +44,24 @@
 +      }
 +   }
 +
-    public static VoxelShape m_166049_(double p_166050_, double p_166051_, double p_166052_, double p_166053_, double p_166054_, double p_166055_) {
-       if (!(p_166053_ - p_166050_ < 1.0E-7D) && !(p_166054_ - p_166051_ < 1.0E-7D) && !(p_166055_ - p_166052_ < 1.0E-7D)) {
--         int i = m_83041_(p_166050_, p_166053_);
--         int j = m_83041_(p_166051_, p_166054_);
--         int k = m_83041_(p_166052_, p_166055_);
-+         int i = findBits(java.math.BigDecimal.valueOf(p_166050_), java.math.BigDecimal.valueOf(p_166053_));
-+         int j = findBits(java.math.BigDecimal.valueOf(p_166051_), java.math.BigDecimal.valueOf(p_166054_));
-+         int k = findBits(java.math.BigDecimal.valueOf(p_166052_), java.math.BigDecimal.valueOf(p_166055_));
-          if (i >= 0 && j >= 0 && k >= 0) {
-             if (i == 0 && j == 0 && k == 0) {
-                return m_83144_();
-@@ -55,7 +_,30 @@
-                return new CubeVoxelShape(bitsetdiscretevoxelshape);
-             }
-          } else {
--            return new ArrayVoxelShape(f_83037_.f_83211_, (DoubleList)DoubleArrayList.wrap(new double[]{p_166050_, p_166053_}), (DoubleList)DoubleArrayList.wrap(new double[]{p_166051_, p_166054_}), (DoubleList)DoubleArrayList.wrap(new double[]{p_166052_, p_166055_}));
-+            return new ArrayVoxelShape(f_83037_.f_83211_, it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{java.math.BigDecimal.valueOf(p_166050_), java.math.BigDecimal.valueOf(p_166053_)}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{java.math.BigDecimal.valueOf(p_166051_), java.math.BigDecimal.valueOf(p_166054_)}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{java.math.BigDecimal.valueOf(p_166052_), java.math.BigDecimal.valueOf(p_166055_)}));
-+         }
-+      } else {
-+         return m_83040_();
-+      }
-+   }
-+
 +   public static VoxelShape create(java.math.BigDecimal p_166050_, java.math.BigDecimal p_166051_, java.math.BigDecimal p_166052_, java.math.BigDecimal p_166053_, java.math.BigDecimal p_166054_, java.math.BigDecimal p_166055_) {
 +      if (!(p_166053_.subtract(p_166050_).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) && !(p_166054_.subtract(p_166051_).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) && !(p_166055_.subtract(p_166052_).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0)) {
 +         int i = findBits(p_166050_, p_166053_);
 +         int j = findBits(p_166051_, p_166054_);
 +         int k = findBits(p_166052_, p_166055_);
-+         if (i >= 0 && j >= 0 && k >= 0) {
-+            if (i == 0 && j == 0 && k == 0) {
-+               return m_83144_();
-+            } else {
-+               int l = 1 << i;
-+               int i1 = 1 << j;
-+               int j1 = 1 << k;
+          if (i >= 0 && j >= 0 && k >= 0) {
+             if (i == 0 && j == 0 && k == 0) {
+                return m_83144_();
+@@ -51,11 +_,11 @@
+                int l = 1 << i;
+                int i1 = 1 << j;
+                int j1 = 1 << k;
+-               BitSetDiscreteVoxelShape bitsetdiscretevoxelshape = BitSetDiscreteVoxelShape.m_165932_(l, i1, j1, (int)Math.round(p_166050_ * (double)l), (int)Math.round(p_166051_ * (double)i1), (int)Math.round(p_166052_ * (double)j1), (int)Math.round(p_166053_ * (double)l), (int)Math.round(p_166054_ * (double)i1), (int)Math.round(p_166055_ * (double)j1));
 +               BitSetDiscreteVoxelShape bitsetdiscretevoxelshape = BitSetDiscreteVoxelShape.m_165932_(l, i1, j1, (int)Math.round(p_166050_.doubleValue() * (double)l), (int)Math.round(p_166051_.doubleValue() * (double)i1), (int)Math.round(p_166052_.doubleValue() * (double)j1), (int)Math.round(p_166053_.doubleValue() * (double)l), (int)Math.round(p_166054_.doubleValue() * (double)i1), (int)Math.round(p_166055_.doubleValue() * (double)j1));
-+               return new CubeVoxelShape(bitsetdiscretevoxelshape);
-+            }
-+         } else {
+                return new CubeVoxelShape(bitsetdiscretevoxelshape);
+             }
+          } else {
+-            return new ArrayVoxelShape(f_83037_.f_83211_, (DoubleList)DoubleArrayList.wrap(new double[]{p_166050_, p_166053_}), (DoubleList)DoubleArrayList.wrap(new double[]{p_166051_, p_166054_}), (DoubleList)DoubleArrayList.wrap(new double[]{p_166052_, p_166055_}));
 +            return new ArrayVoxelShape(f_83037_.f_83211_, it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{p_166050_, p_166053_}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{p_166051_, p_166054_}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{p_166052_, p_166055_}));
           }
        } else {
@@ -82,7 +78,7 @@
 -   protected static int m_83041_(double p_83042_, double p_83043_) {
 -      if (!(p_83042_ < -1.0E-7D) && !(p_83043_ > 1.0000001D)) {
 +   protected static int findBits(java.math.BigDecimal p_83042_, java.math.BigDecimal p_83043_) {
-+      if (!(p_83042_.compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.negate()) < 0) && !(p_83043_.compareTo(java.math.BigDecimal.valueOf(1.0000001D)) > 0)) {
++      if (!(p_83042_.compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.negate()) < 0) && !(p_83043_.compareTo(me.alphamode.mclong.core.BigConstants.FIND_BITS) > 0)) {
           for(int i = 0; i <= 3; ++i) {
 -            int j = 1 << i;
 -            double d0 = p_83042_ * (double)j;
@@ -92,8 +88,8 @@
 +            java.math.BigDecimal j = java.math.BigDecimal.valueOf(1 << i);
 +            java.math.BigDecimal d0 = p_83042_.multiply(j);
 +            java.math.BigDecimal d1 = p_83043_.multiply(j);
-+            boolean flag = d0.subtract(d0.round(java.math.MathContext.DECIMAL64)).abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.multiply(j)) < 0;
-+            boolean flag1 = d1.subtract(d1.round(java.math.MathContext.DECIMAL64)).abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.multiply(j)) < 0;
++            boolean flag = d0.subtract(d0.setScale(0, java.math.RoundingMode.HALF_UP)).abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.multiply(j)) < 0;
++            boolean flag1 = d1.subtract(d1.setScale(0, java.math.RoundingMode.HALF_UP)).abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.multiply(j)) < 0;
              if (flag && flag1) {
                 return i;
              }

@@ -38,7 +38,7 @@
           for(ChunkPos chunkpos : list) {
 -            blockpos$mutableblockpos.m_122178_(SectionPos.m_175554_(chunkpos.f_45578_, 8), 32, SectionPos.m_175554_(chunkpos.f_45579_, 8));
 -            double d1 = blockpos$mutableblockpos.m_123331_(p_223185_);
-+            blockpos$mutableblockpos.set(SectionPos.sectionToBlockCoord(chunkpos.f_45578_, 8), 32, SectionPos.sectionToBlockCoord(chunkpos.f_45579_, 8));
++            blockpos$mutableblockpos.set(SectionPos.sectionToBlockCoord(chunkpos.x(), 8), 32, SectionPos.sectionToBlockCoord(chunkpos.z(), 8));
 +            double d1 = blockpos$mutableblockpos.distSqr(p_223185_);
              boolean flag = pair == null || d1 < d0;
              if (flag) {
@@ -70,7 +70,7 @@
              }
  
 -            ChunkAccess chunkaccess = p_223200_.m_46819_(p_223204_.f_45578_, p_223204_.f_45579_, ChunkStatus.f_62315_);
-+            ChunkAccess chunkaccess = p_223200_.getChunk(p_223204_.f_45578_, p_223204_.f_45579_, ChunkStatus.f_62315_);
++            ChunkAccess chunkaccess = p_223200_.getChunk(p_223204_.x(), p_223204_.z(), ChunkStatus.f_62315_);
              StructureStart structurestart = p_223201_.m_220512_(SectionPos.m_175562_(chunkaccess), holder.m_203334_(), chunkaccess);
              if (structurestart != null && structurestart.m_73603_() && (!p_223202_ || m_223059_(p_223201_, structurestart))) {
                 return Pair.of(p_223203_.m_227039_(structurestart.m_163625_()), holder);
@@ -92,7 +92,7 @@
           Set<Holder<Biome>> set = new ObjectArraySet<>();
           ChunkPos.m_45596_(sectionpos.m_123251_(), 1).forEach((p_223093_) -> {
 -            ChunkAccess chunkaccess = p_223087_.m_6325_(p_223093_.f_45578_, p_223093_.f_45579_);
-+            ChunkAccess chunkaccess = p_223087_.getChunk(p_223093_.f_45578_, p_223093_.f_45579_);
++            ChunkAccess chunkaccess = p_223087_.getChunk(p_223093_.x(), p_223093_.z());
  
              for(LevelChunkSection levelchunksection : chunkaccess.m_7103_()) {
                 levelchunksection.m_187996_().m_196879_(set::add);
@@ -109,6 +109,15 @@
                       } catch (Exception exception) {
                          CrashReport crashreport1 = CrashReport.m_127521_(exception, "Feature placement");
                          crashreport1.m_127514_("Feature").m_128165_("Description", supplier::get);
+@@ -359,7 +_,7 @@
+             p_223087_.m_143497_((Supplier<String>)null);
+          } catch (Exception exception2) {
+             CrashReport crashreport = CrashReport.m_127521_(exception2, "Biome decoration");
+-            crashreport.m_127514_("Generation").m_128159_("CenterX", chunkpos.f_45578_).m_128159_("CenterZ", chunkpos.f_45579_).m_128159_("Seed", i);
++            crashreport.m_127514_("Generation").m_128159_("CenterX", chunkpos.x()).m_128159_("CenterZ", chunkpos.z()).m_128159_("Seed", i);
+             throw new ReportedException(crashreport);
+          }
+       }
 @@ -367,11 +_,11 @@
  
     private static BoundingBox m_187717_(ChunkAccess p_187718_) {
@@ -167,7 +176,7 @@
           }
  
 -         if (structureplacement.m_255071_(p_256505_, chunkpos.f_45578_, chunkpos.f_45579_)) {
-+         if (structureplacement.isStructureChunk(p_256505_, chunkpos.f_45578_, chunkpos.f_45579_)) {
++         if (structureplacement.isStructureChunk(p_256505_, chunkpos.x(), chunkpos.z())) {
              if (list.size() == 1) {
                 this.m_223104_(list.get(0), p_255934_, p_255835_, randomstate, p_255832_, p_256505_.m_254887_(), p_255767_, chunkpos, sectionpos);
              } else {
@@ -175,7 +184,7 @@
                 arraylist.addAll(list);
                 WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
 -               worldgenrandom.m_190068_(p_256505_.m_254887_(), chunkpos.f_45578_, chunkpos.f_45579_);
-+               worldgenrandom.setLargeFeatureSeed(p_256505_.m_254887_(), chunkpos.f_45578_, chunkpos.f_45579_);
++               worldgenrandom.setLargeFeatureSeed(p_256505_.m_254887_(), chunkpos.x(), chunkpos.z());
                 int i = 0;
  
                 for(StructureSet.StructureSelectionEntry structureset$structureselectionentry1 : arraylist) {
@@ -187,8 +196,8 @@
 -      int k = chunkpos.f_45579_;
 -      int l = chunkpos.m_45604_();
 -      int i1 = chunkpos.m_45605_();
-+      long j = chunkpos.f_45578_;
-+      long k = chunkpos.f_45579_;
++      long j = chunkpos.x();
++      long k = chunkpos.z();
 +      long l = chunkpos.getMinBlockX();
 +      long i1 = chunkpos.getMinBlockZ();
        SectionPos sectionpos = SectionPos.m_175562_(p_223079_);
