@@ -1,6 +1,25 @@
 --- a/net/minecraft/client/renderer/FogRenderer.java
 +++ b/net/minecraft/client/renderer/FogRenderer.java
-@@ -91,7 +_,7 @@
+@@ -44,7 +_,7 @@
+       Entity entity = p_109019_.m_90592_();
+       if (fogtype == FogType.WATER) {
+          long i = Util.m_137550_();
+-         int j = p_109021_.m_204166_(BlockPos.m_274446_(p_109019_.m_90583_())).m_203334_().m_47561_();
++         int j = p_109021_.m_204166_(BlockPos.containing(p_109019_.m_90583_())).m_203334_().m_47561_();
+          if (f_109015_ < 0L) {
+             f_109013_ = j;
+             f_109014_ = j;
+@@ -84,14 +_,14 @@
+          float f4 = 0.25F + 0.75F * (float)p_109022_ / 32.0F;
+          f4 = 1.0F - (float)Math.pow((double)f4, 0.25D);
+          Vec3 vec3 = p_109021_.m_171660_(p_109019_.m_90583_(), p_109020_);
+-         float f6 = (float)vec3.f_82479_;
+-         float f8 = (float)vec3.f_82480_;
+-         float f10 = (float)vec3.f_82481_;
++         float f6 = (float)vec3.m_7096_();
++         float f8 = (float)vec3.m_7098_();
++         float f10 = (float)vec3.m_7094_();
+          float f11 = Mth.m_14036_(Mth.m_14089_(p_109021_.m_46942_(p_109020_) * ((float)Math.PI * 2F)) * 2.0F + 0.5F, 0.0F, 1.0F);
           BiomeManager biomemanager = p_109021_.m_7062_();
           Vec3 vec31 = p_109019_.m_90583_().m_82492_(2.0D, 2.0D, 2.0D).m_82490_(0.25D);
           Vec3 vec32 = CubicSampler.m_130038_(vec31, (p_109033_, p_109034_, p_109035_) -> {
@@ -14,7 +33,7 @@
        }
  
 -      float f5 = ((float)p_109019_.m_90583_().f_82480_ - (float)p_109021_.m_141937_()) * p_109021_.m_6106_().m_205519_();
-+      float f5 = ((float)p_109019_.m_90583_().f_82480_ - (float)p_109021_.getMinBuildHeight()) * p_109021_.m_6106_().m_205519_();
++      float f5 = ((float)p_109019_.m_90583_().m_7098_() - (float)p_109021_.getMinBuildHeight()) * p_109021_.m_6106_().m_205519_();
        FogRenderer.MobEffectFogFunction fogrenderer$mobeffectfogfunction = m_234165_(entity, p_109020_);
        if (fogrenderer$mobeffectfogfunction != null) {
           LivingEntity livingentity = (LivingEntity)entity;

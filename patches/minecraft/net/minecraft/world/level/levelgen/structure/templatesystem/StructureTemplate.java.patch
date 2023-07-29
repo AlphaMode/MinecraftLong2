@@ -66,7 +66,7 @@
        });
        p_74615_.sort(comparator);
        p_74617_.sort(comparator);
-@@ -155,12 +_,12 @@
+@@ -155,14 +_,14 @@
        this.f_74483_.clear();
  
        for(Entity entity : list) {
@@ -79,8 +79,11 @@
 -            blockpos = ((Painting)entity).m_31748_().m_121996_(p_74502_);
 +            blockpos = ((Painting)entity).m_31748_().subtract(p_74502_);
           } else {
-             blockpos = BlockPos.m_274446_(vec3);
+-            blockpos = BlockPos.m_274446_(vec3);
++            blockpos = BlockPos.containing(vec3);
           }
+ 
+          this.f_74483_.add(new StructureTemplate.StructureEntityInfo(vec3, blockpos, compoundtag.m_6426_()));
 @@ -181,8 +_,8 @@
           return objectarraylist;
        } else {
@@ -205,7 +208,7 @@
           StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo1 = new StructureTemplate.StructureBlockInfo(blockpos, structuretemplate$structureblockinfo.f_74676_, structuretemplate$structureblockinfo.f_74677_ != null ? structuretemplate$structureblockinfo.f_74677_.m_6426_() : null);
  
           for(Iterator<StructureProcessor> iterator = p_74521_.m_74411_().iterator(); structuretemplate$structureblockinfo1 != null && iterator.hasNext(); structuretemplate$structureblockinfo1 = iterator.next().m_7382_(p_278297_, p_74519_, p_74520_, structuretemplate$structureblockinfo, structuretemplate$structureblockinfo1, p_74521_)) {
-@@ -385,11 +_,11 @@
+@@ -385,23 +_,23 @@
  
     private void m_74523_(ServerLevelAccessor p_74524_, BlockPos p_74525_, Mirror p_74526_, Rotation p_74527_, BlockPos p_74528_, @Nullable BoundingBox p_74529_, boolean p_74530_) {
        for(StructureTemplate.StructureEntityInfo structuretemplate$structureentityinfo : this.f_74483_) {
@@ -218,8 +221,25 @@
 -            Vec3 vec31 = vec3.m_82520_((double)p_74525_.m_123341_(), (double)p_74525_.m_123342_(), (double)p_74525_.m_123343_());
 +            Vec3 vec31 = vec3.m_82520_((double)p_74525_.getX(), (double)p_74525_.getY(), (double)p_74525_.getZ());
              ListTag listtag = new ListTag();
-             listtag.add(DoubleTag.m_128500_(vec31.f_82479_));
-             listtag.add(DoubleTag.m_128500_(vec31.f_82480_));
+-            listtag.add(DoubleTag.m_128500_(vec31.f_82479_));
+-            listtag.add(DoubleTag.m_128500_(vec31.f_82480_));
+-            listtag.add(DoubleTag.m_128500_(vec31.f_82481_));
++            listtag.add(DoubleTag.m_128500_(vec31.m_7096_()));
++            listtag.add(DoubleTag.m_128500_(vec31.m_7098_()));
++            listtag.add(DoubleTag.m_128500_(vec31.m_7094_()));
+             compoundtag.m_128365_("Pos", listtag);
+             compoundtag.m_128473_("UUID");
+             m_74543_(p_74524_, compoundtag).ifPresent((p_275190_) -> {
+                float f = p_275190_.m_7890_(p_74527_);
+                f += p_275190_.m_6961_(p_74526_) - p_275190_.m_146908_();
+-               p_275190_.m_7678_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, f, p_275190_.m_146909_());
++               p_275190_.m_7678_(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), f, p_275190_.m_146909_());
+                if (p_74530_ && p_275190_ instanceof Mob) {
+-                  ((Mob)p_275190_).m_6518_(p_74524_, p_74524_.m_6436_(BlockPos.m_274446_(vec31)), MobSpawnType.STRUCTURE, (SpawnGroupData)null, compoundtag);
++                  ((Mob)p_275190_).m_6518_(p_74524_, p_74524_.m_6436_(BlockPos.containing(vec31)), MobSpawnType.STRUCTURE, (SpawnGroupData)null, compoundtag);
+                }
+ 
+                p_74524_.m_47205_(p_275190_);
 @@ -419,20 +_,20 @@
        }
     }
@@ -257,6 +277,19 @@
        switch (p_74596_) {
           case COUNTERCLOCKWISE_90:
              return new BlockPos(l - i1 + k, j, l + i1 - i);
+@@ -460,9 +_,9 @@
+    }
+ 
+    public static Vec3 m_74578_(Vec3 p_74579_, Mirror p_74580_, Rotation p_74581_, BlockPos p_74582_) {
+-      double d0 = p_74579_.f_82479_;
+-      double d1 = p_74579_.f_82480_;
+-      double d2 = p_74579_.f_82481_;
++      double d0 = p_74579_.m_7096_();
++      double d1 = p_74579_.m_7098_();
++      double d2 = p_74579_.m_7094_();
+       boolean flag = true;
+       switch (p_74580_) {
+          case LEFT_RIGHT:
 @@ -475,8 +_,8 @@
              flag = false;
        }
@@ -334,11 +367,13 @@
              int k = structuretemplate$simplepalette.m_74669_(structuretemplate$structureblockinfo.f_74676_);
              compoundtag.m_128405_("state", k);
              if (structuretemplate$structureblockinfo.f_74677_ != null) {
-@@ -597,7 +_,7 @@
+@@ -596,8 +_,8 @@
+ 
        for(StructureTemplate.StructureEntityInfo structuretemplate$structureentityinfo : this.f_74483_) {
           CompoundTag compoundtag1 = new CompoundTag();
-          compoundtag1.m_128365_("pos", this.m_74623_(structuretemplate$structureentityinfo.f_74683_.f_82479_, structuretemplate$structureentityinfo.f_74683_.f_82480_, structuretemplate$structureentityinfo.f_74683_.f_82481_));
+-         compoundtag1.m_128365_("pos", this.m_74623_(structuretemplate$structureentityinfo.f_74683_.f_82479_, structuretemplate$structureentityinfo.f_74683_.f_82480_, structuretemplate$structureentityinfo.f_74683_.f_82481_));
 -         compoundtag1.m_128365_("blockPos", this.m_74625_(structuretemplate$structureentityinfo.f_74684_.m_123341_(), structuretemplate$structureentityinfo.f_74684_.m_123342_(), structuretemplate$structureentityinfo.f_74684_.m_123343_()));
++         compoundtag1.m_128365_("pos", this.m_74623_(structuretemplate$structureentityinfo.f_74683_.m_7096_(), structuretemplate$structureentityinfo.f_74683_.m_7098_(), structuretemplate$structureentityinfo.f_74683_.m_7094_()));
 +         compoundtag1.m_128365_("blockPos", this.newLongList(structuretemplate$structureentityinfo.f_74684_.getX(), structuretemplate$structureentityinfo.f_74684_.getY(), structuretemplate$structureentityinfo.f_74684_.getZ()));
           if (structuretemplate$structureentityinfo.f_74685_ != null) {
              compoundtag1.m_128365_("nbt", structuretemplate$structureentityinfo.f_74685_);

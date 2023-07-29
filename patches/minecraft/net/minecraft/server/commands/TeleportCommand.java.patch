@@ -1,0 +1,53 @@
+--- a/net/minecraft/server/commands/TeleportCommand.java
++++ b/net/minecraft/server/commands/TeleportCommand.java
+@@ -61,7 +_,7 @@
+ 
+    private static int m_139032_(CommandSourceStack p_139033_, Collection<? extends Entity> p_139034_, Entity p_139035_) throws CommandSyntaxException {
+       for(Entity entity : p_139034_) {
+-         m_139014_(p_139033_, entity, (ServerLevel)p_139035_.m_9236_(), p_139035_.m_20185_(), p_139035_.m_20186_(), p_139035_.m_20189_(), EnumSet.noneOf(RelativeMovement.class), p_139035_.m_146908_(), p_139035_.m_146909_(), (TeleportCommand.LookAt)null);
++         performTeleport(p_139033_, entity, (ServerLevel)p_139035_.m_9236_(), p_139035_.getBigX(), p_139035_.getBigY(), p_139035_.getBigZ(), EnumSet.noneOf(RelativeMovement.class), p_139035_.m_146908_(), p_139035_.m_146909_(), (TeleportCommand.LookAt)null);
+       }
+ 
+       if (p_139034_.size() == 1) {
+@@ -108,19 +_,19 @@
+ 
+       for(Entity entity : p_139027_) {
+          if (p_139030_ == null) {
+-            m_139014_(p_139026_, entity, p_139028_, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, set, entity.m_146908_(), entity.m_146909_(), p_139031_);
++            performTeleport(p_139026_, entity, p_139028_, vec3.getX(), vec3.getY(), vec3.getZ(), set, entity.m_146908_(), entity.m_146909_(), p_139031_);
+          } else {
+-            m_139014_(p_139026_, entity, p_139028_, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, set, vec2.f_82471_, vec2.f_82470_, p_139031_);
++            performTeleport(p_139026_, entity, p_139028_, vec3.getX(), vec3.getY(), vec3.getZ(), set, vec2.f_82471_, vec2.f_82470_, p_139031_);
+          }
+       }
+ 
+       if (p_139027_.size() == 1) {
+          p_139026_.m_288197_(() -> {
+-            return Component.m_237110_("commands.teleport.success.location.single", p_139027_.iterator().next().m_5446_(), m_142775_(vec3.f_82479_), m_142775_(vec3.f_82480_), m_142775_(vec3.f_82481_));
++            return Component.m_237110_("commands.teleport.success.location.single", p_139027_.iterator().next().m_5446_(), m_142775_(vec3.m_7096_()), m_142775_(vec3.m_7098_()), m_142775_(vec3.m_7094_()));
+          }, true);
+       } else {
+          p_139026_.m_288197_(() -> {
+-            return Component.m_237110_("commands.teleport.success.location.multiple", p_139027_.size(), m_142775_(vec3.f_82479_), m_142775_(vec3.f_82480_), m_142775_(vec3.f_82481_));
++            return Component.m_237110_("commands.teleport.success.location.multiple", p_139027_.size(), m_142775_(vec3.m_7096_()), m_142775_(vec3.m_7098_()), m_142775_(vec3.m_7094_()));
+          }, true);
+       }
+ 
+@@ -131,14 +_,14 @@
+       return String.format(Locale.ROOT, "%f", p_142776_);
+    }
+ 
+-   private static void m_139014_(CommandSourceStack p_139015_, Entity p_139016_, ServerLevel p_139017_, double p_139018_, double p_139019_, double p_139020_, Set<RelativeMovement> p_139021_, float p_139022_, float p_139023_, @Nullable TeleportCommand.LookAt p_139024_) throws CommandSyntaxException {
+-      BlockPos blockpos = BlockPos.m_274561_(p_139018_, p_139019_, p_139020_);
++   private static void performTeleport(CommandSourceStack p_139015_, Entity p_139016_, ServerLevel p_139017_, java.math.BigDecimal p_139018_, java.math.BigDecimal p_139019_, java.math.BigDecimal p_139020_, Set<RelativeMovement> p_139021_, float p_139022_, float p_139023_, @Nullable TeleportCommand.LookAt p_139024_) throws CommandSyntaxException {
++      BlockPos blockpos = BlockPos.containing(p_139018_, p_139019_, p_139020_);
+       if (!Level.m_46741_(blockpos)) {
+          throw f_139006_.create();
+       } else {
+          float f = Mth.m_14177_(p_139022_);
+          float f1 = Mth.m_14177_(p_139023_);
+-         if (p_139016_.m_264318_(p_139017_, p_139018_, p_139019_, p_139020_, p_139021_, f, f1)) {
++         if (p_139016_.teleportTo(p_139017_, p_139018_, p_139019_, p_139020_, p_139021_, f, f1)) {
+             if (p_139024_ != null) {
+                p_139024_.m_139060_(p_139015_, p_139016_);
+             }

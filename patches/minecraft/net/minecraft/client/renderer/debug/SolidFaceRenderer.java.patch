@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/debug/SolidFaceRenderer.java
 +++ b/net/minecraft/client/renderer/debug/SolidFaceRenderer.java
-@@ -29,7 +_,7 @@
+@@ -29,19 +_,19 @@
        BlockGetter blockgetter = this.f_113666_.f_91074_.m_9236_();
        BlockPos blockpos = BlockPos.m_274561_(p_113672_, p_113673_, p_113674_);
  
@@ -9,3 +9,21 @@
           BlockState blockstate = blockgetter.m_8055_(blockpos1);
           if (!blockstate.m_60713_(Blocks.f_50016_)) {
              VoxelShape voxelshape = blockstate.m_60808_(blockgetter, blockpos1);
+ 
+             for(AABB aabb : voxelshape.m_83299_()) {
+                AABB aabb1 = aabb.m_82338_(blockpos1).m_82400_(0.002D);
+-               float f = (float)(aabb1.f_82288_ - p_113672_);
+-               float f1 = (float)(aabb1.f_82289_ - p_113673_);
+-               float f2 = (float)(aabb1.f_82290_ - p_113674_);
+-               float f3 = (float)(aabb1.f_82291_ - p_113672_);
+-               float f4 = (float)(aabb1.f_82292_ - p_113673_);
+-               float f5 = (float)(aabb1.f_82293_ - p_113674_);
++               float f = (float)(aabb1.f_82288_.doubleValue() - p_113672_);
++               float f1 = (float)(aabb1.f_82289_.doubleValue() - p_113673_);
++               float f2 = (float)(aabb1.f_82290_.doubleValue() - p_113674_);
++               float f3 = (float)(aabb1.f_82291_.doubleValue() - p_113672_);
++               float f4 = (float)(aabb1.f_82292_.doubleValue() - p_113673_);
++               float f5 = (float)(aabb1.f_82293_.doubleValue() - p_113674_);
+                float f6 = 1.0F;
+                float f7 = 0.0F;
+                float f8 = 0.0F;

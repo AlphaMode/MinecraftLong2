@@ -1,15 +1,17 @@
 --- a/net/minecraft/world/level/gameevent/GameEventDispatcher.java
 +++ b/net/minecraft/world/level/gameevent/GameEventDispatcher.java
-@@ -20,12 +_,12 @@
+@@ -19,13 +_,13 @@
+ 
     public void m_245905_(GameEvent p_251754_, Vec3 p_250613_, GameEvent.Context p_251777_) {
        int i = p_251754_.m_157827_();
-       BlockPos blockpos = BlockPos.m_274446_(p_250613_);
+-      BlockPos blockpos = BlockPos.m_274446_(p_250613_);
 -      int j = SectionPos.m_123171_(blockpos.m_123341_() - i);
 -      int k = SectionPos.m_123171_(blockpos.m_123342_() - i);
 -      int l = SectionPos.m_123171_(blockpos.m_123343_() - i);
 -      int i1 = SectionPos.m_123171_(blockpos.m_123341_() + i);
 -      int j1 = SectionPos.m_123171_(blockpos.m_123342_() + i);
 -      int k1 = SectionPos.m_123171_(blockpos.m_123343_() + i);
++      BlockPos blockpos = BlockPos.containing(p_250613_);
 +      long j = SectionPos.blockToSectionCoord(blockpos.getX() - i);
 +      long k = SectionPos.blockToSectionCoord(blockpos.getY() - i);
 +      long l = SectionPos.blockToSectionCoord(blockpos.getZ() - i);

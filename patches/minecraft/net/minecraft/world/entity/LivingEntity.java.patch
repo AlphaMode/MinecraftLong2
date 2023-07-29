@@ -27,6 +27,30 @@
                    }
                 }
              }
+@@ -364,7 +_,7 @@
+                      double d2 = this.f_19796_.m_188500_() - this.f_19796_.m_188500_();
+                      double d3 = this.f_19796_.m_188500_() - this.f_19796_.m_188500_();
+                      double d4 = this.f_19796_.m_188500_() - this.f_19796_.m_188500_();
+-                     this.m_9236_().m_7106_(ParticleTypes.f_123795_, this.m_20185_() + d2, this.m_20186_() + d3, this.m_20189_() + d4, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_);
++                     this.m_9236_().m_7106_(ParticleTypes.f_123795_, this.m_20185_() + d2, this.m_20186_() + d3, this.m_20189_() + d4, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
+                   }
+ 
+                   this.m_6469_(this.m_269291_().m_269063_(), 2.0F);
+@@ -431,12 +_,12 @@
+    }
+ 
+    public boolean m_6039_() {
+-      return this.f_19797_ % 5 == 0 && this.m_20184_().f_82479_ != 0.0D && this.m_20184_().f_82481_ != 0.0D && !this.m_5833_() && EnchantmentHelper.m_44942_(this) && this.m_6046_();
++      return this.f_19797_ % 5 == 0 && this.m_20184_().m_7096_() != 0.0D && this.m_20184_().m_7094_() != 0.0D && !this.m_5833_() && EnchantmentHelper.m_44942_(this) && this.m_6046_();
+    }
+ 
+    protected void m_21184_() {
+       Vec3 vec3 = this.m_20184_();
+-      this.m_9236_().m_7106_(ParticleTypes.f_123746_, this.m_20185_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_(), this.m_20186_() + 0.1D, this.m_20189_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_(), vec3.f_82479_ * -0.2D, 0.1D, vec3.f_82481_ * -0.2D);
++      this.m_9236_().m_7106_(ParticleTypes.f_123746_, this.m_20185_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_(), this.m_20186_() + 0.1D, this.m_20189_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_(), vec3.m_7096_() * -0.2D, 0.1D, vec3.m_7094_() * -0.2D);
+       float f = this.f_19796_.m_188501_() * 0.4F + this.f_19796_.m_188501_() > 0.9F ? 0.6F : 0.0F;
+       this.m_5496_(SoundEvents.f_12404_, f, 0.6F + this.f_19796_.m_188501_() * 0.4F);
+    }
 @@ -676,9 +_,9 @@
  
        p_21145_.m_128379_("FallFlying", this.m_21255_());
@@ -49,6 +73,24 @@
           this.m_21250_(blockpos);
           this.f_19804_.m_135381_(f_19806_, Pose.SLEEPING);
           if (!this.f_19803_) {
+@@ -1256,7 +_,7 @@
+          if (vec32 != null) {
+             Vec3 vec3 = this.m_20252_(1.0F);
+             Vec3 vec31 = vec32.m_82505_(this.m_20182_()).m_82541_();
+-            vec31 = new Vec3(vec31.f_82479_, 0.0D, vec31.f_82481_);
++            vec31 = new Vec3(vec31.m_7096_(), 0.0D, vec31.m_7094_());
+             if (vec31.m_82526_(vec3) < 0.0D) {
+                return true;
+             }
+@@ -1391,7 +_,7 @@
+          this.f_19812_ = true;
+          Vec3 vec3 = this.m_20184_();
+          Vec3 vec31 = (new Vec3(p_147242_, 0.0D, p_147243_)).m_82541_().m_82490_(p_147241_);
+-         this.m_20334_(vec3.f_82479_ / 2.0D - vec31.f_82479_, this.m_20096_() ? Math.min(0.4D, vec3.f_82480_ / 2.0D + p_147241_) : vec3.f_82480_, vec3.f_82481_ / 2.0D - vec31.f_82481_);
++         this.m_20334_(vec3.m_7096_() / 2.0D - vec31.m_7096_(), this.m_20096_() ? Math.min(0.4D, vec3.m_7098_() / 2.0D + p_147241_) : vec3.m_7098_(), vec3.m_7094_() / 2.0D - vec31.m_7094_());
+       }
+    }
+ 
 @@ -1469,7 +_,7 @@
  
     private boolean m_21176_(BlockPos p_21177_, BlockState p_21178_) {
@@ -71,15 +113,239 @@
           BlockState blockstate = this.m_9236_().m_8055_(new BlockPos(i, j, k));
           if (!blockstate.m_60795_()) {
              SoundType soundtype = blockstate.m_60827_();
-@@ -2086,7 +_,7 @@
+@@ -1706,13 +_,13 @@
+             int i = 128;
+ 
+             for(int j = 0; j < 128; ++j) {
+-               double d0 = (double)j / 127.0D;
++               java.math.BigDecimal d0 = java.math.BigDecimal.valueOf(j / 127.0D);
+                float f = (this.f_19796_.m_188501_() - 0.5F) * 0.2F;
+                float f1 = (this.f_19796_.m_188501_() - 0.5F) * 0.2F;
+                float f2 = (this.f_19796_.m_188501_() - 0.5F) * 0.2F;
+-               double d1 = Mth.m_14139_(d0, this.f_19854_, this.m_20185_()) + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_() * 2.0D;
+-               double d2 = Mth.m_14139_(d0, this.f_19855_, this.m_20186_()) + this.f_19796_.m_188500_() * (double)this.m_20206_();
+-               double d3 = Mth.m_14139_(d0, this.f_19856_, this.m_20189_()) + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_() * 2.0D;
++               double d1 = Mth.lerp(d0, this.f_19854_, this.getBigX()).doubleValue() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_() * 2.0D;
++               double d2 = Mth.lerp(d0, this.f_19855_, this.getBigY()).doubleValue() + this.f_19796_.m_188500_() * (double)this.m_20206_();
++               double d3 = Mth.lerp(d0, this.f_19856_, this.getBigZ()).doubleValue() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_() * 2.0D;
+                this.m_9236_().m_7106_(ParticleTypes.f_123760_, d1, d2, d3, (double)f, (double)f1, (double)f2);
+             }
+             break;
+@@ -1931,7 +_,7 @@
+          vec3 = new Vec3(this.m_20185_(), d0, this.m_20189_());
+       }
+ 
+-      this.m_142098_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_);
++      this.m_142098_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
+    }
+ 
+    public boolean m_6052_() {
+@@ -1948,7 +_,7 @@
+ 
+    protected void m_6135_() {
+       Vec3 vec3 = this.m_20184_();
+-      this.m_20334_(vec3.f_82479_, (double)this.m_6118_(), vec3.f_82481_);
++      this.m_20334_(vec3.m_7096_(), (double)this.m_6118_(), vec3.m_7094_());
+       if (this.m_20142_()) {
+          float f = this.m_146908_() * ((float)Math.PI / 180F);
+          this.m_20256_(this.m_20184_().m_82520_((double)(-Mth.m_14031_(f) * 0.2F), 0.0D, (double)(Mth.m_14089_(f) * 0.2F)));
+@@ -1976,7 +_,7 @@
+    public void m_7023_(Vec3 p_21280_) {
+       if (this.m_6109_()) {
+          double d0 = 0.08D;
+-         boolean flag = this.m_20184_().f_82480_ <= 0.0D;
++         boolean flag = this.m_20184_().m_7098_() <= 0.0D;
+          if (flag && this.m_21023_(MobEffects.f_19591_)) {
+             d0 = 0.01D;
+          }
+@@ -2008,14 +_,14 @@
+             this.m_6478_(MoverType.SELF, this.m_20184_());
+             Vec3 vec36 = this.m_20184_();
+             if (this.f_19862_ && this.m_6147_()) {
+-               vec36 = new Vec3(vec36.f_82479_, 0.2D, vec36.f_82481_);
++               vec36 = new Vec3(vec36.m_7096_(), 0.2D, vec36.m_7094_());
+             }
+ 
+             this.m_20256_(vec36.m_82542_((double)f4, (double)0.8F, (double)f4));
+             Vec3 vec32 = this.m_20994_(d0, flag, this.m_20184_());
+             this.m_20256_(vec32);
+-            if (this.f_19862_ && this.m_20229_(vec32.f_82479_, vec32.f_82480_ + (double)0.6F - this.m_20186_() + d9, vec32.f_82481_)) {
+-               this.m_20334_(vec32.f_82479_, (double)0.3F, vec32.f_82481_);
++            if (this.f_19862_ && this.m_20229_(vec32.m_7096_(), vec32.m_7098_() + (double)0.6F - this.m_20186_() + d9, vec32.m_7094_())) {
++               this.m_20334_(vec32.m_7096_(), (double)0.3F, vec32.m_7094_());
+             }
+          } else if (this.m_20077_() && this.m_6129_() && !this.m_203441_(fluidstate)) {
+             double d8 = this.m_20186_();
+@@ -2034,32 +_,32 @@
+             }
+ 
+             Vec3 vec34 = this.m_20184_();
+-            if (this.f_19862_ && this.m_20229_(vec34.f_82479_, vec34.f_82480_ + (double)0.6F - this.m_20186_() + d8, vec34.f_82481_)) {
+-               this.m_20334_(vec34.f_82479_, (double)0.3F, vec34.f_82481_);
++            if (this.f_19862_ && this.m_20229_(vec34.m_7096_(), vec34.m_7098_() + (double)0.6F - this.m_20186_() + d8, vec34.m_7094_())) {
++               this.m_20334_(vec34.m_7096_(), (double)0.3F, vec34.m_7094_());
+             }
+          } else if (this.m_21255_()) {
+             this.m_245125_();
+             Vec3 vec3 = this.m_20184_();
+             Vec3 vec31 = this.m_20154_();
+             float f = this.m_146909_() * ((float)Math.PI / 180F);
+-            double d1 = Math.sqrt(vec31.f_82479_ * vec31.f_82479_ + vec31.f_82481_ * vec31.f_82481_);
++            double d1 = Math.sqrt(vec31.m_7096_() * vec31.m_7096_() + vec31.m_7094_() * vec31.m_7094_());
+             double d3 = vec3.m_165924_();
+             double d4 = vec31.m_82553_();
+             double d5 = Math.cos((double)f);
+             d5 = d5 * d5 * Math.min(1.0D, d4 / 0.4D);
+             vec3 = this.m_20184_().m_82520_(0.0D, d0 * (-1.0D + d5 * 0.75D), 0.0D);
+-            if (vec3.f_82480_ < 0.0D && d1 > 0.0D) {
+-               double d6 = vec3.f_82480_ * -0.1D * d5;
+-               vec3 = vec3.m_82520_(vec31.f_82479_ * d6 / d1, d6, vec31.f_82481_ * d6 / d1);
++            if (vec3.m_7098_() < 0.0D && d1 > 0.0D) {
++               double d6 = vec3.m_7098_() * -0.1D * d5;
++               vec3 = vec3.m_82520_(vec31.m_7096_() * d6 / d1, d6, vec31.m_7094_() * d6 / d1);
+             }
+ 
+             if (f < 0.0F && d1 > 0.0D) {
+                double d10 = d3 * (double)(-Mth.m_14031_(f)) * 0.04D;
+-               vec3 = vec3.m_82520_(-vec31.f_82479_ * d10 / d1, d10 * 3.2D, -vec31.f_82481_ * d10 / d1);
++               vec3 = vec3.m_82520_(-vec31.m_7096_() * d10 / d1, d10 * 3.2D, -vec31.m_7094_() * d10 / d1);
+             }
+ 
+             if (d1 > 0.0D) {
+-               vec3 = vec3.m_82520_((vec31.f_82479_ / d1 * d3 - vec3.f_82479_) * 0.1D, 0.0D, (vec31.f_82481_ / d1 * d3 - vec3.f_82481_) * 0.1D);
++               vec3 = vec3.m_82520_((vec31.m_7096_() / d1 * d3 - vec3.m_7096_()) * 0.1D, 0.0D, (vec31.m_7094_() / d1 * d3 - vec3.m_7094_()) * 0.1D);
+             }
+ 
+             this.m_20256_(vec3.m_82542_((double)0.99F, (double)0.98F, (double)0.99F));
+@@ -2082,11 +_,11 @@
+             float f2 = this.m_9236_().m_8055_(blockpos).m_60734_().m_49958_();
+             float f3 = this.m_20096_() ? f2 * 0.91F : 0.91F;
+             Vec3 vec35 = this.m_21074_(p_21280_, f2);
+-            double d2 = vec35.f_82480_;
++            double d2 = vec35.m_7098_();
              if (this.m_21023_(MobEffects.f_19620_)) {
-                d2 += (0.05D * (double)(this.m_21124_(MobEffects.f_19620_).m_19564_() + 1) - vec35.f_82480_) * 0.2D;
+-               d2 += (0.05D * (double)(this.m_21124_(MobEffects.f_19620_).m_19564_() + 1) - vec35.f_82480_) * 0.2D;
++               d2 += (0.05D * (double)(this.m_21124_(MobEffects.f_19620_).m_19564_() + 1) - vec35.m_7098_()) * 0.2D;
              } else if (this.m_9236_().f_46443_ && !this.m_9236_().m_46805_(blockpos)) {
 -               if (this.m_20186_() > (double)this.m_9236_().m_141937_()) {
 +               if (this.m_20186_() > (double)this.m_9236_().getMinBuildHeight()) {
                    d2 = -0.1D;
                 } else {
                    d2 = 0.0D;
+@@ -2096,9 +_,9 @@
+             }
+ 
+             if (this.m_147223_()) {
+-               this.m_20334_(vec35.f_82479_, d2, vec35.f_82481_);
++               this.m_20334_(vec35.m_7096_(), d2, vec35.m_7094_());
+             } else {
+-               this.m_20334_(vec35.f_82479_ * (double)f3, d2 * (double)0.98F, vec35.f_82481_ * (double)f3);
++               this.m_20334_(vec35.m_7096_() * (double)f3, d2 * (double)0.98F, vec35.m_7094_() * (double)f3);
+             }
+          }
+       }
+@@ -2132,7 +_,7 @@
+    }
+ 
+    public void m_267651_(boolean p_268129_) {
+-      float f = (float)Mth.m_184648_(this.m_20185_() - this.f_19854_, p_268129_ ? this.m_20186_() - this.f_19855_ : 0.0D, this.m_20189_() - this.f_19856_);
++      float f = (float)Mth.m_184648_(this.getBigX().subtract(this.f_19854_).doubleValue(), p_268129_ ? this.getBigY().subtract(this.f_19855_).doubleValue() : 0.0D, this.getBigZ().subtract(this.f_19856_).doubleValue());
+       this.m_267689_(f);
+    }
+ 
+@@ -2147,7 +_,7 @@
+       this.m_6478_(MoverType.SELF, this.m_20184_());
+       Vec3 vec3 = this.m_20184_();
+       if ((this.f_19862_ || this.f_20899_) && (this.m_6147_() || this.m_146900_().m_60713_(Blocks.f_152499_) && PowderSnowBlock.m_154255_(this))) {
+-         vec3 = new Vec3(vec3.f_82479_, 0.2D, vec3.f_82481_);
++         vec3 = new Vec3(vec3.m_7096_(), 0.2D, vec3.m_7094_());
+       }
+ 
+       return vec3;
+@@ -2156,13 +_,13 @@
+    public Vec3 m_20994_(double p_20995_, boolean p_20996_, Vec3 p_20997_) {
+       if (!this.m_20068_() && !this.m_20142_()) {
+          double d0;
+-         if (p_20996_ && Math.abs(p_20997_.f_82480_ - 0.005D) >= 0.003D && Math.abs(p_20997_.f_82480_ - p_20995_ / 16.0D) < 0.003D) {
++         if (p_20996_ && Math.abs(p_20997_.m_7098_() - 0.005D) >= 0.003D && Math.abs(p_20997_.m_7098_() - p_20995_ / 16.0D) < 0.003D) {
+             d0 = -0.003D;
+          } else {
+-            d0 = p_20997_.f_82480_ - p_20995_ / 16.0D;
++            d0 = p_20997_.m_7098_() - p_20995_ / 16.0D;
+          }
+ 
+-         return new Vec3(p_20997_.f_82479_, d0, p_20997_.f_82481_);
++         return new Vec3(p_20997_.m_7096_(), d0, p_20997_.m_7094_());
+       } else {
+          return p_20997_;
+       }
+@@ -2172,9 +_,9 @@
+       if (this.m_6147_()) {
+          this.m_183634_();
+          float f = 0.15F;
+-         double d0 = Mth.m_14008_(p_21298_.f_82479_, (double)-0.15F, (double)0.15F);
+-         double d1 = Mth.m_14008_(p_21298_.f_82481_, (double)-0.15F, (double)0.15F);
+-         double d2 = Math.max(p_21298_.f_82480_, (double)-0.15F);
++         double d0 = Mth.m_14008_(p_21298_.m_7096_(), (double)-0.15F, (double)0.15F);
++         double d1 = Mth.m_14008_(p_21298_.m_7094_(), (double)-0.15F, (double)0.15F);
++         double d2 = Math.max(p_21298_.m_7098_(), (double)-0.15F);
+          if (d2 < 0.0D && !this.m_146900_().m_60713_(Blocks.f_50616_) && this.m_5791_() && this instanceof Player) {
+             d2 = 0.0D;
+          }
+@@ -2249,8 +_,8 @@
+          this.m_8107_();
+       }
+ 
+-      double d1 = this.m_20185_() - this.f_19854_;
+-      double d0 = this.m_20189_() - this.f_19856_;
++      double d1 = this.getBigX().subtract(this.f_19854_).doubleValue();
++      double d0 = this.getBigZ().subtract(this.f_19856_).doubleValue();
+       float f = (float)(d1 * d1 + d0 * d0);
+       float f1 = this.f_20883_;
+       float f2 = 0.0F;
+@@ -2472,18 +_,18 @@
+       }
+ 
+       Vec3 vec31 = this.m_20184_();
+-      double d1 = vec31.f_82479_;
+-      double d3 = vec31.f_82480_;
+-      double d5 = vec31.f_82481_;
+-      if (Math.abs(vec31.f_82479_) < 0.003D) {
++      double d1 = vec31.m_7096_();
++      double d3 = vec31.m_7098_();
++      double d5 = vec31.m_7094_();
++      if (Math.abs(vec31.m_7096_()) < 0.003D) {
+          d1 = 0.0D;
+       }
+ 
+-      if (Math.abs(vec31.f_82480_) < 0.003D) {
++      if (Math.abs(vec31.m_7098_()) < 0.003D) {
+          d3 = 0.0D;
+       }
+ 
+-      if (Math.abs(vec31.f_82481_) < 0.003D) {
++      if (Math.abs(vec31.m_7094_()) < 0.003D) {
+          d5 = 0.0D;
+       }
+ 
+@@ -2784,7 +_,7 @@
+    }
+ 
+    public static Vec3 m_21289_(Vec3 p_21290_) {
+-      return new Vec3(p_21290_.f_82479_, p_21290_.f_82480_, 0.0D);
++      return new Vec3(p_21290_.m_7096_(), p_21290_.m_7098_(), 0.0D);
+    }
+ 
+    public float m_6103_() {
+@@ -2937,7 +_,7 @@
+          vec31 = vec31.m_82496_(-this.m_146909_() * ((float)Math.PI / 180F));
+          vec31 = vec31.m_82524_(-this.m_146908_() * ((float)Math.PI / 180F));
+          vec31 = vec31.m_82520_(this.m_20185_(), this.m_20188_(), this.m_20189_());
+-         this.m_9236_().m_7106_(new ItemParticleOption(ParticleTypes.f_123752_, p_21061_), vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, vec3.f_82479_, vec3.f_82480_ + 0.05D, vec3.f_82481_);
++         this.m_9236_().m_7106_(new ItemParticleOption(ParticleTypes.f_123752_, p_21061_), vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), vec3.m_7096_(), vec3.m_7098_() + 0.05D, vec3.m_7094_());
+       }
+ 
+    }
 @@ -3038,8 +_,8 @@
        if (level.m_46805_(blockpos)) {
           boolean flag1 = false;
@@ -100,7 +366,7 @@
     }
  
     private boolean m_21334_() {
-@@ -3155,10 +_,10 @@
+@@ -3155,12 +_,12 @@
              Direction direction = blockstate.m_61143_(BedBlock.f_54117_);
              this.m_9236_().m_7731_(p_261435_, blockstate.m_61124_(BedBlock.f_49441_, Boolean.valueOf(false)), 3);
              Vec3 vec31 = BedBlock.m_260958_(this.m_6095_(), this.m_9236_(), p_261435_, direction, this.m_146908_()).orElseGet(() -> {
@@ -110,7 +376,20 @@
 +               return new Vec3((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.1D, (double)blockpos.getZ() + 0.5D);
              });
 -            Vec3 vec32 = Vec3.m_82539_(p_261435_).m_82546_(vec31).m_82541_();
+-            float f = (float)Mth.m_14175_(Mth.m_14136_(vec32.f_82481_, vec32.f_82479_) * (double)(180F / (float)Math.PI) - 90.0D);
+-            this.m_6034_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_);
 +            Vec3 vec32 = Vec3.atBottomCenterOf(p_261435_).m_82546_(vec31).m_82541_();
-             float f = (float)Mth.m_14175_(Mth.m_14136_(vec32.f_82481_, vec32.f_82479_) * (double)(180F / (float)Math.PI) - 90.0D);
-             this.m_6034_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_);
++            float f = (float)Mth.m_14175_(Mth.m_14136_(vec32.m_7094_(), vec32.m_7096_()) * (double)(180F / (float)Math.PI) - 90.0D);
++            this.m_6034_(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_());
              this.m_146922_(f);
+             this.m_146926_(0.0F);
+          }
+@@ -3168,7 +_,7 @@
+       });
+       Vec3 vec3 = this.m_20182_();
+       this.m_20124_(Pose.STANDING);
+-      this.m_6034_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_);
++      this.m_6034_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
+       this.m_21258_();
+    }
+ 

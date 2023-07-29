@@ -1,5 +1,31 @@
 --- a/net/minecraft/world/level/Explosion.java
 +++ b/net/minecraft/world/level/Explosion.java
+@@ -89,9 +_,9 @@
+ 
+    public static float m_46064_(Vec3 p_46065_, Entity p_46066_) {
+       AABB aabb = p_46066_.m_20191_();
+-      double d0 = 1.0D / ((aabb.f_82291_ - aabb.f_82288_) * 2.0D + 1.0D);
+-      double d1 = 1.0D / ((aabb.f_82292_ - aabb.f_82289_) * 2.0D + 1.0D);
+-      double d2 = 1.0D / ((aabb.f_82293_ - aabb.f_82290_) * 2.0D + 1.0D);
++      double d0 = 1.0D / ((aabb.f_82291_.doubleValue() - aabb.f_82288_.doubleValue()) * 2.0D + 1.0D);
++      double d1 = 1.0D / ((aabb.f_82292_.doubleValue() - aabb.f_82289_.doubleValue()) * 2.0D + 1.0D);
++      double d2 = 1.0D / ((aabb.f_82293_.doubleValue() - aabb.f_82290_.doubleValue()) * 2.0D + 1.0D);
+       double d3 = (1.0D - Math.floor(1.0D / d0) * d0) / 2.0D;
+       double d4 = (1.0D - Math.floor(1.0D / d2) * d2) / 2.0D;
+       if (!(d0 < 0.0D) && !(d1 < 0.0D) && !(d2 < 0.0D)) {
+@@ -101,9 +_,9 @@
+          for(double d5 = 0.0D; d5 <= 1.0D; d5 += d0) {
+             for(double d6 = 0.0D; d6 <= 1.0D; d6 += d1) {
+                for(double d7 = 0.0D; d7 <= 1.0D; d7 += d2) {
+-                  double d8 = Mth.m_14139_(d5, aabb.f_82288_, aabb.f_82291_);
+-                  double d9 = Mth.m_14139_(d6, aabb.f_82289_, aabb.f_82292_);
+-                  double d10 = Mth.m_14139_(d7, aabb.f_82290_, aabb.f_82293_);
++                  double d8 = Mth.m_14139_(d5, aabb.f_82288_.doubleValue(), aabb.f_82291_.doubleValue());
++                  double d9 = Mth.m_14139_(d6, aabb.f_82289_.doubleValue(), aabb.f_82292_.doubleValue());
++                  double d10 = Mth.m_14139_(d7, aabb.f_82290_.doubleValue(), aabb.f_82293_.doubleValue());
+                   Vec3 vec3 = new Vec3(d8 + d3, d9, d10 + d4);
+                   if (p_46066_.m_9236_().m_45547_(new ClipContext(vec3, p_46065_, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_46066_)).m_6662_() == HitResult.Type.MISS) {
+                      ++i;
 @@ -169,12 +_,12 @@
  
        this.f_46020_.addAll(set);

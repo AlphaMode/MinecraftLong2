@@ -9,3 +9,16 @@
           BlockState blockstate = p_222563_.m_61124_(f_57244_, Integer.valueOf(i + 1));
           p_222564_.m_7731_(p_222565_, blockstate, 2);
           p_222564_.m_220407_(GameEvent.f_157792_, p_222565_, GameEvent.Context.m_223722_(blockstate));
+@@ -68,9 +_,9 @@
+    public void m_7892_(BlockState p_57270_, Level p_57271_, BlockPos p_57272_, Entity p_57273_) {
+       if (p_57273_ instanceof LivingEntity && p_57273_.m_6095_() != EntityType.f_20452_ && p_57273_.m_6095_() != EntityType.f_20550_) {
+          p_57273_.m_7601_(p_57270_, new Vec3((double)0.8F, 0.75D, (double)0.8F));
+-         if (!p_57271_.f_46443_ && p_57270_.m_61143_(f_57244_) > 0 && (p_57273_.f_19790_ != p_57273_.m_20185_() || p_57273_.f_19792_ != p_57273_.m_20189_())) {
+-            double d0 = Math.abs(p_57273_.m_20185_() - p_57273_.f_19790_);
+-            double d1 = Math.abs(p_57273_.m_20189_() - p_57273_.f_19792_);
++         if (!p_57271_.f_46443_ && p_57270_.m_61143_(f_57244_) > 0 && (!p_57273_.f_19790_.equals(p_57273_.getBigX()) || !p_57273_.f_19792_.equals(p_57273_.getBigZ()))) {
++            double d0 = Math.abs(p_57273_.getBigX().subtract(p_57273_.f_19790_).doubleValue());
++            double d1 = Math.abs(p_57273_.getBigZ().subtract(p_57273_.f_19792_).doubleValue());
+             if (d0 >= (double)0.003F || d1 >= (double)0.003F) {
+                p_57273_.m_6469_(p_57271_.m_269111_().m_269555_(), 1.0F);
+             }

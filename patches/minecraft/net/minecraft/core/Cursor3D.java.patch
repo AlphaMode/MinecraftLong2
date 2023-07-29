@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/Cursor3D.java
 +++ b/net/minecraft/core/Cursor3D.java
-@@ -5,17 +_,27 @@
+@@ -5,25 +_,25 @@
     public static final int f_175353_ = 1;
     public static final int f_175354_ = 2;
     public static final int f_175355_ = 3;
@@ -11,9 +11,9 @@
 -   private final int f_122290_;
 -   private final int f_122291_;
 -   private final int f_122292_;
-+   private final long f_122286_;
-+   private final long f_122287_;
-+   private final long f_122288_;
++   private final java.math.BigInteger f_122286_;
++   private final java.math.BigInteger f_122287_;
++   private final java.math.BigInteger f_122288_;
 +   private final long f_122289_;
 +   private final long f_122290_;
 +   private final long f_122291_;
@@ -22,47 +22,83 @@
 -   private int f_122294_;
 -   private int f_122295_;
 -   private int f_122296_;
-+   private long f_122294_;
-+   private long f_122295_;
-+   private long f_122296_;
-+
-+   public Cursor3D(long p_122298_, long p_122299_, long p_122300_, long p_122301_, long p_122302_, long p_122303_) {
-+      this.f_122286_ = p_122298_;
-+      this.f_122287_ = p_122299_;
-+      this.f_122288_ = p_122300_;
-+      this.f_122289_ = p_122301_ - p_122298_ + 1;
-+      this.f_122290_ = p_122302_ - p_122299_ + 1;
-+      this.f_122291_ = p_122303_ - p_122300_ + 1;
-+      this.f_122292_ = this.f_122289_ * this.f_122290_ * this.f_122291_;
-+   }
++   private java.math.BigInteger f_122294_;
++   private java.math.BigInteger f_122295_;
++   private java.math.BigInteger f_122296_;
  
-    public Cursor3D(int p_122298_, int p_122299_, int p_122300_, int p_122301_, int p_122302_, int p_122303_) {
+-   public Cursor3D(int p_122298_, int p_122299_, int p_122300_, int p_122301_, int p_122302_, int p_122303_) {
++   public Cursor3D(java.math.BigInteger p_122298_, java.math.BigInteger p_122299_, java.math.BigInteger p_122300_, java.math.BigInteger p_122301_, java.math.BigInteger p_122302_, java.math.BigInteger p_122303_) {
        this.f_122286_ = p_122298_;
-@@ -32,7 +_,7 @@
+       this.f_122287_ = p_122299_;
+       this.f_122288_ = p_122300_;
+-      this.f_122289_ = p_122301_ - p_122298_ + 1;
+-      this.f_122290_ = p_122302_ - p_122299_ + 1;
+-      this.f_122291_ = p_122303_ - p_122300_ + 1;
++      this.f_122289_ = p_122301_.subtract(p_122298_).longValue() + 1;
++      this.f_122290_ = p_122302_.subtract(p_122299_).longValue() + 1;
++      this.f_122291_ = p_122303_.subtract(p_122300_).longValue() + 1;
+       this.f_122292_ = this.f_122289_ * this.f_122290_ * this.f_122291_;
+    }
+ 
+@@ -31,38 +_,38 @@
+       if (this.f_122293_ == this.f_122292_) {
           return false;
        } else {
-          this.f_122294_ = this.f_122293_ % this.f_122289_;
+-         this.f_122294_ = this.f_122293_ % this.f_122289_;
 -         int i = this.f_122293_ / this.f_122289_;
+-         this.f_122295_ = i % this.f_122290_;
+-         this.f_122296_ = i / this.f_122290_;
++         this.f_122294_ = java.math.BigInteger.valueOf(this.f_122293_ % this.f_122289_);
 +         long i = this.f_122293_ / this.f_122289_;
-          this.f_122295_ = i % this.f_122290_;
-          this.f_122296_ = i / this.f_122290_;
++         this.f_122295_ = java.math.BigInteger.valueOf(i % this.f_122290_);
++         this.f_122296_ = java.math.BigInteger.valueOf(i / this.f_122290_);
           ++this.f_122293_;
-@@ -40,15 +_,15 @@
+          return true;
        }
     }
  
 -   public int m_122305_() {
-+   public long nextX() {
-       return this.f_122286_ + this.f_122294_;
-    }
- 
+-      return this.f_122286_ + this.f_122294_;
+-   }
+-
 -   public int m_122306_() {
-+   public long nextY() {
-       return this.f_122287_ + this.f_122295_;
+-      return this.f_122287_ + this.f_122295_;
+-   }
+-
+-   public int m_122307_() {
+-      return this.f_122288_ + this.f_122296_;
++   public java.math.BigInteger nextX() {
++      return this.f_122286_.add(this.f_122294_);
++   }
++
++   public java.math.BigInteger nextY() {
++      return this.f_122287_.add(this.f_122295_);
++   }
++
++   public java.math.BigInteger nextZ() {
++      return this.f_122288_.add(this.f_122296_);
     }
  
--   public int m_122307_() {
-+   public long nextZ() {
-       return this.f_122288_ + this.f_122296_;
-    }
+    public int m_122308_() {
+       int i = 0;
+-      if (this.f_122294_ == 0 || this.f_122294_ == this.f_122289_ - 1) {
+-         ++i;
+-      }
+-
+-      if (this.f_122295_ == 0 || this.f_122295_ == this.f_122290_ - 1) {
+-         ++i;
+-      }
+-
+-      if (this.f_122296_ == 0 || this.f_122296_ == this.f_122291_ - 1) {
++      if (this.f_122294_.equals(java.math.BigInteger.ZERO) || this.f_122294_.equals(java.math.BigInteger.valueOf(this.f_122289_ - 1))) {
++         ++i;
++      }
++
++      if (this.f_122295_.equals(java.math.BigInteger.ZERO) || this.f_122295_.equals(java.math.BigInteger.valueOf(this.f_122290_ - 1))) {
++         ++i;
++      }
++
++      if (this.f_122296_.equals(java.math.BigInteger.ZERO) || this.f_122296_.equals(java.math.BigInteger.valueOf(this.f_122291_ - 1))) {
+          ++i;
+       }
  

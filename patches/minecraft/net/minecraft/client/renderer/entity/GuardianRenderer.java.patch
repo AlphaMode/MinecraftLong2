@@ -1,0 +1,36 @@
+--- a/net/minecraft/client/renderer/entity/GuardianRenderer.java
++++ b/net/minecraft/client/renderer/entity/GuardianRenderer.java
+@@ -44,7 +_,7 @@
+             if (livingentity != null) {
+                Vec3 vec3 = this.m_114802_(livingentity, (double)livingentity.m_20206_() * 0.5D, 1.0F);
+                Vec3 vec31 = this.m_114802_(p_114836_, (double)p_114836_.m_20192_(), 1.0F);
+-               return p_114837_.m_113029_(new AABB(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_));
++               return p_114837_.m_113029_(new AABB(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_()));
+             }
+          }
+ 
+@@ -53,9 +_,10 @@
+    }
+ 
+    private Vec3 m_114802_(LivingEntity p_114803_, double p_114804_, float p_114805_) {
+-      double d0 = Mth.m_14139_((double)p_114805_, p_114803_.f_19790_, p_114803_.m_20185_());
+-      double d1 = Mth.m_14139_((double)p_114805_, p_114803_.f_19791_, p_114803_.m_20186_()) + p_114804_;
+-      double d2 = Mth.m_14139_((double)p_114805_, p_114803_.f_19792_, p_114803_.m_20189_());
++      java.math.BigDecimal lerp = java.math.BigDecimal.valueOf(p_114805_);
++      java.math.BigDecimal d0 = Mth.lerp(lerp, p_114803_.f_19790_, p_114803_.getBigX());
++      java.math.BigDecimal d1 = Mth.lerp(lerp, p_114803_.f_19791_, p_114803_.getBigY()).add(java.math.BigDecimal.valueOf(p_114804_));
++      java.math.BigDecimal d2 = Mth.lerp(lerp, p_114803_.f_19792_, p_114803_.getBigZ());
+       return new Vec3(d0, d1, d2);
+    }
+ 
+@@ -74,8 +_,8 @@
+          Vec3 vec32 = vec3.m_82546_(vec31);
+          float f4 = (float)(vec32.m_82553_() + 1.0D);
+          vec32 = vec32.m_82541_();
+-         float f5 = (float)Math.acos(vec32.f_82480_);
+-         float f6 = (float)Math.atan2(vec32.f_82481_, vec32.f_82479_);
++         float f5 = (float)Math.acos(vec32.m_7098_());
++         float f6 = (float)Math.atan2(vec32.m_7094_(), vec32.m_7096_());
+          p_114832_.m_252781_(Axis.f_252436_.m_252977_((((float)Math.PI / 2F) - f6) * (180F / (float)Math.PI)));
+          p_114832_.m_252781_(Axis.f_252529_.m_252977_(f5 * (180F / (float)Math.PI)));
+          int i = 1;

@@ -1,0 +1,16 @@
+--- a/net/minecraft/client/renderer/entity/EnderDragonRenderer.java
++++ b/net/minecraft/client/renderer/entity/EnderDragonRenderer.java
+@@ -103,9 +_,10 @@
+       p_114211_.m_85849_();
+       if (p_114208_.f_31086_ != null) {
+          p_114211_.m_85836_();
+-         float f6 = (float)(p_114208_.f_31086_.m_20185_() - Mth.m_14139_((double)p_114210_, p_114208_.f_19854_, p_114208_.m_20185_()));
+-         float f8 = (float)(p_114208_.f_31086_.m_20186_() - Mth.m_14139_((double)p_114210_, p_114208_.f_19855_, p_114208_.m_20186_()));
+-         float f9 = (float)(p_114208_.f_31086_.m_20189_() - Mth.m_14139_((double)p_114210_, p_114208_.f_19856_, p_114208_.m_20189_()));
++         var lerp = java.math.BigDecimal.valueOf(p_114210_);
++         float f6 = (p_114208_.f_31086_.getBigX().subtract(Mth.lerp(lerp, p_114208_.f_19854_, p_114208_.getBigX()))).floatValue();
++         float f8 = (p_114208_.f_31086_.getBigY().subtract(Mth.lerp(lerp, p_114208_.f_19855_, p_114208_.getBigY()))).floatValue();
++         float f9 = (p_114208_.f_31086_.getBigZ().subtract(Mth.lerp(lerp, p_114208_.f_19856_, p_114208_.getBigZ()))).floatValue();
+          m_114187_(f6, f8 + EndCrystalRenderer.m_114158_(p_114208_.f_31086_, p_114210_), f9, p_114210_, p_114208_.f_19797_, p_114211_, p_114212_, p_114213_);
+          p_114211_.m_85849_();
+       }

@@ -24,6 +24,17 @@
        this.m_28384_(new BlockPos(i, j, k));
        super.m_7378_(p_28340_);
        this.m_28393_(p_28340_.m_128471_("GotFish"));
+@@ -252,8 +_,8 @@
+             float f2 = 1.2F - this.f_19796_.m_188501_() * 0.7F;
+ 
+             for(int i = 0; i < 2; ++i) {
+-               this.m_9236_().m_7106_(ParticleTypes.f_123776_, this.m_20185_() - vec3.f_82479_ * (double)f2 + (double)f, this.m_20186_() - vec3.f_82480_, this.m_20189_() - vec3.f_82481_ * (double)f2 + (double)f1, 0.0D, 0.0D, 0.0D);
+-               this.m_9236_().m_7106_(ParticleTypes.f_123776_, this.m_20185_() - vec3.f_82479_ * (double)f2 - (double)f, this.m_20186_() - vec3.f_82480_, this.m_20189_() - vec3.f_82481_ * (double)f2 - (double)f1, 0.0D, 0.0D, 0.0D);
++               this.m_9236_().m_7106_(ParticleTypes.f_123776_, this.m_20185_() - vec3.m_7096_() * (double)f2 + (double)f, this.m_20186_() - vec3.m_7098_(), this.m_20189_() - vec3.m_7094_() * (double)f2 + (double)f1, 0.0D, 0.0D, 0.0D);
++               this.m_9236_().m_7106_(ParticleTypes.f_123776_, this.m_20185_() - vec3.m_7096_() * (double)f2 - (double)f, this.m_20186_() - vec3.m_7098_(), this.m_20189_() - vec3.m_7094_() * (double)f2 - (double)f1, 0.0D, 0.0D, 0.0D);
+             }
+          }
+ 
 @@ -321,7 +_,7 @@
  
     protected boolean m_28380_() {
@@ -51,7 +62,7 @@
              this.f_28399_.m_28393_(false);
           }
  
-@@ -391,7 +_,7 @@
+@@ -391,14 +_,14 @@
        public void m_8037_() {
           Level level = this.f_28399_.m_9236_();
           if (this.f_28399_.m_28380_() || this.f_28399_.m_21573_().m_26571_()) {
@@ -60,3 +71,22 @@
              Vec3 vec31 = DefaultRandomPos.m_148412_(this.f_28399_, 16, 1, vec3, (double)((float)Math.PI / 8F));
              if (vec31 == null) {
                 vec31 = DefaultRandomPos.m_148412_(this.f_28399_, 8, 4, vec3, (double)((float)Math.PI / 2F));
+             }
+ 
+             if (vec31 != null) {
+-               BlockPos blockpos = BlockPos.m_274446_(vec31);
++               BlockPos blockpos = BlockPos.containing(vec31);
+                if (!level.m_6425_(blockpos).m_205070_(FluidTags.f_13131_) || !level.m_8055_(blockpos).m_60647_(level, blockpos, PathComputationType.WATER)) {
+                   vec31 = DefaultRandomPos.m_148412_(this.f_28399_, 8, 5, vec3, (double)((float)Math.PI / 2F));
+                }
+@@ -409,8 +_,8 @@
+                return;
+             }
+ 
+-            this.f_28399_.m_21563_().m_24950_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, (float)(this.f_28399_.m_8085_() + 20), (float)this.f_28399_.m_8132_());
+-            this.f_28399_.m_21573_().m_26519_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, 1.3D);
++            this.f_28399_.m_21563_().m_24950_(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), (float)(this.f_28399_.m_8085_() + 20), (float)this.f_28399_.m_8132_());
++            this.f_28399_.m_21573_().m_26519_(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), 1.3D);
+             if (level.f_46441_.m_188503_(this.m_183277_(80)) == 0) {
+                level.m_7605_(this.f_28399_, (byte)38);
+             }

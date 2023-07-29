@@ -1,0 +1,21 @@
+--- a/net/minecraft/world/entity/EntityDimensions.java
++++ b/net/minecraft/world/entity/EntityDimensions.java
+@@ -15,13 +_,13 @@
+    }
+ 
+    public AABB m_20393_(Vec3 p_20394_) {
+-      return this.m_20384_(p_20394_.f_82479_, p_20394_.f_82480_, p_20394_.f_82481_);
++      return this.makeBoundingBox(p_20394_.getX(), p_20394_.getY(), p_20394_.getZ());
+    }
+ 
+-   public AABB m_20384_(double p_20385_, double p_20386_, double p_20387_) {
+-      float f = this.f_20377_ / 2.0F;
+-      float f1 = this.f_20378_;
+-      return new AABB(p_20385_ - (double)f, p_20386_, p_20387_ - (double)f, p_20385_ + (double)f, p_20386_ + (double)f1, p_20387_ + (double)f);
++   public AABB makeBoundingBox(java.math.BigDecimal p_20385_, java.math.BigDecimal p_20386_, java.math.BigDecimal p_20387_) {
++      java.math.BigDecimal f = java.math.BigDecimal.valueOf(this.f_20377_ / 2.0F);
++      java.math.BigDecimal f1 = java.math.BigDecimal.valueOf(this.f_20378_);
++      return new AABB(p_20385_.subtract(f), p_20386_, p_20387_.subtract(f), p_20385_.add(f), p_20386_.add(f1), p_20387_.add(f));
+    }
+ 
+    public EntityDimensions m_20388_(float p_20389_) {

@@ -9,10 +9,14 @@
     public static final int f_175535_ = 4;
     public static final int f_175536_ = 16;
     public static final int f_175539_ = 15;
-@@ -29,19 +_,23 @@
+@@ -29,19 +_,27 @@
     private static final int f_175550_ = 0;
     private static final int f_175551_ = 4;
  
++   SectionPos(java.math.BigInteger p_123162_, java.math.BigInteger p_123163_, java.math.BigInteger p_123164_) {
++      super(p_123162_, p_123163_, p_123164_);
++   }
++
 +   SectionPos(long p_123162_, long p_123163_, long p_123164_) {
 +      super(p_123162_, p_123163_, p_123164_);
 +   }
@@ -28,7 +32,7 @@
  
     public static SectionPos m_123199_(BlockPos p_123200_) {
 -      return new SectionPos(m_123171_(p_123200_.m_123341_()), m_123171_(p_123200_.m_123342_()), m_123171_(p_123200_.m_123343_()));
-+      return new SectionPos(blockToSectionCoord(p_123200_.getX()), blockToSectionCoord(p_123200_.getY()), blockToSectionCoord(p_123200_.getZ()));
++      return new SectionPos(blockToSectionCoord(p_123200_.getBigX()), blockToSectionCoord(p_123200_.getBigY()), blockToSectionCoord(p_123200_.getBigZ()));
     }
  
 -   public static SectionPos m_123196_(ChunkPos p_123197_, int p_123198_) {
@@ -36,12 +40,12 @@
        return new SectionPos(p_123197_.f_45578_, p_123198_, p_123197_.f_45579_);
     }
  
-@@ -50,45 +_,57 @@
+@@ -50,45 +_,69 @@
     }
  
     public static SectionPos m_235863_(Position p_235864_) {
 -      return new SectionPos(m_235865_(p_235864_.m_7096_()), m_235865_(p_235864_.m_7098_()), m_235865_(p_235864_.m_7094_()));
-+      return new SectionPos(blockToSectionCoord(p_235864_.m_7096_()), blockToSectionCoord(p_235864_.m_7098_()), blockToSectionCoord(p_235864_.m_7094_()));
++      return new SectionPos(blockToSectionCoord(p_235864_.getX()), blockToSectionCoord(p_235864_.getY()), blockToSectionCoord(p_235864_.getZ()));
     }
  
     public static SectionPos m_123184_(long p_123185_) {
@@ -90,17 +94,31 @@
 +      return blockToSectionCoord(Mth.m_14134_(p_175553_));
 +   }
 +
++   public static java.math.BigInteger posToSectionCoord(java.math.BigDecimal val) {
++      return blockToSectionCoord(Mth.lfloor(val));
++   }
++
++   public static java.math.BigInteger blockToSectionCoord(java.math.BigInteger block) {
++      return block.shiftRight(4);
++   }
++
 +   public static long blockToSectionCoord(long p_123172_) {
        return p_123172_ >> 4;
     }
  
 -   public static int m_235865_(double p_235866_) {
 -      return Mth.m_14107_(p_235866_) >> 4;
+-   }
+-
+-   public static int m_123207_(int p_123208_) {
 +   public static long blockToSectionCoord(double p_235866_) {
 +      return Mth.m_14134_(p_235866_) >> 4;
-    }
- 
--   public static int m_123207_(int p_123208_) {
++   }
++
++   public static java.math.BigInteger blockToSectionCoord(java.math.BigDecimal blockCord) {
++      return Mth.lfloor(blockCord).shiftRight(4);
++   }
++
 +   public static long sectionRelative(long p_123208_) {
        return p_123208_ & 15;
     }
@@ -115,7 +133,7 @@
        return (short)(i << 8 | k << 4 | j << 0);
     }
  
-@@ -104,84 +_,88 @@
+@@ -104,84 +_,92 @@
        return p_123228_ >>> 4 & 15;
     }
  
@@ -201,6 +219,10 @@
 -
 -   public int m_123248_() {
 -      return m_175554_(this.m_123222_(), 15);
++   public static java.math.BigInteger sectionToBlockCoord(java.math.BigInteger p_123224_) {
++      return p_123224_.shiftLeft(4);
++   }
++
 +   public static long sectionToBlockCoord(long p_175555_, long p_175556_) {
 +      return sectionToBlockCoord(p_175555_) + p_175556_;
 +   }
@@ -344,7 +366,8 @@
 +
 +   public static Stream<SectionPos> betweenClosedStream(final long p_123178_, final long p_123179_, final long p_123180_, final long p_123181_, final long p_123182_, final long p_123183_) {
        return StreamSupport.stream(new Spliterators.AbstractSpliterator<SectionPos>((long)((p_123181_ - p_123178_ + 1) * (p_123182_ - p_123179_ + 1) * (p_123183_ - p_123180_ + 1)), 64) {
-          final Cursor3D f_123254_ = new Cursor3D(p_123178_, p_123179_, p_123180_, p_123181_, p_123182_, p_123183_);
+-         final Cursor3D f_123254_ = new Cursor3D(p_123178_, p_123179_, p_123180_, p_123181_, p_123182_, p_123183_);
++         final Cursor3D f_123254_ = new Cursor3D(java.math.BigInteger.valueOf(p_123178_), java.math.BigInteger.valueOf(p_123179_), java.math.BigInteger.valueOf(p_123180_), java.math.BigInteger.valueOf(p_123181_), java.math.BigInteger.valueOf(p_123182_), java.math.BigInteger.valueOf(p_123183_));
  
           public boolean tryAdvance(Consumer<? super SectionPos> p_123271_) {
              if (this.f_123254_.m_122304_()) {

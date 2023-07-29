@@ -1,28 +1,42 @@
 --- a/net/minecraft/client/particle/ParticleEngine.java
 +++ b/net/minecraft/client/particle/ParticleEngine.java
-@@ -447,9 +_,9 @@
-             double d1 = Math.min(1.0D, p_172276_ - p_172273_);
-             double d2 = Math.min(1.0D, p_172277_ - p_172274_);
-             double d3 = Math.min(1.0D, p_172278_ - p_172275_);
+@@ -443,13 +_,13 @@
+       if (!p_107357_.m_60795_() && p_107357_.m_245147_()) {
+          VoxelShape voxelshape = p_107357_.m_60808_(this.f_107287_, p_107356_);
+          double d0 = 0.25D;
+-         voxelshape.m_83286_((p_172273_, p_172274_, p_172275_, p_172276_, p_172277_, p_172278_) -> {
+-            double d1 = Math.min(1.0D, p_172276_ - p_172273_);
+-            double d2 = Math.min(1.0D, p_172277_ - p_172274_);
+-            double d3 = Math.min(1.0D, p_172278_ - p_172275_);
 -            int i = Math.max(2, Mth.m_14165_(d1 / 0.25D));
 -            int j = Math.max(2, Mth.m_14165_(d2 / 0.25D));
 -            int k = Math.max(2, Mth.m_14165_(d3 / 0.25D));
++         voxelshape.forAllBoxes((p_172273_, p_172274_, p_172275_, p_172276_, p_172277_, p_172278_) -> {
++            double d1 = java.math.BigDecimal.ONE.min(p_172276_.subtract(p_172273_)).doubleValue();
++            double d2 = java.math.BigDecimal.ONE.min(p_172277_.subtract(p_172274_)).doubleValue();
++            double d3 = java.math.BigDecimal.ONE.min(p_172278_.subtract(p_172275_)).doubleValue();
 +            long i = Math.max(2, Mth.lceil(d1 / 0.25D));
 +            long j = Math.max(2, Mth.lceil(d2 / 0.25D));
 +            long k = Math.max(2, Mth.lceil(d3 / 0.25D));
  
              for(int l = 0; l < i; ++l) {
                 for(int i1 = 0; i1 < j; ++i1) {
-@@ -460,7 +_,7 @@
-                      double d7 = d4 * d1 + p_172273_;
-                      double d8 = d5 * d2 + p_172274_;
-                      double d9 = d6 * d3 + p_172275_;
+@@ -457,10 +_,10 @@
+                      double d4 = ((double)l + 0.5D) / (double)i;
+                      double d5 = ((double)i1 + 0.5D) / (double)j;
+                      double d6 = ((double)j1 + 0.5D) / (double)k;
+-                     double d7 = d4 * d1 + p_172273_;
+-                     double d8 = d5 * d2 + p_172274_;
+-                     double d9 = d6 * d3 + p_172275_;
 -                     this.m_107344_(new TerrainParticle(this.f_107287_, (double)p_107356_.m_123341_() + d7, (double)p_107356_.m_123342_() + d8, (double)p_107356_.m_123343_() + d9, d4 - 0.5D, d5 - 0.5D, d6 - 0.5D, p_107357_, p_107356_));
++                     double d7 = d4 * d1 + p_172273_.doubleValue();
++                     double d8 = d5 * d2 + p_172274_.doubleValue();
++                     double d9 = d6 * d3 + p_172275_.doubleValue();
 +                     this.m_107344_(new TerrainParticle(this.f_107287_, (double)p_107356_.getX() + d7, (double)p_107356_.getY() + d8, (double)p_107356_.getZ() + d9, d4 - 0.5D, d5 - 0.5D, d6 - 0.5D, p_107357_, p_107356_));
                    }
                 }
              }
-@@ -472,9 +_,9 @@
+@@ -472,36 +_,36 @@
     public void m_107367_(BlockPos p_107368_, Direction p_107369_) {
        BlockState blockstate = this.f_107287_.m_8055_(p_107368_);
        if (blockstate.m_60799_() != RenderShape.INVISIBLE) {
@@ -34,4 +48,40 @@
 +         long k = p_107368_.getZ();
           float f = 0.1F;
           AABB aabb = blockstate.m_60808_(this.f_107287_, p_107368_).m_83215_();
-          double d0 = (double)i + this.f_107292_.m_188500_() * (aabb.f_82291_ - aabb.f_82288_ - (double)0.2F) + (double)0.1F + aabb.f_82288_;
+-         double d0 = (double)i + this.f_107292_.m_188500_() * (aabb.f_82291_ - aabb.f_82288_ - (double)0.2F) + (double)0.1F + aabb.f_82288_;
+-         double d1 = (double)j + this.f_107292_.m_188500_() * (aabb.f_82292_ - aabb.f_82289_ - (double)0.2F) + (double)0.1F + aabb.f_82289_;
+-         double d2 = (double)k + this.f_107292_.m_188500_() * (aabb.f_82293_ - aabb.f_82290_ - (double)0.2F) + (double)0.1F + aabb.f_82290_;
++         double d0 = (double)i + this.f_107292_.m_188500_() * (aabb.f_82291_.subtract(aabb.f_82288_).doubleValue() - (double)0.2F) + (double)0.1F + aabb.f_82288_.doubleValue();
++         double d1 = (double)j + this.f_107292_.m_188500_() * (aabb.f_82292_.subtract(aabb.f_82289_).doubleValue() - (double)0.2F) + (double)0.1F + aabb.f_82289_.doubleValue();
++         double d2 = (double)k + this.f_107292_.m_188500_() * (aabb.f_82293_.subtract(aabb.f_82290_).doubleValue() - (double)0.2F) + (double)0.1F + aabb.f_82290_.doubleValue();
+          if (p_107369_ == Direction.DOWN) {
+-            d1 = (double)j + aabb.f_82289_ - (double)0.1F;
++            d1 = (double)j + aabb.f_82289_.doubleValue() - (double)0.1F;
+          }
+ 
+          if (p_107369_ == Direction.UP) {
+-            d1 = (double)j + aabb.f_82292_ + (double)0.1F;
++            d1 = (double)j + aabb.f_82292_.doubleValue() + (double)0.1F;
+          }
+ 
+          if (p_107369_ == Direction.NORTH) {
+-            d2 = (double)k + aabb.f_82290_ - (double)0.1F;
++            d2 = (double)k + aabb.f_82290_.doubleValue() - (double)0.1F;
+          }
+ 
+          if (p_107369_ == Direction.SOUTH) {
+-            d2 = (double)k + aabb.f_82293_ + (double)0.1F;
++            d2 = (double)k + aabb.f_82293_.doubleValue() + (double)0.1F;
+          }
+ 
+          if (p_107369_ == Direction.WEST) {
+-            d0 = (double)i + aabb.f_82288_ - (double)0.1F;
++            d0 = (double)i + aabb.f_82288_.doubleValue() - (double)0.1F;
+          }
+ 
+          if (p_107369_ == Direction.EAST) {
+-            d0 = (double)i + aabb.f_82291_ + (double)0.1F;
++            d0 = (double)i + aabb.f_82291_.doubleValue() + (double)0.1F;
+          }
+ 
+          this.m_107344_((new TerrainParticle(this.f_107287_, d0, d1, d2, 0.0D, 0.0D, 0.0D, blockstate, p_107368_)).m_107268_(0.2F).m_6569_(0.6F));

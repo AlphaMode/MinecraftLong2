@@ -1,8 +1,11 @@
 --- a/net/minecraft/world/level/storage/loot/functions/ExplorationMapFunction.java
 +++ b/net/minecraft/world/level/storage/loot/functions/ExplorationMapFunction.java
-@@ -67,7 +_,7 @@
+@@ -65,9 +_,9 @@
+          Vec3 vec3 = p_80548_.m_78953_(LootContextParams.f_81460_);
+          if (vec3 != null) {
              ServerLevel serverlevel = p_80548_.m_78952_();
-             BlockPos blockpos = serverlevel.m_215011_(this.f_80524_, BlockPos.m_274446_(vec3), this.f_80527_, this.f_80528_);
+-            BlockPos blockpos = serverlevel.m_215011_(this.f_80524_, BlockPos.m_274446_(vec3), this.f_80527_, this.f_80528_);
++            BlockPos blockpos = serverlevel.m_215011_(this.f_80524_, BlockPos.containing(vec3), this.f_80527_, this.f_80528_);
              if (blockpos != null) {
 -               ItemStack itemstack = MapItem.m_42886_(serverlevel, blockpos.m_123341_(), blockpos.m_123343_(), this.f_80526_, true, true);
 +               ItemStack itemstack = MapItem.create(serverlevel, blockpos.getX(), blockpos.getZ(), this.f_80526_, true, true);

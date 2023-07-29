@@ -1,14 +1,40 @@
 --- a/net/minecraft/world/entity/projectile/FishingHook.java
 +++ b/net/minecraft/world/entity/projectile/FishingHook.java
-@@ -183,7 +_,7 @@
+@@ -93,8 +_,8 @@
+       double d3 = vec3.m_82553_();
+       vec3 = vec3.m_82542_(0.6D / d3 + this.f_19796_.m_216328_(0.5D, 0.0103365D), 0.6D / d3 + this.f_19796_.m_216328_(0.5D, 0.0103365D), 0.6D / d3 + this.f_19796_.m_216328_(0.5D, 0.0103365D));
+       this.m_20256_(vec3);
+-      this.m_146922_((float)(Mth.m_14136_(vec3.f_82479_, vec3.f_82481_) * (double)(180F / (float)Math.PI)));
+-      this.m_146926_((float)(Mth.m_14136_(vec3.f_82480_, vec3.m_165924_()) * (double)(180F / (float)Math.PI)));
++      this.m_146922_((float)(Mth.m_14136_(vec3.m_7096_(), vec3.m_7094_()) * (double)(180F / (float)Math.PI)));
++      this.m_146926_((float)(Mth.m_14136_(vec3.m_7098_(), vec3.m_165924_()) * (double)(180F / (float)Math.PI)));
+       this.f_19859_ = this.m_146908_();
+       this.f_19860_ = this.m_146909_();
+    }
+@@ -113,7 +_,7 @@
+       if (f_37102_.equals(p_37153_)) {
+          this.f_37099_ = this.m_20088_().m_135370_(f_37102_);
+          if (this.f_37099_) {
+-            this.m_20334_(this.m_20184_().f_82479_, (double)(-0.4F * Mth.m_216267_(this.f_37098_, 0.6F, 1.0F)), this.m_20184_().f_82481_);
++            this.m_20334_(this.m_20184_().m_7096_(), (double)(-0.4F * Mth.m_216267_(this.f_37098_, 0.6F, 1.0F)), this.m_20184_().m_7094_());
+          }
+       }
+ 
+@@ -183,12 +_,12 @@
  
              if (this.f_37095_ == FishingHook.FishHookState.BOBBING) {
                 Vec3 vec3 = this.m_20184_();
 -               double d0 = this.m_20186_() + vec3.f_82480_ - (double)blockpos.m_123342_() - (double)f;
-+               double d0 = this.m_20186_() + vec3.f_82480_ - (double)blockpos.getY() - (double)f;
++               double d0 = this.m_20186_() + vec3.m_7098_() - (double)blockpos.getY() - (double)f;
                 if (Math.abs(d0) < 0.01D) {
                    d0 += Math.signum(d0) * 0.1D;
                 }
+ 
+-               this.m_20334_(vec3.f_82479_ * 0.9D, vec3.f_82480_ - d0 * (double)this.f_19796_.m_188501_() * 0.2D, vec3.f_82481_ * 0.9D);
++               this.m_20334_(vec3.m_7096_() * 0.9D, vec3.m_7098_() - d0 * (double)this.f_19796_.m_188501_() * 0.2D, vec3.m_7094_() * 0.9D);
+                if (this.f_37089_ <= 0 && this.f_37091_ <= 0) {
+                   this.f_37093_ = true;
+                } else {
 @@ -269,7 +_,7 @@
     private void m_37145_(BlockPos p_37146_) {
        ServerLevel serverlevel = (ServerLevel)this.m_9236_();

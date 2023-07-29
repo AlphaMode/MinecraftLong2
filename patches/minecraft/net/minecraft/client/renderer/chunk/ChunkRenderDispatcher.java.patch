@@ -26,7 +26,7 @@
        }
  
        public boolean m_112798_() {
-@@ -346,13 +_,13 @@
+@@ -346,22 +_,22 @@
           return this.f_112790_.get(p_112808_);
        }
  
@@ -43,6 +43,18 @@
           }
  
        }
+ 
+       protected double m_112832_() {
+          Camera camera = Minecraft.m_91087_().f_91063_.m_109153_();
+-         double d0 = this.f_112785_.f_82288_ + 8.0D - camera.m_90583_().f_82479_;
+-         double d1 = this.f_112785_.f_82289_ + 8.0D - camera.m_90583_().f_82480_;
+-         double d2 = this.f_112785_.f_82290_ + 8.0D - camera.m_90583_().f_82481_;
++         double d0 = this.f_112785_.f_82288_.add(me.alphamode.mclong.core.BigConstants.EIGHT).subtract(camera.m_90583_().getX()).doubleValue();
++         double d1 = this.f_112785_.f_82289_.add(me.alphamode.mclong.core.BigConstants.EIGHT).subtract(camera.m_90583_().getY()).doubleValue();
++         double d2 = this.f_112785_.f_82290_.add(me.alphamode.mclong.core.BigConstants.EIGHT).subtract(camera.m_90583_().getZ()).doubleValue();
+          return d0 * d0 + d1 * d1 + d2 * d2;
+       }
+ 
 @@ -446,7 +_,7 @@
           boolean flag = this.m_194419_();
           BlockPos blockpos = this.f_112793_.m_7949_();
@@ -52,6 +64,19 @@
           boolean flag1 = this.f_112784_.get() == ChunkRenderDispatcher.CompiledChunk.f_112748_;
           if (flag1 && flag) {
              this.f_202433_.incrementAndGet();
+@@ -528,9 +_,9 @@
+                return CompletableFuture.completedFuture(ChunkRenderDispatcher.ChunkTaskResult.CANCELLED);
+             } else {
+                Vec3 vec3 = ChunkRenderDispatcher.this.m_112727_();
+-               float f = (float)vec3.f_82479_;
+-               float f1 = (float)vec3.f_82480_;
+-               float f2 = (float)vec3.f_82481_;
++               float f = (float)vec3.m_7096_();
++               float f1 = (float)vec3.m_7098_();
++               float f2 = (float)vec3.m_7094_();
+                ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults chunkrenderdispatcher$renderchunk$rebuildtask$compileresults = this.m_234467_(f, f1, f2, p_112872_);
+                RenderChunk.this.m_234465_(chunkrenderdispatcher$renderchunk$rebuildtask$compileresults.f_234484_);
+                if (this.f_112848_.get()) {
 @@ -568,7 +_,7 @@
              ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults chunkrenderdispatcher$renderchunk$rebuildtask$compileresults = new ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults();
              int i = 1;
@@ -79,7 +104,18 @@
                       chunkrenderdispatcher$renderchunk$rebuildtask$compileresults.f_234488_ = bufferbuilder1.m_166770_();
                    }
                 }
-@@ -701,7 +_,7 @@
+@@ -693,15 +_,15 @@
+                return CompletableFuture.completedFuture(ChunkRenderDispatcher.ChunkTaskResult.CANCELLED);
+             } else {
+                Vec3 vec3 = ChunkRenderDispatcher.this.m_112727_();
+-               float f = (float)vec3.f_82479_;
+-               float f1 = (float)vec3.f_82480_;
+-               float f2 = (float)vec3.f_82481_;
++               float f = (float)vec3.m_7096_();
++               float f1 = (float)vec3.m_7098_();
++               float f2 = (float)vec3.m_7094_();
+                BufferBuilder.SortState bufferbuilder$sortstate = this.f_112886_.f_112754_;
+                if (bufferbuilder$sortstate != null && !this.f_112886_.m_112758_(RenderType.m_110466_())) {
                    BufferBuilder bufferbuilder = p_112893_.m_108839_(RenderType.m_110466_());
                    RenderChunk.this.m_112805_(bufferbuilder);
                    bufferbuilder.m_166775_(bufferbuilder$sortstate);

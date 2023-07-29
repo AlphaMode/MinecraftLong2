@@ -74,7 +74,7 @@
           }
        }
  
-@@ -381,18 +_,18 @@
+@@ -381,24 +_,24 @@
        }
  
        public boolean m_8045_() {
@@ -96,6 +96,22 @@
              Vec3 vec31 = DefaultRandomPos.m_148412_(this.f_30248_, 16, 3, vec3, (double)((float)Math.PI / 10F));
              if (vec31 == null) {
                 vec31 = DefaultRandomPos.m_148412_(this.f_30248_, 8, 7, vec3, (double)((float)Math.PI / 2F));
+             }
+ 
+-            if (vec31 != null && !flag && !this.f_30248_.m_9236_().m_8055_(BlockPos.m_274446_(vec31)).m_60713_(Blocks.f_49990_)) {
++            if (vec31 != null && !flag && !this.f_30248_.m_9236_().m_8055_(BlockPos.containing(vec31)).m_60713_(Blocks.f_49990_)) {
+                vec31 = DefaultRandomPos.m_148412_(this.f_30248_, 16, 5, vec3, (double)((float)Math.PI / 2F));
+             }
+ 
+@@ -407,7 +_,7 @@
+                return;
+             }
+ 
+-            this.f_30248_.m_21573_().m_26519_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, this.f_30249_);
++            this.f_30248_.m_21573_().m_26519_(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), this.f_30249_);
+          }
+ 
+       }
 @@ -453,11 +_,11 @@
        }
  
@@ -173,11 +189,20 @@
              if (vec31 != null) {
 -               int i = Mth.m_14107_(vec31.f_82479_);
 -               int j = Mth.m_14107_(vec31.f_82481_);
-+               long i = Mth.m_14134_(vec31.f_82479_);
-+               long j = Mth.m_14134_(vec31.f_82481_);
++               long i = Mth.m_14134_(vec31.m_7096_());
++               long j = Mth.m_14134_(vec31.m_7094_());
                 int k = 34;
 -               if (!this.f_30329_.m_9236_().m_151572_(i - 34, j - 34, i + 34, j + 34)) {
 +               if (!this.f_30329_.m_9236_().hasChunksAt(i - 34, j - 34, i + 34, j + 34)) {
                    vec31 = null;
                 }
              }
+@@ -643,7 +_,7 @@
+                return;
+             }
+ 
+-            this.f_30329_.m_21573_().m_26519_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, this.f_30330_);
++            this.f_30329_.m_21573_().m_26519_(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), this.f_30330_);
+          }
+ 
+       }

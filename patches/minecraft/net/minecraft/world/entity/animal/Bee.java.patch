@@ -9,7 +9,7 @@
        int i = 0;
        BlockPos blockpos = this.m_20183_();
 -      int j = (int)vec3.f_82480_ - blockpos.m_123342_();
-+      long j = (int)vec3.f_82480_ - blockpos.getY();
++      long j = (int)vec3.m_7098_() - blockpos.getY();
        if (j > 2) {
           i = 4;
        } else if (j < -2) {
@@ -22,6 +22,15 @@
        if (i1 < 15) {
           k = i1 / 2;
           l = i1 / 2;
+@@ -279,7 +_,7 @@
+       Vec3 vec31 = AirRandomPos.m_148387_(this, k, l, i, vec3, (double)((float)Math.PI / 10F));
+       if (vec31 != null) {
+          this.f_21344_.m_26529_(0.5F);
+-         this.f_21344_.m_26519_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, 1.0D);
++         this.f_21344_.m_26519_(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), 1.0D);
+       }
+    }
+ 
 @@ -529,7 +_,7 @@
     protected PathNavigation m_6037_(Level p_27815_) {
        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, p_27815_) {
@@ -105,7 +114,16 @@
                          return Optional.of(blockpos$mutableblockpos);
                       }
                    }
-@@ -1204,7 +_,7 @@
+@@ -1195,7 +_,7 @@
+       public void m_8056_() {
+          Vec3 vec3 = this.m_28097_();
+          if (vec3 != null) {
+-            Bee.this.f_21344_.m_26536_(Bee.this.f_21344_.m_7864_(BlockPos.m_274446_(vec3), 1), 1.0D);
++            Bee.this.f_21344_.m_26536_(Bee.this.f_21344_.m_7864_(BlockPos.containing(vec3), 1), 1.0D);
+          }
+ 
+       }
+@@ -1204,15 +_,15 @@
        private Vec3 m_28097_() {
           Vec3 vec3;
           if (Bee.this.m_27872_() && !Bee.this.m_27816_(Bee.this.f_27698_, 22)) {
@@ -114,3 +132,13 @@
              vec3 = vec31.m_82546_(Bee.this.m_20182_()).m_82541_();
           } else {
              vec3 = Bee.this.m_20252_(0.0F);
+          }
+ 
+          int i = 8;
+-         Vec3 vec32 = HoverRandomPos.m_148465_(Bee.this, 8, 7, vec3.f_82479_, vec3.f_82481_, ((float)Math.PI / 2F), 3, 1);
+-         return vec32 != null ? vec32 : AirAndWaterRandomPos.m_148357_(Bee.this, 8, 4, -2, vec3.f_82479_, vec3.f_82481_, (double)((float)Math.PI / 2F));
++         Vec3 vec32 = HoverRandomPos.m_148465_(Bee.this, 8, 7, vec3.m_7096_(), vec3.m_7094_(), ((float)Math.PI / 2F), 3, 1);
++         return vec32 != null ? vec32 : AirAndWaterRandomPos.m_148357_(Bee.this, 8, 4, -2, vec3.m_7096_(), vec3.m_7094_(), (double)((float)Math.PI / 2F));
+       }
+    }
+ }

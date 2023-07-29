@@ -83,7 +83,7 @@
                    skeletonhorse.m_30923_(true);
                    skeletonhorse.m_146762_(0);
 -                  skeletonhorse.m_6034_((double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_());
-+                  skeletonhorse.m_6034_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
++                  skeletonhorse.setPos(blockpos.getBigX(), blockpos.getBigY(), blockpos.getBigZ());
                    this.m_7967_(skeletonhorse);
                 }
              }
@@ -120,7 +120,7 @@
 +                  BlockPos blockpos3 = this.getBlockRandomPos(i, k1, j, 15);
                    profilerfiller.m_6180_("randomTick");
 -                  BlockState blockstate2 = levelchunksection.m_62982_(blockpos3.m_123341_() - i, blockpos3.m_123342_() - k1, blockpos3.m_123343_() - j);
-+                  BlockState blockstate2 = levelchunksection.getBlockState(blockpos3.getX() - i, blockpos3.getY() - k1, blockpos3.getZ() - j);
++                  BlockState blockstate2 = levelchunksection.getBlockState(Mth.abs(blockpos3.getX() - i), blockpos3.getY() - k1, Mth.m_14143_(blockpos3.getZ() - j));
                    if (blockstate2.m_60823_()) {
                       blockstate2.m_222972_(this, blockpos3, this.f_46441_);
                    }

@@ -1,11 +1,13 @@
 --- a/net/minecraft/world/item/ArmorStandItem.java
 +++ b/net/minecraft/world/item/ArmorStandItem.java
-@@ -34,7 +_,7 @@
+@@ -34,8 +_,8 @@
           BlockPlaceContext blockplacecontext = new BlockPlaceContext(p_40510_);
           BlockPos blockpos = blockplacecontext.m_8083_();
           ItemStack itemstack = p_40510_.m_43722_();
 -         Vec3 vec3 = Vec3.m_82539_(blockpos);
+-         AABB aabb = EntityType.f_20529_.m_20680_().m_20384_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
 +         Vec3 vec3 = Vec3.atBottomCenterOf(blockpos);
-          AABB aabb = EntityType.f_20529_.m_20680_().m_20384_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
++         AABB aabb = EntityType.f_20529_.m_20680_().makeBoundingBox(vec3.getX(), vec3.getY(), vec3.getZ());
           if (level.m_45756_((Entity)null, aabb) && level.m_45933_((Entity)null, aabb).isEmpty()) {
              if (level instanceof ServerLevel) {
+                ServerLevel serverlevel = (ServerLevel)level;

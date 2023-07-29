@@ -3,15 +3,17 @@ package me.alphamode.mclong.core;
 import com.google.common.base.MoreObjects;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import java.util.function.Function;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import javax.annotation.concurrent.Immutable;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
+
+import javax.annotation.concurrent.Immutable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.function.Function;
+import java.util.stream.LongStream;
 
 @Immutable
 public class Vec3l implements Comparable<Vec3l> {
@@ -23,9 +25,9 @@ public class Vec3l implements Comparable<Vec3l> {
         return LongStream.of(p_123313_.getX(), p_123313_.getY(), p_123313_.getZ());
     });
     public static final Vec3l ZERO = new Vec3l(0, 0, 0);
-    private long x;
-    private long y;
-    private long z;
+    private BigInteger x;
+    private BigInteger y;
+    private BigInteger z;
 
     private static Function<Vec3l, DataResult<Vec3l>> checkOffsetAxes(int p_194646_) {
         return (p_194649_) -> {
@@ -41,14 +43,18 @@ public class Vec3l implements Comparable<Vec3l> {
         this(vec3i.getX(), vec3i.getY(), vec3i.getZ());
     }
 
-    public Vec3l(long p_123296_, long p_123297_, long p_123298_) {
+    public Vec3l(BigInteger p_123296_, BigInteger p_123297_, BigInteger p_123298_) {
         this.x = p_123296_;
         this.y = p_123297_;
         this.z = p_123298_;
     }
 
+    public Vec3l(BigDecimal p_123292_, BigDecimal p_123293_, BigDecimal p_123294_) {
+        this(p_123292_.toBigInteger(), p_123293_.toBigInteger(), p_123294_.toBigInteger());
+    }
+
     public Vec3l(double p_123292_, double p_123293_, double p_123294_) {
-        this(Mth.lfloor(p_123292_), Mth.lfloor(p_123293_), Mth.lfloor(p_123294_));
+        this(BigInteger.valueOf(Mth.lfloor(p_123292_)), BigInteger.valueOf(Mth.lfloor(p_123293_)), BigInteger.valueOf(Mth.lfloor(p_123294_)));
     }
 
     public boolean equals(Object p_123327_) {
@@ -81,29 +87,68 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public long getX() {
-        return this.x;
+        return this.x.longValue();
     }
 
     public long getY() {
-        return this.y;
+        return this.y.longValue();
     }
 
     public long getZ() {
+        return this.z.longValue();
+    }
+
+    public java.math.BigInteger getBigX() {
+        return this.x;
+    }
+
+    public java.math.BigInteger getBigY() {
+        return this.y;
+    }
+
+    public java.math.BigInteger getBigZ() {
         return this.z;
     }
 
+    public java.math.BigDecimal getBigDecX() {
+        return new java.math.BigDecimal(this.x);
+    }
+
+    public java.math.BigDecimal getBigDecY() {
+        return new java.math.BigDecimal(this.y);
+    }
+
+    public java.math.BigDecimal getBigDecZ() {
+        return new java.math.BigDecimal(this.z);
+    }
+
     protected Vec3l setX(long p_175605_) {
-        this.x = p_175605_;
+        this.x = BigInteger.valueOf(p_175605_);
         return this;
     }
 
     protected Vec3l setY(long p_175604_) {
-        this.y = p_175604_;
+        this.y = BigInteger.valueOf(p_175604_);
         return this;
     }
 
     protected Vec3l setZ(long p_175603_) {
-        this.z = p_175603_;
+        this.z = BigInteger.valueOf(p_175603_);
+        return this;
+    }
+
+    protected Vec3l setX(BigInteger x) {
+        this.x = x;
+        return this;
+    }
+
+    protected Vec3l setY(BigInteger y) {
+        this.y = y;
+        return this;
+    }
+
+    protected Vec3l setZ(BigInteger z) {
+        this.z = z;
         return this;
     }
 
@@ -211,7 +256,7 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public double distSqr(Vec3l p_123332_) {
-        return this.distToLowCornerSqr((double) p_123332_.getX(), (double) p_123332_.getY(), (double) p_123332_.getZ());
+        return this.distToLowCornerSqr(p_123332_.getBigDecX(), p_123332_.getBigDecY(), p_123332_.getBigDecZ());
     }
 
     public double distToCenterSqr(Position p_203194_) {
@@ -229,6 +274,13 @@ public class Vec3l implements Comparable<Vec3l> {
         double d0 = (double) this.getX() - p_203203_;
         double d1 = (double) this.getY() - p_203204_;
         double d2 = (double) this.getZ() - p_203205_;
+        return d0 * d0 + d1 * d1 + d2 * d2;
+    }
+
+    public double distToLowCornerSqr(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
+        double d0 = this.getBigDecX().subtract(x).doubleValue();
+        double d1 = this.getBigDecY().subtract(y).doubleValue();
+        double d2 = this.getBigDecZ().subtract(z).doubleValue();
         return d0 * d0 + d1 * d1 + d2 * d2;
     }
 

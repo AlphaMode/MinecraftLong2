@@ -13,7 +13,7 @@
        StringBuilder stringbuilder = new StringBuilder();
  
        try {
-@@ -38,18 +_,18 @@
+@@ -38,38 +_,90 @@
        stringbuilder.append(", ");
  
        try {
@@ -29,25 +29,14 @@
 -         int j2 = SectionPos.m_123223_(i + 1) - 1;
 -         int k2 = p_178943_.m_151558_() - 1;
 -         int l2 = SectionPos.m_123223_(k + 1) - 1;
-+         long i = SectionPos.blockToSectionCoord(p_178944_);
-+         long j = SectionPos.blockToSectionCoord(p_178945_);
-+         long k = SectionPos.blockToSectionCoord(p_178946_);
-+         long l = p_178944_ & 15;
-+         long i1 = p_178945_ & 15;
-+         long j1 = p_178946_ & 15;
-+         long k1 = SectionPos.sectionToBlockCoord(i);
-+         long l1 = p_178943_.getMinBuildHeight();
-+         long i2 = SectionPos.sectionToBlockCoord(k);
-+         long j2 = SectionPos.sectionToBlockCoord(i + 1) - 1;
-+         long k2 = p_178943_.getMaxBuildHeight() - 1;
-+         long l2 = SectionPos.sectionToBlockCoord(k + 1) - 1;
-          stringbuilder.append(String.format(Locale.ROOT, "Section: (at %d,%d,%d in %d,%d,%d; chunk contains blocks %d,%d,%d to %d,%d,%d)", l, i1, j1, i, j, k, k1, l1, i2, j2, k2, l2));
-       } catch (Throwable throwable1) {
-          stringbuilder.append("(Error finding chunk loc)");
-@@ -58,18 +_,18 @@
-       stringbuilder.append(", ");
- 
-       try {
+-         stringbuilder.append(String.format(Locale.ROOT, "Section: (at %d,%d,%d in %d,%d,%d; chunk contains blocks %d,%d,%d to %d,%d,%d)", l, i1, j1, i, j, k, k1, l1, i2, j2, k2, l2));
+-      } catch (Throwable throwable1) {
+-         stringbuilder.append("(Error finding chunk loc)");
+-      }
+-
+-      stringbuilder.append(", ");
+-
+-      try {
 -         int i3 = p_178944_ >> 9;
 -         int j3 = p_178946_ >> 9;
 -         int k3 = i3 << 5;
@@ -60,6 +49,26 @@
 -         int j5 = (i3 + 1 << 9) - 1;
 -         int k5 = p_178943_.m_151558_() - 1;
 -         int l5 = (j3 + 1 << 9) - 1;
++         long i = SectionPos.blockToSectionCoord(p_178944_);
++         long j = SectionPos.blockToSectionCoord(p_178945_);
++         long k = SectionPos.blockToSectionCoord(p_178946_);
++         long l = p_178944_ & 15;
++         long i1 = p_178945_ & 15;
++         long j1 = p_178946_ & 15;
++         long k1 = SectionPos.sectionToBlockCoord(i);
++         long l1 = p_178943_.getMinBuildHeight();
++         long i2 = SectionPos.sectionToBlockCoord(k);
++         long j2 = SectionPos.sectionToBlockCoord(i + 1) - 1;
++         long k2 = p_178943_.getMaxBuildHeight() - 1;
++         long l2 = SectionPos.sectionToBlockCoord(k + 1) - 1;
++         stringbuilder.append(String.format(Locale.ROOT, "Section: (at %d,%d,%d in %d,%d,%d; chunk contains blocks %d,%d,%d to %d,%d,%d)", l, i1, j1, i, j, k, k1, l1, i2, j2, k2, l2));
++      } catch (Throwable throwable1) {
++         stringbuilder.append("(Error finding chunk loc)");
++      }
++
++      stringbuilder.append(", ");
++
++      try {
 +         long i3 = p_178944_ >> 9;
 +         long j3 = p_178946_ >> 9;
 +         long k3 = i3 << 5;
@@ -72,6 +81,58 @@
 +         long j5 = (i3 + 1 << 9) - 1;
 +         long k5 = p_178943_.getMaxBuildHeight() - 1;
 +         long l5 = (j3 + 1 << 9) - 1;
++         stringbuilder.append(String.format(Locale.ROOT, "Region: (%d,%d; contains chunks %d,%d to %d,%d, blocks %d,%d,%d to %d,%d,%d)", i3, j3, k3, l3, i4, j4, k4, l4, i5, j5, k5, l5));
++      } catch (Throwable throwable) {
++         stringbuilder.append("(Error finding world loc)");
++      }
++
++      return stringbuilder.toString();
++   }
++
++   public static String formatLocation(LevelHeightAccessor level, java.math.BigInteger x, java.math.BigInteger y, java.math.BigInteger z) {
++      StringBuilder stringbuilder = new StringBuilder();
++
++      try {
++         stringbuilder.append(String.format(Locale.ROOT, "World: (%d,%d,%d)", x, y, z));
++      } catch (Throwable throwable2) {
++         stringbuilder.append("(Error finding world loc)");
++      }
++
++      stringbuilder.append(", ");
++
++      try {
++         java.math.BigInteger i = SectionPos.blockToSectionCoord(x);
++         java.math.BigInteger j = SectionPos.blockToSectionCoord(y);
++         java.math.BigInteger k = SectionPos.blockToSectionCoord(z);
++         java.math.BigInteger l = x.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++         java.math.BigInteger i1 = y.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++         java.math.BigInteger j1 = z.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++         java.math.BigInteger k1 = SectionPos.sectionToBlockCoord(i);
++         long l1 = level.getMinBuildHeight();
++         java.math.BigInteger i2 = SectionPos.sectionToBlockCoord(k);
++         java.math.BigInteger j2 = SectionPos.sectionToBlockCoord(i.add(java.math.BigInteger.ONE)).subtract(java.math.BigInteger.ONE);
++         long k2 = level.getMaxBuildHeight() - 1;
++         java.math.BigInteger l2 = SectionPos.sectionToBlockCoord(k.add(java.math.BigInteger.ONE)).subtract(java.math.BigInteger.ONE);
++         stringbuilder.append(String.format(Locale.ROOT, "Section: (at %d,%d,%d in %d,%d,%d; chunk contains blocks %d,%d,%d to %d,%d,%d)", l, i1, j1, i, j, k, k1, l1, i2, j2, k2, l2));
++      } catch (Throwable throwable1) {
++         stringbuilder.append("(Error finding chunk loc)");
++      }
++
++      stringbuilder.append(", ");
++
++      try {
++         java.math.BigInteger i3 = x.shiftRight(9);
++         java.math.BigInteger j3 = z.shiftRight(9);
++         java.math.BigInteger k3 = i3.shiftLeft(5);
++         java.math.BigInteger l3 = j3.shiftLeft(5);
++         java.math.BigInteger i4 = (i3.add(java.math.BigInteger.ONE).shiftLeft(5)).subtract(java.math.BigInteger.ONE);
++         java.math.BigInteger j4 = (j3.add(java.math.BigInteger.ONE).shiftLeft(5)).subtract(java.math.BigInteger.ONE);
++         java.math.BigInteger k4 = i3.shiftLeft(9);
++         long l4 = level.getMinBuildHeight();
++         java.math.BigInteger i5 = j3.shiftLeft(9);
++         java.math.BigInteger j5 = (i3.add(java.math.BigInteger.ONE).shiftLeft(9)).subtract(java.math.BigInteger.ONE);
++         long k5 = level.getMaxBuildHeight() - 1;
++         java.math.BigInteger l5 = (j3.add(java.math.BigInteger.ONE).shiftLeft(9)).subtract(java.math.BigInteger.ONE);
           stringbuilder.append(String.format(Locale.ROOT, "Region: (%d,%d; contains chunks %d,%d to %d,%d, blocks %d,%d,%d to %d,%d,%d)", i3, j3, k3, l3, i4, j4, k4, l4, i5, j5, k5, l5));
        } catch (Throwable throwable) {
           stringbuilder.append("(Error finding world loc)");

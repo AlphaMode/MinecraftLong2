@@ -1,5 +1,79 @@
 --- a/net/minecraft/client/multiplayer/ClientPacketListener.java
 +++ b/net/minecraft/client/multiplayer/ClientPacketListener.java
+@@ -597,48 +_,48 @@
+       boolean flag1 = p_105056_.m_132826_().contains(RelativeMovement.Y);
+       boolean flag2 = p_105056_.m_132826_().contains(RelativeMovement.Z);
+       double d0;
+-      double d1;
++      java.math.BigDecimal d1;
+       if (flag) {
+          d0 = vec3.m_7096_();
+-         d1 = player.m_20185_() + p_105056_.m_132818_();
+-         player.f_19790_ += p_105056_.m_132818_();
+-         player.f_19854_ += p_105056_.m_132818_();
++         d1 = player.getBigX().add(p_105056_.getX());
++         player.f_19790_ = player.f_19790_.add(p_105056_.getX());
++         player.f_19854_ = player.f_19854_.add(p_105056_.getX());
+       } else {
+          d0 = 0.0D;
+-         d1 = p_105056_.m_132818_();
++         d1 = p_105056_.getX();
+          player.f_19790_ = d1;
+          player.f_19854_ = d1;
+       }
+ 
+       double d2;
+-      double d3;
++      java.math.BigDecimal d3;
+       if (flag1) {
+          d2 = vec3.m_7098_();
+-         d3 = player.m_20186_() + p_105056_.m_132821_();
+-         player.f_19791_ += p_105056_.m_132821_();
+-         player.f_19855_ += p_105056_.m_132821_();
++         d3 = player.getBigY().add(p_105056_.getY());
++         player.f_19791_ = player.f_19791_.add(p_105056_.getY());
++         player.f_19855_ = player.f_19855_.add(p_105056_.getY());
+       } else {
+          d2 = 0.0D;
+-         d3 = p_105056_.m_132821_();
++         d3 = p_105056_.getY();
+          player.f_19791_ = d3;
+          player.f_19855_ = d3;
+       }
+ 
+       double d4;
+-      double d5;
++      java.math.BigDecimal d5;
+       if (flag2) {
+          d4 = vec3.m_7094_();
+-         d5 = player.m_20189_() + p_105056_.m_132822_();
+-         player.f_19792_ += p_105056_.m_132822_();
+-         player.f_19856_ += p_105056_.m_132822_();
++         d5 = player.getBigZ().add(p_105056_.getZ());
++         player.f_19792_ = player.f_19792_.add(p_105056_.getZ());
++         player.f_19856_ = player.f_19856_.add(p_105056_.getZ());
+       } else {
+          d4 = 0.0D;
+-         d5 = p_105056_.m_132822_();
++         d5 = p_105056_.getZ();
+          player.f_19792_ = d5;
+          player.f_19856_ = d5;
+       }
+ 
+-      player.m_6034_(d1, d3, d5);
++      player.setPos(d1, d3, d5);
+       player.m_20334_(d0, d2, d4);
+       float f = p_105056_.m_132823_();
+       float f1 = p_105056_.m_132824_();
+@@ -659,7 +_,7 @@
+       }
+ 
+       this.f_104885_.m_129512_(new ServerboundAcceptTeleportationPacket(p_105056_.m_132825_()));
+-      this.f_104885_.m_129512_(new ServerboundMovePlayerPacket.PosRot(player.m_20185_(), player.m_20186_(), player.m_20189_(), player.m_146908_(), player.m_146909_(), false));
++      this.f_104885_.m_129512_(new ServerboundMovePlayerPacket.PosRot(player.getBigX(), player.getBigY(), player.getBigZ(), player.m_146908_(), player.m_146909_(), false));
+    }
+ 
+    public void m_5771_(ClientboundSectionBlocksUpdatePacket p_105070_) {
 @@ -671,15 +_,15 @@
  
     public void m_183388_(ClientboundLevelChunkWithLightPacket p_194241_) {

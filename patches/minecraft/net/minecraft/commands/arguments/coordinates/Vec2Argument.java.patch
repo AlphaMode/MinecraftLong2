@@ -1,0 +1,20 @@
+--- a/net/minecraft/commands/arguments/coordinates/Vec2Argument.java
++++ b/net/minecraft/commands/arguments/coordinates/Vec2Argument.java
+@@ -37,7 +_,7 @@
+ 
+    public static Vec2 m_120825_(CommandContext<CommandSourceStack> p_120826_, String p_120827_) {
+       Vec3 vec3 = p_120826_.getArgument(p_120827_, Coordinates.class).m_6955_(p_120826_.getSource());
+-      return new Vec2((float)vec3.f_82479_, (float)vec3.f_82481_);
++      return new Vec2((float)vec3.m_7096_(), (float)vec3.m_7094_());
+    }
+ 
+    public Coordinates parse(StringReader p_120824_) throws CommandSyntaxException {
+@@ -49,7 +_,7 @@
+          if (p_120824_.canRead() && p_120824_.peek() == ' ') {
+             p_120824_.skip();
+             WorldCoordinate worldcoordinate1 = WorldCoordinate.m_120871_(p_120824_, this.f_120818_);
+-            return new WorldCoordinates(worldcoordinate, new WorldCoordinate(true, 0.0D), worldcoordinate1);
++            return new WorldCoordinates(worldcoordinate, new WorldCoordinate(true, java.math.BigDecimal.ZERO), worldcoordinate1);
+          } else {
+             p_120824_.setCursor(i);
+             throw f_120816_.createWithContext(p_120824_);

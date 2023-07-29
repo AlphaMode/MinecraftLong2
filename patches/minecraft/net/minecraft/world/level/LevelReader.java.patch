@@ -28,13 +28,13 @@
 -      int i1 = Mth.m_14107_(p_46848_.f_82290_);
 -      int j1 = Mth.m_14107_(p_46848_.f_82293_);
 -      return this.m_46812_(i, k, i1, j, l, j1) ? this.m_45556_(p_46848_) : Stream.empty();
-+      long i = Mth.m_14134_(p_46848_.f_82288_);
-+      long j = Mth.m_14134_(p_46848_.f_82291_);
-+      long k = Mth.m_14134_(p_46848_.f_82289_);
-+      long l = Mth.m_14134_(p_46848_.f_82292_);
-+      long i1 = Mth.m_14134_(p_46848_.f_82290_);
-+      long j1 = Mth.m_14134_(p_46848_.f_82293_);
-+      return this.hasChunksAt(i, k, i1, j, l, j1) ? this.m_45556_(p_46848_) : Stream.empty();
++      java.math.BigInteger i = Mth.lfloor(p_46848_.f_82288_);
++      java.math.BigInteger j = Mth.lfloor(p_46848_.f_82291_);
++      java.math.BigInteger k = Mth.lfloor(p_46848_.f_82289_);
++      java.math.BigInteger l = Mth.lfloor(p_46848_.f_82292_);
++      java.math.BigInteger i1 = Mth.lfloor(p_46848_.f_82290_);
++      java.math.BigInteger j1 = Mth.lfloor(p_46848_.f_82293_);
++      return this.hasChunksAt(i.longValue(), k.longValue(), i1.longValue(), j.longValue(), l.longValue(), j1.longValue()) ? this.m_45556_(p_46848_) : Stream.empty();
     }
  
     default int m_6171_(BlockPos p_46836_, ColorResolver p_46837_) {
@@ -139,21 +139,21 @@
 -      int l = Mth.m_14165_(p_46856_.f_82292_);
 -      int i1 = Mth.m_14107_(p_46856_.f_82290_);
 -      int j1 = Mth.m_14165_(p_46856_.f_82293_);
-+      long i = Mth.m_14134_(p_46856_.f_82288_);
-+      long j = Mth.lceil(p_46856_.f_82291_);
-+      long k = Mth.m_14134_(p_46856_.f_82289_);
-+      long l = Mth.lceil(p_46856_.f_82292_);
-+      long i1 = Mth.m_14134_(p_46856_.f_82290_);
-+      long j1 = Mth.lceil(p_46856_.f_82293_);
++      java.math.BigInteger i = Mth.lfloor(p_46856_.f_82288_);
++      java.math.BigInteger j = Mth.lceil(p_46856_.f_82291_);
++      java.math.BigInteger k = Mth.lfloor(p_46856_.f_82289_);
++      java.math.BigInteger l = Mth.lceil(p_46856_.f_82292_);
++      java.math.BigInteger i1 = Mth.lfloor(p_46856_.f_82290_);
++      java.math.BigInteger j1 = Mth.lceil(p_46856_.f_82293_);
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
 -      for(int k1 = i; k1 < j; ++k1) {
 -         for(int l1 = k; l1 < l; ++l1) {
 -            for(int i2 = i1; i2 < j1; ++i2) {
 -               BlockState blockstate = this.m_8055_(blockpos$mutableblockpos.m_122178_(k1, l1, i2));
-+      for(long k1 = i; k1 < j; ++k1) {
-+         for(long l1 = k; l1 < l; ++l1) {
-+            for(long i2 = i1; i2 < j1; ++i2) {
++      for(java.math.BigInteger k1 = i; k1.compareTo(j) < 0; k1 = k1.add(java.math.BigInteger.ONE)) {
++         for(java.math.BigInteger l1 = k; l1.compareTo(l) < 0; l1 = l1.add(java.math.BigInteger.ONE)) {
++            for(java.math.BigInteger i2 = i1; i2.compareTo(j1) < 0; i2 = i2.add(java.math.BigInteger.ONE)) {
 +               BlockState blockstate = this.m_8055_(blockpos$mutableblockpos.set(k1, l1, i2));
                 if (!blockstate.m_60819_().m_76178_()) {
                    return true;

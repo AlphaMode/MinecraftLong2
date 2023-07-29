@@ -1,5 +1,29 @@
 --- a/net/minecraft/server/commands/PlaceCommand.java
 +++ b/net/minecraft/server/commands/PlaceCommand.java
+@@ -57,19 +_,19 @@
+       p_214548_.register(Commands.m_82127_("place").requires((p_214560_) -> {
+          return p_214560_.m_6761_(2);
+       }).then(Commands.m_82127_("feature").then(Commands.m_82129_("feature", ResourceKeyArgument.m_212386_(Registries.f_256911_)).executes((p_274824_) -> {
+-         return m_214575_(p_274824_.getSource(), ResourceKeyArgument.m_245341_(p_274824_, "feature"), BlockPos.m_274446_(p_274824_.getSource().m_81371_()));
++         return m_214575_(p_274824_.getSource(), ResourceKeyArgument.m_245341_(p_274824_, "feature"), BlockPos.containing(p_274824_.getSource().m_81371_()));
+       }).then(Commands.m_82129_("pos", BlockPosArgument.m_118239_()).executes((p_248163_) -> {
+          return m_214575_(p_248163_.getSource(), ResourceKeyArgument.m_245341_(p_248163_, "feature"), BlockPosArgument.m_118242_(p_248163_, "pos"));
+       })))).then(Commands.m_82127_("jigsaw").then(Commands.m_82129_("pool", ResourceKeyArgument.m_212386_(Registries.f_256948_)).then(Commands.m_82129_("target", ResourceLocationArgument.m_106984_()).then(Commands.m_82129_("max_depth", IntegerArgumentType.integer(1, 7)).executes((p_274825_) -> {
+-         return m_214569_(p_274825_.getSource(), ResourceKeyArgument.m_247435_(p_274825_, "pool"), ResourceLocationArgument.m_107011_(p_274825_, "target"), IntegerArgumentType.getInteger(p_274825_, "max_depth"), BlockPos.m_274446_(p_274825_.getSource().m_81371_()));
++         return m_214569_(p_274825_.getSource(), ResourceKeyArgument.m_247435_(p_274825_, "pool"), ResourceLocationArgument.m_107011_(p_274825_, "target"), IntegerArgumentType.getInteger(p_274825_, "max_depth"), BlockPos.containing(p_274825_.getSource().m_81371_()));
+       }).then(Commands.m_82129_("position", BlockPosArgument.m_118239_()).executes((p_248167_) -> {
+          return m_214569_(p_248167_.getSource(), ResourceKeyArgument.m_247435_(p_248167_, "pool"), ResourceLocationArgument.m_107011_(p_248167_, "target"), IntegerArgumentType.getInteger(p_248167_, "max_depth"), BlockPosArgument.m_118242_(p_248167_, "position"));
+       })))))).then(Commands.m_82127_("structure").then(Commands.m_82129_("structure", ResourceKeyArgument.m_212386_(Registries.f_256944_)).executes((p_274826_) -> {
+-         return m_214587_(p_274826_.getSource(), ResourceKeyArgument.m_247318_(p_274826_, "structure"), BlockPos.m_274446_(p_274826_.getSource().m_81371_()));
++         return m_214587_(p_274826_.getSource(), ResourceKeyArgument.m_247318_(p_274826_, "structure"), BlockPos.containing(p_274826_.getSource().m_81371_()));
+       }).then(Commands.m_82129_("pos", BlockPosArgument.m_118239_()).executes((p_248168_) -> {
+          return m_214587_(p_248168_.getSource(), ResourceKeyArgument.m_247318_(p_248168_, "structure"), BlockPosArgument.m_118242_(p_248168_, "pos"));
+       })))).then(Commands.m_82127_("template").then(Commands.m_82129_("template", ResourceLocationArgument.m_106984_()).suggests(f_214535_).executes((p_274827_) -> {
+-         return m_214561_(p_274827_.getSource(), ResourceLocationArgument.m_107011_(p_274827_, "template"), BlockPos.m_274446_(p_274827_.getSource().m_81371_()), Rotation.NONE, Mirror.NONE, 1.0F, 0);
++         return m_214561_(p_274827_.getSource(), ResourceLocationArgument.m_107011_(p_274827_, "template"), BlockPos.containing(p_274827_.getSource().m_81371_()), Rotation.NONE, Mirror.NONE, 1.0F, 0);
+       }).then(Commands.m_82129_("pos", BlockPosArgument.m_118239_()).executes((p_214596_) -> {
+          return m_214561_(p_214596_.getSource(), ResourceLocationArgument.m_107011_(p_214596_, "template"), BlockPosArgument.m_118242_(p_214596_, "pos"), Rotation.NONE, Mirror.NONE, 1.0F, 0);
+       }).then(Commands.m_82129_("rotation", TemplateRotationArgument.m_234414_()).executes((p_214594_) -> {
 @@ -93,7 +_,7 @@
        } else {
           String s = p_248822_.m_205785_().m_135782_().toString();

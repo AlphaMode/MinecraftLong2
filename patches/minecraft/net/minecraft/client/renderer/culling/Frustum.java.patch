@@ -1,0 +1,80 @@
+--- a/net/minecraft/client/renderer/culling/Frustum.java
++++ b/net/minecraft/client/renderer/culling/Frustum.java
+@@ -14,9 +_,9 @@
+    private final FrustumIntersection f_252531_ = new FrustumIntersection();
+    private final Matrix4f f_252406_ = new Matrix4f();
+    private Vector4f f_194438_;
+-   private double f_112996_;
+-   private double f_112997_;
+-   private double f_112998_;
++   private java.math.BigDecimal f_112996_;
++   private java.math.BigDecimal f_112997_;
++   private java.math.BigDecimal f_112998_;
+ 
+    public Frustum(Matrix4f p_254207_, Matrix4f p_254535_) {
+       this.m_253155_(p_254207_, p_254535_);
+@@ -32,21 +_,30 @@
+    }
+ 
+    public Frustum m_194441_(int p_194442_) {
+-      double d0 = Math.floor(this.f_112996_ / (double)p_194442_) * (double)p_194442_;
+-      double d1 = Math.floor(this.f_112997_ / (double)p_194442_) * (double)p_194442_;
+-      double d2 = Math.floor(this.f_112998_ / (double)p_194442_) * (double)p_194442_;
+-      double d3 = Math.ceil(this.f_112996_ / (double)p_194442_) * (double)p_194442_;
+-      double d4 = Math.ceil(this.f_112997_ / (double)p_194442_) * (double)p_194442_;
++      var offset = java.math.BigDecimal.valueOf(p_194442_);
++      java.math.BigDecimal d0 = floor(this.f_112996_.divide(offset)).multiply(offset);
++      java.math.BigDecimal d1 = floor(this.f_112997_.divide(offset)).multiply(offset);
++      java.math.BigDecimal d2 = floor(this.f_112998_.divide(offset)).multiply(offset);
++      java.math.BigDecimal d3 = ceil(this.f_112996_.divide(offset)).multiply(offset);
++      java.math.BigDecimal d4 = ceil(this.f_112997_.divide(offset)).multiply(offset);
+ 
+-      for(double d5 = Math.ceil(this.f_112998_ / (double)p_194442_) * (double)p_194442_; this.f_252531_.intersectAab((float)(d0 - this.f_112996_), (float)(d1 - this.f_112997_), (float)(d2 - this.f_112998_), (float)(d3 - this.f_112996_), (float)(d4 - this.f_112997_), (float)(d5 - this.f_112998_)) != -2; this.f_112998_ -= (double)(this.f_194438_.z() * 4.0F)) {
+-         this.f_112996_ -= (double)(this.f_194438_.x() * 4.0F);
+-         this.f_112997_ -= (double)(this.f_194438_.y() * 4.0F);
++      for(java.math.BigDecimal d5 = ceil(this.f_112998_.divide(offset)).multiply(offset); this.f_252531_.intersectAab(d0.subtract(this.f_112996_).floatValue(), d1.subtract(this.f_112997_).floatValue(), d2.subtract(this.f_112998_).floatValue(), d3.subtract(this.f_112996_).floatValue(), d4.subtract(this.f_112997_).floatValue(), d5.subtract(this.f_112998_).floatValue()) != -2; this.f_112998_ = this.f_112998_.subtract(java.math.BigDecimal.valueOf(this.f_194438_.z() * 4.0F))) {
++         this.f_112996_ = this.f_112996_.subtract(java.math.BigDecimal.valueOf(this.f_194438_.x() * 4.0F));
++         this.f_112997_ = this.f_112997_.subtract(java.math.BigDecimal.valueOf(this.f_194438_.y() * 4.0F));
+       }
+ 
+       return this;
+    }
+ 
+-   public void m_113002_(double p_113003_, double p_113004_, double p_113005_) {
++   public static java.math.BigDecimal floor(java.math.BigDecimal val) {
++      return val.setScale(0, java.math.RoundingMode.FLOOR);
++   }
++
++   public static java.math.BigDecimal ceil(java.math.BigDecimal val) {
++      return val.setScale(0, java.math.RoundingMode.CEILING);
++   }
++
++   public void prepare(java.math.BigDecimal p_113003_, java.math.BigDecimal p_113004_, java.math.BigDecimal p_113005_) {
+       this.f_112996_ = p_113003_;
+       this.f_112997_ = p_113004_;
+       this.f_112998_ = p_113005_;
+@@ -59,16 +_,16 @@
+    }
+ 
+    public boolean m_113029_(AABB p_113030_) {
+-      return this.m_113006_(p_113030_.f_82288_, p_113030_.f_82289_, p_113030_.f_82290_, p_113030_.f_82291_, p_113030_.f_82292_, p_113030_.f_82293_);
++      return this.cubeInFrustum(p_113030_.f_82288_, p_113030_.f_82289_,p_113030_.f_82290_, p_113030_.f_82291_, p_113030_.f_82292_, p_113030_.f_82293_);
+    }
+ 
+-   private boolean m_113006_(double p_113007_, double p_113008_, double p_113009_, double p_113010_, double p_113011_, double p_113012_) {
+-      float f = (float)(p_113007_ - this.f_112996_);
+-      float f1 = (float)(p_113008_ - this.f_112997_);
+-      float f2 = (float)(p_113009_ - this.f_112998_);
+-      float f3 = (float)(p_113010_ - this.f_112996_);
+-      float f4 = (float)(p_113011_ - this.f_112997_);
+-      float f5 = (float)(p_113012_ - this.f_112998_);
++   private boolean cubeInFrustum(java.math.BigDecimal p_113007_, java.math.BigDecimal p_113008_, java.math.BigDecimal p_113009_, java.math.BigDecimal p_113010_, java.math.BigDecimal p_113011_, java.math.BigDecimal p_113012_) {
++      float f = p_113007_.subtract(this.f_112996_).floatValue();
++      float f1 = p_113008_.subtract(this.f_112997_).floatValue();
++      float f2 = p_113009_.subtract(this.f_112998_).floatValue();
++      float f3 = p_113010_.subtract(this.f_112996_).floatValue();
++      float f4 = p_113011_.subtract(this.f_112997_).floatValue();
++      float f5 = p_113012_.subtract(this.f_112998_).floatValue();
+       return this.f_252531_.testAab(f, f1, f2, f3, f4, f5);
+    }
+ }

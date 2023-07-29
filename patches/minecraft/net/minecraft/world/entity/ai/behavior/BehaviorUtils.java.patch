@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/ai/behavior/BehaviorUtils.java
++++ b/net/minecraft/world/entity/ai/behavior/BehaviorUtils.java
+@@ -90,7 +_,7 @@
+       ItemEntity itementity = new ItemEntity(p_217134_.m_9236_(), p_217134_.m_20185_(), d0, p_217134_.m_20189_(), p_217135_);
+       itementity.m_32052_(p_217134_.m_20148_());
+       Vec3 vec3 = p_217136_.m_82546_(p_217134_.m_20182_());
+-      vec3 = vec3.m_82541_().m_82542_(p_217137_.f_82479_, p_217137_.f_82480_, p_217137_.f_82481_);
++      vec3 = vec3.m_82541_().m_82542_(p_217137_.m_7096_(), p_217137_.m_7098_(), p_217137_.m_7094_());
+       itementity.m_20256_(vec3);
+       itementity.m_32060_();
+       p_217134_.m_9236_().m_7967_(itementity);
+@@ -161,7 +_,7 @@
+    public static Vec3 m_147444_(PathfinderMob p_147445_, int p_147446_, int p_147447_) {
+       Vec3 vec3 = DefaultRandomPos.m_148403_(p_147445_, p_147446_, p_147447_);
+ 
+-      for(int i = 0; vec3 != null && !p_147445_.m_9236_().m_8055_(BlockPos.m_274446_(vec3)).m_60647_(p_147445_.m_9236_(), BlockPos.m_274446_(vec3), PathComputationType.WATER) && i++ < 10; vec3 = DefaultRandomPos.m_148403_(p_147445_, p_147446_, p_147447_)) {
++      for(int i = 0; vec3 != null && !p_147445_.m_9236_().m_8055_(BlockPos.containing(vec3)).m_60647_(p_147445_.m_9236_(), BlockPos.containing(vec3), PathComputationType.WATER) && i++ < 10; vec3 = DefaultRandomPos.m_148403_(p_147445_, p_147446_, p_147447_)) {
+       }
+ 
+       return vec3;

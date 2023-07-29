@@ -1,0 +1,66 @@
+--- a/net/minecraft/network/protocol/game/ServerboundMoveVehiclePacket.java
++++ b/net/minecraft/network/protocol/game/ServerboundMoveVehiclePacket.java
+@@ -5,32 +_,32 @@
+ import net.minecraft.world.entity.Entity;
+ 
+ public class ServerboundMoveVehiclePacket implements Packet<ServerGamePacketListener> {
+-   private final double f_134185_;
+-   private final double f_134186_;
+-   private final double f_134187_;
++   private final java.math.BigDecimal f_134185_;
++   private final java.math.BigDecimal f_134186_;
++   private final java.math.BigDecimal f_134187_;
+    private final float f_134188_;
+    private final float f_134189_;
+ 
+    public ServerboundMoveVehiclePacket(Entity p_134192_) {
+-      this.f_134185_ = p_134192_.m_20185_();
+-      this.f_134186_ = p_134192_.m_20186_();
+-      this.f_134187_ = p_134192_.m_20189_();
++      this.f_134185_ = p_134192_.getBigX();
++      this.f_134186_ = p_134192_.getBigY();
++      this.f_134187_ = p_134192_.getBigZ();
+       this.f_134188_ = p_134192_.m_146908_();
+       this.f_134189_ = p_134192_.m_146909_();
+    }
+ 
+    public ServerboundMoveVehiclePacket(FriendlyByteBuf p_179700_) {
+-      this.f_134185_ = p_179700_.readDouble();
+-      this.f_134186_ = p_179700_.readDouble();
+-      this.f_134187_ = p_179700_.readDouble();
++      this.f_134185_ = new java.math.BigDecimal(p_179700_.m_130277_());
++      this.f_134186_ = new java.math.BigDecimal(p_179700_.m_130277_());
++      this.f_134187_ = new java.math.BigDecimal(p_179700_.m_130277_());
+       this.f_134188_ = p_179700_.readFloat();
+       this.f_134189_ = p_179700_.readFloat();
+    }
+ 
+    public void m_5779_(FriendlyByteBuf p_134201_) {
+-      p_134201_.writeDouble(this.f_134185_);
+-      p_134201_.writeDouble(this.f_134186_);
+-      p_134201_.writeDouble(this.f_134187_);
++      p_134201_.m_130070_(this.f_134185_.toString());
++      p_134201_.m_130070_(this.f_134186_.toString());
++      p_134201_.m_130070_(this.f_134187_.toString());
+       p_134201_.writeFloat(this.f_134188_);
+       p_134201_.writeFloat(this.f_134189_);
+    }
+@@ -39,15 +_,15 @@
+       p_134198_.m_5659_(this);
+    }
+ 
+-   public double m_134199_() {
++   public java.math.BigDecimal getX() {
+       return this.f_134185_;
+    }
+ 
+-   public double m_134202_() {
++   public java.math.BigDecimal getY() {
+       return this.f_134186_;
+    }
+ 
+-   public double m_134203_() {
++   public java.math.BigDecimal getZ() {
+       return this.f_134187_;
+    }
+ 

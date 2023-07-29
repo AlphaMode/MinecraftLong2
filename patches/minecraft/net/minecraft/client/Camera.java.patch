@@ -1,20 +1,67 @@
 --- a/net/minecraft/client/Camera.java
 +++ b/net/minecraft/client/Camera.java
-@@ -162,7 +_,7 @@
+@@ -44,7 +_,8 @@
+       this.f_90551_ = p_90577_;
+       this.f_90560_ = p_90578_;
+       this.m_90572_(p_90577_.m_5675_(p_90580_), p_90577_.m_5686_(p_90580_));
+-      this.m_90584_(Mth.m_14139_((double)p_90580_, p_90577_.f_19854_, p_90577_.m_20185_()), Mth.m_14139_((double)p_90580_, p_90577_.f_19855_, p_90577_.m_20186_()) + (double)Mth.m_14179_(p_90580_, this.f_90563_, this.f_90562_), Mth.m_14139_((double)p_90580_, p_90577_.f_19856_, p_90577_.m_20189_()));
++      var lerp = java.math.BigDecimal.valueOf(p_90580_);
++      this.setPosition(Mth.lerp(lerp, p_90577_.f_19854_, p_90577_.getBigX()), Mth.lerp(lerp, p_90577_.f_19855_, p_90577_.getBigY()).add(java.math.BigDecimal.valueOf((double)Mth.m_14179_(p_90580_, this.f_90563_, this.f_90562_))), Mth.lerp(lerp, p_90577_.f_19856_, p_90577_.getBigZ()));
+       if (p_90578_) {
+          if (p_90579_) {
+             this.m_90572_(this.f_90558_ + 180.0F, -this.f_90557_);
+@@ -76,7 +_,7 @@
+          f1 *= 0.1F;
+          f2 *= 0.1F;
+          Vec3 vec3 = this.f_90552_.m_82520_((double)f, (double)f1, (double)f2);
+-         Vec3 vec31 = new Vec3(this.f_90552_.f_82479_ - (double)this.f_90554_.x() * p_90567_ + (double)f, this.f_90552_.f_82480_ - (double)this.f_90554_.y() * p_90567_ + (double)f1, this.f_90552_.f_82481_ - (double)this.f_90554_.z() * p_90567_ + (double)f2);
++         Vec3 vec31 = new Vec3(this.f_90552_.m_7096_() - (double)this.f_90554_.x() * p_90567_ + (double)f, this.f_90552_.m_7098_() - (double)this.f_90554_.y() * p_90567_ + (double)f1, this.f_90552_.m_7094_() - (double)this.f_90554_.z() * p_90567_ + (double)f2);
+          HitResult hitresult = this.f_90550_.m_45547_(new ClipContext(vec3, vec31, ClipContext.Block.VISUAL, ClipContext.Fluid.NONE, this.f_90551_));
+          if (hitresult.m_6662_() != HitResult.Type.MISS) {
+             double d0 = hitresult.m_82450_().m_82554_(this.f_90552_);
+@@ -93,7 +_,7 @@
+       double d0 = (double)this.f_90554_.x() * p_90569_ + (double)this.f_90555_.x() * p_90570_ + (double)this.f_90556_.x() * p_90571_;
+       double d1 = (double)this.f_90554_.y() * p_90569_ + (double)this.f_90555_.y() * p_90570_ + (double)this.f_90556_.y() * p_90571_;
+       double d2 = (double)this.f_90554_.z() * p_90569_ + (double)this.f_90555_.z() * p_90570_ + (double)this.f_90556_.z() * p_90571_;
+-      this.m_90581_(new Vec3(this.f_90552_.f_82479_ + d0, this.f_90552_.f_82480_ + d1, this.f_90552_.f_82481_ + d2));
++      this.m_90581_(new Vec3(this.f_90552_.getX().add(java.math.BigDecimal.valueOf(d0)), this.f_90552_.getY().add(java.math.BigDecimal.valueOf(d1)), this.f_90552_.getZ().add(java.math.BigDecimal.valueOf(d2))));
+    }
+ 
+    protected void m_90572_(float p_90573_, float p_90574_) {
+@@ -105,13 +_,13 @@
+       this.f_90556_.set(1.0F, 0.0F, 0.0F).rotate(this.f_90559_);
+    }
+ 
+-   protected void m_90584_(double p_90585_, double p_90586_, double p_90587_) {
++   protected void setPosition(java.math.BigDecimal p_90585_, java.math.BigDecimal p_90586_, java.math.BigDecimal p_90587_) {
+       this.m_90581_(new Vec3(p_90585_, p_90586_, p_90587_));
+    }
+ 
+    protected void m_90581_(Vec3 p_90582_) {
+       this.f_90552_ = p_90582_;
+-      this.f_90553_.m_122169_(p_90582_.f_82479_, p_90582_.f_82480_, p_90582_.f_82481_);
++      this.f_90553_.set(p_90582_.getX(), p_90582_.getY(), p_90582_.getZ());
+    }
+ 
+    public Vec3 m_90583_() {
+@@ -162,17 +_,17 @@
           return FogType.NONE;
        } else {
           FluidState fluidstate = this.f_90550_.m_6425_(this.f_90553_);
 -         if (fluidstate.m_205070_(FluidTags.f_13131_) && this.f_90552_.f_82480_ < (double)((float)this.f_90553_.m_123342_() + fluidstate.m_76155_(this.f_90550_, this.f_90553_))) {
-+         if (fluidstate.m_205070_(FluidTags.f_13131_) && this.f_90552_.f_82480_ < (double)((float)this.f_90553_.getY() + fluidstate.m_76155_(this.f_90550_, this.f_90553_))) {
++         if (fluidstate.m_205070_(FluidTags.f_13131_) && this.f_90552_.m_7098_() < (double)((float)this.f_90553_.getY() + fluidstate.m_76155_(this.f_90550_, this.f_90553_))) {
              return FogType.WATER;
           } else {
              Camera.NearPlane camera$nearplane = this.m_167684_();
-@@ -172,7 +_,7 @@
-                BlockPos blockpos = BlockPos.m_274446_(vec31);
+ 
+             for(Vec3 vec3 : Arrays.asList(camera$nearplane.f_167687_, camera$nearplane.m_167694_(), camera$nearplane.m_167698_(), camera$nearplane.m_167699_(), camera$nearplane.m_167700_())) {
+                Vec3 vec31 = this.f_90552_.m_82549_(vec3);
+-               BlockPos blockpos = BlockPos.m_274446_(vec31);
++               BlockPos blockpos = BlockPos.containing(vec31);
                 FluidState fluidstate1 = this.f_90550_.m_6425_(blockpos);
                 if (fluidstate1.m_205070_(FluidTags.f_13132_)) {
 -                  if (vec31.f_82480_ <= (double)(fluidstate1.m_76155_(this.f_90550_, blockpos) + (float)blockpos.m_123342_())) {
-+                  if (vec31.f_82480_ <= (double)(fluidstate1.m_76155_(this.f_90550_, blockpos) + (float)blockpos.getY())) {
++                  if (vec31.m_7098_() <= (double)(fluidstate1.m_76155_(this.f_90550_, blockpos) + (float)blockpos.getY())) {
                       return FogType.LAVA;
                    }
                 } else {

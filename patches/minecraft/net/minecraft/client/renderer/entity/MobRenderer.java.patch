@@ -1,0 +1,38 @@
+--- a/net/minecraft/client/renderer/entity/MobRenderer.java
++++ b/net/minecraft/client/renderer/entity/MobRenderer.java
+@@ -51,23 +_,24 @@
+       Vec3 vec3 = p_115466_.m_7398_(p_115463_);
+       double d0 = (double)(Mth.m_14179_(p_115463_, p_115462_.f_20884_, p_115462_.f_20883_) * ((float)Math.PI / 180F)) + (Math.PI / 2D);
+       Vec3 vec31 = p_115462_.m_245894_(p_115463_);
+-      double d1 = Math.cos(d0) * vec31.f_82481_ + Math.sin(d0) * vec31.f_82479_;
+-      double d2 = Math.sin(d0) * vec31.f_82481_ - Math.cos(d0) * vec31.f_82479_;
+-      double d3 = Mth.m_14139_((double)p_115463_, p_115462_.f_19854_, p_115462_.m_20185_()) + d1;
+-      double d4 = Mth.m_14139_((double)p_115463_, p_115462_.f_19855_, p_115462_.m_20186_()) + vec31.f_82480_;
+-      double d5 = Mth.m_14139_((double)p_115463_, p_115462_.f_19856_, p_115462_.m_20189_()) + d2;
+-      p_115464_.m_85837_(d1, vec31.f_82480_, d2);
+-      float f = (float)(vec3.f_82479_ - d3);
+-      float f1 = (float)(vec3.f_82480_ - d4);
+-      float f2 = (float)(vec3.f_82481_ - d5);
++      double d1 = Math.cos(d0) * vec31.m_7094_() + Math.sin(d0) * vec31.m_7096_();
++      double d2 = Math.sin(d0) * vec31.m_7094_() - Math.cos(d0) * vec31.m_7096_();
++      var lerp = java.math.BigDecimal.valueOf(p_115463_);
++      java.math.BigDecimal d3 = Mth.lerp(lerp, p_115462_.f_19854_, p_115462_.getBigX()).add(java.math.BigDecimal.valueOf(d1));
++      java.math.BigDecimal d4 = Mth.lerp(lerp, p_115462_.f_19855_, p_115462_.getBigY()).add(java.math.BigDecimal.valueOf(vec31.m_7098_()));
++      java.math.BigDecimal d5 = Mth.lerp(lerp, p_115462_.f_19856_, p_115462_.getBigZ()).add(java.math.BigDecimal.valueOf(d2));
++      p_115464_.m_85837_(d1, vec31.m_7098_(), d2);
++      float f = vec3.getX().subtract(d3).floatValue();
++      float f1 = vec3.getY().subtract(d4).floatValue();
++      float f2 = vec3.getZ().subtract(d5).floatValue();
+       float f3 = 0.025F;
+       VertexConsumer vertexconsumer = p_115465_.m_6299_(RenderType.m_110475_());
+       Matrix4f matrix4f = p_115464_.m_85850_().m_252922_();
+       float f4 = Mth.m_264536_(f * f + f2 * f2) * 0.025F / 2.0F;
+       float f5 = f2 * f4;
+       float f6 = f * f4;
+-      BlockPos blockpos = BlockPos.m_274446_(p_115462_.m_20299_(p_115463_));
+-      BlockPos blockpos1 = BlockPos.m_274446_(p_115466_.m_20299_(p_115463_));
++      BlockPos blockpos = BlockPos.containing(p_115462_.m_20299_(p_115463_));
++      BlockPos blockpos1 = BlockPos.containing(p_115466_.m_20299_(p_115463_));
+       int i = this.m_6086_(p_115462_, blockpos);
+       int j = this.f_114476_.m_114382_(p_115466_).m_6086_(p_115466_, blockpos1);
+       int k = p_115462_.m_9236_().m_45517_(LightLayer.SKY, blockpos);

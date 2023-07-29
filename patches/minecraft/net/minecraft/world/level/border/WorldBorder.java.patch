@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/border/WorldBorder.java
 +++ b/net/minecraft/world/level/border/WorldBorder.java
-@@ -24,20 +_,20 @@
+@@ -24,28 +_,28 @@
     private int f_61910_ = 5;
     private double f_61911_;
     private double f_61912_;
@@ -27,7 +27,8 @@
     }
  
     public boolean m_187562_(double p_187563_, double p_187564_, double p_187565_) {
-@@ -45,7 +_,7 @@
+-      return p_187563_ > this.m_61955_() - p_187565_ && p_187563_ < this.m_61957_() + p_187565_ && p_187564_ > this.m_61956_() - p_187565_ && p_187564_ < this.m_61958_() + p_187565_;
++      return true;//p_187563_ > this.getMinX() - p_187565_ && p_187563_ < this.getMaxX() + p_187565_ && p_187564_ > this.getMinZ() - p_187565_ && p_187564_ < this.getMaxZ() + p_187565_;
     }
  
     public boolean m_61935_(AABB p_61936_) {
@@ -36,6 +37,15 @@
     }
  
     public BlockPos m_187569_(double p_187570_, double p_187571_, double p_187572_) {
+@@ -53,7 +_,7 @@
+    }
+ 
+    public double m_61925_(Entity p_61926_) {
+-      return this.m_61941_(p_61926_.m_20185_(), p_61926_.m_20189_());
++      return java.lang.Double.MAX_VALUE;//this.getDistanceToBorder(p_61926_.getX(), p_61926_.getZ());
+    }
+ 
+    public VoxelShape m_61946_() {
 @@ -72,7 +_,7 @@
  
     public boolean m_187566_(Entity p_187567_, AABB p_187568_) {
@@ -60,3 +70,20 @@
        return this.f_61913_;
     }
  
+@@ -485,11 +_,11 @@
+       }
+ 
+       private void m_62073_() {
+-         this.f_62052_ = Mth.m_14008_(WorldBorder.this.m_6347_() - this.f_62051_ / 2.0D, (double)(-WorldBorder.this.f_61913_), (double)WorldBorder.this.f_61913_);
+-         this.f_62053_ = Mth.m_14008_(WorldBorder.this.m_6345_() - this.f_62051_ / 2.0D, (double)(-WorldBorder.this.f_61913_), (double)WorldBorder.this.f_61913_);
+-         this.f_62054_ = Mth.m_14008_(WorldBorder.this.m_6347_() + this.f_62051_ / 2.0D, (double)(-WorldBorder.this.f_61913_), (double)WorldBorder.this.f_61913_);
+-         this.f_62055_ = Mth.m_14008_(WorldBorder.this.m_6345_() + this.f_62051_ / 2.0D, (double)(-WorldBorder.this.f_61913_), (double)WorldBorder.this.f_61913_);
+-         this.f_62056_ = Shapes.m_83113_(Shapes.f_83036_, Shapes.m_83048_(Math.floor(this.m_6613_()), Double.NEGATIVE_INFINITY, Math.floor(this.m_6606_()), Math.ceil(this.m_6608_()), Double.POSITIVE_INFINITY, Math.ceil(this.m_6619_())), BooleanOp.f_82685_);
++//         this.minX = Mth.clamp(WorldBorder.this.getCenterX() - this.size / 2.0D, (double)(-WorldBorder.this.absoluteMaxSize), (double)WorldBorder.this.absoluteMaxSize);
++//         this.minZ = Mth.clamp(WorldBorder.this.getCenterZ() - this.size / 2.0D, (double)(-WorldBorder.this.absoluteMaxSize), (double)WorldBorder.this.absoluteMaxSize);
++//         this.maxX = Mth.clamp(WorldBorder.this.getCenterX() + this.size / 2.0D, (double)(-WorldBorder.this.absoluteMaxSize), (double)WorldBorder.this.absoluteMaxSize);
++//         this.maxZ = Mth.clamp(WorldBorder.this.getCenterZ() + this.size / 2.0D, (double)(-WorldBorder.this.absoluteMaxSize), (double)WorldBorder.this.absoluteMaxSize);
++//         this.shape = Shapes.join(Shapes.INFINITY, Shapes.box(Math.floor(this.getMinX()), Double.MIN_VALUE, Math.floor(this.getMinZ()), Math.ceil(this.getMaxX()), Double.MAX_VALUE, Math.ceil(this.getMaxZ())), BooleanOp.ONLY_FIRST);
+       }
+ 
+       public void m_6623_() {

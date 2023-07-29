@@ -51,6 +51,19 @@
           this.f_8937_ = p_9131_.m_128471_("SpawnForced");
           this.f_8938_ = p_9131_.m_128457_("SpawnAngle");
           if (p_9131_.m_128441_("SpawnDimension")) {
+@@ -343,9 +_,9 @@
+       p_9197_.m_128379_("seenCredits", this.f_8928_);
+       if (this.f_8933_ != null) {
+          CompoundTag compoundtag = new CompoundTag();
+-         compoundtag.m_128347_("x", this.f_8933_.f_82479_);
+-         compoundtag.m_128347_("y", this.f_8933_.f_82480_);
+-         compoundtag.m_128347_("z", this.f_8933_.f_82481_);
++         compoundtag.m_128347_("x", this.f_8933_.m_7096_());
++         compoundtag.m_128347_("y", this.f_8933_.m_7098_());
++         compoundtag.m_128347_("z", this.f_8933_.m_7094_());
+          p_9197_.m_128365_("enteredNetherPosition", compoundtag);
+       }
+ 
 @@ -363,9 +_,9 @@
        p_9197_.m_128365_("recipeBook", this.f_8929_.m_12805_());
        p_9197_.m_128359_("Dimension", this.m_9236_().m_46472_().m_135782_().toString());
@@ -64,6 +77,22 @@
           p_9197_.m_128379_("SpawnForced", this.f_8937_);
           p_9197_.m_128350_("SpawnAngle", this.f_8938_);
           ResourceLocation.f_135803_.encodeStart(NbtOps.f_128958_, this.f_8935_.m_135782_()).resultOrPartial(f_8907_::error).ifPresent((p_248207_) -> {
+@@ -744,13 +_,13 @@
+             if (resourcekey == Level.f_46428_ && p_9180_.m_46472_() == Level.f_46429_) {
+                this.f_8933_ = this.m_20182_();
+             } else if (p_9180_.m_46472_() == Level.f_46430_) {
+-               this.m_9006_(p_9180_, BlockPos.m_274446_(portalinfo.f_77676_));
++               this.m_9006_(p_9180_, BlockPos.containing(portalinfo.f_77676_));
+             }
+ 
+             serverlevel.m_46473_().m_7238_();
+             serverlevel.m_46473_().m_6180_("placing");
+             this.m_284127_(p_9180_);
+-            this.f_8906_.m_9774_(portalinfo.f_77676_.f_82479_, portalinfo.f_77676_.f_82480_, portalinfo.f_77676_.f_82481_, portalinfo.f_77678_, portalinfo.f_77679_);
++            this.f_8906_.teleport(portalinfo.f_77676_.getX(), portalinfo.f_77676_.getY(), portalinfo.f_77676_.getZ(), portalinfo.f_77678_, portalinfo.f_77679_);
+             this.f_8906_.m_9953_();
+             p_9180_.m_8817_(this);
+             serverlevel.m_46473_().m_7238_();
 @@ -780,7 +_,7 @@
           for(int j = -2; j <= 2; ++j) {
              for(int k = -1; k < 3; ++k) {
@@ -73,15 +102,17 @@
              }
           }
        }
-@@ -846,7 +_,7 @@
+@@ -846,8 +_,8 @@
                 if (!this.m_7500_()) {
                    double d0 = 8.0D;
                    double d1 = 5.0D;
 -                  Vec3 vec3 = Vec3.m_82539_(p_9115_);
+-                  List<Monster> list = this.m_9236_().m_6443_(Monster.class, new AABB(vec3.m_7096_() - 8.0D, vec3.m_7098_() - 5.0D, vec3.m_7094_() - 8.0D, vec3.m_7096_() + 8.0D, vec3.m_7098_() + 5.0D, vec3.m_7094_() + 8.0D), (p_9062_) -> {
 +                  Vec3 vec3 = Vec3.atBottomCenterOf(p_9115_);
-                   List<Monster> list = this.m_9236_().m_6443_(Monster.class, new AABB(vec3.m_7096_() - 8.0D, vec3.m_7098_() - 5.0D, vec3.m_7094_() - 8.0D, vec3.m_7096_() + 8.0D, vec3.m_7098_() + 5.0D, vec3.m_7094_() + 8.0D), (p_9062_) -> {
++                  List<Monster> list = this.m_9236_().m_6443_(Monster.class, new AABB(vec3.getX().subtract(me.alphamode.mclong.core.BigConstants.EIGHT), vec3.getY().subtract(me.alphamode.mclong.core.BigConstants.FIVE), vec3.getZ().subtract(me.alphamode.mclong.core.BigConstants.EIGHT), vec3.getX().add(me.alphamode.mclong.core.BigConstants.EIGHT), vec3.getY().add(me.alphamode.mclong.core.BigConstants.FIVE), vec3.getZ().add(me.alphamode.mclong.core.BigConstants.EIGHT)), (p_9062_) -> {
                       return p_9062_.m_6935_(this);
                    });
+                   if (!list.isEmpty()) {
 @@ -878,17 +_,17 @@
     }
  
@@ -104,3 +135,154 @@
     }
  
     public void m_6145_(boolean p_9165_, boolean p_9166_) {
+@@ -898,7 +_,7 @@
+ 
+       super.m_6145_(p_9165_, p_9166_);
+       if (this.f_8906_ != null) {
+-         this.f_8906_.m_9774_(this.m_20185_(), this.m_20186_(), this.m_20189_(), this.m_146908_(), this.m_146909_());
++         this.f_8906_.teleport(this.getBigX(), this.getBigY(), this.getBigZ(), this.m_146908_(), this.m_146909_());
+       }
+ 
+    }
+@@ -922,11 +_,11 @@
+ 
+    }
+ 
+-   public void m_289599_(double p_289676_, double p_289671_, double p_289665_, boolean p_289696_) {
++   public void doCheckFallDamage(java.math.BigDecimal p_289676_, java.math.BigDecimal p_289671_, java.math.BigDecimal p_289665_, boolean p_289696_) {
+       if (!this.m_146899_()) {
+          this.m_289600_(p_289696_, new Vec3(p_289676_, p_289671_, p_289665_));
+          BlockPos blockpos = this.m_216999_();
+-         super.m_7840_(p_289671_, p_289696_, this.m_9236_().m_8055_(blockpos), blockpos);
++         super.m_7840_(p_289671_.doubleValue(), p_289696_, this.m_9236_().m_8055_(blockpos), blockpos);
+       }
+    }
+ 
+@@ -1091,7 +_,7 @@
+ 
+    public void m_7618_(EntityAnchorArgument.Anchor p_9112_, Vec3 p_9113_) {
+       super.m_7618_(p_9112_, p_9113_);
+-      this.f_8906_.m_9829_(new ClientboundPlayerLookAtPacket(p_9112_, p_9113_.f_82479_, p_9113_.f_82480_, p_9113_.f_82481_));
++      this.f_8906_.m_9829_(new ClientboundPlayerLookAtPacket(p_9112_, p_9113_.m_7096_(), p_9113_.m_7098_(), p_9113_.m_7094_()));
+    }
+ 
+    public void m_9107_(EntityAnchorArgument.Anchor p_9108_, Entity p_9109_, EntityAnchorArgument.Anchor p_9110_) {
+@@ -1165,14 +_,21 @@
+    }
+ 
+    public void m_6021_(double p_8969_, double p_8970_, double p_8971_) {
+-      this.f_8906_.m_9780_(p_8969_, p_8970_, p_8971_, this.m_146908_(), this.m_146909_(), RelativeMovement.f_263774_);
+-   }
+-
+-   public void m_246847_(double p_251611_, double p_248861_, double p_252266_) {
+-      this.f_8906_.m_9780_(this.m_20185_() + p_251611_, this.m_20186_() + p_248861_, this.m_20189_() + p_252266_, this.m_146908_(), this.m_146909_(), RelativeMovement.f_263752_);
++      this.f_8906_.teleport(java.math.BigDecimal.valueOf(p_8969_), java.math.BigDecimal.valueOf(p_8970_), java.math.BigDecimal.valueOf(p_8971_), this.m_146908_(), this.m_146909_(), RelativeMovement.f_263774_);
++   }
++
++   public void teleportTo(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++      this.f_8906_.teleport(x, y, z, this.m_146908_(), this.m_146909_(), RelativeMovement.f_263774_);
++   }
++
++   public void teleportRelative(java.math.BigDecimal p_251611_, java.math.BigDecimal p_248861_, java.math.BigDecimal p_252266_) {
++      this.f_8906_.teleport(this.getBigX().add(p_251611_), this.getBigY().add(p_248861_), this.getBigZ().add(p_252266_), this.m_146908_(), this.m_146909_(), RelativeMovement.f_263752_);
+    }
+ 
+    public boolean m_264318_(ServerLevel p_265564_, double p_265424_, double p_265680_, double p_265312_, Set<RelativeMovement> p_265192_, float p_265059_, float p_265266_) {
++      java.math.BigDecimal x = java.math.BigDecimal.valueOf(p_265424_);
++      java.math.BigDecimal y = java.math.BigDecimal.valueOf(p_265680_);
++      java.math.BigDecimal z = java.math.BigDecimal.valueOf(p_265312_);
+       ChunkPos chunkpos = new ChunkPos(BlockPos.m_274561_(p_265424_, p_265680_, p_265312_));
+       p_265564_.m_7726_().m_8387_(TicketType.f_9448_, chunkpos, 1, this.m_19879_());
+       this.m_8127_();
+@@ -1181,20 +_,43 @@
+       }
+ 
+       if (p_265564_ == this.m_9236_()) {
+-         this.f_8906_.m_9780_(p_265424_, p_265680_, p_265312_, p_265059_, p_265266_, p_265192_);
++         this.f_8906_.teleport(x, y, z, p_265059_, p_265266_, p_265192_);
+       } else {
+-         this.m_8999_(p_265564_, p_265424_, p_265680_, p_265312_, p_265059_, p_265266_);
++         this.teleportTo(p_265564_, x, y, z, p_265059_, p_265266_);
+       }
+ 
+       this.m_5616_(p_265059_);
+       return true;
+    }
+ 
++   public boolean teleportTo(ServerLevel serverLevel, java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z, Set<RelativeMovement> movements, float yRot, float xRot) {
++      ChunkPos chunkpos = new ChunkPos(BlockPos.containing(x, y, z));
++      serverLevel.m_7726_().m_8387_(TicketType.f_9448_, chunkpos, 1, this.m_19879_());
++      this.m_8127_();
++      if (this.m_5803_()) {
++         this.m_6145_(true, true);
++      }
++
++      if (serverLevel == this.m_9236_()) {
++         this.f_8906_.teleport(x, y, z, yRot, xRot, movements);
++      } else {
++         this.teleportTo(serverLevel, x, y, z, yRot, xRot);
++      }
++
++      this.m_5616_(yRot);
++      return true;
++   }
++
+    public void m_6027_(double p_9171_, double p_9172_, double p_9173_) {
+       super.m_6027_(p_9171_, p_9172_, p_9173_);
+       this.f_8906_.m_9953_();
+    }
+ 
++   public void moveTo(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++      super.moveTo(x, y, z);
++      this.f_8906_.m_9953_();
++   }
++
+    public void m_5704_(Entity p_9045_) {
+       this.m_284548_().m_7726_().m_8394_(this, new ClientboundAnimatePacket(p_9045_, 4));
+    }
+@@ -1345,7 +_,7 @@
+          Level level = this.f_8926_.m_9236_();
+          if (level instanceof ServerLevel) {
+             ServerLevel serverlevel = (ServerLevel)level;
+-            this.m_264318_(serverlevel, this.f_8926_.m_20185_(), this.f_8926_.m_20186_(), this.f_8926_.m_20189_(), Set.of(), this.m_146908_(), this.m_146909_());
++            this.teleportTo(serverlevel, this.f_8926_.getBigX(), this.f_8926_.getBigY(), this.f_8926_.getBigZ(), Set.of(), this.m_146908_(), this.m_146909_());
+          }
+ 
+          if (p_9214_ != null) {
+@@ -1400,11 +_,11 @@
+       return this.f_8909_;
+    }
+ 
+-   public void m_8999_(ServerLevel p_9000_, double p_9001_, double p_9002_, double p_9003_, float p_9004_, float p_9005_) {
++   public void teleportTo(ServerLevel p_9000_, java.math.BigDecimal p_9001_, java.math.BigDecimal p_9002_, java.math.BigDecimal p_9003_, float p_9004_, float p_9005_) {
+       this.m_9213_(this);
+       this.m_8127_();
+       if (p_9000_ == this.m_9236_()) {
+-         this.f_8906_.m_9774_(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
++         this.f_8906_.teleport(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
+       } else {
+          ServerLevel serverlevel = this.m_284548_();
+          LevelData leveldata = p_9000_.m_6106_();
+@@ -1413,11 +_,11 @@
+          this.f_8924_.m_6846_().m_11289_(this);
+          serverlevel.m_143261_(this, Entity.RemovalReason.CHANGED_DIMENSION);
+          this.m_146912_();
+-         this.m_7678_(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
++         this.moveTo(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
+          this.m_284127_(p_9000_);
+          p_9000_.m_8622_(this);
+          this.m_9209_(serverlevel);
+-         this.f_8906_.m_9774_(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
++         this.f_8906_.teleport(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
+          this.f_8924_.m_6846_().m_11229_(this, p_9000_);
+          this.f_8924_.m_6846_().m_11292_(this);
+       }
+@@ -1609,7 +_,7 @@
+          return false;
+       } else {
+          p_277395_.m_7332_(this);
+-         this.f_8906_.m_9774_(this.m_20185_(), this.m_20186_(), this.m_20189_(), this.m_146908_(), this.m_146909_());
++         this.f_8906_.teleport(this.getBigX(), this.getBigY(), this.getBigZ(), this.m_146908_(), this.m_146909_());
+          if (p_277395_ instanceof LivingEntity) {
+             LivingEntity livingentity = (LivingEntity)p_277395_;
+ 

@@ -1,5 +1,14 @@
 --- a/net/minecraft/server/commands/SetWorldSpawnCommand.java
 +++ b/net/minecraft/server/commands/SetWorldSpawnCommand.java
+@@ -13,7 +_,7 @@
+       p_138661_.register(Commands.m_82127_("setworldspawn").requires((p_138665_) -> {
+          return p_138665_.m_6761_(2);
+       }).executes((p_274830_) -> {
+-         return m_138666_(p_274830_.getSource(), BlockPos.m_274446_(p_274830_.getSource().m_81371_()), 0.0F);
++         return m_138666_(p_274830_.getSource(), BlockPos.containing(p_274830_.getSource().m_81371_()), 0.0F);
+       }).then(Commands.m_82129_("pos", BlockPosArgument.m_118239_()).executes((p_138671_) -> {
+          return m_138666_(p_138671_.getSource(), BlockPosArgument.m_174395_(p_138671_, "pos"), 0.0F);
+       }).then(Commands.m_82129_("angle", AngleArgument.m_83807_()).executes((p_138663_) -> {
 @@ -24,7 +_,7 @@
     private static int m_138666_(CommandSourceStack p_138667_, BlockPos p_138668_, float p_138669_) {
        p_138667_.m_81372_().m_8733_(p_138668_, p_138669_);

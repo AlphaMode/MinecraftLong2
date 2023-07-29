@@ -35,16 +35,25 @@
              Vec3 vec3 = this.m_7475_();
              Vec3 vec31 = this.f_26496_.m_77380_(this.f_26494_);
 -            if (vec3.f_82480_ > vec31.f_82480_ && !this.f_26494_.m_20096_() && Mth.m_14107_(vec3.f_82479_) == Mth.m_14107_(vec31.f_82479_) && Mth.m_14107_(vec3.f_82481_) == Mth.m_14107_(vec31.f_82481_)) {
-+            if (vec3.f_82480_ > vec31.f_82480_ && !this.f_26494_.m_20096_() && Mth.m_14134_(vec3.f_82479_) == Mth.m_14134_(vec31.f_82479_) && Mth.m_14134_(vec3.f_82481_) == Mth.m_14134_(vec31.f_82481_)) {
++            if (vec3.m_7098_() > vec31.m_7098_() && !this.f_26494_.m_20096_() && Mth.m_14134_(vec3.m_7096_()) == Mth.m_14134_(vec31.m_7096_()) && Mth.m_14134_(vec3.m_7094_()) == Mth.m_14134_(vec31.m_7094_())) {
                 this.f_26496_.m_77374_();
              }
           }
-@@ -222,16 +_,16 @@
+@@ -215,23 +_,23 @@
+          DebugPackets.m_133703_(this.f_26495_, this.f_26494_, this.f_26496_, this.f_26505_);
+          if (!this.m_26571_()) {
+             Vec3 vec32 = this.f_26496_.m_77380_(this.f_26494_);
+-            this.f_26494_.m_21566_().m_6849_(vec32.f_82479_, this.m_183345_(vec32), vec32.f_82481_, this.f_26497_);
++            this.f_26494_.m_21566_().m_6849_(vec32.m_7096_(), this.m_183345_(vec32), vec32.m_7094_(), this.f_26497_);
+          }
+       }
+    }
  
     protected double m_183345_(Vec3 p_186132_) {
-       BlockPos blockpos = BlockPos.m_274446_(p_186132_);
+-      BlockPos blockpos = BlockPos.m_274446_(p_186132_);
 -      return this.f_26495_.m_8055_(blockpos.m_7495_()).m_60795_() ? p_186132_.f_82480_ : WalkNodeEvaluator.m_77611_(this.f_26495_, blockpos);
-+      return this.f_26495_.m_8055_(blockpos.below()).m_60795_() ? p_186132_.f_82480_ : WalkNodeEvaluator.m_77611_(this.f_26495_, blockpos);
++      BlockPos blockpos = BlockPos.containing(p_186132_);
++      return this.f_26495_.m_8055_(blockpos.below()).m_60795_() ? p_186132_.m_7098_() : WalkNodeEvaluator.m_77611_(this.f_26495_, blockpos);
     }
  
     protected void m_7636_() {
@@ -114,7 +123,13 @@
                 }
              }
           }
-@@ -366,7 +_,7 @@
+@@ -361,12 +_,12 @@
+    }
+ 
+    protected static boolean m_262402_(Mob p_262599_, Vec3 p_262674_, Vec3 p_262586_, boolean p_262676_) {
+-      Vec3 vec3 = new Vec3(p_262586_.f_82479_, p_262586_.f_82480_ + (double)p_262599_.m_20206_() * 0.5D, p_262586_.f_82481_);
++      Vec3 vec3 = new Vec3(p_262586_.m_7096_(), p_262586_.m_7098_() + (double)p_262599_.m_20206_() * 0.5D, p_262586_.m_7094_());
+       return p_262599_.m_9236_().m_45547_(new ClipContext(p_262674_, vec3, ClipContext.Block.COLLIDER, p_262676_ ? ClipContext.Fluid.ANY : ClipContext.Fluid.NONE, p_262599_)).m_6662_() == HitResult.Type.MISS;
     }
  
     public boolean m_6342_(BlockPos p_26545_) {

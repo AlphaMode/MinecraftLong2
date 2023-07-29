@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/entity/ai/goal/StrollThroughVillageGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/StrollThroughVillageGoal.java
+@@ -41,7 +_,7 @@
+             Vec3 vec3 = LandRandomPos.m_148503_(this.f_25903_, 15, 7, (p_25912_) -> {
+                return (double)(-serverlevel.m_8828_(SectionPos.m_123199_(p_25912_)));
+             });
+-            this.f_25905_ = vec3 == null ? null : BlockPos.m_274446_(vec3);
++            this.f_25905_ = vec3 == null ? null : BlockPos.containing(vec3);
+             return this.f_25905_ != null;
+          }
+       }
 @@ -54,15 +_,15 @@
     public void m_8037_() {
        if (this.f_25905_ != null) {
@@ -12,7 +21,8 @@
              Vec3 vec32 = vec31.m_82546_(vec3);
              vec3 = vec32.m_82490_(0.4D).m_82549_(vec3);
              Vec3 vec33 = vec3.m_82546_(vec31).m_82541_().m_82490_(10.0D).m_82549_(vec31);
-             BlockPos blockpos = BlockPos.m_274446_(vec33);
+-            BlockPos blockpos = BlockPos.m_274446_(vec33);
++            BlockPos blockpos = BlockPos.containing(vec33);
              blockpos = this.f_25903_.m_9236_().m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos);
 -            if (!pathnavigation.m_26519_((double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_(), 1.0D)) {
 +            if (!pathnavigation.m_26519_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), 1.0D)) {

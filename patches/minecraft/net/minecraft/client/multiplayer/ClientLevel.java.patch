@@ -1,5 +1,14 @@
 --- a/net/minecraft/client/multiplayer/ClientLevel.java
 +++ b/net/minecraft/client/multiplayer/ClientLevel.java
+@@ -140,7 +_,7 @@
+          this.m_7731_(p_233648_, p_233649_, 19);
+          Player player = this.f_104565_.f_91074_;
+          if (this == player.m_9236_() && player.m_20039_(p_233648_, p_233649_)) {
+-            player.m_20248_(p_233650_.f_82479_, p_233650_.f_82480_, p_233650_.f_82481_);
++            player.absMoveTo(p_233650_.getX(), p_233650_.getY(), p_233650_.getZ());
+          }
+       }
+ 
 @@ -256,7 +_,7 @@
     }
  
@@ -134,7 +143,7 @@
        return this.m_9598_().m_175515_(Registries.f_256952_).m_246971_(Biomes.f_48202_);
     }
  
-@@ -605,7 +_,7 @@
+@@ -605,13 +_,13 @@
        Vec3 vec3 = p_171661_.m_82492_(2.0D, 2.0D, 2.0D).m_82490_(0.25D);
        BiomeManager biomemanager = this.m_7062_();
        Vec3 vec31 = CubicSampler.m_130038_(vec3, (p_194161_, p_194162_, p_194163_) -> {
@@ -143,7 +152,16 @@
        });
        float f1 = Mth.m_14089_(f * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
        f1 = Mth.m_14036_(f1, 0.0F, 1.0F);
-@@ -722,18 +_,18 @@
+-      float f2 = (float)vec31.f_82479_ * f1;
+-      float f3 = (float)vec31.f_82480_ * f1;
+-      float f4 = (float)vec31.f_82481_ * f1;
++      float f2 = (float)vec31.m_7096_() * f1;
++      float f3 = (float)vec31.m_7098_() * f1;
++      float f4 = (float)vec31.m_7094_() * f1;
+       float f5 = this.m_46722_(p_171662_);
+       if (f5 > 0.0F) {
+          float f6 = (f2 * 0.3F + f3 * 0.59F + f4 * 0.11F) * 0.6F;
+@@ -722,18 +_,19 @@
     public int m_104762_(BlockPos p_104763_, ColorResolver p_104764_) {
        int i = Minecraft.m_91087_().f_91066_.m_232121_().m_231551_();
        if (i == 0) {
@@ -155,7 +173,8 @@
           int l = 0;
           int i1 = 0;
 -         Cursor3D cursor3d = new Cursor3D(p_104763_.m_123341_() - i, p_104763_.m_123342_(), p_104763_.m_123343_() - i, p_104763_.m_123341_() + i, p_104763_.m_123342_(), p_104763_.m_123343_() + i);
-+         Cursor3D cursor3d = new Cursor3D(p_104763_.getX() - i, p_104763_.getY(), p_104763_.getZ() - i, p_104763_.getX() + i, p_104763_.getY(), p_104763_.getZ() + i);
++         var blendRadius = java.math.BigInteger.valueOf(i);
++         Cursor3D cursor3d = new Cursor3D(p_104763_.getBigX().subtract(blendRadius), p_104763_.getBigY(), p_104763_.getBigZ().subtract(blendRadius), p_104763_.getBigX().add(blendRadius), p_104763_.getBigY(), p_104763_.getBigZ().add(blendRadius));
  
           int j1;
           for(BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(); cursor3d.m_122304_(); i1 += j1 & 255) {

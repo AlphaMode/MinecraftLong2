@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/entity/animal/Fox.java
 +++ b/net/minecraft/world/entity/animal/Fox.java
+@@ -264,7 +_,7 @@
+          if (!itemstack.m_41619_()) {
+             for(int i = 0; i < 8; ++i) {
+                Vec3 vec3 = (new Vec3(((double)this.f_19796_.m_188501_() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).m_82496_(-this.m_146909_() * ((float)Math.PI / 180F)).m_82524_(-this.m_146908_() * ((float)Math.PI / 180F));
+-               this.m_9236_().m_7106_(new ItemParticleOption(ParticleTypes.f_123752_, itemstack), this.m_20185_() + this.m_20154_().f_82479_ / 2.0D, this.m_20186_(), this.m_20189_() + this.m_20154_().f_82481_ / 2.0D, vec3.f_82479_, vec3.f_82480_ + 0.05D, vec3.f_82481_);
++               this.m_9236_().m_7106_(new ItemParticleOption(ParticleTypes.f_123752_, itemstack), this.m_20185_() + this.m_20154_().m_7096_() / 2.0D, this.m_20186_(), this.m_20189_() + this.m_20154_().m_7094_() / 2.0D, vec3.m_7096_(), vec3.m_7098_() + 0.05D, vec3.m_7094_());
+             }
+          }
+       } else {
 @@ -288,7 +_,7 @@
     }
  
@@ -9,3 +18,61 @@
     }
  
     @Nullable
+@@ -465,7 +_,7 @@
+ 
+    private void m_28601_(ItemStack p_28602_) {
+       if (!p_28602_.m_41619_() && !this.m_9236_().f_46443_) {
+-         ItemEntity itementity = new ItemEntity(this.m_9236_(), this.m_20185_() + this.m_20154_().f_82479_, this.m_20186_() + 1.0D, this.m_20189_() + this.m_20154_().f_82481_, p_28602_);
++         ItemEntity itementity = new ItemEntity(this.m_9236_(), this.m_20185_() + this.m_20154_().m_7096_(), this.m_20186_() + 1.0D, this.m_20189_() + this.m_20154_().m_7094_(), p_28602_);
+          itementity.m_32010_(40);
+          itementity.m_32052_(this.m_20148_());
+          this.m_5496_(SoundEvents.f_11952_, 1.0F, 1.0F);
+@@ -786,7 +_,7 @@
+       private final TargetingConditions f_28657_ = TargetingConditions.m_148352_().m_26883_(12.0D).m_148355_().m_26888_(Fox.this.new FoxAlertableEntitiesSelector());
+ 
+       protected boolean m_28663_() {
+-         BlockPos blockpos = BlockPos.m_274561_(Fox.this.m_20185_(), Fox.this.m_20191_().f_82292_, Fox.this.m_20189_());
++         BlockPos blockpos = BlockPos.containing(Fox.this.getBigX(), Fox.this.m_20191_().f_82292_, Fox.this.getBigZ());
+          return !Fox.this.m_9236_().m_45527_(blockpos) && Fox.this.m_21692_(blockpos) >= 0.0F;
+       }
+ 
+@@ -1077,7 +_,7 @@
+       public boolean m_8045_() {
+          LivingEntity livingentity = Fox.this.m_5448_();
+          if (livingentity != null && livingentity.m_6084_()) {
+-            double d0 = Fox.this.m_20184_().f_82480_;
++            double d0 = Fox.this.m_20184_().m_7098_();
+             return (!(d0 * d0 < (double)0.05F) || !(Math.abs(Fox.this.m_146909_()) < 15.0F) || !Fox.this.m_20096_()) && !Fox.this.m_28556_();
+          } else {
+             return false;
+@@ -1096,7 +_,7 @@
+          if (livingentity != null) {
+             Fox.this.m_21563_().m_24960_(livingentity, 60.0F, 30.0F);
+             Vec3 vec3 = (new Vec3(livingentity.m_20185_() - Fox.this.m_20185_(), livingentity.m_20186_() - Fox.this.m_20186_(), livingentity.m_20189_() - Fox.this.m_20189_())).m_82541_();
+-            Fox.this.m_20256_(Fox.this.m_20184_().m_82520_(vec3.f_82479_ * 0.8D, 0.9D, vec3.f_82481_ * 0.8D));
++            Fox.this.m_20256_(Fox.this.m_20184_().m_82520_(vec3.m_7096_() * 0.8D, 0.9D, vec3.m_7094_() * 0.8D));
+          }
+ 
+          Fox.this.m_21573_().m_26573_();
+@@ -1118,18 +_,18 @@
+ 
+          if (!Fox.this.m_28556_()) {
+             Vec3 vec3 = Fox.this.m_20184_();
+-            if (vec3.f_82480_ * vec3.f_82480_ < (double)0.03F && Fox.this.m_146909_() != 0.0F) {
++            if (vec3.m_7098_() * vec3.m_7098_() < (double)0.03F && Fox.this.m_146909_() != 0.0F) {
+                Fox.this.m_146926_(Mth.m_14189_(0.2F, Fox.this.m_146909_(), 0.0F));
+             } else {
+                double d0 = vec3.m_165924_();
+-               double d1 = Math.signum(-vec3.f_82480_) * Math.acos(d0 / vec3.m_82553_()) * (double)(180F / (float)Math.PI);
++               double d1 = Math.signum(-vec3.m_7098_()) * Math.acos(d0 / vec3.m_82553_()) * (double)(180F / (float)Math.PI);
+                Fox.this.m_146926_((float)d1);
+             }
+          }
+ 
+          if (livingentity != null && Fox.this.m_20270_(livingentity) <= 2.0F) {
+             Fox.this.m_7327_(livingentity);
+-         } else if (Fox.this.m_146909_() > 0.0F && Fox.this.m_20096_() && (float)Fox.this.m_20184_().f_82480_ != 0.0F && Fox.this.m_9236_().m_8055_(Fox.this.m_20183_()).m_60713_(Blocks.f_50125_)) {
++         } else if (Fox.this.m_146909_() > 0.0F && Fox.this.m_20096_() && (float)Fox.this.m_20184_().m_7098_() != 0.0F && Fox.this.m_9236_().m_8055_(Fox.this.m_20183_()).m_60713_(Blocks.f_50125_)) {
+             Fox.this.m_146926_(60.0F);
+             Fox.this.m_6710_((LivingEntity)null);
+             Fox.this.m_28618_(true);

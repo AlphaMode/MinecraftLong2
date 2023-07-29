@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/phys/shapes/Shapes.java
 +++ b/net/minecraft/world/phys/shapes/Shapes.java
-@@ -17,7 +_,7 @@
+@@ -17,11 +_,11 @@
     public static final double f_166026_ = 1.0E-6D;
     private static final VoxelShape f_83037_ = Util.m_137537_(() -> {
        DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape(1, 1, 1);
@@ -8,4 +8,170 @@
 +      discretevoxelshape.fill(0, 0, 0);
        return new CubeVoxelShape(discretevoxelshape);
     });
-    public static final VoxelShape f_83036_ = m_83048_(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+-   public static final VoxelShape f_83036_ = m_83048_(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+-   private static final VoxelShape f_83038_ = new ArrayVoxelShape(new BitSetDiscreteVoxelShape(0, 0, 0), (DoubleList)(new DoubleArrayList(new double[]{0.0D})), (DoubleList)(new DoubleArrayList(new double[]{0.0D})), (DoubleList)(new DoubleArrayList(new double[]{0.0D})));
++   public static final VoxelShape f_83036_ = box(me.alphamode.mclong.core.BigConstants.NEGATIVE_INFINITY, me.alphamode.mclong.core.BigConstants.NEGATIVE_INFINITY, me.alphamode.mclong.core.BigConstants.NEGATIVE_INFINITY, me.alphamode.mclong.core.BigConstants.POSITIVE_INFINITY, me.alphamode.mclong.core.BigConstants.POSITIVE_INFINITY, me.alphamode.mclong.core.BigConstants.POSITIVE_INFINITY);
++   private static final VoxelShape f_83038_ = new ArrayVoxelShape(new BitSetDiscreteVoxelShape(0, 0, 0), (new it.unimi.dsi.fastutil.objects.ObjectArrayList<>(new java.math.BigDecimal[]{java.math.BigDecimal.ZERO})), (new it.unimi.dsi.fastutil.objects.ObjectArrayList<>(new java.math.BigDecimal[]{java.math.BigDecimal.ZERO})), (new it.unimi.dsi.fastutil.objects.ObjectArrayList<>(new java.math.BigDecimal[]{java.math.BigDecimal.ZERO})));
+ 
+    public static VoxelShape m_83040_() {
+       return f_83038_;
+@@ -39,11 +_,19 @@
+       }
+    }
+ 
++   public static VoxelShape box(java.math.BigDecimal p_83049_, java.math.BigDecimal p_83050_, java.math.BigDecimal p_83051_, java.math.BigDecimal p_83052_, java.math.BigDecimal p_83053_, java.math.BigDecimal p_83054_) {
++      if (!(p_83049_.compareTo(p_83052_) > 0) && !(p_83050_.compareTo(p_83053_) > 0) && !(p_83051_.compareTo(p_83054_) > 0)) {
++         return create(p_83049_, p_83050_, p_83051_, p_83052_, p_83053_, p_83054_);
++      } else {
++         throw new IllegalArgumentException("The min values need to be smaller or equals to the max values");
++      }
++   }
++
+    public static VoxelShape m_166049_(double p_166050_, double p_166051_, double p_166052_, double p_166053_, double p_166054_, double p_166055_) {
+       if (!(p_166053_ - p_166050_ < 1.0E-7D) && !(p_166054_ - p_166051_ < 1.0E-7D) && !(p_166055_ - p_166052_ < 1.0E-7D)) {
+-         int i = m_83041_(p_166050_, p_166053_);
+-         int j = m_83041_(p_166051_, p_166054_);
+-         int k = m_83041_(p_166052_, p_166055_);
++         int i = findBits(java.math.BigDecimal.valueOf(p_166050_), java.math.BigDecimal.valueOf(p_166053_));
++         int j = findBits(java.math.BigDecimal.valueOf(p_166051_), java.math.BigDecimal.valueOf(p_166054_));
++         int k = findBits(java.math.BigDecimal.valueOf(p_166052_), java.math.BigDecimal.valueOf(p_166055_));
+          if (i >= 0 && j >= 0 && k >= 0) {
+             if (i == 0 && j == 0 && k == 0) {
+                return m_83144_();
+@@ -55,7 +_,30 @@
+                return new CubeVoxelShape(bitsetdiscretevoxelshape);
+             }
+          } else {
+-            return new ArrayVoxelShape(f_83037_.f_83211_, (DoubleList)DoubleArrayList.wrap(new double[]{p_166050_, p_166053_}), (DoubleList)DoubleArrayList.wrap(new double[]{p_166051_, p_166054_}), (DoubleList)DoubleArrayList.wrap(new double[]{p_166052_, p_166055_}));
++            return new ArrayVoxelShape(f_83037_.f_83211_, it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{java.math.BigDecimal.valueOf(p_166050_), java.math.BigDecimal.valueOf(p_166053_)}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{java.math.BigDecimal.valueOf(p_166051_), java.math.BigDecimal.valueOf(p_166054_)}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{java.math.BigDecimal.valueOf(p_166052_), java.math.BigDecimal.valueOf(p_166055_)}));
++         }
++      } else {
++         return m_83040_();
++      }
++   }
++
++   public static VoxelShape create(java.math.BigDecimal p_166050_, java.math.BigDecimal p_166051_, java.math.BigDecimal p_166052_, java.math.BigDecimal p_166053_, java.math.BigDecimal p_166054_, java.math.BigDecimal p_166055_) {
++      if (!(p_166053_.subtract(p_166050_).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) && !(p_166054_.subtract(p_166051_).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) && !(p_166055_.subtract(p_166052_).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0)) {
++         int i = findBits(p_166050_, p_166053_);
++         int j = findBits(p_166051_, p_166054_);
++         int k = findBits(p_166052_, p_166055_);
++         if (i >= 0 && j >= 0 && k >= 0) {
++            if (i == 0 && j == 0 && k == 0) {
++               return m_83144_();
++            } else {
++               int l = 1 << i;
++               int i1 = 1 << j;
++               int j1 = 1 << k;
++               BitSetDiscreteVoxelShape bitsetdiscretevoxelshape = BitSetDiscreteVoxelShape.m_165932_(l, i1, j1, (int)Math.round(p_166050_.doubleValue() * (double)l), (int)Math.round(p_166051_.doubleValue() * (double)i1), (int)Math.round(p_166052_.doubleValue() * (double)j1), (int)Math.round(p_166053_.doubleValue() * (double)l), (int)Math.round(p_166054_.doubleValue() * (double)i1), (int)Math.round(p_166055_.doubleValue() * (double)j1));
++               return new CubeVoxelShape(bitsetdiscretevoxelshape);
++            }
++         } else {
++            return new ArrayVoxelShape(f_83037_.f_83211_, it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{p_166050_, p_166053_}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{p_166051_, p_166054_}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{p_166052_, p_166055_}));
+          }
+       } else {
+          return m_83040_();
+@@ -63,18 +_,18 @@
+    }
+ 
+    public static VoxelShape m_83064_(AABB p_83065_) {
+-      return m_166049_(p_83065_.f_82288_, p_83065_.f_82289_, p_83065_.f_82290_, p_83065_.f_82291_, p_83065_.f_82292_, p_83065_.f_82293_);
++      return create(p_83065_.f_82288_, p_83065_.f_82289_, p_83065_.f_82290_, p_83065_.f_82291_, p_83065_.f_82292_, p_83065_.f_82293_);
+    }
+ 
+    @VisibleForTesting
+-   protected static int m_83041_(double p_83042_, double p_83043_) {
+-      if (!(p_83042_ < -1.0E-7D) && !(p_83043_ > 1.0000001D)) {
++   protected static int findBits(java.math.BigDecimal p_83042_, java.math.BigDecimal p_83043_) {
++      if (!(p_83042_.compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.negate()) < 0) && !(p_83043_.compareTo(java.math.BigDecimal.valueOf(1.0000001D)) > 0)) {
+          for(int i = 0; i <= 3; ++i) {
+-            int j = 1 << i;
+-            double d0 = p_83042_ * (double)j;
+-            double d1 = p_83043_ * (double)j;
+-            boolean flag = Math.abs(d0 - (double)Math.round(d0)) < 1.0E-7D * (double)j;
+-            boolean flag1 = Math.abs(d1 - (double)Math.round(d1)) < 1.0E-7D * (double)j;
++            java.math.BigDecimal j = java.math.BigDecimal.valueOf(1 << i);
++            java.math.BigDecimal d0 = p_83042_.multiply(j);
++            java.math.BigDecimal d1 = p_83043_.multiply(j);
++            boolean flag = d0.subtract(d0.round(java.math.MathContext.DECIMAL64)).abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.multiply(j)) < 0;
++            boolean flag1 = d1.subtract(d1.round(java.math.MathContext.DECIMAL64)).abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.multiply(j)) < 0;
+             if (flag && flag1) {
+                return i;
+             }
+@@ -115,11 +_,11 @@
+          } else if (p_83150_.m_83281_()) {
+             return flag ? p_83149_ : m_83040_();
+          } else {
+-            IndexMerger indexmerger = m_83058_(1, p_83149_.m_7700_(Direction.Axis.X), p_83150_.m_7700_(Direction.Axis.X), flag, flag1);
+-            IndexMerger indexmerger1 = m_83058_(indexmerger.size() - 1, p_83149_.m_7700_(Direction.Axis.Y), p_83150_.m_7700_(Direction.Axis.Y), flag, flag1);
+-            IndexMerger indexmerger2 = m_83058_((indexmerger.size() - 1) * (indexmerger1.size() - 1), p_83149_.m_7700_(Direction.Axis.Z), p_83150_.m_7700_(Direction.Axis.Z), flag, flag1);
++            IndexMerger indexmerger = createIndexMerger(1, p_83149_.getCoords(Direction.Axis.X), p_83150_.getCoords(Direction.Axis.X), flag, flag1);
++            IndexMerger indexmerger1 = createIndexMerger(indexmerger.size() - 1, p_83149_.getCoords(Direction.Axis.Y), p_83150_.getCoords(Direction.Axis.Y), flag, flag1);
++            IndexMerger indexmerger2 = createIndexMerger((indexmerger.size() - 1) * (indexmerger1.size() - 1), p_83149_.getCoords(Direction.Axis.Z), p_83150_.getCoords(Direction.Axis.Z), flag, flag1);
+             BitSetDiscreteVoxelShape bitsetdiscretevoxelshape = BitSetDiscreteVoxelShape.m_82641_(p_83149_.f_83211_, p_83150_.f_83211_, indexmerger, indexmerger1, indexmerger2, p_83151_);
+-            return (VoxelShape)(indexmerger instanceof DiscreteCubeMerger && indexmerger1 instanceof DiscreteCubeMerger && indexmerger2 instanceof DiscreteCubeMerger ? new CubeVoxelShape(bitsetdiscretevoxelshape) : new ArrayVoxelShape(bitsetdiscretevoxelshape, indexmerger.m_6241_(), indexmerger1.m_6241_(), indexmerger2.m_6241_()));
++            return (VoxelShape)(indexmerger instanceof DiscreteCubeMerger && indexmerger1 instanceof DiscreteCubeMerger && indexmerger2 instanceof DiscreteCubeMerger ? new CubeVoxelShape(bitsetdiscretevoxelshape) : new ArrayVoxelShape(bitsetdiscretevoxelshape, indexmerger.getList(), indexmerger1.getList(), indexmerger2.getList()));
+          }
+       }
+    }
+@@ -147,9 +_,9 @@
+                   }
+                }
+ 
+-               IndexMerger indexmerger = m_83058_(1, p_83158_.m_7700_(Direction.Axis.X), p_83159_.m_7700_(Direction.Axis.X), flag2, flag3);
+-               IndexMerger indexmerger1 = m_83058_(indexmerger.size() - 1, p_83158_.m_7700_(Direction.Axis.Y), p_83159_.m_7700_(Direction.Axis.Y), flag2, flag3);
+-               IndexMerger indexmerger2 = m_83058_((indexmerger.size() - 1) * (indexmerger1.size() - 1), p_83158_.m_7700_(Direction.Axis.Z), p_83159_.m_7700_(Direction.Axis.Z), flag2, flag3);
++               IndexMerger indexmerger = createIndexMerger(1, p_83158_.getCoords(Direction.Axis.X), p_83159_.getCoords(Direction.Axis.X), flag2, flag3);
++               IndexMerger indexmerger1 = createIndexMerger(indexmerger.size() - 1, p_83158_.getCoords(Direction.Axis.Y), p_83159_.getCoords(Direction.Axis.Y), flag2, flag3);
++               IndexMerger indexmerger2 = createIndexMerger((indexmerger.size() - 1) * (indexmerger1.size() - 1), p_83158_.getCoords(Direction.Axis.Z), p_83159_.getCoords(Direction.Axis.Z), flag2, flag3);
+                return m_83103_(indexmerger, indexmerger1, indexmerger2, p_83158_.f_83211_, p_83159_.f_83211_, p_83160_);
+             }
+          } else {
+@@ -168,13 +_,13 @@
+       });
+    }
+ 
+-   public static double m_193135_(Direction.Axis p_193136_, AABB p_193137_, Iterable<VoxelShape> p_193138_, double p_193139_) {
++   public static java.math.BigDecimal collide(Direction.Axis p_193136_, AABB p_193137_, Iterable<VoxelShape> p_193138_, java.math.BigDecimal p_193139_) {
+       for(VoxelShape voxelshape : p_193138_) {
+-         if (Math.abs(p_193139_) < 1.0E-7D) {
+-            return 0.0D;
++         if (p_193139_.abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) {
++            return java.math.BigDecimal.ZERO;
+          }
+ 
+-         p_193139_ = voxelshape.m_83259_(p_193136_, p_193137_, p_193139_);
++         p_193139_ = voxelshape.collide(p_193136_, p_193137_, p_193139_);
+       }
+ 
+       return p_193139_;
+@@ -247,7 +_,7 @@
+    }
+ 
+    @VisibleForTesting
+-   protected static IndexMerger m_83058_(int p_83059_, DoubleList p_83060_, DoubleList p_83061_, boolean p_83062_, boolean p_83063_) {
++   protected static IndexMerger createIndexMerger(int p_83059_, it.unimi.dsi.fastutil.objects.ObjectList<java.math.BigDecimal> p_83060_, it.unimi.dsi.fastutil.objects.ObjectList<java.math.BigDecimal> p_83061_, boolean p_83062_, boolean p_83063_) {
+       int i = p_83060_.size() - 1;
+       int j = p_83061_.size() - 1;
+       if (p_83060_ instanceof CubePointRange && p_83061_ instanceof CubePointRange) {
+@@ -257,9 +_,9 @@
+          }
+       }
+ 
+-      if (p_83060_.getDouble(i) < p_83061_.getDouble(0) - 1.0E-7D) {
++      if (p_83060_.get(i).compareTo(p_83061_.get(0).subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) < 0) {
+          return new NonOverlappingMerger(p_83060_, p_83061_, false);
+-      } else if (p_83061_.getDouble(j) < p_83060_.getDouble(0) - 1.0E-7D) {
++      } else if (p_83061_.get(j).compareTo(p_83060_.get(0).subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) < 0) {
+          return new NonOverlappingMerger(p_83061_, p_83060_, true);
+       } else {
+          return (IndexMerger)(i == j && Objects.equals(p_83060_, p_83061_) ? new IdenticalMerger(p_83060_) : new IndirectMerger(p_83060_, p_83061_, p_83062_, p_83063_));
+@@ -268,5 +_,9 @@
+ 
+    public interface DoubleLineConsumer {
+       void m_83161_(double p_83162_, double p_83163_, double p_83164_, double p_83165_, double p_83166_, double p_83167_);
++   }
++
++   public interface BigLineConsumer {
++      void consume(java.math.BigDecimal p_83162_, java.math.BigDecimal p_83163_, java.math.BigDecimal p_83164_, java.math.BigDecimal p_83165_, java.math.BigDecimal p_83166_, java.math.BigDecimal p_83167_);
+    }
+ }

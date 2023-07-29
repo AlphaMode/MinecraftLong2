@@ -1,0 +1,21 @@
+--- a/net/minecraft/client/renderer/entity/layers/CapeLayer.java
++++ b/net/minecraft/client/renderer/entity/layers/CapeLayer.java
+@@ -29,13 +_,14 @@
+          if (!itemstack.m_150930_(Items.f_42741_)) {
+             p_116615_.m_85836_();
+             p_116615_.m_252880_(0.0F, 0.0F, 0.125F);
+-            double d0 = Mth.m_14139_((double)p_116621_, p_116618_.f_36102_, p_116618_.f_36105_) - Mth.m_14139_((double)p_116621_, p_116618_.f_19854_, p_116618_.m_20185_());
+-            double d1 = Mth.m_14139_((double)p_116621_, p_116618_.f_36103_, p_116618_.f_36106_) - Mth.m_14139_((double)p_116621_, p_116618_.f_19855_, p_116618_.m_20186_());
+-            double d2 = Mth.m_14139_((double)p_116621_, p_116618_.f_36104_, p_116618_.f_36075_) - Mth.m_14139_((double)p_116621_, p_116618_.f_19856_, p_116618_.m_20189_());
++            var lerp = java.math.BigDecimal.valueOf(p_116621_);
++            double d0 = java.math.BigDecimal.valueOf(Mth.m_14139_(p_116621_, p_116618_.f_36102_, p_116618_.f_36105_)).subtract(Mth.lerp(lerp, p_116618_.f_19854_, p_116618_.getBigX())).doubleValue();
++            double d1 = java.math.BigDecimal.valueOf(Mth.m_14139_(p_116621_, p_116618_.f_36103_, p_116618_.f_36106_)).subtract(Mth.lerp(lerp, p_116618_.f_19855_, p_116618_.getBigY())).doubleValue();
++            double d2 = java.math.BigDecimal.valueOf(Mth.m_14139_(p_116621_, p_116618_.f_36104_, p_116618_.f_36075_)).subtract(Mth.lerp(lerp, p_116618_.f_19856_, p_116618_.getBigZ())).doubleValue();
+             float f = Mth.m_14189_(p_116621_, p_116618_.f_20884_, p_116618_.f_20883_);
+             double d3 = (double)Mth.m_14031_(f * ((float)Math.PI / 180F));
+             double d4 = (double)(-Mth.m_14089_(f * ((float)Math.PI / 180F)));
+-            float f1 = (float)d1 * 10.0F;
++            float f1 = (float) (d1 * 10.0F);
+             f1 = Mth.m_14036_(f1, -6.0F, 32.0F);
+             float f2 = (float)(d0 * d3 + d2 * d4) * 100.0F;
+             f2 = Mth.m_14036_(f2, 0.0F, 150.0F);

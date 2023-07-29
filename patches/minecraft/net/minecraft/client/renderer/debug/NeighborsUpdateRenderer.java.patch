@@ -1,14 +1,16 @@
 --- a/net/minecraft/client/renderer/debug/NeighborsUpdateRenderer.java
 +++ b/net/minecraft/client/renderer/debug/NeighborsUpdateRenderer.java
-@@ -55,7 +_,7 @@
+@@ -55,8 +_,8 @@
                 BlockPos blockpos = entry1.getKey();
                 Integer integer = entry1.getValue();
                 if (set.add(blockpos)) {
 -                  AABB aabb = (new AABB(BlockPos.f_121853_)).m_82400_(0.002D).m_82406_(0.0025D * (double)k).m_82386_((double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_()).m_82386_(-p_113602_, -p_113603_, -p_113604_);
+-                  LevelRenderer.m_109608_(p_113600_, vertexconsumer, aabb.f_82288_, aabb.f_82289_, aabb.f_82290_, aabb.f_82291_, aabb.f_82292_, aabb.f_82293_, 1.0F, 1.0F, 1.0F, 1.0F);
 +                  AABB aabb = (new AABB(BlockPos.f_121853_)).m_82400_(0.002D).m_82406_(0.0025D * (double)k).m_82386_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ()).m_82386_(-p_113602_, -p_113603_, -p_113604_);
-                   LevelRenderer.m_109608_(p_113600_, vertexconsumer, aabb.f_82288_, aabb.f_82289_, aabb.f_82290_, aabb.f_82291_, aabb.f_82292_, aabb.f_82293_, 1.0F, 1.0F, 1.0F, 1.0F);
++                  LevelRenderer.m_109608_(p_113600_, vertexconsumer, aabb.f_82288_.doubleValue(), aabb.f_82289_.doubleValue(), aabb.f_82290_.doubleValue(), aabb.f_82291_.doubleValue(), aabb.f_82292_.doubleValue(), aabb.f_82293_.doubleValue(), 1.0F, 1.0F, 1.0F, 1.0F);
                    map.put(blockpos, integer);
                 }
+             }
 @@ -66,7 +_,7 @@
        for(Map.Entry<BlockPos, Integer> entry2 : map.entrySet()) {
           BlockPos blockpos1 = entry2.getKey();

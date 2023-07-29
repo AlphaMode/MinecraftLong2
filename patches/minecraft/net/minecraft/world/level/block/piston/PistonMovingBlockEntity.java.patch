@@ -1,6 +1,51 @@
 --- a/net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java
 +++ b/net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java
-@@ -228,7 +_,7 @@
+@@ -127,9 +_,9 @@
+ 
+                      if (!(entity instanceof ServerPlayer)) {
+                         Vec3 vec3 = entity.m_20184_();
+-                        double d1 = vec3.f_82479_;
+-                        double d2 = vec3.f_82480_;
+-                        double d3 = vec3.f_82481_;
++                        double d1 = vec3.m_7096_();
++                        double d2 = vec3.m_7098_();
++                        double d3 = vec3.m_7094_();
+                         switch (direction.m_122434_()) {
+                            case X:
+                               d1 = (double)direction.m_122429_();
+@@ -197,7 +_,7 @@
+    }
+ 
+    private static boolean m_287216_(AABB p_287782_, Entity p_287720_, BlockPos p_287775_) {
+-      return p_287720_.m_7752_() == PushReaction.NORMAL && p_287720_.m_20096_() && (p_287720_.m_287201_(p_287775_) || p_287720_.m_20185_() >= p_287782_.f_82288_ && p_287720_.m_20185_() <= p_287782_.f_82291_ && p_287720_.m_20189_() >= p_287782_.f_82290_ && p_287720_.m_20189_() <= p_287782_.f_82293_);
++      return p_287720_.m_7752_() == PushReaction.NORMAL && p_287720_.m_20096_() && (p_287720_.m_287201_(p_287775_) || p_287720_.getBigX().compareTo(p_287782_.f_82288_) >= 0 && p_287720_.getBigX().compareTo(p_287782_.f_82291_) <= 0 && p_287720_.getBigZ().compareTo(p_287782_.f_82290_) >= 0 && p_287720_.getBigZ().compareTo(p_287782_.f_82293_) <= 0);
+    }
+ 
+    private boolean m_60404_() {
+@@ -211,24 +_,24 @@
+    private static double m_60367_(AABB p_60368_, Direction p_60369_, AABB p_60370_) {
+       switch (p_60369_) {
+          case EAST:
+-            return p_60368_.f_82291_ - p_60370_.f_82288_;
++            return p_60368_.f_82291_.subtract(p_60370_.f_82288_).doubleValue();
+          case WEST:
+-            return p_60370_.f_82291_ - p_60368_.f_82288_;
++            return p_60370_.f_82291_.subtract(p_60368_.f_82288_).doubleValue();
+          case UP:
+          default:
+-            return p_60368_.f_82292_ - p_60370_.f_82289_;
++            return p_60368_.f_82292_.subtract(p_60370_.f_82289_).doubleValue();
+          case DOWN:
+-            return p_60370_.f_82292_ - p_60368_.f_82289_;
++            return p_60370_.f_82292_.subtract(p_60368_.f_82289_).doubleValue();
+          case SOUTH:
+-            return p_60368_.f_82293_ - p_60370_.f_82290_;
++            return p_60368_.f_82293_.subtract(p_60370_.f_82290_).doubleValue();
+          case NORTH:
+-            return p_60370_.f_82293_ - p_60368_.f_82290_;
++            return p_60370_.f_82293_.subtract(p_60368_.f_82290_).doubleValue();
+       }
+    }
  
     private static AABB m_155925_(BlockPos p_155926_, AABB p_155927_, PistonMovingBlockEntity p_155928_) {
        double d0 = (double)p_155928_.m_60390_(p_155928_.f_60339_);

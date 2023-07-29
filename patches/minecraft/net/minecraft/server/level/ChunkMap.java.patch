@@ -48,10 +48,12 @@
     private static double m_140226_(ChunkPos p_140227_, Entity p_140228_) {
 -      double d0 = (double)SectionPos.m_175554_(p_140227_.f_45578_, 8);
 -      double d1 = (double)SectionPos.m_175554_(p_140227_.f_45579_, 8);
+-      double d2 = d0 - p_140228_.m_20185_();
+-      double d3 = d1 - p_140228_.m_20189_();
 +      double d0 = (double)SectionPos.sectionToBlockCoord(p_140227_.f_45578_, 8);
 +      double d1 = (double)SectionPos.sectionToBlockCoord(p_140227_.f_45579_, 8);
-       double d2 = d0 - p_140228_.m_20185_();
-       double d3 = d1 - p_140228_.m_20189_();
++      double d2 = java.math.BigDecimal.valueOf(d0).subtract(p_140228_.getBigX()).doubleValue();
++      double d3 = java.math.BigDecimal.valueOf(d1).subtract(p_140228_.getBigZ()).doubleValue();
        return d2 * d2 + d3 * d3;
     }
  
@@ -499,3 +501,12 @@
        }
     }
  
+@@ -1375,7 +_,7 @@
+          if (p_140498_ != this.f_140472_) {
+             Vec3 vec3 = p_140498_.m_20182_().m_82546_(this.f_140472_.m_20182_());
+             double d0 = (double)Math.min(this.m_140496_(), ChunkMap.this.f_140126_ * 16);
+-            double d1 = vec3.f_82479_ * vec3.f_82479_ + vec3.f_82481_ * vec3.f_82481_;
++            double d1 = vec3.m_7096_() * vec3.m_7096_() + vec3.m_7094_() * vec3.m_7094_();
+             double d2 = d0 * d0;
+             boolean flag = d1 <= d2 && this.f_140472_.m_6459_(p_140498_);
+             if (flag) {

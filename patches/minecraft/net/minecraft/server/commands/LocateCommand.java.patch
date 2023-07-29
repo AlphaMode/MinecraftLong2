@@ -1,5 +1,32 @@
 --- a/net/minecraft/server/commands/LocateCommand.java
 +++ b/net/minecraft/server/commands/LocateCommand.java
+@@ -77,7 +_,7 @@
+       HolderSet<Structure> holderset = m_245526_(p_249893_, registry).orElseThrow(() -> {
+          return f_214452_.create(p_249893_.m_245390_());
+       });
+-      BlockPos blockpos = BlockPos.m_274446_(p_214472_.m_81371_());
++      BlockPos blockpos = BlockPos.containing(p_214472_.m_81371_());
+       ServerLevel serverlevel = p_214472_.m_81372_();
+       Stopwatch stopwatch = Stopwatch.createStarted(Util.f_211544_);
+       Pair<BlockPos, Holder<Structure>> pair = serverlevel.m_7726_().m_8481_().m_223037_(serverlevel, holderset, blockpos, 100, false);
+@@ -90,7 +_,7 @@
+    }
+ 
+    private static int m_247543_(CommandSourceStack p_252062_, ResourceOrTagArgument.Result<Biome> p_249756_) throws CommandSyntaxException {
+-      BlockPos blockpos = BlockPos.m_274446_(p_252062_.m_81371_());
++      BlockPos blockpos = BlockPos.containing(p_252062_.m_81371_());
+       Stopwatch stopwatch = Stopwatch.createStarted(Util.f_211544_);
+       Pair<BlockPos, Holder<Biome>> pair = p_252062_.m_81372_().m_215069_(p_249756_, blockpos, 6400, 32, 64);
+       stopwatch.stop();
+@@ -102,7 +_,7 @@
+    }
+ 
+    private static int m_245206_(CommandSourceStack p_252013_, ResourceOrTagArgument.Result<PoiType> p_249480_) throws CommandSyntaxException {
+-      BlockPos blockpos = BlockPos.m_274446_(p_252013_.m_81371_());
++      BlockPos blockpos = BlockPos.containing(p_252013_.m_81371_());
+       ServerLevel serverlevel = p_252013_.m_81372_();
+       Stopwatch stopwatch = Stopwatch.createStarted(Util.f_211544_);
+       Optional<Pair<Holder<PoiType>, BlockPos>> optional = serverlevel.m_8904_().m_218002_(p_249480_, blockpos, 256, PoiManager.Occupancy.ANY);
 @@ -140,10 +_,10 @@
  
     private static int m_262858_(CommandSourceStack p_262983_, BlockPos p_263016_, Pair<BlockPos, ? extends Holder<?>> p_262941_, String p_263083_, boolean p_263010_, String p_263048_, Duration p_263040_) {

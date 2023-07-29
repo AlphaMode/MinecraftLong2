@@ -1,7 +1,11 @@
 --- a/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
-@@ -76,7 +_,7 @@
-             this.f_25837_.m_20334_(vec3.f_82479_, 0.3D, vec3.f_82481_);
+@@ -73,16 +_,16 @@
+       if (this.m_25625_() && blockpos1 != null) {
+          if (this.f_25838_ > 0) {
+             Vec3 vec3 = this.f_25837_.m_20184_();
+-            this.f_25837_.m_20334_(vec3.f_82479_, 0.3D, vec3.f_82481_);
++            this.f_25837_.m_20334_(vec3.m_7096_(), 0.3D, vec3.m_7094_());
              if (!level.f_46443_) {
                 double d0 = 0.08D;
 -               ((ServerLevel)level).m_8767_(new ItemParticleOption(ParticleTypes.f_123752_, new ItemStack(Items.f_42521_)), (double)blockpos1.m_123341_() + 0.5D, (double)blockpos1.m_123342_() + 0.7D, (double)blockpos1.m_123343_() + 0.5D, 3, ((double)randomsource.m_188501_() - 0.5D) * 0.08D, ((double)randomsource.m_188501_() - 0.5D) * 0.08D, ((double)randomsource.m_188501_() - 0.5D) * 0.08D, (double)0.15F);
@@ -9,6 +13,13 @@
              }
           }
  
+          if (this.f_25838_ % 2 == 0) {
+             Vec3 vec31 = this.f_25837_.m_20184_();
+-            this.f_25837_.m_20334_(vec31.f_82479_, -0.3D, vec31.f_82481_);
++            this.f_25837_.m_20334_(vec31.m_7096_(), -0.3D, vec31.m_7094_());
+             if (this.f_25838_ % 6 == 0) {
+                this.m_7659_(level, this.f_25602_);
+             }
 @@ -95,7 +_,7 @@
                    double d3 = randomsource.m_188583_() * 0.02D;
                    double d1 = randomsource.m_188583_() * 0.02D;

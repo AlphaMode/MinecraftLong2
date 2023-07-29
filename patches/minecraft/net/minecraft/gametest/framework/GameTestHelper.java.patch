@@ -1,6 +1,14 @@
 --- a/net/minecraft/gametest/framework/GameTestHelper.java
 +++ b/net/minecraft/gametest/framework/GameTestHelper.java
-@@ -92,11 +_,11 @@
+@@ -85,18 +_,18 @@
+    public ItemEntity m_177189_(Item p_177190_, float p_177191_, float p_177192_, float p_177193_) {
+       ServerLevel serverlevel = this.m_177100_();
+       Vec3 vec3 = this.m_177227_(new Vec3((double)p_177191_, (double)p_177192_, (double)p_177193_));
+-      ItemEntity itementity = new ItemEntity(serverlevel, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, new ItemStack(p_177190_, 1));
++      ItemEntity itementity = new ItemEntity(serverlevel, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), new ItemStack(p_177190_, 1));
+       itementity.m_20334_(0.0D, 0.0D, 0.0D);
+       serverlevel.m_7967_(itementity);
+       return itementity;
     }
  
     public ItemEntity m_246755_(Item p_251435_, BlockPos p_250287_) {
@@ -14,6 +22,15 @@
     }
  
     public <E extends Entity> E m_177173_(EntityType<E> p_177174_, Vec3 p_177175_) {
+@@ -111,7 +_,7 @@
+          }
+ 
+          Vec3 vec3 = this.m_177227_(p_177175_);
+-         e.m_7678_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, e.m_146908_(), e.m_146909_());
++         e.m_7678_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), e.m_146908_(), e.m_146909_());
+          serverlevel.m_7967_(e);
+          return e;
+       }
 @@ -174,7 +_,7 @@
  
     public void m_246440_(BlockPos p_250131_, Player p_251507_) {
@@ -23,6 +40,15 @@
     }
  
     public void m_260894_(BlockPos p_262023_, Player p_261901_, BlockHitResult p_262040_) {
+@@ -393,7 +_,7 @@
+    public void m_246385_(EntityType<?> p_252010_, Vec3 p_249488_, Vec3 p_251186_) {
+       List<? extends Entity> list = this.m_177100_().m_142425_(p_252010_, new AABB(p_249488_, p_251186_), Entity::m_6084_);
+       if (list.isEmpty()) {
+-         throw new GameTestAssertPosException("Expected " + p_252010_.m_147048_() + " between ", BlockPos.m_274446_(p_249488_), BlockPos.m_274446_(p_251186_), this.f_127595_.m_177488_());
++         throw new GameTestAssertPosException("Expected " + p_252010_.m_147048_() + " between ", BlockPos.containing(p_249488_), BlockPos.containing(p_251186_), this.f_127595_.m_177488_());
+       }
+    }
+ 
 @@ -593,7 +_,7 @@
  
     public void m_177224_(BoundingBox p_177225_, BlockPos p_177226_) {

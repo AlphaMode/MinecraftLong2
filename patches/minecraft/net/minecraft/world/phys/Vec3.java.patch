@@ -1,6 +1,19 @@
 --- a/net/minecraft/world/phys/Vec3.java
 +++ b/net/minecraft/world/phys/Vec3.java
-@@ -31,24 +_,32 @@
+@@ -20,9 +_,9 @@
+       return List.of(p_231083_.m_7096_(), p_231083_.m_7098_(), p_231083_.m_7094_());
+    });
+    public static final Vec3 f_82478_ = new Vec3(0.0D, 0.0D, 0.0D);
+-   public final double f_82479_;
+-   public final double f_82480_;
+-   public final double f_82481_;
++   private final java.math.BigDecimal f_82479_;
++   private final java.math.BigDecimal f_82480_;
++   private final java.math.BigDecimal f_82481_;
+ 
+    public static Vec3 m_82501_(int p_82502_) {
+       double d0 = (double)(p_82502_ >> 16 & 255) / 255.0D;
+@@ -31,30 +_,42 @@
        return new Vec3(d0, d1, d2);
     }
  
@@ -38,19 +51,292 @@
 +
 +   public static Vec3 upFromBottomCenterOf(me.alphamode.mclong.core.Vec3l p_82515_, double p_82516_) {
 +      return atLowerCornerWithOffset(p_82515_, 0.5D, p_82516_, 0.5D);
++   }
++
++   public Vec3(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++      this.f_82479_ = x;
++      this.f_82480_ = y;
++      this.f_82481_ = z;
     }
  
     public Vec3(double p_82484_, double p_82485_, double p_82486_) {
-@@ -229,9 +_,9 @@
+-      this.f_82479_ = p_82484_;
+-      this.f_82480_ = p_82485_;
+-      this.f_82481_ = p_82486_;
++      this(java.math.BigDecimal.valueOf(p_82484_), java.math.BigDecimal.valueOf(p_82485_), java.math.BigDecimal.valueOf(p_82486_));
+    }
+ 
+    public Vec3(Vector3f p_253821_) {
+@@ -62,24 +_,24 @@
+    }
+ 
+    public Vec3 m_82505_(Vec3 p_82506_) {
+-      return new Vec3(p_82506_.f_82479_ - this.f_82479_, p_82506_.f_82480_ - this.f_82480_, p_82506_.f_82481_ - this.f_82481_);
++      return new Vec3(p_82506_.getX().subtract(this.getX()), p_82506_.getY().subtract(this.getY()), p_82506_.getZ().subtract(this.getZ()));
+    }
+ 
+    public Vec3 m_82541_() {
+-      double d0 = Math.sqrt(this.f_82479_ * this.f_82479_ + this.f_82480_ * this.f_82480_ + this.f_82481_ * this.f_82481_);
+-      return d0 < 1.0E-4D ? f_82478_ : new Vec3(this.f_82479_ / d0, this.f_82480_ / d0, this.f_82481_ / d0);
++      double d0 = Math.sqrt(this.m_7096_() * this.m_7096_() + this.m_7098_() * this.m_7098_() + this.m_7094_() * this.m_7094_());
++      return d0 < 1.0E-4D ? f_82478_ : new Vec3(this.m_7096_() / d0, this.m_7098_() / d0, this.m_7094_() / d0);
+    }
+ 
+    public double m_82526_(Vec3 p_82527_) {
+-      return this.f_82479_ * p_82527_.f_82479_ + this.f_82480_ * p_82527_.f_82480_ + this.f_82481_ * p_82527_.f_82481_;
++      return this.m_7096_() * p_82527_.m_7096_() + this.m_7098_() * p_82527_.m_7098_() + this.m_7094_() * p_82527_.m_7094_();
+    }
+ 
+    public Vec3 m_82537_(Vec3 p_82538_) {
+-      return new Vec3(this.f_82480_ * p_82538_.f_82481_ - this.f_82481_ * p_82538_.f_82480_, this.f_82481_ * p_82538_.f_82479_ - this.f_82479_ * p_82538_.f_82481_, this.f_82479_ * p_82538_.f_82480_ - this.f_82480_ * p_82538_.f_82479_);
++      return new Vec3(this.m_7098_() * p_82538_.m_7094_() - this.m_7094_() * p_82538_.m_7098_(), this.m_7094_() * p_82538_.m_7096_() - this.m_7096_() * p_82538_.m_7094_(), this.m_7096_() * p_82538_.m_7098_() - this.m_7098_() * p_82538_.m_7096_());
+    }
+ 
+    public Vec3 m_82546_(Vec3 p_82547_) {
+-      return this.m_82492_(p_82547_.f_82479_, p_82547_.f_82480_, p_82547_.f_82481_);
++      return this.add(p_82547_.getX().negate(), p_82547_.getY().negate(), p_82547_.getZ().negate());
+    }
+ 
+    public Vec3 m_82492_(double p_82493_, double p_82494_, double p_82495_) {
+@@ -87,11 +_,15 @@
+    }
+ 
+    public Vec3 m_82549_(Vec3 p_82550_) {
+-      return this.m_82520_(p_82550_.f_82479_, p_82550_.f_82480_, p_82550_.f_82481_);
++      return this.add(p_82550_.f_82479_, p_82550_.f_82480_, p_82550_.f_82481_);
++   }
++
++   public Vec3 add(java.math.BigDecimal p_82521_, java.math.BigDecimal p_82522_, java.math.BigDecimal p_82523_) {
++      return new Vec3(this.f_82479_.add(p_82521_), this.f_82480_.add(p_82522_), this.f_82481_.add(p_82523_));
+    }
+ 
+    public Vec3 m_82520_(double p_82521_, double p_82522_, double p_82523_) {
+-      return new Vec3(this.f_82479_ + p_82521_, this.f_82480_ + p_82522_, this.f_82481_ + p_82523_);
++      return new Vec3(this.f_82479_.add(java.math.BigDecimal.valueOf(p_82521_)), this.f_82480_.add(java.math.BigDecimal.valueOf(p_82522_)), this.f_82481_.add(java.math.BigDecimal.valueOf(p_82523_)));
+    }
+ 
+    public boolean m_82509_(Position p_82510_, double p_82511_) {
+@@ -99,24 +_,35 @@
+    }
+ 
+    public double m_82554_(Vec3 p_82555_) {
+-      double d0 = p_82555_.f_82479_ - this.f_82479_;
+-      double d1 = p_82555_.f_82480_ - this.f_82480_;
+-      double d2 = p_82555_.f_82481_ - this.f_82481_;
++      double d0 = p_82555_.m_7096_() - this.m_7096_();
++      double d1 = p_82555_.m_7098_() - this.m_7098_();
++      double d2 = p_82555_.m_7094_() - this.m_7094_();
+       return Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+    }
+ 
+    public double m_82557_(Vec3 p_82558_) {
+-      double d0 = p_82558_.f_82479_ - this.f_82479_;
+-      double d1 = p_82558_.f_82480_ - this.f_82480_;
+-      double d2 = p_82558_.f_82481_ - this.f_82481_;
++      double d0 = p_82558_.m_7096_() - this.m_7096_();
++      double d1 = p_82558_.m_7098_() - this.m_7098_();
++      double d2 = p_82558_.m_7094_() - this.m_7094_();
+       return d0 * d0 + d1 * d1 + d2 * d2;
++   }
++
++   public java.math.BigDecimal distanceToSqrBig(Vec3 pos) {
++      return distanceToSqr(pos.getX(), pos.getY(), pos.getZ());
+    }
+ 
+    public double m_82531_(double p_82532_, double p_82533_, double p_82534_) {
+-      double d0 = p_82532_ - this.f_82479_;
+-      double d1 = p_82533_ - this.f_82480_;
+-      double d2 = p_82534_ - this.f_82481_;
++      double d0 = p_82532_ - this.m_7096_();
++      double d1 = p_82533_ - this.m_7098_();
++      double d2 = p_82534_ - this.m_7094_();
+       return d0 * d0 + d1 * d1 + d2 * d2;
++   }
++
++   public java.math.BigDecimal distanceToSqr(java.math.BigDecimal p_82532_, java.math.BigDecimal p_82533_, java.math.BigDecimal p_82534_) {
++      java.math.BigDecimal d0 = p_82532_.subtract(this.getX());
++      java.math.BigDecimal d1 = p_82533_.subtract(this.getY());
++      java.math.BigDecimal d2 = p_82534_.subtract(this.getZ());
++      return d0.multiply(d0).add(d1.multiply(d1)).add(d2.multiply(d2));
+    }
+ 
+    public Vec3 m_82490_(double p_82491_) {
+@@ -128,11 +_,11 @@
+    }
+ 
+    public Vec3 m_82559_(Vec3 p_82560_) {
+-      return this.m_82542_(p_82560_.f_82479_, p_82560_.f_82480_, p_82560_.f_82481_);
++      return this.m_82542_(p_82560_.m_7096_(), p_82560_.m_7098_(), p_82560_.m_7094_());
+    }
+ 
+    public Vec3 m_82542_(double p_82543_, double p_82544_, double p_82545_) {
+-      return new Vec3(this.f_82479_ * p_82543_, this.f_82480_ * p_82544_, this.f_82481_ * p_82545_);
++      return new Vec3(this.m_7096_() * p_82543_, this.m_7098_() * p_82544_, this.m_7094_() * p_82545_);
+    }
+ 
+    public Vec3 m_272010_(RandomSource p_272810_, float p_273473_) {
+@@ -140,19 +_,19 @@
+    }
+ 
+    public double m_82553_() {
+-      return Math.sqrt(this.f_82479_ * this.f_82479_ + this.f_82480_ * this.f_82480_ + this.f_82481_ * this.f_82481_);
++      return Math.sqrt(this.m_7096_() * this.m_7096_() + this.m_7098_() * this.m_7098_() + this.m_7094_() * this.m_7094_());
+    }
+ 
+    public double m_82556_() {
+-      return this.f_82479_ * this.f_82479_ + this.f_82480_ * this.f_82480_ + this.f_82481_ * this.f_82481_;
++      return this.m_7096_() * this.m_7096_() + this.m_7098_() * this.m_7098_() + this.m_7094_() * this.m_7094_();
+    }
+ 
+    public double m_165924_() {
+-      return Math.sqrt(this.f_82479_ * this.f_82479_ + this.f_82481_ * this.f_82481_);
++      return Math.sqrt(this.m_7096_() * this.m_7096_() + this.m_7094_() * this.m_7094_());
+    }
+ 
+    public double m_165925_() {
+-      return this.f_82479_ * this.f_82479_ + this.f_82481_ * this.f_82481_;
++      return this.m_7096_() * this.m_7096_() + this.m_7094_() * this.m_7094_();
+    }
+ 
+    public boolean equals(Object p_82552_) {
+@@ -162,57 +_,57 @@
+          return false;
+       } else {
+          Vec3 vec3 = (Vec3)p_82552_;
+-         if (Double.compare(vec3.f_82479_, this.f_82479_) != 0) {
++         if (vec3.f_82479_.compareTo(this.f_82479_) != 0) {
+             return false;
+-         } else if (Double.compare(vec3.f_82480_, this.f_82480_) != 0) {
++         } else if (vec3.f_82480_.compareTo(this.f_82480_) != 0) {
+             return false;
+          } else {
+-            return Double.compare(vec3.f_82481_, this.f_82481_) == 0;
++            return vec3.f_82481_.compareTo(this.f_82481_) == 0;
+          }
+       }
+    }
+ 
+    public int hashCode() {
+-      long j = Double.doubleToLongBits(this.f_82479_);
++      long j = Double.doubleToLongBits(this.m_7096_());
+       int i = (int)(j ^ j >>> 32);
+-      j = Double.doubleToLongBits(this.f_82480_);
++      j = Double.doubleToLongBits(this.m_7098_());
+       i = 31 * i + (int)(j ^ j >>> 32);
+-      j = Double.doubleToLongBits(this.f_82481_);
++      j = Double.doubleToLongBits(this.m_7094_());
+       return 31 * i + (int)(j ^ j >>> 32);
+    }
+ 
+    public String toString() {
+-      return "(" + this.f_82479_ + ", " + this.f_82480_ + ", " + this.f_82481_ + ")";
++      return "(" + this.m_7096_() + ", " + this.m_7098_() + ", " + this.m_7094_() + ")";
+    }
+ 
+    public Vec3 m_165921_(Vec3 p_165922_, double p_165923_) {
+-      return new Vec3(Mth.m_14139_(p_165923_, this.f_82479_, p_165922_.f_82479_), Mth.m_14139_(p_165923_, this.f_82480_, p_165922_.f_82480_), Mth.m_14139_(p_165923_, this.f_82481_, p_165922_.f_82481_));
++      return new Vec3(Mth.m_14139_(p_165923_, this.m_7096_(), p_165922_.m_7096_()), Mth.m_14139_(p_165923_, this.m_7098_(), p_165922_.m_7098_()), Mth.m_14139_(p_165923_, this.m_7094_(), p_165922_.m_7094_()));
+    }
+ 
+    public Vec3 m_82496_(float p_82497_) {
+       float f = Mth.m_14089_(p_82497_);
+       float f1 = Mth.m_14031_(p_82497_);
+-      double d0 = this.f_82479_;
+-      double d1 = this.f_82480_ * (double)f + this.f_82481_ * (double)f1;
+-      double d2 = this.f_82481_ * (double)f - this.f_82480_ * (double)f1;
++      double d0 = this.m_7096_();
++      double d1 = this.m_7098_() * (double)f + this.m_7094_() * (double)f1;
++      double d2 = this.m_7094_() * (double)f - this.m_7098_() * (double)f1;
+       return new Vec3(d0, d1, d2);
+    }
+ 
+    public Vec3 m_82524_(float p_82525_) {
+       float f = Mth.m_14089_(p_82525_);
+       float f1 = Mth.m_14031_(p_82525_);
+-      double d0 = this.f_82479_ * (double)f + this.f_82481_ * (double)f1;
+-      double d1 = this.f_82480_;
+-      double d2 = this.f_82481_ * (double)f - this.f_82479_ * (double)f1;
++      double d0 = this.m_7096_() * (double)f + this.m_7094_() * (double)f1;
++      double d1 = this.m_7098_();
++      double d2 = this.m_7094_() * (double)f - this.m_7096_() * (double)f1;
+       return new Vec3(d0, d1, d2);
+    }
+ 
+    public Vec3 m_82535_(float p_82536_) {
+       float f = Mth.m_14089_(p_82536_);
+       float f1 = Mth.m_14031_(p_82536_);
+-      double d0 = this.f_82479_ * (double)f + this.f_82480_ * (double)f1;
+-      double d1 = this.f_82480_ * (double)f - this.f_82479_ * (double)f1;
+-      double d2 = this.f_82481_;
++      double d0 = this.m_7096_() * (double)f + this.m_7098_() * (double)f1;
++      double d1 = this.m_7098_() * (double)f - this.m_7096_() * (double)f1;
++      double d2 = this.m_7094_();
+       return new Vec3(d0, d1, d2);
+    }
+ 
+@@ -229,41 +_,53 @@
     }
  
     public Vec3 m_82517_(EnumSet<Direction.Axis> p_82518_) {
 -      double d0 = p_82518_.contains(Direction.Axis.X) ? (double)Mth.m_14107_(this.f_82479_) : this.f_82479_;
 -      double d1 = p_82518_.contains(Direction.Axis.Y) ? (double)Mth.m_14107_(this.f_82480_) : this.f_82480_;
 -      double d2 = p_82518_.contains(Direction.Axis.Z) ? (double)Mth.m_14107_(this.f_82481_) : this.f_82481_;
-+      double d0 = p_82518_.contains(Direction.Axis.X) ? (double)Mth.m_14134_(this.f_82479_) : this.f_82479_;
-+      double d1 = p_82518_.contains(Direction.Axis.Y) ? (double)Mth.m_14134_(this.f_82480_) : this.f_82480_;
-+      double d2 = p_82518_.contains(Direction.Axis.Z) ? (double)Mth.m_14134_(this.f_82481_) : this.f_82481_;
++      double d0 = p_82518_.contains(Direction.Axis.X) ? (double)Mth.m_14134_(this.m_7096_()) : this.m_7096_();
++      double d1 = p_82518_.contains(Direction.Axis.Y) ? (double)Mth.m_14134_(this.m_7098_()) : this.m_7098_();
++      double d2 = p_82518_.contains(Direction.Axis.Z) ? (double)Mth.m_14134_(this.m_7094_()) : this.m_7094_();
        return new Vec3(d0, d1, d2);
     }
  
+    public double m_82507_(Direction.Axis p_82508_) {
+-      return p_82508_.m_6150_(this.f_82479_, this.f_82480_, this.f_82481_);
++      return p_82508_.m_6150_(this.m_7096_(), this.m_7098_(), this.m_7094_());
+    }
+ 
+    public Vec3 m_193103_(Direction.Axis p_193104_, double p_193105_) {
+-      double d0 = p_193104_ == Direction.Axis.X ? p_193105_ : this.f_82479_;
+-      double d1 = p_193104_ == Direction.Axis.Y ? p_193105_ : this.f_82480_;
+-      double d2 = p_193104_ == Direction.Axis.Z ? p_193105_ : this.f_82481_;
++      double d0 = p_193104_ == Direction.Axis.X ? p_193105_ : this.m_7096_();
++      double d1 = p_193104_ == Direction.Axis.Y ? p_193105_ : this.m_7098_();
++      double d2 = p_193104_ == Direction.Axis.Z ? p_193105_ : this.m_7094_();
+       return new Vec3(d0, d1, d2);
+    }
+ 
+    public Vec3 m_231075_(Direction p_231076_, double p_231077_) {
+       Vec3i vec3i = p_231076_.m_122436_();
+-      return new Vec3(this.f_82479_ + p_231077_ * (double)vec3i.m_123341_(), this.f_82480_ + p_231077_ * (double)vec3i.m_123342_(), this.f_82481_ + p_231077_ * (double)vec3i.m_123343_());
++      return new Vec3(this.m_7096_() + p_231077_ * (double)vec3i.m_123341_(), this.m_7098_() + p_231077_ * (double)vec3i.m_123342_(), this.m_7094_() + p_231077_ * (double)vec3i.m_123343_());
+    }
+ 
+    public final double m_7096_() {
+-      return this.f_82479_;
++      return this.f_82479_.doubleValue();
+    }
+ 
+    public final double m_7098_() {
+-      return this.f_82480_;
++      return this.f_82480_.doubleValue();
+    }
+ 
+    public final double m_7094_() {
+-      return this.f_82481_;
++      return this.f_82481_.doubleValue();
++   }
++
++   public java.math.BigDecimal getX() {
++      return f_82479_;
++   }
++
++   public java.math.BigDecimal getY() {
++      return f_82480_;
++   }
++
++   public java.math.BigDecimal getZ() {
++      return f_82481_;
+    }
+ 
+    public Vector3f m_252839_() {
+-      return new Vector3f((float)this.f_82479_, (float)this.f_82480_, (float)this.f_82481_);
++      return new Vector3f((float)this.m_7096_(), (float)this.m_7098_(), (float)this.m_7094_());
+    }
+ }

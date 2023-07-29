@@ -1,0 +1,42 @@
+--- a/net/minecraft/client/renderer/entity/MinecartRenderer.java
++++ b/net/minecraft/client/renderer/entity/MinecartRenderer.java
+@@ -40,15 +_,16 @@
+       float f1 = (((float)(i >> 20 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
+       float f2 = (((float)(i >> 24 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
+       p_115421_.m_252880_(f, f1, f2);
+-      double d0 = Mth.m_14139_((double)p_115420_, p_115418_.f_19790_, p_115418_.m_20185_());
+-      double d1 = Mth.m_14139_((double)p_115420_, p_115418_.f_19791_, p_115418_.m_20186_());
+-      double d2 = Mth.m_14139_((double)p_115420_, p_115418_.f_19792_, p_115418_.m_20189_());
++      var lerp = java.math.BigDecimal.valueOf(p_115420_);
++      java.math.BigDecimal d0 = Mth.lerp(lerp, p_115418_.f_19790_, p_115418_.getBigX());
++      java.math.BigDecimal d1 = Mth.lerp(lerp, p_115418_.f_19791_, p_115418_.getBigY());
++      java.math.BigDecimal d2 = Mth.lerp(lerp, p_115418_.f_19792_, p_115418_.getBigZ());
+       double d3 = (double)0.3F;
+-      Vec3 vec3 = p_115418_.m_38179_(d0, d1, d2);
++      Vec3 vec3 = p_115418_.m_38179_(d0.doubleValue(), d1.doubleValue(), d2.doubleValue());
+       float f3 = Mth.m_14179_(p_115420_, p_115418_.f_19860_, p_115418_.m_146909_());
+       if (vec3 != null) {
+-         Vec3 vec31 = p_115418_.m_38096_(d0, d1, d2, (double)0.3F);
+-         Vec3 vec32 = p_115418_.m_38096_(d0, d1, d2, (double)-0.3F);
++         Vec3 vec31 = p_115418_.m_38096_(d0.doubleValue(), d1.doubleValue(), d2.doubleValue(), (double)0.3F);
++         Vec3 vec32 = p_115418_.m_38096_(d0.doubleValue(), d1.doubleValue(), d2.doubleValue(), (double)-0.3F);
+          if (vec31 == null) {
+             vec31 = vec3;
+          }
+@@ -57,12 +_,12 @@
+             vec32 = vec3;
+          }
+ 
+-         p_115421_.m_85837_(vec3.f_82479_ - d0, (vec31.f_82480_ + vec32.f_82480_) / 2.0D - d1, vec3.f_82481_ - d2);
+-         Vec3 vec33 = vec32.m_82520_(-vec31.f_82479_, -vec31.f_82480_, -vec31.f_82481_);
++         p_115421_.m_85837_(vec3.getX().subtract(d0).doubleValue(), (vec31.m_7098_() + vec32.m_7098_()) / 2.0D - d1.doubleValue(), vec3.getZ().subtract(d2).doubleValue());
++         Vec3 vec33 = vec32.m_82520_(-vec31.m_7096_(), -vec31.m_7098_(), -vec31.m_7094_());
+          if (vec33.m_82553_() != 0.0D) {
+             vec33 = vec33.m_82541_();
+-            p_115419_ = (float)(Math.atan2(vec33.f_82481_, vec33.f_82479_) * 180.0D / Math.PI);
+-            f3 = (float)(Math.atan(vec33.f_82480_) * 73.0D);
++            p_115419_ = (float)(Math.atan2(vec33.m_7094_(), vec33.m_7096_()) * 180.0D / Math.PI);
++            f3 = (float)(Math.atan(vec33.m_7098_()) * 73.0D);
+          }
+       }
+ 

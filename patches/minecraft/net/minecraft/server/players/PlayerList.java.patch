@@ -1,15 +1,29 @@
 --- a/net/minecraft/server/players/PlayerList.java
 +++ b/net/minecraft/server/players/PlayerList.java
-@@ -449,7 +_,7 @@
+@@ -198,7 +_,7 @@
+       }
+ 
+       this.m_240416_(mutablecomponent.m_130940_(ChatFormatting.YELLOW), false);
+-      servergamepacketlistenerimpl.m_9774_(p_11263_.m_20185_(), p_11263_.m_20186_(), p_11263_.m_20189_(), p_11263_.m_146908_(), p_11263_.m_146909_());
++      servergamepacketlistenerimpl.teleport(p_11263_.getBigX(), p_11263_.getBigY(), p_11263_.getBigZ(), p_11263_.m_146908_(), p_11263_.m_146909_());
+       ServerStatus serverstatus = this.f_11195_.m_129928_();
+       if (serverstatus != null) {
+          p_11263_.m_215109_(serverstatus);
+@@ -449,25 +_,25 @@
           if (!blockstate.m_204336_(BlockTags.f_13038_) && !flag1) {
              f1 = f;
           } else {
 -            Vec3 vec31 = Vec3.m_82539_(blockpos).m_82546_(vec3).m_82541_();
+-            f1 = (float)Mth.m_14175_(Mth.m_14136_(vec31.f_82481_, vec31.f_82479_) * (double)(180F / (float)Math.PI) - 90.0D);
 +            Vec3 vec31 = Vec3.atBottomCenterOf(blockpos).m_82546_(vec3).m_82541_();
-             f1 = (float)Mth.m_14175_(Mth.m_14136_(vec31.f_82481_, vec31.f_82479_) * (double)(180F / (float)Math.PI) - 90.0D);
++            f1 = (float)Mth.m_14175_(Mth.m_14136_(vec31.m_7094_(), vec31.m_7096_()) * (double)(180F / (float)Math.PI) - 90.0D);
           }
  
-@@ -460,7 +_,7 @@
+-         serverplayer.m_7678_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, f1, 0.0F);
++         serverplayer.m_7678_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), f1, 0.0F);
+          serverplayer.m_9158_(serverlevel1.m_46472_(), blockpos, f, flag, false);
+          flag2 = !p_11238_ && flag1;
+       } else if (blockpos != null) {
           serverplayer.f_8906_.m_9829_(new ClientboundGameEventPacket(ClientboundGameEventPacket.f_132153_, 0.0F));
        }
  
@@ -18,6 +32,14 @@
           serverplayer.m_6034_(serverplayer.m_20185_(), serverplayer.m_20186_() + 1.0D, serverplayer.m_20189_());
        }
  
+       byte b0 = (byte)(p_11238_ ? 1 : 0);
+       LevelData leveldata = serverplayer.m_9236_().m_6106_();
+       serverplayer.f_8906_.m_9829_(new ClientboundRespawnPacket(serverplayer.m_9236_().m_220362_(), serverplayer.m_9236_().m_46472_(), BiomeManager.m_47877_(serverplayer.m_284548_().m_7328_()), serverplayer.f_8941_.m_9290_(), serverplayer.f_8941_.m_9293_(), serverplayer.m_9236_().m_46659_(), serverplayer.m_284548_().m_8584_(), b0, serverplayer.m_219759_(), serverplayer.m_287157_()));
+-      serverplayer.f_8906_.m_9774_(serverplayer.m_20185_(), serverplayer.m_20186_(), serverplayer.m_20189_(), serverplayer.m_146908_(), serverplayer.m_146909_());
++      serverplayer.f_8906_.teleport(serverplayer.getBigX(), serverplayer.getBigY(), serverplayer.getBigZ(), serverplayer.m_146908_(), serverplayer.m_146909_());
+       serverplayer.f_8906_.m_9829_(new ClientboundSetDefaultSpawnPositionPacket(serverlevel1.m_220360_(), serverlevel1.m_220361_()));
+       serverplayer.f_8906_.m_9829_(new ClientboundChangeDifficultyPacket(leveldata.m_5472_(), leveldata.m_5474_()));
+       serverplayer.f_8906_.m_9829_(new ClientboundSetExperiencePacket(serverplayer.f_36080_, serverplayer.f_36079_, serverplayer.f_36078_));
 @@ -479,7 +_,7 @@
        serverplayer.m_143429_();
        serverplayer.m_21153_(serverplayer.m_21223_());

@@ -20,6 +20,28 @@
        if (d0 != this.m_20185_() || d1 != this.m_20189_()) {
           this.m_6034_(d0, this.m_20186_(), d1);
        }
+@@ -998,9 +_,9 @@
+    }
+ 
+    protected Vec3 m_5763_(Vec3 p_36201_, MoverType p_36202_) {
+-      if (!this.f_36077_.f_35935_ && p_36201_.f_82480_ <= 0.0D && (p_36202_ == MoverType.SELF || p_36202_ == MoverType.PLAYER) && this.m_36343_() && this.m_36386_()) {
+-         double d0 = p_36201_.f_82479_;
+-         double d1 = p_36201_.f_82481_;
++      if (!this.f_36077_.f_35935_ && p_36201_.m_7098_() <= 0.0D && (p_36202_ == MoverType.SELF || p_36202_ == MoverType.PLAYER) && this.m_36343_() && this.m_36386_()) {
++         double d0 = p_36201_.m_7096_();
++         double d1 = p_36201_.m_7094_();
+          double d2 = 0.05D;
+ 
+          while(d0 != 0.0D && this.m_9236_().m_45756_(this, this.m_20191_().m_82386_(d0, (double)(-this.m_274421_()), 0.0D))) {
+@@ -1041,7 +_,7 @@
+             }
+          }
+ 
+-         p_36201_ = new Vec3(d0, p_36201_.f_82480_, d1);
++         p_36201_ = new Vec3(d0, p_36201_.m_7098_(), d1);
+       }
+ 
+       return p_36201_;
 @@ -1303,9 +_,9 @@
           return Optional.empty();
        } else {
@@ -32,6 +54,30 @@
        }
     }
  
+@@ -1368,19 +_,19 @@
+       double d1 = this.m_20186_();
+       double d2 = this.m_20189_();
+       if (this.m_6069_() && !this.m_20159_()) {
+-         double d3 = this.m_20154_().f_82480_;
++         double d3 = this.m_20154_().m_7098_();
+          double d4 = d3 < -0.2D ? 0.085D : 0.06D;
+          if (d3 <= 0.0D || this.f_20899_ || !this.m_9236_().m_8055_(BlockPos.m_274561_(this.m_20185_(), this.m_20186_() + 1.0D - 0.1D, this.m_20189_())).m_60819_().m_76178_()) {
+             Vec3 vec3 = this.m_20184_();
+-            this.m_20256_(vec3.m_82520_(0.0D, (d3 - vec3.f_82480_) * d4, 0.0D));
++            this.m_20256_(vec3.m_82520_(0.0D, (d3 - vec3.m_7098_()) * d4, 0.0D));
+          }
+       }
+ 
+       if (this.f_36077_.f_35935_ && !this.m_20159_()) {
+-         double d5 = this.m_20184_().f_82480_;
++         double d5 = this.m_20184_().m_7098_();
+          super.m_7023_(p_36359_);
+          Vec3 vec31 = this.m_20184_();
+-         this.m_20334_(vec31.f_82479_, d5 * 0.6D, vec31.f_82481_);
++         this.m_20334_(vec31.m_7096_(), d5 * 0.6D, vec31.m_7094_());
+          this.m_183634_();
+          this.m_20115_(7, false);
+       } else {
 @@ -1651,7 +_,7 @@
        if (this.f_36077_.f_35938_) {
           return true;
@@ -41,3 +87,14 @@
           BlockInWorld blockinworld = new BlockInWorld(this.m_9236_(), blockpos, false);
           return p_36207_.m_204121_(this.m_9236_().m_9598_().m_175515_(Registries.f_256747_), blockinworld);
        }
+@@ -1977,8 +_,8 @@
+          double d2 = vec3.m_165925_();
+          float f2;
+          if (d1 > 0.0D && d2 > 0.0D) {
+-            double d3 = (vec31.f_82479_ * vec3.f_82479_ + vec31.f_82481_ * vec3.f_82481_) / Math.sqrt(d1 * d2);
+-            double d4 = vec31.f_82479_ * vec3.f_82481_ - vec31.f_82481_ * vec3.f_82479_;
++            double d3 = (vec31.m_7096_() * vec3.m_7096_() + vec31.m_7094_() * vec3.m_7094_()) / Math.sqrt(d1 * d2);
++            double d4 = vec31.m_7096_() * vec3.m_7094_() - vec31.m_7094_() * vec3.m_7096_();
+             f2 = (float)(Math.signum(d4) * Math.acos(d3));
+          } else {
+             f2 = 0.0F;

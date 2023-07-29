@@ -1,0 +1,43 @@
+--- a/net/minecraft/client/particle/Particle.java
++++ b/net/minecraft/client/particle/Particle.java
+@@ -150,9 +_,11 @@
+          this.f_107221_ = p_107251_;
+          this.f_107222_ = p_107252_;
+          AABB aabb = this.m_107277_();
+-         double d0 = (aabb.f_82288_ + aabb.f_82291_ - (double)p_107251_) / 2.0D;
+-         double d1 = (aabb.f_82290_ + aabb.f_82293_ - (double)p_107251_) / 2.0D;
+-         this.m_107259_(new AABB(d0, aabb.f_82289_, d1, d0 + (double)this.f_107221_, aabb.f_82289_ + (double)this.f_107222_, d1 + (double)this.f_107221_));
++         var val = java.math.BigDecimal.valueOf(p_107251_);
++         java.math.BigDecimal d0 = (aabb.f_82288_.add(aabb.f_82291_).subtract(val)).divide(me.alphamode.mclong.core.BigConstants.TWO);
++         java.math.BigDecimal d1 = (aabb.f_82290_.add(aabb.f_82293_).subtract(val)).divide(me.alphamode.mclong.core.BigConstants.TWO);
++         var width = java.math.BigDecimal.valueOf(this.f_107221_);
++         this.m_107259_(new AABB(d0, aabb.f_82289_, d1, d0.add(width), aabb.f_82289_.add(java.math.BigDecimal.valueOf(this.f_107222_)), d1.add(width)));
+       }
+ 
+    }
+@@ -173,9 +_,9 @@
+          double d2 = p_107248_;
+          if (this.f_107219_ && (p_107246_ != 0.0D || p_107247_ != 0.0D || p_107248_ != 0.0D) && p_107246_ * p_107246_ + p_107247_ * p_107247_ + p_107248_ * p_107248_ < f_197408_) {
+             Vec3 vec3 = Entity.m_198894_((Entity)null, new Vec3(p_107246_, p_107247_, p_107248_), this.m_107277_(), this.f_107208_, List.of());
+-            p_107246_ = vec3.f_82479_;
+-            p_107247_ = vec3.f_82480_;
+-            p_107248_ = vec3.f_82481_;
++            p_107246_ = vec3.m_7096_();
++            p_107247_ = vec3.m_7098_();
++            p_107248_ = vec3.m_7094_();
+          }
+ 
+          if (p_107246_ != 0.0D || p_107247_ != 0.0D || p_107248_ != 0.0D) {
+@@ -201,9 +_,9 @@
+ 
+    protected void m_107275_() {
+       AABB aabb = this.m_107277_();
+-      this.f_107212_ = (aabb.f_82288_ + aabb.f_82291_) / 2.0D;
+-      this.f_107213_ = aabb.f_82289_;
+-      this.f_107214_ = (aabb.f_82290_ + aabb.f_82293_) / 2.0D;
++      this.f_107212_ = (aabb.f_82288_.doubleValue() + aabb.f_82291_.doubleValue()) / 2.0D;
++      this.f_107213_ = aabb.f_82289_.doubleValue();
++      this.f_107214_ = (aabb.f_82290_.doubleValue() + aabb.f_82293_.doubleValue()) / 2.0D;
+    }
+ 
+    protected int m_6355_(float p_107249_) {

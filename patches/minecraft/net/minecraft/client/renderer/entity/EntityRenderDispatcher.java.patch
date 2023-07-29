@@ -1,8 +1,55 @@
 --- a/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
 +++ b/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
-@@ -257,24 +_,24 @@
-       double d0 = Mth.m_14139_((double)p_114462_, p_114460_.f_19791_, p_114460_.m_20186_());
-       double d1 = Mth.m_14139_((double)p_114462_, p_114460_.f_19792_, p_114460_.m_20189_());
+@@ -173,15 +_,15 @@
+       AABB aabb = p_114444_.m_20191_().m_82386_(-p_114444_.m_20185_(), -p_114444_.m_20186_(), -p_114444_.m_20189_());
+       LevelRenderer.m_109646_(p_114442_, p_114443_, aabb, 1.0F, 1.0F, 1.0F, 1.0F);
+       if (p_114444_ instanceof EnderDragon) {
+-         double d0 = -Mth.m_14139_((double)p_114445_, p_114444_.f_19790_, p_114444_.m_20185_());
+-         double d1 = -Mth.m_14139_((double)p_114445_, p_114444_.f_19791_, p_114444_.m_20186_());
+-         double d2 = -Mth.m_14139_((double)p_114445_, p_114444_.f_19792_, p_114444_.m_20189_());
++         double d0 = -Mth.m_14139_((double)p_114445_, p_114444_.f_19790_.doubleValue(), p_114444_.m_20185_());
++         double d1 = -Mth.m_14139_((double)p_114445_, p_114444_.f_19791_.doubleValue(), p_114444_.m_20186_());
++         double d2 = -Mth.m_14139_((double)p_114445_, p_114444_.f_19792_.doubleValue(), p_114444_.m_20189_());
+ 
+          for(EnderDragonPart enderdragonpart : ((EnderDragon)p_114444_).m_31156_()) {
+             p_114442_.m_85836_();
+-            double d3 = d0 + Mth.m_14139_((double)p_114445_, enderdragonpart.f_19790_, enderdragonpart.m_20185_());
+-            double d4 = d1 + Mth.m_14139_((double)p_114445_, enderdragonpart.f_19791_, enderdragonpart.m_20186_());
+-            double d5 = d2 + Mth.m_14139_((double)p_114445_, enderdragonpart.f_19792_, enderdragonpart.m_20189_());
++            double d3 = d0 + Mth.m_14139_((double)p_114445_, enderdragonpart.f_19790_.doubleValue(), enderdragonpart.m_20185_());
++            double d4 = d1 + Mth.m_14139_((double)p_114445_, enderdragonpart.f_19791_.doubleValue(), enderdragonpart.m_20186_());
++            double d5 = d2 + Mth.m_14139_((double)p_114445_, enderdragonpart.f_19792_.doubleValue(), enderdragonpart.m_20189_());
+             p_114442_.m_85837_(d3, d4, d5);
+             LevelRenderer.m_109646_(p_114442_, p_114443_, enderdragonpart.m_20191_().m_82386_(-enderdragonpart.m_20185_(), -enderdragonpart.m_20186_(), -enderdragonpart.m_20189_()), 0.25F, 1.0F, 0.0F, 1.0F);
+             p_114442_.m_85849_();
+@@ -190,14 +_,14 @@
+ 
+       if (p_114444_ instanceof LivingEntity) {
+          float f = 0.01F;
+-         LevelRenderer.m_109608_(p_114442_, p_114443_, aabb.f_82288_, (double)(p_114444_.m_20192_() - 0.01F), aabb.f_82290_, aabb.f_82291_, (double)(p_114444_.m_20192_() + 0.01F), aabb.f_82293_, 1.0F, 0.0F, 0.0F, 1.0F);
++         LevelRenderer.m_109608_(p_114442_, p_114443_, aabb.f_82288_.doubleValue(), (double)(p_114444_.m_20192_() - 0.01F), aabb.f_82290_.doubleValue(), aabb.f_82291_.doubleValue(), (double)(p_114444_.m_20192_() + 0.01F), aabb.f_82293_.doubleValue(), 1.0F, 0.0F, 0.0F, 1.0F);
+       }
+ 
+       Vec3 vec3 = p_114444_.m_20252_(p_114445_);
+       Matrix4f matrix4f = p_114442_.m_85850_().m_252922_();
+       Matrix3f matrix3f = p_114442_.m_85850_().m_252943_();
+-      p_114443_.m_252986_(matrix4f, 0.0F, p_114444_.m_20192_(), 0.0F).m_6122_(0, 0, 255, 255).m_252939_(matrix3f, (float)vec3.f_82479_, (float)vec3.f_82480_, (float)vec3.f_82481_).m_5752_();
+-      p_114443_.m_252986_(matrix4f, (float)(vec3.f_82479_ * 2.0D), (float)((double)p_114444_.m_20192_() + vec3.f_82480_ * 2.0D), (float)(vec3.f_82481_ * 2.0D)).m_6122_(0, 0, 255, 255).m_252939_(matrix3f, (float)vec3.f_82479_, (float)vec3.f_82480_, (float)vec3.f_82481_).m_5752_();
++      p_114443_.m_252986_(matrix4f, 0.0F, p_114444_.m_20192_(), 0.0F).m_6122_(0, 0, 255, 255).m_252939_(matrix3f, (float)vec3.m_7096_(), (float)vec3.m_7098_(), (float)vec3.m_7094_()).m_5752_();
++      p_114443_.m_252986_(matrix4f, (float)(vec3.m_7096_() * 2.0D), (float)((double)p_114444_.m_20192_() + vec3.m_7098_() * 2.0D), (float)(vec3.m_7094_() * 2.0D)).m_6122_(0, 0, 255, 255).m_252939_(matrix3f, (float)vec3.m_7096_(), (float)vec3.m_7098_(), (float)vec3.m_7094_()).m_5752_();
+    }
+ 
+    private void m_114453_(PoseStack p_114454_, MultiBufferSource p_114455_, Entity p_114456_) {
+@@ -253,28 +_,28 @@
+          }
+       }
+ 
+-      double d2 = Mth.m_14139_((double)p_114462_, p_114460_.f_19790_, p_114460_.m_20185_());
+-      double d0 = Mth.m_14139_((double)p_114462_, p_114460_.f_19791_, p_114460_.m_20186_());
+-      double d1 = Mth.m_14139_((double)p_114462_, p_114460_.f_19792_, p_114460_.m_20189_());
++      double d2 = Mth.m_14139_((double)p_114462_, p_114460_.f_19790_.doubleValue(), p_114460_.m_20185_());
++      double d0 = Mth.m_14139_((double)p_114462_, p_114460_.f_19791_.doubleValue(), p_114460_.m_20186_());
++      double d1 = Mth.m_14139_((double)p_114462_, p_114460_.f_19792_.doubleValue(), p_114460_.m_20189_());
        float f1 = Math.min(p_114461_ / 0.5F, f);
 -      int i = Mth.m_14107_(d2 - (double)f);
 -      int j = Mth.m_14107_(d2 + (double)f);
@@ -46,7 +93,7 @@
        BlockState blockstate = p_277501_.m_8055_(blockpos);
        if (blockstate.m_60799_() != RenderShape.INVISIBLE && p_277622_.m_46803_(p_277911_) > 3) {
           if (blockstate.m_60838_(p_277501_, blockpos)) {
-@@ -297,11 +_,11 @@
+@@ -297,16 +_,16 @@
                    }
  
                    AABB aabb = voxelshape.m_83215_();
@@ -55,11 +102,21 @@
 -                  double d2 = (double)p_277911_.m_123342_() + aabb.f_82289_;
 -                  double d3 = (double)p_277911_.m_123343_() + aabb.f_82290_;
 -                  double d4 = (double)p_277911_.m_123343_() + aabb.f_82293_;
-+                  double d0 = (double)p_277911_.getX() + aabb.f_82288_;
-+                  double d1 = (double)p_277911_.getX() + aabb.f_82291_;
-+                  double d2 = (double)p_277911_.getY() + aabb.f_82289_;
-+                  double d3 = (double)p_277911_.getZ() + aabb.f_82290_;
-+                  double d4 = (double)p_277911_.getZ() + aabb.f_82293_;
-                   float f2 = (float)(d0 - p_277682_);
-                   float f3 = (float)(d1 - p_277682_);
-                   float f4 = (float)(d2 - p_278099_);
+-                  float f2 = (float)(d0 - p_277682_);
+-                  float f3 = (float)(d1 - p_277682_);
+-                  float f4 = (float)(d2 - p_278099_);
+-                  float f5 = (float)(d3 - p_277806_);
+-                  float f6 = (float)(d4 - p_277806_);
++                  java.math.BigDecimal d0 = p_277911_.getBigDecX().add(aabb.f_82288_);
++                  java.math.BigDecimal d1 = p_277911_.getBigDecX().add(aabb.f_82291_);
++                  java.math.BigDecimal d2 = p_277911_.getBigDecY().add(aabb.f_82289_);
++                  java.math.BigDecimal d3 = p_277911_.getBigDecZ().add(aabb.f_82290_);
++                  java.math.BigDecimal d4 = p_277911_.getBigDecZ().add(aabb.f_82293_);
++                  float f2 = (d0.subtract(java.math.BigDecimal.valueOf(p_277682_))).floatValue();
++                  float f3 = (d1.subtract(java.math.BigDecimal.valueOf(p_277682_))).floatValue();
++                  float f4 = (d2.subtract(java.math.BigDecimal.valueOf(p_278099_))).floatValue();
++                  float f5 = (d3.subtract(java.math.BigDecimal.valueOf(p_277806_))).floatValue();
++                  float f6 = (d4.subtract(java.math.BigDecimal.valueOf(p_277806_))).floatValue();
+                   float f7 = -f2 / 2.0F / p_277844_ + 0.5F;
+                   float f8 = -f3 / 2.0F / p_277844_ + 0.5F;
+                   float f9 = -f5 / 2.0F / p_277844_ + 0.5F;

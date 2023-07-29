@@ -1,0 +1,20 @@
+--- a/net/minecraft/client/renderer/GameRenderer.java
++++ b/net/minecraft/client/renderer/GameRenderer.java
+@@ -708,7 +_,7 @@
+             }
+ 
+             Vec3 vec31 = entity.m_20252_(1.0F);
+-            Vec3 vec32 = vec3.m_82520_(vec31.f_82479_ * d0, vec31.f_82480_ * d0, vec31.f_82481_ * d0);
++            Vec3 vec32 = vec3.m_82520_(vec31.m_7096_() * d0, vec31.m_7098_() * d0, vec31.m_7094_() * d0);
+             float f = 1.0F;
+             AABB aabb = entity.m_20191_().m_82369_(vec31.m_82490_(d0)).m_82377_(1.0D, 1.0D, 1.0D);
+             EntityHitResult entityhitresult = ProjectileUtil.m_37287_(entity, vec3, vec32, aabb, (p_234237_) -> {
+@@ -719,7 +_,7 @@
+                Vec3 vec33 = entityhitresult.m_82450_();
+                double d2 = vec3.m_82557_(vec33);
+                if (flag && d2 > 9.0D) {
+-                  this.f_109059_.f_91077_ = BlockHitResult.m_82426_(vec33, Direction.m_122366_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_), BlockPos.m_274446_(vec33));
++                  this.f_109059_.f_91077_ = BlockHitResult.m_82426_(vec33, Direction.m_122366_(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_()), BlockPos.containing(vec33));
+                } else if (d2 < d1 || this.f_109059_.f_91077_ == null) {
+                   this.f_109059_.f_91077_ = entityhitresult;
+                   if (entity1 instanceof LivingEntity || entity1 instanceof ItemFrame) {

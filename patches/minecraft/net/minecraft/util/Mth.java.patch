@@ -1,6 +1,14 @@
 --- a/net/minecraft/util/Mth.java
 +++ b/net/minecraft/util/Mth.java
-@@ -69,6 +_,10 @@
+@@ -65,10 +_,18 @@
+       return p_14135_ < (double)i ? i - 1L : i;
+    }
+ 
++   public static java.math.BigInteger lfloor(java.math.BigDecimal val) {
++      return val.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
++   }
++
+    public static float m_14154_(float p_14155_) {
        return Math.abs(p_14155_);
     }
  
@@ -11,13 +19,17 @@
     public static int m_14040_(int p_14041_) {
        return Math.abs(p_14041_);
     }
-@@ -83,10 +_,19 @@
+@@ -83,10 +_,23 @@
        return p_14166_ > (double)i ? i + 1 : i;
     }
  
 +   public static long lceil(double p_14166_) {
 +      long i = (long)p_14166_;
 +      return p_14166_ > (double)i ? i + 1 : i;
++   }
++
++   public static java.math.BigInteger lceil(java.math.BigDecimal val) {
++      return val.setScale(0, java.math.RoundingMode.CEILING).toBigInteger();
 +   }
 +
     public static int m_14045_(int p_14046_, int p_14047_, int p_14048_) {
@@ -31,6 +43,17 @@
     public static float m_14036_(float p_14037_, float p_14038_, float p_14039_) {
        return p_14037_ < p_14038_ ? p_14038_ : Math.min(p_14037_, p_14039_);
     }
+@@ -95,6 +_,10 @@
+       return p_14009_ < p_14010_ ? p_14010_ : Math.min(p_14009_, p_14011_);
+    }
+ 
++   public static java.math.BigDecimal clamp(java.math.BigDecimal p_14009_, java.math.BigDecimal p_14010_, java.math.BigDecimal p_14011_) {
++      return p_14009_.compareTo(p_14010_) < 0 ? p_14010_ : p_14009_.min(p_14011_);
++   }
++
+    public static double m_14085_(double p_14086_, double p_14087_, double p_14088_) {
+       if (p_14088_ < 0.0D) {
+          return p_14086_;
 @@ -123,10 +_,18 @@
        return Math.max(p_14006_, p_14007_);
     }
@@ -114,6 +137,72 @@
        long i = (long)(p_14131_ * 3129871) ^ (long)p_14133_ * 116129781L ^ (long)p_14132_;
        i = i * i * 42317861L + i * 11L;
        return i >> 16;
+@@ -298,36 +_,36 @@
+    }
+ 
+    public static boolean m_144888_(Vec3 p_144889_, Vec3 p_144890_, AABB p_144891_) {
+-      double d0 = (p_144891_.f_82288_ + p_144891_.f_82291_) * 0.5D;
+-      double d1 = (p_144891_.f_82291_ - p_144891_.f_82288_) * 0.5D;
+-      double d2 = p_144889_.f_82479_ - d0;
+-      if (Math.abs(d2) > d1 && d2 * p_144890_.f_82479_ >= 0.0D) {
++      double d0 = (p_144891_.f_82288_.doubleValue() + p_144891_.f_82291_.doubleValue()) * 0.5D;
++      double d1 = (p_144891_.f_82291_.doubleValue() - p_144891_.f_82288_.doubleValue()) * 0.5D;
++      double d2 = p_144889_.m_7096_() - d0;
++      if (Math.abs(d2) > d1 && d2 * p_144890_.m_7096_() >= 0.0D) {
+          return false;
+       } else {
+-         double d3 = (p_144891_.f_82289_ + p_144891_.f_82292_) * 0.5D;
+-         double d4 = (p_144891_.f_82292_ - p_144891_.f_82289_) * 0.5D;
+-         double d5 = p_144889_.f_82480_ - d3;
+-         if (Math.abs(d5) > d4 && d5 * p_144890_.f_82480_ >= 0.0D) {
++         double d3 = (p_144891_.f_82289_.doubleValue() + p_144891_.f_82292_.doubleValue()) * 0.5D;
++         double d4 = (p_144891_.f_82292_.doubleValue() - p_144891_.f_82289_.doubleValue()) * 0.5D;
++         double d5 = p_144889_.m_7098_() - d3;
++         if (Math.abs(d5) > d4 && d5 * p_144890_.m_7098_() >= 0.0D) {
+             return false;
+          } else {
+-            double d6 = (p_144891_.f_82290_ + p_144891_.f_82293_) * 0.5D;
+-            double d7 = (p_144891_.f_82293_ - p_144891_.f_82290_) * 0.5D;
+-            double d8 = p_144889_.f_82481_ - d6;
+-            if (Math.abs(d8) > d7 && d8 * p_144890_.f_82481_ >= 0.0D) {
++            double d6 = (p_144891_.f_82290_.doubleValue() + p_144891_.f_82293_.doubleValue()) * 0.5D;
++            double d7 = (p_144891_.f_82293_.doubleValue() - p_144891_.f_82290_.doubleValue()) * 0.5D;
++            double d8 = p_144889_.m_7094_() - d6;
++            if (Math.abs(d8) > d7 && d8 * p_144890_.m_7094_() >= 0.0D) {
+                return false;
+             } else {
+-               double d9 = Math.abs(p_144890_.f_82479_);
+-               double d10 = Math.abs(p_144890_.f_82480_);
+-               double d11 = Math.abs(p_144890_.f_82481_);
+-               double d12 = p_144890_.f_82480_ * d8 - p_144890_.f_82481_ * d5;
++               double d9 = Math.abs(p_144890_.m_7096_());
++               double d10 = Math.abs(p_144890_.m_7098_());
++               double d11 = Math.abs(p_144890_.m_7094_());
++               double d12 = p_144890_.m_7098_() * d8 - p_144890_.m_7094_() * d5;
+                if (Math.abs(d12) > d4 * d11 + d7 * d10) {
+                   return false;
+                } else {
+-                  d12 = p_144890_.f_82481_ * d2 - p_144890_.f_82479_ * d8;
++                  d12 = p_144890_.m_7094_() * d2 - p_144890_.m_7096_() * d8;
+                   if (Math.abs(d12) > d1 * d11 + d7 * d9) {
+                      return false;
+                   } else {
+-                     d12 = p_144890_.f_82479_ * d5 - p_144890_.f_82480_ * d2;
++                     d12 = p_144890_.m_7096_() * d5 - p_144890_.m_7098_() * d2;
+                      return Math.abs(d12) < d1 * d10 + d4 * d9;
+                   }
+                }
+@@ -495,6 +_,10 @@
+       return p_14141_ + p_14140_ * (p_14142_ - p_14141_);
+    }
+ 
++   public static java.math.BigDecimal lerp(java.math.BigDecimal p_14140_, java.math.BigDecimal p_14141_, java.math.BigDecimal p_14142_) {
++      return p_14141_.add(p_14140_.multiply(p_14142_.subtract(p_14141_)));
++   }
++
+    public static double m_14012_(double p_14013_, double p_14014_, double p_14015_, double p_14016_, double p_14017_, double p_14018_) {
+       return m_14139_(p_14014_, m_14139_(p_14013_, p_14015_, p_14016_), m_14139_(p_14013_, p_14017_, p_14018_));
+    }
 @@ -523,6 +_,14 @@
        }
     }
@@ -140,7 +229,7 @@
     public static float m_216283_(RandomSource p_216284_, float p_216285_, float p_216286_) {
        return p_216284_.m_188501_() * (p_216286_ - p_216285_) + p_216285_;
     }
-@@ -607,32 +_,32 @@
+@@ -607,33 +_,41 @@
        return m_14107_(p_184629_ / (double)p_184630_) * p_184630_;
     }
  
@@ -179,5 +268,14 @@
 -         }) : IntStream.empty();
 +         }) : java.util.stream.LongStream.empty();
        }
++   }
++
++   public static boolean fuzzyEquals(java.math.BigDecimal num1, java.math.BigDecimal num2, java.math.BigDecimal epsilon) {
++      // Calculate the absolute difference between num1 and num2
++      java.math.BigDecimal absDiff = num1.subtract(num2).abs();
++
++      // Compare the absolute difference with the epsilon
++      return absDiff.compareTo(epsilon) <= 0;
     }
  
+    static {

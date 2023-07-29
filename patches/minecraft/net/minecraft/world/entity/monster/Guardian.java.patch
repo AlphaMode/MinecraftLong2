@@ -1,14 +1,28 @@
 --- a/net/minecraft/world/entity/monster/Guardian.java
 +++ b/net/minecraft/world/entity/monster/Guardian.java
-@@ -196,7 +_,7 @@
+@@ -192,11 +_,11 @@
+             if (!this.m_20069_()) {
+                this.f_32800_ = 2.0F;
+                Vec3 vec3 = this.m_20184_();
+-               if (vec3.f_82480_ > 0.0D && this.f_32805_ && !this.m_20067_()) {
++               if (vec3.m_7098_() > 0.0D && this.f_32805_ && !this.m_20067_()) {
                    this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), this.m_7868_(), this.m_5720_(), 1.0F, 1.0F, false);
                 }
  
 -               this.f_32805_ = vec3.f_82480_ < 0.0D && this.m_9236_().m_46575_(this.m_20183_().m_7495_(), this);
-+               this.f_32805_ = vec3.f_82480_ < 0.0D && this.m_9236_().m_46575_(this.m_20183_().below(), this);
++               this.f_32805_ = vec3.m_7098_() < 0.0D && this.m_9236_().m_46575_(this.m_20183_().below(), this);
              } else if (this.m_32854_()) {
                 if (this.f_32800_ < 0.5F) {
                    this.f_32800_ = 4.0F;
+@@ -221,7 +_,7 @@
+                Vec3 vec31 = this.m_20252_(0.0F);
+ 
+                for(int i = 0; i < 2; ++i) {
+-                  this.m_9236_().m_7106_(ParticleTypes.f_123795_, this.m_20208_(0.5D) - vec31.f_82479_ * 1.5D, this.m_20187_() - vec31.f_82480_ * 1.5D, this.m_20262_(0.5D) - vec31.f_82481_ * 1.5D, 0.0D, 0.0D, 0.0D);
++                  this.m_9236_().m_7106_(ParticleTypes.f_123795_, this.m_20208_(0.5D) - vec31.m_7096_() * 1.5D, this.m_20187_() - vec31.m_7098_() * 1.5D, this.m_20262_(0.5D) - vec31.m_7094_() * 1.5D, 0.0D, 0.0D, 0.0D);
+                }
+             }
+ 
 @@ -294,7 +_,7 @@
     }
  
@@ -18,3 +32,18 @@
     }
  
     public boolean m_6469_(DamageSource p_32820_, float p_32821_) {
+@@ -435,10 +_,10 @@
+          if (this.f_24981_ == MoveControl.Operation.MOVE_TO && !this.f_32884_.m_21573_().m_26571_()) {
+             Vec3 vec3 = new Vec3(this.f_24975_ - this.f_32884_.m_20185_(), this.f_24976_ - this.f_32884_.m_20186_(), this.f_24977_ - this.f_32884_.m_20189_());
+             double d0 = vec3.m_82553_();
+-            double d1 = vec3.f_82479_ / d0;
+-            double d2 = vec3.f_82480_ / d0;
+-            double d3 = vec3.f_82481_ / d0;
+-            float f = (float)(Mth.m_14136_(vec3.f_82481_, vec3.f_82479_) * (double)(180F / (float)Math.PI)) - 90.0F;
++            double d1 = vec3.m_7096_() / d0;
++            double d2 = vec3.m_7098_() / d0;
++            double d3 = vec3.m_7094_() / d0;
++            float f = (float)(Mth.m_14136_(vec3.m_7094_(), vec3.m_7096_()) * (double)(180F / (float)Math.PI)) - 90.0F;
+             this.f_32884_.m_146922_(this.m_24991_(this.f_32884_.m_146908_(), f, 90.0F));
+             this.f_32884_.f_20883_ = this.f_32884_.m_146908_();
+             float f1 = (float)(this.f_24978_ * this.f_32884_.m_21133_(Attributes.f_22279_));

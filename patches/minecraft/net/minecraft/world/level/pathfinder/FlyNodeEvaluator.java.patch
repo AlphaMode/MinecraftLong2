@@ -255,14 +255,14 @@
        boolean flag = aabb.m_82309_() < 1.0D;
        if (!flag) {
 -         return List.of(BlockPos.m_274561_(aabb.f_82288_, (double)p_263108_.m_146904_(), aabb.f_82290_), BlockPos.m_274561_(aabb.f_82288_, (double)p_263108_.m_146904_(), aabb.f_82293_), BlockPos.m_274561_(aabb.f_82291_, (double)p_263108_.m_146904_(), aabb.f_82290_), BlockPos.m_274561_(aabb.f_82291_, (double)p_263108_.m_146904_(), aabb.f_82293_));
-+         return List.of(BlockPos.m_274561_(aabb.f_82288_, (double)p_263108_.getBlockY(), aabb.f_82290_), BlockPos.m_274561_(aabb.f_82288_, (double)p_263108_.getBlockY(), aabb.f_82293_), BlockPos.m_274561_(aabb.f_82291_, (double)p_263108_.getBlockY(), aabb.f_82290_), BlockPos.m_274561_(aabb.f_82291_, (double)p_263108_.getBlockY(), aabb.f_82293_));
++         return List.of(BlockPos.containing(aabb.f_82288_, p_263108_.getBigDecBlockY(), aabb.f_82290_), BlockPos.containing(aabb.f_82288_, p_263108_.getBigDecBlockY(), aabb.f_82293_), BlockPos.containing(aabb.f_82291_, p_263108_.getBigDecBlockY(), aabb.f_82290_), BlockPos.containing(aabb.f_82291_, p_263108_.getBigDecBlockY(), aabb.f_82293_));
        } else {
           double d0 = Math.max(0.0D, (1.5D - aabb.m_82385_()) / 2.0D);
           double d1 = Math.max(0.0D, (1.5D - aabb.m_82362_()) / 2.0D);
           double d2 = Math.max(0.0D, (1.5D - aabb.m_82376_()) / 2.0D);
           AABB aabb1 = aabb.m_82377_(d1, d2, d0);
 -         return BlockPos.m_235641_(p_263108_.m_217043_(), 10, Mth.m_14107_(aabb1.f_82288_), Mth.m_14107_(aabb1.f_82289_), Mth.m_14107_(aabb1.f_82290_), Mth.m_14107_(aabb1.f_82291_), Mth.m_14107_(aabb1.f_82292_), Mth.m_14107_(aabb1.f_82293_));
-+         return BlockPos.randomBetweenClosed(p_263108_.m_217043_(), 10, Mth.m_14107_(aabb1.f_82288_), Mth.m_14107_(aabb1.f_82289_), Mth.m_14107_(aabb1.f_82290_), Mth.m_14107_(aabb1.f_82291_), Mth.m_14107_(aabb1.f_82292_), Mth.m_14107_(aabb1.f_82293_));
++         return BlockPos.randomBetweenClosed(p_263108_.m_217043_(), 10, Mth.lfloor(aabb1.f_82288_).longValue(), Mth.lfloor(aabb1.f_82289_).longValue(), Mth.lfloor(aabb1.f_82290_).longValue(), Mth.lfloor(aabb1.f_82291_).longValue(), Mth.lfloor(aabb1.f_82292_).longValue(), Mth.lfloor(aabb1.f_82293_).longValue());
        }
     }
  }

@@ -1,14 +1,22 @@
 --- a/net/minecraft/world/level/block/Block.java
 +++ b/net/minecraft/world/level/block/Block.java
-@@ -118,7 +_,7 @@
+@@ -118,13 +_,13 @@
     }
  
     public static BlockState m_49897_(BlockState p_49898_, BlockState p_49899_, LevelAccessor p_238252_, BlockPos p_49901_) {
 -      VoxelShape voxelshape = Shapes.m_83148_(p_49898_.m_60812_(p_238252_, p_49901_), p_49899_.m_60812_(p_238252_, p_49901_), BooleanOp.f_82683_).m_83216_((double)p_49901_.m_123341_(), (double)p_49901_.m_123342_(), (double)p_49901_.m_123343_());
-+      VoxelShape voxelshape = Shapes.m_83148_(p_49898_.m_60812_(p_238252_, p_49901_), p_49899_.m_60812_(p_238252_, p_49901_), BooleanOp.f_82683_).m_83216_((double)p_49901_.getX(), (double)p_49901_.getY(), (double)p_49901_.getZ());
++      VoxelShape voxelshape = Shapes.m_83148_(p_49898_.m_60812_(p_238252_, p_49901_), p_49899_.m_60812_(p_238252_, p_49901_), BooleanOp.f_82683_).move(p_49901_.getBigDecX(), p_49901_.getBigDecY(), p_49901_.getBigDecZ());
        if (voxelshape.m_83281_()) {
           return p_49899_;
        } else {
+          for(Entity entity : p_238252_.m_45933_((Entity)null, voxelshape.m_83215_())) {
+-            double d0 = Shapes.m_193135_(Direction.Axis.Y, entity.m_20191_().m_82386_(0.0D, 1.0D, 0.0D), List.of(voxelshape), -1.0D);
+-            entity.m_246847_(0.0D, 1.0D + d0, 0.0D);
++            java.math.BigDecimal d0 = Shapes.collide(Direction.Axis.Y, entity.m_20191_().m_82386_(0.0D, 1.0D, 0.0D), List.of(voxelshape), java.math.BigDecimal.ONE.negate());
++            entity.teleportRelative(java.math.BigDecimal.ZERO, java.math.BigDecimal.ONE.add(d0), java.math.BigDecimal.ZERO);
+          }
+ 
+          return p_49899_;
 @@ -140,7 +_,7 @@
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  

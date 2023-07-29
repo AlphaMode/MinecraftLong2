@@ -1,0 +1,20 @@
+--- a/net/minecraft/server/commands/SummonCommand.java
++++ b/net/minecraft/server/commands/SummonCommand.java
+@@ -42,7 +_,7 @@
+    }
+ 
+    public static Entity m_269066_(CommandSourceStack p_270582_, Holder.Reference<EntityType<?>> p_270277_, Vec3 p_270366_, CompoundTag p_270197_, boolean p_270947_) throws CommandSyntaxException {
+-      BlockPos blockpos = BlockPos.m_274446_(p_270366_);
++      BlockPos blockpos = BlockPos.containing(p_270366_);
+       if (!Level.m_46741_(blockpos)) {
+          throw f_138812_.create();
+       } else {
+@@ -50,7 +_,7 @@
+          compoundtag.m_128359_("id", p_270277_.m_205785_().m_135782_().toString());
+          ServerLevel serverlevel = p_270582_.m_81372_();
+          Entity entity = EntityType.m_20645_(compoundtag, serverlevel, (p_138828_) -> {
+-            p_138828_.m_7678_(p_270366_.f_82479_, p_270366_.f_82480_, p_270366_.f_82481_, p_138828_.m_146908_(), p_138828_.m_146909_());
++            p_138828_.m_7678_(p_270366_.m_7096_(), p_270366_.m_7098_(), p_270366_.m_7094_(), p_138828_.m_146908_(), p_138828_.m_146909_());
+             return p_138828_;
+          });
+          if (entity == null) {

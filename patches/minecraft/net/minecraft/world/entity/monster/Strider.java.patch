@@ -1,5 +1,21 @@
 --- a/net/minecraft/world/entity/monster/Strider.java
 +++ b/net/minecraft/world/entity/monster/Strider.java
+@@ -205,12 +_,12 @@
+    public Vec3 m_7688_(LivingEntity p_33908_) {
+       Vec3[] avec3 = new Vec3[]{m_19903_((double)this.m_20205_(), (double)p_33908_.m_20205_(), p_33908_.m_146908_()), m_19903_((double)this.m_20205_(), (double)p_33908_.m_20205_(), p_33908_.m_146908_() - 22.5F), m_19903_((double)this.m_20205_(), (double)p_33908_.m_20205_(), p_33908_.m_146908_() + 22.5F), m_19903_((double)this.m_20205_(), (double)p_33908_.m_20205_(), p_33908_.m_146908_() - 45.0F), m_19903_((double)this.m_20205_(), (double)p_33908_.m_20205_(), p_33908_.m_146908_() + 45.0F)};
+       Set<BlockPos> set = Sets.newLinkedHashSet();
+-      double d0 = this.m_20191_().f_82292_;
+-      double d1 = this.m_20191_().f_82289_ - 0.5D;
++      double d0 = this.m_20191_().f_82292_.doubleValue();
++      double d1 = this.m_20191_().f_82289_.doubleValue() - 0.5D;
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+       for(Vec3 vec3 : avec3) {
+-         blockpos$mutableblockpos.m_122169_(this.m_20185_() + vec3.f_82479_, d0, this.m_20189_() + vec3.f_82481_);
++         blockpos$mutableblockpos.m_122169_(this.m_20185_() + vec3.m_7096_(), d0, this.m_20189_() + vec3.m_7094_());
+ 
+          for(double d2 = d0; d2 > d1; --d2) {
+             set.add(blockpos$mutableblockpos.m_7949_());
 @@ -222,7 +_,7 @@
           if (!this.m_9236_().m_6425_(blockpos).m_205070_(FluidTags.f_13132_)) {
              double d3 = this.m_9236_().m_45573_(blockpos);
@@ -9,6 +25,15 @@
  
                 for(Pose pose : p_33908_.m_7431_()) {
                    AABB aabb = p_33908_.m_21270_(pose);
+@@ -235,7 +_,7 @@
+          }
+       }
+ 
+-      return new Vec3(this.m_20185_(), this.m_20191_().f_82292_, this.m_20189_());
++      return new Vec3(this.getBigX(), this.m_20191_().f_82292_, this.getBigZ());
+    }
+ 
+    protected void m_274498_(Player p_278331_, Vec3 p_278234_) {
 @@ -324,7 +_,7 @@
     private void m_33940_() {
        if (this.m_20077_()) {

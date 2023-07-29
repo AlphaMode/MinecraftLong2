@@ -1,0 +1,63 @@
+--- a/net/minecraft/world/phys/shapes/IndirectMerger.java
++++ b/net/minecraft/world/phys/shapes/IndirectMerger.java
+@@ -5,18 +_,19 @@
+ import it.unimi.dsi.fastutil.doubles.DoubleLists;
+ 
+ public class IndirectMerger implements IndexMerger {
+-   private static final DoubleList f_166021_ = DoubleLists.unmodifiable(DoubleArrayList.wrap(new double[]{0.0D}));
+-   private final double[] f_82997_;
++   private static final it.unimi.dsi.fastutil.objects.ObjectList<java.math.BigDecimal> f_166021_ = it.unimi.dsi.fastutil.objects.ObjectLists.unmodifiable(it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new java.math.BigDecimal[]{java.math.BigDecimal.ZERO}));
++   private final java.math.BigDecimal[] f_82997_;
+    private final int[] f_82998_;
+    private final int[] f_82999_;
+    private final int f_166022_;
+ 
+-   public IndirectMerger(DoubleList p_83001_, DoubleList p_83002_, boolean p_83003_, boolean p_83004_) {
++   public IndirectMerger(it.unimi.dsi.fastutil.objects.ObjectList<java.math.BigDecimal> p_83001_, it.unimi.dsi.fastutil.objects.ObjectList<java.math.BigDecimal> p_83002_, boolean p_83003_, boolean p_83004_) {
+       double d0 = Double.NaN;
++      java.math.BigDecimal d0REAL = java.math.BigDecimal.ZERO;
+       int i = p_83001_.size();
+       int j = p_83002_.size();
+       int k = i + j;
+-      this.f_82997_ = new double[k];
++      this.f_82997_ = new java.math.BigDecimal[k];
+       this.f_82998_ = new int[k];
+       this.f_82999_ = new int[k];
+       boolean flag = !p_83003_;
+@@ -33,7 +_,7 @@
+             return;
+          }
+ 
+-         boolean flag4 = !flag2 && (flag3 || p_83001_.getDouble(i1) < p_83002_.getDouble(j1) + 1.0E-7D);
++         boolean flag4 = !flag2 && (flag3 || p_83001_.get(i1).compareTo(p_83002_.get(j1).add(me.alphamode.mclong.core.BigConstants.EPSILON)) < 0);
+          if (flag4) {
+             ++i1;
+             if (flag && (j1 == 0 || flag3)) {
+@@ -48,13 +_,14 @@
+ 
+          int k1 = i1 - 1;
+          int l1 = j1 - 1;
+-         double d1 = flag4 ? p_83001_.getDouble(k1) : p_83002_.getDouble(l1);
+-         if (!(d0 >= d1 - 1.0E-7D)) {
++         java.math.BigDecimal d1 = flag4 ? p_83001_.get(k1) : p_83002_.get(l1);
++         if (Double.isNaN(d0) || !(d0REAL.compareTo(d1.subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) >= 0)) {
+             this.f_82998_[l] = k1;
+             this.f_82999_[l] = l1;
+             this.f_82997_[l] = d1;
+             ++l;
+-            d0 = d1;
++            d0 = 1;
++            d0REAL = d1;
+          } else {
+             this.f_82998_[l - 1] = k1;
+             this.f_82999_[l - 1] = l1;
+@@ -78,7 +_,7 @@
+       return this.f_166022_;
+    }
+ 
+-   public DoubleList m_6241_() {
+-      return (DoubleList)(this.f_166022_ <= 1 ? f_166021_ : DoubleArrayList.wrap(this.f_82997_, this.f_166022_));
++   public it.unimi.dsi.fastutil.objects.ObjectList<java.math.BigDecimal> getList() {
++      return (this.f_166022_ <= 1 ? f_166021_ : it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(this.f_82997_, this.f_166022_));
+    }
+ }

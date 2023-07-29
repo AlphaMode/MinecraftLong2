@@ -1,5 +1,62 @@
 --- a/net/minecraft/world/entity/vehicle/Boat.java
 +++ b/net/minecraft/world/entity/vehicle/Boat.java
+@@ -94,9 +_,9 @@
+       this.f_19850_ = true;
+    }
+ 
+-   public Boat(Level p_38293_, double p_38294_, double p_38295_, double p_38296_) {
++   public Boat(Level p_38293_, java.math.BigDecimal p_38294_, java.math.BigDecimal p_38295_, java.math.BigDecimal p_38296_) {
+       this(EntityType.f_20552_, p_38293_);
+-      this.m_6034_(p_38294_, p_38295_, p_38296_);
++      this.setPos(p_38294_, p_38295_, p_38296_);
+       this.f_19854_ = p_38294_;
+       this.f_19855_ = p_38295_;
+       this.f_19856_ = p_38296_;
+@@ -191,10 +_,10 @@
+ 
+    public void m_7334_(Entity p_38373_) {
+       if (p_38373_ instanceof Boat) {
+-         if (p_38373_.m_20191_().f_82289_ < this.m_20191_().f_82292_) {
++         if (p_38373_.m_20191_().f_82289_.compareTo(this.m_20191_().f_82292_) < 0) {
+             super.m_7334_(p_38373_);
+          }
+-      } else if (p_38373_.m_20191_().f_82289_ <= this.m_20191_().f_82289_) {
++      } else if (p_38373_.m_20191_().f_82289_.compareTo(this.m_20191_().f_82289_) <= 0) {
+          super.m_7334_(p_38373_);
+       }
+ 
+@@ -304,8 +_,8 @@
+                SoundEvent soundevent = this.m_38370_();
+                if (soundevent != null) {
+                   Vec3 vec3 = this.m_20252_(1.0F);
+-                  double d0 = i == 1 ? -vec3.f_82481_ : vec3.f_82481_;
+-                  double d1 = i == 1 ? vec3.f_82479_ : -vec3.f_82479_;
++                  double d0 = i == 1 ? -vec3.m_7094_() : vec3.m_7094_();
++                  double d1 = i == 1 ? vec3.m_7096_() : -vec3.m_7096_();
+                   this.m_9236_().m_6263_((Player)null, this.m_20185_() + d0, this.m_20186_(), this.m_20189_() + d1, soundevent, this.m_5720_(), 1.0F, 0.8F + 0.4F * this.f_19796_.m_188501_());
+                }
+             }
+@@ -364,9 +_,9 @@
+                   this.m_20256_(vec3.m_82520_(0.0D, -0.7D, 0.0D));
+                   this.m_20153_();
+                } else {
+-                  this.m_20334_(vec3.f_82479_, this.m_146862_((p_150274_) -> {
++                  this.m_20334_(vec3.m_7096_(), this.m_146862_((p_150274_) -> {
+                      return p_150274_ instanceof Player;
+-                  }) ? 2.7D : 0.6D, vec3.f_82481_);
++                  }) ? 2.7D : 0.6D, vec3.m_7094_());
+                }
+             }
+ 
+@@ -422,7 +_,7 @@
+    private Boat.Status m_38392_() {
+       Boat.Status boat$status = this.m_38394_();
+       if (boat$status != null) {
+-         this.f_38277_ = this.m_20191_().f_82292_;
++         this.f_38277_ = this.m_20191_().f_82292_.doubleValue();
+          return boat$status;
+       } else if (this.m_38393_()) {
+          return Boat.Status.IN_WATER;
 @@ -439,21 +_,21 @@
  
     public float m_38371_() {
@@ -10,29 +67,29 @@
 -      int l = Mth.m_14165_(aabb.f_82292_ - this.f_38281_);
 -      int i1 = Mth.m_14107_(aabb.f_82290_);
 -      int j1 = Mth.m_14165_(aabb.f_82293_);
-+      long i = Mth.m_14134_(aabb.f_82288_);
-+      long j = Mth.lceil(aabb.f_82291_);
-+      long k = Mth.m_14134_(aabb.f_82292_);
-+      long l = Mth.lceil(aabb.f_82292_ - this.f_38281_);
-+      long i1 = Mth.m_14134_(aabb.f_82290_);
-+      long j1 = Mth.lceil(aabb.f_82293_);
++      java.math.BigInteger i = Mth.lfloor(aabb.f_82288_);
++      java.math.BigInteger j = Mth.lceil(aabb.f_82291_);
++      java.math.BigInteger k = Mth.lfloor(aabb.f_82292_);
++      java.math.BigInteger l = Mth.lceil(aabb.f_82292_.subtract(java.math.BigDecimal.valueOf(this.f_38281_)));
++      java.math.BigInteger i1 = Mth.lfloor(aabb.f_82290_);
++      java.math.BigInteger j1 = Mth.lceil(aabb.f_82293_);
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
        label39:
 -      for(int k1 = k; k1 < l; ++k1) {
-+      for(long k1 = k; k1 < l; ++k1) {
++      for(java.math.BigInteger k1 = k; k1.compareTo(l) < 0; k1 = k1.add(java.math.BigInteger.ONE)) {
           float f = 0.0F;
  
 -         for(int l1 = i; l1 < j; ++l1) {
 -            for(int i2 = i1; i2 < j1; ++i2) {
 -               blockpos$mutableblockpos.m_122178_(l1, k1, i2);
-+         for(long l1 = i; l1 < j; ++l1) {
-+            for(long i2 = i1; i2 < j1; ++i2) {
++         for(java.math.BigInteger l1 = i; l1.compareTo(j) < 0; l1 = l1.add(java.math.BigInteger.ONE)) {
++            for(java.math.BigInteger i2 = i1; i2.compareTo(j1) < 0; i2 = i2.add(java.math.BigInteger.ONE)) {
 +               blockpos$mutableblockpos.set(l1, k1, i2);
                 FluidState fluidstate = this.m_9236_().m_6425_(blockpos$mutableblockpos);
                 if (fluidstate.m_205070_(FluidTags.f_13131_)) {
                    f = Math.max(f, fluidstate.m_76155_(this.m_9236_(), blockpos$mutableblockpos));
-@@ -466,7 +_,7 @@
+@@ -466,34 +_,34 @@
           }
  
           if (f < 1.0F) {
@@ -41,22 +98,26 @@
           }
        }
  
-@@ -476,24 +_,24 @@
+-      return (float)(l + 1);
++      return (float)(l.longValue() + 1);
+    }
+ 
     public float m_38377_() {
        AABB aabb = this.m_20191_();
-       AABB aabb1 = new AABB(aabb.f_82288_, aabb.f_82289_ - 0.001D, aabb.f_82290_, aabb.f_82291_, aabb.f_82289_, aabb.f_82293_);
+-      AABB aabb1 = new AABB(aabb.f_82288_, aabb.f_82289_ - 0.001D, aabb.f_82290_, aabb.f_82291_, aabb.f_82289_, aabb.f_82293_);
 -      int i = Mth.m_14107_(aabb1.f_82288_) - 1;
 -      int j = Mth.m_14165_(aabb1.f_82291_) + 1;
 -      int k = Mth.m_14107_(aabb1.f_82289_) - 1;
 -      int l = Mth.m_14165_(aabb1.f_82292_) + 1;
 -      int i1 = Mth.m_14107_(aabb1.f_82290_) - 1;
 -      int j1 = Mth.m_14165_(aabb1.f_82293_) + 1;
-+      long i = Mth.m_14134_(aabb1.f_82288_) - 1;
-+      long j = Mth.lceil(aabb1.f_82291_) + 1;
-+      long k = Mth.m_14134_(aabb1.f_82289_) - 1;
-+      long l = Mth.lceil(aabb1.f_82292_) + 1;
-+      long i1 = Mth.m_14134_(aabb1.f_82290_) - 1;
-+      long j1 = Mth.lceil(aabb1.f_82293_) + 1;
++      AABB aabb1 = new AABB(aabb.f_82288_, aabb.f_82289_.subtract(java.math.BigDecimal.valueOf(0.001D)), aabb.f_82290_, aabb.f_82291_, aabb.f_82289_, aabb.f_82293_);
++      long i = Mth.lfloor(aabb1.f_82288_).longValue() - 1;
++      long j = Mth.lceil(aabb1.f_82291_).longValue() + 1;
++      long k = Mth.lfloor(aabb1.f_82289_).longValue() - 1;
++      long l = Mth.lceil(aabb1.f_82292_).longValue() + 1;
++      long i1 = Mth.lfloor(aabb1.f_82290_).longValue() - 1;
++      long j1 = Mth.lceil(aabb1.f_82293_).longValue() + 1;
        VoxelShape voxelshape = Shapes.m_83064_(aabb1);
        float f = 0.0F;
        int k1 = 0;
@@ -76,7 +137,7 @@
                       BlockState blockstate = this.m_9236_().m_8055_(blockpos$mutableblockpos);
                       if (!(blockstate.m_60734_() instanceof WaterlilyBlock) && Shapes.m_83157_(blockstate.m_60812_(this.m_9236_(), blockpos$mutableblockpos).m_83216_((double)l1, (double)k2, (double)i2), voxelshape, BooleanOp.f_82689_)) {
                          f += blockstate.m_60734_().m_49958_();
-@@ -510,20 +_,20 @@
+@@ -510,25 +_,25 @@
  
     private boolean m_38393_() {
        AABB aabb = this.m_20191_();
@@ -86,12 +147,12 @@
 -      int l = Mth.m_14165_(aabb.f_82289_ + 0.001D);
 -      int i1 = Mth.m_14107_(aabb.f_82290_);
 -      int j1 = Mth.m_14165_(aabb.f_82293_);
-+      long i = Mth.m_14134_(aabb.f_82288_);
-+      long j = Mth.lceil(aabb.f_82291_);
-+      long k = Mth.m_14134_(aabb.f_82289_);
-+      long l = Mth.lceil(aabb.f_82289_ + 0.001D);
-+      long i1 = Mth.m_14134_(aabb.f_82290_);
-+      long j1 = Mth.lceil(aabb.f_82293_);
++      long i = Mth.lfloor(aabb.f_82288_).longValue();
++      long j = Mth.lceil(aabb.f_82291_).longValue();
++      long k = Mth.lfloor(aabb.f_82289_).longValue();
++      long l = Mth.lceil(aabb.f_82289_.doubleValue() + 0.001D);
++      long i1 = Mth.lfloor(aabb.f_82290_).longValue();
++      long j1 = Mth.lceil(aabb.f_82293_).longValue();
        boolean flag = false;
        this.f_38277_ = -Double.MAX_VALUE;
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
@@ -107,22 +168,30 @@
                 FluidState fluidstate = this.m_9236_().m_6425_(blockpos$mutableblockpos);
                 if (fluidstate.m_205070_(FluidTags.f_13131_)) {
                    float f = (float)l1 + fluidstate.m_76155_(this.m_9236_(), blockpos$mutableblockpos);
-@@ -541,21 +_,21 @@
+                   this.f_38277_ = Math.max((double)f, this.f_38277_);
+-                  flag |= aabb.f_82289_ < (double)f;
++                  flag |= aabb.f_82289_.doubleValue() < (double)f;
+                }
+             }
+          }
+@@ -540,22 +_,22 @@
+    @Nullable
     private Boat.Status m_38394_() {
        AABB aabb = this.m_20191_();
-       double d0 = aabb.f_82292_ + 0.001D;
+-      double d0 = aabb.f_82292_ + 0.001D;
 -      int i = Mth.m_14107_(aabb.f_82288_);
 -      int j = Mth.m_14165_(aabb.f_82291_);
 -      int k = Mth.m_14107_(aabb.f_82292_);
 -      int l = Mth.m_14165_(d0);
 -      int i1 = Mth.m_14107_(aabb.f_82290_);
 -      int j1 = Mth.m_14165_(aabb.f_82293_);
-+      long i = Mth.m_14134_(aabb.f_82288_);
-+      long j = Mth.lceil(aabb.f_82291_);
-+      long k = Mth.m_14134_(aabb.f_82292_);
++      double d0 = aabb.f_82292_.doubleValue() + 0.001D;
++      long i = Mth.lfloor(aabb.f_82288_).longValue();
++      long j = Mth.lceil(aabb.f_82291_).longValue();
++      long k = Mth.lfloor(aabb.f_82292_).longValue();
 +      long l = Mth.lceil(d0);
-+      long i1 = Mth.m_14134_(aabb.f_82290_);
-+      long j1 = Mth.lceil(aabb.f_82293_);
++      long i1 = Mth.lfloor(aabb.f_82290_).longValue();
++      long j1 = Mth.lceil(aabb.f_82293_).longValue();
        boolean flag = false;
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
@@ -140,11 +209,40 @@
                    if (!fluidstate.m_76170_()) {
                       return Boat.Status.UNDER_FLOWING_WATER;
                    }
-@@ -683,17 +_,17 @@
-       double d0 = this.m_20185_() + vec3.f_82479_;
-       double d1 = this.m_20189_() + vec3.f_82481_;
-       BlockPos blockpos = BlockPos.m_274561_(d0, this.m_20191_().f_82292_, d1);
+@@ -600,11 +_,11 @@
+          }
+ 
+          Vec3 vec3 = this.m_20184_();
+-         this.m_20334_(vec3.f_82479_ * (double)this.f_38264_, vec3.f_82480_ + d1, vec3.f_82481_ * (double)this.f_38264_);
++         this.m_20334_(vec3.m_7096_() * (double)this.f_38264_, vec3.m_7098_() + d1, vec3.m_7094_() * (double)this.f_38264_);
+          this.f_38266_ *= this.f_38264_;
+          if (d2 > 0.0D) {
+             Vec3 vec31 = this.m_20184_();
+-            this.m_20334_(vec31.f_82479_, (vec31.f_82480_ + d2 * 0.06153846016296973D) * 0.75D, vec31.f_82481_);
++            this.m_20334_(vec31.m_7096_(), (vec31.m_7098_() + d2 * 0.06153846016296973D) * 0.75D, vec31.m_7094_());
+          }
+       }
+ 
+@@ -665,7 +_,7 @@
+          }
+ 
+          Vec3 vec3 = (new Vec3((double)f, 0.0D, 0.0D)).m_82524_(-this.m_146908_() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
+-         p_289571_.m_20372_(p_289552_, this.m_20185_() + vec3.f_82479_, this.m_20186_() + (double)f1, this.m_20189_() + vec3.f_82481_);
++         p_289571_.accept(p_289552_, this.getBigX().add(vec3.getX()), this.getBigY().add(java.math.BigDecimal.valueOf(f1)), this.getBigZ().add(vec3.getZ()));
+          p_289552_.m_146922_(p_289552_.m_146908_() + this.f_38266_);
+          p_289552_.m_5616_(p_289552_.m_6080_() + this.f_38266_);
+          this.m_38321_(p_289552_);
+@@ -680,20 +_,20 @@
+ 
+    public Vec3 m_7688_(LivingEntity p_38357_) {
+       Vec3 vec3 = m_19903_((double)(this.m_20205_() * Mth.f_13994_), (double)p_38357_.m_20205_(), p_38357_.m_146908_());
+-      double d0 = this.m_20185_() + vec3.f_82479_;
+-      double d1 = this.m_20189_() + vec3.f_82481_;
+-      BlockPos blockpos = BlockPos.m_274561_(d0, this.m_20191_().f_82292_, d1);
 -      BlockPos blockpos1 = blockpos.m_7495_();
++      double d0 = this.m_20185_() + vec3.m_7096_();
++      double d1 = this.m_20189_() + vec3.m_7094_();
++      BlockPos blockpos = BlockPos.m_274561_(d0, this.m_20191_().f_82292_.doubleValue(), d1);
 +      BlockPos blockpos1 = blockpos.below();
        if (!this.m_9236_().m_46801_(blockpos1)) {
           List<Vec3> list = Lists.newArrayList();
@@ -161,6 +259,15 @@
           }
  
           for(Pose pose : p_38357_.m_7431_()) {
+@@ -748,7 +_,7 @@
+    }
+ 
+    protected void m_7840_(double p_38307_, boolean p_38308_, BlockState p_38309_, BlockPos p_38310_) {
+-      this.f_38281_ = this.m_20184_().f_82480_;
++      this.f_38281_ = this.m_20184_().m_7098_();
+       if (!this.m_20159_()) {
+          if (p_38308_) {
+             if (this.f_19789_ > 3.0F) {
 @@ -773,7 +_,7 @@
              }
  

@@ -1,5 +1,27 @@
 --- a/net/minecraft/world/level/BlockGetter.java
 +++ b/net/minecraft/world/level/BlockGetter.java
+@@ -47,10 +_,10 @@
+       return m_151361_(p_151354_.m_151405_(), p_151354_.m_151404_(), p_151354_, (p_275154_, p_275155_) -> {
+          BlockState blockstate = this.m_8055_(p_275155_);
+          Vec3 vec3 = p_275154_.m_151405_().m_82546_(p_275154_.m_151404_());
+-         return p_275154_.m_151406_().test(blockstate) ? new BlockHitResult(p_275154_.m_151404_(), Direction.m_122366_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_), BlockPos.m_274446_(p_275154_.m_151404_()), false) : null;
++         return p_275154_.m_151406_().test(blockstate) ? new BlockHitResult(p_275154_.m_151404_(), Direction.m_122366_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_()), BlockPos.containing(p_275154_.m_151404_()), false) : null;
+       }, (p_275156_) -> {
+          Vec3 vec3 = p_275156_.m_151405_().m_82546_(p_275156_.m_151404_());
+-         return BlockHitResult.m_82426_(p_275156_.m_151404_(), Direction.m_122366_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_), BlockPos.m_274446_(p_275156_.m_151404_()));
++         return BlockHitResult.m_82426_(p_275156_.m_151404_(), Direction.m_122366_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_()), BlockPos.containing(p_275156_.m_151404_()));
+       });
+    }
+ 
+@@ -69,7 +_,7 @@
+          return d0 <= d1 ? blockhitresult : blockhitresult1;
+       }, (p_275153_) -> {
+          Vec3 vec3 = p_275153_.m_45702_().m_82546_(p_275153_.m_45693_());
+-         return BlockHitResult.m_82426_(p_275153_.m_45693_(), Direction.m_122366_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_), BlockPos.m_274446_(p_275153_.m_45693_()));
++         return BlockHitResult.m_82426_(p_275153_.m_45693_(), Direction.m_122366_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_()), BlockPos.containing(p_275153_.m_45693_()));
+       });
+    }
+ 
 @@ -97,7 +_,7 @@
  
     default double m_45573_(BlockPos p_45574_) {
@@ -9,13 +31,25 @@
           return this.m_8055_(blockpos).m_60812_(this, blockpos);
        });
     }
-@@ -112,9 +_,9 @@
-          double d3 = Mth.m_14139_(-1.0E-7D, p_151362_.f_82479_, p_151363_.f_82479_);
-          double d4 = Mth.m_14139_(-1.0E-7D, p_151362_.f_82480_, p_151363_.f_82480_);
-          double d5 = Mth.m_14139_(-1.0E-7D, p_151362_.f_82481_, p_151363_.f_82481_);
+@@ -106,15 +_,15 @@
+       if (p_151362_.equals(p_151363_)) {
+          return p_151366_.apply(p_151364_);
+       } else {
+-         double d0 = Mth.m_14139_(-1.0E-7D, p_151363_.f_82479_, p_151362_.f_82479_);
+-         double d1 = Mth.m_14139_(-1.0E-7D, p_151363_.f_82480_, p_151362_.f_82480_);
+-         double d2 = Mth.m_14139_(-1.0E-7D, p_151363_.f_82481_, p_151362_.f_82481_);
+-         double d3 = Mth.m_14139_(-1.0E-7D, p_151362_.f_82479_, p_151363_.f_82479_);
+-         double d4 = Mth.m_14139_(-1.0E-7D, p_151362_.f_82480_, p_151363_.f_82480_);
+-         double d5 = Mth.m_14139_(-1.0E-7D, p_151362_.f_82481_, p_151363_.f_82481_);
 -         int i = Mth.m_14107_(d3);
 -         int j = Mth.m_14107_(d4);
 -         int k = Mth.m_14107_(d5);
++         double d0 = Mth.m_14139_(-1.0E-7D, p_151363_.m_7096_(), p_151362_.m_7096_());
++         double d1 = Mth.m_14139_(-1.0E-7D, p_151363_.m_7098_(), p_151362_.m_7098_());
++         double d2 = Mth.m_14139_(-1.0E-7D, p_151363_.m_7094_(), p_151362_.m_7094_());
++         double d3 = Mth.m_14139_(-1.0E-7D, p_151362_.m_7096_(), p_151363_.m_7096_());
++         double d4 = Mth.m_14139_(-1.0E-7D, p_151362_.m_7098_(), p_151363_.m_7098_());
++         double d5 = Mth.m_14139_(-1.0E-7D, p_151362_.m_7094_(), p_151363_.m_7094_());
 +         long i = Mth.m_14134_(d3);
 +         long j = Mth.m_14134_(d4);
 +         long k = Mth.m_14134_(d5);

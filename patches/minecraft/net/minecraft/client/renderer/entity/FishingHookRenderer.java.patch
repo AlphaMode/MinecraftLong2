@@ -1,0 +1,52 @@
+--- a/net/minecraft/client/renderer/entity/FishingHookRenderer.java
++++ b/net/minecraft/client/renderer/entity/FishingHookRenderer.java
+@@ -60,33 +_,34 @@
+          double d1 = (double)Mth.m_14089_(f2);
+          double d2 = (double)i * 0.35D;
+          double d3 = 0.8D;
+-         double d4;
+-         double d5;
+-         double d6;
++         java.math.BigDecimal d4;
++         java.math.BigDecimal d5;
++         java.math.BigDecimal d6;
+          float f3;
++         var lerp = java.math.BigDecimal.valueOf(p_114707_);
+          if ((this.f_114476_.f_114360_ == null || this.f_114476_.f_114360_.m_92176_().m_90612_()) && player == Minecraft.m_91087_().f_91074_) {
+             double d7 = 960.0D / (double)this.f_114476_.f_114360_.m_231837_().m_231551_().intValue();
+             Vec3 vec3 = this.f_114476_.f_114358_.m_167684_().m_167695_((float)i * 0.525F, -0.1F);
+             vec3 = vec3.m_82490_(d7);
+             vec3 = vec3.m_82524_(f1 * 0.5F);
+             vec3 = vec3.m_82496_(-f1 * 0.7F);
+-            d4 = Mth.m_14139_((double)p_114707_, player.f_19854_, player.m_20185_()) + vec3.f_82479_;
+-            d5 = Mth.m_14139_((double)p_114707_, player.f_19855_, player.m_20186_()) + vec3.f_82480_;
+-            d6 = Mth.m_14139_((double)p_114707_, player.f_19856_, player.m_20189_()) + vec3.f_82481_;
++            d4 = Mth.lerp(lerp, player.f_19854_, player.getBigX()).add(vec3.getX());
++            d5 = Mth.lerp(lerp, player.f_19855_, player.getBigY()).add(vec3.getY());
++            d6 = Mth.lerp(lerp, player.f_19856_, player.getBigZ()).add(vec3.getZ());
+             f3 = player.m_20192_();
+          } else {
+-            d4 = Mth.m_14139_((double)p_114707_, player.f_19854_, player.m_20185_()) - d1 * d2 - d0 * 0.8D;
+-            d5 = player.f_19855_ + (double)player.m_20192_() + (player.m_20186_() - player.f_19855_) * (double)p_114707_ - 0.45D;
+-            d6 = Mth.m_14139_((double)p_114707_, player.f_19856_, player.m_20189_()) - d0 * d2 + d1 * 0.8D;
++            d4 = Mth.lerp(lerp, player.f_19854_, player.getBigX()).subtract(java.math.BigDecimal.valueOf(d1 * d2 - d0 * 0.8D));
++            d5 = player.f_19855_.add(java.math.BigDecimal.valueOf(player.m_20192_()).add(java.math.BigDecimal.valueOf(p_114707_ - 0.45D).multiply(player.getBigY().subtract(player.f_19855_))));
++            d6 = Mth.lerp(lerp, player.f_19856_, player.getBigZ()).subtract(java.math.BigDecimal.valueOf(d0 * d2 + d1 * 0.8D));
+             f3 = player.m_6047_() ? -0.1875F : 0.0F;
+          }
+ 
+-         double d9 = Mth.m_14139_((double)p_114707_, p_114705_.f_19854_, p_114705_.m_20185_());
+-         double d10 = Mth.m_14139_((double)p_114707_, p_114705_.f_19855_, p_114705_.m_20186_()) + 0.25D;
+-         double d8 = Mth.m_14139_((double)p_114707_, p_114705_.f_19856_, p_114705_.m_20189_());
+-         float f4 = (float)(d4 - d9);
+-         float f5 = (float)(d5 - d10) + f3;
+-         float f6 = (float)(d6 - d8);
++         java.math.BigDecimal d9 = Mth.lerp(lerp, p_114705_.f_19854_, p_114705_.getBigX());
++         java.math.BigDecimal d10 = Mth.lerp(lerp, p_114705_.f_19855_, p_114705_.getBigY()).add(java.math.BigDecimal.valueOf(0.25D));
++         java.math.BigDecimal d8 = Mth.lerp(lerp, p_114705_.f_19856_, p_114705_.getBigZ());
++         float f4 = d4.subtract(d9).floatValue();
++         float f5 = d5.subtract(d10).add(java.math.BigDecimal.valueOf(f3)).floatValue();
++         float f6 = d6.subtract(d8).floatValue();
+          VertexConsumer vertexconsumer1 = p_114709_.m_6299_(RenderType.m_173247_());
+          PoseStack.Pose posestack$pose1 = p_114708_.m_85850_();
+          int j = 16;
