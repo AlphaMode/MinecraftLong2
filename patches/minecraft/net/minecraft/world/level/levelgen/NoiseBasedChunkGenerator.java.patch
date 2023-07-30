@@ -141,7 +141,7 @@
                 if (configuredworldcarver.m_224896_(worldgenrandom)) {
                    configuredworldcarver.m_224898_(carvingcontext, p_224229_, biomemanager::m_204214_, worldgenrandom, aquifer, chunkpos1, carvingmask);
                 }
-@@ -240,24 +_,24 @@
+@@ -240,14 +_,14 @@
  
     public CompletableFuture<ChunkAccess> m_213974_(Executor p_224312_, Blender p_224313_, RandomState p_224314_, StructureManager p_224315_, ChunkAccess p_224316_) {
        NoiseSettings noisesettings = this.f_64318_.m_203334_().f_64439_().m_224530_(p_224316_.m_183618_());
@@ -156,16 +156,12 @@
        } else {
 -         int l = p_224316_.m_151564_(k * noisesettings.m_189212_() - 1 + i);
 -         int i1 = p_224316_.m_151564_(i);
-+         long l = p_224316_.getSectionIndex(k * noisesettings.getCellHeight() - 1 + i);
-+         long i1 = p_224316_.getSectionIndex(i);
++         int l = p_224316_.getSectionIndex(k * noisesettings.getCellHeight() - 1 + i);
++         int i1 = p_224316_.getSectionIndex(i);
           Set<LevelChunkSection> set = Sets.newHashSet();
  
--         for(int j1 = l; j1 >= i1; --j1) {
--            LevelChunkSection levelchunksection = p_224316_.m_183278_(j1);
-+         for(long j1 = l; j1 >= i1; --j1) {
-+            LevelChunkSection levelchunksection = p_224316_.getSection(j1);
-             levelchunksection.m_62981_();
-             set.add(levelchunksection);
+          for(int j1 = l; j1 >= i1; --j1) {
+@@ -257,7 +_,7 @@
           }
  
           return CompletableFuture.supplyAsync(Util.m_183946_("wgen_fill_noise", () -> {
@@ -174,7 +170,7 @@
           }), Util.m_183991_()).whenCompleteAsync((p_224309_, p_224310_) -> {
              for(LevelChunkSection levelchunksection1 : set) {
                 levelchunksection1.m_63006_();
-@@ -267,68 +_,68 @@
+@@ -267,22 +_,22 @@
        }
     }
  
@@ -204,32 +200,26 @@
  
        for(int k1 = 0; k1 < i1; ++k1) {
           noisechunk.m_188749_(k1);
+@@ -291,44 +_,44 @@
+             int i2 = p_224288_.m_151559_() - 1;
+             LevelChunkSection levelchunksection = p_224288_.m_183278_(i2);
  
-          for(int l1 = 0; l1 < j1; ++l1) {
--            int i2 = p_224288_.m_151559_() - 1;
--            LevelChunkSection levelchunksection = p_224288_.m_183278_(i2);
--
 -            for(int j2 = p_224290_ - 1; j2 >= 0; --j2) {
 -               noisechunk.m_188810_(j2, l1);
--
++            for(long j2 = p_224290_ - 1; j2 >= 0; --j2) {
++               noisechunk.selectCellYZ(j2, l1);
+ 
 -               for(int k2 = l - 1; k2 >= 0; --k2) {
 -                  int l2 = (p_224289_ + j2) * l + k2;
 -                  int i3 = l2 & 15;
 -                  int j3 = p_224288_.m_151564_(l2);
-+            long i2 = p_224288_.getSectionsCount() - 1;
-+            LevelChunkSection levelchunksection = p_224288_.getSection(i2);
-+
-+            for(long j2 = p_224290_ - 1; j2 >= 0; --j2) {
-+               noisechunk.selectCellYZ(j2, l1);
-+
 +               for(long k2 = l - 1; k2 >= 0; --k2) {
 +                  long l2 = (p_224289_ + j2) * l + k2;
 +                  long i3 = l2 & 15;
-+                  long j3 = p_224288_.getSectionIndex(l2);
++                  int j3 = p_224288_.getSectionIndex(l2);
                    if (i2 != j3) {
                       i2 = j3;
--                     levelchunksection = p_224288_.m_183278_(j3);
-+                     levelchunksection = p_224288_.getSection(j3);
+                      levelchunksection = p_224288_.m_183278_(j3);
                    }
  
                    double d0 = (double)k2 / (double)l;

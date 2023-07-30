@@ -5,7 +5,7 @@
        this.f_140008_ = this.f_140006_;
        this.m_140027_(p_142987_);
 -      this.f_140011_ = new ShortSet[p_142988_.m_151559_()];
-+      this.f_140011_ = new ShortSet[(int) p_142988_.getSectionsCount()]; // TODO: long support
++      this.f_140011_ = new ShortSet[(int) p_142988_.m_151559_()]; // TODO: long support
     }
  
     public CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_140047_(ChunkStatus p_140048_) {
@@ -52,7 +52,7 @@
                    }
  
                 }
-@@ -205,15 +_,15 @@
+@@ -205,8 +_,8 @@
                 if (shortset != null) {
                    this.f_140011_[j] = null;
                    if (!list1.isEmpty()) {
@@ -63,14 +63,6 @@
                       if (shortset.size() == 1) {
                          BlockPos blockpos = sectionpos.m_123245_(shortset.iterator().nextShort());
                          BlockState blockstate = level.m_8055_(blockpos);
-                         this.m_288202_(list1, new ClientboundBlockUpdatePacket(blockpos, blockstate));
-                         this.m_288224_(list1, level, blockpos, blockstate);
-                      } else {
--                        LevelChunkSection levelchunksection = p_140055_.m_183278_(j);
-+                        LevelChunkSection levelchunksection = p_140055_.getSection(j);
-                         ClientboundSectionBlocksUpdatePacket clientboundsectionblocksupdatepacket = new ClientboundSectionBlocksUpdatePacket(sectionpos, shortset, levelchunksection);
-                         this.m_288202_(list1, clientboundsectionblocksupdatepacket);
-                         clientboundsectionblocksupdatepacket.m_132992_((p_288761_, p_288762_) -> {
 @@ -270,6 +_,7 @@
  
        if (ChunkLevel.m_287158_(this.f_140007_).m_62427_(p_140050_)) {

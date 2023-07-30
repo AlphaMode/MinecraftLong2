@@ -5,7 +5,7 @@
  
     private UpgradeData(LevelHeightAccessor p_156506_) {
 -      this.f_63324_ = new int[p_156506_.m_151559_()][];
-+      this.f_63324_ = new int[(int) p_156506_.getSectionsCount()][]; // TOOD: long support
++      this.f_63324_ = new int[(int) p_156506_.m_151559_()][]; // TOOD: long support
     }
  
     public UpgradeData(CompoundTag p_156508_, LevelHeightAccessor p_156509_) {
@@ -35,14 +35,7 @@
                 blockstate1 = m_63335_(blockstate1, direction, level, blockpos, blockpos$mutableblockpos);
              }
  
-@@ -166,26 +_,26 @@
-       LevelAccessor levelaccessor = p_63348_.m_62953_();
- 
-       for(int i = 0; i < this.f_63324_.length; ++i) {
--         LevelChunkSection levelchunksection = p_63348_.m_183278_(i);
-+         LevelChunkSection levelchunksection = p_63348_.getSection(i);
-          int[] aint = this.f_63324_[i];
-          this.f_63324_[i] = null;
+@@ -172,20 +_,20 @@
           if (aint != null && aint.length > 0) {
              Direction[] adirection = Direction.values();
              PalettedContainer<BlockState> palettedcontainer = levelchunksection.m_63019_();

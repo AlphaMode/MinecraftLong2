@@ -10,9 +10,15 @@
 -
 -   default int m_151558_() {
 -      return this.m_141937_() + this.m_141928_();
--   }
--
--   default int m_151559_() {
++   long getHeight();
++
++   long getMinBuildHeight();
++
++   default long getMaxBuildHeight() {
++      return this.getMinBuildHeight() + this.getHeight();
+    }
+ 
+    default int m_151559_() {
 -      return this.m_151561_() - this.m_151560_();
 -   }
 -
@@ -22,16 +28,7 @@
 -
 -   default int m_151561_() {
 -      return SectionPos.m_123171_(this.m_151558_() - 1) + 1;
-+   long getHeight();
-+
-+   long getMinBuildHeight();
-+
-+   default long getMaxBuildHeight() {
-+      return this.getMinBuildHeight() + this.getHeight();
-+   }
-+
-+   default long getSectionsCount() {
-+      return this.getMaxSection() - this.getMinSection();
++      return (int) (this.getMaxSection() - this.getMinSection());
 +   }
 +
 +   default long getMinSection() {
@@ -72,12 +69,12 @@
 +      return p_151563_ < this.getMinBuildHeight() || p_151563_ >= this.getMaxBuildHeight();
 +   }
 +
-+   default long getSectionIndex(long p_151565_) {
-+      return this.getSectionIndexFromSectionY(SectionPos.blockToSectionCoord(p_151565_));
++   default int getSectionIndex(long p_151565_) {
++      return (int) this.getSectionIndexFromSectionY(SectionPos.blockToSectionCoord(p_151565_));
 +   }
 +
-+   default long getSectionIndexFromSectionY(long p_151567_) {
-+      return p_151567_ - this.getMinSection();
++   default int getSectionIndexFromSectionY(long p_151567_) {
++      return (int) (p_151567_ - this.getMinSection());
 +   }
 +
 +   default long getSectionYFromSectionIndex(int p_151569_) {

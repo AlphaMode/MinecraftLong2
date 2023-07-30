@@ -45,29 +45,22 @@
     public boolean m_284439_(SectionPos p_285319_) {
 -      long i = p_285319_.m_123252_();
 -      return this.f_75802_ == null || this.f_75802_.f_283849_.m_284382_(i) && (this.f_75803_ == null || this.f_75803_.f_283849_.m_284382_(i));
--   }
--
++      return this.f_75802_ == null || this.f_75802_.f_283849_.lightOnInSection(p_285319_) && (this.f_75803_ == null || this.f_75803_.f_283849_.lightOnInSection(p_285319_));
+    }
+ 
 -   public int m_164446_() {
--      return this.f_164445_.m_151559_() + 2;
--   }
--
++   public long getLightSectionCount() {
+       return this.f_164445_.m_151559_() + 2;
+    }
+ 
 -   public int m_164447_() {
 -      return this.f_164445_.m_151560_() - 1;
--   }
--
--   public int m_164448_() {
--      return this.m_164447_() + this.m_164446_();
-+      return this.f_75802_ == null || this.f_75802_.f_283849_.lightOnInSection(p_285319_) && (this.f_75803_ == null || this.f_75803_.f_283849_.lightOnInSection(p_285319_));
-+   }
-+
-+   public long getLightSectionCount() {
-+      return this.f_164445_.getSectionsCount() + 2;
-+   }
-+
 +   public long getMinLightSection() {
 +      return this.f_164445_.getMinSection() - 1;
-+   }
-+
+    }
+ 
+-   public int m_164448_() {
+-      return this.m_164447_() + this.m_164446_();
 +   public long getMaxLightSection() {
 +      return this.getMinLightSection() + this.getLightSectionCount();
     }
