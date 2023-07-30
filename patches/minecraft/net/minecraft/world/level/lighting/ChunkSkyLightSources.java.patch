@@ -1,49 +1,32 @@
 --- a/net/minecraft/world/level/lighting/ChunkSkyLightSources.java
 +++ b/net/minecraft/world/level/lighting/ChunkSkyLightSources.java
-@@ -18,55 +_,55 @@
- public class ChunkSkyLightSources {
-    private static final int f_283752_ = 16;
-    public static final int f_283790_ = Integer.MIN_VALUE;
--   private final int f_283758_;
-+   private final long f_283758_;
-    private final BitStorage f_283905_;
-    private final BlockPos.MutableBlockPos f_283859_ = new BlockPos.MutableBlockPos();
+@@ -24,8 +_,8 @@
     private final BlockPos.MutableBlockPos f_283783_ = new BlockPos.MutableBlockPos();
  
     public ChunkSkyLightSources(LevelHeightAccessor p_285502_) {
 -      this.f_283758_ = p_285502_.m_141937_() - 1;
 -      int i = p_285502_.m_151558_();
--      int j = Mth.m_14163_(i - this.f_283758_ + 1);
--      this.f_283905_ = new SimpleBitStorage(j, 256);
-+      this.f_283758_ = p_285502_.getMinBuildHeight() - 1;
-+      long i = p_285502_.getMaxBuildHeight();
-+      long j = Mth.ceillog2(i - this.f_283758_ + 1);
-+      this.f_283905_ = new SimpleBitStorage((int) j, 256);
++      this.f_283758_ = (int) p_285502_.getMinBuildHeight() - 1;
++      int i = (int) p_285502_.getMaxBuildHeight();
+       int j = Mth.m_14163_(i - this.f_283758_ + 1);
+       this.f_283905_ = new SimpleBitStorage(j, 256);
     }
- 
-    public void m_284271_(ChunkAccess p_285152_) {
-       int i = p_285152_.m_280525_();
-       if (i == -1) {
--         this.m_284134_(this.f_283758_);
-+         this.fill(this.f_283758_);
-       } else {
+@@ -38,7 +_,7 @@
           for(int j = 0; j < 16; ++j) {
              for(int k = 0; k < 16; ++k) {
--               int l = Math.max(this.m_284264_(p_285152_, i, k, j), this.f_283758_);
+                int l = Math.max(this.m_284264_(p_285152_, i, k, j), this.f_283758_);
 -               this.m_284514_(m_284186_(k, j), l);
-+               long l = Math.max(this.findLowestSourceY(p_285152_, i, k, j), this.f_283758_);
 +               this.set(index(k, j), l);
              }
           }
  
-       }
+@@ -46,27 +_,27 @@
     }
  
--   private int m_284264_(ChunkAccess p_285214_, int p_285171_, int p_285021_, int p_285226_) {
+    private int m_284264_(ChunkAccess p_285214_, int p_285171_, int p_285021_, int p_285226_) {
 -      int i = SectionPos.m_123223_(p_285214_.m_151568_(p_285171_) + 1);
 -      BlockPos.MutableBlockPos blockpos$mutableblockpos = this.f_283859_.m_122178_(p_285021_, i, p_285226_);
 -      BlockPos.MutableBlockPos blockpos$mutableblockpos1 = this.f_283783_.m_122159_(blockpos$mutableblockpos, Direction.DOWN);
-+   private long findLowestSourceY(ChunkAccess p_285214_, int p_285171_, int p_285021_, int p_285226_) {
 +      long i = SectionPos.sectionToBlockCoord(p_285214_.getSectionYFromSectionIndex(p_285171_) + 1);
 +      BlockPos.MutableBlockPos blockpos$mutableblockpos = this.f_283859_.set(p_285021_, i, p_285226_);
 +      BlockPos.MutableBlockPos blockpos$mutableblockpos1 = this.f_283783_.setWithOffset(blockpos$mutableblockpos, Direction.DOWN);
@@ -66,7 +49,7 @@
 +               BlockState blockstate1 = levelchunksection.getBlockState(p_285021_, k, p_285226_);
                 if (m_284529_(p_285214_, blockpos$mutableblockpos, blockstate, blockpos$mutableblockpos1, blockstate1)) {
 -                  return blockpos$mutableblockpos.m_123342_();
-+                  return blockpos$mutableblockpos.getY();
++                  return (int) blockpos$mutableblockpos.getY();
                 }
  
                 blockstate = blockstate1;
@@ -75,7 +58,7 @@
                 blockpos$mutableblockpos1.m_122173_(Direction.DOWN);
              }
           }
-@@ -75,55 +_,55 @@
+@@ -75,36 +_,36 @@
        return this.f_283758_;
     }
  
@@ -86,7 +69,7 @@
 +   public boolean update(BlockGetter p_285514_, long p_284999_, long p_285358_, long p_284944_) {
 +      long i = p_285358_ + 1;
 +      long j = index(p_284999_, p_284944_);
-+      long k = this.get(j);
++      int k = this.get(j);
        if (i < k) {
           return false;
        } else {
@@ -111,8 +94,8 @@
  
 -   private boolean m_284301_(BlockGetter p_285066_, int p_285184_, int p_285101_, BlockPos p_285446_, BlockState p_285185_, BlockPos p_285103_, BlockState p_285009_) {
 -      int i = p_285446_.m_123342_();
-+   private boolean updateEdge(BlockGetter p_285066_, long p_285184_, long p_285101_, BlockPos p_285446_, BlockState p_285185_, BlockPos p_285103_, BlockState p_285009_) {
-+      long i = p_285446_.getY();
++   private boolean updateEdge(BlockGetter p_285066_, long p_285184_, int p_285101_, BlockPos p_285446_, BlockState p_285185_, BlockPos p_285103_, BlockState p_285009_) {
++      int i = (int) p_285446_.getY();
        if (m_284529_(p_285066_, p_285446_, p_285185_, p_285103_, p_285009_)) {
           if (i > p_285101_) {
 -            this.m_284514_(p_285184_, i);
@@ -121,17 +104,16 @@
           }
        } else if (i == p_285101_) {
 -         this.m_284514_(p_285184_, this.m_284300_(p_285066_, p_285103_, p_285009_));
-+         this.set(p_285184_, this.findLowestSourceBelow(p_285066_, p_285103_, p_285009_));
++         this.set(p_285184_, this.m_284300_(p_285066_, p_285103_, p_285009_));
           return true;
        }
  
-       return false;
+@@ -112,18 +_,18 @@
     }
  
--   private int m_284300_(BlockGetter p_285279_, BlockPos p_285119_, BlockState p_285096_) {
+    private int m_284300_(BlockGetter p_285279_, BlockPos p_285119_, BlockState p_285096_) {
 -      BlockPos.MutableBlockPos blockpos$mutableblockpos = this.f_283859_.m_122190_(p_285119_);
 -      BlockPos.MutableBlockPos blockpos$mutableblockpos1 = this.f_283783_.m_122159_(p_285119_, Direction.DOWN);
-+   private long findLowestSourceBelow(BlockGetter p_285279_, BlockPos p_285119_, BlockState p_285096_) {
 +      BlockPos.MutableBlockPos blockpos$mutableblockpos = this.f_283859_.set(p_285119_);
 +      BlockPos.MutableBlockPos blockpos$mutableblockpos1 = this.f_283783_.setWithOffset(p_285119_, Direction.DOWN);
        BlockState blockstate = p_285096_;
@@ -141,7 +123,7 @@
           BlockState blockstate1 = p_285279_.m_8055_(blockpos$mutableblockpos1);
           if (m_284529_(p_285279_, blockpos$mutableblockpos, blockstate, blockpos$mutableblockpos1, blockstate1)) {
 -            return blockpos$mutableblockpos.m_123342_();
-+            return blockpos$mutableblockpos.getY();
++            return (int) blockpos$mutableblockpos.getY();
           }
  
           blockstate = blockstate1;
@@ -150,20 +132,18 @@
           blockpos$mutableblockpos1.m_122173_(Direction.DOWN);
        }
  
-@@ -140,46 +_,46 @@
+@@ -140,8 +_,8 @@
        }
     }
  
 -   public int m_284402_(int p_285247_, int p_285082_) {
 -      int i = this.m_284474_(m_284186_(p_285247_, p_285082_));
--      return this.m_284557_(i);
-+   public long getLowestSourceY(long p_285247_, long p_285082_) {
-+      long i = this.get(index(p_285247_, p_285082_));
-+      return this.extendSourcesBelowWorld(i);
++   public int getLowestSourceY(long p_285247_, long p_285082_) {
++      int i = this.get(index(p_285247_, p_285082_));
+       return this.m_284557_(i);
     }
  
--   public int m_284191_() {
-+   public long getHighestLowestSourceY() {
+@@ -149,7 +_,7 @@
        int i = Integer.MIN_VALUE;
  
        for(int j = 0; j < this.f_283905_.m_13521_(); ++j) {
@@ -172,49 +152,33 @@
           if (k > i) {
              i = k;
           }
-       }
- 
--      return this.m_284557_(i + this.f_283758_);
-+      return this.extendSourcesBelowWorld(i + this.f_283758_);
-    }
- 
--   private void m_284134_(int p_285311_) {
--      int i = p_285311_ - this.f_283758_;
-+   private void fill(long p_285311_) {
-+      long i = p_285311_ - this.f_283758_;
+@@ -162,24 +_,24 @@
+       int i = p_285311_ - this.f_283758_;
  
        for(int j = 0; j < this.f_283905_.m_13521_(); ++j) {
 -         this.f_283905_.m_13524_(j, i);
-+         this.f_283905_.set(j, (int) i);
++         this.f_283905_.set(j, i);
        }
  
     }
  
 -   private void m_284514_(int p_285323_, int p_285220_) {
 -      this.f_283905_.m_13524_(p_285323_, p_285220_ - this.f_283758_);
--   }
--
++   private void set(long p_285323_, int p_285220_) {
++      this.f_283905_.set(p_285323_, p_285220_ - this.f_283758_);
+    }
+ 
 -   private int m_284474_(int p_284951_) {
 -      return this.f_283905_.m_13514_(p_284951_) + this.f_283758_;
--   }
--
--   private int m_284557_(int p_284953_) {
--      return p_284953_ == this.f_283758_ ? Integer.MIN_VALUE : p_284953_;
--   }
--
--   private static int m_284186_(int p_284980_, int p_285277_) {
-+   private void set(long p_285323_, long p_285220_) {
-+      this.f_283905_.set(p_285323_, (int) (p_285220_ - this.f_283758_));
-+   }
-+
-+   private long get(long p_284951_) {
++   private int get(long p_284951_) {
 +      return this.f_283905_.get(p_284951_) + this.f_283758_;
-+   }
-+
-+   private long extendSourcesBelowWorld(long p_284953_) {
-+      return p_284953_ == this.f_283758_ ? java.lang.Long.MIN_VALUE : p_284953_;
-+   }
-+
+    }
+ 
+    private int m_284557_(int p_284953_) {
+       return p_284953_ == this.f_283758_ ? Integer.MIN_VALUE : p_284953_;
+    }
+ 
+-   private static int m_284186_(int p_284980_, int p_285277_) {
 +   private static long index(long p_284980_, long p_285277_) {
        return p_284980_ + p_285277_ * 16;
     }

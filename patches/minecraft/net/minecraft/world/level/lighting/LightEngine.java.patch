@@ -7,9 +7,9 @@
 -   private final LongOpenHashSet f_283863_ = new LongOpenHashSet(512, 0.5F);
 -   private final LongArrayFIFOQueue f_283823_ = new LongArrayFIFOQueue();
 -   private final LongArrayFIFOQueue f_283934_ = new LongArrayFIFOQueue();
-+   private final it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<net.minecraft.core.BlockPos> f_283863_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(512, 0.5F);
-+   private final it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<BlockPos> f_283823_ = new it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<>();
-+   private final it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<BlockPos> f_283934_ = new it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<>();
++   private final it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<BlockPos> f_283863_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(512, 0.5F);
++   private final it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<me.alphamode.mclong.lighting.LightingData> f_283823_ = new it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<>();
++   private final it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<me.alphamode.mclong.lighting.LightingData> f_283934_ = new it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<>();
     private final BlockPos.MutableBlockPos f_283920_ = new BlockPos.MutableBlockPos();
     private static final int f_283860_ = 2;
 -   private final long[] f_283833_ = new long[2];
@@ -98,7 +98,7 @@
  
     public int m_9323_() {
 -      LongIterator longiterator = this.f_283863_.iterator();
-+      it.unimi.dsi.fastutil.objects.ObjectIterator<net.minecraft.core.BlockPos> longiterator = this.f_283863_.iterator();
++      it.unimi.dsi.fastutil.objects.ObjectIterator<BlockPos> longiterator = this.f_283863_.iterator();
  
        while(longiterator.hasNext()) {
 -         this.m_75858_(longiterator.nextLong());
@@ -106,7 +106,7 @@
        }
  
        this.f_283863_.clear();
-@@ -157,17 +_,17 @@
+@@ -157,17 +_,16 @@
     private int m_284361_() {
        int i;
        for(i = 0; !this.f_283934_.isEmpty(); ++i) {
@@ -116,47 +116,49 @@
 -         int i1 = LightEngine.QueueEntry.m_284170_(k);
 -         if (LightEngine.QueueEntry.m_284312_(k) && l < i1) {
 -            this.f_283849_.m_75772_(j, i1);
-+         BlockPos j = this.f_283934_.dequeue();
-+         BlockPos k = this.f_283934_.dequeue();
-+         int l = this.f_283849_.getStoredLevel(j);
-+         int i1 = LightEngine.QueueEntry.m_284170_(k.getX());
-+         if (LightEngine.QueueEntry.m_284312_(k.getX()) && l < i1) {
-+            this.f_283849_.setStoredLevel(j, i1);
++         me.alphamode.mclong.lighting.LightingData lightingData = this.f_283934_.dequeue();
++         int l = this.f_283849_.getStoredLevel(lightingData.pos());
++         int i1 = LightEngine.QueueEntry.m_284170_(lightingData.data());
++         if (LightEngine.QueueEntry.m_284312_(lightingData.data()) && l < i1) {
++            this.f_283849_.setStoredLevel(lightingData.pos(), i1);
              l = i1;
           }
  
           if (l == i1) {
 -            this.m_284316_(j, k, l);
-+            this.propagateIncrease(j, k.getX(), l);
++            this.propagateIncrease(lightingData.pos(), lightingData.data(), l);
           }
        }
  
-@@ -177,20 +_,20 @@
+@@ -177,22 +_,19 @@
     private int m_284399_() {
        int i;
        for(i = 0; !this.f_283823_.isEmpty(); ++i) {
 -         long j = this.f_283823_.dequeueLong();
 -         long k = this.f_283823_.dequeueLong();
 -         this.m_284321_(j, k);
-+         BlockPos j = this.f_283823_.dequeue();
-+         BlockPos k = this.f_283823_.dequeue();
-+         this.propagateDecrease(j, k.getX());
++         me.alphamode.mclong.lighting.LightingData j = this.f_283823_.dequeue();
++         this.propagateDecrease(j.pos(), j.data());
        }
  
        return i;
     }
  
 -   protected void m_284343_(long p_285228_, long p_285464_) {
-+   protected void enqueueDecrease(BlockPos p_285228_, BlockPos p_285464_) {
-       this.f_283823_.enqueue(p_285228_);
-       this.f_283823_.enqueue(p_285464_);
+-      this.f_283823_.enqueue(p_285228_);
+-      this.f_283823_.enqueue(p_285464_);
++   protected void enqueueDecrease(BlockPos p_285228_, long p_285464_) {
++      this.f_283823_.enqueue(new me.alphamode.mclong.lighting.LightingData(p_285228_, p_285464_));
     }
  
 -   protected void m_284218_(long p_285223_, long p_285022_) {
-+   protected void enqueueIncrease(BlockPos p_285223_, BlockPos p_285022_) {
-       this.f_283934_.enqueue(p_285223_);
-       this.f_283934_.enqueue(p_285022_);
+-      this.f_283934_.enqueue(p_285223_);
+-      this.f_283934_.enqueue(p_285022_);
++   protected void enqueueIncrease(BlockPos p_285223_, long p_285022_) {
++      this.f_283934_.enqueue(new me.alphamode.mclong.lighting.LightingData(p_285223_, p_285022_));
     }
+ 
+    public boolean m_75808_() {
 @@ -201,26 +_,26 @@
  
     @Nullable

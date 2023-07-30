@@ -7,7 +7,7 @@
 -   protected final Long2ByteMap f_283872_ = new Long2ByteOpenHashMap();
 -   private final LongSet f_283775_ = new LongOpenHashSet();
 +   protected final it.unimi.dsi.fastutil.objects.Object2ByteMap<SectionPos> f_283872_ = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>();
-+   protected final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> f_283775_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++   private final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> f_283775_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
     protected volatile M f_75731_;
     protected final M f_75732_;
 -   protected final LongSet f_75733_ = new LongOpenHashSet();
@@ -199,25 +199,25 @@
 -   }
 -
 -   protected void m_284259_(long p_285065_, boolean p_284938_) {
-+   protected void onNodeAdded(net.minecraft.core.SectionPos p_75798_) {
++   protected void onNodeAdded(SectionPos p_75798_) {
 +   }
 +
-+   protected void onNodeRemoved(net.minecraft.core.SectionPos p_75799_) {
++   protected void onNodeRemoved(SectionPos p_75799_) {
 +   }
 +
 +   protected void setLightEnabled(SectionPos p_285065_, boolean p_284938_) {
        if (p_284938_) {
           this.f_283775_.add(p_285065_);
        } else {
-@@ -179,12 +_,11 @@
+@@ -179,12 +_,12 @@
  
     }
  
 -   protected boolean m_284382_(long p_285433_) {
 -      long i = SectionPos.m_123240_(p_285433_);
--      return this.f_283775_.contains(i);
 +   protected boolean lightOnInSection(SectionPos p_285433_) {
-+      return this.f_283775_.contains(SectionPos.getZeroNode(p_285433_.x(), p_285433_.z()));
++      SectionPos i = SectionPos.getZeroNode(p_285433_.x(), p_285433_.z());
+       return this.f_283775_.contains(i);
     }
  
 -   public void m_75782_(long p_75783_, boolean p_75784_) {
@@ -230,7 +230,7 @@
     }
  
 -   protected void m_284542_(long p_285403_, @Nullable DataLayer p_285498_) {
-+   protected void queueSectionData(net.minecraft.core.SectionPos p_285403_, @Nullable DataLayer p_285498_) {
++   protected void queueSectionData(SectionPos p_285403_, @Nullable DataLayer p_285498_) {
        if (p_285498_ != null) {
           this.f_75735_.put(p_285403_, p_285498_);
           this.f_283847_ = true;
