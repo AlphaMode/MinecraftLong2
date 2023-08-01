@@ -100,7 +100,7 @@
           if (!optional.isPresent() && !this.f_286942_) {
              if (p_289680_ != null) {
 -               AABB aabb2 = aabb1.m_82386_(-p_289680_.f_82479_, 0.0D, -p_289680_.f_82481_);
-+               AABB aabb2 = aabb1.m_82386_(-p_289680_.m_7096_(), 0.0D, -p_289680_.m_7094_());
++               AABB aabb2 = aabb1.move(p_289680_.getX().negate(), java.math.BigDecimal.ZERO, p_289680_.getZ().negate());
                 optional = this.f_19853_.m_285750_(this, aabb2);
                 this.f_285638_ = optional;
              }
@@ -125,13 +125,13 @@
           this.m_9236_().m_46473_().m_6180_("rest");
 -         boolean flag4 = !Mth.m_14082_(p_19974_.f_82479_, vec3.f_82479_);
 -         boolean flag = !Mth.m_14082_(p_19974_.f_82481_, vec3.f_82481_);
-+         boolean flag4 = !Mth.m_14082_(p_19974_.m_7096_(), vec3.m_7096_());
-+         boolean flag = !Mth.m_14082_(p_19974_.m_7094_(), vec3.m_7094_());
++         boolean flag4 = !Mth.equal(p_19974_.getX(), vec3.getX());
++         boolean flag = !Mth.equal(p_19974_.getZ(), vec3.getZ());
           this.f_19862_ = flag4 || flag;
 -         this.f_19863_ = p_19974_.f_82480_ != vec3.f_82480_;
 -         this.f_201939_ = this.f_19863_ && p_19974_.f_82480_ < 0.0D;
-+         this.f_19863_ = p_19974_.m_7098_() != vec3.m_7098_();
-+         this.f_201939_ = this.f_19863_ && p_19974_.m_7098_() < 0.0D;
++         this.f_19863_ = !p_19974_.getY().equals(vec3.getY());
++         this.f_201939_ = this.f_19863_ && p_19974_.getY().compareTo(java.math.BigDecimal.ZERO) < 0;
           if (this.f_19862_) {
              this.f_185931_ = this.m_196406_(vec3);
           } else {
@@ -147,12 +147,12 @@
              if (this.f_19862_) {
                 Vec3 vec31 = this.m_20184_();
 -               this.m_20334_(flag4 ? 0.0D : vec31.f_82479_, vec31.f_82480_, flag ? 0.0D : vec31.f_82481_);
-+               this.m_20334_(flag4 ? 0.0D : vec31.m_7096_(), vec31.m_7098_(), flag ? 0.0D : vec31.m_7094_());
++               this.setDeltaMovement(flag4 ? java.math.BigDecimal.ZERO : vec31.getX(), vec31.getY(), flag ? java.math.BigDecimal.ZERO : vec31.getZ());
              }
  
              Block block = blockstate.m_60734_();
 -            if (p_19974_.f_82480_ != vec3.f_82480_) {
-+            if (p_19974_.m_7098_() != vec3.m_7098_()) {
++            if (!p_19974_.getY().equals(vec3.getY())) {
                 block.m_5548_(this.m_9236_(), this);
              }
  
@@ -189,9 +189,9 @@
 -         int i = Mth.m_14107_(this.f_19825_.f_82479_);
 -         int j = Mth.m_14107_(this.f_19825_.f_82480_ - (double)p_216987_);
 -         int k = Mth.m_14107_(this.f_19825_.f_82481_);
-+         long i = Mth.m_14134_(this.f_19825_.m_7096_());
-+         long j = Mth.m_14134_(this.f_19825_.m_7098_() - (double)p_216987_);
-+         long k = Mth.m_14134_(this.f_19825_.m_7094_());
++         java.math.BigInteger i = Mth.lfloor(this.f_19825_.getX());
++         java.math.BigInteger j = Mth.lfloor(this.f_19825_.getY().subtract(java.math.BigDecimal.valueOf(p_216987_)));
++         java.math.BigInteger k = Mth.lfloor(this.f_19825_.getZ());
           return new BlockPos(i, j, k);
        }
     }
@@ -201,22 +201,22 @@
  
 -         if (p_20134_.f_82479_ != 0.0D) {
 -            double d2 = this.m_20042_(Direction.Axis.X, p_20134_.f_82479_);
-+         if (p_20134_.m_7096_() != 0.0D) {
++         if (!p_20134_.getX().equals(java.math.BigDecimal.ZERO)) {
 +            double d2 = this.m_20042_(Direction.Axis.X, p_20134_.m_7096_());
              return Math.abs(d2) <= (double)1.0E-5F ? Vec3.f_82478_ : new Vec3(d2, 0.0D, 0.0D);
 -         } else if (p_20134_.f_82480_ != 0.0D) {
 -            double d1 = this.m_20042_(Direction.Axis.Y, p_20134_.f_82480_);
-+         } else if (p_20134_.m_7098_() != 0.0D) {
++         } else if (!p_20134_.getY().equals(java.math.BigDecimal.ZERO)) {
 +            double d1 = this.m_20042_(Direction.Axis.Y, p_20134_.m_7098_());
              return Math.abs(d1) <= (double)1.0E-5F ? Vec3.f_82478_ : new Vec3(0.0D, d1, 0.0D);
 -         } else if (p_20134_.f_82481_ != 0.0D) {
 -            double d0 = this.m_20042_(Direction.Axis.Z, p_20134_.f_82481_);
-+         } else if (p_20134_.m_7094_() != 0.0D) {
++         } else if (!p_20134_.getZ().equals(java.math.BigDecimal.ZERO)) {
 +            double d0 = this.m_20042_(Direction.Axis.Z, p_20134_.m_7094_());
              return Math.abs(d0) <= (double)1.0E-5F ? Vec3.f_82478_ : new Vec3(0.0D, 0.0D, d0);
           } else {
              return Vec3.f_82478_;
-@@ -880,22 +_,22 @@
+@@ -880,22 +_,23 @@
        AABB aabb = this.m_20191_();
        List<VoxelShape> list = this.m_9236_().m_183134_(this, aabb.m_82369_(p_20273_));
        Vec3 vec3 = p_20273_.m_82556_() == 0.0D ? p_20273_ : m_198894_(this, p_20273_, aabb, this.m_9236_(), list);
@@ -224,19 +224,20 @@
 -      boolean flag1 = p_20273_.f_82480_ != vec3.f_82480_;
 -      boolean flag2 = p_20273_.f_82481_ != vec3.f_82481_;
 -      boolean flag3 = this.m_20096_() || flag1 && p_20273_.f_82480_ < 0.0D;
-+      boolean flag = p_20273_.m_7096_() != vec3.m_7096_();
-+      boolean flag1 = p_20273_.m_7098_() != vec3.m_7098_();
-+      boolean flag2 = p_20273_.m_7094_() != vec3.m_7094_();
++      boolean flag = !p_20273_.getX().equals(vec3.getX());
++      boolean flag1 = !p_20273_.getY().equals(vec3.getY());
++      boolean flag2 = !p_20273_.getZ().equals(vec3.getZ());
 +      boolean flag3 = this.m_20096_() || flag1 && p_20273_.m_7098_() < 0.0D;
        if (this.m_274421_() > 0.0F && flag3 && (flag || flag2)) {
 -         Vec3 vec31 = m_198894_(this, new Vec3(p_20273_.f_82479_, (double)this.m_274421_(), p_20273_.f_82481_), aabb, this.m_9236_(), list);
 -         Vec3 vec32 = m_198894_(this, new Vec3(0.0D, (double)this.m_274421_(), 0.0D), aabb.m_82363_(p_20273_.f_82479_, 0.0D, p_20273_.f_82481_), this.m_9236_(), list);
 -         if (vec32.f_82480_ < (double)this.m_274421_()) {
 -            Vec3 vec33 = m_198894_(this, new Vec3(p_20273_.f_82479_, 0.0D, p_20273_.f_82481_), aabb.m_82383_(vec32), this.m_9236_(), list).m_82549_(vec32);
-+         Vec3 vec31 = m_198894_(this, new Vec3(p_20273_.m_7096_(), (double)this.m_274421_(), p_20273_.m_7094_()), aabb, this.m_9236_(), list);
-+         Vec3 vec32 = m_198894_(this, new Vec3(0.0D, (double)this.m_274421_(), 0.0D), aabb.m_82363_(p_20273_.m_7096_(), 0.0D, p_20273_.m_7094_()), this.m_9236_(), list);
++         var stepUp = java.math.BigDecimal.valueOf(this.m_274421_());
++         Vec3 vec31 = m_198894_(this, new Vec3(p_20273_.getX(), stepUp, p_20273_.getZ()), aabb, this.m_9236_(), list);
++         Vec3 vec32 = m_198894_(this, new Vec3(java.math.BigDecimal.ZERO, stepUp, java.math.BigDecimal.ZERO), aabb.expandTowards(p_20273_.getX(), java.math.BigDecimal.ZERO, p_20273_.getZ()), this.m_9236_(), list);
 +         if (vec32.m_7098_() < (double)this.m_274421_()) {
-+            Vec3 vec33 = m_198894_(this, new Vec3(p_20273_.m_7096_(), 0.0D, p_20273_.m_7094_()), aabb.m_82383_(vec32), this.m_9236_(), list).m_82549_(vec32);
++            Vec3 vec33 = m_198894_(this, new Vec3(p_20273_.getX(), java.math.BigDecimal.ZERO, p_20273_.getZ()), aabb.m_82383_(vec32), this.m_9236_(), list).m_82549_(vec32);
              if (vec33.m_165925_() > vec31.m_165925_()) {
                 vec31 = vec33;
              }
@@ -244,7 +245,7 @@
  
           if (vec31.m_165925_() > vec3.m_165925_()) {
 -            return vec31.m_82549_(m_198894_(this, new Vec3(0.0D, -vec31.f_82480_ + p_20273_.f_82480_, 0.0D), aabb.m_82383_(vec31), this.m_9236_(), list));
-+            return vec31.m_82549_(m_198894_(this, new Vec3(0.0D, -vec31.m_7098_() + p_20273_.m_7098_(), 0.0D), aabb.m_82383_(vec31), this.m_9236_(), list));
++            return vec31.m_82549_(m_198894_(this, new Vec3(java.math.BigDecimal.ZERO, vec31.getY().negate().add(p_20273_.getY()), java.math.BigDecimal.ZERO), aabb.m_82383_(vec31), this.m_9236_(), list));
           }
        }
  
@@ -475,7 +476,7 @@
  
     public void m_20219_(Vec3 p_20220_) {
 -      this.m_6027_(p_20220_.f_82479_, p_20220_.f_82480_, p_20220_.f_82481_);
-+      this.m_6027_(p_20220_.m_7096_(), p_20220_.m_7098_(), p_20220_.m_7094_());
++      this.moveTo(p_20220_.getX(), p_20220_.getY(), p_20220_.getZ());
     }
  
     public void m_6027_(double p_20105_, double p_20106_, double p_20107_) {
@@ -521,9 +522,9 @@
 -      double d0 = this.m_20185_() - p_20239_.f_82479_;
 -      double d1 = this.m_20186_() - p_20239_.f_82480_;
 -      double d2 = this.m_20189_() - p_20239_.f_82481_;
-+      double d0 = this.m_20185_() - p_20239_.m_7096_();
-+      double d1 = this.m_20186_() - p_20239_.m_7098_();
-+      double d2 = this.m_20189_() - p_20239_.m_7094_();
++      double d0 = this.getBigX().subtract(p_20239_.getX()).doubleValue();
++      double d1 = this.getBigY().subtract(p_20239_.getY()).doubleValue();
++      double d2 = this.getBigZ().subtract(p_20239_.getZ()).doubleValue();
        return d0 * d0 + d1 * d1 + d2 * d2;
     }
  
@@ -541,7 +542,7 @@
        return new Vec3(d0, d1, d2);
     }
  
-@@ -1503,16 +_,17 @@
+@@ -1503,16 +_,18 @@
     }
  
     public final Vec3 m_20318_(float p_20319_) {
@@ -559,7 +560,8 @@
        Vec3 vec3 = this.m_20299_(p_19909_);
        Vec3 vec31 = this.m_20252_(p_19909_);
 -      Vec3 vec32 = vec3.m_82520_(vec31.f_82479_ * p_19908_, vec31.f_82480_ * p_19908_, vec31.f_82481_ * p_19908_);
-+      Vec3 vec32 = vec3.m_82520_(vec31.m_7096_() * p_19908_, vec31.m_7098_() * p_19908_, vec31.m_7094_() * p_19908_);
++      var range = java.math.BigDecimal.valueOf(p_19908_);
++      Vec3 vec32 = vec3.add(vec31.getX().multiply(range), vec31.getY().multiply(range), vec31.getZ().multiply(range));
        return this.m_9236_().m_45547_(new ClipContext(vec3, vec32, ClipContext.Block.OUTLINE, p_19910_ ? ClipContext.Fluid.ANY : ClipContext.Fluid.NONE, this));
     }
  
@@ -619,7 +621,7 @@
        }
  
 -      this.m_20334_(vec3.f_82479_, d0, vec3.f_82481_);
-+      this.m_20334_(vec3.m_7096_(), d0, vec3.m_7094_());
++      this.setDeltaMovement(vec3.getX(), java.math.BigDecimal.valueOf(d0), vec3.getZ());
     }
  
     public void m_20321_(boolean p_20322_) {
@@ -634,7 +636,7 @@
        }
  
 -      this.m_20334_(vec3.f_82479_, d0, vec3.f_82481_);
-+      this.m_20334_(vec3.m_7096_(), d0, vec3.m_7094_());
++      this.setDeltaMovement(vec3.getX(), java.math.BigDecimal.valueOf(d0), vec3.getZ());
        this.m_183634_();
     }
  
@@ -678,7 +680,7 @@
              if (entity != null) {
                 entity.m_20361_(this);
 -               entity.m_7678_(portalinfo.f_77676_.f_82479_, portalinfo.f_77676_.f_82480_, portalinfo.f_77676_.f_82481_, portalinfo.f_77678_, entity.m_146909_());
-+               entity.m_7678_(portalinfo.f_77676_.m_7096_(), portalinfo.f_77676_.m_7098_(), portalinfo.f_77676_.m_7094_(), portalinfo.f_77678_, entity.m_146909_());
++               entity.moveTo(portalinfo.f_77676_.getX(), portalinfo.f_77676_.getY(), portalinfo.f_77676_.getZ(), portalinfo.f_77678_, entity.m_146909_());
                 entity.m_20256_(portalinfo.f_77677_);
                 p_20118_.m_143334_(entity);
                 if (p_20118_.m_46472_() == Level.f_46430_) {
@@ -801,9 +803,9 @@
 -      double d0 = p_20034_.f_82479_ - vec3.f_82479_;
 -      double d1 = p_20034_.f_82480_ - vec3.f_82480_;
 -      double d2 = p_20034_.f_82481_ - vec3.f_82481_;
-+      double d0 = p_20034_.m_7096_() - vec3.m_7096_();
-+      double d1 = p_20034_.m_7098_() - vec3.m_7098_();
-+      double d2 = p_20034_.m_7094_() - vec3.m_7094_();
++      double d0 = p_20034_.getX().subtract(vec3.getX()).doubleValue();
++      double d1 = p_20034_.getY().subtract(vec3.getY()).doubleValue();
++      double d2 = p_20034_.getZ().subtract(vec3.getZ()).doubleValue();
        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
        this.m_146926_(Mth.m_14177_((float)(-(Mth.m_14136_(d1, d3) * (double)(180F / (float)Math.PI)))));
        this.m_146922_(Mth.m_14177_((float)(Mth.m_14136_(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F));
@@ -849,12 +851,14 @@
                          if (flag) {
                             Vec3 vec31 = fluidstate.m_76179_(this.m_9236_(), blockpos$mutableblockpos);
                             if (d0 < 0.4D) {
-@@ -3035,7 +_,7 @@
+@@ -3034,8 +_,8 @@
+ 
              Vec3 vec32 = this.m_20184_();
              vec3 = vec3.m_82490_(p_204033_ * 1.0D);
-             double d2 = 0.003D;
+-            double d2 = 0.003D;
 -            if (Math.abs(vec32.f_82479_) < 0.003D && Math.abs(vec32.f_82481_) < 0.003D && vec3.m_82553_() < 0.0045000000000000005D) {
-+            if (Math.abs(vec32.m_7096_()) < 0.003D && Math.abs(vec32.m_7094_()) < 0.003D && vec3.m_82553_() < 0.0045000000000000005D) {
++            java.math.BigDecimal d2 = java.math.BigDecimal.valueOf(0.003D);
++            if (vec32.getX().abs().compareTo(d2) < 0 && vec32.getZ().abs().compareTo(d2) < 0 && vec3.m_82553_() < 0.0045000000000000005D) {
                 vec3 = vec3.m_82541_().m_82490_(0.0045000000000000005D);
              }
  
@@ -875,12 +879,16 @@
     }
  
     public double m_204036_(TagKey<Fluid> p_204037_) {
-@@ -3124,32 +_,44 @@
+@@ -3124,32 +_,48 @@
        this.m_20256_(new Vec3(p_20335_, p_20336_, p_20337_));
     }
  
 -   public final int m_146903_() {
 -      return this.f_19826_.m_123341_();
++   public void setDeltaMovement(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++      this.m_20256_(new Vec3(x, y, z));
++   }
++
 +   public final long getBlockX() {
 +      return this.f_19826_.getX();
     }

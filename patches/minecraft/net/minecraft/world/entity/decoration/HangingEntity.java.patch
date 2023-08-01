@@ -1,18 +1,46 @@
 --- a/net/minecraft/world/entity/decoration/HangingEntity.java
 +++ b/net/minecraft/world/entity/decoration/HangingEntity.java
-@@ -58,9 +_,9 @@
+@@ -58,19 +_,19 @@
  
     protected void m_7087_() {
        if (this.f_31699_ != null) {
 -         double d0 = (double)this.f_31698_.m_123341_() + 0.5D;
 -         double d1 = (double)this.f_31698_.m_123342_() + 0.5D;
 -         double d2 = (double)this.f_31698_.m_123343_() + 0.5D;
-+         double d0 = (double)this.f_31698_.getX() + 0.5D;
-+         double d1 = (double)this.f_31698_.getY() + 0.5D;
-+         double d2 = (double)this.f_31698_.getZ() + 0.5D;
-          double d3 = 0.46875D;
-          double d4 = this.m_31709_(this.m_7076_());
-          double d5 = this.m_31709_(this.m_7068_());
+-         double d3 = 0.46875D;
+-         double d4 = this.m_31709_(this.m_7076_());
+-         double d5 = this.m_31709_(this.m_7068_());
+-         d0 -= (double)this.f_31699_.m_122429_() * 0.46875D;
+-         d2 -= (double)this.f_31699_.m_122431_() * 0.46875D;
+-         d1 += d5;
++         java.math.BigDecimal d0 = this.f_31698_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB);
++         java.math.BigDecimal d1 = this.f_31698_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.AABB);
++         java.math.BigDecimal d2 = this.f_31698_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB);
++         java.math.BigDecimal d3 = java.math.BigDecimal.valueOf(0.46875D);
++         java.math.BigDecimal d4 = java.math.BigDecimal.valueOf(this.m_31709_(this.m_7076_()));
++         java.math.BigDecimal d5 = java.math.BigDecimal.valueOf(this.m_31709_(this.m_7068_()));
++         d0 = d0.subtract(java.math.BigDecimal.valueOf(this.f_31699_.m_122429_()).multiply(d3));
++         d2 = d2.subtract(java.math.BigDecimal.valueOf(this.f_31699_.m_122431_()).multiply(d3));
++         d1 = d1.add(d5);
+          Direction direction = this.f_31699_.m_122428_();
+-         d0 += d4 * (double)direction.m_122429_();
+-         d2 += d4 * (double)direction.m_122431_();
+-         this.m_20343_(d0, d1, d2);
++         d0 = d0.add(d4.multiply(java.math.BigDecimal.valueOf(direction.m_122429_())));
++         d2 = d2.add(d4.multiply(java.math.BigDecimal.valueOf(direction.m_122431_())));
++         this.setPosRaw(d0, d1, d2);
+          double d6 = (double)this.m_7076_();
+          double d7 = (double)this.m_7068_();
+          double d8 = (double)this.m_7076_();
+@@ -83,7 +_,7 @@
+          d6 /= 32.0D;
+          d7 /= 32.0D;
+          d8 /= 32.0D;
+-         this.m_20011_(new AABB(d0 - d6, d1 - d7, d2 - d8, d0 + d6, d1 + d7, d2 + d8));
++         this.m_20011_(new AABB(d0.subtract(java.math.BigDecimal.valueOf(d6)), d1.subtract(java.math.BigDecimal.valueOf(d7)), d2.subtract(java.math.BigDecimal.valueOf(d8)), d0.add(java.math.BigDecimal.valueOf(d6)), d1.add(java.math.BigDecimal.valueOf(d7)), d2.add(java.math.BigDecimal.valueOf(d8))));
+       }
+    }
+ 
 @@ -111,7 +_,7 @@
        } else {
           int i = Math.max(1, this.m_7076_() / 16);

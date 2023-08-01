@@ -67,7 +67,7 @@
     }
  
     public Vec3(Vector3f p_253821_) {
-@@ -62,24 +_,24 @@
+@@ -62,36 +_,44 @@
     }
  
     public Vec3 m_82505_(Vec3 p_82506_) {
@@ -98,9 +98,13 @@
     }
  
     public Vec3 m_82492_(double p_82493_, double p_82494_, double p_82495_) {
-@@ -87,11 +_,15 @@
+       return this.m_82520_(-p_82493_, -p_82494_, -p_82495_);
     }
  
++   public Vec3 subtract(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++      return this.add(x.negate(), y.negate(), z.negate());
++   }
++
     public Vec3 m_82549_(Vec3 p_82550_) {
 -      return this.m_82520_(p_82550_.f_82479_, p_82550_.f_82480_, p_82550_.f_82481_);
 +      return this.add(p_82550_.f_82479_, p_82550_.f_82480_, p_82550_.f_82481_);
@@ -296,9 +300,9 @@
 -      double d0 = p_193104_ == Direction.Axis.X ? p_193105_ : this.f_82479_;
 -      double d1 = p_193104_ == Direction.Axis.Y ? p_193105_ : this.f_82480_;
 -      double d2 = p_193104_ == Direction.Axis.Z ? p_193105_ : this.f_82481_;
-+      double d0 = p_193104_ == Direction.Axis.X ? p_193105_ : this.m_7096_();
-+      double d1 = p_193104_ == Direction.Axis.Y ? p_193105_ : this.m_7098_();
-+      double d2 = p_193104_ == Direction.Axis.Z ? p_193105_ : this.m_7094_();
++      java.math.BigDecimal d0 = p_193104_ == Direction.Axis.X ? java.math.BigDecimal.valueOf(p_193105_) : this.getX();
++      java.math.BigDecimal d1 = p_193104_ == Direction.Axis.Y ? java.math.BigDecimal.valueOf(p_193105_) : this.getY();
++      java.math.BigDecimal d2 = p_193104_ == Direction.Axis.Z ? java.math.BigDecimal.valueOf(p_193105_) : this.getZ();
        return new Vec3(d0, d1, d2);
     }
  

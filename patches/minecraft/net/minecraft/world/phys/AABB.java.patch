@@ -115,7 +115,7 @@
     }
  
     public boolean equals(Object p_82398_) {
-@@ -84,104 +_,104 @@
+@@ -84,104 +_,132 @@
           return false;
        } else {
           AABB aabb = (AABB)p_82398_;
@@ -212,7 +212,7 @@
  
     public AABB m_82369_(Vec3 p_82370_) {
 -      return this.m_82363_(p_82370_.f_82479_, p_82370_.f_82480_, p_82370_.f_82481_);
-+      return this.m_82363_(p_82370_.m_7096_(), p_82370_.m_7098_(), p_82370_.m_7094_());
++      return this.expandTowards(p_82370_.getX(), p_82370_.getY(), p_82370_.getZ());
     }
  
     public AABB m_82363_(double p_82364_, double p_82365_, double p_82366_) {
@@ -250,6 +250,34 @@
        } else if (p_82366_ > 0.0D) {
 -         d5 += p_82366_;
 +         d5 = d5.add(java.math.BigDecimal.valueOf(p_82366_));
++      }
++
++      return new AABB(d0, d1, d2, d3, d4, d5);
++   }
++
++   public AABB expandTowards(java.math.BigDecimal p_82364_, java.math.BigDecimal p_82365_, java.math.BigDecimal p_82366_) {
++      java.math.BigDecimal d0 = this.f_82288_;
++      java.math.BigDecimal d1 = this.f_82289_;
++      java.math.BigDecimal d2 = this.f_82290_;
++      java.math.BigDecimal d3 = this.f_82291_;
++      java.math.BigDecimal d4 = this.f_82292_;
++      java.math.BigDecimal d5 = this.f_82293_;
++      if (p_82364_.compareTo(java.math.BigDecimal.ZERO) < 0) {
++         d0 = d0.add(p_82364_);
++      } else if (p_82364_.compareTo(java.math.BigDecimal.ZERO) > 0) {
++         d3 = d3.add(p_82364_);
++      }
++
++      if (p_82365_.compareTo(java.math.BigDecimal.ZERO) < 0) {
++         d1 = d1.add(p_82365_);
++      } else if (p_82365_.compareTo(java.math.BigDecimal.ZERO) > 0) {
++         d4 = d4.add(p_82365_);
++      }
++
++      if (p_82366_.compareTo(java.math.BigDecimal.ZERO) < 0) {
++         d2 = d2.add(p_82366_);
++      } else if (p_82366_.compareTo(java.math.BigDecimal.ZERO) > 0) {
++         d5 = d5.add(p_82366_);
        }
  
        return new AABB(d0, d1, d2, d3, d4, d5);

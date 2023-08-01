@@ -1,11 +1,15 @@
 --- a/net/minecraft/util/Mth.java
 +++ b/net/minecraft/util/Mth.java
-@@ -65,10 +_,18 @@
+@@ -65,10 +_,22 @@
        return p_14135_ < (double)i ? i - 1L : i;
     }
  
 +   public static java.math.BigInteger lfloor(java.math.BigDecimal val) {
 +      return val.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
++   }
++
++   public static java.math.BigDecimal lfloorD(java.math.BigDecimal val) {
++      return val.setScale(0, java.math.RoundingMode.FLOOR);
 +   }
 +
     public static float m_14154_(float p_14155_) {
@@ -73,7 +77,15 @@
     public static int m_216271_(RandomSource p_216272_, int p_216273_, int p_216274_) {
        return p_216273_ >= p_216274_ ? p_216273_ : p_216272_.m_188503_(p_216274_ - p_216273_ + 1) + p_216273_;
     }
-@@ -151,6 +_,10 @@
+@@ -147,10 +_,18 @@
+       return Math.abs(p_14084_ - p_14083_) < (double)1.0E-5F;
+    }
+ 
++   public static boolean equal(java.math.BigDecimal a, java.math.BigDecimal b) {
++      return b.subtract(a).abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON_EQUAL) < 0;
++   }
++
+    public static int m_14100_(int p_14101_, int p_14102_) {
        return Math.floorMod(p_14101_, p_14102_);
     }
  

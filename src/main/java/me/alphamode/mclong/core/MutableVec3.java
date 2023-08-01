@@ -1,6 +1,6 @@
 package me.alphamode.mclong.core;
 
-import java.math.BigDecimal;
+import me.alphamode.mclong.math.BigDecimal;
 
 public class MutableVec3 {
     public BigDecimal x, y, z;

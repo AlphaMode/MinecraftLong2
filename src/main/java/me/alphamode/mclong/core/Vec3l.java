@@ -10,8 +10,8 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
 
 import javax.annotation.concurrent.Immutable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import me.alphamode.mclong.math.BigDecimal;
+import me.alphamode.mclong.math.BigInteger;
 import java.util.function.Function;
 import java.util.stream.LongStream;
 
@@ -98,28 +98,28 @@ public class Vec3l implements Comparable<Vec3l> {
         return this.z.longValue();
     }
 
-    public java.math.BigInteger getBigX() {
+    public me.alphamode.mclong.math.BigInteger getBigX() {
         return this.x;
     }
 
-    public java.math.BigInteger getBigY() {
+    public me.alphamode.mclong.math.BigInteger getBigY() {
         return this.y;
     }
 
-    public java.math.BigInteger getBigZ() {
+    public me.alphamode.mclong.math.BigInteger getBigZ() {
         return this.z;
     }
 
-    public java.math.BigDecimal getBigDecX() {
-        return new java.math.BigDecimal(this.x);
+    public me.alphamode.mclong.math.BigDecimal getBigDecX() {
+        return new me.alphamode.mclong.math.BigDecimal(this.x);
     }
 
-    public java.math.BigDecimal getBigDecY() {
-        return new java.math.BigDecimal(this.y);
+    public me.alphamode.mclong.math.BigDecimal getBigDecY() {
+        return new me.alphamode.mclong.math.BigDecimal(this.y);
     }
 
-    public java.math.BigDecimal getBigDecZ() {
-        return new java.math.BigDecimal(this.z);
+    public me.alphamode.mclong.math.BigDecimal getBigDecZ() {
+        return new me.alphamode.mclong.math.BigDecimal(this.z);
     }
 
     protected Vec3l setX(long p_175605_) {
@@ -260,13 +260,13 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public double distToCenterSqr(Position p_203194_) {
-        return this.distToCenterSqr(p_203194_.x(), p_203194_.y(), p_203194_.z());
+        return this.distToCenterSqr(p_203194_.getX(), p_203194_.getY(), p_203194_.getZ());
     }
 
-    public double distToCenterSqr(double p_203199_, double p_203200_, double p_203201_) {
-        double d0 = (double) this.getX() + 0.5D - p_203199_;
-        double d1 = (double) this.getY() + 0.5D - p_203200_;
-        double d2 = (double) this.getZ() + 0.5D - p_203201_;
+    public double distToCenterSqr(me.alphamode.mclong.math.BigDecimal p_203199_, me.alphamode.mclong.math.BigDecimal p_203200_, me.alphamode.mclong.math.BigDecimal p_203201_) {
+        double d0 = (double) this.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB).subtract(p_203199_).doubleValue();
+        double d1 = (double) this.getBigDecY().add(me.alphamode.mclong.core.BigConstants.AABB).subtract(p_203200_).doubleValue();
+        double d2 = (double) this.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB).subtract(p_203201_).doubleValue();
         return d0 * d0 + d1 * d1 + d2 * d2;
     }
 
@@ -277,7 +277,7 @@ public class Vec3l implements Comparable<Vec3l> {
         return d0 * d0 + d1 * d1 + d2 * d2;
     }
 
-    public double distToLowCornerSqr(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
+    public double distToLowCornerSqr(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {
         double d0 = this.getBigDecX().subtract(x).doubleValue();
         double d1 = this.getBigDecY().subtract(y).doubleValue();
         double d2 = this.getBigDecZ().subtract(z).doubleValue();
