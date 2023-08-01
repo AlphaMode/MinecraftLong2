@@ -1,5 +1,23 @@
 --- a/net/minecraft/client/player/RemotePlayer.java
 +++ b/net/minecraft/client/player/RemotePlayer.java
+@@ -42,13 +_,13 @@
+ 
+    public void m_8107_() {
+       if (this.f_20903_ > 0) {
+-         double d0 = this.m_20185_() + (this.f_20904_ - this.m_20185_()) / (double)this.f_20903_;
+-         double d1 = this.m_20186_() + (this.f_20905_ - this.m_20186_()) / (double)this.f_20903_;
+-         double d2 = this.m_20189_() + (this.f_20906_ - this.m_20189_()) / (double)this.f_20903_;
++         me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().add((this.f_20904_.subtract(this.getBigX())).divide(this.f_20903_, java.math.RoundingMode.HALF_UP));
++         me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().add((this.f_20905_.subtract(this.getBigY())).divide(this.f_20903_, java.math.RoundingMode.HALF_UP));
++         me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().add((this.f_20906_.subtract(this.getBigZ())).divide(this.f_20903_, java.math.RoundingMode.HALF_UP));
+          this.m_146922_(this.m_146908_() + (float)Mth.m_14175_(this.f_20907_ - (double)this.m_146908_()) / (float)this.f_20903_);
+          this.m_146926_(this.m_146909_() + (float)(this.f_20908_ - (double)this.m_146909_()) / (float)this.f_20903_);
+          --this.f_20903_;
+-         this.m_6034_(d0, d1, d2);
++         this.setPos(d0, d1, d2);
+          this.m_19915_(this.m_146908_(), this.m_146909_());
+       }
+ 
 @@ -58,7 +_,7 @@
        }
  

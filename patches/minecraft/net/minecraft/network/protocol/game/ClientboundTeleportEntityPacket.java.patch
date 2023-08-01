@@ -1,5 +1,18 @@
 --- a/net/minecraft/network/protocol/game/ClientboundTeleportEntityPacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundTeleportEntityPacket.java
+@@ -7,9 +_,9 @@
+ 
+ public class ClientboundTeleportEntityPacket implements Packet<ClientGamePacketListener> {
+    private final int f_133529_;
+-   private final double f_133530_;
+-   private final double f_133531_;
+-   private final double f_133532_;
++   private final me.alphamode.mclong.math.BigDecimal f_133530_;
++   private final me.alphamode.mclong.math.BigDecimal f_133531_;
++   private final me.alphamode.mclong.math.BigDecimal f_133532_;
+    private final byte f_133533_;
+    private final byte f_133534_;
+    private final boolean f_133535_;
 @@ -17,9 +_,9 @@
     public ClientboundTeleportEntityPacket(Entity p_133538_) {
        this.f_133529_ = p_133538_.m_19879_();
@@ -7,9 +20,54 @@
 -      this.f_133530_ = vec3.f_82479_;
 -      this.f_133531_ = vec3.f_82480_;
 -      this.f_133532_ = vec3.f_82481_;
-+      this.f_133530_ = vec3.m_7096_();
-+      this.f_133531_ = vec3.m_7098_();
-+      this.f_133532_ = vec3.m_7094_();
++      this.f_133530_ = vec3.getX();
++      this.f_133531_ = vec3.getY();
++      this.f_133532_ = vec3.getZ();
        this.f_133533_ = (byte)((int)(p_133538_.m_146908_() * 256.0F / 360.0F));
        this.f_133534_ = (byte)((int)(p_133538_.m_146909_() * 256.0F / 360.0F));
        this.f_133535_ = p_133538_.m_20096_();
+@@ -27,9 +_,9 @@
+ 
+    public ClientboundTeleportEntityPacket(FriendlyByteBuf p_179437_) {
+       this.f_133529_ = p_179437_.m_130242_();
+-      this.f_133530_ = p_179437_.readDouble();
+-      this.f_133531_ = p_179437_.readDouble();
+-      this.f_133532_ = p_179437_.readDouble();
++      this.f_133530_ = new me.alphamode.mclong.math.BigDecimal(p_179437_.m_130277_());
++      this.f_133531_ = new me.alphamode.mclong.math.BigDecimal(p_179437_.m_130277_());
++      this.f_133532_ = new me.alphamode.mclong.math.BigDecimal(p_179437_.m_130277_());
+       this.f_133533_ = p_179437_.readByte();
+       this.f_133534_ = p_179437_.readByte();
+       this.f_133535_ = p_179437_.readBoolean();
+@@ -37,9 +_,9 @@
+ 
+    public void m_5779_(FriendlyByteBuf p_133547_) {
+       p_133547_.m_130130_(this.f_133529_);
+-      p_133547_.writeDouble(this.f_133530_);
+-      p_133547_.writeDouble(this.f_133531_);
+-      p_133547_.writeDouble(this.f_133532_);
++      p_133547_.m_130070_(this.f_133530_.toString());
++      p_133547_.m_130070_(this.f_133531_.toString());
++      p_133547_.m_130070_(this.f_133532_.toString());
+       p_133547_.writeByte(this.f_133533_);
+       p_133547_.writeByte(this.f_133534_);
+       p_133547_.writeBoolean(this.f_133535_);
+@@ -53,15 +_,15 @@
+       return this.f_133529_;
+    }
+ 
+-   public double m_133548_() {
++   public me.alphamode.mclong.math.BigDecimal getX() {
+       return this.f_133530_;
+    }
+ 
+-   public double m_133549_() {
++   public me.alphamode.mclong.math.BigDecimal getY() {
+       return this.f_133531_;
+    }
+ 
+-   public double m_133550_() {
++   public me.alphamode.mclong.math.BigDecimal getZ() {
+       return this.f_133532_;
+    }
+ 

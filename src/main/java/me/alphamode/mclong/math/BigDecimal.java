@@ -184,6 +184,12 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         return new BigDecimal(this.doubleBacking / divisor.doubleBacking);
     }
 
+    public BigDecimal divide(double divisor, RoundingMode mode) {
+        if (BigConstants.BIG_MODE)
+            return new BigDecimal(this.backing.divide(java.math.BigDecimal.valueOf(divisor), mode));
+        return new BigDecimal(this.doubleBacking / divisor);
+    }
+
     /**
      * Returns a {@code BigDecimal} whose value is {@code (this /
      * divisor)}, and whose preferred scale is {@code (this.scale() -

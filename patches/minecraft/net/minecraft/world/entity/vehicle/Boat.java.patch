@@ -1,5 +1,18 @@
 --- a/net/minecraft/world/entity/vehicle/Boat.java
 +++ b/net/minecraft/world/entity/vehicle/Boat.java
+@@ -69,9 +_,9 @@
+    private float f_38265_;
+    private float f_38266_;
+    private int f_38267_;
+-   private double f_38268_;
+-   private double f_38269_;
+-   private double f_38270_;
++   private me.alphamode.mclong.math.BigDecimal f_38268_;
++   private me.alphamode.mclong.math.BigDecimal f_38269_;
++   private me.alphamode.mclong.math.BigDecimal f_38270_;
+    private double f_38271_;
+    private double f_38272_;
+    private boolean f_38273_;
 @@ -94,9 +_,9 @@
        this.f_19850_ = true;
     }
@@ -37,6 +50,15 @@
           super.m_7334_(p_38373_);
        }
  
+@@ -244,7 +_,7 @@
+       return !this.m_213877_();
+    }
+ 
+-   public void m_6453_(double p_38299_, double p_38300_, double p_38301_, float p_38302_, float p_38303_, int p_38304_, boolean p_38305_) {
++   public void lerpTo(me.alphamode.mclong.math.BigDecimal p_38299_, me.alphamode.mclong.math.BigDecimal p_38300_, me.alphamode.mclong.math.BigDecimal p_38301_, float p_38302_, float p_38303_, int p_38304_, boolean p_38305_) {
+       this.f_38268_ = p_38299_;
+       this.f_38269_ = p_38300_;
+       this.f_38270_ = p_38301_;
 @@ -304,9 +_,9 @@
                 SoundEvent soundevent = this.m_38370_();
                 if (soundevent != null) {
@@ -62,6 +84,30 @@
                 }
              }
  
+@@ -394,18 +_,18 @@
+    private void m_38391_() {
+       if (this.m_6109_()) {
+          this.f_38267_ = 0;
+-         this.m_217006_(this.m_20185_(), this.m_20186_(), this.m_20189_());
++         this.syncPacketPositionCodec(this.getBigX(), this.getBigY(), this.getBigZ());
+       }
+ 
+       if (this.f_38267_ > 0) {
+-         double d0 = this.m_20185_() + (this.f_38268_ - this.m_20185_()) / (double)this.f_38267_;
+-         double d1 = this.m_20186_() + (this.f_38269_ - this.m_20186_()) / (double)this.f_38267_;
+-         double d2 = this.m_20189_() + (this.f_38270_ - this.m_20189_()) / (double)this.f_38267_;
++         me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().add((this.f_38268_.subtract(this.getBigX())).divide(this.f_38267_, java.math.RoundingMode.HALF_UP));
++         me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().add((this.f_38269_.subtract(this.getBigY())).divide(this.f_38267_, java.math.RoundingMode.HALF_UP));
++         me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().add((this.f_38270_.subtract(this.getBigZ())).divide(this.f_38267_, java.math.RoundingMode.HALF_UP));
+          double d3 = Mth.m_14175_(this.f_38271_ - (double)this.m_146908_());
+          this.m_146922_(this.m_146908_() + (float)d3 / (float)this.f_38267_);
+          this.m_146926_(this.m_146909_() + (float)(this.f_38272_ - (double)this.m_146909_()) / (float)this.f_38267_);
+          --this.f_38267_;
+-         this.m_6034_(d0, d1, d2);
++         this.setPos(d0, d1, d2);
+          this.m_19915_(this.m_146908_(), this.m_146909_());
+       }
+    }
 @@ -422,7 +_,7 @@
     private Boat.Status m_38392_() {
        Boat.Status boat$status = this.m_38394_();

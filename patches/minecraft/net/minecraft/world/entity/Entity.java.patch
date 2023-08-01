@@ -35,6 +35,15 @@
        return Shapes.m_83157_(voxelshape1, Shapes.m_83064_(this.m_20191_()), BooleanOp.f_82689_);
     }
  
+@@ -283,7 +_,7 @@
+ 
+    }
+ 
+-   public void m_217006_(double p_217007_, double p_217008_, double p_217009_) {
++   public void syncPacketPositionCodec(me.alphamode.mclong.math.BigDecimal p_217007_, me.alphamode.mclong.math.BigDecimal p_217008_, me.alphamode.mclong.math.BigDecimal p_217009_) {
+       this.f_216985_.m_238033_(new Vec3(p_217007_, p_217008_, p_217009_));
+    }
+ 
 @@ -366,9 +_,9 @@
     }
  
@@ -669,6 +678,17 @@
        }
     }
  
+@@ -1971,8 +_,8 @@
+       return true;
+    }
+ 
+-   public void m_6453_(double p_19896_, double p_19897_, double p_19898_, float p_19899_, float p_19900_, int p_19901_, boolean p_19902_) {
+-      this.m_6034_(p_19896_, p_19897_, p_19898_);
++   public void lerpTo(me.alphamode.mclong.math.BigDecimal p_19896_, me.alphamode.mclong.math.BigDecimal p_19897_, me.alphamode.mclong.math.BigDecimal p_19898_, float p_19899_, float p_19900_, int p_19901_, boolean p_19902_) {
++      this.setPos(p_19896_, p_19897_, p_19898_);
+       this.m_19915_(p_19899_, p_19900_);
+    }
+ 
 @@ -2265,24 +_,24 @@
        Vec3 vec3 = this.m_20184_();
        double d0;
@@ -1115,6 +1135,23 @@
                 this.f_185933_ = new ChunkPos(this.f_19826_);
              }
           }
+@@ -3204,11 +_,11 @@
+ 
+    public void m_141965_(ClientboundAddEntityPacket p_146866_) {
+       int i = p_146866_.m_131496_();
+-      double d0 = p_146866_.m_131500_();
+-      double d1 = p_146866_.m_131501_();
+-      double d2 = p_146866_.m_131502_();
+-      this.m_217006_(d0, d1, d2);
+-      this.m_6027_(d0, d1, d2);
++      me.alphamode.mclong.math.BigDecimal d0 = p_146866_.getX();
++      me.alphamode.mclong.math.BigDecimal d1 = p_146866_.getY();
++      me.alphamode.mclong.math.BigDecimal d2 = p_146866_.getZ();
++      this.syncPacketPositionCodec(d0, d1, d2);
++      this.moveTo(d0, d1, d2);
+       this.m_146926_(p_146866_.m_237566_());
+       this.m_146922_(p_146866_.m_237567_());
+       this.m_20234_(i);
 @@ -3334,7 +_,7 @@
  
     @FunctionalInterface

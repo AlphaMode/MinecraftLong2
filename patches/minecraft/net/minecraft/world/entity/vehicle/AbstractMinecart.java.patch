@@ -1,5 +1,18 @@
 --- a/net/minecraft/world/entity/vehicle/AbstractMinecart.java
 +++ b/net/minecraft/world/entity/vehicle/AbstractMinecart.java
+@@ -77,9 +_,9 @@
+       p_38135_.put(RailShape.NORTH_EAST, Pair.of(vec3i2, vec3i1));
+    });
+    private int f_38070_;
+-   private double f_38071_;
+-   private double f_38072_;
+-   private double f_38073_;
++   private me.alphamode.mclong.math.BigDecimal f_38071_;
++   private me.alphamode.mclong.math.BigDecimal f_38072_;
++   private me.alphamode.mclong.math.BigDecimal f_38073_;
+    private double f_38074_;
+    private double f_38075_;
+    private double f_38076_;
 @@ -94,9 +_,9 @@
     protected AbstractMinecart(EntityType<?> p_38090_, Level p_38091_, double p_38092_, double p_38093_, double p_38094_) {
        this(p_38090_, p_38091_);
@@ -48,6 +61,25 @@
                 return this.m_9236_().m_8055_(p_289495_).m_60812_(this.m_9236_(), p_289495_);
              });
              if (d1 + d2 <= d3) {
+@@ -273,14 +_,14 @@
+       this.m_20157_();
+       if (this.m_9236_().f_46443_) {
+          if (this.f_38070_ > 0) {
+-            double d5 = this.m_20185_() + (this.f_38071_ - this.m_20185_()) / (double)this.f_38070_;
+-            double d6 = this.m_20186_() + (this.f_38072_ - this.m_20186_()) / (double)this.f_38070_;
+-            double d7 = this.m_20189_() + (this.f_38073_ - this.m_20189_()) / (double)this.f_38070_;
++            me.alphamode.mclong.math.BigDecimal d5 = this.getBigX().add((this.f_38071_.subtract(this.getBigX())).divide(this.f_38070_, java.math.RoundingMode.HALF_UP));
++            me.alphamode.mclong.math.BigDecimal d6 = this.getBigY().add((this.f_38072_.subtract(this.getBigY())).divide(this.f_38070_, java.math.RoundingMode.HALF_UP));
++            me.alphamode.mclong.math.BigDecimal d7 = this.getBigZ().add((this.f_38073_.subtract(this.getBigZ())).divide(this.f_38070_, java.math.RoundingMode.HALF_UP));
+             double d2 = Mth.m_14175_(this.f_38074_ - (double)this.m_146908_());
+             this.m_146922_(this.m_146908_() + (float)d2 / (float)this.f_38070_);
+             this.m_146926_(this.m_146909_() + (float)(this.f_38075_ - (double)this.m_146909_()) / (float)this.f_38070_);
+             --this.f_38070_;
+-            this.m_6034_(d5, d6, d7);
++            this.setPos(d5, d6, d7);
+             this.m_19915_(this.m_146908_(), this.m_146909_());
+          } else {
+             this.m_20090_();
 @@ -293,9 +_,9 @@
              this.m_20256_(this.m_20184_().m_82520_(0.0D, d0, 0.0D));
           }
@@ -295,3 +327,12 @@
                          this.m_20256_(vec32.m_82542_(0.2D, 1.0D, 0.2D));
                          this.m_5997_(d7 - d0, 0.0D, d8 - d1);
                          p_38165_.m_20256_(vec33.m_82542_(0.2D, 1.0D, 0.2D));
+@@ -733,7 +_,7 @@
+       }
+    }
+ 
+-   public void m_6453_(double p_38102_, double p_38103_, double p_38104_, float p_38105_, float p_38106_, int p_38107_, boolean p_38108_) {
++   public void lerpTo(me.alphamode.mclong.math.BigDecimal p_38102_, me.alphamode.mclong.math.BigDecimal p_38103_, me.alphamode.mclong.math.BigDecimal p_38104_, float p_38105_, float p_38106_, int p_38107_, boolean p_38108_) {
+       this.f_38071_ = p_38102_;
+       this.f_38072_ = p_38103_;
+       this.f_38073_ = p_38104_;

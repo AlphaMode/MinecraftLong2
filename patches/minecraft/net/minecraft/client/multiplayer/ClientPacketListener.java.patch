@@ -1,5 +1,77 @@
 --- a/net/minecraft/client/multiplayer/ClientPacketListener.java
 +++ b/net/minecraft/client/multiplayer/ClientPacketListener.java
+@@ -474,11 +_,11 @@
+ 
+    public void m_7708_(ClientboundAddExperienceOrbPacket p_104960_) {
+       PacketUtils.m_131363_(p_104960_, this, this.f_104888_);
+-      double d0 = p_104960_.m_131527_();
+-      double d1 = p_104960_.m_131528_();
+-      double d2 = p_104960_.m_131529_();
++      me.alphamode.mclong.math.BigDecimal d0 = p_104960_.getX();
++      me.alphamode.mclong.math.BigDecimal d1 = p_104960_.getY();
++      me.alphamode.mclong.math.BigDecimal d2 = p_104960_.getZ();
+       Entity entity = new ExperienceOrb(this.f_104889_, d0, d1, d2, p_104960_.m_131530_());
+-      entity.m_217006_(d0, d1, d2);
++      entity.syncPacketPositionCodec(d0, d1, d2);
+       entity.m_146922_(0.0F);
+       entity.m_146926_(0.0F);
+       entity.m_20234_(p_104960_.m_131524_());
+@@ -508,16 +_,16 @@
+       if (playerinfo == null) {
+          f_104883_.warn("Server attempted to add player prior to sending player info (Player id {})", (Object)p_104966_.m_131606_());
+       } else {
+-         double d0 = p_104966_.m_131607_();
+-         double d1 = p_104966_.m_131608_();
+-         double d2 = p_104966_.m_131609_();
++         me.alphamode.mclong.math.BigDecimal d0 = p_104966_.getX();
++         me.alphamode.mclong.math.BigDecimal d1 = p_104966_.getY();
++         me.alphamode.mclong.math.BigDecimal d2 = p_104966_.getZ();
+          float f = (float)(p_104966_.m_131610_() * 360) / 256.0F;
+          float f1 = (float)(p_104966_.m_131611_() * 360) / 256.0F;
+          int i = p_104966_.m_131603_();
+          RemotePlayer remoteplayer = new RemotePlayer(this.f_104888_.f_91073_, playerinfo.m_105312_());
+          remoteplayer.m_20234_(i);
+-         remoteplayer.m_217006_(d0, d1, d2);
+-         remoteplayer.m_19890_(d0, d1, d2, f, f1);
++         remoteplayer.syncPacketPositionCodec(d0, d1, d2);
++         remoteplayer.absMoveTo(d0, d1, d2, f, f1);
+          remoteplayer.m_146867_();
+          this.f_104889_.m_104630_(i, remoteplayer);
+       }
+@@ -527,14 +_,14 @@
+       PacketUtils.m_131363_(p_105124_, this, this.f_104888_);
+       Entity entity = this.f_104889_.m_6815_(p_105124_.m_133545_());
+       if (entity != null) {
+-         double d0 = p_105124_.m_133548_();
+-         double d1 = p_105124_.m_133549_();
+-         double d2 = p_105124_.m_133550_();
+-         entity.m_217006_(d0, d1, d2);
++         me.alphamode.mclong.math.BigDecimal d0 = p_105124_.getX();
++         me.alphamode.mclong.math.BigDecimal d1 = p_105124_.getY();
++         me.alphamode.mclong.math.BigDecimal d2 = p_105124_.getZ();
++         entity.syncPacketPositionCodec(d0, d1, d2);
+          if (!entity.m_6109_()) {
+             float f = (float)(p_105124_.m_133551_() * 360) / 256.0F;
+             float f1 = (float)(p_105124_.m_133552_() * 360) / 256.0F;
+-            entity.m_6453_(d0, d1, d2, f, f1, 3, true);
++            entity.lerpTo(d0, d1, d2, f, f1, 3, true);
+             entity.m_6853_(p_105124_.m_133553_());
+          }
+ 
+@@ -560,11 +_,11 @@
+                vecdeltacodec.m_238033_(vec3);
+                float f = p_105036_.m_132533_() ? (float)(p_105036_.m_132531_() * 360) / 256.0F : entity.m_146908_();
+                float f1 = p_105036_.m_132533_() ? (float)(p_105036_.m_132532_() * 360) / 256.0F : entity.m_146909_();
+-               entity.m_6453_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), f, f1, 3, false);
++               entity.lerpTo(vec3.getX(), vec3.getY(), vec3.getZ(), f, f1, 3, false);
+             } else if (p_105036_.m_132533_()) {
+                float f2 = (float)(p_105036_.m_132531_() * 360) / 256.0F;
+                float f3 = (float)(p_105036_.m_132532_() * 360) / 256.0F;
+-               entity.m_6453_(entity.m_20185_(), entity.m_20186_(), entity.m_20189_(), f2, f3, 3, false);
++               entity.lerpTo(entity.getBigX(), entity.getBigY(), entity.getBigZ(), f2, f3, 3, false);
+             }
+ 
+             entity.m_6853_(p_105036_.m_132535_());
 @@ -597,48 +_,48 @@
        boolean flag1 = p_105056_.m_132826_().contains(RelativeMovement.Y);
        boolean flag2 = p_105056_.m_132826_().contains(RelativeMovement.Z);

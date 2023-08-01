@@ -1,5 +1,18 @@
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
+@@ -197,9 +_,9 @@
+    public float f_20901_;
+    public float f_20902_;
+    protected int f_20903_;
+-   protected double f_20904_;
+-   protected double f_20905_;
+-   protected double f_20906_;
++   protected me.alphamode.mclong.math.BigDecimal f_20904_;
++   protected me.alphamode.mclong.math.BigDecimal f_20905_;
++   protected me.alphamode.mclong.math.BigDecimal f_20906_;
+    protected double f_20907_;
+    protected double f_20908_;
+    protected double f_20933_;
 @@ -287,22 +_,22 @@
        }
  
@@ -356,6 +369,30 @@
        float f = (float)(d1 * d1 + d0 * d0);
        float f1 = this.f_20883_;
        float f2 = 0.0F;
+@@ -2449,18 +_,18 @@
+ 
+       if (this.m_6109_()) {
+          this.f_20903_ = 0;
+-         this.m_217006_(this.m_20185_(), this.m_20186_(), this.m_20189_());
++         this.syncPacketPositionCodec(this.getBigX(), this.getBigY(), this.getBigZ());
+       }
+ 
+       if (this.f_20903_ > 0) {
+-         double d0 = this.m_20185_() + (this.f_20904_ - this.m_20185_()) / (double)this.f_20903_;
+-         double d2 = this.m_20186_() + (this.f_20905_ - this.m_20186_()) / (double)this.f_20903_;
+-         double d4 = this.m_20189_() + (this.f_20906_ - this.m_20189_()) / (double)this.f_20903_;
++         me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().add((this.f_20904_.subtract(this.getBigX())).divide(this.f_20903_, java.math.RoundingMode.HALF_UP));
++         me.alphamode.mclong.math.BigDecimal d2 = this.getBigY().add((this.f_20905_.subtract(this.getBigY())).divide(this.f_20903_, java.math.RoundingMode.HALF_UP));
++         me.alphamode.mclong.math.BigDecimal d4 = this.getBigZ().add((this.f_20906_.subtract(this.getBigZ())).divide(this.f_20903_, java.math.RoundingMode.HALF_UP));
+          double d6 = Mth.m_14175_(this.f_20907_ - (double)this.m_146908_());
+          this.m_146922_(this.m_146908_() + (float)d6 / (float)this.f_20903_);
+          this.m_146926_(this.m_146909_() + (float)(this.f_20908_ - (double)this.m_146909_()) / (float)this.f_20903_);
+          --this.f_20903_;
+-         this.m_6034_(d0, d2, d4);
++         this.setPos(d0, d2, d4);
+          this.m_19915_(this.m_146908_(), this.m_146909_());
+       } else if (!this.m_21515_()) {
+          this.m_20256_(this.m_20184_().m_82490_(0.98D));
 @@ -2472,18 +_,18 @@
        }
  
@@ -381,6 +418,15 @@
           d5 = 0.0D;
        }
  
+@@ -2699,7 +_,7 @@
+       this.m_183634_();
+    }
+ 
+-   public void m_6453_(double p_20977_, double p_20978_, double p_20979_, float p_20980_, float p_20981_, int p_20982_, boolean p_20983_) {
++   public void lerpTo(me.alphamode.mclong.math.BigDecimal p_20977_, me.alphamode.mclong.math.BigDecimal p_20978_, me.alphamode.mclong.math.BigDecimal p_20979_, float p_20980_, float p_20981_, int p_20982_, boolean p_20983_) {
+       this.f_20904_ = p_20977_;
+       this.f_20905_ = p_20978_;
+       this.f_20906_ = p_20979_;
 @@ -2784,7 +_,7 @@
     }
  
@@ -455,3 +501,28 @@
           this.m_21063_(p_21068_, p_21067_, this);
           if (!(this instanceof Player) || !((Player)this).m_150110_().f_35937_) {
              p_21068_.m_41774_(1);
+@@ -3307,19 +_,19 @@
+    }
+ 
+    public void m_141965_(ClientboundAddEntityPacket p_217037_) {
+-      double d0 = p_217037_.m_131500_();
+-      double d1 = p_217037_.m_131501_();
+-      double d2 = p_217037_.m_131502_();
++      me.alphamode.mclong.math.BigDecimal d0 = p_217037_.getX();
++      me.alphamode.mclong.math.BigDecimal d1 = p_217037_.getY();
++      me.alphamode.mclong.math.BigDecimal d2 = p_217037_.getZ();
+       float f = p_217037_.m_237567_();
+       float f1 = p_217037_.m_237566_();
+-      this.m_217006_(d0, d1, d2);
++      this.syncPacketPositionCodec(d0, d1, d2);
+       this.f_20883_ = p_217037_.m_237568_();
+       this.f_20885_ = p_217037_.m_237568_();
+       this.f_20884_ = this.f_20883_;
+       this.f_20886_ = this.f_20885_;
+       this.m_20234_(p_217037_.m_131496_());
+       this.m_20084_(p_217037_.m_131499_());
+-      this.m_19890_(d0, d1, d2, f, f1);
++      this.absMoveTo(d0, d1, d2, f, f1);
+       this.m_20334_(p_217037_.m_131503_(), p_217037_.m_131504_(), p_217037_.m_131505_());
+    }
+ 

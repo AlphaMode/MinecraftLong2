@@ -1,15 +1,37 @@
 --- a/net/minecraft/network/protocol/game/ClientboundAddEntityPacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundAddEntityPacket.java
-@@ -36,7 +_,7 @@
+@@ -16,9 +_,9 @@
+    private final int f_131456_;
+    private final UUID f_131457_;
+    private final EntityType<?> f_131466_;
+-   private final double f_131458_;
+-   private final double f_131459_;
+-   private final double f_131460_;
++   private final me.alphamode.mclong.math.BigDecimal f_131458_;
++   private final me.alphamode.mclong.math.BigDecimal f_131459_;
++   private final me.alphamode.mclong.math.BigDecimal f_131460_;
+    private final int f_131461_;
+    private final int f_131462_;
+    private final int f_131463_;
+@@ -32,14 +_,14 @@
+    }
+ 
+    public ClientboundAddEntityPacket(Entity p_131483_, int p_131484_) {
+-      this(p_131483_.m_19879_(), p_131483_.m_20148_(), p_131483_.m_20185_(), p_131483_.m_20186_(), p_131483_.m_20189_(), p_131483_.m_146909_(), p_131483_.m_146908_(), p_131483_.m_6095_(), p_131484_, p_131483_.m_20184_(), (double)p_131483_.m_6080_());
++      this(p_131483_.m_19879_(), p_131483_.m_20148_(), p_131483_.getBigX(), p_131483_.getBigY(), p_131483_.getBigZ(), p_131483_.m_146909_(), p_131483_.m_146908_(), p_131483_.m_6095_(), p_131484_, p_131483_.m_20184_(), (double)p_131483_.m_6080_());
     }
  
     public ClientboundAddEntityPacket(Entity p_237558_, int p_237559_, BlockPos p_237560_) {
 -      this(p_237558_.m_19879_(), p_237558_.m_20148_(), (double)p_237560_.m_123341_(), (double)p_237560_.m_123342_(), (double)p_237560_.m_123343_(), p_237558_.m_146909_(), p_237558_.m_146908_(), p_237558_.m_6095_(), p_237559_, p_237558_.m_20184_(), (double)p_237558_.m_6080_());
-+      this(p_237558_.m_19879_(), p_237558_.m_20148_(), (double)p_237560_.getX(), (double)p_237560_.getY(), (double)p_237560_.getZ(), p_237558_.m_146909_(), p_237558_.m_146908_(), p_237558_.m_6095_(), p_237559_, p_237558_.m_20184_(), (double)p_237558_.m_6080_());
++      this(p_237558_.m_19879_(), p_237558_.m_20148_(), p_237560_.getBigDecX(), p_237560_.getBigDecY(), p_237560_.getBigDecZ(), p_237558_.m_146909_(), p_237558_.m_146908_(), p_237558_.m_6095_(), p_237559_, p_237558_.m_20184_(), (double)p_237558_.m_6080_());
     }
  
-    public ClientboundAddEntityPacket(int p_237546_, UUID p_237547_, double p_237548_, double p_237549_, double p_237550_, float p_237551_, float p_237552_, EntityType<?> p_237553_, int p_237554_, Vec3 p_237555_, double p_237556_) {
-@@ -50,9 +_,9 @@
+-   public ClientboundAddEntityPacket(int p_237546_, UUID p_237547_, double p_237548_, double p_237549_, double p_237550_, float p_237551_, float p_237552_, EntityType<?> p_237553_, int p_237554_, Vec3 p_237555_, double p_237556_) {
++   public ClientboundAddEntityPacket(int p_237546_, UUID p_237547_, me.alphamode.mclong.math.BigDecimal p_237548_, me.alphamode.mclong.math.BigDecimal p_237549_, me.alphamode.mclong.math.BigDecimal p_237550_, float p_237551_, float p_237552_, EntityType<?> p_237553_, int p_237554_, Vec3 p_237555_, double p_237556_) {
+       this.f_131456_ = p_237546_;
+       this.f_131457_ = p_237547_;
+       this.f_131458_ = p_237548_;
+@@ -50,18 +_,18 @@
        this.f_237544_ = (byte)Mth.m_14107_(p_237556_ * 256.0D / 360.0D);
        this.f_131466_ = p_237553_;
        this.f_131467_ = p_237554_;
@@ -22,3 +44,47 @@
     }
  
     public ClientboundAddEntityPacket(FriendlyByteBuf p_178562_) {
+       this.f_131456_ = p_178562_.m_130242_();
+       this.f_131457_ = p_178562_.m_130259_();
+       this.f_131466_ = p_178562_.m_236816_(BuiltInRegistries.f_256780_);
+-      this.f_131458_ = p_178562_.readDouble();
+-      this.f_131459_ = p_178562_.readDouble();
+-      this.f_131460_ = p_178562_.readDouble();
++      this.f_131458_ = new me.alphamode.mclong.math.BigDecimal(p_178562_.m_130277_());
++      this.f_131459_ = new me.alphamode.mclong.math.BigDecimal(p_178562_.m_130277_());
++      this.f_131460_ = new me.alphamode.mclong.math.BigDecimal(p_178562_.m_130277_());
+       this.f_131464_ = p_178562_.readByte();
+       this.f_131465_ = p_178562_.readByte();
+       this.f_237544_ = p_178562_.readByte();
+@@ -75,9 +_,9 @@
+       p_131498_.m_130130_(this.f_131456_);
+       p_131498_.m_130077_(this.f_131457_);
+       p_131498_.m_236818_(BuiltInRegistries.f_256780_, this.f_131466_);
+-      p_131498_.writeDouble(this.f_131458_);
+-      p_131498_.writeDouble(this.f_131459_);
+-      p_131498_.writeDouble(this.f_131460_);
++      p_131498_.m_130070_(this.f_131458_.toString());
++      p_131498_.m_130070_(this.f_131459_.toString());
++      p_131498_.m_130070_(this.f_131460_.toString());
+       p_131498_.writeByte(this.f_131464_);
+       p_131498_.writeByte(this.f_131465_);
+       p_131498_.writeByte(this.f_237544_);
+@@ -103,15 +_,15 @@
+       return this.f_131466_;
+    }
+ 
+-   public double m_131500_() {
++   public me.alphamode.mclong.math.BigDecimal getX() {
+       return this.f_131458_;
+    }
+ 
+-   public double m_131501_() {
++   public me.alphamode.mclong.math.BigDecimal getY() {
+       return this.f_131459_;
+    }
+ 
+-   public double m_131502_() {
++   public me.alphamode.mclong.math.BigDecimal getZ() {
+       return this.f_131460_;
+    }
+ 

@@ -25,23 +25,31 @@
           } else if (flag2) {
              this.f_108617_.m_104955_(new ServerboundMovePlayerPacket.Rot(this.m_146908_(), this.m_146909_(), this.m_20096_()));
           } else if (this.f_108600_ != this.m_20096_()) {
-@@ -398,8 +_,8 @@
-    private void m_108704_(double p_108705_, double p_108706_) {
-       BlockPos blockpos = BlockPos.m_274561_(p_108705_, this.m_20186_(), p_108706_);
+@@ -395,19 +_,19 @@
+       this.f_108619_.m_240442_().m_240494_(p_108696_, p_108697_);
+    }
+ 
+-   private void m_108704_(double p_108705_, double p_108706_) {
+-      BlockPos blockpos = BlockPos.m_274561_(p_108705_, this.m_20186_(), p_108706_);
++   private void moveTowardsClosestSpace(me.alphamode.mclong.math.BigDecimal p_108705_, me.alphamode.mclong.math.BigDecimal p_108706_) {
++      BlockPos blockpos = BlockPos.containing(p_108705_, this.getBigY(), p_108706_);
        if (this.m_108746_(blockpos)) {
 -         double d0 = p_108705_ - (double)blockpos.m_123341_();
 -         double d1 = p_108706_ - (double)blockpos.m_123343_();
-+         double d0 = p_108705_ - (double)blockpos.getX();
-+         double d1 = p_108706_ - (double)blockpos.getZ();
++         me.alphamode.mclong.math.BigDecimal d0 = p_108705_ .subtract(blockpos.getX());
++         me.alphamode.mclong.math.BigDecimal d1 = p_108706_ .subtract(blockpos.getZ());
           Direction direction = null;
-          double d2 = Double.MAX_VALUE;
+-         double d2 = Double.MAX_VALUE;
++         me.alphamode.mclong.math.BigDecimal d2 = me.alphamode.mclong.math.BigDecimal.valueOf(Double.MAX_VALUE);
           Direction[] adirection = new Direction[]{Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH};
-@@ -407,7 +_,7 @@
+ 
           for(Direction direction1 : adirection) {
-             double d3 = direction1.m_122434_().m_6150_(d0, 0.0D, d1);
-             double d4 = direction1.m_122421_() == Direction.AxisDirection.POSITIVE ? 1.0D - d3 : d3;
+-            double d3 = direction1.m_122434_().m_6150_(d0, 0.0D, d1);
+-            double d4 = direction1.m_122421_() == Direction.AxisDirection.POSITIVE ? 1.0D - d3 : d3;
 -            if (d4 < d2 && !this.m_108746_(blockpos.m_121945_(direction1))) {
-+            if (d4 < d2 && !this.m_108746_(blockpos.relative(direction1))) {
++            me.alphamode.mclong.math.BigDecimal d3 = direction1.m_122434_().choose(d0, me.alphamode.mclong.math.BigDecimal.ZERO, d1);
++            me.alphamode.mclong.math.BigDecimal d4 = direction1.m_122421_() == Direction.AxisDirection.POSITIVE ? me.alphamode.mclong.math.BigDecimal.ONE.subtract(d3) : d3;
++            if (d4.compareTo(d2) < 0 && !this.m_108746_(blockpos.relative(direction1))) {
                 d2 = d4;
                 direction = direction1;
              }
@@ -91,6 +99,21 @@
              if (this.m_9236_().m_45786_(this)) {
                 break;
              }
+@@ -648,10 +_,10 @@
+       }
+ 
+       if (!this.f_19794_) {
+-         this.m_108704_(this.m_20185_() - (double)this.m_20205_() * 0.35D, this.m_20189_() + (double)this.m_20205_() * 0.35D);
+-         this.m_108704_(this.m_20185_() - (double)this.m_20205_() * 0.35D, this.m_20189_() - (double)this.m_20205_() * 0.35D);
+-         this.m_108704_(this.m_20185_() + (double)this.m_20205_() * 0.35D, this.m_20189_() - (double)this.m_20205_() * 0.35D);
+-         this.m_108704_(this.m_20185_() + (double)this.m_20205_() * 0.35D, this.m_20189_() + (double)this.m_20205_() * 0.35D);
++         this.moveTowardsClosestSpace(this.getBigX().subtract(this.m_20205_() * 0.35D), this.getBigZ().add(this.m_20205_() * 0.35D));
++         this.moveTowardsClosestSpace(this.getBigX().subtract(this.m_20205_() * 0.35D), this.getBigZ().subtract(this.m_20205_() * 0.35D));
++         this.moveTowardsClosestSpace(this.getBigX().add(this.m_20205_() * 0.35D), this.getBigZ().subtract(this.m_20205_() * 0.35D));
++         this.moveTowardsClosestSpace(this.getBigX().add(this.m_20205_() * 0.35D), this.getBigZ().add(this.m_20205_() * 0.35D));
+       }
+ 
+       if (flag1) {
 @@ -861,7 +_,7 @@
              float f3 = f * vec2.f_82471_;
              float f4 = Mth.m_14031_(this.m_146908_() * ((float)Math.PI / 180F));

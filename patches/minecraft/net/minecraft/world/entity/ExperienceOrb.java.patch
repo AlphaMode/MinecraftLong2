@@ -1,5 +1,17 @@
 --- a/net/minecraft/world/entity/ExperienceOrb.java
 +++ b/net/minecraft/world/entity/ExperienceOrb.java
+@@ -32,9 +_,9 @@
+    private int f_147072_ = 1;
+    private Player f_20771_;
+ 
+-   public ExperienceOrb(Level p_20776_, double p_20777_, double p_20778_, double p_20779_, int p_20780_) {
++   public ExperienceOrb(Level p_20776_, me.alphamode.mclong.math.BigDecimal p_20777_, me.alphamode.mclong.math.BigDecimal p_20778_, me.alphamode.mclong.math.BigDecimal p_20779_, int p_20780_) {
+       this(EntityType.f_20570_, p_20776_);
+-      this.m_6034_(p_20777_, p_20778_, p_20779_);
++      this.setPos(p_20777_, p_20778_, p_20779_);
+       this.m_146922_((float)(this.f_19796_.m_188500_() * 360.0D));
+       this.m_20334_((this.f_19796_.m_188500_() * (double)0.2F - (double)0.1F) * 2.0D, this.f_19796_.m_188500_() * 0.2D * 2.0D, (this.f_19796_.m_188500_() * (double)0.2F - (double)0.1F) * 2.0D);
+       this.f_20770_ = p_20780_;
 @@ -53,9 +_,9 @@
  
     public void m_8119_() {
@@ -22,6 +34,15 @@
        }
  
        if (this.f_19797_ % 20 == 1) {
+@@ -127,7 +_,7 @@
+          int i = m_20782_(p_147085_);
+          p_147085_ -= i;
+          if (!m_147096_(p_147083_, p_147084_, i)) {
+-            p_147083_.m_7967_(new ExperienceOrb(p_147083_, p_147084_.m_7096_(), p_147084_.m_7098_(), p_147084_.m_7094_(), i));
++            p_147083_.m_7967_(new ExperienceOrb(p_147083_, p_147084_.getX(), p_147084_.getY(), p_147084_.getZ(), i));
+          }
+       }
+ 
 @@ -165,7 +_,7 @@
  
     private void m_20803_() {
