@@ -1,6 +1,30 @@
 --- a/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 +++ b/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-@@ -188,7 +_,7 @@
+@@ -128,7 +_,7 @@
+ 
+    public void m_142043_() {
+       if (this.m_9236_().f_46443_ && !this.m_20067_()) {
+-         this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_11893_, this.m_5720_(), 5.0F, 0.8F + this.f_19796_.m_188501_() * 0.3F, false);
++         this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_11893_, this.m_5720_(), 5.0F, 0.8F + this.f_19796_.m_188501_() * 0.3F, false);
+       }
+ 
+    }
+@@ -162,7 +_,7 @@
+       if (this.m_9236_().f_46443_) {
+          this.m_21153_(this.m_21223_());
+          if (!this.m_20067_() && !this.f_31074_.m_31415_().m_7080_() && --this.f_31075_ < 0) {
+-            this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_11894_, this.m_5720_(), 2.5F, 0.8F + this.f_19796_.m_188501_() * 0.3F, false);
++            this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_11894_, this.m_5720_(), 2.5F, 0.8F + this.f_19796_.m_188501_() * 0.3F, false);
+             this.f_31075_ = 200 + this.f_19796_.m_188503_(200);
+          }
+       }
+@@ -183,12 +_,12 @@
+          float f8 = (this.f_19796_.m_188501_() - 0.5F) * 8.0F;
+          float f10 = (this.f_19796_.m_188501_() - 0.5F) * 4.0F;
+          float f11 = (this.f_19796_.m_188501_() - 0.5F) * 8.0F;
+-         this.m_9236_().m_7106_(ParticleTypes.f_123813_, this.m_20185_() + (double)f8, this.m_20186_() + 2.0D + (double)f10, this.m_20189_() + (double)f11, 0.0D, 0.0D, 0.0D);
++         this.m_9236_().addParticle(ParticleTypes.f_123813_, this.getBigX().add(f8), this.getBigY().add(2.0D + (double)f10), this.getBigZ().add(f11), 0.0D, 0.0D, 0.0D);
+       } else {
           this.m_31160_();
           Vec3 vec34 = this.m_20184_();
           float f9 = 0.2F / ((float)vec34.m_165924_() * 10.0F + 1.0F);
@@ -98,6 +122,15 @@
           this.m_9236_().m_46796_(2008, blockpos1, 0);
        }
  
+@@ -518,7 +_,7 @@
+          float f = (this.f_19796_.m_188501_() - 0.5F) * 8.0F;
+          float f1 = (this.f_19796_.m_188501_() - 0.5F) * 4.0F;
+          float f2 = (this.f_19796_.m_188501_() - 0.5F) * 8.0F;
+-         this.m_9236_().m_7106_(ParticleTypes.f_123812_, this.m_20185_() + (double)f, this.m_20186_() + 2.0D + (double)f1, this.m_20189_() + (double)f2, 0.0D, 0.0D, 0.0D);
++         this.m_9236_().addParticle(ParticleTypes.f_123812_, this.getBigX().add(f), this.getBigY().add(2.0D + (double)f1), this.getBigZ().add(f2), 0.0D, 0.0D, 0.0D);
+       }
+ 
+       boolean flag = this.m_9236_().m_46469_().m_46207_(GameRules.f_46135_);
 @@ -573,7 +_,7 @@
                 i1 = Mth.m_14143_(20.0F * Mth.m_14031_(2.0F * (-(float)Math.PI + ((float)Math.PI / 4F) * (float)k1)));
              }

@@ -10,12 +10,12 @@
 -   private double f_9756_;
 -   private double f_9757_;
 -   private double f_9758_;
-+   private java.math.BigDecimal f_9753_;
-+   private java.math.BigDecimal f_9754_;
-+   private java.math.BigDecimal f_9755_;
-+   private java.math.BigDecimal f_9756_;
-+   private java.math.BigDecimal f_9757_;
-+   private java.math.BigDecimal f_9758_;
++   private me.alphamode.mclong.math.BigDecimal f_9753_;
++   private me.alphamode.mclong.math.BigDecimal f_9754_;
++   private me.alphamode.mclong.math.BigDecimal f_9755_;
++   private me.alphamode.mclong.math.BigDecimal f_9756_;
++   private me.alphamode.mclong.math.BigDecimal f_9757_;
++   private me.alphamode.mclong.math.BigDecimal f_9758_;
     @Nullable
     private Entity f_9759_;
 -   private double f_9760_;
@@ -24,12 +24,12 @@
 -   private double f_9763_;
 -   private double f_9764_;
 -   private double f_9765_;
-+   private java.math.BigDecimal f_9760_;
-+   private java.math.BigDecimal f_9761_;
-+   private java.math.BigDecimal f_9762_;
-+   private java.math.BigDecimal f_9763_;
-+   private java.math.BigDecimal f_9764_;
-+   private java.math.BigDecimal f_9765_;
++   private me.alphamode.mclong.math.BigDecimal f_9760_;
++   private me.alphamode.mclong.math.BigDecimal f_9761_;
++   private me.alphamode.mclong.math.BigDecimal f_9762_;
++   private me.alphamode.mclong.math.BigDecimal f_9763_;
++   private me.alphamode.mclong.math.BigDecimal f_9764_;
++   private me.alphamode.mclong.math.BigDecimal f_9765_;
     @Nullable
     private Vec3 f_9766_;
     private int f_9767_;
@@ -101,15 +101,15 @@
 -
 -   private static double m_143653_(double p_143654_) {
 -      return Mth.m_14008_(p_143654_, -2.0E7D, 2.0E7D);
-+   private static boolean containsInvalidValues(java.math.BigDecimal p_143664_, java.math.BigDecimal p_143665_, java.math.BigDecimal p_143666_, float p_143667_, float p_143668_) {
++   private static boolean containsInvalidValues(me.alphamode.mclong.math.BigDecimal p_143664_, me.alphamode.mclong.math.BigDecimal p_143665_, me.alphamode.mclong.math.BigDecimal p_143666_, float p_143667_, float p_143668_) {
 +      return !Floats.isFinite(p_143668_) || !Floats.isFinite(p_143667_);
 +   }
 +
-+   private static java.math.BigDecimal clampHorizontal(java.math.BigDecimal p_143610_) {
++   private static me.alphamode.mclong.math.BigDecimal clampHorizontal(me.alphamode.mclong.math.BigDecimal p_143610_) {
 +      return p_143610_;
 +   }
 +
-+   private static java.math.BigDecimal clampVertical(java.math.BigDecimal p_143654_) {
++   private static me.alphamode.mclong.math.BigDecimal clampVertical(me.alphamode.mclong.math.BigDecimal p_143654_) {
 +      return p_143654_;
     }
  
@@ -128,12 +128,12 @@
 -            double d3 = m_143609_(p_9876_.m_134199_());
 -            double d4 = m_143653_(p_9876_.m_134202_());
 -            double d5 = m_143609_(p_9876_.m_134203_());
-+            java.math.BigDecimal d0 = entity.getBigX();
-+            java.math.BigDecimal d1 = entity.getBigY();
-+            java.math.BigDecimal d2 = entity.getBigZ();
-+            java.math.BigDecimal d3 = clampHorizontal(p_9876_.getX());
-+            java.math.BigDecimal d4 = clampVertical(p_9876_.getY());
-+            java.math.BigDecimal d5 = clampHorizontal(p_9876_.getZ());
++            me.alphamode.mclong.math.BigDecimal d0 = entity.getBigX();
++            me.alphamode.mclong.math.BigDecimal d1 = entity.getBigY();
++            me.alphamode.mclong.math.BigDecimal d2 = entity.getBigZ();
++            me.alphamode.mclong.math.BigDecimal d3 = clampHorizontal(p_9876_.getX());
++            me.alphamode.mclong.math.BigDecimal d4 = clampVertical(p_9876_.getY());
++            me.alphamode.mclong.math.BigDecimal d5 = clampHorizontal(p_9876_.getZ());
              float f = Mth.m_14177_(p_9876_.m_134204_());
              float f1 = Mth.m_14177_(p_9876_.m_134205_());
 -            double d6 = d3 - this.f_9760_;
@@ -231,7 +231,7 @@
     public void m_7185_(ServerboundMovePlayerPacket p_9874_) {
        PacketUtils.m_131359_(p_9874_, this, this.f_9743_.m_284548_());
 -      if (m_143663_(p_9874_.m_134129_(0.0D), p_9874_.m_134140_(0.0D), p_9874_.m_134146_(0.0D), p_9874_.m_134131_(0.0F), p_9874_.m_134142_(0.0F))) {
-+      if (containsInvalidValues(p_9874_.getX(java.math.BigDecimal.ZERO), p_9874_.getY(java.math.BigDecimal.ZERO), p_9874_.getZ(java.math.BigDecimal.ZERO), p_9874_.m_134131_(0.0F), p_9874_.m_134142_(0.0F))) {
++      if (containsInvalidValues(p_9874_.getX(me.alphamode.mclong.math.BigDecimal.ZERO), p_9874_.getY(me.alphamode.mclong.math.BigDecimal.ZERO), p_9874_.getZ(me.alphamode.mclong.math.BigDecimal.ZERO), p_9874_.m_134131_(0.0F), p_9874_.m_134142_(0.0F))) {
           this.m_9942_(Component.m_237115_("multiplayer.disconnect.invalid_player_movement"));
        } else {
           ServerLevel serverlevel = this.f_9743_.m_284548_();
@@ -248,9 +248,9 @@
 -               double d0 = m_143609_(p_9874_.m_134129_(this.f_9743_.m_20185_()));
 -               double d1 = m_143653_(p_9874_.m_134140_(this.f_9743_.m_20186_()));
 -               double d2 = m_143609_(p_9874_.m_134146_(this.f_9743_.m_20189_()));
-+               java.math.BigDecimal d0 = clampHorizontal(p_9874_.getX(this.f_9743_.getBigX()));
-+               java.math.BigDecimal d1 = clampVertical(p_9874_.getY(this.f_9743_.getBigY()));
-+               java.math.BigDecimal d2 = clampHorizontal(p_9874_.getZ(this.f_9743_.getBigZ()));
++               me.alphamode.mclong.math.BigDecimal d0 = clampHorizontal(p_9874_.getX(this.f_9743_.getBigX()));
++               me.alphamode.mclong.math.BigDecimal d1 = clampVertical(p_9874_.getY(this.f_9743_.getBigY()));
++               me.alphamode.mclong.math.BigDecimal d2 = clampHorizontal(p_9874_.getZ(this.f_9743_.getBigZ()));
                 float f = Mth.m_14177_(p_9874_.m_134131_(this.f_9743_.m_146908_()));
                 float f1 = Mth.m_14177_(p_9874_.m_134142_(this.f_9743_.m_146909_()));
                 if (this.f_9743_.m_20159_()) {
@@ -263,12 +263,12 @@
 -                  double d6 = d0 - this.f_9753_;
 -                  double d7 = d1 - this.f_9754_;
 -                  double d8 = d2 - this.f_9755_;
-+                  java.math.BigDecimal d3 = this.f_9743_.getBigX();
-+                  java.math.BigDecimal d4 = this.f_9743_.getBigY();
-+                  java.math.BigDecimal d5 = this.f_9743_.getBigZ();
-+                  java.math.BigDecimal d6 = d0.subtract(this.f_9753_);
-+                  java.math.BigDecimal d7 = d1.subtract(this.f_9754_);
-+                  java.math.BigDecimal d8 = d2.subtract(this.f_9755_);
++                  me.alphamode.mclong.math.BigDecimal d3 = this.f_9743_.getBigX();
++                  me.alphamode.mclong.math.BigDecimal d4 = this.f_9743_.getBigY();
++                  me.alphamode.mclong.math.BigDecimal d5 = this.f_9743_.getBigZ();
++                  me.alphamode.mclong.math.BigDecimal d6 = d0.subtract(this.f_9753_);
++                  me.alphamode.mclong.math.BigDecimal d7 = d1.subtract(this.f_9754_);
++                  me.alphamode.mclong.math.BigDecimal d8 = d2.subtract(this.f_9755_);
                    double d9 = this.f_9743_.m_20184_().m_82556_();
 -                  double d10 = d6 * d6 + d7 * d7 + d8 * d8;
 +                  double d10 = d6.doubleValue() * d6.doubleValue() + d7.doubleValue() * d7.doubleValue() + d8.doubleValue() * d8.doubleValue();
@@ -311,7 +311,7 @@
 +                     d6 = d0.subtract(this.f_9743_.getBigX());
 +                     d7 = d1.subtract(this.f_9743_.getBigY());
 +                     if (d7.doubleValue() > -0.5D || d7.doubleValue() < 0.5D) {
-+                        d7 = d7.subtract(java.math.BigDecimal.ZERO);
++                        d7 = d7.subtract(me.alphamode.mclong.math.BigDecimal.ZERO);
                       }
  
 -                     d8 = d2 - this.f_9743_.m_20189_();
@@ -361,7 +361,7 @@
  
 -   private boolean m_288208_(LevelReader p_289008_, AABB p_288986_, double p_288990_, double p_288991_, double p_288967_) {
 -      AABB aabb = this.f_9743_.m_20191_().m_82386_(p_288990_ - this.f_9743_.m_20185_(), p_288991_ - this.f_9743_.m_20186_(), p_288967_ - this.f_9743_.m_20189_());
-+   private boolean isPlayerCollidingWithAnythingNew(LevelReader p_289008_, AABB p_288986_, java.math.BigDecimal p_288990_, java.math.BigDecimal p_288991_, java.math.BigDecimal p_288967_) {
++   private boolean isPlayerCollidingWithAnythingNew(LevelReader p_289008_, AABB p_288986_, me.alphamode.mclong.math.BigDecimal p_288990_, me.alphamode.mclong.math.BigDecimal p_288991_, me.alphamode.mclong.math.BigDecimal p_288967_) {
 +      AABB aabb = this.f_9743_.m_20191_().move(p_288990_.subtract(this.f_9743_.getBigX()), p_288991_.subtract(this.f_9743_.getBigY()), p_288967_.subtract(this.f_9743_.getBigZ()));
        Iterable<VoxelShape> iterable = p_289008_.m_186431_(this.f_9743_, aabb.m_82406_((double)1.0E-5F));
        VoxelShape voxelshape = Shapes.m_83064_(p_288986_.m_82406_((double)1.0E-5F));
@@ -372,7 +372,7 @@
  
 -   public void m_9774_(double p_9775_, double p_9776_, double p_9777_, float p_9778_, float p_9779_) {
 -      this.m_9780_(p_9775_, p_9776_, p_9777_, p_9778_, p_9779_, Collections.emptySet());
-+   public void teleport(java.math.BigDecimal p_9775_, java.math.BigDecimal p_9776_, java.math.BigDecimal p_9777_, float p_9778_, float p_9779_) {
++   public void teleport(me.alphamode.mclong.math.BigDecimal p_9775_, me.alphamode.mclong.math.BigDecimal p_9776_, me.alphamode.mclong.math.BigDecimal p_9777_, float p_9778_, float p_9779_) {
 +      this.teleport(p_9775_, p_9776_, p_9777_, p_9778_, p_9779_, Collections.emptySet());
     }
  
@@ -380,10 +380,10 @@
 -      double d0 = p_9786_.contains(RelativeMovement.X) ? this.f_9743_.m_20185_() : 0.0D;
 -      double d1 = p_9786_.contains(RelativeMovement.Y) ? this.f_9743_.m_20186_() : 0.0D;
 -      double d2 = p_9786_.contains(RelativeMovement.Z) ? this.f_9743_.m_20189_() : 0.0D;
-+   public void teleport(java.math.BigDecimal p_9781_, java.math.BigDecimal p_9782_, java.math.BigDecimal p_9783_, float p_9784_, float p_9785_, Set<RelativeMovement> p_9786_) {
-+      java.math.BigDecimal d0 = p_9786_.contains(RelativeMovement.X) ? this.f_9743_.getBigX() : java.math.BigDecimal.ZERO;
-+      java.math.BigDecimal d1 = p_9786_.contains(RelativeMovement.Y) ? this.f_9743_.getBigY() : java.math.BigDecimal.ZERO;
-+      java.math.BigDecimal d2 = p_9786_.contains(RelativeMovement.Z) ? this.f_9743_.getBigZ() : java.math.BigDecimal.ZERO;
++   public void teleport(me.alphamode.mclong.math.BigDecimal p_9781_, me.alphamode.mclong.math.BigDecimal p_9782_, me.alphamode.mclong.math.BigDecimal p_9783_, float p_9784_, float p_9785_, Set<RelativeMovement> p_9786_) {
++      me.alphamode.mclong.math.BigDecimal d0 = p_9786_.contains(RelativeMovement.X) ? this.f_9743_.getBigX() : me.alphamode.mclong.math.BigDecimal.ZERO;
++      me.alphamode.mclong.math.BigDecimal d1 = p_9786_.contains(RelativeMovement.Y) ? this.f_9743_.getBigY() : me.alphamode.mclong.math.BigDecimal.ZERO;
++      me.alphamode.mclong.math.BigDecimal d2 = p_9786_.contains(RelativeMovement.Z) ? this.f_9743_.getBigZ() : me.alphamode.mclong.math.BigDecimal.ZERO;
        float f = p_9786_.contains(RelativeMovement.Y_ROT) ? this.f_9743_.m_146908_() : 0.0F;
        float f1 = p_9786_.contains(RelativeMovement.X_ROT) ? this.f_9743_.m_146909_() : 0.0F;
        this.f_9766_ = new Vec3(p_9781_, p_9782_, p_9783_);

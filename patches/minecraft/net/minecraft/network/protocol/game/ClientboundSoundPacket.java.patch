@@ -1,0 +1,82 @@
+--- a/net/minecraft/network/protocol/game/ClientboundSoundPacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundSoundPacket.java
+@@ -11,19 +_,19 @@
+    public static final float f_179420_ = 8.0F;
+    private final Holder<SoundEvent> f_133433_;
+    private final SoundSource f_133434_;
+-   private final int f_133435_;
+-   private final int f_133436_;
+-   private final int f_133437_;
++   private final me.alphamode.mclong.math.BigInteger f_133435_;
++   private final me.alphamode.mclong.math.BigInteger f_133436_;
++   private final me.alphamode.mclong.math.BigInteger f_133437_;
+    private final float f_133438_;
+    private final float f_133439_;
+    private final long f_237838_;
+ 
+-   public ClientboundSoundPacket(Holder<SoundEvent> p_263366_, SoundSource p_263375_, double p_263378_, double p_263367_, double p_263394_, float p_263415_, float p_263399_, long p_263409_) {
++   public ClientboundSoundPacket(Holder<SoundEvent> p_263366_, SoundSource p_263375_, me.alphamode.mclong.math.BigDecimal p_263378_, me.alphamode.mclong.math.BigDecimal p_263367_, me.alphamode.mclong.math.BigDecimal p_263394_, float p_263415_, float p_263399_, long p_263409_) {
+       this.f_133433_ = p_263366_;
+       this.f_133434_ = p_263375_;
+-      this.f_133435_ = (int)(p_263378_ * 8.0D);
+-      this.f_133436_ = (int)(p_263367_ * 8.0D);
+-      this.f_133437_ = (int)(p_263394_ * 8.0D);
++      this.f_133435_ = p_263378_.multiply(me.alphamode.mclong.core.BigConstants.EIGHT).toBigInteger();
++      this.f_133436_ = p_263367_.multiply(me.alphamode.mclong.core.BigConstants.EIGHT).toBigInteger();
++      this.f_133437_ = p_263394_.multiply(me.alphamode.mclong.core.BigConstants.EIGHT).toBigInteger();
+       this.f_133438_ = p_263415_;
+       this.f_133439_ = p_263399_;
+       this.f_237838_ = p_263409_;
+@@ -32,9 +_,9 @@
+    public ClientboundSoundPacket(FriendlyByteBuf p_179422_) {
+       this.f_133433_ = p_179422_.m_263187_(BuiltInRegistries.f_256894_.m_206115_(), SoundEvent::m_263214_);
+       this.f_133434_ = p_179422_.m_130066_(SoundSource.class);
+-      this.f_133435_ = p_179422_.readInt();
+-      this.f_133436_ = p_179422_.readInt();
+-      this.f_133437_ = p_179422_.readInt();
++      this.f_133435_ = new me.alphamode.mclong.math.BigInteger(p_179422_.m_130277_());
++      this.f_133436_ = new me.alphamode.mclong.math.BigInteger(p_179422_.m_130277_());
++      this.f_133437_ = new me.alphamode.mclong.math.BigInteger(p_179422_.m_130277_());
+       this.f_133438_ = p_179422_.readFloat();
+       this.f_133439_ = p_179422_.readFloat();
+       this.f_237838_ = p_179422_.readLong();
+@@ -45,9 +_,9 @@
+          p_263402_.m_263231_(p_263422_);
+       });
+       p_133457_.m_130068_(this.f_133434_);
+-      p_133457_.writeInt(this.f_133435_);
+-      p_133457_.writeInt(this.f_133436_);
+-      p_133457_.writeInt(this.f_133437_);
++      p_133457_.m_130070_(this.f_133435_.toString());
++      p_133457_.m_130070_(this.f_133436_.toString());
++      p_133457_.m_130070_(this.f_133437_.toString());
+       p_133457_.writeFloat(this.f_133438_);
+       p_133457_.writeFloat(this.f_133439_);
+       p_133457_.writeLong(this.f_237838_);
+@@ -61,16 +_,16 @@
+       return this.f_133434_;
+    }
+ 
+-   public double m_133459_() {
+-      return (double)((float)this.f_133435_ / 8.0F);
+-   }
+-
+-   public double m_133460_() {
+-      return (double)((float)this.f_133436_ / 8.0F);
+-   }
+-
+-   public double m_133461_() {
+-      return (double)((float)this.f_133437_ / 8.0F);
++   public me.alphamode.mclong.math.BigDecimal getX() {
++      return this.f_133435_.toBigDecimal().divide(me.alphamode.mclong.core.BigConstants.EIGHT);
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getY() {
++      return this.f_133436_.toBigDecimal().divide(me.alphamode.mclong.core.BigConstants.EIGHT);
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getZ() {
++      return this.f_133437_.toBigDecimal().divide(me.alphamode.mclong.core.BigConstants.EIGHT);
+    }
+ 
+    public float m_133462_() {

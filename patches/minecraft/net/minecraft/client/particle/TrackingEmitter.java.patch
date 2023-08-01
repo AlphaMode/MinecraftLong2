@@ -5,7 +5,22 @@
  
     private TrackingEmitter(ClientLevel p_108399_, Entity p_108400_, ParticleOptions p_108401_, int p_108402_, Vec3 p_108403_) {
 -      super(p_108399_, p_108400_.m_20185_(), p_108400_.m_20227_(0.5D), p_108400_.m_20189_(), p_108403_.f_82479_, p_108403_.f_82480_, p_108403_.f_82481_);
-+      super(p_108399_, p_108400_.m_20185_(), p_108400_.m_20227_(0.5D), p_108400_.m_20189_(), p_108403_.m_7096_(), p_108403_.m_7098_(), p_108403_.m_7094_());
++      super(p_108399_, p_108400_.getBigX(), p_108400_.getY(me.alphamode.mclong.core.BigConstants.AABB), p_108400_.getBigZ(), p_108403_.m_7096_(), p_108403_.m_7098_(), p_108403_.m_7094_());
        this.f_108387_ = p_108400_;
        this.f_108385_ = p_108402_;
        this.f_108386_ = p_108401_;
+@@ -36,10 +_,10 @@
+          double d1 = (double)(this.f_107223_.m_188501_() * 2.0F - 1.0F);
+          double d2 = (double)(this.f_107223_.m_188501_() * 2.0F - 1.0F);
+          if (!(d0 * d0 + d1 * d1 + d2 * d2 > 1.0D)) {
+-            double d3 = this.f_108387_.m_20165_(d0 / 4.0D);
+-            double d4 = this.f_108387_.m_20227_(0.5D + d1 / 4.0D);
+-            double d5 = this.f_108387_.m_20246_(d2 / 4.0D);
+-            this.f_107208_.m_6493_(this.f_108386_, false, d3, d4, d5, d0, d1 + 0.2D, d2);
++            me.alphamode.mclong.math.BigDecimal d3 = this.f_108387_.getBigX(d0 / 4.0D);
++            me.alphamode.mclong.math.BigDecimal d4 = this.f_108387_.getBigY(0.5D + d1 / 4.0D);
++            me.alphamode.mclong.math.BigDecimal d5 = this.f_108387_.getBigZ(d2 / 4.0D);
++            this.f_107208_.addParticle(this.f_108386_, false, d3, d4, d5, d0, d1 + 0.2D, d2);
+          }
+       }
+ 

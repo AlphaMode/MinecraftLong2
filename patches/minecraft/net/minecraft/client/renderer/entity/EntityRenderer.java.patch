@@ -9,3 +9,22 @@
        return LightTexture.m_109885_(this.m_6086_(p_114506_, blockpos), this.m_114508_(p_114506_, blockpos));
     }
  
+@@ -43,15 +_,15 @@
+       return p_114496_.m_6060_() ? 15 : p_114496_.m_9236_().m_45517_(LightLayer.BLOCK, p_114497_);
+    }
+ 
+-   public boolean m_5523_(T p_114491_, Frustum p_114492_, double p_114493_, double p_114494_, double p_114495_) {
+-      if (!p_114491_.m_6000_(p_114493_, p_114494_, p_114495_)) {
++   public boolean shouldRender(T p_114491_, Frustum p_114492_, me.alphamode.mclong.math.BigDecimal p_114493_, me.alphamode.mclong.math.BigDecimal p_114494_, me.alphamode.mclong.math.BigDecimal p_114495_) {
++      if (!p_114491_.shouldRender(p_114493_, p_114494_, p_114495_)) {
+          return false;
+       } else if (p_114491_.f_19811_) {
+          return true;
+       } else {
+          AABB aabb = p_114491_.m_6921_().m_82400_(0.5D);
+          if (aabb.m_82392_() || aabb.m_82309_() == 0.0D) {
+-            aabb = new AABB(p_114491_.m_20185_() - 2.0D, p_114491_.m_20186_() - 2.0D, p_114491_.m_20189_() - 2.0D, p_114491_.m_20185_() + 2.0D, p_114491_.m_20186_() + 2.0D, p_114491_.m_20189_() + 2.0D);
++            aabb = new AABB(p_114491_.getBigX().subtract(me.alphamode.mclong.core.BigConstants.TWO), p_114491_.getBigY().subtract(me.alphamode.mclong.core.BigConstants.TWO), p_114491_.getBigZ().subtract(me.alphamode.mclong.core.BigConstants.TWO), p_114491_.getBigX().add(me.alphamode.mclong.core.BigConstants.TWO), p_114491_.getBigY().add(me.alphamode.mclong.core.BigConstants.TWO), p_114491_.getBigZ().add(me.alphamode.mclong.core.BigConstants.TWO));
+          }
+ 
+          return p_114492_.m_113029_(aabb);

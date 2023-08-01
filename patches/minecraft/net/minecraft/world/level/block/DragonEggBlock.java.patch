@@ -9,16 +9,18 @@
           if (p_52937_.m_8055_(blockpos).m_60795_() && worldborder.m_61937_(blockpos)) {
              if (p_52937_.f_46443_) {
                 for(int j = 0; j < 128; ++j) {
-@@ -48,9 +_,9 @@
+@@ -48,10 +_,10 @@
                    float f = (p_52937_.f_46441_.m_188501_() - 0.5F) * 0.2F;
                    float f1 = (p_52937_.f_46441_.m_188501_() - 0.5F) * 0.2F;
                    float f2 = (p_52937_.f_46441_.m_188501_() - 0.5F) * 0.2F;
 -                  double d1 = Mth.m_14139_(d0, (double)blockpos.m_123341_(), (double)p_52938_.m_123341_()) + (p_52937_.f_46441_.m_188500_() - 0.5D) + 0.5D;
 -                  double d2 = Mth.m_14139_(d0, (double)blockpos.m_123342_(), (double)p_52938_.m_123342_()) + p_52937_.f_46441_.m_188500_() - 0.5D;
 -                  double d3 = Mth.m_14139_(d0, (double)blockpos.m_123343_(), (double)p_52938_.m_123343_()) + (p_52937_.f_46441_.m_188500_() - 0.5D) + 0.5D;
-+                  double d1 = Mth.m_14139_(d0, (double)blockpos.getX(), (double)p_52938_.getX()) + (p_52937_.f_46441_.m_188500_() - 0.5D) + 0.5D;
-+                  double d2 = Mth.m_14139_(d0, (double)blockpos.getY(), (double)p_52938_.getY()) + p_52937_.f_46441_.m_188500_() - 0.5D;
-+                  double d3 = Mth.m_14139_(d0, (double)blockpos.getZ(), (double)p_52938_.getZ()) + (p_52937_.f_46441_.m_188500_() - 0.5D) + 0.5D;
-                   p_52937_.m_7106_(ParticleTypes.f_123760_, d1, d2, d3, (double)f, (double)f1, (double)f2);
+-                  p_52937_.m_7106_(ParticleTypes.f_123760_, d1, d2, d3, (double)f, (double)f1, (double)f2);
++                  me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp(d0, blockpos.getBigDecX(), p_52938_.getBigDecX()).add((p_52937_.f_46441_.m_188500_() - 0.5D) + 0.5D);
++                  me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp(d0, blockpos.getBigDecY(), p_52938_.getBigDecY()).add(p_52937_.f_46441_.m_188500_() - 0.5D);
++                  me.alphamode.mclong.math.BigDecimal d3 = Mth.lerp(d0, blockpos.getBigDecZ(), p_52938_.getBigDecZ()).add((p_52937_.f_46441_.m_188500_() - 0.5D) + 0.5D);
++                  p_52937_.addParticle(ParticleTypes.f_123760_, d1, d2, d3, (double)f, (double)f1, (double)f2);
                 }
              } else {
+                p_52937_.m_7731_(blockpos, p_52936_, 2);

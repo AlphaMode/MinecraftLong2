@@ -1,5 +1,23 @@
 --- a/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/net/minecraft/world/entity/monster/EnderMan.java
+@@ -159,7 +_,7 @@
+       if (this.f_19797_ >= this.f_32476_ + 400) {
+          this.f_32476_ = this.f_19797_;
+          if (!this.m_20067_()) {
+-            this.m_9236_().m_7785_(this.m_20185_(), this.m_20188_(), this.m_20189_(), SoundEvents.f_11851_, this.m_5720_(), 2.5F, 1.0F, false);
++            this.m_9236_().playLocalSound(this.getBigX(), this.getEyeBigY(), this.getBigZ(), SoundEvents.f_11851_, this.m_5720_(), 2.5F, 1.0F, false);
+          }
+       }
+ 
+@@ -218,7 +_,7 @@
+    public void m_8107_() {
+       if (this.m_9236_().f_46443_) {
+          for(int i = 0; i < 2; ++i) {
+-            this.m_9236_().m_7106_(ParticleTypes.f_123760_, this.m_20208_(0.5D), this.m_20187_() - 0.25D, this.m_20262_(0.5D), (this.f_19796_.m_188500_() - 0.5D) * 2.0D, -this.f_19796_.m_188500_(), (this.f_19796_.m_188500_() - 0.5D) * 2.0D);
++            this.m_9236_().addParticle(ParticleTypes.f_123760_, this.getRandomX(0.5D), this.getRandomY().subtract(me.alphamode.mclong.core.BigConstants.PARTICLES), this.getRandomZ(0.5D), (this.f_19796_.m_188500_() - 0.5D) * 2.0D, -this.f_19796_.m_188500_(), (this.f_19796_.m_188500_() - 0.5D) * 2.0D);
+          }
+       }
+ 
 @@ -261,16 +_,16 @@
        Vec3 vec3 = new Vec3(this.m_20185_() - p_32501_.m_20185_(), this.m_20227_(0.5D) - p_32501_.m_20188_(), this.m_20189_() - p_32501_.m_20189_());
        vec3 = vec3.m_82541_();
@@ -26,7 +44,7 @@
              this.m_9236_().m_214171_(GameEvent.f_238175_, vec3, GameEvent.Context.m_223717_(this));
              if (!this.m_20067_()) {
 -               this.m_9236_().m_6263_((Player)null, this.f_19854_, this.f_19855_, this.f_19856_, SoundEvents.f_11852_, this.m_5720_(), 1.0F, 1.0F);
-+               this.m_9236_().m_6263_((Player)null, this.f_19854_.doubleValue(), this.f_19855_.doubleValue(), this.f_19856_.doubleValue(), SoundEvents.f_11852_, this.m_5720_(), 1.0F, 1.0F);
++               this.m_9236_().playSound((Player)null, this.f_19854_, this.f_19855_, this.f_19856_, SoundEvents.f_11852_, this.m_5720_(), 1.0F, 1.0F);
                 this.m_5496_(SoundEvents.f_11852_, 1.0F, 1.0F);
              }
           }

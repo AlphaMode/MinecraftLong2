@@ -45,7 +45,27 @@
        serverplayer.m_21153_(serverplayer.m_21223_());
        if (flag2) {
 -         serverplayer.f_8906_.m_9829_(new ClientboundSoundPacket(SoundEvents.f_12377_, SoundSource.BLOCKS, (double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_(), 1.0F, 1.0F, serverlevel1.m_213780_().m_188505_()));
-+         serverplayer.f_8906_.m_9829_(new ClientboundSoundPacket(SoundEvents.f_12377_, SoundSource.BLOCKS, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), 1.0F, 1.0F, serverlevel1.m_213780_().m_188505_()));
++         serverplayer.f_8906_.m_9829_(new ClientboundSoundPacket(SoundEvents.f_12377_, SoundSource.BLOCKS, blockpos.getBigDecX(), blockpos.getBigDecY(), blockpos.getBigDecZ(), 1.0F, 1.0F, serverlevel1.m_213780_().m_188505_()));
        }
  
        return serverplayer;
+@@ -615,14 +_,14 @@
+       return null;
+    }
+ 
+-   public void m_11241_(@Nullable Player p_11242_, double p_11243_, double p_11244_, double p_11245_, double p_11246_, ResourceKey<Level> p_11247_, Packet<?> p_11248_) {
++   public void broadcast(@Nullable Player p_11242_, me.alphamode.mclong.math.BigDecimal p_11243_, me.alphamode.mclong.math.BigDecimal p_11244_, me.alphamode.mclong.math.BigDecimal p_11245_, double p_11246_, ResourceKey<Level> p_11247_, Packet<?> p_11248_) {
+       for(int i = 0; i < this.f_11196_.size(); ++i) {
+          ServerPlayer serverplayer = this.f_11196_.get(i);
+          if (serverplayer != p_11242_ && serverplayer.m_9236_().m_46472_() == p_11247_) {
+-            double d0 = p_11243_ - serverplayer.m_20185_();
+-            double d1 = p_11244_ - serverplayer.m_20186_();
+-            double d2 = p_11245_ - serverplayer.m_20189_();
+-            if (d0 * d0 + d1 * d1 + d2 * d2 < p_11246_ * p_11246_) {
++            me.alphamode.mclong.math.BigDecimal d0 = p_11243_.subtract(serverplayer.getBigX());
++            me.alphamode.mclong.math.BigDecimal d1 = p_11244_.subtract(serverplayer.getBigY());
++            me.alphamode.mclong.math.BigDecimal d2 = p_11245_.subtract(serverplayer.getBigZ());
++            if (d0.multiply(d0).add(d1.multiply(d1)).add(d2.multiply(d2)).compareTo(p_11246_ * p_11246_) < 0) {
+                serverplayer.f_8906_.m_9829_(p_11248_);
+             }
+          }

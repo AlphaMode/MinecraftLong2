@@ -29,6 +29,74 @@
        }
  
        super.m_8107_();
+@@ -178,12 +_,12 @@
+          }
+ 
+          if (entity1 != null) {
+-            double d9 = this.m_31514_(j + 1);
+-            double d1 = this.m_31516_(j + 1);
+-            double d3 = this.m_31518_(j + 1);
+-            double d4 = entity1.m_20185_() - d9;
+-            double d5 = entity1.m_20188_() - d1;
+-            double d6 = entity1.m_20189_() - d3;
++            me.alphamode.mclong.math.BigDecimal d9 = this.getHeadX(j + 1);
++            me.alphamode.mclong.math.BigDecimal d1 = this.getHeadY(j + 1);
++            me.alphamode.mclong.math.BigDecimal d3 = this.getHeadZ(j + 1);
++            double d4 = entity1.getBigX().subtract(d9).doubleValue();
++            double d5 = entity1.getEyeBigY().subtract(d1).doubleValue();
++            double d6 = entity1.getBigZ().subtract(d3).doubleValue();
+             double d7 = Math.sqrt(d4 * d4 + d6 * d6);
+             float f = (float)(Mth.m_14136_(d6, d4) * (double)(180F / (float)Math.PI)) - 90.0F;
+             float f1 = (float)(-(Mth.m_14136_(d5, d7) * (double)(180F / (float)Math.PI)));
+@@ -197,18 +_,18 @@
+       boolean flag = this.m_7090_();
+ 
+       for(int l = 0; l < 3; ++l) {
+-         double d8 = this.m_31514_(l);
+-         double d10 = this.m_31516_(l);
+-         double d2 = this.m_31518_(l);
+-         this.m_9236_().m_7106_(ParticleTypes.f_123762_, d8 + this.f_19796_.m_188583_() * (double)0.3F, d10 + this.f_19796_.m_188583_() * (double)0.3F, d2 + this.f_19796_.m_188583_() * (double)0.3F, 0.0D, 0.0D, 0.0D);
++         me.alphamode.mclong.math.BigDecimal d8 = this.getHeadX(l);
++         me.alphamode.mclong.math.BigDecimal d10 = this.getHeadY(l);
++         me.alphamode.mclong.math.BigDecimal d2 = this.getHeadZ(l);
++         this.m_9236_().addParticle(ParticleTypes.f_123762_, d8.add(this.f_19796_.m_188583_() * (double)0.3F), d10.add(this.f_19796_.m_188583_() * (double)0.3F), d2.add(this.f_19796_.m_188583_() * (double)0.3F), 0.0D, 0.0D, 0.0D);
+          if (flag && this.m_9236_().f_46441_.m_188503_(4) == 0) {
+-            this.m_9236_().m_7106_(ParticleTypes.f_123811_, d8 + this.f_19796_.m_188583_() * (double)0.3F, d10 + this.f_19796_.m_188583_() * (double)0.3F, d2 + this.f_19796_.m_188583_() * (double)0.3F, (double)0.7F, (double)0.7F, 0.5D);
++            this.m_9236_().addParticle(ParticleTypes.f_123811_, d8.add(this.f_19796_.m_188583_() * (double)0.3F), d10.add(this.f_19796_.m_188583_() * (double)0.3F), d2.add(this.f_19796_.m_188583_() * (double)0.3F), (double)0.7F, (double)0.7F, 0.5D);
+          }
+       }
+ 
+       if (this.m_31502_() > 0) {
+          for(int i1 = 0; i1 < 3; ++i1) {
+-            this.m_9236_().m_7106_(ParticleTypes.f_123811_, this.m_20185_() + this.f_19796_.m_188583_(), this.m_20186_() + (double)(this.f_19796_.m_188501_() * 3.3F), this.m_20189_() + this.f_19796_.m_188583_(), (double)0.7F, (double)0.7F, (double)0.9F);
++            this.m_9236_().addParticle(ParticleTypes.f_123811_, this.getBigX().add(this.f_19796_.m_188583_()), this.getBigY().add((double)(this.f_19796_.m_188501_() * 3.3F)), this.getBigZ().add(this.f_19796_.m_188583_()), (double)0.7F, (double)0.7F, (double)0.9F);
+          }
+       }
+ 
+@@ -219,7 +_,7 @@
+          int k1 = this.m_31502_() - 1;
+          this.f_31430_.m_142711_(1.0F - (float)k1 / 220.0F);
+          if (k1 <= 0) {
+-            this.m_9236_().m_255391_(this, this.m_20185_(), this.m_20188_(), this.m_20189_(), 7.0F, false, Level.ExplosionInteraction.MOB);
++            this.m_9236_().explode(this, this.getBigX(), this.getEyeBigY(), this.getBigZ(), 7.0F, false, Level.ExplosionInteraction.MOB);
+             if (!this.m_20067_()) {
+                this.m_9236_().m_6798_(1023, this.m_20183_(), 0);
+             }
+@@ -243,10 +_,10 @@
+                   if (j3 > 15) {
+                      float f = 10.0F;
+                      float f1 = 5.0F;
+-                     double d0 = Mth.m_216263_(this.f_19796_, this.m_20185_() - 10.0D, this.m_20185_() + 10.0D);
+-                     double d1 = Mth.m_216263_(this.f_19796_, this.m_20186_() - 5.0D, this.m_20186_() + 5.0D);
+-                     double d2 = Mth.m_216263_(this.f_19796_, this.m_20189_() - 10.0D, this.m_20189_() + 10.0D);
+-                     this.m_31448_(i + 1, d0, d1, d2, true);
++                     me.alphamode.mclong.math.BigDecimal d0 = Mth.nextDouble(this.f_19796_, this.getBigX().subtract(10.0D), this.getBigX().add(10.0D));
++                     me.alphamode.mclong.math.BigDecimal d1 = Mth.nextDouble(this.f_19796_, this.getBigY().subtract(5.0D), this.getBigY().add(5.0D));
++                     me.alphamode.mclong.math.BigDecimal d2 = Mth.nextDouble(this.f_19796_, this.getBigZ().subtract(10.0D), this.getBigZ().add(10.0D));
++                     this.performRangedAttack(i + 1, d0, d1, d2, true);
+                      this.f_31428_[i - 1] = 0;
+                   }
+                }
 @@ -280,17 +_,17 @@
           if (this.f_31429_ > 0) {
              --this.f_31429_;
@@ -53,3 +121,76 @@
                          BlockPos blockpos = new BlockPos(l2, l, i1);
                          BlockState blockstate = this.m_9236_().m_8055_(blockpos);
                          if (m_31491_(blockstate)) {
+@@ -337,27 +_,27 @@
+       this.f_31430_.m_6539_(p_31488_);
+    }
+ 
+-   private double m_31514_(int p_31515_) {
++   private me.alphamode.mclong.math.BigDecimal getHeadX(int p_31515_) {
+       if (p_31515_ <= 0) {
+-         return this.m_20185_();
++         return this.getBigX();
+       } else {
+          float f = (this.f_20883_ + (float)(180 * (p_31515_ - 1))) * ((float)Math.PI / 180F);
+          float f1 = Mth.m_14089_(f);
+-         return this.m_20185_() + (double)f1 * 1.3D;
++         return this.getBigX().add((double)f1 * 1.3D);
+       }
+    }
+ 
+-   private double m_31516_(int p_31517_) {
+-      return p_31517_ <= 0 ? this.m_20186_() + 3.0D : this.m_20186_() + 2.2D;
++   private me.alphamode.mclong.math.BigDecimal getHeadY(int p_31517_) {
++      return p_31517_ <= 0 ? this.getBigY().add(3.0D) : this.getBigY().add(2.2D);
+    }
+ 
+-   private double m_31518_(int p_31519_) {
++   private me.alphamode.mclong.math.BigDecimal getHeadZ(int p_31519_) {
+       if (p_31519_ <= 0) {
+-         return this.m_20189_();
++         return this.getBigZ();
+       } else {
+          float f = (this.f_20883_ + (float)(180 * (p_31519_ - 1))) * ((float)Math.PI / 180F);
+          float f1 = Mth.m_14031_(f);
+-         return this.m_20189_() + (double)f1 * 1.3D;
++         return this.getBigZ().add((double)f1 * 1.3D);
+       }
+    }
+ 
+@@ -375,27 +_,27 @@
+    }
+ 
+    private void m_31457_(int p_31458_, LivingEntity p_31459_) {
+-      this.m_31448_(p_31458_, p_31459_.m_20185_(), p_31459_.m_20186_() + (double)p_31459_.m_20192_() * 0.5D, p_31459_.m_20189_(), p_31458_ == 0 && this.f_19796_.m_188501_() < 0.001F);
++      this.performRangedAttack(p_31458_, p_31459_.getBigX(), p_31459_.getBigY().add((double)p_31459_.m_20192_() * 0.5D), p_31459_.getBigZ(), p_31458_ == 0 && this.f_19796_.m_188501_() < 0.001F);
+    }
+ 
+-   private void m_31448_(int p_31449_, double p_31450_, double p_31451_, double p_31452_, boolean p_31453_) {
++   private void performRangedAttack(int p_31449_, me.alphamode.mclong.math.BigDecimal p_31450_, me.alphamode.mclong.math.BigDecimal p_31451_, me.alphamode.mclong.math.BigDecimal p_31452_, boolean p_31453_) {
+       if (!this.m_20067_()) {
+          this.m_9236_().m_5898_((Player)null, 1024, this.m_20183_(), 0);
+       }
+ 
+-      double d0 = this.m_31514_(p_31449_);
+-      double d1 = this.m_31516_(p_31449_);
+-      double d2 = this.m_31518_(p_31449_);
+-      double d3 = p_31450_ - d0;
+-      double d4 = p_31451_ - d1;
+-      double d5 = p_31452_ - d2;
++      me.alphamode.mclong.math.BigDecimal d0 = this.getHeadX(p_31449_);
++      me.alphamode.mclong.math.BigDecimal d1 = this.getHeadY(p_31449_);
++      me.alphamode.mclong.math.BigDecimal d2 = this.getHeadZ(p_31449_);
++      double d3 = p_31450_.subtract(d0).doubleValue();
++      double d4 = p_31451_.subtract(d1).doubleValue();
++      double d5 = p_31452_.subtract(d2).doubleValue();
+       WitherSkull witherskull = new WitherSkull(this.m_9236_(), this, d3, d4, d5);
+       witherskull.m_5602_(this);
+       if (p_31453_) {
+          witherskull.m_37629_(true);
+       }
+ 
+-      witherskull.m_20343_(d0, d1, d2);
++      witherskull.setPosRaw(d0, d1, d2);
+       this.m_9236_().m_7967_(witherskull);
+    }
+ 

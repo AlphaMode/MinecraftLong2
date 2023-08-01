@@ -30,23 +30,25 @@
              Vec3 vec3 = p_282059_.f_243906_();
              p_282792_.m_280178_(p_281845_.m_280576_(p_282059_.f_243776_()));
 -            p_282775_.m_8767_(new VibrationParticleOption(p_281845_.m_280010_(), p_282792_.m_280274_()), vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, 1, 0.0D, 0.0D, 0.0D, 0.0D);
-+            p_282775_.m_8767_(new VibrationParticleOption(p_281845_.m_280010_(), p_282792_.m_280274_()), vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
++            p_282775_.sendParticles(new VibrationParticleOption(p_281845_.m_280010_(), p_282792_.m_280274_()), vec3.getX(), vec3.getY(), vec3.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
              p_281845_.m_280022_();
              p_282792_.m_280457_().m_246080_();
           });
-@@ -273,9 +_,9 @@
+@@ -273,10 +_,10 @@
                 int i = p_282354_.m_280274_();
                 int j = p_282958_.m_280576_(p_282354_.f_279652_.f_243776_());
                 double d0 = 1.0D - (double)i / (double)j;
 -               double d1 = Mth.m_14139_(d0, vec3.f_82479_, vec31.f_82479_);
 -               double d2 = Mth.m_14139_(d0, vec3.f_82480_, vec31.f_82480_);
 -               double d3 = Mth.m_14139_(d0, vec3.f_82481_, vec31.f_82481_);
-+               double d1 = Mth.m_14139_(d0, vec3.m_7096_(), vec31.m_7096_());
-+               double d2 = Mth.m_14139_(d0, vec3.m_7098_(), vec31.m_7098_());
-+               double d3 = Mth.m_14139_(d0, vec3.m_7094_(), vec31.m_7094_());
-                boolean flag = p_282010_.m_8767_(new VibrationParticleOption(positionsource, i), d1, d2, d3, 1, 0.0D, 0.0D, 0.0D, 0.0D) > 0;
+-               boolean flag = p_282010_.m_8767_(new VibrationParticleOption(positionsource, i), d1, d2, d3, 1, 0.0D, 0.0D, 0.0D, 0.0D) > 0;
++               me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp(d0, vec3.getX(), vec31.getX());
++               me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp(d0, vec3.getY(), vec31.getY());
++               me.alphamode.mclong.math.BigDecimal d3 = Mth.lerp(d0, vec3.getZ(), vec31.getZ());
++               boolean flag = p_282010_.sendParticles(new VibrationParticleOption(positionsource, i), d1, d2, d3, 1, 0.0D, 0.0D, 0.0D, 0.0D) > 0;
                 if (flag) {
                    p_282354_.m_280671_(false);
+                }
 @@ -286,8 +_,8 @@
        }
  

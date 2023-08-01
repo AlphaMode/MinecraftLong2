@@ -23,7 +23,7 @@
           Vec3 vec31 = this.m_29985_(new Vec3((double)this.f_19796_.m_188501_() * 0.6D - 0.3D, -1.0D, (double)this.f_19796_.m_188501_() * 0.6D - 0.3D));
           Vec3 vec32 = vec31.m_82490_(0.3D + (double)(this.f_19796_.m_188501_() * 2.0F));
 -         ((ServerLevel)this.m_9236_()).m_8767_(this.m_142033_(), vec3.f_82479_, vec3.f_82480_ + 0.5D, vec3.f_82481_, 0, vec32.f_82479_, vec32.f_82480_, vec32.f_82481_, (double)0.1F);
-+         ((ServerLevel)this.m_9236_()).m_8767_(this.m_142033_(), vec3.m_7096_(), vec3.m_7098_() + 0.5D, vec3.m_7094_(), 0, vec32.m_7096_(), vec32.m_7098_(), vec32.m_7094_(), (double)0.1F);
++         ((ServerLevel)this.m_9236_()).sendParticles(this.m_142033_(), vec3.getX(), vec3.getY().add(me.alphamode.mclong.core.BigConstants.AABB), vec3.getZ(), 0, vec32.m_7096_(), vec32.m_7098_(), vec32.m_7094_(), (double)0.1F);
        }
  
     }
@@ -38,7 +38,7 @@
              if (fluidstate.m_205070_(FluidTags.f_13131_) || blockstate.m_60795_()) {
                 double d0 = vec3.m_82553_();
                 if (d0 > 0.0D) {
-@@ -254,10 +_,10 @@
+@@ -254,14 +_,14 @@
                 }
  
                 if (blockstate.m_60795_()) {
@@ -51,3 +51,8 @@
              }
  
              if (this.f_29991_ % 10 == 5) {
+-               Squid.this.m_9236_().m_7106_(ParticleTypes.f_123795_, Squid.this.m_20185_(), Squid.this.m_20186_(), Squid.this.m_20189_(), 0.0D, 0.0D, 0.0D);
++               Squid.this.m_9236_().addParticle(ParticleTypes.f_123795_, Squid.this.getBigX(), Squid.this.getBigY(), Squid.this.getBigZ(), 0.0D, 0.0D, 0.0D);
+             }
+ 
+          }

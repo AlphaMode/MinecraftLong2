@@ -1,23 +1,38 @@
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -291,12 +_,12 @@
-          double d1 = this.m_20186_();
-          double d2 = this.m_20189_();
+@@ -287,22 +_,22 @@
+       }
+ 
+       if (!this.m_9236_().f_46443_ && this.f_19789_ > 3.0F && p_20991_ && !p_20992_.m_60795_()) {
+-         double d0 = this.m_20185_();
+-         double d1 = this.m_20186_();
+-         double d2 = this.m_20189_();
++         me.alphamode.mclong.math.BigDecimal d0 = this.getBigX();
++         me.alphamode.mclong.math.BigDecimal d1 = this.getBigY();
++         me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ();
           BlockPos blockpos = this.m_20183_();
 -         if (p_20993_.m_123341_() != blockpos.m_123341_() || p_20993_.m_123343_() != blockpos.m_123343_()) {
 -            double d3 = d0 - (double)p_20993_.m_123341_() - 0.5D;
 -            double d5 = d2 - (double)p_20993_.m_123343_() - 0.5D;
-+         if (p_20993_.getX() != blockpos.getX() || p_20993_.getZ() != blockpos.getZ()) {
-+            double d3 = d0 - (double)p_20993_.getX() - 0.5D;
-+            double d5 = d2 - (double)p_20993_.getZ() - 0.5D;
-             double d6 = Math.max(Math.abs(d3), Math.abs(d5));
+-            double d6 = Math.max(Math.abs(d3), Math.abs(d5));
 -            d0 = (double)p_20993_.m_123341_() + 0.5D + d3 / d6 * 0.5D;
 -            d2 = (double)p_20993_.m_123343_() + 0.5D + d5 / d6 * 0.5D;
-+            d0 = (double)p_20993_.getX() + 0.5D + d3 / d6 * 0.5D;
-+            d2 = (double)p_20993_.getZ() + 0.5D + d5 / d6 * 0.5D;
++         if (p_20993_.getX() != blockpos.getX() || p_20993_.getZ() != blockpos.getZ()) {
++            me.alphamode.mclong.math.BigDecimal d3 = d0.subtract(p_20993_.getBigDecX()).subtract(me.alphamode.mclong.core.BigConstants.AABB);
++            me.alphamode.mclong.math.BigDecimal d5 = d2.subtract(p_20993_.getBigDecZ()).subtract(me.alphamode.mclong.core.BigConstants.AABB);
++            me.alphamode.mclong.math.BigDecimal d6 = d3.abs().max(d5.abs());
++            d0 = p_20993_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB).add(d3.divide(d6, java.math.RoundingMode.HALF_UP).multiply(me.alphamode.mclong.core.BigConstants.AABB));
++            d2 = p_20993_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB).add(d5.divide(d6, java.math.RoundingMode.HALF_UP).multiply(me.alphamode.mclong.core.BigConstants.AABB));
           }
  
           float f = (float)Mth.m_14167_(this.f_19789_ - 3.0F);
+          double d4 = Math.min((double)(0.2F + f / 15.0F), 2.5D);
+          int i = (int)(150.0D * d4);
+-         ((ServerLevel)this.m_9236_()).m_8767_(new BlockParticleOption(ParticleTypes.f_123794_, p_20992_), d0, d1, d2, i, 0.0D, 0.0D, 0.0D, (double)0.15F);
++         ((ServerLevel)this.m_9236_()).sendParticles(new BlockParticleOption(ParticleTypes.f_123794_, p_20992_), d0, d1, d2, i, 0.0D, 0.0D, 0.0D, (double)0.15F);
+       }
+ 
+       super.m_7840_(p_20990_, p_20991_, p_20992_, p_20993_);
 @@ -346,7 +_,7 @@
                 if (d0 < 0.0D) {
                    double d1 = this.m_9236_().m_6857_().m_61965_();
@@ -32,7 +47,7 @@
                       double d3 = this.f_19796_.m_188500_() - this.f_19796_.m_188500_();
                       double d4 = this.f_19796_.m_188500_() - this.f_19796_.m_188500_();
 -                     this.m_9236_().m_7106_(ParticleTypes.f_123795_, this.m_20185_() + d2, this.m_20186_() + d3, this.m_20189_() + d4, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_);
-+                     this.m_9236_().m_7106_(ParticleTypes.f_123795_, this.m_20185_() + d2, this.m_20186_() + d3, this.m_20189_() + d4, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
++                     this.m_9236_().addParticle(ParticleTypes.f_123795_, this.getBigX().add(d2), this.getBigY().add(d3), this.getBigZ().add(d4), vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
                    }
  
                    this.m_6469_(this.m_269291_().m_269063_(), 2.0F);
@@ -47,10 +62,19 @@
     protected void m_21184_() {
        Vec3 vec3 = this.m_20184_();
 -      this.m_9236_().m_7106_(ParticleTypes.f_123746_, this.m_20185_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_(), this.m_20186_() + 0.1D, this.m_20189_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_(), vec3.f_82479_ * -0.2D, 0.1D, vec3.f_82481_ * -0.2D);
-+      this.m_9236_().m_7106_(ParticleTypes.f_123746_, this.m_20185_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_(), this.m_20186_() + 0.1D, this.m_20189_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_(), vec3.m_7096_() * -0.2D, 0.1D, vec3.m_7094_() * -0.2D);
++      this.m_9236_().addParticle(ParticleTypes.f_123746_, this.getBigX().add((this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_()), this.getBigY().add(me.alphamode.mclong.core.BigConstants.POINT_ONE), this.getBigZ().add((this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_()), vec3.m_7096_() * -0.2D, 0.1D, vec3.m_7094_() * -0.2D);
        float f = this.f_19796_.m_188501_() * 0.4F + this.f_19796_.m_188501_() > 0.9F ? 0.6F : 0.0F;
        this.m_5496_(SoundEvents.f_12404_, f, 0.6F + this.f_19796_.m_188501_() * 0.4F);
     }
+@@ -641,7 +_,7 @@
+          Equipable equipable = Equipable.m_269088_(p_238395_);
+          if (equipable != null && !this.m_5833_() && equipable.m_40402_() == p_238393_) {
+             if (!this.m_9236_().m_5776_() && !this.m_20067_()) {
+-               this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), equipable.m_150681_(), this.m_5720_(), 1.0F, 1.0F);
++               this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), equipable.m_150681_(), this.m_5720_(), 1.0F, 1.0F);
+             }
+ 
+             if (this.m_213772_(p_238393_)) {
 @@ -676,9 +_,9 @@
  
        p_21145_.m_128379_("FallFlying", this.m_21255_());
@@ -73,15 +97,33 @@
           this.m_21250_(blockpos);
           this.f_19804_.m_135381_(f_19806_, Pose.SLEEPING);
           if (!this.f_19803_) {
+@@ -787,7 +_,7 @@
+             double d0 = (double)(i >> 16 & 255) / 255.0D;
+             double d1 = (double)(i >> 8 & 255) / 255.0D;
+             double d2 = (double)(i >> 0 & 255) / 255.0D;
+-            this.m_9236_().m_7106_(flag1 ? ParticleTypes.f_123770_ : ParticleTypes.f_123811_, this.m_20208_(0.5D), this.m_20187_(), this.m_20262_(0.5D), d0, d1, d2);
++            this.m_9236_().addParticle(flag1 ? ParticleTypes.f_123770_ : ParticleTypes.f_123811_, this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), d0, d1, d2);
+          }
+       }
+ 
 @@ -1256,7 +_,7 @@
           if (vec32 != null) {
              Vec3 vec3 = this.m_20252_(1.0F);
              Vec3 vec31 = vec32.m_82505_(this.m_20182_()).m_82541_();
 -            vec31 = new Vec3(vec31.f_82479_, 0.0D, vec31.f_82481_);
-+            vec31 = new Vec3(vec31.m_7096_(), 0.0D, vec31.m_7094_());
++            vec31 = new Vec3(vec31.getX(), me.alphamode.mclong.math.BigDecimal.ZERO, vec31.getZ());
              if (vec31.m_82526_(vec3) < 0.0D) {
                 return true;
              }
+@@ -1269,7 +_,7 @@
+    private void m_21278_(ItemStack p_21279_) {
+       if (!p_21279_.m_41619_()) {
+          if (!this.m_20067_()) {
+-            this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12018_, this.m_5720_(), 0.8F, 0.8F + this.m_9236_().f_46441_.m_188501_() * 0.4F, false);
++            this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12018_, this.m_5720_(), 0.8F, 0.8F + this.m_9236_().f_46441_.m_188501_() * 0.4F, false);
+          }
+ 
+          this.m_21060_(p_21279_, 5);
 @@ -1391,7 +_,7 @@
           this.f_19812_ = true;
           Vec3 vec3 = this.m_20184_();
@@ -113,30 +155,41 @@
           BlockState blockstate = this.m_9236_().m_8055_(new BlockPos(i, j, k));
           if (!blockstate.m_60795_()) {
              SoundType soundtype = blockstate.m_60827_();
-@@ -1706,13 +_,13 @@
+@@ -1706,14 +_,14 @@
              int i = 128;
  
              for(int j = 0; j < 128; ++j) {
 -               double d0 = (double)j / 127.0D;
-+               java.math.BigDecimal d0 = java.math.BigDecimal.valueOf(j / 127.0D);
++               me.alphamode.mclong.math.BigDecimal d0 = me.alphamode.mclong.math.BigDecimal.valueOf(j / 127.0D);
                 float f = (this.f_19796_.m_188501_() - 0.5F) * 0.2F;
                 float f1 = (this.f_19796_.m_188501_() - 0.5F) * 0.2F;
                 float f2 = (this.f_19796_.m_188501_() - 0.5F) * 0.2F;
 -               double d1 = Mth.m_14139_(d0, this.f_19854_, this.m_20185_()) + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_() * 2.0D;
 -               double d2 = Mth.m_14139_(d0, this.f_19855_, this.m_20186_()) + this.f_19796_.m_188500_() * (double)this.m_20206_();
 -               double d3 = Mth.m_14139_(d0, this.f_19856_, this.m_20189_()) + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_() * 2.0D;
-+               double d1 = Mth.lerp(d0, this.f_19854_, this.getBigX()).doubleValue() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_() * 2.0D;
-+               double d2 = Mth.lerp(d0, this.f_19855_, this.getBigY()).doubleValue() + this.f_19796_.m_188500_() * (double)this.m_20206_();
-+               double d3 = Mth.lerp(d0, this.f_19856_, this.getBigZ()).doubleValue() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_() * 2.0D;
-                this.m_9236_().m_7106_(ParticleTypes.f_123760_, d1, d2, d3, (double)f, (double)f1, (double)f2);
+-               this.m_9236_().m_7106_(ParticleTypes.f_123760_, d1, d2, d3, (double)f, (double)f1, (double)f2);
++               me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp(d0, this.f_19854_, this.getBigX()).add((this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_() * 2.0D);
++               me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp(d0, this.f_19855_, this.getBigY()).add(this.f_19796_.m_188500_() * (double)this.m_20206_());
++               me.alphamode.mclong.math.BigDecimal d3 = Mth.lerp(d0, this.f_19856_, this.getBigZ()).add((this.f_19796_.m_188500_() - 0.5D) * (double)this.m_20205_() * 2.0D);
++               this.m_9236_().addParticle(ParticleTypes.f_123760_, d1, d2, d3, (double)f, (double)f1, (double)f2);
              }
              break;
+          case 47:
+@@ -1754,7 +_,7 @@
+          double d0 = this.f_19796_.m_188583_() * 0.02D;
+          double d1 = this.f_19796_.m_188583_() * 0.02D;
+          double d2 = this.f_19796_.m_188583_() * 0.02D;
+-         this.m_9236_().m_7106_(ParticleTypes.f_123759_, this.m_20208_(1.0D), this.m_20187_(), this.m_20262_(1.0D), d0, d1, d2);
++         this.m_9236_().addParticle(ParticleTypes.f_123759_, this.getRandomX(1.0D), this.getRandomY(), this.getRandomZ(1.0D), d0, d1, d2);
+       }
+ 
+    }
 @@ -1931,7 +_,7 @@
           vec3 = new Vec3(this.m_20185_(), d0, this.m_20189_());
        }
  
 -      this.m_142098_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_);
-+      this.m_142098_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
++      this.dismountTo(vec3.getX(), vec3.getY(), vec3.getZ());
     }
  
     public boolean m_6052_() {
@@ -333,7 +386,7 @@
  
     public static Vec3 m_21289_(Vec3 p_21290_) {
 -      return new Vec3(p_21290_.f_82479_, p_21290_.f_82480_, 0.0D);
-+      return new Vec3(p_21290_.m_7096_(), p_21290_.m_7098_(), 0.0D);
++      return new Vec3(p_21290_.getX(), p_21290_.getY(), me.alphamode.mclong.math.BigDecimal.ZERO);
     }
  
     public float m_6103_() {
@@ -342,7 +395,7 @@
           vec31 = vec31.m_82524_(-this.m_146908_() * ((float)Math.PI / 180F));
           vec31 = vec31.m_82520_(this.m_20185_(), this.m_20188_(), this.m_20189_());
 -         this.m_9236_().m_7106_(new ItemParticleOption(ParticleTypes.f_123752_, p_21061_), vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, vec3.f_82479_, vec3.f_82480_ + 0.05D, vec3.f_82481_);
-+         this.m_9236_().m_7106_(new ItemParticleOption(ParticleTypes.f_123752_, p_21061_), vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), vec3.m_7096_(), vec3.m_7098_() + 0.05D, vec3.m_7094_());
++         this.m_9236_().addParticle(new ItemParticleOption(ParticleTypes.f_123752_, p_21061_), vec31.getX(), vec31.getY(), vec31.getZ(), vec3.m_7096_(), vec3.m_7098_() + 0.05D, vec3.m_7094_());
        }
  
     }
@@ -380,7 +433,7 @@
 -            this.m_6034_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_);
 +            Vec3 vec32 = Vec3.atBottomCenterOf(p_261435_).m_82546_(vec31).m_82541_();
 +            float f = (float)Mth.m_14175_(Mth.m_14136_(vec32.m_7094_(), vec32.m_7096_()) * (double)(180F / (float)Math.PI) - 90.0D);
-+            this.m_6034_(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_());
++            this.setPos(vec31.getX(), vec31.getY(), vec31.getZ());
              this.m_146922_(f);
              this.m_146926_(0.0F);
           }
@@ -389,7 +442,16 @@
        Vec3 vec3 = this.m_20182_();
        this.m_20124_(Pose.STANDING);
 -      this.m_6034_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_);
-+      this.m_6034_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
++      this.setPos(vec3.getX(), vec3.getY(), vec3.getZ());
        this.m_21258_();
     }
  
+@@ -3196,7 +_,7 @@
+ 
+    public ItemStack m_5584_(Level p_21067_, ItemStack p_21068_) {
+       if (p_21068_.m_41614_()) {
+-         p_21067_.m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), this.m_7866_(p_21068_), SoundSource.NEUTRAL, 1.0F, 1.0F + (p_21067_.f_46441_.m_188501_() - p_21067_.f_46441_.m_188501_()) * 0.4F);
++         p_21067_.playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), this.m_7866_(p_21068_), SoundSource.NEUTRAL, 1.0F, 1.0F + (p_21067_.f_46441_.m_188501_() - p_21067_.f_46441_.m_188501_()) * 0.4F);
+          this.m_21063_(p_21068_, p_21067_, this);
+          if (!(this instanceof Player) || !((Player)this).m_150110_().f_35937_) {
+             p_21068_.m_41774_(1);

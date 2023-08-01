@@ -17,7 +17,7 @@
 +      public RenderChunk(long p_202436_, int p_202437_, int p_202438_, int p_202439_) {
           this.f_173717_ = p_202436_;
 -         this.m_112801_(p_202437_, p_202438_, p_202439_);
-+         this.setOrigin(p_202437_, p_202438_, p_202439_);
++         this.setOrigin(me.alphamode.mclong.math.BigInteger.valueOf(p_202437_), me.alphamode.mclong.math.BigInteger.valueOf(p_202438_), me.alphamode.mclong.math.BigInteger.valueOf(p_202439_));
        }
  
        private boolean m_112822_(BlockPos p_112823_) {
@@ -31,11 +31,12 @@
        }
  
 -      public void m_112801_(int p_112802_, int p_112803_, int p_112804_) {
-+      public void setOrigin(long p_112802_, long p_112803_, long p_112804_) {
++      public void setOrigin(me.alphamode.mclong.math.BigInteger p_112802_, me.alphamode.mclong.math.BigInteger p_112803_, me.alphamode.mclong.math.BigInteger p_112804_) {
           this.m_112846_();
 -         this.f_112793_.m_122178_(p_112802_, p_112803_, p_112804_);
+-         this.f_112785_ = new AABB((double)p_112802_, (double)p_112803_, (double)p_112804_, (double)(p_112802_ + 16), (double)(p_112803_ + 16), (double)(p_112804_ + 16));
 +         this.f_112793_.set(p_112802_, p_112803_, p_112804_);
-          this.f_112785_ = new AABB((double)p_112802_, (double)p_112803_, (double)p_112804_, (double)(p_112802_ + 16), (double)(p_112803_ + 16), (double)(p_112804_ + 16));
++         this.f_112785_ = new AABB(p_112802_.toBigDecimal(), p_112803_.toBigDecimal(), p_112804_.toBigDecimal(), p_112802_.add(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN).toBigDecimal(), p_112803_.add(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN).toBigDecimal(), p_112804_.add(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN).toBigDecimal());
  
           for(Direction direction : Direction.values()) {
 -            this.f_112794_[direction.ordinal()].m_122190_(this.f_112793_).m_122175_(direction, 16);

@@ -14,15 +14,15 @@
        float f = p_220690_.m_188501_();
        if (f < 0.3F) {
 -         p_220688_.m_7106_(ParticleTypes.f_123762_, p_220689_.f_82479_, p_220689_.f_82480_, p_220689_.f_82481_, 0.0D, 0.0D, 0.0D);
-+         p_220688_.m_7106_(ParticleTypes.f_123762_, p_220689_.m_7096_(), p_220689_.m_7098_(), p_220689_.m_7094_(), 0.0D, 0.0D, 0.0D);
++         p_220688_.addParticle(ParticleTypes.f_123762_, p_220689_.getX(), p_220689_.getY(), p_220689_.getZ(), 0.0D, 0.0D, 0.0D);
           if (f < 0.17F) {
 -            p_220688_.m_7785_(p_220689_.f_82479_ + 0.5D, p_220689_.f_82480_ + 0.5D, p_220689_.f_82481_ + 0.5D, SoundEvents.f_144096_, SoundSource.BLOCKS, 1.0F + p_220690_.m_188501_(), p_220690_.m_188501_() * 0.7F + 0.3F, false);
-+            p_220688_.m_7785_(p_220689_.m_7096_() + 0.5D, p_220689_.m_7098_() + 0.5D, p_220689_.m_7094_() + 0.5D, SoundEvents.f_144096_, SoundSource.BLOCKS, 1.0F + p_220690_.m_188501_(), p_220690_.m_188501_() * 0.7F + 0.3F, false);
++            p_220688_.playLocalSound(p_220689_.getX().add(me.alphamode.mclong.core.BigConstants.AABB), p_220689_.getY().add(me.alphamode.mclong.core.BigConstants.AABB), p_220689_.getZ().add(me.alphamode.mclong.core.BigConstants.AABB), SoundEvents.f_144096_, SoundSource.BLOCKS, 1.0F + p_220690_.m_188501_(), p_220690_.m_188501_() * 0.7F + 0.3F, false);
           }
        }
  
 -      p_220688_.m_7106_(ParticleTypes.f_175834_, p_220689_.f_82479_, p_220689_.f_82480_, p_220689_.f_82481_, 0.0D, 0.0D, 0.0D);
-+      p_220688_.m_7106_(ParticleTypes.f_175834_, p_220689_.m_7096_(), p_220689_.m_7098_(), p_220689_.m_7094_(), 0.0D, 0.0D, 0.0D);
++      p_220688_.addParticle(ParticleTypes.f_175834_, p_220689_.getX(), p_220689_.getY(), p_220689_.getZ(), 0.0D, 0.0D, 0.0D);
     }
  
     public static void m_151899_(@Nullable Player p_151900_, BlockState p_151901_, LevelAccessor p_151902_, BlockPos p_151903_) {
@@ -30,7 +30,7 @@
        if (p_151901_.m_60734_() instanceof AbstractCandleBlock) {
           ((AbstractCandleBlock)p_151901_.m_60734_()).m_142199_(p_151901_).forEach((p_151926_) -> {
 -            p_151902_.m_7106_(ParticleTypes.f_123762_, (double)p_151903_.m_123341_() + p_151926_.m_7096_(), (double)p_151903_.m_123342_() + p_151926_.m_7098_(), (double)p_151903_.m_123343_() + p_151926_.m_7094_(), 0.0D, (double)0.1F, 0.0D);
-+            p_151902_.m_7106_(ParticleTypes.f_123762_, (double)p_151903_.getX() + p_151926_.m_7096_(), (double)p_151903_.getY() + p_151926_.m_7098_(), (double)p_151903_.getZ() + p_151926_.m_7094_(), 0.0D, (double)0.1F, 0.0D);
++            p_151902_.addParticle(ParticleTypes.f_123762_, p_151903_.getBigDecX().add(p_151926_.getX()), p_151903_.getBigDecY().add(p_151926_.getY()), p_151903_.getBigDecZ().add(p_151926_.getZ()), 0.0D, (double)0.1F, 0.0D);
           });
        }
  

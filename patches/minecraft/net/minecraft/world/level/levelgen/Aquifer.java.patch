@@ -42,7 +42,7 @@
           return p_188406_ < this.f_188400_ ? this.f_188401_ : Blocks.f_50016_.m_49966_();
        }
     }
-@@ -65,27 +_,27 @@
+@@ -65,7 +_,7 @@
        private static final int f_157992_ = 12;
        private static final int f_157993_ = 16;
        private static final int f_196978_ = 11;
@@ -51,12 +51,11 @@
        private final NoiseChunk f_188407_;
        protected final DensityFunction f_157994_;
        private final DensityFunction f_188408_;
-       private final DensityFunction f_188409_;
+@@ -73,19 +_,19 @@
        protected final DensityFunction f_157996_;
        private final PositionalRandomFactory f_188410_;
--      protected final Aquifer.FluidStatus[] f_157998_;
+       protected final Aquifer.FluidStatus[] f_157998_;
 -      protected final long[] f_157999_;
-+      protected final it.unimi.dsi.fastutil.longs.Long2ObjectMap<Aquifer.FluidStatus> f_157998_;
 +      protected final BlockPos[] f_157999_;
        private final Aquifer.FluidPicker f_188411_;
        private final DensityFunction f_223888_;
@@ -65,13 +64,11 @@
 -      protected final int f_158002_;
 -      protected final int f_158003_;
 -      protected final int f_158004_;
--      protected final int f_158005_;
--      protected final int f_158006_;
 +      protected final long f_158002_;
 +      protected final long f_158003_;
 +      protected final long f_158004_;
-+      protected final long f_158005_;
-+      protected final long f_158006_;
+       protected final int f_158005_;
+       protected final int f_158006_;
        private static final int[][] f_188412_ = new int[][]{{0, 0}, {-2, -1}, {-1, -1}, {0, -1}, {1, -1}, {-3, 0}, {-2, 0}, {-1, 0}, {1, 0}, {-2, 1}, {-1, 1}, {0, 1}, {1, 1}};
  
 -      NoiseBasedAquifer(NoiseChunk p_223891_, ChunkPos p_223892_, NoiseRouter p_223893_, PositionalRandomFactory p_223894_, int p_223895_, int p_223896_, Aquifer.FluidPicker p_223897_) {
@@ -79,7 +76,7 @@
           this.f_188407_ = p_223891_;
           this.f_157994_ = p_223893_.f_209378_();
           this.f_188408_ = p_223893_.f_209379_();
-@@ -94,74 +_,74 @@
+@@ -94,74 +_,78 @@
           this.f_223888_ = p_223893_.f_209387_();
           this.f_223889_ = p_223893_.f_209388_();
           this.f_188410_ = p_223894_;
@@ -87,26 +84,26 @@
 +         this.f_158002_ = this.gridX(p_223892_.getMinBlockX()) - 1;
           this.f_188411_ = p_223897_;
 -         int i = this.m_158039_(p_223892_.m_45608_()) + 1;
-+         long i = this.gridX(p_223892_.getMaxBlockX()) + 1;
-          this.f_158005_ = i - this.f_158002_ + 1;
+-         this.f_158005_ = i - this.f_158002_ + 1;
 -         this.f_158003_ = this.m_158045_(p_223895_) - 1;
 -         int j = this.m_158045_(p_223895_ + p_223896_) + 1;
 -         int k = j - this.f_158003_ + 1;
 -         this.f_158004_ = this.m_158047_(p_223892_.m_45605_()) - 1;
 -         int l = this.m_158047_(p_223892_.m_45609_()) + 1;
+-         this.f_158006_ = l - this.f_158004_ + 1;
++         long i = this.gridX(p_223892_.getMaxBlockX()) + 1;
++         this.f_158005_ = (int) (i - this.f_158002_) + 1;
 +         this.f_158003_ = this.gridY(p_223895_) - 1;
 +         long j = this.gridY(p_223895_ + p_223896_) + 1;
-+         long k = j - this.f_158003_ + 1;
++         int k = (int) (j - this.f_158003_) + 1;
 +         this.f_158004_ = this.gridZ(p_223892_.getMinBlockZ()) - 1;
 +         long l = this.gridZ(p_223892_.getMaxBlockZ()) + 1;
-          this.f_158006_ = l - this.f_158004_ + 1;
--         int i1 = this.f_158005_ * k * this.f_158006_;
--         this.f_157998_ = new Aquifer.FluidStatus[i1];
++         this.f_158006_ = (int) (l - this.f_158004_) + 1;
+          int i1 = this.f_158005_ * k * this.f_158006_;
+          this.f_157998_ = new Aquifer.FluidStatus[i1];
 -         this.f_157999_ = new long[i1];
 -         Arrays.fill(this.f_157999_, Long.MAX_VALUE);
-+         long i1 = this.f_158005_ * k * this.f_158006_;
-+         this.f_157998_ = new it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap<>((int) i1);
-+         this.f_157999_ = new BlockPos[(int) i1];
++         this.f_157999_ = new BlockPos[i1];
 +         Arrays.fill(this.f_157999_, BlockPos.MAX_VALUE);
        }
  
@@ -114,11 +111,12 @@
 -         int i = p_158028_ - this.f_158002_;
 -         int j = p_158029_ - this.f_158003_;
 -         int k = p_158030_ - this.f_158004_;
-+      protected long getIndex(long p_158028_, long p_158029_, long p_158030_) {
+-         return (j * this.f_158006_ + k) * this.f_158005_ + i;
++      protected int getIndex(long p_158028_, long p_158029_, long p_158030_) {
 +         long i = p_158028_ - this.f_158002_;
 +         long j = p_158029_ - this.f_158003_;
 +         long k = p_158030_ - this.f_158004_;
-          return (j * this.f_158006_ + k) * this.f_158005_ + i;
++         return (int) ((j * this.f_158006_ + k) * this.f_158005_ + i);
        }
  
        @Nullable
@@ -172,18 +170,21 @@
 +                        long l3 = l + i3;
 +                        long i4 = i1 + j3;
 +                        long j4 = j1 + k3;
-+                        long k4 = this.getIndex(l3, i4, j4);
-+                        BlockPos i5 = this.f_157999_[(int) k4];
++                        int k4 = this.getIndex(l3, i4, j4);
++                        if (k4 >= 315) {
++                           me.alphamode.mclong.core.BigConstants.LOGGER.error("Band-aid fixing broken aquifer at: " + l3 + " " + i4 + " " + j4);
++                           return Blocks.f_50016_.m_49966_();
++                        }
++                        BlockPos i5 = this.f_157999_[k4];
 +                        BlockPos l4;
 +                        if (i5 != BlockPos.MAX_VALUE) {
                             l4 = i5;
                          } else {
 -                           RandomSource randomsource = this.f_188410_.m_213715_(l3, i4, j4);
 -                           l4 = BlockPos.m_121882_(l3 * 16 + randomsource.m_188503_(10), i4 * 12 + randomsource.m_188503_(9), j4 * 16 + randomsource.m_188503_(10));
--                           this.f_157999_[k4] = l4;
 +                           RandomSource randomsource = this.f_188410_.at(l3, i4, j4);
-+                           l4 = new BlockPos(l3 * 16 + randomsource.m_188503_(10), i4 * 12 + randomsource.m_188503_(9), j4 * 16 + randomsource.m_188503_(10));
-+                           this.f_157999_[(int) k4] = l4;
++                           l4 = new BlockPos(l3 * 16 + randomsource.nextLong(10), i4 * 12 + randomsource.nextLong(9), j4 * 16 + randomsource.nextLong(10));
+                            this.f_157999_[k4] = l4;
                          }
  
 -                        int i6 = BlockPos.m_121983_(l4) - i;
@@ -262,7 +263,7 @@
              if (j == 0) {
                 return 0.0D;
              } else {
-@@ -293,48 +_,48 @@
+@@ -293,48 +_,52 @@
           }
        }
  
@@ -289,7 +290,6 @@
 -         int i1 = this.m_158045_(j);
 -         int j1 = this.m_158047_(k);
 -         int k1 = this.m_158027_(l, i1, j1);
--         Aquifer.FluidStatus aquifer$fluidstatus = this.f_157998_[k1];
 +      private Aquifer.FluidStatus getAquiferStatus(BlockPos p_188446_) {
 +         long i = p_188446_.getX();
 +         long j = p_188446_.getY();
@@ -297,15 +297,18 @@
 +         long l = this.gridX(i);
 +         long i1 = this.gridY(j);
 +         long j1 = this.gridZ(k);
-+         long k1 = this.getIndex(l, i1, j1);
-+         Aquifer.FluidStatus aquifer$fluidstatus = this.f_157998_.get(k1);
++         int k1 = this.getIndex(l, i1, j1);
++         if (k1 >= 315) {
++            me.alphamode.mclong.core.BigConstants.LOGGER.error("Band-aid fixing broken aquifer at: " + i + " " + j + " " + k);
++            return new FluidStatus(0, Blocks.f_50016_.m_49966_());
++         }
+          Aquifer.FluidStatus aquifer$fluidstatus = this.f_157998_[k1];
           if (aquifer$fluidstatus != null) {
              return aquifer$fluidstatus;
           } else {
 -            Aquifer.FluidStatus aquifer$fluidstatus1 = this.m_188447_(i, j, k);
--            this.f_157998_[k1] = aquifer$fluidstatus1;
 +            Aquifer.FluidStatus aquifer$fluidstatus1 = this.computeFluid(i, j, k);
-+            this.f_157998_.put(k1, aquifer$fluidstatus1);
+             this.f_157998_[k1] = aquifer$fluidstatus1;
              return aquifer$fluidstatus1;
           }
        }

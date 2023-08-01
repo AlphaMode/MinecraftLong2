@@ -7,9 +7,9 @@
 -   public double f_19854_;
 -   public double f_19855_;
 -   public double f_19856_;
-+   public java.math.BigDecimal f_19854_;
-+   public java.math.BigDecimal f_19855_;
-+   public java.math.BigDecimal f_19856_;
++   public me.alphamode.mclong.math.BigDecimal f_19854_;
++   public me.alphamode.mclong.math.BigDecimal f_19855_;
++   public me.alphamode.mclong.math.BigDecimal f_19856_;
     private Vec3 f_19825_;
     private BlockPos f_19826_;
     private ChunkPos f_185933_;
@@ -20,9 +20,9 @@
 -   public double f_19790_;
 -   public double f_19791_;
 -   public double f_19792_;
-+   public java.math.BigDecimal f_19790_;
-+   public java.math.BigDecimal f_19791_;
-+   public java.math.BigDecimal f_19792_;
++   public me.alphamode.mclong.math.BigDecimal f_19790_;
++   public me.alphamode.mclong.math.BigDecimal f_19791_;
++   public me.alphamode.mclong.math.BigDecimal f_19792_;
     private float f_19793_;
     public boolean f_19794_;
     protected final RandomSource f_19796_ = RandomSource.m_216327_();
@@ -61,12 +61,12 @@
        this.m_20011_(this.m_142242_());
     }
  
-+   public void setPos(java.math.BigInteger x, java.math.BigInteger y, java.math.BigInteger z) {
-+      this.setPosRaw(new java.math.BigDecimal(x), new java.math.BigDecimal(y), new java.math.BigDecimal(z));
++   public void setPos(me.alphamode.mclong.math.BigInteger x, me.alphamode.mclong.math.BigInteger y, me.alphamode.mclong.math.BigInteger z) {
++      this.setPosRaw(new me.alphamode.mclong.math.BigDecimal(x), new me.alphamode.mclong.math.BigDecimal(y), new me.alphamode.mclong.math.BigDecimal(z));
 +      this.m_20011_(this.m_142242_());
 +   }
 +
-+   public void setPos(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++   public void setPos(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {
 +      this.setPosRaw(x, y, z);
 +      this.m_20011_(this.m_142242_());
 +   }
@@ -100,7 +100,7 @@
           if (!optional.isPresent() && !this.f_286942_) {
              if (p_289680_ != null) {
 -               AABB aabb2 = aabb1.m_82386_(-p_289680_.f_82479_, 0.0D, -p_289680_.f_82481_);
-+               AABB aabb2 = aabb1.move(p_289680_.getX().negate(), java.math.BigDecimal.ZERO, p_289680_.getZ().negate());
++               AABB aabb2 = aabb1.move(p_289680_.getX().negate(), me.alphamode.mclong.math.BigDecimal.ZERO, p_289680_.getZ().negate());
                 optional = this.f_19853_.m_285750_(this, aabb2);
                 this.f_285638_ = optional;
              }
@@ -131,7 +131,7 @@
 -         this.f_19863_ = p_19974_.f_82480_ != vec3.f_82480_;
 -         this.f_201939_ = this.f_19863_ && p_19974_.f_82480_ < 0.0D;
 +         this.f_19863_ = !p_19974_.getY().equals(vec3.getY());
-+         this.f_201939_ = this.f_19863_ && p_19974_.getY().compareTo(java.math.BigDecimal.ZERO) < 0;
++         this.f_201939_ = this.f_19863_ && p_19974_.getY().compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0;
           if (this.f_19862_) {
              this.f_185931_ = this.m_196406_(vec3);
           } else {
@@ -147,7 +147,7 @@
              if (this.f_19862_) {
                 Vec3 vec31 = this.m_20184_();
 -               this.m_20334_(flag4 ? 0.0D : vec31.f_82479_, vec31.f_82480_, flag ? 0.0D : vec31.f_82481_);
-+               this.setDeltaMovement(flag4 ? java.math.BigDecimal.ZERO : vec31.getX(), vec31.getY(), flag ? java.math.BigDecimal.ZERO : vec31.getZ());
++               this.setDeltaMovement(flag4 ? me.alphamode.mclong.math.BigDecimal.ZERO : vec31.getX(), vec31.getY(), flag ? me.alphamode.mclong.math.BigDecimal.ZERO : vec31.getZ());
              }
  
              Block block = blockstate.m_60734_();
@@ -189,9 +189,9 @@
 -         int i = Mth.m_14107_(this.f_19825_.f_82479_);
 -         int j = Mth.m_14107_(this.f_19825_.f_82480_ - (double)p_216987_);
 -         int k = Mth.m_14107_(this.f_19825_.f_82481_);
-+         java.math.BigInteger i = Mth.lfloor(this.f_19825_.getX());
-+         java.math.BigInteger j = Mth.lfloor(this.f_19825_.getY().subtract(java.math.BigDecimal.valueOf(p_216987_)));
-+         java.math.BigInteger k = Mth.lfloor(this.f_19825_.getZ());
++         me.alphamode.mclong.math.BigInteger i = Mth.lfloor(this.f_19825_.getX());
++         me.alphamode.mclong.math.BigInteger j = Mth.lfloor(this.f_19825_.getY().subtract(me.alphamode.mclong.math.BigDecimal.valueOf(p_216987_)));
++         me.alphamode.mclong.math.BigInteger k = Mth.lfloor(this.f_19825_.getZ());
           return new BlockPos(i, j, k);
        }
     }
@@ -201,17 +201,17 @@
  
 -         if (p_20134_.f_82479_ != 0.0D) {
 -            double d2 = this.m_20042_(Direction.Axis.X, p_20134_.f_82479_);
-+         if (!p_20134_.getX().equals(java.math.BigDecimal.ZERO)) {
++         if (!p_20134_.getX().equals(me.alphamode.mclong.math.BigDecimal.ZERO)) {
 +            double d2 = this.m_20042_(Direction.Axis.X, p_20134_.m_7096_());
              return Math.abs(d2) <= (double)1.0E-5F ? Vec3.f_82478_ : new Vec3(d2, 0.0D, 0.0D);
 -         } else if (p_20134_.f_82480_ != 0.0D) {
 -            double d1 = this.m_20042_(Direction.Axis.Y, p_20134_.f_82480_);
-+         } else if (!p_20134_.getY().equals(java.math.BigDecimal.ZERO)) {
++         } else if (!p_20134_.getY().equals(me.alphamode.mclong.math.BigDecimal.ZERO)) {
 +            double d1 = this.m_20042_(Direction.Axis.Y, p_20134_.m_7098_());
              return Math.abs(d1) <= (double)1.0E-5F ? Vec3.f_82478_ : new Vec3(0.0D, d1, 0.0D);
 -         } else if (p_20134_.f_82481_ != 0.0D) {
 -            double d0 = this.m_20042_(Direction.Axis.Z, p_20134_.f_82481_);
-+         } else if (!p_20134_.getZ().equals(java.math.BigDecimal.ZERO)) {
++         } else if (!p_20134_.getZ().equals(me.alphamode.mclong.math.BigDecimal.ZERO)) {
 +            double d0 = this.m_20042_(Direction.Axis.Z, p_20134_.m_7094_());
              return Math.abs(d0) <= (double)1.0E-5F ? Vec3.f_82478_ : new Vec3(0.0D, 0.0D, d0);
           } else {
@@ -233,11 +233,11 @@
 -         Vec3 vec32 = m_198894_(this, new Vec3(0.0D, (double)this.m_274421_(), 0.0D), aabb.m_82363_(p_20273_.f_82479_, 0.0D, p_20273_.f_82481_), this.m_9236_(), list);
 -         if (vec32.f_82480_ < (double)this.m_274421_()) {
 -            Vec3 vec33 = m_198894_(this, new Vec3(p_20273_.f_82479_, 0.0D, p_20273_.f_82481_), aabb.m_82383_(vec32), this.m_9236_(), list).m_82549_(vec32);
-+         var stepUp = java.math.BigDecimal.valueOf(this.m_274421_());
++         var stepUp = me.alphamode.mclong.math.BigDecimal.valueOf(this.m_274421_());
 +         Vec3 vec31 = m_198894_(this, new Vec3(p_20273_.getX(), stepUp, p_20273_.getZ()), aabb, this.m_9236_(), list);
-+         Vec3 vec32 = m_198894_(this, new Vec3(java.math.BigDecimal.ZERO, stepUp, java.math.BigDecimal.ZERO), aabb.expandTowards(p_20273_.getX(), java.math.BigDecimal.ZERO, p_20273_.getZ()), this.m_9236_(), list);
++         Vec3 vec32 = m_198894_(this, new Vec3(me.alphamode.mclong.math.BigDecimal.ZERO, stepUp, me.alphamode.mclong.math.BigDecimal.ZERO), aabb.expandTowards(p_20273_.getX(), me.alphamode.mclong.math.BigDecimal.ZERO, p_20273_.getZ()), this.m_9236_(), list);
 +         if (vec32.m_7098_() < (double)this.m_274421_()) {
-+            Vec3 vec33 = m_198894_(this, new Vec3(p_20273_.getX(), java.math.BigDecimal.ZERO, p_20273_.getZ()), aabb.m_82383_(vec32), this.m_9236_(), list).m_82549_(vec32);
++            Vec3 vec33 = m_198894_(this, new Vec3(p_20273_.getX(), me.alphamode.mclong.math.BigDecimal.ZERO, p_20273_.getZ()), aabb.m_82383_(vec32), this.m_9236_(), list).m_82549_(vec32);
              if (vec33.m_165925_() > vec31.m_165925_()) {
                 vec31 = vec33;
              }
@@ -245,7 +245,7 @@
  
           if (vec31.m_165925_() > vec3.m_165925_()) {
 -            return vec31.m_82549_(m_198894_(this, new Vec3(0.0D, -vec31.f_82480_ + p_20273_.f_82480_, 0.0D), aabb.m_82383_(vec31), this.m_9236_(), list));
-+            return vec31.m_82549_(m_198894_(this, new Vec3(java.math.BigDecimal.ZERO, vec31.getY().negate().add(p_20273_.getY()), java.math.BigDecimal.ZERO), aabb.m_82383_(vec31), this.m_9236_(), list));
++            return vec31.m_82549_(m_198894_(this, new Vec3(me.alphamode.mclong.math.BigDecimal.ZERO, vec31.getY().negate().add(p_20273_.getY()), me.alphamode.mclong.math.BigDecimal.ZERO), aabb.m_82383_(vec31), this.m_9236_(), list));
           }
        }
  
@@ -280,32 +280,32 @@
 -
 -         if (!flag && d2 != 0.0D) {
 -            d2 = Shapes.m_193135_(Direction.Axis.Z, p_198902_, p_198903_, d2);
-+         java.math.BigDecimal d0 = p_198901_.getX();
-+         java.math.BigDecimal d1 = p_198901_.getY();
-+         java.math.BigDecimal d2 = p_198901_.getZ();
-+         if (!d1.equals(java.math.BigDecimal.ZERO)) {
++         me.alphamode.mclong.math.BigDecimal d0 = p_198901_.getX();
++         me.alphamode.mclong.math.BigDecimal d1 = p_198901_.getY();
++         me.alphamode.mclong.math.BigDecimal d2 = p_198901_.getZ();
++         if (!d1.equals(me.alphamode.mclong.math.BigDecimal.ZERO)) {
 +            d1 = Shapes.collide(Direction.Axis.Y, p_198902_, p_198903_, d1);
-+            if (!d1.equals(java.math.BigDecimal.ZERO)) {
-+               p_198902_ = p_198902_.move(java.math.BigDecimal.ZERO, d1, java.math.BigDecimal.ZERO);
++            if (!d1.equals(me.alphamode.mclong.math.BigDecimal.ZERO)) {
++               p_198902_ = p_198902_.move(me.alphamode.mclong.math.BigDecimal.ZERO, d1, me.alphamode.mclong.math.BigDecimal.ZERO);
 +            }
 +         }
 +
 +         boolean flag = d0.abs().compareTo(d2.abs()) < 0;
-+         if (flag && !d2.equals(java.math.BigDecimal.ZERO)) {
++         if (flag && !d2.equals(me.alphamode.mclong.math.BigDecimal.ZERO)) {
 +            d2 = Shapes.collide(Direction.Axis.Z, p_198902_, p_198903_, d2);
-+            if (!d2.equals(java.math.BigDecimal.ZERO)) {
-+               p_198902_ = p_198902_.move(java.math.BigDecimal.ZERO, java.math.BigDecimal.ZERO, d2);
++            if (!d2.equals(me.alphamode.mclong.math.BigDecimal.ZERO)) {
++               p_198902_ = p_198902_.move(me.alphamode.mclong.math.BigDecimal.ZERO, me.alphamode.mclong.math.BigDecimal.ZERO, d2);
 +            }
 +         }
 +
-+         if (!d0.equals(java.math.BigDecimal.ZERO)) {
++         if (!d0.equals(me.alphamode.mclong.math.BigDecimal.ZERO)) {
 +            d0 = Shapes.collide(Direction.Axis.X, p_198902_, p_198903_, d0);
-+            if (!flag && !d0.equals(java.math.BigDecimal.ZERO)) {
-+               p_198902_ = p_198902_.move(d0, java.math.BigDecimal.ZERO, java.math.BigDecimal.ZERO);
++            if (!flag && !d0.equals(me.alphamode.mclong.math.BigDecimal.ZERO)) {
++               p_198902_ = p_198902_.move(d0, me.alphamode.mclong.math.BigDecimal.ZERO, me.alphamode.mclong.math.BigDecimal.ZERO);
 +            }
 +         }
 +
-+         if (!flag && !d2.equals(java.math.BigDecimal.ZERO)) {
++         if (!flag && !d2.equals(me.alphamode.mclong.math.BigDecimal.ZERO)) {
 +            d2 = Shapes.collide(Direction.Axis.Z, p_198902_, p_198903_, d2);
           }
  
@@ -347,6 +347,15 @@
        BlockState blockstate = this.m_9236_().m_8055_(blockpos);
        return !blockstate.m_204336_(BlockTags.f_144271_) && !blockstate.m_204336_(BlockTags.f_276549_) ? p_278049_ : blockpos;
     }
+@@ -1075,7 +_,7 @@
+ 
+    public void m_5496_(SoundEvent p_19938_, float p_19939_, float p_19940_) {
+       if (!this.m_20067_()) {
+-         this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), p_19938_, this.m_5720_(), p_19939_, p_19940_);
++         this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), p_19938_, this.m_5720_(), p_19939_, p_19940_);
+       }
+ 
+    }
 @@ -1151,7 +_,7 @@
  
     private boolean m_20285_() {
@@ -361,7 +370,7 @@
        Entity entity = this.m_20202_();
        if (entity instanceof Boat boat) {
 -         if (!boat.m_5842_() && boat.m_20191_().f_82292_ >= d0 && boat.m_20191_().f_82289_ <= d0) {
-+         if (!boat.m_5842_() && boat.m_20191_().f_82292_.compareTo(java.math.BigDecimal.valueOf(d0)) >= 0 && boat.m_20191_().f_82289_.compareTo(java.math.BigDecimal.valueOf(d0)) <= 0) {
++         if (!boat.m_5842_() && boat.m_20191_().f_82292_.compareTo(me.alphamode.mclong.math.BigDecimal.valueOf(d0)) >= 0 && boat.m_20191_().f_82289_.compareTo(me.alphamode.mclong.math.BigDecimal.valueOf(d0)) <= 0) {
              return;
           }
        }
@@ -392,21 +401,23 @@
           double d0 = (this.f_19796_.m_188500_() * 2.0D - 1.0D) * (double)this.f_19815_.f_20377_;
           double d1 = (this.f_19796_.m_188500_() * 2.0D - 1.0D) * (double)this.f_19815_.f_20377_;
 -         this.m_9236_().m_7106_(ParticleTypes.f_123795_, this.m_20185_() + d0, (double)(f2 + 1.0F), this.m_20189_() + d1, vec3.f_82479_, vec3.f_82480_ - this.f_19796_.m_188500_() * (double)0.2F, vec3.f_82481_);
-+         this.m_9236_().m_7106_(ParticleTypes.f_123795_, this.m_20185_() + d0, (double)(f2 + 1.0F), this.m_20189_() + d1, vec3.m_7096_(), vec3.m_7098_() - this.f_19796_.m_188500_() * (double)0.2F, vec3.m_7094_());
++         this.m_9236_().addParticle(ParticleTypes.f_123795_, this.getBigX().add(d0), me.alphamode.mclong.math.BigDecimal.valueOf(f2 + 1.0F), this.getBigZ().add(d1), vec3.m_7096_(), vec3.m_7098_() - this.f_19796_.m_188500_() * (double)0.2F, vec3.m_7094_());
        }
  
        for(int j = 0; (float)j < 1.0F + this.f_19815_.f_20377_ * 20.0F; ++j) {
           double d2 = (this.f_19796_.m_188500_() * 2.0D - 1.0D) * (double)this.f_19815_.f_20377_;
           double d3 = (this.f_19796_.m_188500_() * 2.0D - 1.0D) * (double)this.f_19815_.f_20377_;
 -         this.m_9236_().m_7106_(ParticleTypes.f_123769_, this.m_20185_() + d2, (double)(f2 + 1.0F), this.m_20189_() + d3, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_);
-+         this.m_9236_().m_7106_(ParticleTypes.f_123769_, this.m_20185_() + d2, (double)(f2 + 1.0F), this.m_20189_() + d3, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
++         this.m_9236_().addParticle(ParticleTypes.f_123769_, this.getBigX().add(d2), me.alphamode.mclong.math.BigDecimal.valueOf(f2 + 1.0F), this.getBigZ().add(d3), vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
        }
  
        this.m_146850_(GameEvent.f_157784_);
-@@ -1284,15 +_,15 @@
+@@ -1282,17 +_,17 @@
+       if (blockstate.m_60799_() != RenderShape.INVISIBLE) {
+          Vec3 vec3 = this.m_20184_();
           BlockPos blockpos1 = this.m_20183_();
-          double d0 = this.m_20185_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.f_19815_.f_20377_;
-          double d1 = this.m_20189_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.f_19815_.f_20377_;
+-         double d0 = this.m_20185_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.f_19815_.f_20377_;
+-         double d1 = this.m_20189_() + (this.f_19796_.m_188500_() - 0.5D) * (double)this.f_19815_.f_20377_;
 -         if (blockpos1.m_123341_() != blockpos.m_123341_()) {
 -            d0 = Mth.m_14008_(d0, (double)blockpos.m_123341_(), (double)blockpos.m_123341_() + 1.0D);
 -         }
@@ -416,15 +427,17 @@
 -         }
 -
 -         this.m_9236_().m_7106_(new BlockParticleOption(ParticleTypes.f_123794_, blockstate), d0, this.m_20186_() + 0.1D, d1, vec3.f_82479_ * -4.0D, 1.5D, vec3.f_82481_ * -4.0D);
++         me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().add((this.f_19796_.m_188500_() - 0.5D) * (double)this.f_19815_.f_20377_);
++         me.alphamode.mclong.math.BigDecimal d1 = this.getBigZ().add((this.f_19796_.m_188500_() - 0.5D) * (double)this.f_19815_.f_20377_);
 +         if (blockpos1.getX() != blockpos.getX()) {
-+            d0 = Mth.m_14008_(d0, (double)blockpos.getX(), (double)blockpos.getX() + 1.0D);
++            d0 = Mth.clamp(d0, blockpos.getBigDecX(), blockpos.getBigDecX().add(me.alphamode.mclong.math.BigDecimal.ONE));
 +         }
 +
 +         if (blockpos1.getZ() != blockpos.getZ()) {
-+            d1 = Mth.m_14008_(d1, (double)blockpos.getZ(), (double)blockpos.getZ() + 1.0D);
++            d1 = Mth.clamp(d1, blockpos.getBigDecZ(), blockpos.getBigDecZ().add(me.alphamode.mclong.math.BigDecimal.ONE));
 +         }
 +
-+         this.m_9236_().m_7106_(new BlockParticleOption(ParticleTypes.f_123794_, blockstate), d0, this.m_20186_() + 0.1D, d1, vec3.m_7096_() * -4.0D, 1.5D, vec3.m_7094_() * -4.0D);
++         this.m_9236_().addParticle(new BlockParticleOption(ParticleTypes.f_123794_, blockstate), d0, this.getBigY().add(me.alphamode.mclong.core.BigConstants.POINT_ONE), d1, vec3.m_7096_() * -4.0D, 1.5D, vec3.m_7094_() * -4.0D);
        }
  
     }
@@ -446,7 +459,7 @@
  
     public void m_19890_(double p_19891_, double p_19892_, double p_19893_, float p_19894_, float p_19895_) {
 -      this.m_20248_(p_19891_, p_19892_, p_19893_);
-+      this.absMoveTo(java.math.BigDecimal.valueOf(p_19891_), java.math.BigDecimal.valueOf(p_19892_), java.math.BigDecimal.valueOf(p_19893_));
++      this.absMoveTo(me.alphamode.mclong.math.BigDecimal.valueOf(p_19891_), me.alphamode.mclong.math.BigDecimal.valueOf(p_19892_), me.alphamode.mclong.math.BigDecimal.valueOf(p_19893_));
        this.m_146922_(p_19894_ % 360.0F);
        this.m_146926_(Mth.m_14036_(p_19895_, -90.0F, 90.0F) % 360.0F);
        this.f_19859_ = this.m_146908_();
@@ -456,7 +469,7 @@
 -   public void m_20248_(double p_20249_, double p_20250_, double p_20251_) {
 -      double d0 = Mth.m_14008_(p_20249_, -3.0E7D, 3.0E7D);
 -      double d1 = Mth.m_14008_(p_20251_, -3.0E7D, 3.0E7D);
-+   public void absMoveTo(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z, float yRot, float xRot) {
++   public void absMoveTo(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z, float yRot, float xRot) {
 +      this.absMoveTo(x, y, z);
 +      this.m_146922_(yRot % 360.0F);
 +      this.m_146926_(Mth.m_14036_(xRot, -90.0F, 90.0F) % 360.0F);
@@ -464,9 +477,9 @@
 +      this.f_19860_ = this.m_146909_();
 +   }
 +
-+   public void absMoveTo(java.math.BigDecimal p_20249_, java.math.BigDecimal p_20250_, java.math.BigDecimal p_20251_) {
-+      java.math.BigDecimal d0 = p_20249_;
-+      java.math.BigDecimal d1 = p_20251_;
++   public void absMoveTo(me.alphamode.mclong.math.BigDecimal p_20249_, me.alphamode.mclong.math.BigDecimal p_20250_, me.alphamode.mclong.math.BigDecimal p_20251_) {
++      me.alphamode.mclong.math.BigDecimal d0 = p_20249_;
++      me.alphamode.mclong.math.BigDecimal d1 = p_20251_;
        this.f_19854_ = d0;
        this.f_19855_ = p_20250_;
        this.f_19856_ = d1;
@@ -483,7 +496,7 @@
        this.m_7678_(p_20105_, p_20106_, p_20107_, this.m_146908_(), this.m_146909_());
     }
  
-+   public void moveTo(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++   public void moveTo(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {
 +      this.moveTo(x, y, z, this.m_146908_(), this.m_146909_());
 +   }
 +
@@ -497,7 +510,7 @@
        this.m_20090_();
     }
  
-+   public void moveTo(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z, float yRot, float xRot) {
++   public void moveTo(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z, float yRot, float xRot) {
 +      this.setPosRaw(x, y, z);
 +      this.m_146922_(yRot);
 +      this.m_146926_(xRot);
@@ -509,12 +522,33 @@
 -      double d0 = this.m_20185_();
 -      double d1 = this.m_20186_();
 -      double d2 = this.m_20189_();
-+      java.math.BigDecimal d0 = this.getBigX();
-+      java.math.BigDecimal d1 = this.getBigY();
-+      java.math.BigDecimal d2 = this.getBigZ();
++      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX();
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigY();
++      me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ();
        this.f_19854_ = d0;
        this.f_19855_ = d1;
        this.f_19856_ = d2;
+@@ -1386,10 +_,17 @@
+       return Mth.m_14116_(f * f + f1 * f1 + f2 * f2);
+    }
+ 
++   public me.alphamode.mclong.math.BigDecimal distanceToSqr(me.alphamode.mclong.math.BigDecimal p_20276_, me.alphamode.mclong.math.BigDecimal p_20277_, me.alphamode.mclong.math.BigDecimal p_20278_) {
++      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().subtract(p_20276_);
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().subtract(p_20277_);
++      me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().subtract(p_20278_);
++      return d0.multiply(d0).add(d1.multiply(d1)).add(d2.multiply(d2));
++   }
++
+    public double m_20275_(double p_20276_, double p_20277_, double p_20278_) {
+-      double d0 = this.m_20185_() - p_20276_;
+-      double d1 = this.m_20186_() - p_20277_;
+-      double d2 = this.m_20189_() - p_20278_;
++      double d0 = this.getBigX().subtract(p_20276_).doubleValue();
++      double d1 = this.getBigY().subtract(p_20277_).doubleValue();
++      double d2 = this.getBigZ().subtract(p_20278_).doubleValue();
+       return d0 * d0 + d1 * d1 + d2 * d2;
+    }
+ 
 @@ -1398,9 +_,9 @@
     }
  
@@ -528,6 +562,17 @@
        return d0 * d0 + d1 * d1 + d2 * d2;
     }
  
+@@ -1410,8 +_,8 @@
+    public void m_7334_(Entity p_20293_) {
+       if (!this.m_20365_(p_20293_)) {
+          if (!p_20293_.f_19794_ && !this.f_19794_) {
+-            double d0 = p_20293_.m_20185_() - this.m_20185_();
+-            double d1 = p_20293_.m_20189_() - this.m_20189_();
++            double d0 = p_20293_.getBigX().subtract(this.getBigX()).doubleValue();
++            double d1 = p_20293_.getBigZ().subtract(this.getBigZ()).doubleValue();
+             double d2 = Mth.m_14005_(d0, d1);
+             if (d2 >= (double)0.01F) {
+                d2 = Math.sqrt(d2);
 @@ -1492,9 +_,10 @@
     }
  
@@ -535,10 +580,10 @@
 -      double d0 = Mth.m_14139_((double)p_20300_, this.f_19854_, this.m_20185_());
 -      double d1 = Mth.m_14139_((double)p_20300_, this.f_19855_, this.m_20186_()) + (double)this.m_20192_();
 -      double d2 = Mth.m_14139_((double)p_20300_, this.f_19856_, this.m_20189_());
-+      var ticks = java.math.BigDecimal.valueOf(p_20300_);
-+      java.math.BigDecimal d0 = Mth.lerp(ticks, this.f_19854_, this.getBigX());
-+      java.math.BigDecimal d1 = Mth.lerp(ticks, this.f_19855_, this.getBigY()).add(java.math.BigDecimal.valueOf(this.m_20192_()));
-+      java.math.BigDecimal d2 = Mth.lerp(ticks, this.f_19856_, this.getBigZ());
++      var ticks = me.alphamode.mclong.math.BigDecimal.valueOf(p_20300_);
++      me.alphamode.mclong.math.BigDecimal d0 = Mth.lerp(ticks, this.f_19854_, this.getBigX());
++      me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp(ticks, this.f_19855_, this.getBigY()).add(me.alphamode.mclong.math.BigDecimal.valueOf(this.m_20192_()));
++      me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp(ticks, this.f_19856_, this.getBigZ());
        return new Vec3(d0, d1, d2);
     }
  
@@ -549,10 +594,10 @@
 -      double d0 = Mth.m_14139_((double)p_20319_, this.f_19854_, this.m_20185_());
 -      double d1 = Mth.m_14139_((double)p_20319_, this.f_19855_, this.m_20186_());
 -      double d2 = Mth.m_14139_((double)p_20319_, this.f_19856_, this.m_20189_());
-+      var ticks = java.math.BigDecimal.valueOf(p_20319_);
-+      java.math.BigDecimal d0 = Mth.lerp(ticks, this.f_19854_, this.getBigX());
-+      java.math.BigDecimal d1 = Mth.lerp(ticks, this.f_19855_, this.getBigY());
-+      java.math.BigDecimal d2 = Mth.lerp(ticks, this.f_19856_, this.getBigZ());
++      var ticks = me.alphamode.mclong.math.BigDecimal.valueOf(p_20319_);
++      me.alphamode.mclong.math.BigDecimal d0 = Mth.lerp(ticks, this.f_19854_, this.getBigX());
++      me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp(ticks, this.f_19855_, this.getBigY());
++      me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp(ticks, this.f_19856_, this.getBigZ());
        return new Vec3(d0, d1, d2);
     }
  
@@ -560,11 +605,26 @@
        Vec3 vec3 = this.m_20299_(p_19909_);
        Vec3 vec31 = this.m_20252_(p_19909_);
 -      Vec3 vec32 = vec3.m_82520_(vec31.f_82479_ * p_19908_, vec31.f_82480_ * p_19908_, vec31.f_82481_ * p_19908_);
-+      var range = java.math.BigDecimal.valueOf(p_19908_);
++      var range = me.alphamode.mclong.math.BigDecimal.valueOf(p_19908_);
 +      Vec3 vec32 = vec3.add(vec31.getX().multiply(range), vec31.getY().multiply(range), vec31.getZ().multiply(range));
        return this.m_9236_().m_45547_(new ClipContext(vec3, vec32, ClipContext.Block.OUTLINE, p_19910_ ? ClipContext.Fluid.ANY : ClipContext.Fluid.NONE, this));
     }
  
+@@ -1535,10 +_,10 @@
+ 
+    }
+ 
+-   public boolean m_6000_(double p_20296_, double p_20297_, double p_20298_) {
+-      double d0 = this.m_20185_() - p_20296_;
+-      double d1 = this.m_20186_() - p_20297_;
+-      double d2 = this.m_20189_() - p_20298_;
++   public boolean shouldRender(me.alphamode.mclong.math.BigDecimal p_20296_, me.alphamode.mclong.math.BigDecimal p_20297_, me.alphamode.mclong.math.BigDecimal p_20298_) {
++      double d0 = this.getBigX().subtract(p_20296_).doubleValue();
++      double d1 = this.getBigY().subtract(p_20297_).doubleValue();
++      double d2 = this.getBigZ().subtract(p_20298_).doubleValue();
+       double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+       return this.m_6783_(d3);
+    }
 @@ -1581,7 +_,7 @@
           }
  
@@ -604,7 +664,7 @@
        if (this.m_20363_(p_19957_)) {
 -         double d0 = this.m_20186_() + this.m_6048_() + p_19957_.m_6049_();
 -         p_19958_.m_20372_(p_19957_, this.m_20185_(), d0, this.m_20189_());
-+         java.math.BigDecimal d0 = this.getBigY().add(java.math.BigDecimal.valueOf(this.m_6048_() + p_19957_.m_6049_()));
++         me.alphamode.mclong.math.BigDecimal d0 = this.getBigY().add(me.alphamode.mclong.math.BigDecimal.valueOf(this.m_6048_() + p_19957_.m_6049_()));
 +         p_19958_.accept(p_19957_, this.getBigX(), d0, this.getBigZ());
        }
     }
@@ -621,7 +681,7 @@
        }
  
 -      this.m_20334_(vec3.f_82479_, d0, vec3.f_82481_);
-+      this.setDeltaMovement(vec3.getX(), java.math.BigDecimal.valueOf(d0), vec3.getZ());
++      this.setDeltaMovement(vec3.getX(), me.alphamode.mclong.math.BigDecimal.valueOf(d0), vec3.getZ());
     }
  
     public void m_20321_(boolean p_20322_) {
@@ -636,7 +696,7 @@
        }
  
 -      this.m_20334_(vec3.f_82479_, d0, vec3.f_82481_);
-+      this.setDeltaMovement(vec3.getX(), java.math.BigDecimal.valueOf(d0), vec3.getZ());
++      this.setDeltaMovement(vec3.getX(), me.alphamode.mclong.math.BigDecimal.valueOf(d0), vec3.getZ());
        this.m_183634_();
     }
  
@@ -647,7 +707,7 @@
 -   protected void m_20314_(double p_20315_, double p_20316_, double p_20317_) {
 -      BlockPos blockpos = BlockPos.m_274561_(p_20315_, p_20316_, p_20317_);
 -      Vec3 vec3 = new Vec3(p_20315_ - (double)blockpos.m_123341_(), p_20316_ - (double)blockpos.m_123342_(), p_20317_ - (double)blockpos.m_123343_());
-+   protected void moveTowardsClosestSpace(java.math.BigDecimal p_20315_, java.math.BigDecimal p_20316_, java.math.BigDecimal p_20317_) {
++   protected void moveTowardsClosestSpace(me.alphamode.mclong.math.BigDecimal p_20315_, me.alphamode.mclong.math.BigDecimal p_20316_, me.alphamode.mclong.math.BigDecimal p_20317_) {
 +      BlockPos blockpos = BlockPos.containing(p_20315_, p_20316_, p_20317_);
 +      Vec3 vec3 = new Vec3(p_20315_.subtract(blockpos.getBigDecX()), p_20316_.subtract(blockpos.getBigDecY()), p_20317_.subtract(blockpos.getBigDecZ()));
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
@@ -693,17 +753,23 @@
        }
     }
  
-@@ -2524,10 +_,10 @@
+@@ -2524,10 +_,16 @@
        p_20051_.m_128165_("Entity Name", () -> {
           return this.m_7755_().getString();
        });
 -      p_20051_.m_128159_("Entity's Exact location", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", this.m_20185_(), this.m_20186_(), this.m_20189_()));
 -      p_20051_.m_128159_("Entity's Block location", CrashReportCategory.m_178942_(this.m_9236_(), Mth.m_14107_(this.m_20185_()), Mth.m_14107_(this.m_20186_()), Mth.m_14107_(this.m_20189_())));
-+      p_20051_.m_128159_("Entity's Exact location", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", this.getBigX(), this.getBigY(), this.getBigZ()));
++      if (me.alphamode.mclong.core.BigConstants.BIG_MODE)
++         p_20051_.m_128159_("Entity's Exact location", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", this.getBigX().getBacking(), this.getBigY().getBacking(), this.getBigZ().getBacking()));
++      else
++         p_20051_.m_128159_("Entity's Exact location", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", this.m_20185_(), this.m_20186_(), this.m_20189_()));
 +      p_20051_.m_128159_("Entity's Block location", CrashReportCategory.formatLocation(this.f_19853_, Mth.lfloor(this.getBigX()), Mth.lfloor(this.getBigY()), Mth.lfloor(this.getBigZ())));
        Vec3 vec3 = this.m_20184_();
 -      p_20051_.m_128159_("Entity's Momentum", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", vec3.f_82479_, vec3.f_82480_, vec3.f_82481_));
-+      p_20051_.m_128159_("Entity's Momentum", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", vec3.getX(), vec3.getY(), vec3.getZ()));
++      if (me.alphamode.mclong.core.BigConstants.BIG_MODE)
++         p_20051_.m_128159_("Entity's Momentum", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", vec3.getX().getBacking(), vec3.getY().getBacking(), vec3.getZ().getBacking()));
++      else
++         p_20051_.m_128159_("Entity's Momentum", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_()));
        p_20051_.m_128165_("Entity's Passengers", () -> {
           return this.m_20197_().toString();
        });
@@ -716,11 +782,13 @@
           this.m_6021_(p_20325_, p_20326_, p_20327_);
        }
     }
-@@ -2628,6 +_,29 @@
+@@ -2628,8 +_,31 @@
        return true;
     }
  
-+   public boolean teleportTo(ServerLevel serverLevel, java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z, Set<RelativeMovement> movements, float yRot, float xRpt) {
+-   public void m_142098_(double p_146825_, double p_146826_, double p_146827_) {
+-      this.m_6021_(p_146825_, p_146826_, p_146827_);
++   public boolean teleportTo(ServerLevel serverLevel, me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z, Set<RelativeMovement> movements, float yRot, float xRpt) {
 +      float f = Mth.m_14036_(xRpt, -90.0F, 90.0F);
 +      if (serverLevel == this.m_9236_()) {
 +         this.moveTo(x, y, z, yRot, f);
@@ -743,14 +811,16 @@
 +      return true;
 +   }
 +
-    public void m_142098_(double p_146825_, double p_146826_, double p_146827_) {
-       this.m_6021_(p_146825_, p_146826_, p_146827_);
++   public void dismountTo(me.alphamode.mclong.math.BigDecimal p_146825_, me.alphamode.mclong.math.BigDecimal p_146826_, me.alphamode.mclong.math.BigDecimal p_146827_) {
++      this.teleportTo(p_146825_, p_146826_, p_146827_);
     }
+ 
+    public void m_6021_(double p_19887_, double p_19888_, double p_19889_) {
 @@ -2639,17 +_,24 @@
        }
     }
  
-+   public void teleportTo(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++   public void teleportTo(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {
 +      if (this.m_9236_() instanceof ServerLevel) {
 +         this.moveTo(x, y, z, this.m_146908_(), this.m_146909_());
 +         this.m_276804_();
@@ -769,7 +839,7 @@
  
 -   public void m_246847_(double p_249341_, double p_252229_, double p_252038_) {
 -      this.m_6021_(this.m_20185_() + p_249341_, this.m_20186_() + p_252229_, this.m_20189_() + p_252038_);
-+   public void teleportRelative(java.math.BigDecimal p_249341_, java.math.BigDecimal p_252229_, java.math.BigDecimal p_252038_) {
++   public void teleportRelative(me.alphamode.mclong.math.BigDecimal p_249341_, me.alphamode.mclong.math.BigDecimal p_252229_, me.alphamode.mclong.math.BigDecimal p_252038_) {
 +      this.teleportTo(this.getBigX().add(p_249341_), this.getBigY().add(p_252229_), this.getBigZ().add(p_252038_));
     }
  
@@ -781,9 +851,9 @@
 -      float f = entitydimensions.f_20377_ / 2.0F;
 -      Vec3 vec3 = new Vec3(this.m_20185_() - (double)f, this.m_20186_(), this.m_20189_() - (double)f);
 -      Vec3 vec31 = new Vec3(this.m_20185_() + (double)f, this.m_20186_() + (double)entitydimensions.f_20378_, this.m_20189_() + (double)f);
-+      java.math.BigDecimal f = java.math.BigDecimal.valueOf(entitydimensions.f_20377_ / 2.0F);
++      me.alphamode.mclong.math.BigDecimal f = me.alphamode.mclong.math.BigDecimal.valueOf(entitydimensions.f_20377_ / 2.0F);
 +      Vec3 vec3 = new Vec3(this.getBigX().subtract(f), this.getBigY(), this.getBigZ().subtract(f));
-+      Vec3 vec31 = new Vec3(this.getBigX().add(f), this.getBigY().add(java.math.BigDecimal.valueOf(entitydimensions.f_20378_)), this.getBigZ().add(f));
++      Vec3 vec31 = new Vec3(this.getBigX().add(f), this.getBigY().add(me.alphamode.mclong.math.BigDecimal.valueOf(entitydimensions.f_20378_)), this.getBigZ().add(f));
        return new AABB(vec3, vec31);
     }
  
@@ -857,7 +927,7 @@
              vec3 = vec3.m_82490_(p_204033_ * 1.0D);
 -            double d2 = 0.003D;
 -            if (Math.abs(vec32.f_82479_) < 0.003D && Math.abs(vec32.f_82481_) < 0.003D && vec3.m_82553_() < 0.0045000000000000005D) {
-+            java.math.BigDecimal d2 = java.math.BigDecimal.valueOf(0.003D);
++            me.alphamode.mclong.math.BigDecimal d2 = me.alphamode.mclong.math.BigDecimal.valueOf(0.003D);
 +            if (vec32.getX().abs().compareTo(d2) < 0 && vec32.getZ().abs().compareTo(d2) < 0 && vec3.m_82553_() < 0.0045000000000000005D) {
                 vec3 = vec3.m_82541_().m_82490_(0.0045000000000000005D);
              }
@@ -879,13 +949,13 @@
     }
  
     public double m_204036_(TagKey<Fluid> p_204037_) {
-@@ -3124,32 +_,48 @@
+@@ -3124,68 +_,127 @@
        this.m_20256_(new Vec3(p_20335_, p_20336_, p_20337_));
     }
  
 -   public final int m_146903_() {
 -      return this.f_19826_.m_123341_();
-+   public void setDeltaMovement(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++   public void setDeltaMovement(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {
 +      this.m_20256_(new Vec3(x, y, z));
 +   }
 +
@@ -898,26 +968,40 @@
 +      return this.f_19825_.m_7096_();
 +   }
 +
-+   public final java.math.BigDecimal getBigX() {
++   public final me.alphamode.mclong.math.BigDecimal getBigX() {
 +      return this.f_19825_.getX();
     }
  
     public double m_20165_(double p_20166_) {
 -      return this.f_19825_.f_82479_ + (double)this.m_20205_() * p_20166_;
-+      return this.f_19825_.m_7096_() + (double)this.m_20205_() * p_20166_;
-    }
- 
-    public double m_20208_(double p_20209_) {
-       return this.m_20165_((2.0D * this.f_19796_.m_188500_() - 1.0D) * p_20209_);
-    }
- 
+-   }
+-
+-   public double m_20208_(double p_20209_) {
+-      return this.m_20165_((2.0D * this.f_19796_.m_188500_() - 1.0D) * p_20209_);
+-   }
+-
 -   public final int m_146904_() {
 -      return this.f_19826_.m_123342_();
++      return this.f_19825_.m_7096_() + (double)this.m_20205_() * p_20166_;
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getBigX(double p_20166_) {
++      return this.f_19825_.getX().add(this.m_20205_()).multiply(p_20166_);
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getBigX(me.alphamode.mclong.math.BigDecimal p_20166_) {
++      return this.f_19825_.getX().add(this.m_20205_()).multiply(p_20166_);
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getRandomX(double p_20209_) {
++      return this.getBigX((me.alphamode.mclong.core.BigConstants.TWO.multiply(this.f_19796_.m_188500_()).subtract(me.alphamode.mclong.math.BigDecimal.ONE)).multiply(p_20209_));
++   }
++
 +   public final long getBlockY() {
 +      return this.f_19826_.getY();
 +   }
 +
-+   public final java.math.BigDecimal getBigDecBlockY() {
++   public final me.alphamode.mclong.math.BigDecimal getBigDecBlockY() {
 +      return this.f_19826_.getBigDecY();
     }
  
@@ -926,8 +1010,16 @@
 +      return this.f_19825_.m_7098_();
 +   }
 +
-+   public final java.math.BigDecimal getBigY() {
++   public final me.alphamode.mclong.math.BigDecimal getBigY() {
 +      return this.f_19825_.getY();
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getY(me.alphamode.mclong.math.BigDecimal p_20228_) {
++      return this.f_19825_.getY().add(me.alphamode.mclong.math.BigDecimal.valueOf(this.m_20206_()).multiply(p_20228_));
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getBigY(double p_20228_) {
++      return this.f_19825_.getY().add((double)this.m_20206_() * p_20228_);
     }
  
     public double m_20227_(double p_20228_) {
@@ -935,37 +1027,52 @@
 +      return this.f_19825_.m_7098_() + (double)this.m_20206_() * p_20228_;
     }
  
-    public double m_20187_() {
-@@ -3157,19 +_,23 @@
+-   public double m_20187_() {
+-      return this.m_20227_(this.f_19796_.m_188500_());
++   public me.alphamode.mclong.math.BigDecimal getRandomY() {
++      return me.alphamode.mclong.math.BigDecimal.valueOf(this.m_20227_(this.f_19796_.m_188500_()));
     }
  
     public double m_20188_() {
 -      return this.f_19825_.f_82480_ + (double)this.f_19816_;
-+      return this.f_19825_.m_7098_() + (double)this.f_19816_;
-    }
- 
+-   }
+-
 -   public final int m_146907_() {
 -      return this.f_19826_.m_123343_();
++      return this.f_19825_.m_7098_() + (double)this.f_19816_;
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getEyeBigY() {
++      return this.f_19825_.getY().add((double)this.f_19816_);
++   }
++
 +   public final long getBlockZ() {
 +      return this.f_19826_.getZ();
     }
  
     public final double m_20189_() {
 -      return this.f_19825_.f_82481_;
+-   }
+-
+-   public double m_20246_(double p_20247_) {
+-      return this.f_19825_.f_82481_ + (double)this.m_20205_() * p_20247_;
+-   }
+-
+-   public double m_20262_(double p_20263_) {
+-      return this.m_20246_((2.0D * this.f_19796_.m_188500_() - 1.0D) * p_20263_);
 +      return this.f_19825_.m_7094_();
 +   }
 +
-+   public final java.math.BigDecimal getBigZ() {
++   public final me.alphamode.mclong.math.BigDecimal getBigZ() {
 +      return this.f_19825_.getZ();
-    }
- 
-    public double m_20246_(double p_20247_) {
--      return this.f_19825_.f_82481_ + (double)this.m_20205_() * p_20247_;
-+      return this.f_19825_.m_7094_() + (double)this.m_20205_() * p_20247_;
-    }
- 
-    public double m_20262_(double p_20263_) {
-@@ -3177,15 +_,34 @@
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getBigZ(double p_20247_) {
++      return this.f_19825_.getZ().add(me.alphamode.mclong.math.BigDecimal.valueOf(this.m_20205_()).multiply(p_20247_));
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getRandomZ(double p_20263_) {
++      return this.getBigZ((2.0D * this.f_19796_.m_188500_() - 1.0D) * p_20263_);
     }
  
     public final void m_20343_(double p_20344_, double p_20345_, double p_20346_) {
@@ -995,16 +1102,16 @@
 +
 +   }
 +
-+   public final void setPosRaw(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++   public final void setPosRaw(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {
 +      if (!this.f_19825_.getX().equals(x) || !this.f_19825_.getY().equals(y) || !this.f_19825_.getZ().equals(z)) {
 +         this.f_19825_ = new Vec3(x, y, z);
-+         java.math.BigInteger i = x.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
-+         java.math.BigInteger j = y.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
-+         java.math.BigInteger k = z.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
++         me.alphamode.mclong.math.BigInteger i = x.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
++         me.alphamode.mclong.math.BigInteger j = y.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
++         me.alphamode.mclong.math.BigInteger k = z.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
 +         if (!i.equals(this.f_19826_.getBigX()) || !j.equals(this.f_19826_.getBigX()) || !k.equals(this.f_19826_.getBigZ())) {
 +            this.f_19826_ = new BlockPos(i, j, k);
 +            this.f_185934_ = null;
-+            if (!SectionPos.blockToSectionCoord(i).equals(java.math.BigInteger.valueOf(this.f_185933_.x())) || !SectionPos.blockToSectionCoord(k).equals(java.math.BigInteger.valueOf(this.f_185933_.z()))) {
++            if (!SectionPos.blockToSectionCoord(i).equals(me.alphamode.mclong.math.BigInteger.valueOf(this.f_185933_.x())) || !SectionPos.blockToSectionCoord(k).equals(me.alphamode.mclong.math.BigInteger.valueOf(this.f_185933_.z()))) {
                 this.f_185933_ = new ChunkPos(this.f_19826_);
              }
           }
@@ -1013,7 +1120,7 @@
     @FunctionalInterface
     public interface MoveFunction {
 -      void m_20372_(Entity p_20373_, double p_20374_, double p_20375_, double p_20376_);
-+      void accept(Entity p_20373_, java.math.BigDecimal p_20374_, java.math.BigDecimal p_20375_, java.math.BigDecimal p_20376_);
++      void accept(Entity p_20373_, me.alphamode.mclong.math.BigDecimal p_20374_, me.alphamode.mclong.math.BigDecimal p_20375_, me.alphamode.mclong.math.BigDecimal p_20376_);
     }
  
     public static enum MovementEmission {

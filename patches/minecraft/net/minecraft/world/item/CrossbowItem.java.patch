@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/item/CrossbowItem.java
 +++ b/net/minecraft/world/item/CrossbowItem.java
+@@ -84,7 +_,7 @@
+       if (f >= 1.0F && !m_40932_(p_40875_) && m_40859_(p_40877_, p_40875_)) {
+          m_40884_(p_40875_, true);
+          SoundSource soundsource = p_40877_ instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE;
+-         p_40876_.m_6263_((Player)null, p_40877_.m_20185_(), p_40877_.m_20186_(), p_40877_.m_20189_(), SoundEvents.f_11841_, soundsource, 1.0F, 1.0F / (p_40876_.m_213780_().m_188501_() * 0.5F + 1.0F) + 0.2F);
++         p_40876_.playSound((Player)null, p_40877_.getBigX(), p_40877_.getBigY(), p_40877_.getBigZ(), SoundEvents.f_11841_, soundsource, 1.0F, 1.0F / (p_40876_.m_213780_().m_188501_() * 0.5F + 1.0F) + 0.2F);
+       }
+ 
+    }
 @@ -209,7 +_,7 @@
              crossbowattackmob.m_5811_(crossbowattackmob.m_5448_(), p_40898_, projectile, p_40904_);
           } else {
@@ -9,3 +18,27 @@
              Vec3 vec3 = p_40896_.m_20252_(1.0F);
              Vector3f vector3f = vec3.m_252839_().rotate(quaternionf);
              projectile.m_6686_((double)vector3f.x(), (double)vector3f.y(), (double)vector3f.z(), p_40902_, p_40903_);
+@@ -219,7 +_,7 @@
+             p_40858_.m_21190_(p_40897_);
+          });
+          p_40895_.m_7967_(projectile);
+-         p_40895_.m_6263_((Player)null, p_40896_.m_20185_(), p_40896_.m_20186_(), p_40896_.m_20189_(), SoundEvents.f_11847_, SoundSource.PLAYERS, 1.0F, p_40900_);
++         p_40895_.playSound((Player)null, p_40896_.getBigX(), p_40896_.getBigY(), p_40896_.getBigZ(), SoundEvents.f_11847_, SoundSource.PLAYERS, 1.0F, p_40900_);
+       }
+    }
+ 
+@@ -296,12 +_,12 @@
+ 
+          if (f >= 0.2F && !this.f_40847_) {
+             this.f_40847_ = true;
+-            p_40910_.m_6263_((Player)null, p_40911_.m_20185_(), p_40911_.m_20186_(), p_40911_.m_20189_(), soundevent, SoundSource.PLAYERS, 0.5F, 1.0F);
++            p_40910_.playSound((Player)null, p_40911_.getBigX(), p_40911_.getBigY(), p_40911_.getBigZ(), soundevent, SoundSource.PLAYERS, 0.5F, 1.0F);
+          }
+ 
+          if (f >= 0.5F && soundevent1 != null && !this.f_40848_) {
+             this.f_40848_ = true;
+-            p_40910_.m_6263_((Player)null, p_40911_.m_20185_(), p_40911_.m_20186_(), p_40911_.m_20189_(), soundevent1, SoundSource.PLAYERS, 0.5F, 1.0F);
++            p_40910_.playSound((Player)null, p_40911_.getBigX(), p_40911_.getBigY(), p_40911_.getBigZ(), soundevent1, SoundSource.PLAYERS, 0.5F, 1.0F);
+          }
+       }
+ 

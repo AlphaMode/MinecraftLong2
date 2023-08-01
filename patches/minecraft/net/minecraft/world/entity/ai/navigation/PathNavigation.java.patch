@@ -44,16 +44,17 @@
           if (!this.m_26571_()) {
              Vec3 vec32 = this.f_26496_.m_77380_(this.f_26494_);
 -            this.f_26494_.m_21566_().m_6849_(vec32.f_82479_, this.m_183345_(vec32), vec32.f_82481_, this.f_26497_);
-+            this.f_26494_.m_21566_().m_6849_(vec32.m_7096_(), this.m_183345_(vec32), vec32.m_7094_(), this.f_26497_);
++            this.f_26494_.m_21566_().setWantedPosition(vec32.getX(), this.getGroundY(vec32), vec32.getZ(), this.f_26497_);
           }
        }
     }
  
-    protected double m_183345_(Vec3 p_186132_) {
+-   protected double m_183345_(Vec3 p_186132_) {
 -      BlockPos blockpos = BlockPos.m_274446_(p_186132_);
 -      return this.f_26495_.m_8055_(blockpos.m_7495_()).m_60795_() ? p_186132_.f_82480_ : WalkNodeEvaluator.m_77611_(this.f_26495_, blockpos);
++   protected me.alphamode.mclong.math.BigDecimal getGroundY(Vec3 p_186132_) {
 +      BlockPos blockpos = BlockPos.containing(p_186132_);
-+      return this.f_26495_.m_8055_(blockpos.below()).m_60795_() ? p_186132_.m_7098_() : WalkNodeEvaluator.m_77611_(this.f_26495_, blockpos);
++      return this.f_26495_.m_8055_(blockpos.below()).m_60795_() ? p_186132_.getY() : me.alphamode.mclong.math.BigDecimal.valueOf(WalkNodeEvaluator.m_77611_(this.f_26495_, blockpos));
     }
  
     protected void m_7636_() {

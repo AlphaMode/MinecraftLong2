@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/resources/sounds/BiomeAmbientSoundsHandler.java
 +++ b/net/minecraft/client/resources/sounds/BiomeAmbientSoundsHandler.java
-@@ -84,9 +_,9 @@
+@@ -84,15 +_,15 @@
           }
  
           if (this.f_119636_ >= 1.0F) {
@@ -13,3 +13,10 @@
              double d3 = d0 - this.f_119629_.m_20185_();
              double d4 = d1 - this.f_119629_.m_20188_();
              double d5 = d2 - this.f_119629_.m_20189_();
+             double d6 = Math.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
+             double d7 = d6 + p_274718_.m_47409_();
+-            SimpleSoundInstance simplesoundinstance = SimpleSoundInstance.m_235127_(p_274718_.m_263199_().m_203334_(), this.f_119632_, this.f_119629_.m_20185_() + d3 / d6 * d7, this.f_119629_.m_20188_() + d4 / d6 * d7, this.f_119629_.m_20189_() + d5 / d6 * d7);
++            SimpleSoundInstance simplesoundinstance = SimpleSoundInstance.forAmbientMood(p_274718_.m_263199_().m_203334_(), this.f_119632_, this.f_119629_.getBigX().add(d3 / d6 * d7), this.f_119629_.getEyeBigY().add(d4 / d6 * d7), this.f_119629_.getBigZ().add(d5 / d6 * d7));
+             this.f_119630_.m_120367_(simplesoundinstance);
+             this.f_119636_ = 0.0F;
+          } else {

@@ -11,16 +11,18 @@
 -            double d0 = (double)p_230568_.m_123341_() + p_230570_.m_188500_();
 -            double d1 = (double)p_230568_.m_123342_() + 1.0D;
 -            double d2 = (double)p_230568_.m_123343_() + p_230570_.m_188500_();
-+            double d0 = (double)p_230568_.getX() + p_230570_.m_188500_();
-+            double d1 = (double)p_230568_.getY() + 1.0D;
-+            double d2 = (double)p_230568_.getZ() + p_230570_.m_188500_();
-             p_230567_.m_7106_(ParticleTypes.f_123756_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-             p_230567_.m_7785_(d0, d1, d2, SoundEvents.f_12032_, SoundSource.BLOCKS, 0.2F + p_230570_.m_188501_() * 0.2F, 0.9F + p_230570_.m_188501_() * 0.15F, false);
+-            p_230567_.m_7106_(ParticleTypes.f_123756_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+-            p_230567_.m_7785_(d0, d1, d2, SoundEvents.f_12032_, SoundSource.BLOCKS, 0.2F + p_230570_.m_188501_() * 0.2F, 0.9F + p_230570_.m_188501_() * 0.15F, false);
++            me.alphamode.mclong.math.BigDecimal d0 = p_230568_.getBigDecX().add(p_230570_.m_188500_());
++            me.alphamode.mclong.math.BigDecimal d1 = p_230568_.getBigDecY().add(me.alphamode.mclong.math.BigDecimal.ONE);
++            me.alphamode.mclong.math.BigDecimal d2 = p_230568_.getBigDecZ().add(p_230570_.m_188500_());
++            p_230567_.addParticle(ParticleTypes.f_123756_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
++            p_230567_.playLocalSound(d0, d1, d2, SoundEvents.f_12032_, SoundSource.BLOCKS, 0.2F + p_230570_.m_188501_() * 0.2F, 0.9F + p_230570_.m_188501_() * 0.15F, false);
           }
  
           if (p_230570_.m_188503_(200) == 0) {
 -            p_230567_.m_7785_((double)p_230568_.m_123341_(), (double)p_230568_.m_123342_(), (double)p_230568_.m_123343_(), SoundEvents.f_12030_, SoundSource.BLOCKS, 0.2F + p_230570_.m_188501_() * 0.2F, 0.9F + p_230570_.m_188501_() * 0.15F, false);
-+            p_230567_.m_7785_((double)p_230568_.getX(), (double)p_230568_.getY(), (double)p_230568_.getZ(), SoundEvents.f_12030_, SoundSource.BLOCKS, 0.2F + p_230570_.m_188501_() * 0.2F, 0.9F + p_230570_.m_188501_() * 0.15F, false);
++            p_230567_.playLocalSound(p_230568_.getBigDecX(), p_230568_.getBigDecY(), p_230568_.getBigDecZ(), SoundEvents.f_12030_, SoundSource.BLOCKS, 0.2F + p_230570_.m_188501_() * 0.2F, 0.9F + p_230570_.m_188501_() * 0.15F, false);
           }
        }
  

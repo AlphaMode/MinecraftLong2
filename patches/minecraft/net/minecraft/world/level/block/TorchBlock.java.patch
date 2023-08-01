@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/TorchBlock.java
 +++ b/net/minecraft/world/level/block/TorchBlock.java
-@@ -33,13 +_,13 @@
+@@ -33,14 +_,14 @@
     }
  
     public boolean m_7898_(BlockState p_57499_, LevelReader p_57500_, BlockPos p_57501_) {
@@ -12,9 +12,12 @@
 -      double d0 = (double)p_222595_.m_123341_() + 0.5D;
 -      double d1 = (double)p_222595_.m_123342_() + 0.7D;
 -      double d2 = (double)p_222595_.m_123343_() + 0.5D;
-+      double d0 = (double)p_222595_.getX() + 0.5D;
-+      double d1 = (double)p_222595_.getY() + 0.7D;
-+      double d2 = (double)p_222595_.getZ() + 0.5D;
-       p_222594_.m_7106_(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-       p_222594_.m_7106_(this.f_57488_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+-      p_222594_.m_7106_(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+-      p_222594_.m_7106_(this.f_57488_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
++      me.alphamode.mclong.math.BigDecimal d0 = p_222595_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB);
++      me.alphamode.mclong.math.BigDecimal d1 = p_222595_.getBigDecY().add(0.7D);
++      me.alphamode.mclong.math.BigDecimal d2 = p_222595_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB);
++      p_222594_.addParticle(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
++      p_222594_.addParticle(this.f_57488_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
     }
+ }

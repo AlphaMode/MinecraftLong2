@@ -1,18 +1,43 @@
 --- a/net/minecraft/world/level/levelgen/carver/CanyonWorldCarver.java
 +++ b/net/minecraft/world/level/levelgen/carver/CanyonWorldCarver.java
-@@ -23,9 +_,9 @@
+@@ -23,20 +_,20 @@
  
     public boolean m_213788_(CarvingContext p_224813_, CanyonCarverConfiguration p_224814_, ChunkAccess p_224815_, Function<BlockPos, Holder<Biome>> p_224816_, RandomSource p_224817_, Aquifer p_224818_, ChunkPos p_224819_, CarvingMask p_224820_) {
        int i = (this.m_65073_() * 2 - 1) * 16;
 -      double d0 = (double)p_224819_.m_151382_(p_224817_.m_188503_(16));
 -      int j = p_224814_.f_159088_.m_213859_(p_224817_, p_224813_);
 -      double d1 = (double)p_224819_.m_151391_(p_224817_.m_188503_(16));
-+      double d0 = (double)p_224819_.getBlockX(p_224817_.m_188503_(16));
++      me.alphamode.mclong.math.BigDecimal d0 = p_224819_.getBlockBigX(p_224817_.m_188503_(16)).toBigDecimal();
 +      long j = p_224814_.f_159088_.sample(p_224817_, p_224813_);
-+      double d1 = (double)p_224819_.getBlockZ(p_224817_.m_188503_(16));
++      me.alphamode.mclong.math.BigDecimal d1 = p_224819_.getBlockBigZ(p_224817_.m_188503_(16)).toBigDecimal();
        float f = p_224817_.m_188501_() * ((float)Math.PI * 2F);
        float f1 = p_224814_.f_158967_.m_214084_(p_224817_);
        double d2 = (double)p_224814_.f_159089_.m_214084_(p_224817_);
+       float f2 = p_224814_.f_158968_.f_158993_.m_214084_(p_224817_);
+       int k = (int)((float)i * p_224814_.f_158968_.f_158992_.m_214084_(p_224817_));
+       int l = 0;
+-      this.m_190593_(p_224813_, p_224814_, p_224815_, p_224816_, p_224817_.m_188505_(), p_224818_, d0, (double)j, d1, f2, f, f1, 0, k, d2, p_224820_);
++      this.doCarve(p_224813_, p_224814_, p_224815_, p_224816_, p_224817_.m_188505_(), p_224818_, d0, (double)j, d1, f2, f, f1, 0, k, d2, p_224820_);
+       return true;
+    }
+ 
+-   private void m_190593_(CarvingContext p_190594_, CanyonCarverConfiguration p_190595_, ChunkAccess p_190596_, Function<BlockPos, Holder<Biome>> p_190597_, long p_190598_, Aquifer p_190599_, double p_190600_, double p_190601_, double p_190602_, float p_190603_, float p_190604_, float p_190605_, int p_190606_, int p_190607_, double p_190608_, CarvingMask p_190609_) {
++   private void doCarve(CarvingContext p_190594_, CanyonCarverConfiguration p_190595_, ChunkAccess p_190596_, Function<BlockPos, Holder<Biome>> p_190597_, long p_190598_, Aquifer p_190599_, me.alphamode.mclong.math.BigDecimal p_190600_, double p_190601_, me.alphamode.mclong.math.BigDecimal p_190602_, float p_190603_, float p_190604_, float p_190605_, int p_190606_, int p_190607_, double p_190608_, CarvingMask p_190609_) {
+       RandomSource randomsource = RandomSource.m_216335_(p_190598_);
+       float[] afloat = this.m_224808_(p_190594_, p_190595_, randomsource);
+       float f = 0.0F;
+@@ -49,9 +_,9 @@
+          d1 = this.m_224799_(p_190595_, randomsource, d1, (float)p_190607_, (float)i);
+          float f2 = Mth.m_14089_(p_190605_);
+          float f3 = Mth.m_14031_(p_190605_);
+-         p_190600_ += (double)(Mth.m_14089_(p_190604_) * f2);
++         p_190600_ = p_190600_.add(me.alphamode.mclong.math.BigDecimal.valueOf(Mth.m_14089_(p_190604_) * f2));
+          p_190601_ += (double)f3;
+-         p_190602_ += (double)(Mth.m_14031_(p_190604_) * f2);
++         p_190602_ = p_190602_.add(me.alphamode.mclong.math.BigDecimal.valueOf(Mth.m_14031_(p_190604_) * f2));
+          p_190605_ *= 0.7F;
+          p_190605_ += f1 * 0.05F;
+          p_190604_ += f * 0.05F;
 @@ -60,12 +_,12 @@
           f1 += (randomsource.m_188501_() - randomsource.m_188501_()) * randomsource.m_188501_() * 2.0F;
           f += (randomsource.m_188501_() - randomsource.m_188501_()) * randomsource.m_188501_() * 4.0F;
@@ -22,8 +47,9 @@
                 return;
              }
  
-             this.m_190753_(p_190594_, p_190595_, p_190596_, p_190597_, p_190599_, p_190600_, p_190601_, p_190602_, d0, d1, p_190609_, (p_159082_, p_159083_, p_159084_, p_159085_, p_159086_) -> {
+-            this.m_190753_(p_190594_, p_190595_, p_190596_, p_190597_, p_190599_, p_190600_, p_190601_, p_190602_, d0, d1, p_190609_, (p_159082_, p_159083_, p_159084_, p_159085_, p_159086_) -> {
 -               return this.m_159073_(p_159082_, afloat, p_159083_, p_159084_, p_159085_, p_159086_);
++            this.carveEllipsoid(p_190594_, p_190595_, p_190596_, p_190597_, p_190599_, p_190600_, p_190601_, p_190602_, d0, d1, p_190609_, (p_159082_, p_159083_, p_159084_, p_159085_, p_159086_) -> {
 +               return this.shouldSkip(p_159082_, afloat, p_159083_, p_159084_, p_159085_, p_159086_);
              });
           }
@@ -46,8 +72,8 @@
 -   private boolean m_159073_(CarvingContext p_159074_, float[] p_159075_, double p_159076_, double p_159077_, double p_159078_, int p_159079_) {
 -      int i = p_159079_ - p_159074_.m_142201_();
 -      return (p_159076_ * p_159076_ + p_159078_ * p_159078_) * (double)p_159075_[i - 1] + p_159077_ * p_159077_ / 6.0D >= 1.0D;
-+   private boolean shouldSkip(CarvingContext p_159074_, float[] p_159075_, double p_159076_, double p_159077_, double p_159078_, long p_159079_) {
++   private boolean shouldSkip(CarvingContext p_159074_, float[] p_159075_, me.alphamode.mclong.math.BigDecimal p_159076_, double p_159077_, me.alphamode.mclong.math.BigDecimal p_159078_, long p_159079_) {
 +      long i = p_159079_ - p_159074_.getMinGenY();
-+      return (p_159076_ * p_159076_ + p_159078_ * p_159078_) * (double)p_159075_[(int) (i - 1)] + p_159077_ * p_159077_ / 6.0D >= 1.0D;
++      return (p_159076_.multiply(p_159076_).add(p_159078_.multiply(p_159078_))).multiply(me.alphamode.mclong.math.BigDecimal.valueOf((double)p_159075_[(int) (i - 1)] + p_159077_ * p_159077_ / 6.0D)).compareTo(me.alphamode.mclong.math.BigDecimal.ONE) >= 0;
     }
  }

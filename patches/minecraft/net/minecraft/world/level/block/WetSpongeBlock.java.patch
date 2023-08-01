@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/WetSpongeBlock.java
 +++ b/net/minecraft/world/level/block/WetSpongeBlock.java
-@@ -28,12 +_,12 @@
+@@ -28,36 +_,36 @@
     public void m_214162_(BlockState p_222682_, Level p_222683_, BlockPos p_222684_, RandomSource p_222685_) {
        Direction direction = Direction.m_235672_(p_222685_);
        if (direction != Direction.UP) {
@@ -11,9 +11,44 @@
 -            double d0 = (double)p_222684_.m_123341_();
 -            double d1 = (double)p_222684_.m_123342_();
 -            double d2 = (double)p_222684_.m_123343_();
-+            double d0 = (double)p_222684_.getX();
-+            double d1 = (double)p_222684_.getY();
-+            double d2 = (double)p_222684_.getZ();
++            me.alphamode.mclong.math.BigDecimal d0 = p_222684_.getBigDecX();
++            me.alphamode.mclong.math.BigDecimal d1 = p_222684_.getBigDecY();
++            me.alphamode.mclong.math.BigDecimal d2 = p_222684_.getBigDecZ();
              if (direction == Direction.DOWN) {
-                d1 -= 0.05D;
-                d0 += p_222685_.m_188500_();
+-               d1 -= 0.05D;
+-               d0 += p_222685_.m_188500_();
+-               d2 += p_222685_.m_188500_();
++               d1 = d1.subtract(0.05D);
++               d0 = d0.add(p_222685_.m_188500_());
++               d2 = d2.add(p_222685_.m_188500_());
+             } else {
+-               d1 += p_222685_.m_188500_() * 0.8D;
++               d1 = d1.add(p_222685_.m_188500_() * 0.8D);
+                if (direction.m_122434_() == Direction.Axis.X) {
+-                  d2 += p_222685_.m_188500_();
++                  d2 = d2.add(p_222685_.m_188500_());
+                   if (direction == Direction.EAST) {
+-                     ++d0;
++                     d0 = d0.add(me.alphamode.mclong.math.BigDecimal.ONE);
+                   } else {
+-                     d0 += 0.05D;
++                     d0 = d0.add(0.05D);
+                   }
+                } else {
+-                  d0 += p_222685_.m_188500_();
++                  d0 = d0.add(p_222685_.m_188500_());
+                   if (direction == Direction.SOUTH) {
+-                     ++d2;
++                     d2 = d2.add(me.alphamode.mclong.math.BigDecimal.ONE);
+                   } else {
+-                     d2 += 0.05D;
++                     d2 = d2.add(0.05D);
+                   }
+                }
+             }
+ 
+-            p_222683_.m_7106_(ParticleTypes.f_123803_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
++            p_222683_.addParticle(ParticleTypes.f_123803_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+          }
+       }
+    }

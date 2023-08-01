@@ -9,16 +9,24 @@
        BlockState blockstate = p_58134_.m_8055_(blockpos);
        return blockstate.m_60783_(p_58134_, blockpos, direction);
     }
-@@ -76,9 +_,9 @@
+@@ -76,14 +_,14 @@
  
     public void m_214162_(BlockState p_222660_, Level p_222661_, BlockPos p_222662_, RandomSource p_222663_) {
        Direction direction = p_222660_.m_61143_(f_58119_);
 -      double d0 = (double)p_222662_.m_123341_() + 0.5D;
 -      double d1 = (double)p_222662_.m_123342_() + 0.7D;
 -      double d2 = (double)p_222662_.m_123343_() + 0.5D;
-+      double d0 = (double)p_222662_.getX() + 0.5D;
-+      double d1 = (double)p_222662_.getY() + 0.7D;
-+      double d2 = (double)p_222662_.getZ() + 0.5D;
-       double d3 = 0.22D;
+-      double d3 = 0.22D;
++      me.alphamode.mclong.math.BigDecimal d0 = p_222662_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB);
++      me.alphamode.mclong.math.BigDecimal d1 = p_222662_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.BOAT);
++      me.alphamode.mclong.math.BigDecimal d2 = p_222662_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB);
++      me.alphamode.mclong.math.BigDecimal d3 = me.alphamode.mclong.math.BigDecimal.valueOf(0.22D);
        double d4 = 0.27D;
        Direction direction1 = direction.m_122424_();
+-      p_222661_.m_7106_(ParticleTypes.f_123762_, d0 + 0.27D * (double)direction1.m_122429_(), d1 + 0.22D, d2 + 0.27D * (double)direction1.m_122431_(), 0.0D, 0.0D, 0.0D);
+-      p_222661_.m_7106_(this.f_57488_, d0 + 0.27D * (double)direction1.m_122429_(), d1 + 0.22D, d2 + 0.27D * (double)direction1.m_122431_(), 0.0D, 0.0D, 0.0D);
++      p_222661_.addParticle(ParticleTypes.f_123762_, d0.add(0.27D * direction1.m_122429_()), d1.add(d3), d2.add(0.27D * (double)direction1.m_122431_()), 0.0D, 0.0D, 0.0D);
++      p_222661_.addParticle(this.f_57488_, d0.add(0.27D * (double)direction1.m_122429_()), d1.add(d3), d2.add(0.27D * (double)direction1.m_122431_()), 0.0D, 0.0D, 0.0D);
+    }
+ 
+    public BlockState m_6843_(BlockState p_58140_, Rotation p_58141_) {

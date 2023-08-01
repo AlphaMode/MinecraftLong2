@@ -14,18 +14,18 @@
 -      int k = SectionPos.m_123171_(p_200468_.m_123341_() + p_200469_);
 -      int l = SectionPos.m_123171_(p_200468_.m_123343_() + p_200469_);
 -      RenderRegionCache.ChunkInfo[][] arenderregioncache$chunkinfo = new RenderRegionCache.ChunkInfo[k - i + 1][l - j + 1];
-+      java.math.BigInteger i = SectionPos.blockToSectionCoord(p_200467_.getBigX().subtract(java.math.BigInteger.valueOf(p_200469_)));
-+      java.math.BigInteger j = SectionPos.blockToSectionCoord(p_200467_.getBigZ().subtract(java.math.BigInteger.valueOf(p_200469_)));
-+      java.math.BigInteger k = SectionPos.blockToSectionCoord(p_200468_.getBigX().add(java.math.BigInteger.valueOf(p_200469_)));
-+      java.math.BigInteger l = SectionPos.blockToSectionCoord(p_200468_.getBigZ().add(java.math.BigInteger.valueOf(p_200469_)));
-+      RenderRegionCache.ChunkInfo[][] arenderregioncache$chunkinfo = new RenderRegionCache.ChunkInfo[k.subtract(i).add(java.math.BigInteger.ONE).intValue()][l.subtract(j).add(java.math.BigInteger.ONE).intValue()];
++      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(p_200467_.getBigX().subtract(me.alphamode.mclong.math.BigInteger.valueOf(p_200469_)));
++      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(p_200467_.getBigZ().subtract(me.alphamode.mclong.math.BigInteger.valueOf(p_200469_)));
++      me.alphamode.mclong.math.BigInteger k = SectionPos.blockToSectionCoord(p_200468_.getBigX().add(me.alphamode.mclong.math.BigInteger.valueOf(p_200469_)));
++      me.alphamode.mclong.math.BigInteger l = SectionPos.blockToSectionCoord(p_200468_.getBigZ().add(me.alphamode.mclong.math.BigInteger.valueOf(p_200469_)));
++      RenderRegionCache.ChunkInfo[][] arenderregioncache$chunkinfo = new RenderRegionCache.ChunkInfo[k.subtract(i).add(me.alphamode.mclong.math.BigInteger.ONE).intValue()][l.subtract(j).add(me.alphamode.mclong.math.BigInteger.ONE).intValue()];
  
 -      for(int i1 = i; i1 <= k; ++i1) {
 -         for(int j1 = j; j1 <= l; ++j1) {
 -            arenderregioncache$chunkinfo[i1 - i][j1 - j] = this.f_200460_.computeIfAbsent(ChunkPos.m_45589_(i1, j1), (p_200464_) -> {
 -               return new RenderRegionCache.ChunkInfo(p_200466_.m_6325_(ChunkPos.m_45592_(p_200464_), ChunkPos.m_45602_(p_200464_)));
-+      for(java.math.BigInteger i1 = i; i1.compareTo(k) <= 0; i1 = i1.add(java.math.BigInteger.ONE)) {
-+         for(java.math.BigInteger j1 = j; j1.compareTo(l) <= 0; j1 = j1.add(java.math.BigInteger.ONE)) {
++      for(me.alphamode.mclong.math.BigInteger i1 = i; i1.compareTo(k) <= 0; i1 = i1.add(me.alphamode.mclong.math.BigInteger.ONE)) {
++         for(me.alphamode.mclong.math.BigInteger j1 = j; j1.compareTo(l) <= 0; j1 = j1.add(me.alphamode.mclong.math.BigInteger.ONE)) {
 +            arenderregioncache$chunkinfo[i1.subtract(i).intValue()][j1.subtract(j).intValue()] = this.f_200460_.computeIfAbsent(new ChunkPos(i1.longValue(), j1.longValue()), (ChunkPos p_200464_) -> {
 +               return new RenderRegionCache.ChunkInfo(p_200466_.getChunk(p_200464_.x(), p_200464_.z()));
              });
@@ -37,13 +37,13 @@
           return null;
        } else {
 -         RenderChunk[][] arenderchunk = new RenderChunk[k - i + 1][l - j + 1];
-+         RenderChunk[][] arenderchunk = new RenderChunk[k.subtract(i).add(java.math.BigInteger.ONE).intValue()][l.subtract(j).add(java.math.BigInteger.ONE).intValue()];
++         RenderChunk[][] arenderchunk = new RenderChunk[k.subtract(i).add(me.alphamode.mclong.math.BigInteger.ONE).intValue()][l.subtract(j).add(me.alphamode.mclong.math.BigInteger.ONE).intValue()];
  
 -         for(int l1 = i; l1 <= k; ++l1) {
 -            for(int k1 = j; k1 <= l; ++k1) {
 -               arenderchunk[l1 - i][k1 - j] = arenderregioncache$chunkinfo[l1 - i][k1 - j].m_200481_();
-+         for(java.math.BigInteger l1 = i; l1.compareTo(k) <= 0; l1 = l1.add(java.math.BigInteger.ONE)) {
-+            for(java.math.BigInteger k1 = j; k1.compareTo(l) <= 0; k1 = k1.add(java.math.BigInteger.ONE)) {
++         for(me.alphamode.mclong.math.BigInteger l1 = i; l1.compareTo(k) <= 0; l1 = l1.add(me.alphamode.mclong.math.BigInteger.ONE)) {
++            for(me.alphamode.mclong.math.BigInteger k1 = j; k1.compareTo(l) <= 0; k1 = k1.add(me.alphamode.mclong.math.BigInteger.ONE)) {
 +               arenderchunk[l1.subtract(i).intValue()][k1.subtract(j).intValue()] = arenderregioncache$chunkinfo[l1.subtract(i).intValue()][k1.subtract(j).intValue()].m_200481_();
              }
           }
@@ -57,18 +57,18 @@
 -      int j = SectionPos.m_123171_(p_200471_.m_123343_());
 -      int k = SectionPos.m_123171_(p_200472_.m_123341_());
 -      int l = SectionPos.m_123171_(p_200472_.m_123343_());
-+   private static boolean isAllEmpty(BlockPos p_200471_, BlockPos p_200472_, java.math.BigInteger p_200473_, java.math.BigInteger p_200474_, RenderRegionCache.ChunkInfo[][] p_200475_) {
-+      java.math.BigInteger i = SectionPos.blockToSectionCoord(p_200471_.getBigX());
-+      java.math.BigInteger j = SectionPos.blockToSectionCoord(p_200471_.getBigZ());
-+      java.math.BigInteger k = SectionPos.blockToSectionCoord(p_200472_.getBigX());
-+      java.math.BigInteger l = SectionPos.blockToSectionCoord(p_200472_.getBigZ());
++   private static boolean isAllEmpty(BlockPos p_200471_, BlockPos p_200472_, me.alphamode.mclong.math.BigInteger p_200473_, me.alphamode.mclong.math.BigInteger p_200474_, RenderRegionCache.ChunkInfo[][] p_200475_) {
++      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(p_200471_.getBigX());
++      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(p_200471_.getBigZ());
++      me.alphamode.mclong.math.BigInteger k = SectionPos.blockToSectionCoord(p_200472_.getBigX());
++      me.alphamode.mclong.math.BigInteger l = SectionPos.blockToSectionCoord(p_200472_.getBigZ());
  
 -      for(int i1 = i; i1 <= k; ++i1) {
 -         for(int j1 = j; j1 <= l; ++j1) {
 -            LevelChunk levelchunk = p_200475_[i1 - p_200473_][j1 - p_200474_].m_200480_();
 -            if (!levelchunk.m_5566_(p_200471_.m_123342_(), p_200472_.m_123342_())) {
-+      for(java.math.BigInteger x = i; x.compareTo(k) <= 0; x = x.add(java.math.BigInteger.ONE)) {
-+         for(java.math.BigInteger z = j; z.compareTo(l) <= 0; z = z.add(java.math.BigInteger.ONE)) {
++      for(me.alphamode.mclong.math.BigInteger x = i; x.compareTo(k) <= 0; x = x.add(me.alphamode.mclong.math.BigInteger.ONE)) {
++         for(me.alphamode.mclong.math.BigInteger z = j; z.compareTo(l) <= 0; z = z.add(me.alphamode.mclong.math.BigInteger.ONE)) {
 +            LevelChunk levelchunk = p_200475_[x.subtract(p_200473_).intValue()][z.subtract(p_200474_).intValue()].m_200480_();
 +            if (!levelchunk.isYSpaceEmpty(p_200471_.getY(), p_200472_.getY())) {
                 return false;

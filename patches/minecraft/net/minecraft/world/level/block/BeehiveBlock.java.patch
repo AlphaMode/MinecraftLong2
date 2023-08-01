@@ -1,5 +1,23 @@
 --- a/net/minecraft/world/level/block/BeehiveBlock.java
 +++ b/net/minecraft/world/level/block/BeehiveBlock.java
+@@ -111,7 +_,7 @@
+       if (i >= 5) {
+          Item item = itemstack.m_41720_();
+          if (itemstack.m_150930_(Items.f_42574_)) {
+-            p_49625_.m_6263_(p_49627_, p_49627_.m_20185_(), p_49627_.m_20186_(), p_49627_.m_20189_(), SoundEvents.f_11697_, SoundSource.BLOCKS, 1.0F, 1.0F);
++            p_49625_.playSound(p_49627_, p_49627_.getBigX(), p_49627_.getBigY(), p_49627_.getBigZ(), SoundEvents.f_11697_, SoundSource.BLOCKS, 1.0F, 1.0F);
+             m_49600_(p_49625_, p_49626_);
+             itemstack.m_41622_(1, p_49627_, (p_49571_) -> {
+                p_49571_.m_21190_(p_49628_);
+@@ -120,7 +_,7 @@
+             p_49625_.m_142346_(p_49627_, GameEvent.f_157781_, p_49626_);
+          } else if (itemstack.m_150930_(Items.f_42590_)) {
+             itemstack.m_41774_(1);
+-            p_49625_.m_6263_(p_49627_, p_49627_.m_20185_(), p_49627_.m_20186_(), p_49627_.m_20189_(), SoundEvents.f_11770_, SoundSource.BLOCKS, 1.0F, 1.0F);
++            p_49625_.playSound(p_49627_, p_49627_.getBigX(), p_49627_.getBigY(), p_49627_.getBigZ(), SoundEvents.f_11770_, SoundSource.BLOCKS, 1.0F, 1.0F);
+             if (itemstack.m_41619_()) {
+                p_49627_.m_21008_(p_49628_, new ItemStack(Items.f_42787_));
+             } else if (!p_49627_.m_150109_().m_36054_(new ItemStack(Items.f_42787_))) {
 @@ -191,14 +_,14 @@
           if (d0 >= 1.0D && !p_49606_.m_204336_(BlockTags.f_13049_)) {
              double d1 = voxelshape.m_83288_(Direction.Axis.Y);
@@ -18,15 +36,21 @@
                 }
              }
           }
-@@ -207,7 +_,7 @@
+@@ -207,11 +_,11 @@
     }
  
     private void m_49612_(Level p_49613_, BlockPos p_49614_, VoxelShape p_49615_, double p_49616_) {
 -      this.m_49576_(p_49613_, (double)p_49614_.m_123341_() + p_49615_.m_83288_(Direction.Axis.X), (double)p_49614_.m_123341_() + p_49615_.m_83297_(Direction.Axis.X), (double)p_49614_.m_123343_() + p_49615_.m_83288_(Direction.Axis.Z), (double)p_49614_.m_123343_() + p_49615_.m_83297_(Direction.Axis.Z), p_49616_);
-+      this.m_49576_(p_49613_, (double)p_49614_.getX() + p_49615_.m_83288_(Direction.Axis.X), (double)p_49614_.getX() + p_49615_.m_83297_(Direction.Axis.X), (double)p_49614_.getZ() + p_49615_.m_83288_(Direction.Axis.Z), (double)p_49614_.getZ() + p_49615_.m_83297_(Direction.Axis.Z), p_49616_);
++      this.spawnFluidParticle(p_49613_, p_49614_.getBigDecX().add(p_49615_.minB(Direction.Axis.X)), p_49614_.getBigDecX().add(p_49615_.maxB(Direction.Axis.X)), p_49614_.getBigDecZ().add(p_49615_.minB(Direction.Axis.Z)), p_49614_.getBigDecZ().add(p_49615_.maxB(Direction.Axis.Z)), p_49616_);
     }
  
-    private void m_49576_(Level p_49577_, double p_49578_, double p_49579_, double p_49580_, double p_49581_, double p_49582_) {
+-   private void m_49576_(Level p_49577_, double p_49578_, double p_49579_, double p_49580_, double p_49581_, double p_49582_) {
+-      p_49577_.m_7106_(ParticleTypes.f_123779_, Mth.m_14139_(p_49577_.f_46441_.m_188500_(), p_49578_, p_49579_), p_49582_, Mth.m_14139_(p_49577_.f_46441_.m_188500_(), p_49580_, p_49581_), 0.0D, 0.0D, 0.0D);
++   private void spawnFluidParticle(Level p_49577_, me.alphamode.mclong.math.BigDecimal p_49578_, me.alphamode.mclong.math.BigDecimal p_49579_, me.alphamode.mclong.math.BigDecimal p_49580_, me.alphamode.mclong.math.BigDecimal p_49581_, double p_49582_) {
++      p_49577_.addParticle(ParticleTypes.f_123779_, Mth.lerp(p_49577_.f_46441_.m_188500_(), p_49578_, p_49579_), me.alphamode.mclong.math.BigDecimal.valueOf(p_49582_), Mth.lerp(p_49577_.f_46441_.m_188500_(), p_49580_, p_49581_), 0.0D, 0.0D, 0.0D);
+    }
+ 
+    public BlockState m_5573_(BlockPlaceContext p_49573_) {
 @@ -254,7 +_,7 @@
                 CompoundTag compoundtag1 = new CompoundTag();
                 compoundtag1.m_128405_("honey_level", i);

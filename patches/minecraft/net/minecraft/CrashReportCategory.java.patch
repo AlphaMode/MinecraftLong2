@@ -1,8 +1,13 @@
 --- a/net/minecraft/CrashReportCategory.java
 +++ b/net/minecraft/CrashReportCategory.java
-@@ -23,10 +_,10 @@
+@@ -22,11 +_,15 @@
+       return String.format(Locale.ROOT, "%.2f,%.2f,%.2f - %s", p_178939_, p_178940_, p_178941_, m_178947_(p_178938_, BlockPos.m_274561_(p_178939_, p_178940_, p_178941_)));
     }
  
++   public static String formatLocation(LevelHeightAccessor p_178938_, me.alphamode.mclong.math.BigDecimal p_178939_, me.alphamode.mclong.math.BigDecimal p_178940_, me.alphamode.mclong.math.BigDecimal p_178941_) {
++      return String.format(Locale.ROOT, "%.2f,%.2f,%.2f - %s", p_178939_.getBacking(), p_178940_.getBacking(), p_178941_.getBacking(), m_178947_(p_178938_, BlockPos.containing(p_178939_, p_178940_, p_178941_)));
++   }
++
     public static String m_178947_(LevelHeightAccessor p_178948_, BlockPos p_178949_) {
 -      return m_178942_(p_178948_, p_178949_.m_123341_(), p_178949_.m_123342_(), p_178949_.m_123343_());
 +      return formatLocation(p_178948_, p_178949_.getX(), p_178949_.getY(), p_178949_.getZ());
@@ -89,7 +94,7 @@
 +      return stringbuilder.toString();
 +   }
 +
-+   public static String formatLocation(LevelHeightAccessor level, java.math.BigInteger x, java.math.BigInteger y, java.math.BigInteger z) {
++   public static String formatLocation(LevelHeightAccessor level, me.alphamode.mclong.math.BigInteger x, me.alphamode.mclong.math.BigInteger y, me.alphamode.mclong.math.BigInteger z) {
 +      StringBuilder stringbuilder = new StringBuilder();
 +
 +      try {
@@ -101,18 +106,18 @@
 +      stringbuilder.append(", ");
 +
 +      try {
-+         java.math.BigInteger i = SectionPos.blockToSectionCoord(x);
-+         java.math.BigInteger j = SectionPos.blockToSectionCoord(y);
-+         java.math.BigInteger k = SectionPos.blockToSectionCoord(z);
-+         java.math.BigInteger l = x.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
-+         java.math.BigInteger i1 = y.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
-+         java.math.BigInteger j1 = z.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
-+         java.math.BigInteger k1 = SectionPos.sectionToBlockCoord(i);
++         me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(x);
++         me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(y);
++         me.alphamode.mclong.math.BigInteger k = SectionPos.blockToSectionCoord(z);
++         me.alphamode.mclong.math.BigInteger l = x.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++         me.alphamode.mclong.math.BigInteger i1 = y.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++         me.alphamode.mclong.math.BigInteger j1 = z.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++         me.alphamode.mclong.math.BigInteger k1 = SectionPos.sectionToBlockCoord(i);
 +         long l1 = level.getMinBuildHeight();
-+         java.math.BigInteger i2 = SectionPos.sectionToBlockCoord(k);
-+         java.math.BigInteger j2 = SectionPos.sectionToBlockCoord(i.add(java.math.BigInteger.ONE)).subtract(java.math.BigInteger.ONE);
++         me.alphamode.mclong.math.BigInteger i2 = SectionPos.sectionToBlockCoord(k);
++         me.alphamode.mclong.math.BigInteger j2 = SectionPos.sectionToBlockCoord(i.add(me.alphamode.mclong.math.BigInteger.ONE)).subtract(me.alphamode.mclong.math.BigInteger.ONE);
 +         long k2 = level.getMaxBuildHeight() - 1;
-+         java.math.BigInteger l2 = SectionPos.sectionToBlockCoord(k.add(java.math.BigInteger.ONE)).subtract(java.math.BigInteger.ONE);
++         me.alphamode.mclong.math.BigInteger l2 = SectionPos.sectionToBlockCoord(k.add(me.alphamode.mclong.math.BigInteger.ONE)).subtract(me.alphamode.mclong.math.BigInteger.ONE);
 +         stringbuilder.append(String.format(Locale.ROOT, "Section: (at %d,%d,%d in %d,%d,%d; chunk contains blocks %d,%d,%d to %d,%d,%d)", l, i1, j1, i, j, k, k1, l1, i2, j2, k2, l2));
 +      } catch (Throwable throwable1) {
 +         stringbuilder.append("(Error finding chunk loc)");
@@ -121,18 +126,18 @@
 +      stringbuilder.append(", ");
 +
 +      try {
-+         java.math.BigInteger i3 = x.shiftRight(9);
-+         java.math.BigInteger j3 = z.shiftRight(9);
-+         java.math.BigInteger k3 = i3.shiftLeft(5);
-+         java.math.BigInteger l3 = j3.shiftLeft(5);
-+         java.math.BigInteger i4 = (i3.add(java.math.BigInteger.ONE).shiftLeft(5)).subtract(java.math.BigInteger.ONE);
-+         java.math.BigInteger j4 = (j3.add(java.math.BigInteger.ONE).shiftLeft(5)).subtract(java.math.BigInteger.ONE);
-+         java.math.BigInteger k4 = i3.shiftLeft(9);
++         me.alphamode.mclong.math.BigInteger i3 = x.shiftRight(9);
++         me.alphamode.mclong.math.BigInteger j3 = z.shiftRight(9);
++         me.alphamode.mclong.math.BigInteger k3 = i3.shiftLeft(5);
++         me.alphamode.mclong.math.BigInteger l3 = j3.shiftLeft(5);
++         me.alphamode.mclong.math.BigInteger i4 = (i3.add(me.alphamode.mclong.math.BigInteger.ONE).shiftLeft(5)).subtract(me.alphamode.mclong.math.BigInteger.ONE);
++         me.alphamode.mclong.math.BigInteger j4 = (j3.add(me.alphamode.mclong.math.BigInteger.ONE).shiftLeft(5)).subtract(me.alphamode.mclong.math.BigInteger.ONE);
++         me.alphamode.mclong.math.BigInteger k4 = i3.shiftLeft(9);
 +         long l4 = level.getMinBuildHeight();
-+         java.math.BigInteger i5 = j3.shiftLeft(9);
-+         java.math.BigInteger j5 = (i3.add(java.math.BigInteger.ONE).shiftLeft(9)).subtract(java.math.BigInteger.ONE);
++         me.alphamode.mclong.math.BigInteger i5 = j3.shiftLeft(9);
++         me.alphamode.mclong.math.BigInteger j5 = (i3.add(me.alphamode.mclong.math.BigInteger.ONE).shiftLeft(9)).subtract(me.alphamode.mclong.math.BigInteger.ONE);
 +         long k5 = level.getMaxBuildHeight() - 1;
-+         java.math.BigInteger l5 = (j3.add(java.math.BigInteger.ONE).shiftLeft(9)).subtract(java.math.BigInteger.ONE);
++         me.alphamode.mclong.math.BigInteger l5 = (j3.add(me.alphamode.mclong.math.BigInteger.ONE).shiftLeft(9)).subtract(me.alphamode.mclong.math.BigInteger.ONE);
           stringbuilder.append(String.format(Locale.ROOT, "Region: (%d,%d; contains chunks %d,%d to %d,%d, blocks %d,%d,%d to %d,%d,%d)", i3, j3, k3, l3, i4, j4, k4, l4, i5, j5, k5, l5));
        } catch (Throwable throwable) {
           stringbuilder.append("(Error finding world loc)");

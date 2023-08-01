@@ -29,7 +29,7 @@
        p_277340_.m_142346_(p_277529_, GameEvent.f_223700_, p_277386_);
        if (!p_277799_.m_61143_(f_154388_)) {
 -         p_277340_.m_6263_((Player)null, (double)p_277386_.m_123341_() + 0.5D, (double)p_277386_.m_123342_() + 0.5D, (double)p_277386_.m_123343_() + 0.5D, SoundEvents.f_144212_, SoundSource.BLOCKS, 1.0F, p_277340_.f_46441_.m_188501_() * 0.2F + 0.8F);
-+         p_277340_.m_6263_((Player)null, (double)p_277386_.getX() + 0.5D, (double)p_277386_.getY() + 0.5D, (double)p_277386_.getZ() + 0.5D, SoundEvents.f_144212_, SoundSource.BLOCKS, 1.0F, p_277340_.f_46441_.m_188501_() * 0.2F + 0.8F);
++         p_277340_.playSound((Player)null, p_277386_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), p_277386_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.AABB), p_277386_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), SoundEvents.f_144212_, SoundSource.BLOCKS, 1.0F, p_277340_.f_46441_.m_188501_() * 0.2F + 0.8F);
        }
  
     }
@@ -41,16 +41,19 @@
           BlockState blockstate = p_277804_.m_8055_(blockpos);
           if (blockstate.m_204336_(BlockTags.f_276593_)) {
              p_277804_.m_220407_(VibrationSystem.m_280393_(p_277347_), blockpos, GameEvent.Context.m_223719_(p_279315_, blockstate));
-@@ -216,9 +_,9 @@
+@@ -216,11 +_,11 @@
        if (m_154487_(p_222148_) == SculkSensorPhase.ACTIVE) {
           Direction direction = Direction.m_235672_(p_222151_);
           if (direction != Direction.UP && direction != Direction.DOWN) {
 -            double d0 = (double)p_222150_.m_123341_() + 0.5D + (direction.m_122429_() == 0 ? 0.5D - p_222151_.m_188500_() : (double)direction.m_122429_() * 0.6D);
 -            double d1 = (double)p_222150_.m_123342_() + 0.25D;
 -            double d2 = (double)p_222150_.m_123343_() + 0.5D + (direction.m_122431_() == 0 ? 0.5D - p_222151_.m_188500_() : (double)direction.m_122431_() * 0.6D);
-+            double d0 = (double)p_222150_.getX() + 0.5D + (direction.m_122429_() == 0 ? 0.5D - p_222151_.m_188500_() : (double)direction.m_122429_() * 0.6D);
-+            double d1 = (double)p_222150_.getY() + 0.25D;
-+            double d2 = (double)p_222150_.getZ() + 0.5D + (direction.m_122431_() == 0 ? 0.5D - p_222151_.m_188500_() : (double)direction.m_122431_() * 0.6D);
++            me.alphamode.mclong.math.BigDecimal d0 = p_222150_.getBigDecX().add(0.5D + (direction.m_122429_() == 0 ? 0.5D - p_222151_.m_188500_() : (double)direction.m_122429_() * 0.6D));
++            me.alphamode.mclong.math.BigDecimal d1 = p_222150_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.PARTICLES);
++            me.alphamode.mclong.math.BigDecimal d2 = p_222150_.getBigDecZ().add(0.5D + (direction.m_122431_() == 0 ? 0.5D - p_222151_.m_188500_() : (double)direction.m_122431_() * 0.6D));
              double d3 = (double)p_222151_.m_188501_() * 0.04D;
-             p_222149_.m_7106_(DustColorTransitionOptions.f_175752_, d0, d1, d2, 0.0D, d3, 0.0D);
+-            p_222149_.m_7106_(DustColorTransitionOptions.f_175752_, d0, d1, d2, 0.0D, d3, 0.0D);
++            p_222149_.addParticle(DustColorTransitionOptions.f_175752_, d0, d1, d2, 0.0D, d3, 0.0D);
           }
+       }
+    }

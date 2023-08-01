@@ -1,15 +1,17 @@
 --- a/net/minecraft/world/level/block/BrewingStandBlock.java
 +++ b/net/minecraft/world/level/block/BrewingStandBlock.java
-@@ -80,9 +_,9 @@
+@@ -80,10 +_,10 @@
     }
  
     public void m_214162_(BlockState p_220883_, Level p_220884_, BlockPos p_220885_, RandomSource p_220886_) {
 -      double d0 = (double)p_220885_.m_123341_() + 0.4D + (double)p_220886_.m_188501_() * 0.2D;
 -      double d1 = (double)p_220885_.m_123342_() + 0.7D + (double)p_220886_.m_188501_() * 0.3D;
 -      double d2 = (double)p_220885_.m_123343_() + 0.4D + (double)p_220886_.m_188501_() * 0.2D;
-+      double d0 = (double)p_220885_.getX() + 0.4D + (double)p_220886_.m_188501_() * 0.2D;
-+      double d1 = (double)p_220885_.getY() + 0.7D + (double)p_220886_.m_188501_() * 0.3D;
-+      double d2 = (double)p_220885_.getZ() + 0.4D + (double)p_220886_.m_188501_() * 0.2D;
-       p_220884_.m_7106_(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+-      p_220884_.m_7106_(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
++      me.alphamode.mclong.math.BigDecimal d0 = p_220885_.getBigDecX().add(0.4D + (double)p_220886_.m_188501_() * 0.2D);
++      me.alphamode.mclong.math.BigDecimal d1 = p_220885_.getBigDecY().add(0.7D + (double)p_220886_.m_188501_() * 0.3D);
++      me.alphamode.mclong.math.BigDecimal d2 = p_220885_.getBigDecZ().add(0.4D + (double)p_220886_.m_188501_() * 0.2D);
++      p_220884_.addParticle(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
     }
  
+    public void m_6810_(BlockState p_50937_, Level p_50938_, BlockPos p_50939_, BlockState p_50940_, boolean p_50941_) {

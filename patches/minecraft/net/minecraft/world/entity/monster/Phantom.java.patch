@@ -1,5 +1,24 @@
 --- a/net/minecraft/world/entity/monster/Phantom.java
 +++ b/net/minecraft/world/entity/monster/Phantom.java
+@@ -114,15 +_,15 @@
+          float f = Mth.m_14089_((float)(this.m_149736_() + this.f_19797_) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
+          float f1 = Mth.m_14089_((float)(this.m_149736_() + this.f_19797_ + 1) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
+          if (f > 0.0F && f1 <= 0.0F) {
+-            this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12230_, this.m_5720_(), 0.95F + this.f_19796_.m_188501_() * 0.05F, 0.95F + this.f_19796_.m_188501_() * 0.05F, false);
++            this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12230_, this.m_5720_(), 0.95F + this.f_19796_.m_188501_() * 0.05F, 0.95F + this.f_19796_.m_188501_() * 0.05F, false);
+          }
+ 
+          int i = this.m_33172_();
+          float f2 = Mth.m_14089_(this.m_146908_() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
+          float f3 = Mth.m_14031_(this.m_146908_() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
+          float f4 = (0.3F + f * 0.45F) * ((float)i * 0.2F + 1.0F);
+-         this.m_9236_().m_7106_(ParticleTypes.f_123757_, this.m_20185_() + (double)f2, this.m_20186_() + (double)f4, this.m_20189_() + (double)f3, 0.0D, 0.0D, 0.0D);
+-         this.m_9236_().m_7106_(ParticleTypes.f_123757_, this.m_20185_() - (double)f2, this.m_20186_() + (double)f4, this.m_20189_() - (double)f3, 0.0D, 0.0D, 0.0D);
++         this.m_9236_().addParticle(ParticleTypes.f_123757_, this.getBigX().add(f2), this.getBigY().add(f4), this.getBigZ().add(f3), 0.0D, 0.0D, 0.0D);
++         this.m_9236_().addParticle(ParticleTypes.f_123757_, this.getBigX().subtract(f2), this.getBigY().add(f4), this.getBigZ().subtract(f3), 0.0D, 0.0D, 0.0D);
+       }
+ 
+    }
 @@ -140,7 +_,7 @@
     }
  

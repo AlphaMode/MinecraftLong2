@@ -1,11 +1,29 @@
 --- a/net/minecraft/world/entity/animal/camel/Camel.java
 +++ b/net/minecraft/world/entity/animal/camel/Camel.java
+@@ -363,7 +_,7 @@
+ 
+          boolean flag2 = this.m_6162_();
+          if (flag2) {
+-            this.m_9236_().m_7106_(ParticleTypes.f_123748_, this.m_20208_(1.0D), this.m_20187_() + 0.5D, this.m_20262_(1.0D), 0.0D, 0.0D, 0.0D);
++            this.m_9236_().addParticle(ParticleTypes.f_123748_, this.getRandomX(1.0D), this.getRandomY().add(me.alphamode.mclong.core.BigConstants.AABB), this.getRandomZ(1.0D), 0.0D, 0.0D, 0.0D);
+             if (!this.m_9236_().f_46443_) {
+                this.m_146758_(10);
+             }
+@@ -375,7 +_,7 @@
+             if (!this.m_20067_()) {
+                SoundEvent soundevent = this.m_7872_();
+                if (soundevent != null) {
+-                  this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), soundevent, this.m_5720_(), 1.0F, 1.0F + (this.f_19796_.m_188501_() - this.f_19796_.m_188501_()) * 0.2F);
++                  this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), soundevent, this.m_5720_(), 1.0F, 1.0F + (this.f_19796_.m_188501_() - this.f_19796_.m_188501_()) * 0.2F);
+                }
+             }
+ 
 @@ -430,7 +_,7 @@
           }
  
           Vec3 vec3 = (new Vec3(0.0D, 0.0D, (double)f)).m_82524_(-this.f_20883_ * ((float)Math.PI / 180F));
 -         p_289551_.m_20372_(p_289564_, this.m_20185_() + vec3.f_82479_, this.m_20186_() + (double)f1, this.m_20189_() + vec3.f_82481_);
-+         p_289551_.accept(p_289564_, this.getBigX().add(vec3.getX()), this.getBigY().add(java.math.BigDecimal.valueOf(f1)), this.getBigZ().add(vec3.getZ()));
++         p_289551_.accept(p_289564_, this.getBigX().add(vec3.getX()), this.getBigY().add(me.alphamode.mclong.math.BigDecimal.valueOf(f1)), this.getBigZ().add(vec3.getZ()));
           this.m_246824_(p_289564_);
        }
     }

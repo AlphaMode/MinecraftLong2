@@ -1,15 +1,27 @@
 --- a/net/minecraft/world/level/block/BlastFurnaceBlock.java
 +++ b/net/minecraft/world/level/block/BlastFurnaceBlock.java
-@@ -43,9 +_,9 @@
+@@ -43,11 +_,11 @@
  
     public void m_214162_(BlockState p_220818_, Level p_220819_, BlockPos p_220820_, RandomSource p_220821_) {
        if (p_220818_.m_61143_(f_48684_)) {
 -         double d0 = (double)p_220820_.m_123341_() + 0.5D;
 -         double d1 = (double)p_220820_.m_123342_();
 -         double d2 = (double)p_220820_.m_123343_() + 0.5D;
-+         double d0 = (double)p_220820_.getX() + 0.5D;
-+         double d1 = (double)p_220820_.getY();
-+         double d2 = (double)p_220820_.getZ() + 0.5D;
++         me.alphamode.mclong.math.BigDecimal d0 = p_220820_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB);
++         me.alphamode.mclong.math.BigDecimal d1 = p_220820_.getBigDecY();
++         me.alphamode.mclong.math.BigDecimal d2 = p_220820_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB);
           if (p_220821_.m_188500_() < 0.1D) {
-             p_220819_.m_7785_(d0, d1, d2, SoundEvents.f_11715_, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+-            p_220819_.m_7785_(d0, d1, d2, SoundEvents.f_11715_, SoundSource.BLOCKS, 1.0F, 1.0F, false);
++            p_220819_.playLocalSound(d0, d1, d2, SoundEvents.f_11715_, SoundSource.BLOCKS, 1.0F, 1.0F, false);
           }
+ 
+          Direction direction = p_220818_.m_61143_(f_48683_);
+@@ -57,7 +_,7 @@
+          double d5 = direction$axis == Direction.Axis.X ? (double)direction.m_122429_() * 0.52D : d4;
+          double d6 = p_220821_.m_188500_() * 9.0D / 16.0D;
+          double d7 = direction$axis == Direction.Axis.Z ? (double)direction.m_122431_() * 0.52D : d4;
+-         p_220819_.m_7106_(ParticleTypes.f_123762_, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
++         p_220819_.addParticle(ParticleTypes.f_123762_, d0.add(d5), d1.add(d6), d2.add(d7), 0.0D, 0.0D, 0.0D);
+       }
+    }
+ }

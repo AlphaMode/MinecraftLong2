@@ -86,11 +86,11 @@
        this.m_20101_();
        Vec3 vec31 = this.m_20184_();
 -      this.m_6034_(this.m_20185_() + vec31.f_82479_, this.m_20186_() + vec31.f_82480_, this.m_20189_() + vec31.f_82481_);
-+      this.m_6034_(this.m_20185_() + vec31.m_7096_(), this.m_20186_() + vec31.m_7098_(), this.m_20189_() + vec31.m_7094_());
++      this.setPos(this.getBigX().add(vec31.getX()), this.getBigY().add(vec31.getY()), this.getBigZ().add(vec31.getZ()));
        ProjectileUtil.m_37284_(this, 0.5F);
        if (this.m_9236_().f_46443_) {
 -         this.m_9236_().m_7106_(ParticleTypes.f_123810_, this.m_20185_() - vec31.f_82479_, this.m_20186_() - vec31.f_82480_ + 0.15D, this.m_20189_() - vec31.f_82481_, 0.0D, 0.0D, 0.0D);
-+         this.m_9236_().m_7106_(ParticleTypes.f_123810_, this.m_20185_() - vec31.m_7096_(), this.m_20186_() - vec31.m_7098_() + 0.15D, this.m_20189_() - vec31.m_7094_(), 0.0D, 0.0D, 0.0D);
++         this.m_9236_().addParticle(ParticleTypes.f_123810_, this.getBigX().subtract(vec31.getX()), this.getBigY().subtract(vec31.getY().add(me.alphamode.mclong.math.BigDecimal.valueOf(0.15D))), this.getBigZ().subtract(vec31.getZ()), 0.0D, 0.0D, 0.0D);
        } else if (this.f_37312_ != null && !this.f_37312_.m_213877_()) {
           if (this.f_37314_ > 0) {
              --this.f_37314_;
@@ -108,3 +108,21 @@
                    this.m_37348_(direction$axis);
                 }
              }
+@@ -281,7 +_,7 @@
+ 
+    protected void m_8060_(BlockHitResult p_37343_) {
+       super.m_8060_(p_37343_);
+-      ((ServerLevel)this.m_9236_()).m_8767_(ParticleTypes.f_123813_, this.m_20185_(), this.m_20186_(), this.m_20189_(), 2, 0.2D, 0.2D, 0.2D, 0.0D);
++      ((ServerLevel)this.m_9236_()).sendParticles(ParticleTypes.f_123813_, this.getBigX(), this.getBigY(), this.getBigZ(), 2, 0.2D, 0.2D, 0.2D, 0.0D);
+       this.m_5496_(SoundEvents.f_12410_, 1.0F, 1.0F);
+    }
+ 
+@@ -302,7 +_,7 @@
+    public boolean m_6469_(DamageSource p_37338_, float p_37339_) {
+       if (!this.m_9236_().f_46443_) {
+          this.m_5496_(SoundEvents.f_12411_, 1.0F, 1.0F);
+-         ((ServerLevel)this.m_9236_()).m_8767_(ParticleTypes.f_123797_, this.m_20185_(), this.m_20186_(), this.m_20189_(), 15, 0.2D, 0.2D, 0.2D, 0.0D);
++         ((ServerLevel)this.m_9236_()).sendParticles(ParticleTypes.f_123797_, this.getBigX(), this.getBigY(), this.getBigZ(), 15, 0.2D, 0.2D, 0.2D, 0.0D);
+          this.m_276200_();
+       }
+ 

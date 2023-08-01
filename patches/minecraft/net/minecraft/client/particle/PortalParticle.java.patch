@@ -1,0 +1,40 @@
+--- a/net/minecraft/client/particle/PortalParticle.java
++++ b/net/minecraft/client/particle/PortalParticle.java
+@@ -7,11 +_,11 @@
+ 
+ @OnlyIn(Dist.CLIENT)
+ public class PortalParticle extends TextureSheetParticle {
+-   private final double f_107548_;
+-   private final double f_107549_;
+-   private final double f_107547_;
++   private final me.alphamode.mclong.math.BigDecimal f_107548_;
++   private final me.alphamode.mclong.math.BigDecimal f_107549_;
++   private final me.alphamode.mclong.math.BigDecimal f_107547_;
+ 
+-   protected PortalParticle(ClientLevel p_107551_, double p_107552_, double p_107553_, double p_107554_, double p_107555_, double p_107556_, double p_107557_) {
++   protected PortalParticle(ClientLevel p_107551_, me.alphamode.mclong.math.BigDecimal p_107552_, me.alphamode.mclong.math.BigDecimal p_107553_, me.alphamode.mclong.math.BigDecimal p_107554_, double p_107555_, double p_107556_, double p_107557_) {
+       super(p_107551_, p_107552_, p_107553_, p_107554_);
+       this.f_107215_ = p_107555_;
+       this.f_107216_ = p_107556_;
+@@ -72,9 +_,9 @@
+          float f = (float)this.f_107224_ / (float)this.f_107225_;
+          float f1 = -f + f * f * 2.0F;
+          float f2 = 1.0F - f1;
+-         this.f_107212_ = this.f_107548_ + this.f_107215_ * (double)f2;
+-         this.f_107213_ = this.f_107549_ + this.f_107216_ * (double)f2 + (double)(1.0F - f);
+-         this.f_107214_ = this.f_107547_ + this.f_107217_ * (double)f2;
++         this.f_107212_ = this.f_107548_.add(this.f_107215_ * (double)f2);
++         this.f_107213_ = this.f_107549_.add(this.f_107216_ * (double)f2 + (double)(1.0F - f));
++         this.f_107214_ = this.f_107547_.add(this.f_107217_ * (double)f2);
+       }
+    }
+ 
+@@ -86,7 +_,7 @@
+          this.f_107568_ = p_107570_;
+       }
+ 
+-      public Particle m_6966_(SimpleParticleType p_107581_, ClientLevel p_107582_, double p_107583_, double p_107584_, double p_107585_, double p_107586_, double p_107587_, double p_107588_) {
++      public Particle createParticle(SimpleParticleType p_107581_, ClientLevel p_107582_, me.alphamode.mclong.math.BigDecimal p_107583_, me.alphamode.mclong.math.BigDecimal p_107584_, me.alphamode.mclong.math.BigDecimal p_107585_, double p_107586_, double p_107587_, double p_107588_) {
+          PortalParticle portalparticle = new PortalParticle(p_107582_, p_107583_, p_107584_, p_107585_, p_107586_, p_107587_, p_107588_);
+          portalparticle.m_108335_(this.f_107568_);
+          return portalparticle;

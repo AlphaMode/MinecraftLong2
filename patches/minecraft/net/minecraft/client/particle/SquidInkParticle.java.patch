@@ -1,0 +1,38 @@
+--- a/net/minecraft/client/particle/SquidInkParticle.java
++++ b/net/minecraft/client/particle/SquidInkParticle.java
+@@ -9,7 +_,7 @@
+ 
+ @OnlyIn(Dist.CLIENT)
+ public class SquidInkParticle extends SimpleAnimatedParticle {
+-   SquidInkParticle(ClientLevel p_172325_, double p_172326_, double p_172327_, double p_172328_, double p_172329_, double p_172330_, double p_172331_, int p_172332_, SpriteSet p_172333_) {
++   SquidInkParticle(ClientLevel p_172325_, me.alphamode.mclong.math.BigDecimal p_172326_, me.alphamode.mclong.math.BigDecimal p_172327_, me.alphamode.mclong.math.BigDecimal p_172328_, double p_172329_, double p_172330_, double p_172331_, int p_172332_, SpriteSet p_172333_) {
+       super(p_172325_, p_172326_, p_172327_, p_172328_, p_172333_, 0.0F);
+       this.f_172258_ = 0.92F;
+       this.f_107663_ = 0.5F;
+@@ -31,7 +_,7 @@
+             this.m_107271_(1.0F - ((float)this.f_107224_ - (float)(this.f_107225_ / 2)) / (float)this.f_107225_);
+          }
+ 
+-         if (this.f_107208_.m_8055_(BlockPos.m_274561_(this.f_107212_, this.f_107213_, this.f_107214_)).m_60795_()) {
++         if (this.f_107208_.m_8055_(BlockPos.containing(this.f_107212_, this.f_107213_, this.f_107214_)).m_60795_()) {
+             this.f_107216_ -= (double)0.0074F;
+          }
+       }
+@@ -46,7 +_,7 @@
+          this.f_172334_ = p_172336_;
+       }
+ 
+-      public Particle m_6966_(SimpleParticleType p_172347_, ClientLevel p_172348_, double p_172349_, double p_172350_, double p_172351_, double p_172352_, double p_172353_, double p_172354_) {
++      public Particle createParticle(SimpleParticleType p_172347_, ClientLevel p_172348_, me.alphamode.mclong.math.BigDecimal p_172349_, me.alphamode.mclong.math.BigDecimal p_172350_, me.alphamode.mclong.math.BigDecimal p_172351_, double p_172352_, double p_172353_, double p_172354_) {
+          return new SquidInkParticle(p_172348_, p_172349_, p_172350_, p_172351_, p_172352_, p_172353_, p_172354_, FastColor.ARGB32.m_13660_(255, 204, 31, 102), this.f_172334_);
+       }
+    }
+@@ -59,7 +_,7 @@
+          this.f_107989_ = p_107991_;
+       }
+ 
+-      public Particle m_6966_(SimpleParticleType p_108002_, ClientLevel p_108003_, double p_108004_, double p_108005_, double p_108006_, double p_108007_, double p_108008_, double p_108009_) {
++      public Particle createParticle(SimpleParticleType p_108002_, ClientLevel p_108003_, me.alphamode.mclong.math.BigDecimal p_108004_, me.alphamode.mclong.math.BigDecimal p_108005_, me.alphamode.mclong.math.BigDecimal p_108006_, double p_108007_, double p_108008_, double p_108009_) {
+          return new SquidInkParticle(p_108003_, p_108004_, p_108005_, p_108006_, p_108007_, p_108008_, p_108009_, FastColor.ARGB32.m_13660_(255, 255, 255, 255), this.f_107989_);
+       }
+    }

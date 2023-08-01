@@ -14,7 +14,7 @@
  
              BlockPos blockpos = this.m_58899_();
 -            this.f_58857_.m_6263_((Player)null, (double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_(), SoundEvents.f_11695_, SoundSource.BLOCKS, 1.0F, 1.0F);
-+            this.f_58857_.m_6263_((Player)null, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), SoundEvents.f_11695_, SoundSource.BLOCKS, 1.0F, 1.0F);
++            this.f_58857_.playSound((Player)null, blockpos.getBigDecX(), blockpos.getBigDecY(), blockpos.getBigDecZ(), SoundEvents.f_11695_, SoundSource.BLOCKS, 1.0F, 1.0F);
              this.f_58857_.m_220407_(GameEvent.f_157792_, blockpos, GameEvent.Context.m_223719_(p_58745_, this.m_58900_()));
           }
  
@@ -40,16 +40,18 @@
                       entity.m_7678_(d0, d1, d2, entity.m_146908_(), entity.m_146909_());
                    }
  
-@@ -269,9 +_,9 @@
+@@ -269,10 +_,10 @@
     public static void m_155144_(Level p_155145_, BlockPos p_155146_, BlockState p_155147_, BeehiveBlockEntity p_155148_) {
        m_155149_(p_155145_, p_155146_, p_155147_, p_155148_.f_58732_, p_155148_.f_58733_);
        if (!p_155148_.f_58732_.isEmpty() && p_155145_.m_213780_().m_188500_() < 0.005D) {
 -         double d0 = (double)p_155146_.m_123341_() + 0.5D;
 -         double d1 = (double)p_155146_.m_123342_();
 -         double d2 = (double)p_155146_.m_123343_() + 0.5D;
-+         double d0 = (double)p_155146_.getX() + 0.5D;
-+         double d1 = (double)p_155146_.getY();
-+         double d2 = (double)p_155146_.getZ() + 0.5D;
-          p_155145_.m_6263_((Player)null, d0, d1, d2, SoundEvents.f_11698_, SoundSource.BLOCKS, 1.0F, 1.0F);
+-         p_155145_.m_6263_((Player)null, d0, d1, d2, SoundEvents.f_11698_, SoundSource.BLOCKS, 1.0F, 1.0F);
++         me.alphamode.mclong.math.BigDecimal d0 = p_155146_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB);
++         me.alphamode.mclong.math.BigDecimal d1 = p_155146_.getBigDecY();
++         me.alphamode.mclong.math.BigDecimal d2 = p_155146_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB);
++         p_155145_.playSound((Player)null, d0, d1, d2, SoundEvents.f_11698_, SoundSource.BLOCKS, 1.0F, 1.0F);
        }
  
+       DebugPackets.m_179510_(p_155145_, p_155146_, p_155147_, p_155148_);

@@ -27,7 +27,7 @@
           if (livingentity != null) {
              Vec3 vec3 = livingentity.m_146892_();
 -            Vex.this.f_21342_.m_6849_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, 1.0D);
-+            Vex.this.f_21342_.m_6849_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), 1.0D);
++            Vex.this.f_21342_.setWantedPosition(vec3.getX(), vec3.getY(), vec3.getZ(), 1.0D);
           }
  
           Vex.this.m_34042_(true);
@@ -36,10 +36,19 @@
                 if (d0 < 9.0D) {
                    Vec3 vec3 = livingentity.m_146892_();
 -                  Vex.this.f_21342_.m_6849_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, 1.0D);
-+                  Vex.this.f_21342_.m_6849_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), 1.0D);
++                  Vex.this.f_21342_.setWantedPosition(vec3.getX(), vec3.getY(), vec3.getZ(), 1.0D);
                 }
              }
  
+@@ -292,7 +_,7 @@
+ 
+       public void m_8126_() {
+          if (this.f_24981_ == MoveControl.Operation.MOVE_TO) {
+-            Vec3 vec3 = new Vec3(this.f_24975_ - Vex.this.m_20185_(), this.f_24976_ - Vex.this.m_20186_(), this.f_24977_ - Vex.this.m_20189_());
++            Vec3 vec3 = new Vec3(this.f_24975_.subtract(Vex.this.getBigX()), this.f_24976_.subtract(Vex.this.getBigY()), this.f_24977_.subtract(Vex.this.getBigZ()));
+             double d0 = vec3.m_82553_();
+             if (d0 < Vex.this.m_20191_().m_82309_()) {
+                this.f_24981_ = MoveControl.Operation.WAIT;
 @@ -301,7 +_,7 @@
                 Vex.this.m_20256_(Vex.this.m_20184_().m_82549_(vec3.m_82490_(this.f_24978_ * 0.05D / d0)));
                 if (Vex.this.m_5448_() == null) {
@@ -57,7 +66,7 @@
 +            BlockPos blockpos1 = blockpos.offset(Vex.this.f_19796_.m_188503_(15) - 7, Vex.this.f_19796_.m_188503_(11) - 5, Vex.this.f_19796_.m_188503_(15) - 7);
              if (Vex.this.m_9236_().m_46859_(blockpos1)) {
 -               Vex.this.f_21342_.m_6849_((double)blockpos1.m_123341_() + 0.5D, (double)blockpos1.m_123342_() + 0.5D, (double)blockpos1.m_123343_() + 0.5D, 0.25D);
-+               Vex.this.f_21342_.m_6849_((double)blockpos1.getX() + 0.5D, (double)blockpos1.getY() + 0.5D, (double)blockpos1.getZ() + 0.5D, 0.25D);
++               Vex.this.f_21342_.setWantedPosition(blockpos1.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), blockpos1.getBigDecY().add(me.alphamode.mclong.core.BigConstants.AABB), blockpos1.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), 0.25D);
                 if (Vex.this.m_5448_() == null) {
 -                  Vex.this.m_21563_().m_24950_((double)blockpos1.m_123341_() + 0.5D, (double)blockpos1.m_123342_() + 0.5D, (double)blockpos1.m_123343_() + 0.5D, 180.0F, 20.0F);
 +                  Vex.this.m_21563_().m_24950_((double)blockpos1.getX() + 0.5D, (double)blockpos1.getY() + 0.5D, (double)blockpos1.getZ() + 0.5D, 180.0F, 20.0F);

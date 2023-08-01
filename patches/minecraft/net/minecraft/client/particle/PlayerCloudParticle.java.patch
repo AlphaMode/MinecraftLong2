@@ -1,11 +1,49 @@
 --- a/net/minecraft/client/particle/PlayerCloudParticle.java
 +++ b/net/minecraft/client/particle/PlayerCloudParticle.java
-@@ -50,7 +_,7 @@
-             double d0 = player.m_20186_();
-             if (this.f_107213_ > d0) {
-                this.f_107213_ += (d0 - this.f_107213_) * 0.2D;
+@@ -11,7 +_,7 @@
+ public class PlayerCloudParticle extends TextureSheetParticle {
+    private final SpriteSet f_107481_;
+ 
+-   PlayerCloudParticle(ClientLevel p_107483_, double p_107484_, double p_107485_, double p_107486_, double p_107487_, double p_107488_, double p_107489_, SpriteSet p_107490_) {
++   PlayerCloudParticle(ClientLevel p_107483_, me.alphamode.mclong.math.BigDecimal p_107484_, me.alphamode.mclong.math.BigDecimal p_107485_, me.alphamode.mclong.math.BigDecimal p_107486_, double p_107487_, double p_107488_, double p_107489_, SpriteSet p_107490_) {
+       super(p_107483_, p_107484_, p_107485_, p_107486_, 0.0D, 0.0D, 0.0D);
+       this.f_172258_ = 0.96F;
+       this.f_107481_ = p_107490_;
+@@ -45,13 +_,13 @@
+       super.m_5989_();
+       if (!this.f_107220_) {
+          this.m_108339_(this.f_107481_);
+-         Player player = this.f_107208_.m_45924_(this.f_107212_, this.f_107213_, this.f_107214_, 2.0D, false);
++         Player player = this.f_107208_.getNearestPlayer(this.f_107212_, this.f_107213_, this.f_107214_, 2.0D, false);
+          if (player != null) {
+-            double d0 = player.m_20186_();
+-            if (this.f_107213_ > d0) {
+-               this.f_107213_ += (d0 - this.f_107213_) * 0.2D;
 -               this.f_107216_ += (player.m_20184_().f_82480_ - this.f_107216_) * 0.2D;
+-               this.m_107264_(this.f_107212_, this.f_107213_, this.f_107214_);
++            me.alphamode.mclong.math.BigDecimal d0 = player.getBigY();
++            if (this.f_107213_.compareTo(d0) > 0) {
++               this.f_107213_ = this.f_107213_.add((d0.subtract(this.f_107213_)).multiply(me.alphamode.mclong.core.BigConstants.PARTICLE_TICK));
 +               this.f_107216_ += (player.m_20184_().m_7098_() - this.f_107216_) * 0.2D;
-                this.m_107264_(this.f_107212_, this.f_107213_, this.f_107214_);
++               this.setPos(this.f_107212_, this.f_107213_, this.f_107214_);
              }
           }
+       }
+@@ -66,7 +_,7 @@
+          this.f_107505_ = p_107507_;
+       }
+ 
+-      public Particle m_6966_(SimpleParticleType p_107518_, ClientLevel p_107519_, double p_107520_, double p_107521_, double p_107522_, double p_107523_, double p_107524_, double p_107525_) {
++      public Particle createParticle(SimpleParticleType p_107518_, ClientLevel p_107519_, me.alphamode.mclong.math.BigDecimal p_107520_, me.alphamode.mclong.math.BigDecimal p_107521_, me.alphamode.mclong.math.BigDecimal p_107522_, double p_107523_, double p_107524_, double p_107525_) {
+          return new PlayerCloudParticle(p_107519_, p_107520_, p_107521_, p_107522_, p_107523_, p_107524_, p_107525_, this.f_107505_);
+       }
+    }
+@@ -79,7 +_,7 @@
+          this.f_107526_ = p_107528_;
+       }
+ 
+-      public Particle m_6966_(SimpleParticleType p_107539_, ClientLevel p_107540_, double p_107541_, double p_107542_, double p_107543_, double p_107544_, double p_107545_, double p_107546_) {
++      public Particle createParticle(SimpleParticleType p_107539_, ClientLevel p_107540_, me.alphamode.mclong.math.BigDecimal p_107541_, me.alphamode.mclong.math.BigDecimal p_107542_, me.alphamode.mclong.math.BigDecimal p_107543_, double p_107544_, double p_107545_, double p_107546_) {
+          Particle particle = new PlayerCloudParticle(p_107540_, p_107541_, p_107542_, p_107543_, p_107544_, p_107545_, p_107546_, this.f_107526_);
+          particle.m_107253_(200.0F, 50.0F, 120.0F);
+          particle.m_107271_(0.4F);

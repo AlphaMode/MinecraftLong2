@@ -1,5 +1,28 @@
 --- a/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
 +++ b/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
+@@ -122,9 +_,9 @@
+       return this.f_114369_;
+    }
+ 
+-   public <E extends Entity> boolean m_114397_(E p_114398_, Frustum p_114399_, double p_114400_, double p_114401_, double p_114402_) {
++   public <E extends Entity> boolean shouldRender(E p_114398_, Frustum p_114399_, me.alphamode.mclong.math.BigDecimal p_114400_, me.alphamode.mclong.math.BigDecimal p_114401_, me.alphamode.mclong.math.BigDecimal p_114402_) {
+       EntityRenderer<? super E> entityrenderer = this.m_114382_(p_114398_);
+-      return entityrenderer.m_5523_(p_114398_, p_114399_, p_114400_, p_114401_, p_114402_);
++      return entityrenderer.shouldRender(p_114398_, p_114399_, p_114400_, p_114401_, p_114402_);
+    }
+ 
+    public <E extends Entity> void m_114384_(E p_114385_, double p_114386_, double p_114387_, double p_114388_, float p_114389_, float p_114390_, PoseStack p_114391_, MultiBufferSource p_114392_, int p_114393_) {
+@@ -144,8 +_,8 @@
+ 
+          p_114391_.m_85837_(-vec3.m_7096_(), -vec3.m_7098_(), -vec3.m_7094_());
+          if (this.f_114360_.m_231818_().m_231551_() && this.f_114368_ && entityrenderer.f_114477_ > 0.0F && !p_114385_.m_20145_()) {
+-            double d1 = this.m_114378_(p_114385_.m_20185_(), p_114385_.m_20186_(), p_114385_.m_20189_());
+-            float f = (float)((1.0D - d1 / 256.0D) * (double)entityrenderer.f_114478_);
++            me.alphamode.mclong.math.BigDecimal d1 = this.distanceToSqr(p_114385_.getBigX(), p_114385_.getBigY(), p_114385_.getBigZ());
++            float f = ((me.alphamode.mclong.math.BigDecimal.ONE.subtract(d1.divide(256.0D))).multiply(entityrenderer.f_114478_)).floatValue();
+             if (f > 0.0F) {
+                m_114457_(p_114391_, p_114392_, p_114385_, f, p_114390_, this.f_114366_, Math.min(entityrenderer.f_114477_, 32.0F));
+             }
 @@ -173,15 +_,15 @@
        AABB aabb = p_114444_.m_20191_().m_82386_(-p_114444_.m_20185_(), -p_114444_.m_20186_(), -p_114444_.m_20189_());
        LevelRenderer.m_109646_(p_114442_, p_114443_, aabb, 1.0F, 1.0F, 1.0F, 1.0F);
@@ -107,16 +130,27 @@
 -                  float f4 = (float)(d2 - p_278099_);
 -                  float f5 = (float)(d3 - p_277806_);
 -                  float f6 = (float)(d4 - p_277806_);
-+                  java.math.BigDecimal d0 = p_277911_.getBigDecX().add(aabb.f_82288_);
-+                  java.math.BigDecimal d1 = p_277911_.getBigDecX().add(aabb.f_82291_);
-+                  java.math.BigDecimal d2 = p_277911_.getBigDecY().add(aabb.f_82289_);
-+                  java.math.BigDecimal d3 = p_277911_.getBigDecZ().add(aabb.f_82290_);
-+                  java.math.BigDecimal d4 = p_277911_.getBigDecZ().add(aabb.f_82293_);
-+                  float f2 = (d0.subtract(java.math.BigDecimal.valueOf(p_277682_))).floatValue();
-+                  float f3 = (d1.subtract(java.math.BigDecimal.valueOf(p_277682_))).floatValue();
-+                  float f4 = (d2.subtract(java.math.BigDecimal.valueOf(p_278099_))).floatValue();
-+                  float f5 = (d3.subtract(java.math.BigDecimal.valueOf(p_277806_))).floatValue();
-+                  float f6 = (d4.subtract(java.math.BigDecimal.valueOf(p_277806_))).floatValue();
++                  me.alphamode.mclong.math.BigDecimal d0 = p_277911_.getBigDecX().add(aabb.f_82288_);
++                  me.alphamode.mclong.math.BigDecimal d1 = p_277911_.getBigDecX().add(aabb.f_82291_);
++                  me.alphamode.mclong.math.BigDecimal d2 = p_277911_.getBigDecY().add(aabb.f_82289_);
++                  me.alphamode.mclong.math.BigDecimal d3 = p_277911_.getBigDecZ().add(aabb.f_82290_);
++                  me.alphamode.mclong.math.BigDecimal d4 = p_277911_.getBigDecZ().add(aabb.f_82293_);
++                  float f2 = (d0.subtract(me.alphamode.mclong.math.BigDecimal.valueOf(p_277682_))).floatValue();
++                  float f3 = (d1.subtract(me.alphamode.mclong.math.BigDecimal.valueOf(p_277682_))).floatValue();
++                  float f4 = (d2.subtract(me.alphamode.mclong.math.BigDecimal.valueOf(p_278099_))).floatValue();
++                  float f5 = (d3.subtract(me.alphamode.mclong.math.BigDecimal.valueOf(p_277806_))).floatValue();
++                  float f6 = (d4.subtract(me.alphamode.mclong.math.BigDecimal.valueOf(p_277806_))).floatValue();
                    float f7 = -f2 / 2.0F / p_277844_ + 0.5F;
                    float f8 = -f3 / 2.0F / p_277844_ + 0.5F;
                    float f9 = -f5 / 2.0F / p_277844_ + 0.5F;
+@@ -339,8 +_,8 @@
+       return this.f_114358_.m_90583_().m_82557_(p_114472_.m_20182_());
+    }
+ 
+-   public double m_114378_(double p_114379_, double p_114380_, double p_114381_) {
+-      return this.f_114358_.m_90583_().m_82531_(p_114379_, p_114380_, p_114381_);
++   public me.alphamode.mclong.math.BigDecimal distanceToSqr(me.alphamode.mclong.math.BigDecimal p_114379_, me.alphamode.mclong.math.BigDecimal p_114380_, me.alphamode.mclong.math.BigDecimal p_114381_) {
++      return this.f_114358_.m_90583_().distanceToSqr(p_114379_, p_114380_, p_114381_);
+    }
+ 
+    public Quaternionf m_253208_() {

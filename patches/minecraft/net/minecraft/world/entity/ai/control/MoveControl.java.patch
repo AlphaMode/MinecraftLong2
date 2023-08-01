@@ -1,5 +1,40 @@
 --- a/net/minecraft/world/entity/ai/control/MoveControl.java
 +++ b/net/minecraft/world/entity/ai/control/MoveControl.java
+@@ -17,9 +_,9 @@
+    public static final float f_148054_ = 2.5000003E-7F;
+    protected static final int f_148055_ = 90;
+    protected final Mob f_24974_;
+-   protected double f_24975_;
+-   protected double f_24976_;
+-   protected double f_24977_;
++   protected me.alphamode.mclong.math.BigDecimal f_24975_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   protected me.alphamode.mclong.math.BigDecimal f_24976_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   protected me.alphamode.mclong.math.BigDecimal f_24977_ = me.alphamode.mclong.math.BigDecimal.ZERO;
+    protected double f_24978_;
+    protected float f_24979_;
+    protected float f_24980_;
+@@ -37,7 +_,7 @@
+       return this.f_24978_;
+    }
+ 
+-   public void m_6849_(double p_24984_, double p_24985_, double p_24986_, double p_24987_) {
++   public void setWantedPosition(me.alphamode.mclong.math.BigDecimal p_24984_, me.alphamode.mclong.math.BigDecimal p_24985_, me.alphamode.mclong.math.BigDecimal p_24986_, double p_24987_) {
+       this.f_24975_ = p_24984_;
+       this.f_24976_ = p_24985_;
+       this.f_24977_ = p_24986_;
+@@ -84,9 +_,9 @@
+          this.f_24981_ = MoveControl.Operation.WAIT;
+       } else if (this.f_24981_ == MoveControl.Operation.MOVE_TO) {
+          this.f_24981_ = MoveControl.Operation.WAIT;
+-         double d0 = this.f_24975_ - this.f_24974_.m_20185_();
+-         double d1 = this.f_24977_ - this.f_24974_.m_20189_();
+-         double d2 = this.f_24976_ - this.f_24974_.m_20186_();
++         double d0 = this.f_24975_.subtract(this.f_24974_.getBigX()).doubleValue();
++         double d1 = this.f_24977_.subtract(this.f_24974_.getBigZ()).doubleValue();
++         double d2 = this.f_24976_.subtract(this.f_24974_.getBigY()).doubleValue();
+          double d3 = d0 * d0 + d2 * d2 + d1 * d1;
+          if (d3 < (double)2.5000003E-7F) {
+             this.f_24974_.m_21564_(0.0F);
 @@ -99,7 +_,7 @@
           BlockPos blockpos = this.f_24974_.m_20183_();
           BlockState blockstate = this.f_24974_.m_9236_().m_8055_(blockpos);
@@ -18,3 +53,22 @@
              return false;
           }
        }
+@@ -146,15 +_,15 @@
+       return f1;
+    }
+ 
+-   public double m_25000_() {
++   public me.alphamode.mclong.math.BigDecimal getWantedX() {
+       return this.f_24975_;
+    }
+ 
+-   public double m_25001_() {
++   public me.alphamode.mclong.math.BigDecimal getWantedY() {
+       return this.f_24976_;
+    }
+ 
+-   public double m_25002_() {
++   public me.alphamode.mclong.math.BigDecimal getWantedZ() {
+       return this.f_24977_;
+    }
+ 

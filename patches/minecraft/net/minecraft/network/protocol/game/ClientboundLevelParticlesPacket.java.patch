@@ -1,0 +1,69 @@
+--- a/net/minecraft/network/protocol/game/ClientboundLevelParticlesPacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundLevelParticlesPacket.java
+@@ -7,9 +_,9 @@
+ import net.minecraft.network.protocol.Packet;
+ 
+ public class ClientboundLevelParticlesPacket implements Packet<ClientGamePacketListener> {
+-   private final double f_132280_;
+-   private final double f_132281_;
+-   private final double f_132282_;
++   private final me.alphamode.mclong.math.BigDecimal f_132280_;
++   private final me.alphamode.mclong.math.BigDecimal f_132281_;
++   private final me.alphamode.mclong.math.BigDecimal f_132282_;
+    private final float f_132283_;
+    private final float f_132284_;
+    private final float f_132285_;
+@@ -18,7 +_,7 @@
+    private final boolean f_132288_;
+    private final ParticleOptions f_132289_;
+ 
+-   public <T extends ParticleOptions> ClientboundLevelParticlesPacket(T p_132292_, boolean p_132293_, double p_132294_, double p_132295_, double p_132296_, float p_132297_, float p_132298_, float p_132299_, float p_132300_, int p_132301_) {
++   public <T extends ParticleOptions> ClientboundLevelParticlesPacket(T p_132292_, boolean p_132293_, me.alphamode.mclong.math.BigDecimal p_132294_, me.alphamode.mclong.math.BigDecimal p_132295_, me.alphamode.mclong.math.BigDecimal p_132296_, float p_132297_, float p_132298_, float p_132299_, float p_132300_, int p_132301_) {
+       this.f_132289_ = p_132292_;
+       this.f_132288_ = p_132293_;
+       this.f_132280_ = p_132294_;
+@@ -34,9 +_,9 @@
+    public ClientboundLevelParticlesPacket(FriendlyByteBuf p_178910_) {
+       ParticleType<?> particletype = p_178910_.m_236816_(BuiltInRegistries.f_257034_);
+       this.f_132288_ = p_178910_.readBoolean();
+-      this.f_132280_ = p_178910_.readDouble();
+-      this.f_132281_ = p_178910_.readDouble();
+-      this.f_132282_ = p_178910_.readDouble();
++      this.f_132280_ = new me.alphamode.mclong.math.BigDecimal(p_178910_.m_130277_());
++      this.f_132281_ = new me.alphamode.mclong.math.BigDecimal(p_178910_.m_130277_());
++      this.f_132282_ = new me.alphamode.mclong.math.BigDecimal(p_178910_.m_130277_());
+       this.f_132283_ = p_178910_.readFloat();
+       this.f_132284_ = p_178910_.readFloat();
+       this.f_132285_ = p_178910_.readFloat();
+@@ -52,9 +_,9 @@
+    public void m_5779_(FriendlyByteBuf p_132313_) {
+       p_132313_.m_236818_(BuiltInRegistries.f_257034_, this.f_132289_.m_6012_());
+       p_132313_.writeBoolean(this.f_132288_);
+-      p_132313_.writeDouble(this.f_132280_);
+-      p_132313_.writeDouble(this.f_132281_);
+-      p_132313_.writeDouble(this.f_132282_);
++      p_132313_.m_130070_(this.f_132280_.toString());
++      p_132313_.m_130070_(this.f_132281_.toString());
++      p_132313_.m_130070_(this.f_132282_.toString());
+       p_132313_.writeFloat(this.f_132283_);
+       p_132313_.writeFloat(this.f_132284_);
+       p_132313_.writeFloat(this.f_132285_);
+@@ -67,15 +_,15 @@
+       return this.f_132288_;
+    }
+ 
+-   public double m_132314_() {
++   public me.alphamode.mclong.math.BigDecimal getX() {
+       return this.f_132280_;
+    }
+ 
+-   public double m_132315_() {
++   public me.alphamode.mclong.math.BigDecimal getY() {
+       return this.f_132281_;
+    }
+ 
+-   public double m_132316_() {
++   public me.alphamode.mclong.math.BigDecimal getZ() {
+       return this.f_132282_;
+    }
+ 

@@ -1,15 +1,29 @@
 --- a/net/minecraft/world/level/block/FurnaceBlock.java
 +++ b/net/minecraft/world/level/block/FurnaceBlock.java
-@@ -43,9 +_,9 @@
+@@ -43,11 +_,11 @@
  
     public void m_214162_(BlockState p_221253_, Level p_221254_, BlockPos p_221255_, RandomSource p_221256_) {
        if (p_221253_.m_61143_(f_48684_)) {
 -         double d0 = (double)p_221255_.m_123341_() + 0.5D;
 -         double d1 = (double)p_221255_.m_123342_();
 -         double d2 = (double)p_221255_.m_123343_() + 0.5D;
-+         double d0 = (double)p_221255_.getX() + 0.5D;
-+         double d1 = (double)p_221255_.getY();
-+         double d2 = (double)p_221255_.getZ() + 0.5D;
++         me.alphamode.mclong.math.BigDecimal d0 = p_221255_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB);
++         me.alphamode.mclong.math.BigDecimal d1 = p_221255_.getBigDecY();
++         me.alphamode.mclong.math.BigDecimal d2 = p_221255_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB);
           if (p_221256_.m_188500_() < 0.1D) {
-             p_221254_.m_7785_(d0, d1, d2, SoundEvents.f_11907_, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+-            p_221254_.m_7785_(d0, d1, d2, SoundEvents.f_11907_, SoundSource.BLOCKS, 1.0F, 1.0F, false);
++            p_221254_.playLocalSound(d0, d1, d2, SoundEvents.f_11907_, SoundSource.BLOCKS, 1.0F, 1.0F, false);
           }
+ 
+          Direction direction = p_221253_.m_61143_(f_48683_);
+@@ -57,8 +_,8 @@
+          double d5 = direction$axis == Direction.Axis.X ? (double)direction.m_122429_() * 0.52D : d4;
+          double d6 = p_221256_.m_188500_() * 6.0D / 16.0D;
+          double d7 = direction$axis == Direction.Axis.Z ? (double)direction.m_122431_() * 0.52D : d4;
+-         p_221254_.m_7106_(ParticleTypes.f_123762_, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
+-         p_221254_.m_7106_(ParticleTypes.f_123744_, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
++         p_221254_.addParticle(ParticleTypes.f_123762_, d0.add(d5), d1.add(d6), d2.add(d7), 0.0D, 0.0D, 0.0D);
++         p_221254_.addParticle(ParticleTypes.f_123744_, d0.add(d5), d1.add(d6), d2.add(d7), 0.0D, 0.0D, 0.0D);
+       }
+    }
+ }

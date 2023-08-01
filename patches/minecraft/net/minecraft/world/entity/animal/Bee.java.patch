@@ -1,6 +1,21 @@
 --- a/net/minecraft/world/entity/animal/Bee.java
 +++ b/net/minecraft/world/entity/animal/Bee.java
-@@ -258,10 +_,10 @@
+@@ -246,22 +_,22 @@
+       super.m_8119_();
+       if (this.m_27856_() && this.m_27869_() < 10 && this.f_19796_.m_188501_() < 0.05F) {
+          for(int i = 0; i < this.f_19796_.m_188503_(2) + 1; ++i) {
+-            this.m_27779_(this.m_9236_(), this.m_20185_() - (double)0.3F, this.m_20185_() + (double)0.3F, this.m_20189_() - (double)0.3F, this.m_20189_() + (double)0.3F, this.m_20227_(0.5D), ParticleTypes.f_123782_);
++            this.spawnFluidParticle(this.m_9236_(), this.getBigX().subtract(me.alphamode.mclong.core.BigConstants.BEE), this.getBigX().add(me.alphamode.mclong.core.BigConstants.BEE), this.getBigZ().subtract(me.alphamode.mclong.core.BigConstants.BEE), this.getBigZ().add(me.alphamode.mclong.core.BigConstants.BEE), this.getY(me.alphamode.mclong.core.BigConstants.AABB), ParticleTypes.f_123782_);
+          }
+       }
+ 
+       this.m_27867_();
+    }
+ 
+-   private void m_27779_(Level p_27780_, double p_27781_, double p_27782_, double p_27783_, double p_27784_, double p_27785_, ParticleOptions p_27786_) {
+-      p_27780_.m_7106_(p_27786_, Mth.m_14139_(p_27780_.f_46441_.m_188500_(), p_27781_, p_27782_), p_27785_, Mth.m_14139_(p_27780_.f_46441_.m_188500_(), p_27783_, p_27784_), 0.0D, 0.0D, 0.0D);
++   private void spawnFluidParticle(Level p_27780_, me.alphamode.mclong.math.BigDecimal p_27781_, me.alphamode.mclong.math.BigDecimal p_27782_, me.alphamode.mclong.math.BigDecimal p_27783_, me.alphamode.mclong.math.BigDecimal p_27784_, me.alphamode.mclong.math.BigDecimal p_27785_, ParticleOptions p_27786_) {
++      p_27780_.addParticle(p_27786_, Mth.lerp(p_27780_.f_46441_.m_188500_(), p_27781_, p_27782_), p_27785_, Mth.lerp(p_27780_.f_46441_.m_188500_(), p_27783_, p_27784_), 0.0D, 0.0D, 0.0D);
     }
  
     void m_27880_(BlockPos p_27881_) {
@@ -103,6 +118,15 @@
              if (vec3.m_82554_(Bee.this.m_20182_()) > 1.0D) {
                 this.f_28067_ = vec3;
                 this.m_28088_();
+@@ -1145,7 +_,7 @@
+       }
+ 
+       private void m_28088_() {
+-         Bee.this.m_21566_().m_6849_(this.f_28067_.m_7096_(), this.f_28067_.m_7098_(), this.f_28067_.m_7094_(), (double)0.35F);
++         Bee.this.m_21566_().setWantedPosition(this.f_28067_.getX(), this.f_28067_.getY(), this.f_28067_.getZ(), (double)0.35F);
+       }
+ 
+       private float m_28089_() {
 @@ -1164,8 +_,8 @@
              for(int j = 0; (double)j < p_28077_; ++j) {
                 for(int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {

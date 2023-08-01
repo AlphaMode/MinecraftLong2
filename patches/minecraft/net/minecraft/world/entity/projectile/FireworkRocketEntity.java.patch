@@ -1,5 +1,16 @@
 --- a/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 +++ b/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
+@@ -84,8 +_,8 @@
+       return p_37065_ < 4096.0D && !this.m_37088_();
+    }
+ 
+-   public boolean m_6000_(double p_37083_, double p_37084_, double p_37085_) {
+-      return super.m_6000_(p_37083_, p_37084_, p_37085_) && !this.m_37088_();
++   public boolean shouldRender(me.alphamode.mclong.math.BigDecimal p_37083_, me.alphamode.mclong.math.BigDecimal p_37084_, me.alphamode.mclong.math.BigDecimal p_37085_) {
++      return super.shouldRender(p_37083_, p_37084_, p_37085_) && !this.m_37088_();
+    }
+ 
+    public void m_8119_() {
 @@ -108,13 +_,13 @@
                 double d0 = 1.5D;
                 double d1 = 0.1D;
@@ -16,21 +27,34 @@
              this.m_20256_(this.f_37024_.m_20184_());
           }
        } else {
-@@ -141,7 +_,7 @@
+@@ -136,12 +_,12 @@
+ 
+       this.m_37283_();
+       if (this.f_37022_ == 0 && !this.m_20067_()) {
+-         this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_11932_, SoundSource.AMBIENT, 3.0F, 1.0F);
++         this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_11932_, SoundSource.AMBIENT, 3.0F, 1.0F);
+       }
  
        ++this.f_37022_;
        if (this.m_9236_().f_46443_ && this.f_37022_ % 2 < 2) {
 -         this.m_9236_().m_7106_(ParticleTypes.f_123815_, this.m_20185_(), this.m_20186_(), this.m_20189_(), this.f_19796_.m_188583_() * 0.05D, -this.m_20184_().f_82480_ * 0.5D, this.f_19796_.m_188583_() * 0.05D);
-+         this.m_9236_().m_7106_(ParticleTypes.f_123815_, this.m_20185_(), this.m_20186_(), this.m_20189_(), this.f_19796_.m_188583_() * 0.05D, -this.m_20184_().m_7098_() * 0.5D, this.f_19796_.m_188583_() * 0.05D);
++         this.m_9236_().addParticle(ParticleTypes.f_123815_, this.getBigX(), this.getBigY(), this.getBigZ(), this.f_19796_.m_188583_() * 0.05D, -this.m_20184_().m_7098_() * 0.5D, this.f_19796_.m_188583_() * 0.05D);
        }
  
        if (!this.m_9236_().f_46443_ && this.f_37022_ > this.f_37023_) {
-@@ -239,7 +_,7 @@
+@@ -233,13 +_,13 @@
+       if (p_37063_ == 17 && this.m_9236_().f_46443_) {
+          if (!this.m_37086_()) {
+             for(int i = 0; i < this.f_19796_.m_188503_(3) + 2; ++i) {
+-               this.m_9236_().m_7106_(ParticleTypes.f_123759_, this.m_20185_(), this.m_20186_(), this.m_20189_(), this.f_19796_.m_188583_() * 0.05D, 0.005D, this.f_19796_.m_188583_() * 0.05D);
++               this.m_9236_().addParticle(ParticleTypes.f_123759_, this.getBigX(), this.getBigY(), this.getBigZ(), this.f_19796_.m_188583_() * 0.05D, 0.005D, this.f_19796_.m_188583_() * 0.05D);
+             }
+          } else {
              ItemStack itemstack = this.f_19804_.m_135370_(f_37019_);
              CompoundTag compoundtag = itemstack.m_41619_() ? null : itemstack.m_41737_("Fireworks");
              Vec3 vec3 = this.m_20184_();
 -            this.m_9236_().m_7228_(this.m_20185_(), this.m_20186_(), this.m_20189_(), vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, compoundtag);
-+            this.m_9236_().m_7228_(this.m_20185_(), this.m_20186_(), this.m_20189_(), vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), compoundtag);
++            this.m_9236_().createFireworks(this.getBigX(), this.getBigY(), this.getBigZ(), vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), compoundtag);
           }
        }
  

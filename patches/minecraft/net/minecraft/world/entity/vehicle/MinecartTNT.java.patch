@@ -1,5 +1,23 @@
 --- a/net/minecraft/world/entity/vehicle/MinecartTNT.java
 +++ b/net/minecraft/world/entity/vehicle/MinecartTNT.java
+@@ -47,7 +_,7 @@
+       super.m_8119_();
+       if (this.f_38647_ > 0) {
+          --this.f_38647_;
+-         this.m_9236_().m_7106_(ParticleTypes.f_123762_, this.m_20185_(), this.m_20186_() + 0.5D, this.m_20189_(), 0.0D, 0.0D, 0.0D);
++         this.m_9236_().addParticle(ParticleTypes.f_123762_, this.getBigX(), this.getBigY().add(me.alphamode.mclong.core.BigConstants.AABB), this.getBigZ(), 0.0D, 0.0D, 0.0D);
+       } else if (this.f_38647_ == 0) {
+          this.m_38688_(this.m_20184_().m_165925_());
+       }
+@@ -101,7 +_,7 @@
+             d0 = 5.0D;
+          }
+ 
+-         this.m_9236_().m_254877_(this, p_259539_, (ExplosionDamageCalculator)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), (float)(4.0D + this.f_19796_.m_188500_() * 1.5D * d0), false, Level.ExplosionInteraction.TNT);
++         this.m_9236_().explode(this, p_259539_, (ExplosionDamageCalculator)null, this.getBigX(), this.getBigY(), this.getBigZ(), (float)(4.0D + this.f_19796_.m_188500_() * 1.5D * d0), false, Level.ExplosionInteraction.TNT);
+          this.m_146870_();
+       }
+ 
 @@ -116,7 +_,7 @@
        return super.m_142535_(p_150347_, p_150348_, p_150349_);
     }
@@ -9,6 +27,15 @@
        if (p_38662_ && this.f_38647_ < 0) {
           this.m_38693_();
        }
+@@ -137,7 +_,7 @@
+       if (!this.m_9236_().f_46443_) {
+          this.m_9236_().m_7605_(this, (byte)10);
+          if (!this.m_20067_()) {
+-            this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12512_, SoundSource.BLOCKS, 1.0F, 1.0F);
++            this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12512_, SoundSource.BLOCKS, 1.0F, 1.0F);
+          }
+       }
+ 
 @@ -152,11 +_,11 @@
     }
  

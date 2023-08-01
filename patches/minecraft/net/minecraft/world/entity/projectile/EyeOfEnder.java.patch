@@ -1,36 +1,69 @@
 --- a/net/minecraft/world/entity/projectile/EyeOfEnder.java
 +++ b/net/minecraft/world/entity/projectile/EyeOfEnder.java
-@@ -64,9 +_,9 @@
+@@ -18,9 +_,9 @@
+ 
+ public class EyeOfEnder extends Entity implements ItemSupplier {
+    private static final EntityDataAccessor<ItemStack> f_36949_ = SynchedEntityData.m_135353_(EyeOfEnder.class, EntityDataSerializers.f_135033_);
+-   private double f_36950_;
+-   private double f_36951_;
+-   private double f_36952_;
++   private me.alphamode.mclong.math.BigDecimal f_36950_;
++   private me.alphamode.mclong.math.BigDecimal f_36951_;
++   private me.alphamode.mclong.math.BigDecimal f_36952_;
+    private int f_36953_;
+    private boolean f_36954_;
+ 
+@@ -64,19 +_,19 @@
     }
  
     public void m_36967_(BlockPos p_36968_) {
 -      double d0 = (double)p_36968_.m_123341_();
 -      int i = p_36968_.m_123342_();
 -      double d1 = (double)p_36968_.m_123343_();
-+      double d0 = (double)p_36968_.getX();
-+      long i = p_36968_.getY();
-+      double d1 = (double)p_36968_.getZ();
-       double d2 = d0 - this.m_20185_();
-       double d3 = d1 - this.m_20189_();
-       double d4 = Math.sqrt(d2 * d2 + d3 * d3);
-@@ -99,19 +_,19 @@
+-      double d2 = d0 - this.m_20185_();
+-      double d3 = d1 - this.m_20189_();
+-      double d4 = Math.sqrt(d2 * d2 + d3 * d3);
+-      if (d4 > 12.0D) {
+-         this.f_36950_ = this.m_20185_() + d2 / d4 * 12.0D;
+-         this.f_36952_ = this.m_20189_() + d3 / d4 * 12.0D;
+-         this.f_36951_ = this.m_20186_() + 8.0D;
++      me.alphamode.mclong.math.BigDecimal d0 = p_36968_.getBigDecX();
++      me.alphamode.mclong.math.BigDecimal i = p_36968_.getBigDecY();
++      me.alphamode.mclong.math.BigDecimal d1 = p_36968_.getBigDecZ();
++      me.alphamode.mclong.math.BigDecimal d2 = d0.subtract(this.getBigX());
++      me.alphamode.mclong.math.BigDecimal d3 = d1.subtract(this.getBigZ());
++      me.alphamode.mclong.math.BigDecimal d4 = d2.multiply(d2).add(d3.multiply(d3)).sqrt();
++      if (d4.compareTo(me.alphamode.mclong.core.BigConstants.TWELVE) > 0) {
++         this.f_36950_ = this.getBigX().add(d2.divide(d4).multiply(me.alphamode.mclong.core.BigConstants.TWELVE));
++         this.f_36952_ = this.getBigZ().add(d3.divide(d4).multiply(me.alphamode.mclong.core.BigConstants.TWELVE));
++         this.f_36951_ = this.getBigY().add(me.alphamode.mclong.core.BigConstants.EIGHT);
+       } else {
+          this.f_36950_ = d0;
+-         this.f_36951_ = (double)i;
++         this.f_36951_ = i;
+          this.f_36952_ = d1;
+       }
+ 
+@@ -99,25 +_,25 @@
     public void m_8119_() {
        super.m_8119_();
        Vec3 vec3 = this.m_20184_();
 -      double d0 = this.m_20185_() + vec3.f_82479_;
 -      double d1 = this.m_20186_() + vec3.f_82480_;
 -      double d2 = this.m_20189_() + vec3.f_82481_;
-+      double d0 = this.m_20185_() + vec3.m_7096_();
-+      double d1 = this.m_20186_() + vec3.m_7098_();
-+      double d2 = this.m_20189_() + vec3.m_7094_();
++      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().add(vec3.getX());
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().add(vec3.getY());
++      me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().add(vec3.getZ());
        double d3 = vec3.m_165924_();
 -      this.m_146926_(Projectile.m_37273_(this.f_19860_, (float)(Mth.m_14136_(vec3.f_82480_, d3) * (double)(180F / (float)Math.PI))));
 -      this.m_146922_(Projectile.m_37273_(this.f_19859_, (float)(Mth.m_14136_(vec3.f_82479_, vec3.f_82481_) * (double)(180F / (float)Math.PI))));
 +      this.m_146926_(Projectile.m_37273_(this.f_19860_, (float)(Mth.m_14136_(vec3.m_7098_(), d3) * (double)(180F / (float)Math.PI))));
 +      this.m_146922_(Projectile.m_37273_(this.f_19859_, (float)(Mth.m_14136_(vec3.m_7096_(), vec3.m_7094_()) * (double)(180F / (float)Math.PI))));
        if (!this.m_9236_().f_46443_) {
-          double d4 = this.f_36950_ - d0;
-          double d5 = this.f_36952_ - d2;
+-         double d4 = this.f_36950_ - d0;
+-         double d5 = this.f_36952_ - d2;
++         double d4 = this.f_36950_.subtract(d0).doubleValue();
++         double d5 = this.f_36952_.subtract(d2).doubleValue();
           float f = (float)Math.sqrt(d4 * d4 + d5 * d5);
           float f1 = (float)Mth.m_14136_(d5, d4);
           double d6 = Mth.m_14139_(0.0025D, d3, (double)f);
@@ -39,16 +72,37 @@
           if (f < 1.0F) {
              d6 *= 0.8D;
              d7 *= 0.8D;
-@@ -125,10 +_,10 @@
+          }
+ 
+-         int j = this.m_20186_() < this.f_36951_ ? 1 : -1;
++         int j = this.getBigY().compareTo(this.f_36951_) < 0 ? 1 : -1;
+          vec3 = new Vec3(Math.cos((double)f1) * d6, d7 + ((double)j - d7) * (double)0.015F, Math.sin((double)f1) * d6);
+          this.m_20256_(vec3);
+       }
+@@ -125,14 +_,14 @@
        float f2 = 0.25F;
        if (this.m_20069_()) {
           for(int i = 0; i < 4; ++i) {
 -            this.m_9236_().m_7106_(ParticleTypes.f_123795_, d0 - vec3.f_82479_ * 0.25D, d1 - vec3.f_82480_ * 0.25D, d2 - vec3.f_82481_ * 0.25D, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_);
-+            this.m_9236_().m_7106_(ParticleTypes.f_123795_, d0 - vec3.m_7096_() * 0.25D, d1 - vec3.m_7098_() * 0.25D, d2 - vec3.m_7094_() * 0.25D, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
++            this.m_9236_().addParticle(ParticleTypes.f_123795_, d0.subtract(vec3.getX().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES)), d1.subtract(vec3.getY().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES)), d2.subtract(vec3.getZ().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES)), vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
           }
        } else {
 -         this.m_9236_().m_7106_(ParticleTypes.f_123760_, d0 - vec3.f_82479_ * 0.25D + this.f_19796_.m_188500_() * 0.6D - 0.3D, d1 - vec3.f_82480_ * 0.25D - 0.5D, d2 - vec3.f_82481_ * 0.25D + this.f_19796_.m_188500_() * 0.6D - 0.3D, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_);
-+         this.m_9236_().m_7106_(ParticleTypes.f_123760_, d0 - vec3.m_7096_() * 0.25D + this.f_19796_.m_188500_() * 0.6D - 0.3D, d1 - vec3.m_7098_() * 0.25D - 0.5D, d2 - vec3.m_7094_() * 0.25D + this.f_19796_.m_188500_() * 0.6D - 0.3D, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
++         this.m_9236_().addParticle(ParticleTypes.f_123760_, d0.subtract(vec3.getX().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES).add(me.alphamode.mclong.math.BigDecimal.valueOf(this.f_19796_.m_188500_() * 0.6D - 0.3D))), d1.subtract(vec3.getY().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES)).subtract(me.alphamode.mclong.core.BigConstants.AABB), d2.subtract(vec3.getZ().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES).add(this.f_19796_.m_188500_() * 0.6D - 0.3D)), vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
        }
  
        if (!this.m_9236_().f_46443_) {
+-         this.m_6034_(d0, d1, d2);
++         this.setPos(d0, d1, d2);
+          ++this.f_36953_;
+          if (this.f_36953_ > 80 && !this.m_9236_().f_46443_) {
+             this.m_5496_(SoundEvents.f_11897_, 1.0F, 1.0F);
+@@ -144,7 +_,7 @@
+             }
+          }
+       } else {
+-         this.m_20343_(d0, d1, d2);
++         this.setPosRaw(d0, d1, d2);
+       }
+ 
+    }

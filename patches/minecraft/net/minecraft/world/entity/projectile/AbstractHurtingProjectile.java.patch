@@ -1,25 +1,56 @@
 --- a/net/minecraft/world/entity/projectile/AbstractHurtingProjectile.java
 +++ b/net/minecraft/world/entity/projectile/AbstractHurtingProjectile.java
-@@ -71,15 +_,15 @@
+@@ -24,9 +_,9 @@
+       super(p_36833_, p_36834_);
+    }
+ 
+-   public AbstractHurtingProjectile(EntityType<? extends AbstractHurtingProjectile> p_36817_, double p_36818_, double p_36819_, double p_36820_, double p_36821_, double p_36822_, double p_36823_, Level p_36824_) {
++   public AbstractHurtingProjectile(EntityType<? extends AbstractHurtingProjectile> p_36817_, me.alphamode.mclong.math.BigDecimal p_36818_, me.alphamode.mclong.math.BigDecimal p_36819_, me.alphamode.mclong.math.BigDecimal p_36820_, double p_36821_, double p_36822_, double p_36823_, Level p_36824_) {
+       this(p_36817_, p_36824_);
+-      this.m_7678_(p_36818_, p_36819_, p_36820_, this.m_146908_(), this.m_146909_());
++      this.moveTo(p_36818_, p_36819_, p_36820_, this.m_146908_(), this.m_146909_());
+       this.m_20090_();
+       double d0 = Math.sqrt(p_36821_ * p_36821_ + p_36822_ * p_36822_ + p_36823_ * p_36823_);
+       if (d0 != 0.0D) {
+@@ -38,7 +_,7 @@
+    }
+ 
+    public AbstractHurtingProjectile(EntityType<? extends AbstractHurtingProjectile> p_36826_, LivingEntity p_36827_, double p_36828_, double p_36829_, double p_36830_, Level p_36831_) {
+-      this(p_36826_, p_36827_.m_20185_(), p_36827_.m_20186_(), p_36827_.m_20189_(), p_36828_, p_36829_, p_36830_, p_36831_);
++      this(p_36826_, p_36827_.getBigX(), p_36827_.getBigY(), p_36827_.getBigZ(), p_36828_, p_36829_, p_36830_, p_36831_);
+       this.m_5602_(p_36827_);
+       this.m_19915_(p_36827_.m_146908_(), p_36827_.m_146909_());
+    }
+@@ -71,23 +_,23 @@
  
           this.m_20101_();
           Vec3 vec3 = this.m_20184_();
 -         double d0 = this.m_20185_() + vec3.f_82479_;
 -         double d1 = this.m_20186_() + vec3.f_82480_;
 -         double d2 = this.m_20189_() + vec3.f_82481_;
-+         double d0 = this.m_20185_() + vec3.m_7096_();
-+         double d1 = this.m_20186_() + vec3.m_7098_();
-+         double d2 = this.m_20189_() + vec3.m_7094_();
++         me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().add(vec3.getX());
++         me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().add(vec3.getY());
++         me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().add(vec3.getZ());
           ProjectileUtil.m_37284_(this, 0.2F);
           float f = this.m_6884_();
           if (this.m_20069_()) {
              for(int i = 0; i < 4; ++i) {
                 float f1 = 0.25F;
 -               this.m_9236_().m_7106_(ParticleTypes.f_123795_, d0 - vec3.f_82479_ * 0.25D, d1 - vec3.f_82480_ * 0.25D, d2 - vec3.f_82481_ * 0.25D, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_);
-+               this.m_9236_().m_7106_(ParticleTypes.f_123795_, d0 - vec3.m_7096_() * 0.25D, d1 - vec3.m_7098_() * 0.25D, d2 - vec3.m_7094_() * 0.25D, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
++               this.m_9236_().addParticle(ParticleTypes.f_123795_, d0.subtract(vec3.getX().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES)), d1.subtract(vec3.getY().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES)), d2.subtract(vec3.getZ().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES)), vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
              }
  
              f = 0.8F;
+          }
+ 
+          this.m_20256_(vec3.m_82520_(this.f_36813_, this.f_36814_, this.f_36815_).m_82490_((double)f));
+-         this.m_9236_().m_7106_(this.m_5967_(), d0, d1 + 0.5D, d2, 0.0D, 0.0D, 0.0D);
+-         this.m_6034_(d0, d1, d2);
++         this.m_9236_().addParticle(this.m_5967_(), d0, d1.add(me.alphamode.mclong.core.BigConstants.AABB), d2, 0.0D, 0.0D, 0.0D);
++         this.setPos(d0, d1, d2);
+       } else {
+          this.m_146870_();
+       }
 @@ -145,9 +_,9 @@
              if (!this.m_9236_().f_46443_) {
                 Vec3 vec3 = entity.m_20154_();

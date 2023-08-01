@@ -1,11 +1,27 @@
 --- a/net/minecraft/world/entity/boss/enderdragon/phases/DragonLandingPhase.java
 +++ b/net/minecraft/world/entity/boss/enderdragon/phases/DragonLandingPhase.java
-@@ -29,7 +_,7 @@
-          double d4 = d1 + randomsource.m_188583_() / 2.0D;
-          double d5 = d2 + randomsource.m_188583_() / 2.0D;
+@@ -19,17 +_,17 @@
+    public void m_6991_() {
+       Vec3 vec3 = this.f_31176_.m_31174_(1.0F).m_82541_();
+       vec3.m_82524_((-(float)Math.PI / 4F));
+-      double d0 = this.f_31176_.f_31080_.m_20185_();
+-      double d1 = this.f_31176_.f_31080_.m_20227_(0.5D);
+-      double d2 = this.f_31176_.f_31080_.m_20189_();
++      me.alphamode.mclong.math.BigDecimal d0 = this.f_31176_.f_31080_.getBigX();
++      me.alphamode.mclong.math.BigDecimal d1 = this.f_31176_.f_31080_.getY(me.alphamode.mclong.core.BigConstants.AABB);
++      me.alphamode.mclong.math.BigDecimal d2 = this.f_31176_.f_31080_.getBigZ();
+ 
+       for(int i = 0; i < 8; ++i) {
+          RandomSource randomsource = this.f_31176_.m_217043_();
+-         double d3 = d0 + randomsource.m_188583_() / 2.0D;
+-         double d4 = d1 + randomsource.m_188583_() / 2.0D;
+-         double d5 = d2 + randomsource.m_188583_() / 2.0D;
++         me.alphamode.mclong.math.BigDecimal d3 = d0.add(randomsource.m_188583_() / 2.0D);
++         me.alphamode.mclong.math.BigDecimal d4 = d1.add(randomsource.m_188583_() / 2.0D);
++         me.alphamode.mclong.math.BigDecimal d5 = d2.add(randomsource.m_188583_() / 2.0D);
           Vec3 vec31 = this.f_31176_.m_20184_();
 -         this.f_31176_.m_9236_().m_7106_(ParticleTypes.f_123799_, d3, d4, d5, -vec3.f_82479_ * (double)0.08F + vec31.f_82479_, -vec3.f_82480_ * (double)0.3F + vec31.f_82480_, -vec3.f_82481_ * (double)0.08F + vec31.f_82481_);
-+         this.f_31176_.m_9236_().m_7106_(ParticleTypes.f_123799_, d3, d4, d5, -vec3.m_7096_() * (double)0.08F + vec31.m_7096_(), -vec3.m_7098_() * (double)0.3F + vec31.m_7098_(), -vec3.m_7094_() * (double)0.08F + vec31.m_7094_());
++         this.f_31176_.m_9236_().addParticle(ParticleTypes.f_123799_, d3, d4, d5, -vec3.m_7096_() * (double)0.08F + vec31.m_7096_(), -vec3.m_7098_() * (double)0.3F + vec31.m_7098_(), -vec3.m_7094_() * (double)0.08F + vec31.m_7094_());
           vec3.m_82524_(0.19634955F);
        }
  

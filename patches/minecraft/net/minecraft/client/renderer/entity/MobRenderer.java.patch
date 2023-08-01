@@ -1,5 +1,16 @@
 --- a/net/minecraft/client/renderer/entity/MobRenderer.java
 +++ b/net/minecraft/client/renderer/entity/MobRenderer.java
+@@ -29,8 +_,8 @@
+       return super.m_6512_(p_115506_) && (p_115506_.m_6052_() || p_115506_.m_8077_() && p_115506_ == this.f_114476_.f_114359_);
+    }
+ 
+-   public boolean m_5523_(T p_115468_, Frustum p_115469_, double p_115470_, double p_115471_, double p_115472_) {
+-      if (super.m_5523_(p_115468_, p_115469_, p_115470_, p_115471_, p_115472_)) {
++   public boolean shouldRender(T p_115468_, Frustum p_115469_, me.alphamode.mclong.math.BigDecimal p_115470_, me.alphamode.mclong.math.BigDecimal p_115471_, me.alphamode.mclong.math.BigDecimal p_115472_) {
++      if (super.shouldRender(p_115468_, p_115469_, p_115470_, p_115471_, p_115472_)) {
+          return true;
+       } else {
+          Entity entity = p_115468_.m_21524_();
 @@ -51,23 +_,24 @@
        Vec3 vec3 = p_115466_.m_7398_(p_115463_);
        double d0 = (double)(Mth.m_14179_(p_115463_, p_115462_.f_20884_, p_115462_.f_20883_) * ((float)Math.PI / 180F)) + (Math.PI / 2D);
@@ -15,10 +26,10 @@
 -      float f2 = (float)(vec3.f_82481_ - d5);
 +      double d1 = Math.cos(d0) * vec31.m_7094_() + Math.sin(d0) * vec31.m_7096_();
 +      double d2 = Math.sin(d0) * vec31.m_7094_() - Math.cos(d0) * vec31.m_7096_();
-+      var lerp = java.math.BigDecimal.valueOf(p_115463_);
-+      java.math.BigDecimal d3 = Mth.lerp(lerp, p_115462_.f_19854_, p_115462_.getBigX()).add(java.math.BigDecimal.valueOf(d1));
-+      java.math.BigDecimal d4 = Mth.lerp(lerp, p_115462_.f_19855_, p_115462_.getBigY()).add(java.math.BigDecimal.valueOf(vec31.m_7098_()));
-+      java.math.BigDecimal d5 = Mth.lerp(lerp, p_115462_.f_19856_, p_115462_.getBigZ()).add(java.math.BigDecimal.valueOf(d2));
++      var lerp = me.alphamode.mclong.math.BigDecimal.valueOf(p_115463_);
++      me.alphamode.mclong.math.BigDecimal d3 = Mth.lerp(lerp, p_115462_.f_19854_, p_115462_.getBigX()).add(me.alphamode.mclong.math.BigDecimal.valueOf(d1));
++      me.alphamode.mclong.math.BigDecimal d4 = Mth.lerp(lerp, p_115462_.f_19855_, p_115462_.getBigY()).add(me.alphamode.mclong.math.BigDecimal.valueOf(vec31.m_7098_()));
++      me.alphamode.mclong.math.BigDecimal d5 = Mth.lerp(lerp, p_115462_.f_19856_, p_115462_.getBigZ()).add(me.alphamode.mclong.math.BigDecimal.valueOf(d2));
 +      p_115464_.m_85837_(d1, vec31.m_7098_(), d2);
 +      float f = vec3.getX().subtract(d3).floatValue();
 +      float f1 = vec3.getY().subtract(d4).floatValue();

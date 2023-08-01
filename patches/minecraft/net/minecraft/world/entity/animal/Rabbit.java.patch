@@ -1,6 +1,14 @@
 --- a/net/minecraft/world/entity/animal/Rabbit.java
 +++ b/net/minecraft/world/entity/animal/Rabbit.java
-@@ -113,7 +_,7 @@
+@@ -106,14 +_,14 @@
+ 
+    protected float m_6118_() {
+       float f = 0.3F;
+-      if (this.f_19862_ || this.f_21342_.m_24995_() && this.f_21342_.m_25001_() > this.m_20186_() + 0.5D) {
++      if (this.f_19862_ || this.f_21342_.m_24995_() && this.f_21342_.getWantedY().compareTo(this.getBigY().add(me.alphamode.mclong.core.BigConstants.AABB)) > 0) {
+          f = 0.5F;
+       }
+ 
        Path path = this.f_21344_.m_26570_();
        if (path != null && !path.m_77392_()) {
           Vec3 vec3 = path.m_77380_(this);
@@ -9,7 +17,31 @@
              f = 0.5F;
           }
        }
-@@ -206,7 +_,7 @@
+@@ -147,7 +_,7 @@
+ 
+    public void m_29725_(double p_29726_) {
+       this.m_21573_().m_26517_(p_29726_);
+-      this.f_21342_.m_6849_(this.f_21342_.m_25000_(), this.f_21342_.m_25001_(), this.f_21342_.m_25002_(), p_29726_);
++      this.f_21342_.setWantedPosition(this.f_21342_.getWantedX(), this.f_21342_.getWantedY(), this.f_21342_.getWantedZ(), p_29726_);
+    }
+ 
+    public void m_6862_(boolean p_29732_) {
+@@ -191,7 +_,7 @@
+             LivingEntity livingentity = this.m_5448_();
+             if (livingentity != null && this.m_20280_(livingentity) < 16.0D) {
+                this.m_29686_(livingentity.m_20185_(), livingentity.m_20189_());
+-               this.f_21342_.m_6849_(livingentity.m_20185_(), livingentity.m_20186_(), livingentity.m_20189_(), this.f_21342_.m_24999_());
++               this.f_21342_.setWantedPosition(livingentity.getBigX(), livingentity.getBigY(), livingentity.getBigZ(), this.f_21342_.m_24999_());
+                this.m_29716_();
+                this.f_29651_ = true;
+             }
+@@ -201,12 +_,12 @@
+          if (!rabbit$rabbitjumpcontrol.m_29761_()) {
+             if (this.f_21342_.m_24995_() && this.f_29652_ == 0) {
+                Path path = this.f_21344_.m_26570_();
+-               Vec3 vec3 = new Vec3(this.f_21342_.m_25000_(), this.f_21342_.m_25001_(), this.f_21342_.m_25002_());
++               Vec3 vec3 = new Vec3(this.f_21342_.getWantedX(), this.f_21342_.getWantedY(), this.f_21342_.getWantedZ());
+                if (path != null && !path.m_77392_()) {
                    vec3 = path.m_77380_(this);
                 }
  
@@ -27,6 +59,21 @@
     }
  
     boolean m_29724_() {
+@@ -485,12 +_,12 @@
+          super.m_8126_();
+       }
+ 
+-      public void m_6849_(double p_29769_, double p_29770_, double p_29771_, double p_29772_) {
++      public void setWantedPosition(me.alphamode.mclong.math.BigDecimal p_29769_, me.alphamode.mclong.math.BigDecimal p_29770_, me.alphamode.mclong.math.BigDecimal p_29771_, double p_29772_) {
+          if (this.f_29763_.m_20069_()) {
+             p_29772_ = 1.5D;
+          }
+ 
+-         super.m_6849_(p_29769_, p_29770_, p_29771_, p_29772_);
++         super.setWantedPosition(p_29769_, p_29770_, p_29771_, p_29772_);
+          if (p_29772_ > 0.0D) {
+             this.f_29764_ = p_29772_;
+          }
 @@ -541,10 +_,10 @@
  
        public void m_8037_() {

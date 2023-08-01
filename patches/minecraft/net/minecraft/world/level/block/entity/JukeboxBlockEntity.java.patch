@@ -1,20 +1,26 @@
 --- a/net/minecraft/world/level/block/entity/JukeboxBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/JukeboxBlockEntity.java
-@@ -156,7 +_,7 @@
+@@ -156,9 +_,9 @@
  
     private void m_269320_(Level p_270782_, BlockPos p_270940_) {
        if (p_270782_ instanceof ServerLevel serverlevel) {
 -         Vec3 vec3 = Vec3.m_82539_(p_270940_).m_82520_(0.0D, (double)1.2F, 0.0D);
 +         Vec3 vec3 = Vec3.atBottomCenterOf(p_270940_).m_82520_(0.0D, (double)1.2F, 0.0D);
           float f = (float)p_270782_.m_213780_().m_188503_(4) / 24.0F;
-          serverlevel.m_8767_(ParticleTypes.f_123758_, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), 0, (double)f, 0.0D, 0.0D, 1.0D);
+-         serverlevel.m_8767_(ParticleTypes.f_123758_, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), 0, (double)f, 0.0D, 0.0D, 1.0D);
++         serverlevel.sendParticles(ParticleTypes.f_123758_, vec3.getX(), vec3.getY(), vec3.getZ(), 0, (double)f, 0.0D, 0.0D, 1.0D);
        }
-@@ -169,7 +_,7 @@
+ 
+    }
+@@ -169,9 +_,9 @@
           ItemStack itemstack = this.m_272036_();
           if (!itemstack.m_41619_()) {
              this.m_272108_();
 -            Vec3 vec3 = Vec3.m_272021_(blockpos, 0.5D, 1.01D, 0.5D).m_272010_(this.f_58857_.f_46441_, 0.7F);
 +            Vec3 vec3 = Vec3.atLowerCornerWithOffset(blockpos, 0.5D, 1.01D, 0.5D).m_272010_(this.f_58857_.f_46441_, 0.7F);
              ItemStack itemstack1 = itemstack.m_41777_();
-             ItemEntity itementity = new ItemEntity(this.f_58857_, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), itemstack1);
+-            ItemEntity itementity = new ItemEntity(this.f_58857_, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), itemstack1);
++            ItemEntity itementity = new ItemEntity(this.f_58857_, vec3.getX(), vec3.getY(), vec3.getZ(), itemstack1);
              itementity.m_32060_();
+             this.f_58857_.m_7967_(itementity);
+          }

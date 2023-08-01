@@ -1,5 +1,97 @@
 --- a/net/minecraft/client/particle/ParticleEngine.java
 +++ b/net/minecraft/client/particle/ParticleEngine.java
+@@ -109,11 +_,11 @@
+       this.m_107378_(ParticleTypes.f_123798_, CritParticle.DamageIndicatorProvider::new);
+       this.m_107378_(ParticleTypes.f_123799_, DragonBreathParticle.Provider::new);
+       this.m_107378_(ParticleTypes.f_123776_, SuspendedTownParticle.DolphinSpeedProvider::new);
+-      this.m_272137_(ParticleTypes.f_123800_, DripParticle::m_272109_);
+-      this.m_272137_(ParticleTypes.f_123801_, DripParticle::m_272026_);
+-      this.m_272137_(ParticleTypes.f_123802_, DripParticle::m_271885_);
+-      this.m_272137_(ParticleTypes.f_123803_, DripParticle::m_272020_);
+-      this.m_272137_(ParticleTypes.f_123804_, DripParticle::m_271915_);
++      this.m_272137_(ParticleTypes.f_123800_, DripParticle::createLavaHangParticle);
++      this.m_272137_(ParticleTypes.f_123801_, DripParticle::createLavaFallParticle);
++      this.m_272137_(ParticleTypes.f_123802_, DripParticle::createLavaLandParticle);
++      this.m_272137_(ParticleTypes.f_123803_, DripParticle::createWaterHangParticle);
++      this.m_272137_(ParticleTypes.f_123804_, DripParticle::createWaterFallParticle);
+       this.m_107378_(ParticleTypes.f_123805_, DustParticle.Provider::new);
+       this.m_107378_(ParticleTypes.f_175836_, DustColorTransitionParticle.Provider::new);
+       this.m_107378_(ParticleTypes.f_123806_, SpellParticle.Provider::new);
+@@ -159,30 +_,30 @@
+       this.m_107378_(ParticleTypes.f_123768_, SuspendedParticle.UnderwaterProvider::new);
+       this.m_107378_(ParticleTypes.f_123769_, SplashParticle.Provider::new);
+       this.m_107378_(ParticleTypes.f_123771_, SpellParticle.WitchProvider::new);
+-      this.m_272137_(ParticleTypes.f_123779_, DripParticle::m_272107_);
+-      this.m_272137_(ParticleTypes.f_123780_, DripParticle::m_272030_);
+-      this.m_272137_(ParticleTypes.f_123781_, DripParticle::m_271744_);
+-      this.m_272137_(ParticleTypes.f_123782_, DripParticle::m_272129_);
+-      this.m_272137_(ParticleTypes.f_175832_, DripParticle::m_272261_);
++      this.m_272137_(ParticleTypes.f_123779_, DripParticle::createHoneyHangParticle);
++      this.m_272137_(ParticleTypes.f_123780_, DripParticle::createHoneyFallParticle);
++      this.m_272137_(ParticleTypes.f_123781_, DripParticle::createHoneyLandParticle);
++      this.m_272137_(ParticleTypes.f_123782_, DripParticle::createNectarFallParticle);
++      this.m_272137_(ParticleTypes.f_175832_, DripParticle::createSporeBlossomFallParticle);
+       this.m_107378_(ParticleTypes.f_175833_, SuspendedParticle.SporeBlossomAirProvider::new);
+       this.m_107378_(ParticleTypes.f_123783_, AshParticle.Provider::new);
+       this.m_107378_(ParticleTypes.f_123784_, SuspendedParticle.CrimsonSporeProvider::new);
+       this.m_107378_(ParticleTypes.f_123785_, SuspendedParticle.WarpedSporeProvider::new);
+-      this.m_272137_(ParticleTypes.f_123786_, DripParticle::m_271935_);
+-      this.m_272137_(ParticleTypes.f_123787_, DripParticle::m_271941_);
+-      this.m_272137_(ParticleTypes.f_123788_, DripParticle::m_272251_);
++      this.m_272137_(ParticleTypes.f_123786_, DripParticle::createObsidianTearHangParticle);
++      this.m_272137_(ParticleTypes.f_123787_, DripParticle::createObsidianTearFallParticle);
++      this.m_272137_(ParticleTypes.f_123788_, DripParticle::createObsidianTearLandParticle);
+       this.m_107378_(ParticleTypes.f_123789_, ReversePortalParticle.ReversePortalProvider::new);
+       this.m_107378_(ParticleTypes.f_123790_, WhiteAshParticle.Provider::new);
+       this.m_107378_(ParticleTypes.f_175834_, FlameParticle.SmallFlameProvider::new);
+-      this.m_272137_(ParticleTypes.f_175824_, DripParticle::m_272002_);
+-      this.m_272137_(ParticleTypes.f_175825_, DripParticle::m_271993_);
++      this.m_272137_(ParticleTypes.f_175824_, DripParticle::createDripstoneWaterHangParticle);
++      this.m_272137_(ParticleTypes.f_175825_, DripParticle::createDripstoneWaterFallParticle);
+       this.m_107378_(ParticleTypes.f_276452_, (p_277215_) -> {
+          return (p_277217_, p_277218_, p_277219_, p_277220_, p_277221_, p_277222_, p_277223_, p_277224_) -> {
+             return new CherryParticle(p_277218_, p_277219_, p_277220_, p_277221_, p_277215_);
+          };
+       });
+-      this.m_272137_(ParticleTypes.f_175822_, DripParticle::m_271789_);
+-      this.m_272137_(ParticleTypes.f_175823_, DripParticle::m_271760_);
++      this.m_272137_(ParticleTypes.f_175822_, DripParticle::createDripstoneLavaHangParticle);
++      this.m_272137_(ParticleTypes.f_175823_, DripParticle::createDripstoneLavaFallParticle);
+       this.m_107378_(ParticleTypes.f_175820_, VibrationSignalParticle.Provider::new);
+       this.m_107378_(ParticleTypes.f_175826_, SquidInkParticle.GlowInkProvider::new);
+       this.m_107378_(ParticleTypes.f_175827_, GlowParticle.GlowSquidProvider::new);
+@@ -201,7 +_,7 @@
+    private <T extends ParticleOptions> void m_272137_(ParticleType<T> p_273423_, ParticleProvider.Sprite<T> p_273134_) {
+       this.m_107378_(p_273423_, (p_272320_) -> {
+          return (p_272323_, p_272324_, p_272325_, p_272326_, p_272327_, p_272328_, p_272329_, p_272330_) -> {
+-            TextureSheetParticle texturesheetparticle = p_273134_.m_272232_(p_272323_, p_272324_, p_272325_, p_272326_, p_272327_, p_272328_, p_272329_, p_272330_);
++            TextureSheetParticle texturesheetparticle = p_273134_.createParticle(p_272323_, p_272324_, p_272325_, p_272326_, p_272327_, p_272328_, p_272329_, p_272330_);
+             if (texturesheetparticle != null) {
+                texturesheetparticle.m_108335_(p_272320_);
+             }
+@@ -301,8 +_,8 @@
+    }
+ 
+    @Nullable
+-   public Particle m_107370_(ParticleOptions p_107371_, double p_107372_, double p_107373_, double p_107374_, double p_107375_, double p_107376_, double p_107377_) {
+-      Particle particle = this.m_107395_(p_107371_, p_107372_, p_107373_, p_107374_, p_107375_, p_107376_, p_107377_);
++   public Particle createParticle(ParticleOptions p_107371_, me.alphamode.mclong.math.BigDecimal p_107372_, me.alphamode.mclong.math.BigDecimal p_107373_, me.alphamode.mclong.math.BigDecimal p_107374_, double p_107375_, double p_107376_, double p_107377_) {
++      Particle particle = this.makeParticle(p_107371_, p_107372_, p_107373_, p_107374_, p_107375_, p_107376_, p_107377_);
+       if (particle != null) {
+          this.m_107344_(particle);
+          return particle;
+@@ -312,9 +_,9 @@
+    }
+ 
+    @Nullable
+-   private <T extends ParticleOptions> Particle m_107395_(T p_107396_, double p_107397_, double p_107398_, double p_107399_, double p_107400_, double p_107401_, double p_107402_) {
++   private <T extends ParticleOptions> Particle makeParticle(T p_107396_, me.alphamode.mclong.math.BigDecimal p_107397_, me.alphamode.mclong.math.BigDecimal p_107398_, me.alphamode.mclong.math.BigDecimal p_107399_, double p_107400_, double p_107401_, double p_107402_) {
+       ParticleProvider<T> particleprovider = (ParticleProvider<T>)this.f_107293_.get(BuiltInRegistries.f_257034_.m_7447_(p_107396_.m_6012_()));
+-      return particleprovider == null ? null : particleprovider.m_6966_(p_107396_, this.f_107287_, p_107397_, p_107398_, p_107399_, p_107400_, p_107401_, p_107402_);
++      return particleprovider == null ? null : particleprovider.createParticle(p_107396_, this.f_107287_, p_107397_, p_107398_, p_107399_, p_107400_, p_107401_, p_107402_);
+    }
+ 
+    public void m_107344_(Particle p_107345_) {
 @@ -443,13 +_,13 @@
        if (!p_107357_.m_60795_() && p_107357_.m_245147_()) {
           VoxelShape voxelshape = p_107357_.m_60808_(this.f_107287_, p_107356_);
@@ -12,9 +104,9 @@
 -            int j = Math.max(2, Mth.m_14165_(d2 / 0.25D));
 -            int k = Math.max(2, Mth.m_14165_(d3 / 0.25D));
 +         voxelshape.forAllBoxes((p_172273_, p_172274_, p_172275_, p_172276_, p_172277_, p_172278_) -> {
-+            double d1 = java.math.BigDecimal.ONE.min(p_172276_.subtract(p_172273_)).doubleValue();
-+            double d2 = java.math.BigDecimal.ONE.min(p_172277_.subtract(p_172274_)).doubleValue();
-+            double d3 = java.math.BigDecimal.ONE.min(p_172278_.subtract(p_172275_)).doubleValue();
++            double d1 = me.alphamode.mclong.math.BigDecimal.ONE.min(p_172276_.subtract(p_172273_)).doubleValue();
++            double d2 = me.alphamode.mclong.math.BigDecimal.ONE.min(p_172277_.subtract(p_172274_)).doubleValue();
++            double d3 = me.alphamode.mclong.math.BigDecimal.ONE.min(p_172278_.subtract(p_172275_)).doubleValue();
 +            long i = Math.max(2, Mth.lceil(d1 / 0.25D));
 +            long j = Math.max(2, Mth.lceil(d2 / 0.25D));
 +            long k = Math.max(2, Mth.lceil(d3 / 0.25D));
@@ -32,7 +124,7 @@
 +                     double d7 = d4 * d1 + p_172273_.doubleValue();
 +                     double d8 = d5 * d2 + p_172274_.doubleValue();
 +                     double d9 = d6 * d3 + p_172275_.doubleValue();
-+                     this.m_107344_(new TerrainParticle(this.f_107287_, (double)p_107356_.getX() + d7, (double)p_107356_.getY() + d8, (double)p_107356_.getZ() + d9, d4 - 0.5D, d5 - 0.5D, d6 - 0.5D, p_107357_, p_107356_));
++                     this.m_107344_(new TerrainParticle(this.f_107287_, p_107356_.getBigDecX().add(d7), p_107356_.getBigDecY().add(d8), p_107356_.getBigDecZ().add(d9), d4 - 0.5D, d5 - 0.5D, d6 - 0.5D, p_107357_, p_107356_));
                    }
                 }
              }
@@ -43,45 +135,45 @@
 -         int i = p_107368_.m_123341_();
 -         int j = p_107368_.m_123342_();
 -         int k = p_107368_.m_123343_();
-+         long i = p_107368_.getX();
-+         long j = p_107368_.getY();
-+         long k = p_107368_.getZ();
++         me.alphamode.mclong.math.BigDecimal i = p_107368_.getBigDecX();
++         me.alphamode.mclong.math.BigDecimal j = p_107368_.getBigDecY();
++         me.alphamode.mclong.math.BigDecimal k = p_107368_.getBigDecZ();
           float f = 0.1F;
           AABB aabb = blockstate.m_60808_(this.f_107287_, p_107368_).m_83215_();
 -         double d0 = (double)i + this.f_107292_.m_188500_() * (aabb.f_82291_ - aabb.f_82288_ - (double)0.2F) + (double)0.1F + aabb.f_82288_;
 -         double d1 = (double)j + this.f_107292_.m_188500_() * (aabb.f_82292_ - aabb.f_82289_ - (double)0.2F) + (double)0.1F + aabb.f_82289_;
 -         double d2 = (double)k + this.f_107292_.m_188500_() * (aabb.f_82293_ - aabb.f_82290_ - (double)0.2F) + (double)0.1F + aabb.f_82290_;
-+         double d0 = (double)i + this.f_107292_.m_188500_() * (aabb.f_82291_.subtract(aabb.f_82288_).doubleValue() - (double)0.2F) + (double)0.1F + aabb.f_82288_.doubleValue();
-+         double d1 = (double)j + this.f_107292_.m_188500_() * (aabb.f_82292_.subtract(aabb.f_82289_).doubleValue() - (double)0.2F) + (double)0.1F + aabb.f_82289_.doubleValue();
-+         double d2 = (double)k + this.f_107292_.m_188500_() * (aabb.f_82293_.subtract(aabb.f_82290_).doubleValue() - (double)0.2F) + (double)0.1F + aabb.f_82290_.doubleValue();
++         me.alphamode.mclong.math.BigDecimal d0 = i.add(this.f_107292_.m_188500_() * (aabb.f_82291_.subtract(aabb.f_82288_).doubleValue() - (double)0.2F) + (double)0.1F + aabb.f_82288_.doubleValue());
++         me.alphamode.mclong.math.BigDecimal d1 = j.add(this.f_107292_.m_188500_() * (aabb.f_82292_.subtract(aabb.f_82289_).doubleValue() - (double)0.2F) + (double)0.1F + aabb.f_82289_.doubleValue());
++         me.alphamode.mclong.math.BigDecimal d2 = k.add(this.f_107292_.m_188500_() * (aabb.f_82293_.subtract(aabb.f_82290_).doubleValue() - (double)0.2F) + (double)0.1F + aabb.f_82290_.doubleValue());
           if (p_107369_ == Direction.DOWN) {
 -            d1 = (double)j + aabb.f_82289_ - (double)0.1F;
-+            d1 = (double)j + aabb.f_82289_.doubleValue() - (double)0.1F;
++            d1 = j.add(aabb.f_82289_).subtract(me.alphamode.mclong.core.BigConstants.POINT_ONE);
           }
  
           if (p_107369_ == Direction.UP) {
 -            d1 = (double)j + aabb.f_82292_ + (double)0.1F;
-+            d1 = (double)j + aabb.f_82292_.doubleValue() + (double)0.1F;
++            d1 = j.add(aabb.f_82292_).add(me.alphamode.mclong.core.BigConstants.POINT_ONE);
           }
  
           if (p_107369_ == Direction.NORTH) {
 -            d2 = (double)k + aabb.f_82290_ - (double)0.1F;
-+            d2 = (double)k + aabb.f_82290_.doubleValue() - (double)0.1F;
++            d2 = k.add(aabb.f_82290_).subtract(me.alphamode.mclong.core.BigConstants.POINT_ONE);
           }
  
           if (p_107369_ == Direction.SOUTH) {
 -            d2 = (double)k + aabb.f_82293_ + (double)0.1F;
-+            d2 = (double)k + aabb.f_82293_.doubleValue() + (double)0.1F;
++            d2 = k.add(aabb.f_82293_).add(me.alphamode.mclong.core.BigConstants.POINT_ONE);
           }
  
           if (p_107369_ == Direction.WEST) {
 -            d0 = (double)i + aabb.f_82288_ - (double)0.1F;
-+            d0 = (double)i + aabb.f_82288_.doubleValue() - (double)0.1F;
++            d0 = i.add(aabb.f_82288_).subtract(me.alphamode.mclong.core.BigConstants.POINT_ONE);
           }
  
           if (p_107369_ == Direction.EAST) {
 -            d0 = (double)i + aabb.f_82291_ + (double)0.1F;
-+            d0 = (double)i + aabb.f_82291_.doubleValue() + (double)0.1F;
++            d0 = i.add(aabb.f_82291_).add(me.alphamode.mclong.core.BigConstants.POINT_ONE);
           }
  
           this.m_107344_((new TerrainParticle(this.f_107287_, d0, d1, d2, 0.0D, 0.0D, 0.0D, blockstate, p_107368_)).m_107268_(0.2F).m_6569_(0.6F));

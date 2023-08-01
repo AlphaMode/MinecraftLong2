@@ -9,6 +9,24 @@
        EquipmentSlot equipmentslot1 = EquipmentSlot.FEET;
        if (d0 >= 0.1D && d0 < 0.1D + (flag ? 0.8D : 0.45D) && this.m_21033_(equipmentslot1)) {
           equipmentslot = EquipmentSlot.FEET;
+@@ -440,7 +_,7 @@
+    public void m_7822_(byte p_31568_) {
+       if (p_31568_ == 32) {
+          if (this.m_9236_().f_46443_) {
+-            this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_11683_, this.m_5720_(), 0.3F, 1.0F, false);
++            this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_11683_, this.m_5720_(), 0.3F, 1.0F, false);
+             this.f_31528_ = this.m_9236_().m_46467_();
+          }
+       } else {
+@@ -461,7 +_,7 @@
+ 
+    private void m_31565_() {
+       if (this.m_9236_() instanceof ServerLevel) {
+-         ((ServerLevel)this.m_9236_()).m_8767_(new BlockParticleOption(ParticleTypes.f_123794_, Blocks.f_50705_.m_49966_()), this.m_20185_(), this.m_20227_(0.6666666666666666D), this.m_20189_(), 10, (double)(this.m_20205_() / 4.0F), (double)(this.m_20206_() / 4.0F), (double)(this.m_20205_() / 4.0F), 0.05D);
++         ((ServerLevel)this.m_9236_()).sendParticles(new BlockParticleOption(ParticleTypes.f_123794_, Blocks.f_50705_.m_49966_()), this.getBigX(), this.getBigY(0.6666666666666666D), this.getBigZ(), 10, (double)(this.m_20205_() / 4.0F), (double)(this.m_20206_() / 4.0F), (double)(this.m_20205_() / 4.0F), 0.05D);
+       }
+ 
+    }
 @@ -496,7 +_,7 @@
        for(int i = 0; i < this.f_31538_.size(); ++i) {
           ItemStack itemstack = this.f_31538_.get(i);
@@ -27,6 +45,15 @@
              this.f_31539_.set(j, ItemStack.f_41583_);
           }
        }
+@@ -512,7 +_,7 @@
+    }
+ 
+    private void m_31566_() {
+-      this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_11681_, this.m_5720_(), 1.0F, 1.0F);
++      this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_11681_, this.m_5720_(), 1.0F, 1.0F);
+    }
+ 
+    protected float m_5632_(float p_31644_, float p_31645_) {
 @@ -769,10 +_,10 @@
           BlockPos blockpos = this.m_20183_();
           int i = Integer.MIN_VALUE;

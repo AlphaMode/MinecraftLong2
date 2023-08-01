@@ -1,26 +1,31 @@
 --- a/net/minecraft/world/level/block/EndGatewayBlock.java
 +++ b/net/minecraft/world/level/block/EndGatewayBlock.java
-@@ -35,18 +_,18 @@
+@@ -35,22 +_,22 @@
           int i = ((TheEndGatewayBlockEntity)blockentity).m_59975_();
  
           for(int j = 0; j < i; ++j) {
 -            double d0 = (double)p_221099_.m_123341_() + p_221100_.m_188500_();
 -            double d1 = (double)p_221099_.m_123342_() + p_221100_.m_188500_();
 -            double d2 = (double)p_221099_.m_123343_() + p_221100_.m_188500_();
-+            double d0 = (double)p_221099_.getX() + p_221100_.m_188500_();
-+            double d1 = (double)p_221099_.getY() + p_221100_.m_188500_();
-+            double d2 = (double)p_221099_.getZ() + p_221100_.m_188500_();
++            me.alphamode.mclong.math.BigDecimal d0 = p_221099_.getBigDecX().add(p_221100_.m_188500_());
++            me.alphamode.mclong.math.BigDecimal d1 = p_221099_.getBigDecY().add(p_221100_.m_188500_());
++            me.alphamode.mclong.math.BigDecimal d2 = p_221099_.getBigDecZ().add(p_221100_.m_188500_());
              double d3 = (p_221100_.m_188500_() - 0.5D) * 0.5D;
              double d4 = (p_221100_.m_188500_() - 0.5D) * 0.5D;
              double d5 = (p_221100_.m_188500_() - 0.5D) * 0.5D;
              int k = p_221100_.m_188503_(2) * 2 - 1;
              if (p_221100_.m_188499_()) {
 -               d2 = (double)p_221099_.m_123343_() + 0.5D + 0.25D * (double)k;
-+               d2 = (double)p_221099_.getZ() + 0.5D + 0.25D * (double)k;
++               d2 = p_221099_.getBigDecZ().add(0.5D + 0.25D * (double)k);
                 d5 = (double)(p_221100_.m_188501_() * 2.0F * (float)k);
              } else {
 -               d0 = (double)p_221099_.m_123341_() + 0.5D + 0.25D * (double)k;
-+               d0 = (double)p_221099_.getX() + 0.5D + 0.25D * (double)k;
++               d0 = p_221099_.getBigDecX().add(0.5D + 0.25D * (double)k);
                 d3 = (double)(p_221100_.m_188501_() * 2.0F * (float)k);
              }
  
+-            p_221098_.m_7106_(ParticleTypes.f_123760_, d0, d1, d2, d3, d4, d5);
++            p_221098_.addParticle(ParticleTypes.f_123760_, d0, d1, d2, d3, d4, d5);
+          }
+ 
+       }

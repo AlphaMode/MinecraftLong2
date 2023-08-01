@@ -14,3 +14,33 @@
     }
  
     public void m_8038_(ServerLevel p_28921_, LightningBolt p_28922_) {
+@@ -116,7 +_,7 @@
+       } else if (this.m_28554_() == MushroomCow.MushroomType.BROWN && itemstack.m_204117_(ItemTags.f_13145_)) {
+          if (this.f_28909_ != null) {
+             for(int i = 0; i < 2; ++i) {
+-               this.m_9236_().m_7106_(ParticleTypes.f_123762_, this.m_20185_() + this.f_19796_.m_188500_() / 2.0D, this.m_20227_(0.5D), this.m_20189_() + this.f_19796_.m_188500_() / 2.0D, 0.0D, this.f_19796_.m_188500_() / 5.0D, 0.0D);
++               this.m_9236_().addParticle(ParticleTypes.f_123762_, this.getBigX().add(this.f_19796_.m_188500_() / 2.0D), this.getY(me.alphamode.mclong.core.BigConstants.AABB), this.getBigZ().add(this.f_19796_.m_188500_() / 2.0D), 0.0D, this.f_19796_.m_188500_() / 5.0D, 0.0D);
+             }
+          } else {
+             Optional<Pair<MobEffect, Integer>> optional = this.m_28956_(itemstack);
+@@ -130,7 +_,7 @@
+             }
+ 
+             for(int j = 0; j < 4; ++j) {
+-               this.m_9236_().m_7106_(ParticleTypes.f_123806_, this.m_20185_() + this.f_19796_.m_188500_() / 2.0D, this.m_20227_(0.5D), this.m_20189_() + this.f_19796_.m_188500_() / 2.0D, 0.0D, this.f_19796_.m_188500_() / 5.0D, 0.0D);
++               this.m_9236_().addParticle(ParticleTypes.f_123806_, this.getBigX().add(this.f_19796_.m_188500_() / 2.0D), this.getY(me.alphamode.mclong.core.BigConstants.AABB), this.getBigZ().add(this.f_19796_.m_188500_() / 2.0D), 0.0D, this.f_19796_.m_188500_() / 5.0D, 0.0D);
+             }
+ 
+             this.f_28909_ = pair.getLeft();
+@@ -149,9 +_,9 @@
+       if (!this.m_9236_().m_5776_()) {
+          Cow cow = EntityType.f_20557_.m_20615_(this.m_9236_());
+          if (cow != null) {
+-            ((ServerLevel)this.m_9236_()).m_8767_(ParticleTypes.f_123813_, this.m_20185_(), this.m_20227_(0.5D), this.m_20189_(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
++            ((ServerLevel)this.m_9236_()).sendParticles(ParticleTypes.f_123813_, this.getBigX(), this.getBigY(0.5D), this.getBigZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+             this.m_146870_();
+-            cow.m_7678_(this.m_20185_(), this.m_20186_(), this.m_20189_(), this.m_146908_(), this.m_146909_());
++            cow.moveTo(this.getBigX(), this.getBigY(), this.getBigZ(), this.m_146908_(), this.m_146909_());
+             cow.m_21153_(this.m_21223_());
+             cow.f_20883_ = this.f_20883_;
+             if (this.m_8077_()) {

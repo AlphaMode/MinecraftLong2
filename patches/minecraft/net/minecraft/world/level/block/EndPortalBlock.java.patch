@@ -9,16 +9,18 @@
           ResourceKey<Level> resourcekey = p_53026_.m_46472_() == Level.f_46430_ ? Level.f_46428_ : Level.f_46430_;
           ServerLevel serverlevel = ((ServerLevel)p_53026_).m_7654_().m_129880_(resourcekey);
           if (serverlevel == null) {
-@@ -48,9 +_,9 @@
+@@ -48,10 +_,10 @@
     }
  
     public void m_214162_(BlockState p_221102_, Level p_221103_, BlockPos p_221104_, RandomSource p_221105_) {
 -      double d0 = (double)p_221104_.m_123341_() + p_221105_.m_188500_();
 -      double d1 = (double)p_221104_.m_123342_() + 0.8D;
 -      double d2 = (double)p_221104_.m_123343_() + p_221105_.m_188500_();
-+      double d0 = (double)p_221104_.getX() + p_221105_.m_188500_();
-+      double d1 = (double)p_221104_.getY() + 0.8D;
-+      double d2 = (double)p_221104_.getZ() + p_221105_.m_188500_();
-       p_221103_.m_7106_(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+-      p_221103_.m_7106_(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
++      me.alphamode.mclong.math.BigDecimal d0 = p_221104_.getBigDecX().add(p_221105_.m_188500_());
++      me.alphamode.mclong.math.BigDecimal d1 = p_221104_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.MINECART);
++      me.alphamode.mclong.math.BigDecimal d2 = p_221104_.getBigDecZ().add(p_221105_.m_188500_());
++      p_221103_.addParticle(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
     }
  
+    public ItemStack m_7397_(BlockGetter p_53021_, BlockPos p_53022_, BlockState p_53023_) {

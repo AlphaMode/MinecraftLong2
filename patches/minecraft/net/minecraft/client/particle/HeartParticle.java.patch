@@ -1,0 +1,31 @@
+--- a/net/minecraft/client/particle/HeartParticle.java
++++ b/net/minecraft/client/particle/HeartParticle.java
+@@ -8,7 +_,7 @@
+ 
+ @OnlyIn(Dist.CLIENT)
+ public class HeartParticle extends TextureSheetParticle {
+-   HeartParticle(ClientLevel p_106847_, double p_106848_, double p_106849_, double p_106850_) {
++   HeartParticle(ClientLevel p_106847_, me.alphamode.mclong.math.BigDecimal p_106848_, me.alphamode.mclong.math.BigDecimal p_106849_, me.alphamode.mclong.math.BigDecimal p_106850_) {
+       super(p_106847_, p_106848_, p_106849_, p_106850_, 0.0D, 0.0D, 0.0D);
+       this.f_172259_ = true;
+       this.f_172258_ = 0.86F;
+@@ -37,8 +_,8 @@
+          this.f_106861_ = p_106863_;
+       }
+ 
+-      public Particle m_6966_(SimpleParticleType p_106874_, ClientLevel p_106875_, double p_106876_, double p_106877_, double p_106878_, double p_106879_, double p_106880_, double p_106881_) {
+-         HeartParticle heartparticle = new HeartParticle(p_106875_, p_106876_, p_106877_ + 0.5D, p_106878_);
++      public Particle createParticle(SimpleParticleType p_106874_, ClientLevel p_106875_, me.alphamode.mclong.math.BigDecimal p_106876_, me.alphamode.mclong.math.BigDecimal p_106877_, me.alphamode.mclong.math.BigDecimal p_106878_, double p_106879_, double p_106880_, double p_106881_) {
++         HeartParticle heartparticle = new HeartParticle(p_106875_, p_106876_, p_106877_.add(me.alphamode.mclong.core.BigConstants.AABB), p_106878_);
+          heartparticle.m_108335_(this.f_106861_);
+          heartparticle.m_107253_(1.0F, 1.0F, 1.0F);
+          return heartparticle;
+@@ -53,7 +_,7 @@
+          this.f_106882_ = p_106884_;
+       }
+ 
+-      public Particle m_6966_(SimpleParticleType p_106895_, ClientLevel p_106896_, double p_106897_, double p_106898_, double p_106899_, double p_106900_, double p_106901_, double p_106902_) {
++      public Particle createParticle(SimpleParticleType p_106895_, ClientLevel p_106896_, me.alphamode.mclong.math.BigDecimal p_106897_, me.alphamode.mclong.math.BigDecimal p_106898_, me.alphamode.mclong.math.BigDecimal p_106899_, double p_106900_, double p_106901_, double p_106902_) {
+          HeartParticle heartparticle = new HeartParticle(p_106896_, p_106897_, p_106898_, p_106899_);
+          heartparticle.m_108335_(this.f_106882_);
+          return heartparticle;

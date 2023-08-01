@@ -7,20 +7,20 @@
 -      double d2 = this.m_20185_() + vec3.f_82479_;
 -      double d0 = this.m_20186_() + vec3.f_82480_;
 -      double d1 = this.m_20189_() + vec3.f_82481_;
-+      double d2 = this.m_20185_() + vec3.m_7096_();
-+      double d0 = this.m_20186_() + vec3.m_7098_();
-+      double d1 = this.m_20189_() + vec3.m_7094_();
++      me.alphamode.mclong.math.BigDecimal d2 = this.getBigX().add(vec3.getX());
++      me.alphamode.mclong.math.BigDecimal d0 = this.getBigY().add(vec3.getY());
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigZ().add(vec3.getZ());
        this.m_37283_();
        float f;
        if (this.m_20069_()) {
           for(int i = 0; i < 4; ++i) {
              float f1 = 0.25F;
 -            this.m_9236_().m_7106_(ParticleTypes.f_123795_, d2 - vec3.f_82479_ * 0.25D, d0 - vec3.f_82480_ * 0.25D, d1 - vec3.f_82481_ * 0.25D, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_);
-+            this.m_9236_().m_7106_(ParticleTypes.f_123795_, d2 - vec3.m_7096_() * 0.25D, d0 - vec3.m_7098_() * 0.25D, d1 - vec3.m_7094_() * 0.25D, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
++            this.m_9236_().addParticle(ParticleTypes.f_123795_, d2.subtract(vec3.getX().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES)), d0.subtract(vec3.getY().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES)), d1.subtract(vec3.getZ().multiply(me.alphamode.mclong.core.BigConstants.PARTICLES)), vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
           }
  
           f = 0.8F;
-@@ -83,7 +_,7 @@
+@@ -83,10 +_,10 @@
        this.m_20256_(vec3.m_82490_((double)f));
        if (!this.m_20068_()) {
           Vec3 vec31 = this.m_20184_();
@@ -28,4 +28,8 @@
 +         this.m_20334_(vec31.m_7096_(), vec31.m_7098_() - (double)this.m_7139_(), vec31.m_7094_());
        }
  
-       this.m_6034_(d2, d0, d1);
+-      this.m_6034_(d2, d0, d1);
++      this.setPos(d2, d0, d1);
+    }
+ 
+    protected float m_7139_() {

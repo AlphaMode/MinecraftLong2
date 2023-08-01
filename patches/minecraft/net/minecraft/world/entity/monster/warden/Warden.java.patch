@@ -1,0 +1,26 @@
+--- a/net/minecraft/world/entity/monster/warden/Warden.java
++++ b/net/minecraft/world/entity/monster/warden/Warden.java
+@@ -226,7 +_,7 @@
+          if (this.f_19797_ % this.m_219452_() == 0) {
+             this.f_219345_ = 10;
+             if (!this.m_20067_()) {
+-               this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_215762_, this.m_5720_(), 5.0F, this.m_6100_(), false);
++               this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_215762_, this.m_5720_(), 5.0F, this.m_6100_(), false);
+             }
+          }
+ 
+@@ -302,10 +_,10 @@
+          BlockState blockstate = this.m_20075_();
+          if (blockstate.m_60799_() != RenderShape.INVISIBLE) {
+             for(int i = 0; i < 30; ++i) {
+-               double d0 = this.m_20185_() + (double)Mth.m_216283_(randomsource, -0.7F, 0.7F);
+-               double d1 = this.m_20186_();
+-               double d2 = this.m_20189_() + (double)Mth.m_216283_(randomsource, -0.7F, 0.7F);
+-               this.m_9236_().m_7106_(new BlockParticleOption(ParticleTypes.f_123794_, blockstate), d0, d1, d2, 0.0D, 0.0D, 0.0D);
++               me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().add(Mth.m_216283_(randomsource, -0.7F, 0.7F));
++               me.alphamode.mclong.math.BigDecimal d1 = this.getBigY();
++               me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().add(Mth.m_216283_(randomsource, -0.7F, 0.7F));
++               this.m_9236_().addParticle(new BlockParticleOption(ParticleTypes.f_123794_, blockstate), d0, d1, d2, 0.0D, 0.0D, 0.0D);
+             }
+          }
+       }

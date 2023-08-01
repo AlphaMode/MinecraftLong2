@@ -1,0 +1,40 @@
+--- a/net/minecraft/world/level/EntityGetter.java
++++ b/net/minecraft/world/level/EntityGetter.java
+@@ -89,6 +_,24 @@
+    }
+ 
+    @Nullable
++   default Player getNearestPlayer(me.alphamode.mclong.math.BigDecimal p_45919_, me.alphamode.mclong.math.BigDecimal p_45920_, me.alphamode.mclong.math.BigDecimal p_45921_, double p_45922_, @Nullable Predicate<Entity> p_45923_) {
++      me.alphamode.mclong.math.BigDecimal d0 = me.alphamode.mclong.math.BigDecimal.ONE.negate();
++      Player player = null;
++
++      for(Player player1 : this.m_6907_()) {
++         if (p_45923_ == null || p_45923_.test(player1)) {
++            me.alphamode.mclong.math.BigDecimal d1 = player1.distanceToSqr(p_45919_, p_45920_, p_45921_);
++            if ((p_45922_ < 0.0D || d1.compareTo(p_45922_ * p_45922_) < 0) && (d0.equals(me.alphamode.mclong.math.BigDecimal.ONE.negate()) || d1.compareTo(d0) < 0)) {
++               d0 = d1;
++               player = player1;
++            }
++         }
++      }
++
++      return player;
++   }
++
++   @Nullable
+    default Player m_45930_(Entity p_45931_, double p_45932_) {
+       return this.m_45924_(p_45931_.m_20185_(), p_45931_.m_20186_(), p_45931_.m_20189_(), p_45932_, false);
+    }
+@@ -97,6 +_,12 @@
+    default Player m_45924_(double p_45925_, double p_45926_, double p_45927_, double p_45928_, boolean p_45929_) {
+       Predicate<Entity> predicate = p_45929_ ? EntitySelector.f_20406_ : EntitySelector.f_20408_;
+       return this.m_5788_(p_45925_, p_45926_, p_45927_, p_45928_, predicate);
++   }
++
++   @Nullable
++   default Player getNearestPlayer(me.alphamode.mclong.math.BigDecimal p_45925_, me.alphamode.mclong.math.BigDecimal p_45926_, me.alphamode.mclong.math.BigDecimal p_45927_, double p_45928_, boolean p_45929_) {
++      Predicate<Entity> predicate = p_45929_ ? EntitySelector.f_20406_ : EntitySelector.f_20408_;
++      return this.getNearestPlayer(p_45925_, p_45926_, p_45927_, p_45928_, predicate);
+    }
+ 
+    default boolean m_45914_(double p_45915_, double p_45916_, double p_45917_, double p_45918_) {

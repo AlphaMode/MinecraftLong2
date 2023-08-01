@@ -1,0 +1,29 @@
+--- a/net/minecraft/client/particle/BubbleParticle.java
++++ b/net/minecraft/client/particle/BubbleParticle.java
+@@ -9,7 +_,7 @@
+ 
+ @OnlyIn(Dist.CLIENT)
+ public class BubbleParticle extends TextureSheetParticle {
+-   BubbleParticle(ClientLevel p_105773_, double p_105774_, double p_105775_, double p_105776_, double p_105777_, double p_105778_, double p_105779_) {
++   BubbleParticle(ClientLevel p_105773_, me.alphamode.mclong.math.BigDecimal p_105774_, me.alphamode.mclong.math.BigDecimal p_105775_, me.alphamode.mclong.math.BigDecimal p_105776_, double p_105777_, double p_105778_, double p_105779_) {
+       super(p_105773_, p_105774_, p_105775_, p_105776_);
+       this.m_107250_(0.02F, 0.02F);
+       this.f_107663_ *= this.f_107223_.m_188501_() * 0.6F + 0.2F;
+@@ -31,7 +_,7 @@
+          this.f_107215_ *= (double)0.85F;
+          this.f_107216_ *= (double)0.85F;
+          this.f_107217_ *= (double)0.85F;
+-         if (!this.f_107208_.m_6425_(BlockPos.m_274561_(this.f_107212_, this.f_107213_, this.f_107214_)).m_205070_(FluidTags.f_13131_)) {
++         if (!this.f_107208_.m_6425_(BlockPos.containing(this.f_107212_, this.f_107213_, this.f_107214_)).m_205070_(FluidTags.f_13131_)) {
+             this.m_107274_();
+          }
+ 
+@@ -50,7 +_,7 @@
+          this.f_105791_ = p_105793_;
+       }
+ 
+-      public Particle m_6966_(SimpleParticleType p_105804_, ClientLevel p_105805_, double p_105806_, double p_105807_, double p_105808_, double p_105809_, double p_105810_, double p_105811_) {
++      public Particle createParticle(SimpleParticleType p_105804_, ClientLevel p_105805_, me.alphamode.mclong.math.BigDecimal p_105806_, me.alphamode.mclong.math.BigDecimal p_105807_, me.alphamode.mclong.math.BigDecimal p_105808_, double p_105809_, double p_105810_, double p_105811_) {
+          BubbleParticle bubbleparticle = new BubbleParticle(p_105805_, p_105806_, p_105807_, p_105808_, p_105809_, p_105810_, p_105811_);
+          bubbleparticle.m_108335_(this.f_105791_);
+          return bubbleparticle;

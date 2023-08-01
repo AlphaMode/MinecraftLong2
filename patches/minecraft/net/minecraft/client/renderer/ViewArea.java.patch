@@ -1,42 +1,5 @@
 --- a/net/minecraft/client/renderer/ViewArea.java
 +++ b/net/minecraft/client/renderer/ViewArea.java
-@@ -13,7 +_,7 @@
- public class ViewArea {
-    protected final LevelRenderer f_110838_;
-    protected final Level f_110839_;
--   protected int f_110840_;
-+   protected long f_110840_;
-    protected int f_110841_;
-    protected int f_110842_;
-    public ChunkRenderDispatcher.RenderChunk[] f_110843_;
-@@ -29,14 +_,14 @@
-       if (!Minecraft.m_91087_().m_18695_()) {
-          throw new IllegalStateException("createChunks called from wrong thread: " + Thread.currentThread().getName());
-       } else {
--         int i = this.f_110841_ * this.f_110840_ * this.f_110842_;
--         this.f_110843_ = new ChunkRenderDispatcher.RenderChunk[i];
-+         long i = this.f_110841_ * this.f_110840_ * this.f_110842_;
-+         this.f_110843_ = new ChunkRenderDispatcher.RenderChunk[(int) i]; // TODO: long support
- 
-          for(int j = 0; j < this.f_110841_; ++j) {
-             for(int k = 0; k < this.f_110840_; ++k) {
-                for(int l = 0; l < this.f_110842_; ++l) {
--                  int i1 = this.m_110855_(j, k, l);
--                  this.f_110843_[i1] = p_110865_.new RenderChunk(i1, j * 16, k * 16, l * 16);
-+                  long i1 = this.getChunkIndex(j, k, l);
-+                  this.f_110843_[(int) i1] = p_110865_.new RenderChunk(i1, j * 16, k * 16, l * 16);
-                }
-             }
-          }
-@@ -51,7 +_,7 @@
- 
-    }
- 
--   private int m_110855_(int p_110856_, int p_110857_, int p_110858_) {
-+   private long getChunkIndex(long p_110856_, long p_110857_, long p_110858_) {
-       return (p_110858_ * this.f_110840_ + p_110857_) * this.f_110841_ + p_110856_;
-    }
- 
 @@ -63,25 +_,25 @@
     }
  
@@ -51,29 +14,28 @@
 -         int i1 = i - 8 - l / 2;
 -         int j1 = i1 + Math.floorMod(k * 16 - i1, l);
 +         long i1 = i - 8 - l / 2;
-+         long j1 = i1 + Math.floorMod(k * 16 - i1, l);
++         long j1 = i1 + Math.floorMod(k * 16L - i1, l);
  
           for(int k1 = 0; k1 < this.f_110842_; ++k1) {
              int l1 = this.f_110842_ * 16;
 -            int i2 = j - 8 - l1 / 2;
 -            int j2 = i2 + Math.floorMod(k1 * 16 - i2, l1);
 +            long i2 = j - 8 - l1 / 2;
-+            long j2 = i2 + Math.floorMod(k1 * 16 - i2, l1);
++            long j2 = i2 + Math.floorMod(k1 * 16L - i2, l1);
  
              for(int k2 = 0; k2 < this.f_110840_; ++k2) {
 -               int l2 = this.f_110839_.m_141937_() + k2 * 16;
--               ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[this.m_110855_(k, k2, k1)];
-+               long l2 = this.f_110839_.getMinBuildHeight() + k2 * 16;
-+               ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[(int) this.getChunkIndex(k, k2, k1)];
++               long l2 = this.f_110839_.getMinBuildHeight() + k2 * 16L;
+                ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[this.m_110855_(k, k2, k1)];
                 BlockPos blockpos = chunkrenderdispatcher$renderchunk.m_112839_();
 -               if (j1 != blockpos.m_123341_() || l2 != blockpos.m_123342_() || j2 != blockpos.m_123343_()) {
 -                  chunkrenderdispatcher$renderchunk.m_112801_(j1, l2, j2);
 +               if (j1 != blockpos.getX() || l2 != blockpos.getY() || j2 != blockpos.getZ()) {
-+                  chunkrenderdispatcher$renderchunk.setOrigin(j1, l2, j2);
++                  chunkrenderdispatcher$renderchunk.setOrigin(me.alphamode.mclong.math.BigInteger.valueOf(j1), me.alphamode.mclong.math.BigInteger.valueOf(l2), me.alphamode.mclong.math.BigInteger.valueOf(j2));
                 }
              }
           }
-@@ -89,23 +_,23 @@
+@@ -89,9 +_,9 @@
  
     }
  
@@ -81,12 +43,11 @@
 +   public void setDirty(long p_110860_, long p_110861_, long p_110862_, boolean p_110863_) {
        int i = Math.floorMod(p_110860_, this.f_110841_);
 -      int j = Math.floorMod(p_110861_ - this.f_110839_.m_151560_(), this.f_110840_);
-+      long j = Math.floorMod(p_110861_ - this.f_110839_.getMinSection(), this.f_110840_);
++      int j = Math.floorMod(p_110861_ - this.f_110839_.getMinSection(), this.f_110840_);
        int k = Math.floorMod(p_110862_, this.f_110842_);
--      ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[this.m_110855_(i, j, k)];
-+      ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[(int) this.getChunkIndex(i, j, k)];
+       ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[this.m_110855_(i, j, k)];
        chunkrenderdispatcher$renderchunk.m_112828_(p_110863_);
-    }
+@@ -99,13 +_,13 @@
  
     @Nullable
     protected ChunkRenderDispatcher.RenderChunk m_110866_(BlockPos p_110867_) {
@@ -102,7 +63,7 @@
 -         return this.f_110843_[this.m_110855_(i, j, k)];
 +         i = Mth.positiveModulo(i, this.f_110841_);
 +         k = Mth.positiveModulo(k, this.f_110842_);
-+         return this.f_110843_[(int) this.getChunkIndex(i, j, k)];
++         return this.f_110843_[this.m_110855_((int) i, (int) j, (int) k)];
        } else {
           return null;
        }

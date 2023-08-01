@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/entity/projectile/ThrownEnderpearl.java
++++ b/net/minecraft/world/entity/projectile/ThrownEnderpearl.java
+@@ -38,7 +_,7 @@
+       super.m_6532_(p_37504_);
+ 
+       for(int i = 0; i < 32; ++i) {
+-         this.m_9236_().m_7106_(ParticleTypes.f_123760_, this.m_20185_(), this.m_20186_() + this.f_19796_.m_188500_() * 2.0D, this.m_20189_(), this.f_19796_.m_188583_(), 0.0D, this.f_19796_.m_188583_());
++         this.m_9236_().addParticle(ParticleTypes.f_123760_, this.getBigX(), this.getBigY().add(this.f_19796_.m_188500_() * 2.0D), this.getBigZ(), this.f_19796_.m_188583_(), 0.0D, this.f_19796_.m_188583_());
+       }
+ 
+       if (!this.m_9236_().f_46443_ && !this.m_213877_()) {
+@@ -49,22 +_,22 @@
+                if (this.f_19796_.m_188501_() < 0.05F && this.m_9236_().m_46469_().m_46207_(GameRules.f_46134_)) {
+                   Endermite endermite = EntityType.f_20567_.m_20615_(this.m_9236_());
+                   if (endermite != null) {
+-                     endermite.m_7678_(entity.m_20185_(), entity.m_20186_(), entity.m_20189_(), entity.m_146908_(), entity.m_146909_());
++                     endermite.moveTo(entity.getBigX(), entity.getBigY(), entity.getBigZ(), entity.m_146908_(), entity.m_146909_());
+                      this.m_9236_().m_7967_(endermite);
+                   }
+                }
+ 
+                if (entity.m_20159_()) {
+-                  serverplayer.m_142098_(this.m_20185_(), this.m_20186_(), this.m_20189_());
++                  serverplayer.dismountTo(this.getBigX(), this.getBigY(), this.getBigZ());
+                } else {
+-                  entity.m_6021_(this.m_20185_(), this.m_20186_(), this.m_20189_());
++                  entity.teleportTo(this.getBigX(), this.getBigY(), this.getBigZ());
+                }
+ 
+                entity.m_183634_();
+                entity.m_6469_(this.m_269291_().m_268989_(), 5.0F);
+             }
+          } else if (entity != null) {
+-            entity.m_6021_(this.m_20185_(), this.m_20186_(), this.m_20189_());
++            entity.teleportTo(this.getBigX(), this.getBigY(), this.getBigZ());
+             entity.m_183634_();
+          }
+ 

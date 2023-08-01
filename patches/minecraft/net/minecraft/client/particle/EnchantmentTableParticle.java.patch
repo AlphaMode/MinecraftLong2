@@ -1,0 +1,62 @@
+--- a/net/minecraft/client/particle/EnchantmentTableParticle.java
++++ b/net/minecraft/client/particle/EnchantmentTableParticle.java
+@@ -7,11 +_,11 @@
+ 
+ @OnlyIn(Dist.CLIENT)
+ public class EnchantmentTableParticle extends TextureSheetParticle {
+-   private final double f_106461_;
+-   private final double f_106462_;
+-   private final double f_106460_;
++   private final me.alphamode.mclong.math.BigDecimal f_106461_;
++   private final me.alphamode.mclong.math.BigDecimal f_106462_;
++   private final me.alphamode.mclong.math.BigDecimal f_106460_;
+ 
+-   EnchantmentTableParticle(ClientLevel p_106464_, double p_106465_, double p_106466_, double p_106467_, double p_106468_, double p_106469_, double p_106470_) {
++   EnchantmentTableParticle(ClientLevel p_106464_, me.alphamode.mclong.math.BigDecimal p_106465_, me.alphamode.mclong.math.BigDecimal p_106466_, me.alphamode.mclong.math.BigDecimal p_106467_, double p_106468_, double p_106469_, double p_106470_) {
+       super(p_106464_, p_106465_, p_106466_, p_106467_);
+       this.f_107215_ = p_106468_;
+       this.f_107216_ = p_106469_;
+@@ -19,9 +_,9 @@
+       this.f_106461_ = p_106465_;
+       this.f_106462_ = p_106466_;
+       this.f_106460_ = p_106467_;
+-      this.f_107209_ = p_106465_ + p_106468_;
+-      this.f_107210_ = p_106466_ + p_106469_;
+-      this.f_107211_ = p_106467_ + p_106470_;
++      this.f_107209_ = p_106465_.add(p_106468_);
++      this.f_107210_ = p_106466_.add(p_106469_);
++      this.f_107211_ = p_106467_.add(p_106470_);
+       this.f_107212_ = this.f_107209_;
+       this.f_107213_ = this.f_107210_;
+       this.f_107214_ = this.f_107211_;
+@@ -70,9 +_,9 @@
+          float f1 = 1.0F - f;
+          f1 *= f1;
+          f1 *= f1;
+-         this.f_107212_ = this.f_106461_ + this.f_107215_ * (double)f;
+-         this.f_107213_ = this.f_106462_ + this.f_107216_ * (double)f - (double)(f1 * 1.2F);
+-         this.f_107214_ = this.f_106460_ + this.f_107217_ * (double)f;
++         this.f_107212_ = this.f_106461_.add(this.f_107215_ * (double)f);
++         this.f_107213_ = this.f_106462_.add(this.f_107216_ * (double)f - (double)(f1 * 1.2F));
++         this.f_107214_ = this.f_106460_.add(this.f_107217_ * (double)f);
+       }
+    }
+ 
+@@ -84,7 +_,7 @@
+          this.f_106488_ = p_106490_;
+       }
+ 
+-      public Particle m_6966_(SimpleParticleType p_106501_, ClientLevel p_106502_, double p_106503_, double p_106504_, double p_106505_, double p_106506_, double p_106507_, double p_106508_) {
++      public Particle createParticle(SimpleParticleType p_106501_, ClientLevel p_106502_, me.alphamode.mclong.math.BigDecimal p_106503_, me.alphamode.mclong.math.BigDecimal p_106504_, me.alphamode.mclong.math.BigDecimal p_106505_, double p_106506_, double p_106507_, double p_106508_) {
+          EnchantmentTableParticle enchantmenttableparticle = new EnchantmentTableParticle(p_106502_, p_106503_, p_106504_, p_106505_, p_106506_, p_106507_, p_106508_);
+          enchantmenttableparticle.m_108335_(this.f_106488_);
+          return enchantmenttableparticle;
+@@ -99,7 +_,7 @@
+          this.f_106509_ = p_106511_;
+       }
+ 
+-      public Particle m_6966_(SimpleParticleType p_106522_, ClientLevel p_106523_, double p_106524_, double p_106525_, double p_106526_, double p_106527_, double p_106528_, double p_106529_) {
++      public Particle createParticle(SimpleParticleType p_106522_, ClientLevel p_106523_, me.alphamode.mclong.math.BigDecimal p_106524_, me.alphamode.mclong.math.BigDecimal p_106525_, me.alphamode.mclong.math.BigDecimal p_106526_, double p_106527_, double p_106528_, double p_106529_) {
+          EnchantmentTableParticle enchantmenttableparticle = new EnchantmentTableParticle(p_106523_, p_106524_, p_106525_, p_106526_, p_106527_, p_106528_, p_106529_);
+          enchantmenttableparticle.m_108335_(this.f_106509_);
+          return enchantmenttableparticle;

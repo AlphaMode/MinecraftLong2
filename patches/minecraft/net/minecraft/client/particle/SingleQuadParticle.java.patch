@@ -1,0 +1,27 @@
+--- a/net/minecraft/client/particle/SingleQuadParticle.java
++++ b/net/minecraft/client/particle/SingleQuadParticle.java
+@@ -14,19 +_,19 @@
+ public abstract class SingleQuadParticle extends Particle {
+    protected float f_107663_ = 0.1F * (this.f_107223_.m_188501_() * 0.5F + 0.5F) * 2.0F;
+ 
+-   protected SingleQuadParticle(ClientLevel p_107665_, double p_107666_, double p_107667_, double p_107668_) {
++   protected SingleQuadParticle(ClientLevel p_107665_, me.alphamode.mclong.math.BigDecimal p_107666_, me.alphamode.mclong.math.BigDecimal p_107667_, me.alphamode.mclong.math.BigDecimal p_107668_) {
+       super(p_107665_, p_107666_, p_107667_, p_107668_);
+    }
+ 
+-   protected SingleQuadParticle(ClientLevel p_107670_, double p_107671_, double p_107672_, double p_107673_, double p_107674_, double p_107675_, double p_107676_) {
++   protected SingleQuadParticle(ClientLevel p_107670_, me.alphamode.mclong.math.BigDecimal p_107671_, me.alphamode.mclong.math.BigDecimal p_107672_, me.alphamode.mclong.math.BigDecimal p_107673_, double p_107674_, double p_107675_, double p_107676_) {
+       super(p_107670_, p_107671_, p_107672_, p_107673_, p_107674_, p_107675_, p_107676_);
+    }
+ 
+    public void m_5744_(VertexConsumer p_107678_, Camera p_107679_, float p_107680_) {
+       Vec3 vec3 = p_107679_.m_90583_();
+-      float f = (float)(Mth.m_14139_((double)p_107680_, this.f_107209_, this.f_107212_) - vec3.m_7096_());
+-      float f1 = (float)(Mth.m_14139_((double)p_107680_, this.f_107210_, this.f_107213_) - vec3.m_7098_());
+-      float f2 = (float)(Mth.m_14139_((double)p_107680_, this.f_107211_, this.f_107214_) - vec3.m_7094_());
++      float f = (Mth.lerp((double)p_107680_, this.f_107209_, this.f_107212_).subtract(vec3.getX())).floatValue();
++      float f1 = (Mth.lerp((double)p_107680_, this.f_107210_, this.f_107213_).subtract(vec3.getY())).floatValue();
++      float f2 = (Mth.lerp((double)p_107680_, this.f_107211_, this.f_107214_).subtract(vec3.getZ())).floatValue();
+       Quaternionf quaternionf;
+       if (this.f_107231_ == 0.0F) {
+          quaternionf = p_107679_.m_253121_();

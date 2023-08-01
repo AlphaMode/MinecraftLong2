@@ -13,7 +13,7 @@
     private static final int f_175550_ = 0;
     private static final int f_175551_ = 4;
  
-+   SectionPos(java.math.BigInteger p_123162_, java.math.BigInteger p_123163_, java.math.BigInteger p_123164_) {
++   SectionPos(me.alphamode.mclong.math.BigInteger p_123162_, me.alphamode.mclong.math.BigInteger p_123163_, me.alphamode.mclong.math.BigInteger p_123164_) {
 +      super(p_123162_, p_123163_, p_123164_);
 +   }
 +
@@ -96,11 +96,11 @@
 +      return blockToSectionCoord(Mth.m_14134_(p_175553_));
 +   }
 +
-+   public static java.math.BigInteger posToSectionCoord(java.math.BigDecimal val) {
++   public static me.alphamode.mclong.math.BigInteger posToSectionCoord(me.alphamode.mclong.math.BigDecimal val) {
 +      return blockToSectionCoord(Mth.lfloor(val));
 +   }
 +
-+   public static java.math.BigInteger blockToSectionCoord(java.math.BigInteger block) {
++   public static me.alphamode.mclong.math.BigInteger blockToSectionCoord(me.alphamode.mclong.math.BigInteger block) {
 +      return block.shiftRight(4);
 +   }
 +
@@ -117,7 +117,7 @@
 +      return Mth.m_14134_(p_235866_) >> 4;
 +   }
 +
-+   public static java.math.BigInteger blockToSectionCoord(java.math.BigDecimal blockCord) {
++   public static me.alphamode.mclong.math.BigInteger blockToSectionCoord(me.alphamode.mclong.math.BigDecimal blockCord) {
 +      return Mth.lfloor(blockCord).shiftRight(4);
 +   }
 +
@@ -125,7 +125,7 @@
        return p_123208_ & 15;
     }
  
-+   public static java.math.BigInteger sectionRelative(java.math.BigInteger p_123208_) {
++   public static me.alphamode.mclong.math.BigInteger sectionRelative(me.alphamode.mclong.math.BigInteger p_123208_) {
 +      return p_123208_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
 +   }
 +
@@ -139,7 +139,7 @@
        return (short)(i << 8 | k << 4 | j << 0);
     }
  
-@@ -104,84 +_,96 @@
+@@ -104,84 +_,100 @@
        return p_123228_ >>> 4 & 15;
     }
  
@@ -225,12 +225,16 @@
 -
 -   public int m_123248_() {
 -      return m_175554_(this.m_123222_(), 15);
-+   public static java.math.BigInteger sectionToBlockCoord(java.math.BigInteger p_123224_) {
++   public static me.alphamode.mclong.math.BigInteger sectionToBlockCoord(me.alphamode.mclong.math.BigInteger p_123224_) {
 +      return p_123224_.shiftLeft(4);
 +   }
 +
-+   public static java.math.BigInteger sectionToBlockCoord(java.math.BigInteger blockCord, long offset) {
-+      return sectionToBlockCoord(blockCord).add(java.math.BigInteger.valueOf(offset));
++   public static me.alphamode.mclong.math.BigInteger sectionToBlockCoord(me.alphamode.mclong.math.BigInteger blockCord, long offset) {
++      return sectionToBlockCoord(blockCord).add(me.alphamode.mclong.math.BigInteger.valueOf(offset));
++   }
++
++   public static me.alphamode.mclong.math.BigInteger sectionToBlockCoord(me.alphamode.mclong.math.BigInteger blockCord, me.alphamode.mclong.math.BigInteger offset) {
++      return sectionToBlockCoord(blockCord).add(offset);
 +   }
 +
 +   public static long sectionToBlockCoord(long p_175555_, long p_175556_) {
@@ -377,7 +381,7 @@
 +   public static Stream<SectionPos> betweenClosedStream(final long p_123178_, final long p_123179_, final long p_123180_, final long p_123181_, final long p_123182_, final long p_123183_) {
        return StreamSupport.stream(new Spliterators.AbstractSpliterator<SectionPos>((long)((p_123181_ - p_123178_ + 1) * (p_123182_ - p_123179_ + 1) * (p_123183_ - p_123180_ + 1)), 64) {
 -         final Cursor3D f_123254_ = new Cursor3D(p_123178_, p_123179_, p_123180_, p_123181_, p_123182_, p_123183_);
-+         final Cursor3D f_123254_ = new Cursor3D(java.math.BigInteger.valueOf(p_123178_), java.math.BigInteger.valueOf(p_123179_), java.math.BigInteger.valueOf(p_123180_), java.math.BigInteger.valueOf(p_123181_), java.math.BigInteger.valueOf(p_123182_), java.math.BigInteger.valueOf(p_123183_));
++         final Cursor3D f_123254_ = new Cursor3D(me.alphamode.mclong.math.BigInteger.valueOf(p_123178_), me.alphamode.mclong.math.BigInteger.valueOf(p_123179_), me.alphamode.mclong.math.BigInteger.valueOf(p_123180_), me.alphamode.mclong.math.BigInteger.valueOf(p_123181_), me.alphamode.mclong.math.BigInteger.valueOf(p_123182_), me.alphamode.mclong.math.BigInteger.valueOf(p_123183_));
  
           public boolean tryAdvance(Consumer<? super SectionPos> p_123271_) {
              if (this.f_123254_.m_122304_()) {

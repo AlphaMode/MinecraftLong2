@@ -31,7 +31,7 @@
           return this.m_8055_(blockpos).m_60812_(this, blockpos);
        });
     }
-@@ -106,15 +_,15 @@
+@@ -106,51 +_,51 @@
        if (p_151362_.equals(p_151363_)) {
           return p_151366_.apply(p_151364_);
        } else {
@@ -44,33 +44,72 @@
 -         int i = Mth.m_14107_(d3);
 -         int j = Mth.m_14107_(d4);
 -         int k = Mth.m_14107_(d5);
-+         double d0 = Mth.m_14139_(-1.0E-7D, p_151363_.m_7096_(), p_151362_.m_7096_());
-+         double d1 = Mth.m_14139_(-1.0E-7D, p_151363_.m_7098_(), p_151362_.m_7098_());
-+         double d2 = Mth.m_14139_(-1.0E-7D, p_151363_.m_7094_(), p_151362_.m_7094_());
-+         double d3 = Mth.m_14139_(-1.0E-7D, p_151362_.m_7096_(), p_151363_.m_7096_());
-+         double d4 = Mth.m_14139_(-1.0E-7D, p_151362_.m_7098_(), p_151363_.m_7098_());
-+         double d5 = Mth.m_14139_(-1.0E-7D, p_151362_.m_7094_(), p_151363_.m_7094_());
-+         long i = Mth.m_14134_(d3);
-+         long j = Mth.m_14134_(d4);
-+         long k = Mth.m_14134_(d5);
++         me.alphamode.mclong.math.BigDecimal d0 = Mth.lerp(-1.0E-7D, p_151363_.getX(), p_151362_.getX());
++         me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp(-1.0E-7D, p_151363_.getY(), p_151362_.getY());
++         me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp(-1.0E-7D, p_151363_.getZ(), p_151362_.getZ());
++         me.alphamode.mclong.math.BigDecimal d3 = Mth.lerp(-1.0E-7D, p_151362_.getX(), p_151363_.getX());
++         me.alphamode.mclong.math.BigDecimal d4 = Mth.lerp(-1.0E-7D, p_151362_.getY(), p_151363_.getY());
++         me.alphamode.mclong.math.BigDecimal d5 = Mth.lerp(-1.0E-7D, p_151362_.getZ(), p_151363_.getZ());
++         me.alphamode.mclong.math.BigInteger i = Mth.lfloor(d3);
++         me.alphamode.mclong.math.BigInteger j = Mth.lfloor(d4);
++         me.alphamode.mclong.math.BigInteger k = Mth.lfloor(d5);
           BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(i, j, k);
           T t = p_151365_.apply(p_151364_, blockpos$mutableblockpos);
           if (t != null) {
-@@ -123,9 +_,9 @@
-             double d6 = d0 - d3;
-             double d7 = d1 - d4;
-             double d8 = d2 - d5;
+             return t;
+          } else {
+-            double d6 = d0 - d3;
+-            double d7 = d1 - d4;
+-            double d8 = d2 - d5;
 -            int l = Mth.m_14205_(d6);
 -            int i1 = Mth.m_14205_(d7);
 -            int j1 = Mth.m_14205_(d8);
-+            long l = Mth.lsign(d6);
-+            long i1 = Mth.lsign(d7);
-+            long j1 = Mth.lsign(d8);
-             double d9 = l == 0 ? Double.MAX_VALUE : (double)l / d6;
-             double d10 = i1 == 0 ? Double.MAX_VALUE : (double)i1 / d7;
-             double d11 = j1 == 0 ? Double.MAX_VALUE : (double)j1 / d8;
-@@ -150,7 +_,7 @@
-                   d14 += d11;
+-            double d9 = l == 0 ? Double.MAX_VALUE : (double)l / d6;
+-            double d10 = i1 == 0 ? Double.MAX_VALUE : (double)i1 / d7;
+-            double d11 = j1 == 0 ? Double.MAX_VALUE : (double)j1 / d8;
+-            double d12 = d9 * (l > 0 ? 1.0D - Mth.m_14185_(d3) : Mth.m_14185_(d3));
+-            double d13 = d10 * (i1 > 0 ? 1.0D - Mth.m_14185_(d4) : Mth.m_14185_(d4));
+-            double d14 = d11 * (j1 > 0 ? 1.0D - Mth.m_14185_(d5) : Mth.m_14185_(d5));
++            me.alphamode.mclong.math.BigDecimal d6 = d0.subtract(d3);
++            me.alphamode.mclong.math.BigDecimal d7 = d1.subtract(d4);
++            me.alphamode.mclong.math.BigDecimal d8 = d2.subtract(d5);
++            int l = Mth.m_14205_(d6.doubleValue());
++            int i1 = Mth.m_14205_(d7.doubleValue());
++            int j1 = Mth.m_14205_(d8.doubleValue());
++            me.alphamode.mclong.math.BigDecimal d9 = l == 0 ? me.alphamode.mclong.math.BigDecimal.valueOf(Double.MAX_VALUE) : me.alphamode.mclong.math.BigDecimal.valueOf(l).divide(d6, java.math.RoundingMode.HALF_UP);
++            me.alphamode.mclong.math.BigDecimal d10 = i1 == 0 ? me.alphamode.mclong.math.BigDecimal.valueOf(Double.MAX_VALUE) : me.alphamode.mclong.math.BigDecimal.valueOf(i1).divide(d7, java.math.RoundingMode.HALF_UP);
++            me.alphamode.mclong.math.BigDecimal d11 = j1 == 0 ? me.alphamode.mclong.math.BigDecimal.valueOf(Double.MAX_VALUE) : me.alphamode.mclong.math.BigDecimal.valueOf(j1).divide(d8, java.math.RoundingMode.HALF_UP);
++            me.alphamode.mclong.math.BigDecimal d12 = d9.multiply((l > 0 ? me.alphamode.mclong.math.BigDecimal.ONE.subtract(Mth.frac(d3)) : Mth.frac(d3)));
++            me.alphamode.mclong.math.BigDecimal d13 = d10.multiply((i1 > 0 ? me.alphamode.mclong.math.BigDecimal.ONE.subtract(Mth.frac(d4)) : Mth.frac(d4)));
++            me.alphamode.mclong.math.BigDecimal d14 = d11.multiply((j1 > 0 ? me.alphamode.mclong.math.BigDecimal.ONE.subtract(Mth.frac(d5)) : Mth.frac(d5)));
+ 
+-            while(d12 <= 1.0D || d13 <= 1.0D || d14 <= 1.0D) {
+-               if (d12 < d13) {
+-                  if (d12 < d14) {
+-                     i += l;
+-                     d12 += d9;
++            while(d12.compareTo(me.alphamode.mclong.math.BigDecimal.ONE) <= 0 || d13.compareTo(me.alphamode.mclong.math.BigDecimal.ONE) <= 0 || d14.compareTo(me.alphamode.mclong.math.BigDecimal.ONE) <= 0) {
++               if (d12.compareTo(d13) < 0) {
++                  if (d12.compareTo(d14) < 0) {
++                     i = i.add(l);
++                     d12 = d12.add(d9);
+                   } else {
+-                     k += j1;
+-                     d14 += d11;
++                     k = k.add(j1);
++                     d14 = d14.add(d11);
+                   }
+-               } else if (d13 < d14) {
+-                  j += i1;
+-                  d13 += d10;
++               } else if (d13.compareTo(d14) < 0) {
++                  j = j.add(i1);
++                  d13 = d13.add(d10);
+                } else {
+-                  k += j1;
+-                  d14 += d11;
++                  k = k.add(j1);
++                  d14 = d14.add(d11);
                 }
  
 -               T t1 = p_151365_.apply(p_151364_, blockpos$mutableblockpos.m_122178_(i, j, k));

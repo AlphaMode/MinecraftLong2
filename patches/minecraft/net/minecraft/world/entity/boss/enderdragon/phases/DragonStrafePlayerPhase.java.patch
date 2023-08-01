@@ -1,17 +1,31 @@
 --- a/net/minecraft/world/entity/boss/enderdragon/phases/DragonStrafePlayerPhase.java
 +++ b/net/minecraft/world/entity/boss/enderdragon/phases/DragonStrafePlayerPhase.java
-@@ -61,9 +_,9 @@
+@@ -61,18 +_,18 @@
                 if (this.f_31350_ >= 5 && f >= 0.0F && f < 10.0F) {
                    double d14 = 1.0D;
                    Vec3 vec32 = this.f_31176_.m_20252_(1.0F);
 -                  double d6 = this.f_31176_.f_31080_.m_20185_() - vec32.f_82479_ * 1.0D;
-+                  double d6 = this.f_31176_.f_31080_.m_20185_() - vec32.m_7096_() * 1.0D;
-                   double d7 = this.f_31176_.f_31080_.m_20227_(0.5D) + 0.5D;
+-                  double d7 = this.f_31176_.f_31080_.m_20227_(0.5D) + 0.5D;
 -                  double d8 = this.f_31176_.f_31080_.m_20189_() - vec32.f_82481_ * 1.0D;
-+                  double d8 = this.f_31176_.f_31080_.m_20189_() - vec32.m_7094_() * 1.0D;
-                   double d9 = this.f_31353_.m_20185_() - d6;
-                   double d10 = this.f_31353_.m_20227_(0.5D) - d7;
-                   double d11 = this.f_31353_.m_20189_() - d8;
+-                  double d9 = this.f_31353_.m_20185_() - d6;
+-                  double d10 = this.f_31353_.m_20227_(0.5D) - d7;
+-                  double d11 = this.f_31353_.m_20189_() - d8;
++                  me.alphamode.mclong.math.BigDecimal d6 = this.f_31176_.f_31080_.getBigX().subtract(vec32.getX().multiply(me.alphamode.mclong.math.BigDecimal.ONE));
++                  me.alphamode.mclong.math.BigDecimal d7 = this.f_31176_.f_31080_.getBigY(0.5D).add(me.alphamode.mclong.core.BigConstants.AABB);
++                  me.alphamode.mclong.math.BigDecimal d8 = this.f_31176_.f_31080_.getBigZ().subtract(vec32.getZ().multiply(me.alphamode.mclong.math.BigDecimal.ONE));
++                  double d9 = this.f_31353_.getBigX().subtract(d6).doubleValue();
++                  double d10 = this.f_31353_.getBigY(0.5D).subtract(d7).doubleValue();
++                  double d11 = this.f_31353_.getBigZ().subtract(d8).doubleValue();
+                   if (!this.f_31176_.m_20067_()) {
+                      this.f_31176_.m_9236_().m_5898_((Player)null, 1017, this.f_31176_.m_20183_(), 0);
+                   }
+ 
+                   DragonFireball dragonfireball = new DragonFireball(this.f_31176_.m_9236_(), this.f_31176_, d9, d10, d11);
+-                  dragonfireball.m_7678_(d6, d7, d8, 0.0F, 0.0F);
++                  dragonfireball.moveTo(d6, d7, d8, 0.0F, 0.0F);
+                   this.f_31176_.m_9236_().m_7967_(dragonfireball);
+                   this.f_31350_ = 0;
+                   if (this.f_31351_ != null) {
 @@ -130,15 +_,15 @@
  
     private void m_31365_() {

@@ -32,11 +32,11 @@
           }
  
 -         p_40639_.m_7106_(ParticleTypes.f_123748_, (double)p_40640_.m_123341_() + 0.5D, (double)p_40640_.m_123342_() + 0.5D, (double)p_40640_.m_123343_() + 0.5D, 0.0D, 0.0D, 0.0D);
-+         p_40639_.m_7106_(ParticleTypes.f_123748_, (double)p_40640_.getX() + 0.5D, (double)p_40640_.getY() + 0.5D, (double)p_40640_.getZ() + 0.5D, 0.0D, 0.0D, 0.0D);
++         p_40639_.addParticle(ParticleTypes.f_123748_, p_40640_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), p_40640_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.AABB), p_40640_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), 0.0D, 0.0D, 0.0D);
           RandomSource randomsource = p_40639_.m_213780_();
  
           for(int i = 0; i < p_40641_; ++i) {
-@@ -169,10 +_,10 @@
+@@ -169,11 +_,11 @@
              double d3 = randomsource.m_188583_() * 0.02D;
              double d4 = randomsource.m_188583_() * 0.02D;
              double d5 = 0.5D - d0;
@@ -44,10 +44,12 @@
 -            double d7 = (double)p_40640_.m_123342_() + randomsource.m_188500_() * d1;
 -            double d8 = (double)p_40640_.m_123343_() + d5 + randomsource.m_188500_() * d0 * 2.0D;
 -            if (!p_40639_.m_8055_(BlockPos.m_274561_(d6, d7, d8).m_7495_()).m_60795_()) {
-+            double d6 = (double)p_40640_.getX() + d5 + randomsource.m_188500_() * d0 * 2.0D;
-+            double d7 = (double)p_40640_.getY() + randomsource.m_188500_() * d1;
-+            double d8 = (double)p_40640_.getZ() + d5 + randomsource.m_188500_() * d0 * 2.0D;
-+            if (!p_40639_.m_8055_(BlockPos.m_274561_(d6, d7, d8).below()).m_60795_()) {
-                p_40639_.m_7106_(ParticleTypes.f_123748_, d6, d7, d8, d2, d3, d4);
+-               p_40639_.m_7106_(ParticleTypes.f_123748_, d6, d7, d8, d2, d3, d4);
++            me.alphamode.mclong.math.BigDecimal d6 = p_40640_.getBigDecX().add(d5 + randomsource.m_188500_() * d0 * 2.0D);
++            me.alphamode.mclong.math.BigDecimal d7 = p_40640_.getBigDecY().add(randomsource.m_188500_() * d1);
++            me.alphamode.mclong.math.BigDecimal d8 = p_40640_.getBigDecZ().add(d5 + randomsource.m_188500_() * d0 * 2.0D);
++            if (!p_40639_.m_8055_(BlockPos.containing(d6, d7, d8).below()).m_60795_()) {
++               p_40639_.addParticle(ParticleTypes.f_123748_, d6, d7, d8, d2, d3, d4);
              }
           }
+ 

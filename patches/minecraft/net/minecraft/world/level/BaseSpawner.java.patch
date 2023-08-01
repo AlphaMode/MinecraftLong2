@@ -9,19 +9,23 @@
     }
  
     public void m_151319_(Level p_151320_, BlockPos p_151321_) {
-@@ -57,9 +_,9 @@
+@@ -57,11 +_,11 @@
           this.f_45446_ = this.f_45445_;
        } else if (this.f_45450_ != null) {
           RandomSource randomsource = p_151320_.m_213780_();
 -         double d0 = (double)p_151321_.m_123341_() + randomsource.m_188500_();
 -         double d1 = (double)p_151321_.m_123342_() + randomsource.m_188500_();
 -         double d2 = (double)p_151321_.m_123343_() + randomsource.m_188500_();
-+         double d0 = (double)p_151321_.getX() + randomsource.m_188500_();
-+         double d1 = (double)p_151321_.getY() + randomsource.m_188500_();
-+         double d2 = (double)p_151321_.getZ() + randomsource.m_188500_();
-          p_151320_.m_7106_(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-          p_151320_.m_7106_(ParticleTypes.f_123744_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+-         p_151320_.m_7106_(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+-         p_151320_.m_7106_(ParticleTypes.f_123744_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
++         me.alphamode.mclong.math.BigDecimal d0 = p_151321_.getBigDecX().add(randomsource.m_188500_());
++         me.alphamode.mclong.math.BigDecimal d1 = p_151321_.getBigDecY().add(randomsource.m_188500_());
++         me.alphamode.mclong.math.BigDecimal d2 = p_151321_.getBigDecZ().add(randomsource.m_188500_());
++         p_151320_.addParticle(ParticleTypes.f_123762_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
++         p_151320_.addParticle(ParticleTypes.f_123744_, d0, d1, d2, 0.0D, 0.0D, 0.0D);
           if (this.f_45442_ > 0) {
+             --this.f_45442_;
+          }
 @@ -95,9 +_,9 @@
  
                 ListTag listtag = compoundtag.m_128437_("Pos", 6);

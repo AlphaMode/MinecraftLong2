@@ -4,11 +4,11 @@
        return p_14135_ < (double)i ? i - 1L : i;
     }
  
-+   public static java.math.BigInteger lfloor(java.math.BigDecimal val) {
++   public static me.alphamode.mclong.math.BigInteger lfloor(me.alphamode.mclong.math.BigDecimal val) {
 +      return val.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
 +   }
 +
-+   public static java.math.BigDecimal lfloorD(java.math.BigDecimal val) {
++   public static me.alphamode.mclong.math.BigDecimal lfloorD(me.alphamode.mclong.math.BigDecimal val) {
 +      return val.setScale(0, java.math.RoundingMode.FLOOR);
 +   }
 +
@@ -32,7 +32,7 @@
 +      return p_14166_ > (double)i ? i + 1 : i;
 +   }
 +
-+   public static java.math.BigInteger lceil(java.math.BigDecimal val) {
++   public static me.alphamode.mclong.math.BigInteger lceil(me.alphamode.mclong.math.BigDecimal val) {
 +      return val.setScale(0, java.math.RoundingMode.CEILING).toBigInteger();
 +   }
 +
@@ -51,19 +51,23 @@
        return p_14009_ < p_14010_ ? p_14010_ : Math.min(p_14009_, p_14011_);
     }
  
-+   public static java.math.BigDecimal clamp(java.math.BigDecimal p_14009_, java.math.BigDecimal p_14010_, java.math.BigDecimal p_14011_) {
++   public static me.alphamode.mclong.math.BigDecimal clamp(me.alphamode.mclong.math.BigDecimal p_14009_, me.alphamode.mclong.math.BigDecimal p_14010_, me.alphamode.mclong.math.BigDecimal p_14011_) {
 +      return p_14009_.compareTo(p_14010_) < 0 ? p_14010_ : p_14009_.min(p_14011_);
 +   }
 +
     public static double m_14085_(double p_14086_, double p_14087_, double p_14088_) {
        if (p_14088_ < 0.0D) {
           return p_14086_;
-@@ -123,10 +_,18 @@
+@@ -123,10 +_,22 @@
        return Math.max(p_14006_, p_14007_);
     }
  
 +   public static long longFloorDiv(long p_14043_, long p_14044_) {
 +      return Math.floorDiv(p_14043_, p_14044_);
++   }
++
++   public static me.alphamode.mclong.math.BigInteger longFloorDiv(me.alphamode.mclong.math.BigInteger p_14043_, me.alphamode.mclong.math.BigInteger p_14044_) {
++      return me.alphamode.mclong.math.BigMath.floorDiv(p_14043_, p_14044_);
 +   }
 +
     public static int m_14042_(int p_14043_, int p_14044_) {
@@ -77,11 +81,22 @@
     public static int m_216271_(RandomSource p_216272_, int p_216273_, int p_216274_) {
        return p_216273_ >= p_216274_ ? p_216273_ : p_216272_.m_188503_(p_216274_ - p_216273_ + 1) + p_216273_;
     }
-@@ -147,10 +_,18 @@
+@@ -139,6 +_,10 @@
+       return p_216265_ >= p_216266_ ? p_216265_ : p_216264_.m_188500_() * (p_216266_ - p_216265_) + p_216265_;
+    }
+ 
++   public static me.alphamode.mclong.math.BigDecimal nextDouble(RandomSource p_216264_, me.alphamode.mclong.math.BigDecimal p_216265_, me.alphamode.mclong.math.BigDecimal p_216266_) {
++      return p_216265_.compareTo(p_216266_) >= 0 ? p_216265_ : me.alphamode.mclong.math.BigDecimal.valueOf(p_216264_.m_188500_()).multiply((p_216266_.subtract(p_216265_))).add(p_216265_);
++   }
++
+    public static boolean m_14033_(float p_14034_, float p_14035_) {
+       return Math.abs(p_14035_ - p_14034_) < 1.0E-5F;
+    }
+@@ -147,10 +_,22 @@
        return Math.abs(p_14084_ - p_14083_) < (double)1.0E-5F;
     }
  
-+   public static boolean equal(java.math.BigDecimal a, java.math.BigDecimal b) {
++   public static boolean equal(me.alphamode.mclong.math.BigDecimal a, me.alphamode.mclong.math.BigDecimal b) {
 +      return b.subtract(a).abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON_EQUAL) < 0;
 +   }
 +
@@ -91,6 +106,10 @@
  
 +   public static long positiveModulo(long p_14101_, long p_14102_) {
 +      return Math.floorMod(p_14101_, p_14102_);
++   }
++
++   public static me.alphamode.mclong.math.BigInteger positiveModulo(me.alphamode.mclong.math.BigInteger p_14101_, me.alphamode.mclong.math.BigInteger p_14102_) {
++      return me.alphamode.mclong.math.BigMath.floorMod(p_14101_, p_14102_);
 +   }
 +
     public static float m_14091_(float p_14092_, float p_14093_) {
@@ -132,19 +151,31 @@
     }
  
     public static int m_14159_(float p_14160_, float p_14161_, float p_14162_) {
-@@ -267,13 +_,13 @@
- 
-    /** @deprecated */
-    @Deprecated
--   public static long m_14057_(Vec3i p_14058_) {
--      return m_14130_(p_14058_.m_123341_(), p_14058_.m_123342_(), p_14058_.m_123343_());
-+   public static long getSeed(me.alphamode.mclong.core.Vec3l p_14058_) {
-+      return getSeed(p_14058_.getX(), p_14058_.getY(), p_14058_.getZ());
+@@ -265,15 +_,19 @@
+       return p_14186_ - (double)m_14134_(p_14186_);
     }
  
-    /** @deprecated */
-    @Deprecated
+-   /** @deprecated */
+-   @Deprecated
+-   public static long m_14057_(Vec3i p_14058_) {
+-      return m_14130_(p_14058_.m_123341_(), p_14058_.m_123342_(), p_14058_.m_123343_());
+-   }
+-
+-   /** @deprecated */
+-   @Deprecated
 -   public static long m_14130_(int p_14131_, int p_14132_, int p_14133_) {
++   public static me.alphamode.mclong.math.BigDecimal frac(me.alphamode.mclong.math.BigDecimal p_14186_) {
++      return p_14186_.subtract(lfloor(p_14186_).toBigDecimal());
++   }
++
++   /** @deprecated */
++   @Deprecated
++   public static long getSeed(me.alphamode.mclong.core.Vec3l p_14058_) {
++      return getSeed(p_14058_.getX(), p_14058_.getY(), p_14058_.getZ());
++   }
++
++   /** @deprecated */
++   @Deprecated
 +   public static long getSeed(long p_14131_, long p_14132_, long p_14133_) {
        long i = (long)(p_14131_ * 3129871) ^ (long)p_14133_ * 116129781L ^ (long)p_14132_;
        i = i * i * 42317861L + i * 11L;
@@ -204,12 +235,16 @@
                       return Math.abs(d12) < d1 * d10 + d4 * d9;
                    }
                 }
-@@ -495,6 +_,10 @@
+@@ -495,6 +_,14 @@
        return p_14141_ + p_14140_ * (p_14142_ - p_14141_);
     }
  
-+   public static java.math.BigDecimal lerp(java.math.BigDecimal p_14140_, java.math.BigDecimal p_14141_, java.math.BigDecimal p_14142_) {
++   public static me.alphamode.mclong.math.BigDecimal lerp(me.alphamode.mclong.math.BigDecimal p_14140_, me.alphamode.mclong.math.BigDecimal p_14141_, me.alphamode.mclong.math.BigDecimal p_14142_) {
 +      return p_14141_.add(p_14140_.multiply(p_14142_.subtract(p_14141_)));
++   }
++
++   public static me.alphamode.mclong.math.BigDecimal lerp(double p_14140_, me.alphamode.mclong.math.BigDecimal p_14141_, me.alphamode.mclong.math.BigDecimal p_14142_) {
++      return p_14141_.add(me.alphamode.mclong.math.BigDecimal.valueOf(p_14140_).multiply(p_14142_.subtract(p_14141_)));
 +   }
 +
     public static double m_14012_(double p_14013_, double p_14014_, double p_14015_, double p_14016_, double p_14017_, double p_14018_) {
@@ -219,11 +254,11 @@
        }
     }
  
-+   public static long lsign(double p_14206_) {
-+      if (p_14206_ == 0.0D) {
++   public static int sign(me.alphamode.mclong.math.BigDecimal val) {
++      if (val.equals(me.alphamode.mclong.math.BigDecimal.ZERO) | val.equals(me.alphamode.mclong.math.BigDecimal.REAL_ZERO)) {
 +         return 0;
 +      } else {
-+         return p_14206_ > 0.0D ? 1 : -1;
++         return val.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) > 0 ? 1 : -1;
 +      }
 +   }
 +
@@ -282,9 +317,9 @@
        }
 +   }
 +
-+   public static boolean fuzzyEquals(java.math.BigDecimal num1, java.math.BigDecimal num2, java.math.BigDecimal epsilon) {
++   public static boolean fuzzyEquals(me.alphamode.mclong.math.BigDecimal num1, me.alphamode.mclong.math.BigDecimal num2, me.alphamode.mclong.math.BigDecimal epsilon) {
 +      // Calculate the absolute difference between num1 and num2
-+      java.math.BigDecimal absDiff = num1.subtract(num2).abs();
++      me.alphamode.mclong.math.BigDecimal absDiff = num1.subtract(num2).abs();
 +
 +      // Compare the absolute difference with the epsilon
 +      return absDiff.compareTo(epsilon) <= 0;

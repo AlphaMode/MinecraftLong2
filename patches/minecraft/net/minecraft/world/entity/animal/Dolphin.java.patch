@@ -30,11 +30,20 @@
              for(int i = 0; i < 2; ++i) {
 -               this.m_9236_().m_7106_(ParticleTypes.f_123776_, this.m_20185_() - vec3.f_82479_ * (double)f2 + (double)f, this.m_20186_() - vec3.f_82480_, this.m_20189_() - vec3.f_82481_ * (double)f2 + (double)f1, 0.0D, 0.0D, 0.0D);
 -               this.m_9236_().m_7106_(ParticleTypes.f_123776_, this.m_20185_() - vec3.f_82479_ * (double)f2 - (double)f, this.m_20186_() - vec3.f_82480_, this.m_20189_() - vec3.f_82481_ * (double)f2 - (double)f1, 0.0D, 0.0D, 0.0D);
-+               this.m_9236_().m_7106_(ParticleTypes.f_123776_, this.m_20185_() - vec3.m_7096_() * (double)f2 + (double)f, this.m_20186_() - vec3.m_7098_(), this.m_20189_() - vec3.m_7094_() * (double)f2 + (double)f1, 0.0D, 0.0D, 0.0D);
-+               this.m_9236_().m_7106_(ParticleTypes.f_123776_, this.m_20185_() - vec3.m_7096_() * (double)f2 - (double)f, this.m_20186_() - vec3.m_7098_(), this.m_20189_() - vec3.m_7094_() * (double)f2 - (double)f1, 0.0D, 0.0D, 0.0D);
++               this.m_9236_().addParticle(ParticleTypes.f_123776_, this.getBigX().subtract(vec3.getX().multiply(f2).add(f)), this.getBigY().subtract(vec3.getY()), this.getBigZ().subtract(vec3.getZ().multiply(f2).add(f1)), 0.0D, 0.0D, 0.0D);
++               this.m_9236_().addParticle(ParticleTypes.f_123776_, this.getBigX().subtract(vec3.getX().multiply(f2)).subtract(f), this.getBigY().subtract(vec3.getY()), this.getBigZ().subtract(vec3.getZ().multiply(f2)).subtract(f1), 0.0D, 0.0D, 0.0D);
              }
           }
  
+@@ -274,7 +_,7 @@
+          double d0 = this.f_19796_.m_188583_() * 0.01D;
+          double d1 = this.f_19796_.m_188583_() * 0.01D;
+          double d2 = this.f_19796_.m_188583_() * 0.01D;
+-         this.m_9236_().m_7106_(p_28338_, this.m_20208_(1.0D), this.m_20187_() + 0.2D, this.m_20262_(1.0D), d0, d1, d2);
++         this.m_9236_().addParticle(p_28338_, this.getRandomX(1.0D), this.getRandomY().add(me.alphamode.mclong.core.BigConstants.PARTICLE_TICK), this.getRandomZ(1.0D), d0, d1, d2);
+       }
+ 
+    }
 @@ -321,7 +_,7 @@
  
     protected boolean m_28380_() {

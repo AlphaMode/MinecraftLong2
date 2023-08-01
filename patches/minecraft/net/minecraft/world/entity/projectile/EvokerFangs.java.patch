@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/entity/projectile/EvokerFangs.java
++++ b/net/minecraft/world/entity/projectile/EvokerFangs.java
+@@ -80,13 +_,13 @@
+             --this.f_36918_;
+             if (this.f_36918_ == 14) {
+                for(int i = 0; i < 12; ++i) {
+-                  double d0 = this.m_20185_() + (this.f_19796_.m_188500_() * 2.0D - 1.0D) * (double)this.m_20205_() * 0.5D;
+-                  double d1 = this.m_20186_() + 0.05D + this.f_19796_.m_188500_();
+-                  double d2 = this.m_20189_() + (this.f_19796_.m_188500_() * 2.0D - 1.0D) * (double)this.m_20205_() * 0.5D;
++                  me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().add((this.f_19796_.m_188500_() * 2.0D - 1.0D) * (double)this.m_20205_() * 0.5D);
++                  me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().add(0.05D + this.f_19796_.m_188500_());
++                  me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().add((this.f_19796_.m_188500_() * 2.0D - 1.0D) * (double)this.m_20205_() * 0.5D);
+                   double d3 = (this.f_19796_.m_188500_() * 2.0D - 1.0D) * 0.3D;
+                   double d4 = 0.3D + this.f_19796_.m_188500_() * 0.3D;
+                   double d5 = (this.f_19796_.m_188500_() * 2.0D - 1.0D) * 0.3D;
+-                  this.m_9236_().m_7106_(ParticleTypes.f_123797_, d0, d1 + 1.0D, d2, d3, d4, d5);
++                  this.m_9236_().addParticle(ParticleTypes.f_123797_, d0, d1.add(me.alphamode.mclong.math.BigDecimal.ONE), d2, d3, d4, d5);
+                }
+             }
+          }
+@@ -130,7 +_,7 @@
+       if (p_36935_ == 4) {
+          this.f_36919_ = true;
+          if (!this.m_20067_()) {
+-            this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_11865_, this.m_5720_(), 1.0F, this.f_19796_.m_188501_() * 0.2F + 0.85F, false);
++            this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_11865_, this.m_5720_(), 1.0F, this.f_19796_.m_188501_() * 0.2F + 0.85F, false);
+          }
+       }
+ 

@@ -6,13 +6,13 @@
        Vec3 vec3 = voxelshape.m_83215_().m_82399_();
 -      double d0 = (double)p_222689_.m_123341_() + vec3.f_82479_;
 -      double d1 = (double)p_222689_.m_123343_() + vec3.f_82481_;
-+      double d0 = (double)p_222689_.getX() + vec3.m_7096_();
-+      double d1 = (double)p_222689_.getZ() + vec3.m_7094_();
++      me.alphamode.mclong.math.BigDecimal d0 = p_222689_.getBigDecX().add(vec3.getX());
++      me.alphamode.mclong.math.BigDecimal d1 = p_222689_.getBigDecZ().add(vec3.getZ());
  
        for(int i = 0; i < 3; ++i) {
           if (p_222690_.m_188499_()) {
 -            p_222688_.m_7106_(ParticleTypes.f_123762_, d0 + p_222690_.m_188500_() / 5.0D, (double)p_222689_.m_123342_() + (0.5D - p_222690_.m_188500_()), d1 + p_222690_.m_188500_() / 5.0D, 0.0D, 0.0D, 0.0D);
-+            p_222688_.m_7106_(ParticleTypes.f_123762_, d0 + p_222690_.m_188500_() / 5.0D, (double)p_222689_.getY() + (0.5D - p_222690_.m_188500_()), d1 + p_222690_.m_188500_() / 5.0D, 0.0D, 0.0D, 0.0D);
++            p_222688_.addParticle(ParticleTypes.f_123762_, d0.add(p_222690_.m_188500_() / 5.0D), p_222689_.getBigDecY().add((0.5D - p_222690_.m_188500_())), d1.add(p_222690_.m_188500_() / 5.0D), 0.0D, 0.0D, 0.0D);
           }
        }
  

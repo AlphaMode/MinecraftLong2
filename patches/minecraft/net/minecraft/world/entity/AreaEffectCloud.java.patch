@@ -1,0 +1,36 @@
+--- a/net/minecraft/world/entity/AreaEffectCloud.java
++++ b/net/minecraft/world/entity/AreaEffectCloud.java
+@@ -60,9 +_,9 @@
+       this.f_19794_ = true;
+    }
+ 
+-   public AreaEffectCloud(Level p_19707_, double p_19708_, double p_19709_, double p_19710_) {
++   public AreaEffectCloud(Level p_19707_, me.alphamode.mclong.math.BigDecimal p_19708_, me.alphamode.mclong.math.BigDecimal p_19709_, me.alphamode.mclong.math.BigDecimal p_19710_) {
+       this(EntityType.f_20476_, p_19707_);
+-      this.m_6034_(p_19708_, p_19709_, p_19710_);
++      this.setPos(p_19708_, p_19709_, p_19710_);
+    }
+ 
+    protected void m_8097_() {
+@@ -172,9 +_,9 @@
+          for(int j = 0; j < i; ++j) {
+             float f2 = this.f_19796_.m_188501_() * ((float)Math.PI * 2F);
+             float f3 = Mth.m_14116_(this.f_19796_.m_188501_()) * f1;
+-            double d0 = this.m_20185_() + (double)(Mth.m_14089_(f2) * f3);
+-            double d2 = this.m_20186_();
+-            double d4 = this.m_20189_() + (double)(Mth.m_14031_(f2) * f3);
++            me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().add((double)(Mth.m_14089_(f2) * f3));
++            me.alphamode.mclong.math.BigDecimal d2 = this.getBigY();
++            me.alphamode.mclong.math.BigDecimal d4 = this.getBigZ().add((double)(Mth.m_14031_(f2) * f3));
+             double d5;
+             double d6;
+             double d7;
+@@ -193,7 +_,7 @@
+                d7 = (0.5D - this.f_19796_.m_188500_()) * 0.15D;
+             }
+ 
+-            this.m_9236_().m_7107_(particleoptions, d0, d2, d4, d5, d6, d7);
++            this.m_9236_().addAlwaysVisibleParticle(particleoptions, d0, d2, d4, d5, d6, d7);
+          }
+       } else {
+          if (this.f_19797_ >= this.f_19688_ + this.f_19687_) {

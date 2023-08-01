@@ -1,0 +1,17 @@
+--- a/net/minecraft/client/renderer/ScreenEffectRenderer.java
++++ b/net/minecraft/client/renderer/ScreenEffectRenderer.java
+@@ -53,10 +_,10 @@
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+       for(int i = 0; i < 8; ++i) {
+-         double d0 = p_110717_.m_20185_() + (double)(((float)((i >> 0) % 2) - 0.5F) * p_110717_.m_20205_() * 0.8F);
+-         double d1 = p_110717_.m_20188_() + (double)(((float)((i >> 1) % 2) - 0.5F) * 0.1F);
+-         double d2 = p_110717_.m_20189_() + (double)(((float)((i >> 2) % 2) - 0.5F) * p_110717_.m_20205_() * 0.8F);
+-         blockpos$mutableblockpos.m_122169_(d0, d1, d2);
++         me.alphamode.mclong.math.BigDecimal d0 = p_110717_.getBigX().add((double)(((float)((i >> 0) % 2) - 0.5F) * p_110717_.m_20205_() * 0.8F));
++         me.alphamode.mclong.math.BigDecimal d1 = p_110717_.getEyeBigY().add((double)(((float)((i >> 1) % 2) - 0.5F) * 0.1F));
++         me.alphamode.mclong.math.BigDecimal d2 = p_110717_.getBigZ().add((double)(((float)((i >> 2) % 2) - 0.5F) * p_110717_.m_20205_() * 0.8F));
++         blockpos$mutableblockpos.set(d0, d1, d2);
+          BlockState blockstate = p_110717_.m_9236_().m_8055_(blockpos$mutableblockpos);
+          if (blockstate.m_60799_() != RenderShape.INVISIBLE && blockstate.m_60831_(p_110717_.m_9236_(), blockpos$mutableblockpos)) {
+             return blockstate;

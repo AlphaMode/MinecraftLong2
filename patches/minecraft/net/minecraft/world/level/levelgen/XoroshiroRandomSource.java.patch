@@ -1,11 +1,26 @@
 --- a/net/minecraft/world/level/levelgen/XoroshiroRandomSource.java
 +++ b/net/minecraft/world/level/levelgen/XoroshiroRandomSource.java
-@@ -72,6 +_,10 @@
+@@ -72,6 +_,25 @@
        return this.f_190099_.m_190096_();
     }
  
-+   public long nextLong(long off) {
-+      return this.f_190099_.m_190096_() * off; // todo: is this right?
++   public long nextLong(long bound) {
++      if (bound <= 0) {
++         throw new IllegalArgumentException("Bound must be positive");
++      } else {
++         long i = Integer.toUnsignedLong(this.m_188502_());
++         long j = i * bound;
++         long k = j & 4294967295L;
++         if (k < bound) {
++            for(long l = Long.remainderUnsigned(~bound + 1, bound); k < l; k = j & 4294967295L) {
++               i = Integer.toUnsignedLong(this.m_188502_());
++               j = i * bound;
++            }
++         }
++
++         long i1 = j >> 32;
++         return i1;
++      }
 +   }
 +
     public boolean m_188499_() {

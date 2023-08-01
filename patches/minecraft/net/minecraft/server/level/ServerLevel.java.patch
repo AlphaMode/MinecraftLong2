@@ -169,25 +169,88 @@
              if (d0 * d0 + d1 * d1 + d2 * d2 < 1024.0D) {
                 serverplayer.f_8906_.m_9829_(new ClientboundBlockDestructionPacket(p_8612_, p_8613_, p_8614_));
              }
+@@ -879,12 +_,12 @@
+ 
+    }
+ 
+-   public void m_262808_(@Nullable Player p_263330_, double p_263393_, double p_263369_, double p_263354_, Holder<SoundEvent> p_263412_, SoundSource p_263338_, float p_263352_, float p_263390_, long p_263403_) {
+-      this.f_8548_.m_6846_().m_11241_(p_263330_, p_263393_, p_263369_, p_263354_, (double)p_263412_.m_203334_().m_215668_(p_263352_), this.m_46472_(), new ClientboundSoundPacket(p_263412_, p_263338_, p_263393_, p_263369_, p_263354_, p_263352_, p_263390_, p_263403_));
++   public void playSeededSound(@Nullable Player p_263330_, me.alphamode.mclong.math.BigDecimal p_263393_, me.alphamode.mclong.math.BigDecimal p_263369_, me.alphamode.mclong.math.BigDecimal p_263354_, Holder<SoundEvent> p_263412_, SoundSource p_263338_, float p_263352_, float p_263390_, long p_263403_) {
++      this.f_8548_.m_6846_().broadcast(p_263330_, p_263393_, p_263369_, p_263354_, (double)p_263412_.m_203334_().m_215668_(p_263352_), this.m_46472_(), new ClientboundSoundPacket(p_263412_, p_263338_, p_263393_, p_263369_, p_263354_, p_263352_, p_263390_, p_263403_));
+    }
+ 
+    public void m_213890_(@Nullable Player p_263545_, Entity p_263544_, Holder<SoundEvent> p_263491_, SoundSource p_263542_, float p_263530_, float p_263520_, long p_263490_) {
+-      this.f_8548_.m_6846_().m_11241_(p_263545_, p_263544_.m_20185_(), p_263544_.m_20186_(), p_263544_.m_20189_(), (double)p_263491_.m_203334_().m_215668_(p_263530_), this.m_46472_(), new ClientboundSoundEntityPacket(p_263491_, p_263542_, p_263544_, p_263530_, p_263520_, p_263490_));
++      this.f_8548_.m_6846_().broadcast(p_263545_, p_263544_.getBigX(), p_263544_.getBigY(), p_263544_.getBigZ(), (double)p_263491_.m_203334_().m_215668_(p_263530_), this.m_46472_(), new ClientboundSoundEntityPacket(p_263491_, p_263542_, p_263544_, p_263530_, p_263520_, p_263490_));
+    }
+ 
+    public void m_6798_(int p_8811_, BlockPos p_8812_, int p_8813_) {
 @@ -897,7 +_,7 @@
     }
  
     public void m_5898_(@Nullable Player p_8684_, int p_8685_, BlockPos p_8686_, int p_8687_) {
 -      this.f_8548_.m_6846_().m_11241_(p_8684_, (double)p_8686_.m_123341_(), (double)p_8686_.m_123342_(), (double)p_8686_.m_123343_(), 64.0D, this.m_46472_(), new ClientboundLevelEventPacket(p_8685_, p_8686_, p_8687_, false));
-+      this.f_8548_.m_6846_().m_11241_(p_8684_, (double)p_8686_.getX(), (double)p_8686_.getY(), (double)p_8686_.getZ(), 64.0D, this.m_46472_(), new ClientboundLevelEventPacket(p_8685_, p_8686_, p_8687_, false));
++      this.f_8548_.m_6846_().broadcast(p_8684_, p_8686_.getBigDecX(), p_8686_.getBigDecY(), p_8686_.getBigDecZ(), 64.0D, this.m_46472_(), new ClientboundLevelEventPacket(p_8685_, p_8686_, p_8687_, false));
     }
  
     public int m_143344_() {
+@@ -968,14 +_,14 @@
+       return this.f_8547_;
+    }
+ 
+-   public Explosion m_254877_(@Nullable Entity p_256039_, @Nullable DamageSource p_255778_, @Nullable ExplosionDamageCalculator p_256002_, double p_256067_, double p_256370_, double p_256153_, float p_256045_, boolean p_255686_, Level.ExplosionInteraction p_255827_) {
+-      Explosion explosion = this.m_255278_(p_256039_, p_255778_, p_256002_, p_256067_, p_256370_, p_256153_, p_256045_, p_255686_, p_255827_, false);
++   public Explosion explode(@Nullable Entity p_256039_, @Nullable DamageSource p_255778_, @Nullable ExplosionDamageCalculator p_256002_, me.alphamode.mclong.math.BigDecimal p_256067_, me.alphamode.mclong.math.BigDecimal p_256370_, me.alphamode.mclong.math.BigDecimal p_256153_, float p_256045_, boolean p_255686_, Level.ExplosionInteraction p_255827_) {
++      Explosion explosion = this.explode(p_256039_, p_255778_, p_256002_, p_256067_, p_256370_, p_256153_, p_256045_, p_255686_, p_255827_, false);
+       if (!explosion.m_254884_()) {
+          explosion.m_46080_();
+       }
+ 
+       for(ServerPlayer serverplayer : this.f_8546_) {
+-         if (serverplayer.m_20275_(p_256067_, p_256370_, p_256153_) < 4096.0D) {
++         if (serverplayer.distanceToSqr(p_256067_, p_256370_, p_256153_).compareTo(me.alphamode.mclong.core.BigConstants.EXPLODE_DISTANCE) < 0) {
+             serverplayer.f_8906_.m_9829_(new ClientboundExplodePacket(p_256067_, p_256370_, p_256153_, p_256045_, explosion.m_46081_(), explosion.m_46078_().get(serverplayer)));
+          }
+       }
 @@ -994,7 +_,7 @@
           BlockEventData blockeventdata = this.f_8556_.removeFirst();
           if (this.m_220393_(blockeventdata.f_45529_())) {
              if (this.m_8698_(blockeventdata)) {
 -               this.f_8548_.m_6846_().m_11241_((Player)null, (double)blockeventdata.f_45529_().m_123341_(), (double)blockeventdata.f_45529_().m_123342_(), (double)blockeventdata.f_45529_().m_123343_(), 64.0D, this.m_46472_(), new ClientboundBlockEventPacket(blockeventdata.f_45529_(), blockeventdata.f_45530_(), blockeventdata.f_45531_(), blockeventdata.f_45532_()));
-+               this.f_8548_.m_6846_().m_11241_((Player)null, (double)blockeventdata.f_45529_().getX(), (double)blockeventdata.f_45529_().getY(), (double)blockeventdata.f_45529_().getZ(), 64.0D, this.m_46472_(), new ClientboundBlockEventPacket(blockeventdata.f_45529_(), blockeventdata.f_45530_(), blockeventdata.f_45531_(), blockeventdata.f_45532_()));
++               this.f_8548_.m_6846_().broadcast((Player)null, blockeventdata.f_45529_().getBigDecX(), blockeventdata.f_45529_().getBigDecY(), blockeventdata.f_45529_().getBigDecZ(), 64.0D, this.m_46472_(), new ClientboundBlockEventPacket(blockeventdata.f_45529_(), blockeventdata.f_45530_(), blockeventdata.f_45531_(), blockeventdata.f_45532_()));
              }
           } else {
              this.f_184048_.add(blockeventdata);
-@@ -1054,7 +_,7 @@
+@@ -1030,13 +_,13 @@
+       return this.f_8548_.m_236738_();
+    }
+ 
+-   public <T extends ParticleOptions> int m_8767_(T p_8768_, double p_8769_, double p_8770_, double p_8771_, int p_8772_, double p_8773_, double p_8774_, double p_8775_, double p_8776_) {
++   public <T extends ParticleOptions> int sendParticles(T p_8768_, me.alphamode.mclong.math.BigDecimal p_8769_, me.alphamode.mclong.math.BigDecimal p_8770_, me.alphamode.mclong.math.BigDecimal p_8771_, int p_8772_, double p_8773_, double p_8774_, double p_8775_, double p_8776_) {
+       ClientboundLevelParticlesPacket clientboundlevelparticlespacket = new ClientboundLevelParticlesPacket(p_8768_, false, p_8769_, p_8770_, p_8771_, (float)p_8773_, (float)p_8774_, (float)p_8775_, (float)p_8776_, p_8772_);
+       int i = 0;
+ 
+       for(int j = 0; j < this.f_8546_.size(); ++j) {
+          ServerPlayer serverplayer = this.f_8546_.get(j);
+-         if (this.m_8636_(serverplayer, false, p_8769_, p_8770_, p_8771_, clientboundlevelparticlespacket)) {
++         if (this.sendParticles(serverplayer, false, p_8769_, p_8770_, p_8771_, clientboundlevelparticlespacket)) {
+             ++i;
+          }
+       }
+@@ -1044,17 +_,17 @@
+       return i;
+    }
+ 
+-   public <T extends ParticleOptions> boolean m_8624_(ServerPlayer p_8625_, T p_8626_, boolean p_8627_, double p_8628_, double p_8629_, double p_8630_, int p_8631_, double p_8632_, double p_8633_, double p_8634_, double p_8635_) {
++   public <T extends ParticleOptions> boolean sendParticles(ServerPlayer p_8625_, T p_8626_, boolean p_8627_, me.alphamode.mclong.math.BigDecimal p_8628_, me.alphamode.mclong.math.BigDecimal p_8629_, me.alphamode.mclong.math.BigDecimal p_8630_, int p_8631_, double p_8632_, double p_8633_, double p_8634_, double p_8635_) {
+       Packet<?> packet = new ClientboundLevelParticlesPacket(p_8626_, p_8627_, p_8628_, p_8629_, p_8630_, (float)p_8632_, (float)p_8633_, (float)p_8634_, (float)p_8635_, p_8631_);
+-      return this.m_8636_(p_8625_, p_8627_, p_8628_, p_8629_, p_8630_, packet);
++      return this.sendParticles(p_8625_, p_8627_, p_8628_, p_8629_, p_8630_, packet);
+    }
+ 
+-   private boolean m_8636_(ServerPlayer p_8637_, boolean p_8638_, double p_8639_, double p_8640_, double p_8641_, Packet<?> p_8642_) {
++   private boolean sendParticles(ServerPlayer p_8637_, boolean p_8638_, me.alphamode.mclong.math.BigDecimal p_8639_, me.alphamode.mclong.math.BigDecimal p_8640_, me.alphamode.mclong.math.BigDecimal p_8641_, Packet<?> p_8642_) {
+       if (p_8637_.m_9236_() != this) {
           return false;
        } else {
           BlockPos blockpos = p_8637_.m_20183_();

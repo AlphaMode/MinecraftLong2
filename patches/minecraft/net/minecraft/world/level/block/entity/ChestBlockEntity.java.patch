@@ -1,15 +1,25 @@
 --- a/net/minecraft/world/level/block/entity/ChestBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/ChestBlockEntity.java
-@@ -90,9 +_,9 @@
+@@ -90,16 +_,16 @@
     static void m_155338_(Level p_155339_, BlockPos p_155340_, BlockState p_155341_, SoundEvent p_155342_) {
        ChestType chesttype = p_155341_.m_61143_(ChestBlock.f_51479_);
        if (chesttype != ChestType.LEFT) {
 -         double d0 = (double)p_155340_.m_123341_() + 0.5D;
 -         double d1 = (double)p_155340_.m_123342_() + 0.5D;
 -         double d2 = (double)p_155340_.m_123343_() + 0.5D;
-+         double d0 = (double)p_155340_.getX() + 0.5D;
-+         double d1 = (double)p_155340_.getY() + 0.5D;
-+         double d2 = (double)p_155340_.getZ() + 0.5D;
++         me.alphamode.mclong.math.BigDecimal d0 = p_155340_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB);
++         me.alphamode.mclong.math.BigDecimal d1 = p_155340_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.AABB);
++         me.alphamode.mclong.math.BigDecimal d2 = p_155340_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB);
           if (chesttype == ChestType.RIGHT) {
              Direction direction = ChestBlock.m_51584_(p_155341_);
-             d0 += (double)direction.m_122429_() * 0.5D;
+-            d0 += (double)direction.m_122429_() * 0.5D;
+-            d2 += (double)direction.m_122431_() * 0.5D;
++            d0 = d0.add(direction.m_122429_() * 0.5D);
++            d2 = d2.add(direction.m_122431_() * 0.5D);
+          }
+ 
+-         p_155339_.m_6263_((Player)null, d0, d1, d2, p_155342_, SoundSource.BLOCKS, 0.5F, p_155339_.f_46441_.m_188501_() * 0.1F + 0.9F);
++         p_155339_.playSound((Player)null, d0, d1, d2, p_155342_, SoundSource.BLOCKS, 0.5F, p_155339_.f_46441_.m_188501_() * 0.1F + 0.9F);
+       }
+    }
+ 

@@ -1,6 +1,26 @@
 --- a/net/minecraft/network/protocol/game/ClientboundExplodePacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundExplodePacket.java
-@@ -26,9 +_,9 @@
+@@ -10,25 +_,25 @@
+ import net.minecraft.world.phys.Vec3;
+ 
+ public class ClientboundExplodePacket implements Packet<ClientGamePacketListener> {
+-   private final double f_132105_;
+-   private final double f_132106_;
+-   private final double f_132107_;
++   private final me.alphamode.mclong.math.BigDecimal f_132105_;
++   private final me.alphamode.mclong.math.BigDecimal f_132106_;
++   private final me.alphamode.mclong.math.BigDecimal f_132107_;
+    private final float f_132108_;
+    private final List<BlockPos> f_132109_;
+    private final float f_132110_;
+    private final float f_132111_;
+    private final float f_132112_;
+ 
+-   public ClientboundExplodePacket(double p_132115_, double p_132116_, double p_132117_, float p_132118_, List<BlockPos> p_132119_, @Nullable Vec3 p_132120_) {
++   public ClientboundExplodePacket(me.alphamode.mclong.math.BigDecimal p_132115_, me.alphamode.mclong.math.BigDecimal p_132116_, me.alphamode.mclong.math.BigDecimal p_132117_, float p_132118_, List<BlockPos> p_132119_, @Nullable Vec3 p_132120_) {
+       this.f_132105_ = p_132115_;
+       this.f_132106_ = p_132116_;
+       this.f_132107_ = p_132117_;
        this.f_132108_ = p_132118_;
        this.f_132109_ = Lists.newArrayList(p_132119_);
        if (p_132120_ != null) {
@@ -13,36 +33,50 @@
        } else {
           this.f_132110_ = 0.0F;
           this.f_132111_ = 0.0F;
-@@ -42,13 +_,13 @@
-       this.f_132106_ = p_178845_.readDouble();
-       this.f_132107_ = p_178845_.readDouble();
+@@ -38,17 +_,17 @@
+    }
+ 
+    public ClientboundExplodePacket(FriendlyByteBuf p_178845_) {
+-      this.f_132105_ = p_178845_.readDouble();
+-      this.f_132106_ = p_178845_.readDouble();
+-      this.f_132107_ = p_178845_.readDouble();
++      this.f_132105_ = new me.alphamode.mclong.math.BigDecimal(p_178845_.m_130277_());
++      this.f_132106_ = new me.alphamode.mclong.math.BigDecimal(p_178845_.m_130277_());
++      this.f_132107_ = new me.alphamode.mclong.math.BigDecimal(p_178845_.m_130277_());
        this.f_132108_ = p_178845_.readFloat();
 -      int i = Mth.m_14107_(this.f_132105_);
 -      int j = Mth.m_14107_(this.f_132106_);
 -      int k = Mth.m_14107_(this.f_132107_);
-+      long i = Mth.m_14134_(this.f_132105_);
-+      long j = Mth.m_14134_(this.f_132106_);
-+      long k = Mth.m_14134_(this.f_132107_);
++      me.alphamode.mclong.math.BigInteger i = Mth.lfloor(this.f_132105_);
++      me.alphamode.mclong.math.BigInteger j = Mth.lfloor(this.f_132106_);
++      me.alphamode.mclong.math.BigInteger k = Mth.lfloor(this.f_132107_);
        this.f_132109_ = p_178845_.m_236845_((p_178850_) -> {
 -         int l = p_178850_.readByte() + i;
 -         int i1 = p_178850_.readByte() + j;
 -         int j1 = p_178850_.readByte() + k;
-+         long l = p_178850_.readLong() + i;
-+         long i1 = p_178850_.readLong() + j;
-+         long j1 = p_178850_.readLong() + k;
++         me.alphamode.mclong.math.BigInteger l = new me.alphamode.mclong.math.BigInteger(p_178850_.m_130277_()).add(i);
++         me.alphamode.mclong.math.BigInteger i1 = new me.alphamode.mclong.math.BigInteger(p_178850_.m_130277_()).add(j);
++         me.alphamode.mclong.math.BigInteger j1 = new me.alphamode.mclong.math.BigInteger(p_178850_.m_130277_()).add(k);
           return new BlockPos(l, i1, j1);
        });
        this.f_132110_ = p_178845_.readFloat();
-@@ -61,16 +_,16 @@
-       p_132129_.writeDouble(this.f_132106_);
-       p_132129_.writeDouble(this.f_132107_);
+@@ -57,20 +_,20 @@
+    }
+ 
+    public void m_5779_(FriendlyByteBuf p_132129_) {
+-      p_132129_.writeDouble(this.f_132105_);
+-      p_132129_.writeDouble(this.f_132106_);
+-      p_132129_.writeDouble(this.f_132107_);
++      p_132129_.m_130070_(this.f_132105_.toString());
++      p_132129_.m_130070_(this.f_132106_.toString());
++      p_132129_.m_130070_(this.f_132107_.toString());
        p_132129_.writeFloat(this.f_132108_);
 -      int i = Mth.m_14107_(this.f_132105_);
 -      int j = Mth.m_14107_(this.f_132106_);
 -      int k = Mth.m_14107_(this.f_132107_);
-+      long i = Mth.m_14134_(this.f_132105_);
-+      long j = Mth.m_14134_(this.f_132106_);
-+      long k = Mth.m_14134_(this.f_132107_);
++      me.alphamode.mclong.math.BigInteger i = Mth.lfloor(this.f_132105_);
++      me.alphamode.mclong.math.BigInteger j = Mth.lfloor(this.f_132106_);
++      me.alphamode.mclong.math.BigInteger k = Mth.lfloor(this.f_132107_);
        p_132129_.m_236828_(this.f_132109_, (p_178855_, p_178856_) -> {
 -         int l = p_178856_.m_123341_() - i;
 -         int i1 = p_178856_.m_123342_() - j;
@@ -50,12 +84,31 @@
 -         p_178855_.writeByte(l);
 -         p_178855_.writeByte(i1);
 -         p_178855_.writeByte(j1);
-+         long l = p_178856_.getX() - i;
-+         long i1 = p_178856_.getY() - j;
-+         long j1 = p_178856_.getZ() - k;
-+         p_178855_.writeLong(l);
-+         p_178855_.writeLong(i1);
-+         p_178855_.writeLong(j1);
++         me.alphamode.mclong.math.BigInteger l = p_178856_.getBigX().subtract(i);
++         me.alphamode.mclong.math.BigInteger i1 = p_178856_.getBigY().subtract(j);
++         me.alphamode.mclong.math.BigInteger j1 = p_178856_.getBigZ().subtract(k);
++         p_178855_.m_130070_(l.toString());
++         p_178855_.m_130070_(i1.toString());
++         p_178855_.m_130070_(j1.toString());
        });
        p_132129_.writeFloat(this.f_132110_);
        p_132129_.writeFloat(this.f_132111_);
+@@ -93,15 +_,15 @@
+       return this.f_132112_;
+    }
+ 
+-   public double m_132132_() {
++   public me.alphamode.mclong.math.BigDecimal getX() {
+       return this.f_132105_;
+    }
+ 
+-   public double m_132133_() {
++   public me.alphamode.mclong.math.BigDecimal getY() {
+       return this.f_132106_;
+    }
+ 
+-   public double m_132134_() {
++   public me.alphamode.mclong.math.BigDecimal getZ() {
+       return this.f_132107_;
+    }
+ 

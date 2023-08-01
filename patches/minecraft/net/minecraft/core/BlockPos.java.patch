@@ -33,11 +33,11 @@
 +      super(p_121869_, p_121870_, p_121871_);
 +   }
 +
-+   public BlockPos(java.math.BigDecimal p_121869_, java.math.BigDecimal p_121870_, java.math.BigDecimal p_121871_) {
++   public BlockPos(me.alphamode.mclong.math.BigDecimal p_121869_, me.alphamode.mclong.math.BigDecimal p_121870_, me.alphamode.mclong.math.BigDecimal p_121871_) {
 +      super(p_121869_, p_121870_, p_121871_);
 +   }
 +
-+   public BlockPos(java.math.BigInteger p_121869_, java.math.BigInteger p_121870_, java.math.BigInteger p_121871_) {
++   public BlockPos(me.alphamode.mclong.math.BigInteger p_121869_, me.alphamode.mclong.math.BigInteger p_121870_, me.alphamode.mclong.math.BigInteger p_121871_) {
 +      super(p_121869_, p_121870_, p_121871_);
 +   }
 +
@@ -92,7 +92,7 @@
 +      return new BlockPos(Mth.m_14134_(p_275310_), Mth.m_14134_(p_275414_), Mth.m_14134_(p_275737_));
 +   }
 +
-+   public static BlockPos containing(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++   public static BlockPos containing(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {
 +      return new BlockPos(Mth.lfloor(x), Mth.lfloor(y), Mth.lfloor(z));
     }
  
@@ -122,7 +122,7 @@
 -   public BlockPos m_7918_(int p_121973_, int p_121974_, int p_121975_) {
 -      return p_121973_ == 0 && p_121974_ == 0 && p_121975_ == 0 ? this : new BlockPos(this.m_123341_() + p_121973_, this.m_123342_() + p_121974_, this.m_123343_() + p_121975_);
 +   public BlockPos offset(long p_121973_, long p_121974_, long p_121975_) {
-+      return p_121973_ == 0 && p_121974_ == 0 && p_121975_ == 0 ? this : new BlockPos(this.getBigX().add(java.math.BigInteger.valueOf(p_121973_)), this.getBigY().add(java.math.BigInteger.valueOf(p_121974_)), this.getBigZ().add(java.math.BigInteger.valueOf(p_121975_)));
++      return p_121973_ == 0 && p_121974_ == 0 && p_121975_ == 0 ? this : new BlockPos(this.getBigX().add(me.alphamode.mclong.math.BigInteger.valueOf(p_121973_)), this.getBigY().add(me.alphamode.mclong.math.BigInteger.valueOf(p_121974_)), this.getBigZ().add(me.alphamode.mclong.math.BigInteger.valueOf(p_121975_)));
     }
  
     public Vec3 m_252807_() {
@@ -532,15 +532,23 @@
              ++i;
              if (i >= p_277666_) {
                 return i;
-@@ -439,110 +_,139 @@
+@@ -439,110 +_,147 @@
           this(0, 0, 0);
        }
  
 -      public MutableBlockPos(int p_122130_, int p_122131_, int p_122132_) {
++      public MutableBlockPos(me.alphamode.mclong.math.BigInteger x, me.alphamode.mclong.math.BigInteger y, me.alphamode.mclong.math.BigInteger z) {
++         super(x, y, z);
++      }
++
 +      public MutableBlockPos(long p_122130_, long p_122131_, long p_122132_) {
           super(p_122130_, p_122131_, p_122132_);
        }
  
++      public MutableBlockPos(me.alphamode.mclong.math.BigDecimal p_122126_, me.alphamode.mclong.math.BigDecimal p_122127_, me.alphamode.mclong.math.BigDecimal p_122128_) {
++         this(Mth.lfloor(p_122126_), Mth.lfloor(p_122127_), Mth.lfloor(p_122128_));
++      }
++
        public MutableBlockPos(double p_122126_, double p_122127_, double p_122128_) {
 -         this(Mth.m_14107_(p_122126_), Mth.m_14107_(p_122127_), Mth.m_14107_(p_122128_));
 -      }
@@ -593,7 +601,7 @@
 +         return this;
 +      }
 +
-+      public BlockPos.MutableBlockPos set(java.math.BigInteger p_122179_, java.math.BigInteger p_122180_, java.math.BigInteger p_122181_) {
++      public BlockPos.MutableBlockPos set(me.alphamode.mclong.math.BigInteger p_122179_, me.alphamode.mclong.math.BigInteger p_122180_, me.alphamode.mclong.math.BigInteger p_122181_) {
 +         this.setX(p_122179_);
 +         this.setY(p_122180_);
 +         this.setZ(p_122181_);
@@ -609,7 +617,7 @@
 +         return this.set(Mth.m_14134_(p_122170_), Mth.m_14134_(p_122171_), Mth.m_14134_(p_122172_));
 +      }
 +
-+      public BlockPos.MutableBlockPos set(java.math.BigDecimal x, java.math.BigDecimal y, java.math.BigDecimal z) {
++      public BlockPos.MutableBlockPos set(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {
 +         this.setX(x.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger());
 +         this.setY(y.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger());
 +         this.setZ(z.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger());
@@ -732,17 +740,17 @@
 +         return this;
 +      }
 +
-+      public BlockPos.MutableBlockPos setX(java.math.BigInteger x) {
++      public BlockPos.MutableBlockPos setX(me.alphamode.mclong.math.BigInteger x) {
 +         super.setX(x);
 +         return this;
 +      }
 +
-+      public BlockPos.MutableBlockPos setY(java.math.BigInteger y) {
++      public BlockPos.MutableBlockPos setY(me.alphamode.mclong.math.BigInteger y) {
 +         super.setY(y);
 +         return this;
 +      }
 +
-+      public BlockPos.MutableBlockPos setZ(java.math.BigInteger z) {
++      public BlockPos.MutableBlockPos setZ(me.alphamode.mclong.math.BigInteger z) {
 +         super.setZ(z);
           return this;
        }

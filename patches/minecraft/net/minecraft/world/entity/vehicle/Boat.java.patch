@@ -5,13 +5,25 @@
     }
  
 -   public Boat(Level p_38293_, double p_38294_, double p_38295_, double p_38296_) {
-+   public Boat(Level p_38293_, java.math.BigDecimal p_38294_, java.math.BigDecimal p_38295_, java.math.BigDecimal p_38296_) {
++   public Boat(Level p_38293_, me.alphamode.mclong.math.BigDecimal p_38294_, me.alphamode.mclong.math.BigDecimal p_38295_, me.alphamode.mclong.math.BigDecimal p_38296_) {
        this(EntityType.f_20552_, p_38293_);
 -      this.m_6034_(p_38294_, p_38295_, p_38296_);
 +      this.setPos(p_38294_, p_38295_, p_38296_);
        this.f_19854_ = p_38294_;
        this.f_19855_ = p_38295_;
        this.f_19856_ = p_38296_;
+@@ -181,9 +_,9 @@
+          }
+       }
+ 
+-      this.m_9236_().m_7106_(ParticleTypes.f_123769_, this.m_20185_() + (double)this.f_19796_.m_188501_(), this.m_20186_() + 0.7D, this.m_20189_() + (double)this.f_19796_.m_188501_(), 0.0D, 0.0D, 0.0D);
++      this.m_9236_().addParticle(ParticleTypes.f_123769_, this.getBigX().add(this.f_19796_.m_188501_()), this.getBigY().add(me.alphamode.mclong.core.BigConstants.BOAT), this.getBigZ().add(this.f_19796_.m_188501_()), 0.0D, 0.0D, 0.0D);
+       if (this.f_19796_.m_188503_(20) == 0) {
+-         this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), this.m_5509_(), this.m_5720_(), 1.0F, 0.8F + 0.4F * this.f_19796_.m_188501_(), false);
++         this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), this.m_5509_(), this.m_5720_(), 1.0F, 0.8F + 0.4F * this.f_19796_.m_188501_(), false);
+          this.m_146852_(GameEvent.f_157784_, this.m_6688_());
+       }
+ 
 @@ -191,10 +_,10 @@
  
     public void m_7334_(Entity p_38373_) {
@@ -25,17 +37,19 @@
           super.m_7334_(p_38373_);
        }
  
-@@ -304,8 +_,8 @@
+@@ -304,9 +_,9 @@
                 SoundEvent soundevent = this.m_38370_();
                 if (soundevent != null) {
                    Vec3 vec3 = this.m_20252_(1.0F);
 -                  double d0 = i == 1 ? -vec3.f_82481_ : vec3.f_82481_;
 -                  double d1 = i == 1 ? vec3.f_82479_ : -vec3.f_82479_;
-+                  double d0 = i == 1 ? -vec3.m_7094_() : vec3.m_7094_();
-+                  double d1 = i == 1 ? vec3.m_7096_() : -vec3.m_7096_();
-                   this.m_9236_().m_6263_((Player)null, this.m_20185_() + d0, this.m_20186_(), this.m_20189_() + d1, soundevent, this.m_5720_(), 1.0F, 0.8F + 0.4F * this.f_19796_.m_188501_());
+-                  this.m_9236_().m_6263_((Player)null, this.m_20185_() + d0, this.m_20186_(), this.m_20189_() + d1, soundevent, this.m_5720_(), 1.0F, 0.8F + 0.4F * this.f_19796_.m_188501_());
++                  me.alphamode.mclong.math.BigDecimal d0 = i == 1 ? vec3.getZ().negate() : vec3.getZ();
++                  me.alphamode.mclong.math.BigDecimal d1 = i == 1 ? vec3.getX() : vec3.getX().negate();
++                  this.m_9236_().playSound((Player)null, this.getBigX().add(d0), this.getBigY(), this.getBigZ().add(d1), soundevent, this.m_5720_(), 1.0F, 0.8F + 0.4F * this.f_19796_.m_188501_());
                 }
              }
+ 
 @@ -364,9 +_,9 @@
                    this.m_20256_(vec3.m_82520_(0.0D, -0.7D, 0.0D));
                    this.m_20153_();
@@ -67,24 +81,24 @@
 -      int l = Mth.m_14165_(aabb.f_82292_ - this.f_38281_);
 -      int i1 = Mth.m_14107_(aabb.f_82290_);
 -      int j1 = Mth.m_14165_(aabb.f_82293_);
-+      java.math.BigInteger i = Mth.lfloor(aabb.f_82288_);
-+      java.math.BigInteger j = Mth.lceil(aabb.f_82291_);
-+      java.math.BigInteger k = Mth.lfloor(aabb.f_82292_);
-+      java.math.BigInteger l = Mth.lceil(aabb.f_82292_.subtract(java.math.BigDecimal.valueOf(this.f_38281_)));
-+      java.math.BigInteger i1 = Mth.lfloor(aabb.f_82290_);
-+      java.math.BigInteger j1 = Mth.lceil(aabb.f_82293_);
++      me.alphamode.mclong.math.BigInteger i = Mth.lfloor(aabb.f_82288_);
++      me.alphamode.mclong.math.BigInteger j = Mth.lceil(aabb.f_82291_);
++      me.alphamode.mclong.math.BigInteger k = Mth.lfloor(aabb.f_82292_);
++      me.alphamode.mclong.math.BigInteger l = Mth.lceil(aabb.f_82292_.subtract(me.alphamode.mclong.math.BigDecimal.valueOf(this.f_38281_)));
++      me.alphamode.mclong.math.BigInteger i1 = Mth.lfloor(aabb.f_82290_);
++      me.alphamode.mclong.math.BigInteger j1 = Mth.lceil(aabb.f_82293_);
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
        label39:
 -      for(int k1 = k; k1 < l; ++k1) {
-+      for(java.math.BigInteger k1 = k; k1.compareTo(l) < 0; k1 = k1.add(java.math.BigInteger.ONE)) {
++      for(me.alphamode.mclong.math.BigInteger k1 = k; k1.compareTo(l) < 0; k1 = k1.add(me.alphamode.mclong.math.BigInteger.ONE)) {
           float f = 0.0F;
  
 -         for(int l1 = i; l1 < j; ++l1) {
 -            for(int i2 = i1; i2 < j1; ++i2) {
 -               blockpos$mutableblockpos.m_122178_(l1, k1, i2);
-+         for(java.math.BigInteger l1 = i; l1.compareTo(j) < 0; l1 = l1.add(java.math.BigInteger.ONE)) {
-+            for(java.math.BigInteger i2 = i1; i2.compareTo(j1) < 0; i2 = i2.add(java.math.BigInteger.ONE)) {
++         for(me.alphamode.mclong.math.BigInteger l1 = i; l1.compareTo(j) < 0; l1 = l1.add(me.alphamode.mclong.math.BigInteger.ONE)) {
++            for(me.alphamode.mclong.math.BigInteger i2 = i1; i2.compareTo(j1) < 0; i2 = i2.add(me.alphamode.mclong.math.BigInteger.ONE)) {
 +               blockpos$mutableblockpos.set(l1, k1, i2);
                 FluidState fluidstate = this.m_9236_().m_6425_(blockpos$mutableblockpos);
                 if (fluidstate.m_205070_(FluidTags.f_13131_)) {
@@ -111,7 +125,7 @@
 -      int l = Mth.m_14165_(aabb1.f_82292_) + 1;
 -      int i1 = Mth.m_14107_(aabb1.f_82290_) - 1;
 -      int j1 = Mth.m_14165_(aabb1.f_82293_) + 1;
-+      AABB aabb1 = new AABB(aabb.f_82288_, aabb.f_82289_.subtract(java.math.BigDecimal.valueOf(0.001D)), aabb.f_82290_, aabb.f_82291_, aabb.f_82289_, aabb.f_82293_);
++      AABB aabb1 = new AABB(aabb.f_82288_, aabb.f_82289_.subtract(me.alphamode.mclong.math.BigDecimal.valueOf(0.001D)), aabb.f_82290_, aabb.f_82291_, aabb.f_82289_, aabb.f_82293_);
 +      long i = Mth.lfloor(aabb1.f_82288_).longValue() - 1;
 +      long j = Mth.lceil(aabb1.f_82291_).longValue() + 1;
 +      long k = Mth.lfloor(aabb1.f_82289_).longValue() - 1;
@@ -228,7 +242,7 @@
  
           Vec3 vec3 = (new Vec3((double)f, 0.0D, 0.0D)).m_82524_(-this.m_146908_() * ((float)Math.PI / 180F) - ((float)Math.PI / 2F));
 -         p_289571_.m_20372_(p_289552_, this.m_20185_() + vec3.f_82479_, this.m_20186_() + (double)f1, this.m_20189_() + vec3.f_82481_);
-+         p_289571_.accept(p_289552_, this.getBigX().add(vec3.getX()), this.getBigY().add(java.math.BigDecimal.valueOf(f1)), this.getBigZ().add(vec3.getZ()));
++         p_289571_.accept(p_289552_, this.getBigX().add(vec3.getX()), this.getBigY().add(me.alphamode.mclong.math.BigDecimal.valueOf(f1)), this.getBigZ().add(vec3.getZ()));
           p_289552_.m_146922_(p_289552_.m_146908_() + this.f_38266_);
           p_289552_.m_5616_(p_289552_.m_6080_() + this.f_38266_);
           this.m_38321_(p_289552_);

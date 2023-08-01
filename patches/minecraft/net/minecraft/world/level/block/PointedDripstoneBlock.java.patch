@@ -87,19 +87,25 @@
        }
  
        m_154087_(p_154232_, blockpos, Direction.DOWN, DripstoneThickness.TIP_MERGE);
-@@ -373,9 +_,9 @@
+@@ -372,13 +_,13 @@
+ 
     private static void m_154071_(Level p_154072_, BlockPos p_154073_, BlockState p_154074_, Fluid p_154075_) {
        Vec3 vec3 = p_154074_.m_60824_(p_154072_, p_154073_);
-       double d0 = 0.0625D;
+-      double d0 = 0.0625D;
 -      double d1 = (double)p_154073_.m_123341_() + 0.5D + vec3.f_82479_;
 -      double d2 = (double)((float)(p_154073_.m_123342_() + 1) - 0.6875F) - 0.0625D;
 -      double d3 = (double)p_154073_.m_123343_() + 0.5D + vec3.f_82481_;
-+      double d1 = (double)p_154073_.getX() + 0.5D + vec3.m_7096_();
-+      double d2 = (double)((float)(p_154073_.getY() + 1) - 0.6875F) - 0.0625D;
-+      double d3 = (double)p_154073_.getZ() + 0.5D + vec3.m_7094_();
++      me.alphamode.mclong.math.BigDecimal d0 = me.alphamode.mclong.math.BigDecimal.valueOf(0.0625D);
++      me.alphamode.mclong.math.BigDecimal d1 = p_154073_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB).add(vec3.getX());
++      me.alphamode.mclong.math.BigDecimal d2 = ((p_154073_.getBigDecY().add(me.alphamode.mclong.math.BigDecimal.ONE)).subtract(d0)).subtract(d0);
++      me.alphamode.mclong.math.BigDecimal d3 = p_154073_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB).add(vec3.getZ());
        Fluid fluid = m_154052_(p_154072_, p_154075_);
        ParticleOptions particleoptions = fluid.m_205067_(FluidTags.f_13132_) ? ParticleTypes.f_175822_ : ParticleTypes.f_175824_;
-       p_154072_.m_7106_(particleoptions, d1, d2, d3, 0.0D, 0.0D, 0.0D);
+-      p_154072_.m_7106_(particleoptions, d1, d2, d3, 0.0D, 0.0D, 0.0D);
++      p_154072_.addParticle(particleoptions, d1, d2, d3, 0.0D, 0.0D, 0.0D);
+    }
+ 
+    @Nullable
 @@ -414,7 +_,7 @@
  
     private static DripstoneThickness m_154092_(LevelReader p_154093_, BlockPos p_154094_, Direction p_154095_, boolean p_154096_) {

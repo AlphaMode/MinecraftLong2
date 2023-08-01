@@ -20,6 +20,33 @@
        if (d0 != this.m_20185_() || d1 != this.m_20189_()) {
           this.m_6034_(d0, this.m_20186_(), d1);
        }
+@@ -404,7 +_,7 @@
+    }
+ 
+    public void m_5496_(SoundEvent p_36137_, float p_36138_, float p_36139_) {
+-      this.m_9236_().m_6263_(this, this.m_20185_(), this.m_20186_(), this.m_20189_(), p_36137_, this.m_5720_(), p_36138_, p_36139_);
++      this.m_9236_().playSound(this, this.getBigX(), this.getBigY(), this.getBigZ(), p_36137_, this.m_5720_(), p_36138_, p_36139_);
+    }
+ 
+    public void m_6330_(SoundEvent p_36140_, SoundSource p_36141_, float p_36142_, float p_36143_) {
+@@ -438,7 +_,7 @@
+          double d0 = this.f_19796_.m_188583_() * 0.02D;
+          double d1 = this.f_19796_.m_188583_() * 0.02D;
+          double d2 = this.f_19796_.m_188583_() * 0.02D;
+-         this.m_9236_().m_7106_(p_36209_, this.m_20208_(1.0D), this.m_20187_() + 1.0D, this.m_20262_(1.0D), d0, d1, d2);
++         this.m_9236_().addParticle(p_36209_, this.getRandomX(1.0D), this.getRandomY().add(me.alphamode.mclong.math.BigDecimal.ONE), this.getRandomZ(1.0D), d0, d1, d2);
+       }
+ 
+    }
+@@ -538,7 +_,7 @@
+             return p_36280_ == EntityType.f_20508_;
+          }).ifPresent((p_289488_) -> {
+             if (!Parrot.m_29382_(this.m_9236_(), this)) {
+-               this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), Parrot.m_218238_(this.m_9236_(), this.m_9236_().f_46441_), this.m_5720_(), 1.0F, Parrot.m_218236_(this.m_9236_().f_46441_));
++               this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), Parrot.m_218238_(this.m_9236_(), this.m_9236_().f_46441_), this.m_5720_(), 1.0F, Parrot.m_218236_(this.m_9236_().f_46441_));
+             }
+ 
+          });
 @@ -998,9 +_,9 @@
     }
  
@@ -42,6 +69,68 @@
        }
  
        return p_36201_;
+@@ -1072,7 +_,7 @@
+                int i = 0;
+                i += EnchantmentHelper.m_44894_(this);
+                if (this.m_20142_() && flag) {
+-                  this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12314_, this.m_5720_(), 1.0F, 1.0F);
++                  this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12314_, this.m_5720_(), 1.0F, 1.0F);
+                   ++i;
+                   flag1 = true;
+                }
+@@ -1128,7 +_,7 @@
+                         }
+                      }
+ 
+-                     this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12317_, this.m_5720_(), 1.0F, 1.0F);
++                     this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12317_, this.m_5720_(), 1.0F, 1.0F);
+                      this.m_36346_();
+                   }
+ 
+@@ -1139,15 +_,15 @@
+                   }
+ 
+                   if (flag2) {
+-                     this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12313_, this.m_5720_(), 1.0F, 1.0F);
++                     this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12313_, this.m_5720_(), 1.0F, 1.0F);
+                      this.m_5704_(p_36347_);
+                   }
+ 
+                   if (!flag2 && !flag3) {
+                      if (flag) {
+-                        this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12316_, this.m_5720_(), 1.0F, 1.0F);
++                        this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12316_, this.m_5720_(), 1.0F, 1.0F);
+                      } else {
+-                        this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12318_, this.m_5720_(), 1.0F, 1.0F);
++                        this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12318_, this.m_5720_(), 1.0F, 1.0F);
+                      }
+                   }
+ 
+@@ -1183,13 +_,13 @@
+ 
+                      if (this.m_9236_() instanceof ServerLevel && f5 > 2.0F) {
+                         int k = (int)((double)f5 * 0.5D);
+-                        ((ServerLevel)this.m_9236_()).m_8767_(ParticleTypes.f_123798_, p_36347_.m_20185_(), p_36347_.m_20227_(0.5D), p_36347_.m_20189_(), k, 0.1D, 0.0D, 0.1D, 0.2D);
++                        ((ServerLevel)this.m_9236_()).sendParticles(ParticleTypes.f_123798_, p_36347_.getBigX(), p_36347_.getBigY(0.5D), p_36347_.getBigZ(), k, 0.1D, 0.0D, 0.1D, 0.2D);
+                      }
+                   }
+ 
+                   this.m_36399_(0.1F);
+                } else {
+-                  this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12315_, this.m_5720_(), 1.0F, 1.0F);
++                  this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12315_, this.m_5720_(), 1.0F, 1.0F);
+                   if (flag4) {
+                      p_36347_.m_20095_();
+                   }
+@@ -1228,7 +_,7 @@
+       double d0 = (double)(-Mth.m_14031_(this.m_146908_() * ((float)Math.PI / 180F)));
+       double d1 = (double)Mth.m_14089_(this.m_146908_() * ((float)Math.PI / 180F));
+       if (this.m_9236_() instanceof ServerLevel) {
+-         ((ServerLevel)this.m_9236_()).m_8767_(ParticleTypes.f_123766_, this.m_20185_() + d0, this.m_20227_(0.5D), this.m_20189_() + d1, 0, d0, 0.0D, d1, 0.0D);
++         ((ServerLevel)this.m_9236_()).sendParticles(ParticleTypes.f_123766_, this.getBigX().add(d0), this.getBigY(0.5D), this.getBigZ().add(d1), 0, d0, 0.0D, d1, 0.0D);
+       }
+ 
+    }
 @@ -1303,9 +_,9 @@
           return Optional.empty();
        } else {
@@ -78,6 +167,15 @@
           this.m_183634_();
           this.m_20115_(7, false);
        } else {
+@@ -1604,7 +_,7 @@
+ 
+       if (p_36276_ > 0 && this.f_36078_ % 5 == 0 && (float)this.f_36111_ < (float)this.f_19797_ - 100.0F) {
+          float f = this.f_36078_ > 30 ? 1.0F : (float)this.f_36078_ / 30.0F;
+-         this.m_9236_().m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12275_, this.m_5720_(), f * 0.75F, 1.0F);
++         this.m_9236_().playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12275_, this.m_5720_(), f * 0.75F, 1.0F);
+          this.f_36111_ = this.f_19797_;
+       }
+ 
 @@ -1651,7 +_,7 @@
        if (this.f_36077_.f_35938_) {
           return true;
@@ -86,6 +184,15 @@
 +         BlockPos blockpos = p_36205_.relative(p_36206_.m_122424_());
           BlockInWorld blockinworld = new BlockInWorld(this.m_9236_(), blockpos, false);
           return p_36207_.m_204121_(this.m_9236_().m_9598_().m_175515_(Registries.f_256747_), blockinworld);
+       }
+@@ -1946,7 +_,7 @@
+    public ItemStack m_5584_(Level p_36185_, ItemStack p_36186_) {
+       this.m_36324_().m_38712_(p_36186_.m_41720_(), p_36186_);
+       this.m_36246_(Stats.f_12982_.m_12902_(p_36186_.m_41720_()));
+-      p_36185_.m_6263_((Player)null, this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12321_, SoundSource.PLAYERS, 0.5F, p_36185_.f_46441_.m_188501_() * 0.1F + 0.9F);
++      p_36185_.playSound((Player)null, this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12321_, SoundSource.PLAYERS, 0.5F, p_36185_.f_46441_.m_188501_() * 0.1F + 0.9F);
+       if (this instanceof ServerPlayer) {
+          CriteriaTriggers.f_10592_.m_23682_((ServerPlayer)this, p_36186_);
        }
 @@ -1977,8 +_,8 @@
           double d2 = vec3.m_165925_();

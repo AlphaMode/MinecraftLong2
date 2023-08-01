@@ -5,17 +5,17 @@
     public static final SimpleCommandExceptionType f_120859_ = new SimpleCommandExceptionType(Component.m_237115_("argument.pos.missing.int"));
     private final boolean f_120860_;
 -   private final double f_120861_;
-+   private final java.math.BigDecimal f_120861_;
++   private final me.alphamode.mclong.math.BigDecimal f_120861_;
  
 -   public WorldCoordinate(boolean p_120864_, double p_120865_) {
-+   public WorldCoordinate(boolean p_120864_, java.math.BigDecimal p_120865_) {
++   public WorldCoordinate(boolean p_120864_, me.alphamode.mclong.math.BigDecimal p_120865_) {
        this.f_120860_ = p_120864_;
        this.f_120861_ = p_120865_;
     }
  
 -   public double m_120867_(double p_120868_) {
 -      return this.f_120860_ ? this.f_120861_ + p_120868_ : this.f_120861_;
-+   public java.math.BigDecimal get(java.math.BigDecimal p_120868_) {
++   public me.alphamode.mclong.math.BigDecimal get(me.alphamode.mclong.math.BigDecimal p_120868_) {
 +      return this.f_120860_ ? this.f_120861_.add(p_120868_) : this.f_120861_;
     }
  
@@ -25,20 +25,20 @@
           boolean flag = m_120874_(p_120872_);
           int i = p_120872_.getCursor();
 -         double d0 = p_120872_.canRead() && p_120872_.peek() != ' ' ? p_120872_.readDouble() : 0.0D;
-+         java.math.BigDecimal d0;
++         me.alphamode.mclong.math.BigDecimal d0;
 +         try {
-+            d0 = p_120872_.canRead() && p_120872_.peek() != ' ' ? new java.math.BigDecimal(p_120872_.readString()) : java.math.BigDecimal.ZERO;
++            d0 = p_120872_.canRead() && p_120872_.peek() != ' ' ? new me.alphamode.mclong.math.BigDecimal(p_120872_.readString()) : me.alphamode.mclong.math.BigDecimal.ZERO;
 +         } catch (java.lang.NumberFormatException e) {
-+            d0 = java.math.BigDecimal.ZERO;
++            d0 = me.alphamode.mclong.math.BigDecimal.ZERO;
 +         }
           String s = p_120872_.getString().substring(i, p_120872_.getCursor());
           if (flag && s.isEmpty()) {
 -            return new WorldCoordinate(true, 0.0D);
-+            return new WorldCoordinate(true, java.math.BigDecimal.ZERO);
++            return new WorldCoordinate(true, me.alphamode.mclong.math.BigDecimal.ZERO);
           } else {
              if (!s.contains(".") && !flag && p_120873_) {
 -               d0 += 0.5D;
-+               d0 = d0.add(java.math.BigDecimal.valueOf(0.5D));
++               d0 = d0.add(me.alphamode.mclong.math.BigDecimal.valueOf(0.5D));
              }
  
              return new WorldCoordinate(flag, d0);
@@ -47,7 +47,7 @@
           }
  
 -         return new WorldCoordinate(flag, d0);
-+         return new WorldCoordinate(flag, java.math.BigDecimal.valueOf(d0));
++         return new WorldCoordinate(flag, me.alphamode.mclong.math.BigDecimal.valueOf(d0));
        }
     }
  

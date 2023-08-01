@@ -14,7 +14,7 @@
           if (this.m_20159_()) {
              Vec3 vec3 = this.m_20184_();
 -            this.f_108617_.m_104955_(new ServerboundMovePlayerPacket.PosRot(vec3.f_82479_, -999.0D, vec3.f_82481_, this.m_146908_(), this.m_146909_(), this.m_20096_()));
-+            this.f_108617_.m_104955_(new ServerboundMovePlayerPacket.PosRot(vec3.getX(), java.math.BigDecimal.valueOf(-999.0D), vec3.getZ(), this.m_146908_(), this.m_146909_(), this.m_20096_()));
++            this.f_108617_.m_104955_(new ServerboundMovePlayerPacket.PosRot(vec3.getX(), me.alphamode.mclong.math.BigDecimal.valueOf(-999.0D), vec3.getZ(), this.m_146908_(), this.m_146909_(), this.m_20096_()));
              flag1 = false;
           } else if (flag1 && flag2) {
 -            this.f_108617_.m_104955_(new ServerboundMovePlayerPacket.PosRot(this.m_20185_(), this.m_20186_(), this.m_20189_(), this.m_146908_(), this.m_146909_(), this.m_20096_()));
@@ -62,10 +62,24 @@
     private boolean m_108746_(BlockPos p_108747_) {
        AABB aabb = this.m_20191_();
 -      AABB aabb1 = (new AABB((double)p_108747_.m_123341_(), aabb.f_82289_, (double)p_108747_.m_123343_(), (double)p_108747_.m_123341_() + 1.0D, aabb.f_82292_, (double)p_108747_.m_123343_() + 1.0D)).m_82406_(1.0E-7D);
-+      AABB aabb1 = (new AABB(p_108747_.getBigDecX(), aabb.f_82289_, p_108747_.getBigDecZ(), p_108747_.getBigDecX().add(java.math.BigDecimal.ONE), aabb.f_82292_, p_108747_.getBigDecZ().add(java.math.BigDecimal.ONE))).m_82406_(1.0E-7D);
++      AABB aabb1 = (new AABB(p_108747_.getBigDecX(), aabb.f_82289_, p_108747_.getBigDecZ(), p_108747_.getBigDecX().add(me.alphamode.mclong.math.BigDecimal.ONE), aabb.f_82292_, p_108747_.getBigDecZ().add(me.alphamode.mclong.math.BigDecimal.ONE))).m_82406_(1.0E-7D);
        return this.m_9236_().m_186437_(this, aabb1);
     }
  
+@@ -459,11 +_,11 @@
+    }
+ 
+    public void m_5496_(SoundEvent p_108651_, float p_108652_, float p_108653_) {
+-      this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), p_108651_, this.m_5720_(), p_108652_, p_108653_, false);
++      this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), p_108651_, this.m_5720_(), p_108652_, p_108653_, false);
+    }
+ 
+    public void m_6330_(SoundEvent p_108655_, SoundSource p_108656_, float p_108657_, float p_108658_) {
+-      this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), p_108655_, p_108656_, p_108657_, p_108658_, false);
++      this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), p_108655_, p_108656_, p_108657_, p_108658_, false);
+    }
+ 
+    public boolean m_21515_() {
 @@ -603,8 +_,8 @@
     public void m_172530_() {
        this.m_20124_(Pose.STANDING);
@@ -73,7 +87,7 @@
 -         for(double d0 = this.m_20186_(); d0 > (double)this.m_9236_().m_141937_() && d0 < (double)this.m_9236_().m_151558_(); ++d0) {
 -            this.m_6034_(this.m_20185_(), d0, this.m_20189_());
 +         for(double d0 = this.m_20186_(); d0 > (double)this.m_9236_().getMinBuildHeight() && d0 < (double)this.m_9236_().getMaxBuildHeight(); ++d0) {
-+            this.setPos(this.getBigX(), java.math.BigDecimal.valueOf(d0), this.getBigZ());
++            this.setPos(this.getBigX(), me.alphamode.mclong.math.BigDecimal.valueOf(d0), this.getBigZ());
              if (this.m_9236_().m_45786_(this)) {
                 break;
              }
@@ -144,3 +158,18 @@
           double d7 = Math.acos(d6 / Math.sqrt(d4 * d5));
           return d7 < (double)0.13962634F;
        } else {
+@@ -1024,12 +_,12 @@
+          return this.f_36076_;
+       } else {
+          if (!flag && flag1) {
+-            this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12537_, SoundSource.AMBIENT, 1.0F, 1.0F, false);
++            this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12537_, SoundSource.AMBIENT, 1.0F, 1.0F, false);
+             this.f_108619_.m_91106_().m_120367_(new UnderwaterAmbientSoundInstances.UnderwaterAmbientSoundInstance(this));
+          }
+ 
+          if (flag && !flag1) {
+-            this.m_9236_().m_7785_(this.m_20185_(), this.m_20186_(), this.m_20189_(), SoundEvents.f_12590_, SoundSource.AMBIENT, 1.0F, 1.0F, false);
++            this.m_9236_().playLocalSound(this.getBigX(), this.getBigY(), this.getBigZ(), SoundEvents.f_12590_, SoundSource.AMBIENT, 1.0F, 1.0F, false);
+          }
+ 
+          return this.f_36076_;

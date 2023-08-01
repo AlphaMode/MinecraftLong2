@@ -9,15 +9,25 @@
              this.f_32760_.f_20883_ = this.f_32760_.m_146908_();
           } else {
              LivingEntity livingentity = this.f_32760_.m_5448_();
+@@ -186,7 +_,7 @@
+          if (this.f_24981_ == MoveControl.Operation.MOVE_TO) {
+             if (this.f_32766_-- <= 0) {
+                this.f_32766_ += this.f_32765_.m_217043_().m_188503_(5) + 2;
+-               Vec3 vec3 = new Vec3(this.f_24975_ - this.f_32765_.m_20185_(), this.f_24976_ - this.f_32765_.m_20186_(), this.f_24977_ - this.f_32765_.m_20189_());
++               Vec3 vec3 = new Vec3(this.f_24975_.subtract(this.f_32765_.getBigX()), this.f_24976_.subtract(this.f_32765_.getBigY()), this.f_24977_.subtract(this.f_32765_.getBigZ()));
+                double d0 = vec3.m_82553_();
+                vec3 = vec3.m_82541_();
+                if (this.m_32770_(vec3, Mth.m_14165_(d0))) {
 @@ -251,15 +_,15 @@
                 if (this.f_32773_ == 20) {
                    double d1 = 4.0D;
                    Vec3 vec3 = this.f_32774_.m_20252_(1.0F);
 -                  double d2 = livingentity.m_20185_() - (this.f_32774_.m_20185_() + vec3.f_82479_ * 4.0D);
-+                  double d2 = livingentity.m_20185_() - (this.f_32774_.m_20185_() + vec3.m_7096_() * 4.0D);
-                   double d3 = livingentity.m_20227_(0.5D) - (0.5D + this.f_32774_.m_20227_(0.5D));
+-                  double d3 = livingentity.m_20227_(0.5D) - (0.5D + this.f_32774_.m_20227_(0.5D));
 -                  double d4 = livingentity.m_20189_() - (this.f_32774_.m_20189_() + vec3.f_82481_ * 4.0D);
-+                  double d4 = livingentity.m_20189_() - (this.f_32774_.m_20189_() + vec3.m_7094_() * 4.0D);
++                  double d2 = livingentity.getBigX().subtract((this.f_32774_.getBigX().add(vec3.getX().multiply(4.0D)))).doubleValue();
++                  double d3 = livingentity.getBigY(0.5D).subtract((me.alphamode.mclong.core.BigConstants.AABB.add(this.f_32774_.getBigY(0.5D)))).doubleValue();
++                  double d4 = livingentity.getBigZ().subtract((this.f_32774_.getBigZ().add(vec3.getZ().multiply(4.0D)))).doubleValue();
                    if (!this.f_32774_.m_20067_()) {
                       level.m_5898_((Player)null, 1016, this.f_32774_.m_20183_(), 0);
                    }
@@ -28,3 +38,31 @@
                    level.m_7967_(largefireball);
                    this.f_32773_ = -40;
                 }
+@@ -285,9 +_,9 @@
+          if (!movecontrol.m_24995_()) {
+             return true;
+          } else {
+-            double d0 = movecontrol.m_25000_() - this.f_32781_.m_20185_();
+-            double d1 = movecontrol.m_25001_() - this.f_32781_.m_20186_();
+-            double d2 = movecontrol.m_25002_() - this.f_32781_.m_20189_();
++            double d0 = movecontrol.getWantedX().subtract(this.f_32781_.getBigX()).doubleValue();
++            double d1 = movecontrol.getWantedY().subtract(this.f_32781_.getBigY()).doubleValue();
++            double d2 = movecontrol.getWantedZ().subtract(this.f_32781_.getBigZ()).doubleValue();
+             double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+             return d3 < 1.0D || d3 > 3600.0D;
+          }
+@@ -299,10 +_,10 @@
+ 
+       public void m_8056_() {
+          RandomSource randomsource = this.f_32781_.m_217043_();
+-         double d0 = this.f_32781_.m_20185_() + (double)((randomsource.m_188501_() * 2.0F - 1.0F) * 16.0F);
+-         double d1 = this.f_32781_.m_20186_() + (double)((randomsource.m_188501_() * 2.0F - 1.0F) * 16.0F);
+-         double d2 = this.f_32781_.m_20189_() + (double)((randomsource.m_188501_() * 2.0F - 1.0F) * 16.0F);
+-         this.f_32781_.m_21566_().m_6849_(d0, d1, d2, 1.0D);
++         me.alphamode.mclong.math.BigDecimal d0 = this.f_32781_.getBigX().add((double)((randomsource.m_188501_() * 2.0F - 1.0F) * 16.0F));
++         me.alphamode.mclong.math.BigDecimal d1 = this.f_32781_.getBigY().add((double)((randomsource.m_188501_() * 2.0F - 1.0F) * 16.0F));
++         me.alphamode.mclong.math.BigDecimal d2 = this.f_32781_.getBigZ().add((double)((randomsource.m_188501_() * 2.0F - 1.0F) * 16.0F));
++         this.f_32781_.m_21566_().setWantedPosition(d0, d1, d2, 1.0D);
+       }
+    }
+ }

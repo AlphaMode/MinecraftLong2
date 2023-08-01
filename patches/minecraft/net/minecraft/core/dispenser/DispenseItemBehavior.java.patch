@@ -45,6 +45,19 @@
  
              for(AbstractChestedHorse abstractchestedhorse : p_123541_.m_7727_().m_6443_(AbstractChestedHorse.class, new AABB(blockpos), (p_289249_) -> {
                 return p_289249_.m_6084_() && !p_289249_.m_30502_();
+@@ -307,9 +_,9 @@
+          public ItemStack m_7498_(BlockSource p_123556_, ItemStack p_123557_) {
+             Direction direction = p_123556_.m_6414_().m_61143_(DispenserBlock.f_52659_);
+             Position position = DispenserBlock.m_52720_(p_123556_);
+-            double d0 = position.m_7096_() + (double)((float)direction.m_122429_() * 0.3F);
+-            double d1 = position.m_7098_() + (double)((float)direction.m_122430_() * 0.3F);
+-            double d2 = position.m_7094_() + (double)((float)direction.m_122431_() * 0.3F);
++            me.alphamode.mclong.math.BigDecimal d0 = position.getX().add((double)((float)direction.m_122429_() * 0.3F));
++            me.alphamode.mclong.math.BigDecimal d1 = position.getY().add((double)((float)direction.m_122430_() * 0.3F));
++            me.alphamode.mclong.math.BigDecimal d2 = position.getZ().add((double)((float)direction.m_122431_() * 0.3F));
+             Level level = p_123556_.m_7727_();
+             RandomSource randomsource = level.f_46441_;
+             double d3 = randomsource.m_216328_((double)direction.m_122429_(), 0.11485000000000001D);
 @@ -350,7 +_,7 @@
  
           public ItemStack m_7498_(BlockSource p_123561_, ItemStack p_123562_) {
@@ -81,7 +94,7 @@
              if (!BoneMealItem.m_40627_(p_123417_, level, blockpos) && !BoneMealItem.m_40631_(p_123417_, level, blockpos, (Direction)null)) {
                 this.m_123573_(false);
              } else if (!level.f_46443_) {
-@@ -446,8 +_,8 @@
+@@ -446,10 +_,10 @@
        DispenserBlock.m_52672_(Blocks.f_50077_, new DefaultDispenseItemBehavior() {
           protected ItemStack m_7498_(BlockSource p_123425_, ItemStack p_123426_) {
              Level level = p_123425_.m_7727_();
@@ -90,8 +103,11 @@
 +            BlockPos blockpos = p_123425_.m_7961_().relative(p_123425_.m_6414_().m_61143_(DispenserBlock.f_52659_));
 +            PrimedTnt primedtnt = new PrimedTnt(level, (double)blockpos.getX() + 0.5D, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5D, (LivingEntity)null);
              level.m_7967_(primedtnt);
-             level.m_6263_((Player)null, primedtnt.m_20185_(), primedtnt.m_20186_(), primedtnt.m_20189_(), SoundEvents.f_12512_, SoundSource.BLOCKS, 1.0F, 1.0F);
+-            level.m_6263_((Player)null, primedtnt.m_20185_(), primedtnt.m_20186_(), primedtnt.m_20189_(), SoundEvents.f_12512_, SoundSource.BLOCKS, 1.0F, 1.0F);
++            level.playSound((Player)null, primedtnt.getBigX(), primedtnt.getBigY(), primedtnt.getBigZ(), SoundEvents.f_12512_, SoundSource.BLOCKS, 1.0F, 1.0F);
              level.m_142346_((Entity)null, GameEvent.f_157810_, blockpos);
+             p_123426_.m_41774_(1);
+             return p_123426_;
 @@ -471,7 +_,7 @@
           protected ItemStack m_7498_(BlockSource p_123433_, ItemStack p_123434_) {
              Level level = p_123433_.m_7727_();
@@ -149,7 +165,7 @@
                    if (!serverlevel.f_46443_) {
                       for(int i = 0; i < 5; ++i) {
 -                        serverlevel.m_8767_(ParticleTypes.f_123769_, (double)blockpos.m_123341_() + serverlevel.f_46441_.m_188500_(), (double)(blockpos.m_123342_() + 1), (double)blockpos.m_123343_() + serverlevel.f_46441_.m_188500_(), 1, 0.0D, 0.0D, 0.0D, 1.0D);
-+                        serverlevel.m_8767_(ParticleTypes.f_123769_, (double)blockpos.getX() + serverlevel.f_46441_.m_188500_(), (double)(blockpos.getY() + 1), (double)blockpos.getZ() + serverlevel.f_46441_.m_188500_(), 1, 0.0D, 0.0D, 0.0D, 1.0D);
++                        serverlevel.sendParticles(ParticleTypes.f_123769_, blockpos.getBigDecX().add(serverlevel.f_46441_.m_188500_()), blockpos.getBigDecY().add(me.alphamode.mclong.math.BigDecimal.ONE), blockpos.getBigDecZ().add(serverlevel.f_46441_.m_188500_()), 1, 0.0D, 0.0D, 0.0D, 1.0D);
                       }
                    }
  

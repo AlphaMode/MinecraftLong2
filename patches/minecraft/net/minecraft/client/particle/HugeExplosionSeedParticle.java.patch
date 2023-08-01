@@ -1,0 +1,33 @@
+--- a/net/minecraft/client/particle/HugeExplosionSeedParticle.java
++++ b/net/minecraft/client/particle/HugeExplosionSeedParticle.java
+@@ -11,16 +_,16 @@
+    private int f_106944_;
+    private final int f_106945_ = 8;
+ 
+-   HugeExplosionSeedParticle(ClientLevel p_106947_, double p_106948_, double p_106949_, double p_106950_) {
++   HugeExplosionSeedParticle(ClientLevel p_106947_, me.alphamode.mclong.math.BigDecimal p_106948_, me.alphamode.mclong.math.BigDecimal p_106949_, me.alphamode.mclong.math.BigDecimal p_106950_) {
+       super(p_106947_, p_106948_, p_106949_, p_106950_, 0.0D, 0.0D, 0.0D);
+    }
+ 
+    public void m_5989_() {
+       for(int i = 0; i < 6; ++i) {
+-         double d0 = this.f_107212_ + (this.f_107223_.m_188500_() - this.f_107223_.m_188500_()) * 4.0D;
+-         double d1 = this.f_107213_ + (this.f_107223_.m_188500_() - this.f_107223_.m_188500_()) * 4.0D;
+-         double d2 = this.f_107214_ + (this.f_107223_.m_188500_() - this.f_107223_.m_188500_()) * 4.0D;
+-         this.f_107208_.m_7106_(ParticleTypes.f_123813_, d0, d1, d2, (double)((float)this.f_106944_ / (float)this.f_106945_), 0.0D, 0.0D);
++         me.alphamode.mclong.math.BigDecimal d0 = this.f_107212_.add((this.f_107223_.m_188500_() - this.f_107223_.m_188500_()) * 4.0D);
++         me.alphamode.mclong.math.BigDecimal d1 = this.f_107213_.add((this.f_107223_.m_188500_() - this.f_107223_.m_188500_()) * 4.0D);
++         me.alphamode.mclong.math.BigDecimal d2 = this.f_107214_.add((this.f_107223_.m_188500_() - this.f_107223_.m_188500_()) * 4.0D);
++         this.f_107208_.addParticle(ParticleTypes.f_123813_, d0, d1, d2, (double)((float)this.f_106944_ / (float)this.f_106945_), 0.0D, 0.0D);
+       }
+ 
+       ++this.f_106944_;
+@@ -32,7 +_,7 @@
+ 
+    @OnlyIn(Dist.CLIENT)
+    public static class Provider implements ParticleProvider<SimpleParticleType> {
+-      public Particle m_6966_(SimpleParticleType p_106969_, ClientLevel p_106970_, double p_106971_, double p_106972_, double p_106973_, double p_106974_, double p_106975_, double p_106976_) {
++      public Particle createParticle(SimpleParticleType p_106969_, ClientLevel p_106970_, me.alphamode.mclong.math.BigDecimal p_106971_, me.alphamode.mclong.math.BigDecimal p_106972_, me.alphamode.mclong.math.BigDecimal p_106973_, double p_106974_, double p_106975_, double p_106976_) {
+          return new HugeExplosionSeedParticle(p_106970_, p_106971_, p_106972_, p_106973_);
+       }
+    }

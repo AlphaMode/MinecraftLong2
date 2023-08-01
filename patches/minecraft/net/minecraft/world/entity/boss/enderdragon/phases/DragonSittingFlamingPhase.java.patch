@@ -1,22 +1,62 @@
 --- a/net/minecraft/world/entity/boss/enderdragon/phases/DragonSittingFlamingPhase.java
 +++ b/net/minecraft/world/entity/boss/enderdragon/phases/DragonSittingFlamingPhase.java
-@@ -38,7 +_,7 @@
-             double d5 = d2 + this.f_31176_.m_217043_().m_188583_() / 2.0D;
+@@ -28,17 +_,17 @@
+       if (this.f_31326_ % 2 == 0 && this.f_31326_ < 10) {
+          Vec3 vec3 = this.f_31176_.m_31174_(1.0F).m_82541_();
+          vec3.m_82524_((-(float)Math.PI / 4F));
+-         double d0 = this.f_31176_.f_31080_.m_20185_();
+-         double d1 = this.f_31176_.f_31080_.m_20227_(0.5D);
+-         double d2 = this.f_31176_.f_31080_.m_20189_();
++        me.alphamode.mclong.math.BigDecimal d0 = this.f_31176_.f_31080_.getBigX();
++        me.alphamode.mclong.math.BigDecimal d1 = this.f_31176_.f_31080_.getY(me.alphamode.mclong.core.BigConstants.AABB);
++        me.alphamode.mclong.math.BigDecimal d2 = this.f_31176_.f_31080_.getBigZ();
+ 
+          for(int i = 0; i < 8; ++i) {
+-            double d3 = d0 + this.f_31176_.m_217043_().m_188583_() / 2.0D;
+-            double d4 = d1 + this.f_31176_.m_217043_().m_188583_() / 2.0D;
+-            double d5 = d2 + this.f_31176_.m_217043_().m_188583_() / 2.0D;
++            me.alphamode.mclong.math.BigDecimal d3 = d0.add(this.f_31176_.m_217043_().m_188583_() / 2.0D);
++            me.alphamode.mclong.math.BigDecimal d4 = d1.add(this.f_31176_.m_217043_().m_188583_() / 2.0D);
++            me.alphamode.mclong.math.BigDecimal d5 = d2.add(this.f_31176_.m_217043_().m_188583_() / 2.0D);
  
              for(int j = 0; j < 6; ++j) {
 -               this.f_31176_.m_9236_().m_7106_(ParticleTypes.f_123799_, d3, d4, d5, -vec3.f_82479_ * (double)0.08F * (double)j, -vec3.f_82480_ * (double)0.6F, -vec3.f_82481_ * (double)0.08F * (double)j);
-+               this.f_31176_.m_9236_().m_7106_(ParticleTypes.f_123799_, d3, d4, d5, -vec3.m_7096_() * (double)0.08F * (double)j, -vec3.m_7098_() * (double)0.6F, -vec3.m_7094_() * (double)0.08F * (double)j);
++               this.f_31176_.m_9236_().addParticle(ParticleTypes.f_123799_, d3, d4, d5, -vec3.m_7096_() * (double)0.08F * (double)j, -vec3.m_7098_() * (double)0.6F, -vec3.m_7094_() * (double)0.08F * (double)j);
              }
  
              vec3.m_82524_(0.19634955F);
-@@ -58,8 +_,8 @@
+@@ -56,25 +_,25 @@
+             this.f_31176_.m_31157_().m_31416_(EnderDragonPhase.f_31383_);
+          }
        } else if (this.f_31326_ == 10) {
-          Vec3 vec3 = (new Vec3(this.f_31176_.f_31080_.m_20185_() - this.f_31176_.m_20185_(), 0.0D, this.f_31176_.f_31080_.m_20189_() - this.f_31176_.m_20189_())).m_82541_();
+-         Vec3 vec3 = (new Vec3(this.f_31176_.f_31080_.m_20185_() - this.f_31176_.m_20185_(), 0.0D, this.f_31176_.f_31080_.m_20189_() - this.f_31176_.m_20189_())).m_82541_();
++         Vec3 vec3 = (new Vec3(this.f_31176_.f_31080_.getBigX().subtract(this.f_31176_.getBigX()), me.alphamode.mclong.math.BigDecimal.ZERO, this.f_31176_.f_31080_.getBigZ().subtract(this.f_31176_.getBigZ()))).m_82541_();
           float f = 5.0F;
 -         double d0 = this.f_31176_.f_31080_.m_20185_() + vec3.f_82479_ * 5.0D / 2.0D;
 -         double d1 = this.f_31176_.f_31080_.m_20189_() + vec3.f_82481_ * 5.0D / 2.0D;
-+         double d0 = this.f_31176_.f_31080_.m_20185_() + vec3.m_7096_() * 5.0D / 2.0D;
-+         double d1 = this.f_31176_.f_31080_.m_20189_() + vec3.m_7094_() * 5.0D / 2.0D;
-          double d2 = this.f_31176_.f_31080_.m_20227_(0.5D);
-          double d3 = d2;
+-         double d2 = this.f_31176_.f_31080_.m_20227_(0.5D);
+-         double d3 = d2;
++         me.alphamode.mclong.math.BigDecimal d0 = this.f_31176_.f_31080_.getBigX().add(vec3.getX().multiply(me.alphamode.mclong.core.BigConstants.FIVE).divide(me.alphamode.mclong.core.BigConstants.TWO));
++         me.alphamode.mclong.math.BigDecimal d1 = this.f_31176_.f_31080_.getBigZ().add(vec3.getZ().multiply(me.alphamode.mclong.core.BigConstants.FIVE).divide(me.alphamode.mclong.core.BigConstants.TWO));
++         me.alphamode.mclong.math.BigDecimal d2 = this.f_31176_.f_31080_.getY(me.alphamode.mclong.core.BigConstants.AABB);
++         me.alphamode.mclong.math.BigDecimal d3 = d2;
           BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(d0, d2, d1);
+ 
+          while(this.f_31176_.m_9236_().m_46859_(blockpos$mutableblockpos)) {
+-            --d3;
+-            if (d3 < 0.0D) {
++            d3 = d3.subtract(me.alphamode.mclong.math.BigDecimal.ONE);
++            if (d3.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0) {
+                d3 = d2;
+                break;
+             }
+ 
+-            blockpos$mutableblockpos.m_122169_(d0, d3, d1);
++            blockpos$mutableblockpos.set(d0, d3, d1);
+          }
+ 
+-         d3 = (double)(Mth.m_14107_(d3) + 1);
++         d3 = Mth.lfloor(d3).toBigDecimal().add(me.alphamode.mclong.math.BigDecimal.ONE);
+          this.f_31328_ = new AreaEffectCloud(this.f_31176_.m_9236_(), d0, d3, d1);
+          this.f_31328_.m_19718_(this.f_31176_);
+          this.f_31328_.m_19712_(5.0F);

@@ -1,0 +1,26 @@
+--- a/net/minecraft/client/particle/FallingDustParticle.java
++++ b/net/minecraft/client/particle/FallingDustParticle.java
+@@ -17,7 +_,7 @@
+    private final float f_106607_;
+    private final SpriteSet f_106608_;
+ 
+-   FallingDustParticle(ClientLevel p_106610_, double p_106611_, double p_106612_, double p_106613_, float p_106614_, float p_106615_, float p_106616_, SpriteSet p_106617_) {
++   FallingDustParticle(ClientLevel p_106610_, me.alphamode.mclong.math.BigDecimal p_106611_, me.alphamode.mclong.math.BigDecimal p_106612_, me.alphamode.mclong.math.BigDecimal p_106613_, float p_106614_, float p_106615_, float p_106616_, SpriteSet p_106617_) {
+       super(p_106610_, p_106611_, p_106612_, p_106613_);
+       this.f_106608_ = p_106617_;
+       this.f_107227_ = p_106614_;
+@@ -69,12 +_,12 @@
+       }
+ 
+       @Nullable
+-      public Particle m_6966_(BlockParticleOption p_106636_, ClientLevel p_106637_, double p_106638_, double p_106639_, double p_106640_, double p_106641_, double p_106642_, double p_106643_) {
++      public Particle createParticle(BlockParticleOption p_106636_, ClientLevel p_106637_, me.alphamode.mclong.math.BigDecimal p_106638_, me.alphamode.mclong.math.BigDecimal p_106639_, me.alphamode.mclong.math.BigDecimal p_106640_, double p_106641_, double p_106642_, double p_106643_) {
+          BlockState blockstate = p_106636_.m_123642_();
+          if (!blockstate.m_60795_() && blockstate.m_60799_() == RenderShape.INVISIBLE) {
+             return null;
+          } else {
+-            BlockPos blockpos = BlockPos.m_274561_(p_106638_, p_106639_, p_106640_);
++            BlockPos blockpos = BlockPos.containing(p_106638_, p_106639_, p_106640_);
+             int i = Minecraft.m_91087_().m_91298_().m_92582_(blockstate, p_106637_, blockpos);
+             if (blockstate.m_60734_() instanceof FallingBlock) {
+                i = ((FallingBlock)blockstate.m_60734_()).m_6248_(blockstate, p_106637_, blockpos);

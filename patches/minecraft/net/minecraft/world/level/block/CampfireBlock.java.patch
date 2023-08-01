@@ -14,13 +14,13 @@
        if (p_220918_.m_61143_(f_51227_)) {
           if (p_220921_.m_188503_(10) == 0) {
 -            p_220919_.m_7785_((double)p_220920_.m_123341_() + 0.5D, (double)p_220920_.m_123342_() + 0.5D, (double)p_220920_.m_123343_() + 0.5D, SoundEvents.f_11784_, SoundSource.BLOCKS, 0.5F + p_220921_.m_188501_(), p_220921_.m_188501_() * 0.7F + 0.6F, false);
-+            p_220919_.m_7785_((double)p_220920_.getX() + 0.5D, (double)p_220920_.getY() + 0.5D, (double)p_220920_.getZ() + 0.5D, SoundEvents.f_11784_, SoundSource.BLOCKS, 0.5F + p_220921_.m_188501_(), p_220921_.m_188501_() * 0.7F + 0.6F, false);
++            p_220919_.playLocalSound(p_220920_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), p_220920_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.AABB), p_220920_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), SoundEvents.f_11784_, SoundSource.BLOCKS, 0.5F + p_220921_.m_188501_(), p_220921_.m_188501_() * 0.7F + 0.6F, false);
           }
  
           if (this.f_51232_ && p_220921_.m_188503_(5) == 0) {
              for(int i = 0; i < p_220921_.m_188503_(1) + 1; ++i) {
 -               p_220919_.m_7106_(ParticleTypes.f_123756_, (double)p_220920_.m_123341_() + 0.5D, (double)p_220920_.m_123342_() + 0.5D, (double)p_220920_.m_123343_() + 0.5D, (double)(p_220921_.m_188501_() / 2.0F), 5.0E-5D, (double)(p_220921_.m_188501_() / 2.0F));
-+               p_220919_.m_7106_(ParticleTypes.f_123756_, (double)p_220920_.getX() + 0.5D, (double)p_220920_.getY() + 0.5D, (double)p_220920_.getZ() + 0.5D, (double)(p_220921_.m_188501_() / 2.0F), 5.0E-5D, (double)(p_220921_.m_188501_() / 2.0F));
++               p_220919_.addParticle(ParticleTypes.f_123756_, p_220920_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), p_220920_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.AABB), p_220920_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), (double)(p_220921_.m_188501_() / 2.0F), 5.0E-5D, (double)(p_220921_.m_188501_() / 2.0F));
              }
           }
  
@@ -29,10 +29,10 @@
        RandomSource randomsource = p_51252_.m_213780_();
        SimpleParticleType simpleparticletype = p_51254_ ? ParticleTypes.f_123778_ : ParticleTypes.f_123777_;
 -      p_51252_.m_6485_(simpleparticletype, true, (double)p_51253_.m_123341_() + 0.5D + randomsource.m_188500_() / 3.0D * (double)(randomsource.m_188499_() ? 1 : -1), (double)p_51253_.m_123342_() + randomsource.m_188500_() + randomsource.m_188500_(), (double)p_51253_.m_123343_() + 0.5D + randomsource.m_188500_() / 3.0D * (double)(randomsource.m_188499_() ? 1 : -1), 0.0D, 0.07D, 0.0D);
-+      p_51252_.m_6485_(simpleparticletype, true, (double)p_51253_.getX() + 0.5D + randomsource.m_188500_() / 3.0D * (double)(randomsource.m_188499_() ? 1 : -1), (double)p_51253_.getY() + randomsource.m_188500_() + randomsource.m_188500_(), (double)p_51253_.getZ() + 0.5D + randomsource.m_188500_() / 3.0D * (double)(randomsource.m_188499_() ? 1 : -1), 0.0D, 0.07D, 0.0D);
++      p_51252_.addAlwaysVisibleParticle(simpleparticletype, true, p_51253_.getBigDecX().add(0.5D + randomsource.m_188500_() / 3.0D * (double)(randomsource.m_188499_() ? 1 : -1)), p_51253_.getBigDecY().add(randomsource.m_188500_() + randomsource.m_188500_()), p_51253_.getBigDecZ().add(0.5D + randomsource.m_188500_() / 3.0D * (double)(randomsource.m_188499_() ? 1 : -1)), 0.0D, 0.07D, 0.0D);
        if (p_51255_) {
 -         p_51252_.m_7106_(ParticleTypes.f_123762_, (double)p_51253_.m_123341_() + 0.5D + randomsource.m_188500_() / 4.0D * (double)(randomsource.m_188499_() ? 1 : -1), (double)p_51253_.m_123342_() + 0.4D, (double)p_51253_.m_123343_() + 0.5D + randomsource.m_188500_() / 4.0D * (double)(randomsource.m_188499_() ? 1 : -1), 0.0D, 0.005D, 0.0D);
-+         p_51252_.m_7106_(ParticleTypes.f_123762_, (double)p_51253_.getX() + 0.5D + randomsource.m_188500_() / 4.0D * (double)(randomsource.m_188499_() ? 1 : -1), (double)p_51253_.getY() + 0.4D, (double)p_51253_.getZ() + 0.5D + randomsource.m_188500_() / 4.0D * (double)(randomsource.m_188499_() ? 1 : -1), 0.0D, 0.005D, 0.0D);
++         p_51252_.addParticle(ParticleTypes.f_123762_, p_51253_.getBigDecX().add(0.5D + randomsource.m_188500_() / 4.0D * (double)(randomsource.m_188499_() ? 1 : -1)), p_51253_.getBigDecY().add(0.4D), p_51253_.getBigDecZ().add(0.5D + randomsource.m_188500_() / 4.0D * (double)(randomsource.m_188499_() ? 1 : -1)), 0.0D, 0.005D, 0.0D);
        }
  
     }

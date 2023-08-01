@@ -1,13 +1,20 @@
 --- a/net/minecraft/client/renderer/entity/ShulkerRenderer.java
 +++ b/net/minecraft/client/renderer/entity/ShulkerRenderer.java
-@@ -39,8 +_,8 @@
+@@ -34,13 +_,13 @@
+       return p_115904_.m_149766_(p_115905_).orElse(super.m_7860_(p_115904_, p_115905_));
+    }
+ 
+-   public boolean m_5523_(Shulker p_115913_, Frustum p_115914_, double p_115915_, double p_115916_, double p_115917_) {
+-      return super.m_5523_(p_115913_, p_115914_, p_115915_, p_115916_, p_115917_) ? true : p_115913_.m_149766_(0.0F).filter((p_174374_) -> {
++   public boolean shouldRender(Shulker p_115913_, Frustum p_115914_, me.alphamode.mclong.math.BigDecimal p_115915_, me.alphamode.mclong.math.BigDecimal p_115916_, me.alphamode.mclong.math.BigDecimal p_115917_) {
++      return super.shouldRender(p_115913_, p_115914_, p_115915_, p_115916_, p_115917_) ? true : p_115913_.m_149766_(0.0F).filter((p_174374_) -> {
           EntityType<?> entitytype = p_115913_.m_6095_();
           float f = entitytype.m_20679_() / 2.0F;
           float f1 = entitytype.m_20678_() / 2.0F;
 -         Vec3 vec3 = Vec3.m_82539_(p_115913_.m_20183_());
 -         return p_115914_.m_113029_((new AABB(p_174374_.f_82479_, p_174374_.f_82480_ + (double)f, p_174374_.f_82481_, vec3.f_82479_, vec3.f_82480_ + (double)f, vec3.f_82481_)).m_82377_((double)f1, (double)f, (double)f1));
 +         Vec3 vec3 = Vec3.atBottomCenterOf(p_115913_.m_20183_());
-+         return p_115914_.m_113029_((new AABB(p_174374_.m_7096_(), p_174374_.m_7098_() + (double)f, p_174374_.m_7094_(), vec3.m_7096_(), vec3.m_7098_() + (double)f, vec3.m_7094_())).m_82377_((double)f1, (double)f, (double)f1));
++         return p_115914_.m_113029_((new AABB(p_174374_.getX(), p_174374_.getY().add(f), p_174374_.getZ(), vec3.getX(), vec3.getY().add(f), vec3.getZ())).m_82377_((double)f1, (double)f, (double)f1));
        }).isPresent();
     }
  

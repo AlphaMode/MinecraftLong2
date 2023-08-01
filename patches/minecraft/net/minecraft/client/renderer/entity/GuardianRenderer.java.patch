@@ -1,11 +1,22 @@
 --- a/net/minecraft/client/renderer/entity/GuardianRenderer.java
 +++ b/net/minecraft/client/renderer/entity/GuardianRenderer.java
+@@ -35,8 +_,8 @@
+       super(p_174161_, new GuardianModel(p_174161_.m_174023_(p_174163_)), p_174162_);
+    }
+ 
+-   public boolean m_5523_(Guardian p_114836_, Frustum p_114837_, double p_114838_, double p_114839_, double p_114840_) {
+-      if (super.m_5523_(p_114836_, p_114837_, p_114838_, p_114839_, p_114840_)) {
++   public boolean shouldRender(Guardian p_114836_, Frustum p_114837_, me.alphamode.mclong.math.BigDecimal p_114838_, me.alphamode.mclong.math.BigDecimal p_114839_, me.alphamode.mclong.math.BigDecimal p_114840_) {
++      if (super.shouldRender(p_114836_, p_114837_, p_114838_, p_114839_, p_114840_)) {
+          return true;
+       } else {
+          if (p_114836_.m_32855_()) {
 @@ -44,7 +_,7 @@
              if (livingentity != null) {
                 Vec3 vec3 = this.m_114802_(livingentity, (double)livingentity.m_20206_() * 0.5D, 1.0F);
                 Vec3 vec31 = this.m_114802_(p_114836_, (double)p_114836_.m_20192_(), 1.0F);
 -               return p_114837_.m_113029_(new AABB(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_));
-+               return p_114837_.m_113029_(new AABB(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_()));
++               return p_114837_.m_113029_(new AABB(vec31.getX(), vec31.getY(), vec31.getZ(), vec3.getX(), vec3.getY(), vec3.getZ()));
              }
           }
  
@@ -16,10 +27,10 @@
 -      double d0 = Mth.m_14139_((double)p_114805_, p_114803_.f_19790_, p_114803_.m_20185_());
 -      double d1 = Mth.m_14139_((double)p_114805_, p_114803_.f_19791_, p_114803_.m_20186_()) + p_114804_;
 -      double d2 = Mth.m_14139_((double)p_114805_, p_114803_.f_19792_, p_114803_.m_20189_());
-+      java.math.BigDecimal lerp = java.math.BigDecimal.valueOf(p_114805_);
-+      java.math.BigDecimal d0 = Mth.lerp(lerp, p_114803_.f_19790_, p_114803_.getBigX());
-+      java.math.BigDecimal d1 = Mth.lerp(lerp, p_114803_.f_19791_, p_114803_.getBigY()).add(java.math.BigDecimal.valueOf(p_114804_));
-+      java.math.BigDecimal d2 = Mth.lerp(lerp, p_114803_.f_19792_, p_114803_.getBigZ());
++      me.alphamode.mclong.math.BigDecimal lerp = me.alphamode.mclong.math.BigDecimal.valueOf(p_114805_);
++      me.alphamode.mclong.math.BigDecimal d0 = Mth.lerp(lerp, p_114803_.f_19790_, p_114803_.getBigX());
++      me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp(lerp, p_114803_.f_19791_, p_114803_.getBigY()).add(me.alphamode.mclong.math.BigDecimal.valueOf(p_114804_));
++      me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp(lerp, p_114803_.f_19792_, p_114803_.getBigZ());
        return new Vec3(d0, d1, d2);
     }
  

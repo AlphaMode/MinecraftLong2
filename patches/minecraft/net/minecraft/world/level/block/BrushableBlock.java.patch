@@ -23,7 +23,7 @@
           FallingBlockEntity fallingblockentity = FallingBlockEntity.m_201971_(p_277779_, p_278019_, p_277544_);
           fallingblockentity.m_272001_();
        }
-@@ -67,17 +_,17 @@
+@@ -67,18 +_,18 @@
  
     public void m_142525_(Level p_278097_, BlockPos p_277734_, FallingBlockEntity p_277539_) {
        Vec3 vec3 = p_277539_.m_20191_().m_82399_();
@@ -40,9 +40,11 @@
 -            double d0 = (double)p_278107_.m_123341_() + p_277574_.m_188500_();
 -            double d1 = (double)p_278107_.m_123342_() - 0.05D;
 -            double d2 = (double)p_278107_.m_123343_() + p_277574_.m_188500_();
-+            double d0 = (double)p_278107_.getX() + p_277574_.m_188500_();
-+            double d1 = (double)p_278107_.getY() - 0.05D;
-+            double d2 = (double)p_278107_.getZ() + p_277574_.m_188500_();
-             p_277525_.m_7106_(new BlockParticleOption(ParticleTypes.f_123814_, p_277390_), d0, d1, d2, 0.0D, 0.0D, 0.0D);
+-            p_277525_.m_7106_(new BlockParticleOption(ParticleTypes.f_123814_, p_277390_), d0, d1, d2, 0.0D, 0.0D, 0.0D);
++            me.alphamode.mclong.math.BigDecimal d0 = p_278107_.getBigDecX().add(p_277574_.m_188500_());
++            me.alphamode.mclong.math.BigDecimal d1 = p_278107_.getBigDecY().subtract(0.05D);
++            me.alphamode.mclong.math.BigDecimal d2 = p_278107_.getBigDecZ().add(p_277574_.m_188500_());
++            p_277525_.addParticle(new BlockParticleOption(ParticleTypes.f_123814_, p_277390_), d0, d1, d2, 0.0D, 0.0D, 0.0D);
           }
        }
+ 

@@ -41,7 +41,7 @@
     }
  
 -   public void m_104784_(int p_104785_, int p_104786_, int p_104787_) {
-+   public void animateTick(long p_104785_, long p_104786_, long p_104787_) {
++   public void animateTick(me.alphamode.mclong.math.BigInteger p_104785_, me.alphamode.mclong.math.BigInteger p_104786_, me.alphamode.mclong.math.BigInteger p_104787_) {
        int i = 32;
        RandomSource randomsource = RandomSource.m_216327_();
        Block block = this.m_194187_();
@@ -64,15 +64,15 @@
 -      int j = p_233614_ + this.f_46441_.m_188503_(p_233616_) - this.f_46441_.m_188503_(p_233616_);
 -      int k = p_233615_ + this.f_46441_.m_188503_(p_233616_) - this.f_46441_.m_188503_(p_233616_);
 -      p_233619_.m_122178_(i, j, k);
-+   public void doAnimateTick(long p_233613_, long p_233614_, long p_233615_, int p_233616_, RandomSource p_233617_, @Nullable Block p_233618_, BlockPos.MutableBlockPos p_233619_) {
-+      long i = p_233613_ + this.f_46441_.m_188503_(p_233616_) - this.f_46441_.m_188503_(p_233616_);
-+      long j = p_233614_ + this.f_46441_.m_188503_(p_233616_) - this.f_46441_.m_188503_(p_233616_);
-+      long k = p_233615_ + this.f_46441_.m_188503_(p_233616_) - this.f_46441_.m_188503_(p_233616_);
++   public void doAnimateTick(me.alphamode.mclong.math.BigInteger p_233613_, me.alphamode.mclong.math.BigInteger p_233614_, me.alphamode.mclong.math.BigInteger p_233615_, int p_233616_, RandomSource p_233617_, @Nullable Block p_233618_, BlockPos.MutableBlockPos p_233619_) {
++      me.alphamode.mclong.math.BigInteger i = p_233613_.add(this.f_46441_.m_188503_(p_233616_) - this.f_46441_.m_188503_(p_233616_));
++      me.alphamode.mclong.math.BigInteger j = p_233614_.add(this.f_46441_.m_188503_(p_233616_) - this.f_46441_.m_188503_(p_233616_));
++      me.alphamode.mclong.math.BigInteger k = p_233615_.add(this.f_46441_.m_188503_(p_233616_) - this.f_46441_.m_188503_(p_233616_));
 +      p_233619_.set(i, j, k);
        BlockState blockstate = this.m_8055_(p_233619_);
        blockstate.m_60734_().m_214162_(blockstate, this, p_233619_, p_233617_);
        FluidState fluidstate = this.m_6425_(p_233619_);
-@@ -389,7 +_,7 @@
+@@ -389,19 +_,19 @@
           ParticleOptions particleoptions = fluidstate.m_76189_();
           if (particleoptions != null && this.f_46441_.m_188503_(10) == 0) {
              boolean flag = blockstate.m_60783_(this, p_233619_, Direction.DOWN);
@@ -81,12 +81,17 @@
              this.m_104689_(blockpos, this.m_8055_(blockpos), particleoptions, flag);
           }
        }
-@@ -401,7 +_,7 @@
+ 
+       if (p_233618_ == blockstate.m_60734_()) {
+-         this.m_7106_(new BlockParticleOption(ParticleTypes.f_194652_, blockstate), (double)i + 0.5D, (double)j + 0.5D, (double)k + 0.5D, 0.0D, 0.0D, 0.0D);
++         this.addParticle(new BlockParticleOption(ParticleTypes.f_194652_, blockstate), i.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB), j.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB), k.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB), 0.0D, 0.0D, 0.0D);
+       }
+ 
        if (!blockstate.m_60838_(this, p_233619_)) {
           this.m_204166_(p_233619_).m_203334_().m_47562_().ifPresent((p_264703_) -> {
              if (p_264703_.m_220527_(this.f_46441_)) {
 -               this.m_7106_(p_264703_.m_47419_(), (double)p_233619_.m_123341_() + this.f_46441_.m_188500_(), (double)p_233619_.m_123342_() + this.f_46441_.m_188500_(), (double)p_233619_.m_123343_() + this.f_46441_.m_188500_(), 0.0D, 0.0D, 0.0D);
-+               this.m_7106_(p_264703_.m_47419_(), (double)p_233619_.getX() + this.f_46441_.m_188500_(), (double)p_233619_.getY() + this.f_46441_.m_188500_(), (double)p_233619_.getZ() + this.f_46441_.m_188500_(), 0.0D, 0.0D, 0.0D);
++               this.addParticle(p_264703_.m_47419_(), p_233619_.getBigDecX().add(this.f_46441_.m_188500_()), p_233619_.getBigDecY().add(this.f_46441_.m_188500_()), p_233619_.getBigDecZ().add(this.f_46441_.m_188500_()), 0.0D, 0.0D, 0.0D);
              }
  
           });
@@ -95,13 +100,13 @@
           if (d0 < 1.0D) {
              if (p_104693_) {
 -               this.m_104592_((double)p_104690_.m_123341_(), (double)(p_104690_.m_123341_() + 1), (double)p_104690_.m_123343_(), (double)(p_104690_.m_123343_() + 1), (double)(p_104690_.m_123342_() + 1) - 0.05D, p_104692_);
-+               this.m_104592_((double)p_104690_.getX(), (double)(p_104690_.getX() + 1), (double)p_104690_.getZ(), (double)(p_104690_.getZ() + 1), (double)(p_104690_.getY() + 1) - 0.05D, p_104692_);
++               this.spawnFluidParticle(p_104690_.getBigDecX(), (p_104690_.getBigX().add(me.alphamode.mclong.math.BigInteger.ONE).toBigDecimal()), p_104690_.getBigDecZ(), (p_104690_.getBigZ().add(me.alphamode.mclong.math.BigInteger.ONE)).toBigDecimal(), (p_104690_.getBigY().add(me.alphamode.mclong.math.BigInteger.ONE).toBigDecimal()).subtract(0.05D), p_104692_);
              }
           } else if (!p_104691_.m_204336_(BlockTags.f_13049_)) {
              double d1 = voxelshape.m_83288_(Direction.Axis.Y);
              if (d1 > 0.0D) {
 -               this.m_104694_(p_104690_, p_104692_, voxelshape, (double)p_104690_.m_123342_() + d1 - 0.05D);
-+               this.m_104694_(p_104690_, p_104692_, voxelshape, (double)p_104690_.getY() + d1 - 0.05D);
++               this.spawnParticle(p_104690_, p_104692_, voxelshape, p_104690_.getBigDecY().add(d1).subtract(0.05D));
              } else {
 -               BlockPos blockpos = p_104690_.m_7495_();
 +               BlockPos blockpos = p_104690_.below();
@@ -110,19 +115,70 @@
                 double d2 = voxelshape1.m_83297_(Direction.Axis.Y);
                 if (d2 < 1.0D && blockstate.m_60819_().m_76178_()) {
 -                  this.m_104694_(p_104690_, p_104692_, voxelshape, (double)p_104690_.m_123342_() - 0.05D);
-+                  this.m_104694_(p_104690_, p_104692_, voxelshape, (double)p_104690_.getY() - 0.05D);
++                  this.spawnParticle(p_104690_, p_104692_, voxelshape, p_104690_.getBigDecY().subtract(0.05D));
                 }
              }
           }
-@@ -436,7 +_,7 @@
+@@ -435,12 +_,12 @@
+       }
     }
  
-    private void m_104694_(BlockPos p_104695_, ParticleOptions p_104696_, VoxelShape p_104697_, double p_104698_) {
+-   private void m_104694_(BlockPos p_104695_, ParticleOptions p_104696_, VoxelShape p_104697_, double p_104698_) {
 -      this.m_104592_((double)p_104695_.m_123341_() + p_104697_.m_83288_(Direction.Axis.X), (double)p_104695_.m_123341_() + p_104697_.m_83297_(Direction.Axis.X), (double)p_104695_.m_123343_() + p_104697_.m_83288_(Direction.Axis.Z), (double)p_104695_.m_123343_() + p_104697_.m_83297_(Direction.Axis.Z), p_104698_, p_104696_);
-+      this.m_104592_((double)p_104695_.getX() + p_104697_.m_83288_(Direction.Axis.X), (double)p_104695_.getX() + p_104697_.m_83297_(Direction.Axis.X), (double)p_104695_.getZ() + p_104697_.m_83288_(Direction.Axis.Z), (double)p_104695_.getZ() + p_104697_.m_83297_(Direction.Axis.Z), p_104698_, p_104696_);
++   private void spawnParticle(BlockPos p_104695_, ParticleOptions p_104696_, VoxelShape p_104697_, me.alphamode.mclong.math.BigDecimal p_104698_) {
++      this.spawnFluidParticle(p_104695_.getBigDecX().add(p_104697_.minB(Direction.Axis.X)), p_104695_.getBigDecX().add(p_104697_.maxB(Direction.Axis.X)), p_104695_.getBigDecZ().add(p_104697_.minB(Direction.Axis.Z)), p_104695_.getBigDecZ().add(p_104697_.maxB(Direction.Axis.Z)), p_104698_, p_104696_);
     }
  
-    private void m_104592_(double p_104593_, double p_104594_, double p_104595_, double p_104596_, double p_104597_, ParticleOptions p_104598_) {
+-   private void m_104592_(double p_104593_, double p_104594_, double p_104595_, double p_104596_, double p_104597_, ParticleOptions p_104598_) {
+-      this.m_7106_(p_104598_, Mth.m_14139_(this.f_46441_.m_188500_(), p_104593_, p_104594_), p_104597_, Mth.m_14139_(this.f_46441_.m_188500_(), p_104595_, p_104596_), 0.0D, 0.0D, 0.0D);
++   private void spawnFluidParticle(me.alphamode.mclong.math.BigDecimal p_104593_, me.alphamode.mclong.math.BigDecimal p_104594_, me.alphamode.mclong.math.BigDecimal p_104595_, me.alphamode.mclong.math.BigDecimal p_104596_, me.alphamode.mclong.math.BigDecimal p_104597_, ParticleOptions p_104598_) {
++      this.addParticle(p_104598_, Mth.lerp(this.f_46441_.m_188500_(), p_104593_, p_104594_), p_104597_, Mth.lerp(this.f_46441_.m_188500_(), p_104595_, p_104596_), 0.0D, 0.0D, 0.0D);
+    }
+ 
+    public CrashReportCategory m_6026_(CrashReport p_104729_) {
+@@ -454,9 +_,9 @@
+       return crashreportcategory;
+    }
+ 
+-   public void m_262808_(@Nullable Player p_263381_, double p_263372_, double p_263404_, double p_263365_, Holder<SoundEvent> p_263335_, SoundSource p_263417_, float p_263416_, float p_263349_, long p_263408_) {
++   public void playSeededSound(@Nullable Player p_263381_, me.alphamode.mclong.math.BigDecimal p_263372_, me.alphamode.mclong.math.BigDecimal p_263404_, me.alphamode.mclong.math.BigDecimal p_263365_, Holder<SoundEvent> p_263335_, SoundSource p_263417_, float p_263416_, float p_263349_, long p_263408_) {
+       if (p_263381_ == this.f_104565_.f_91074_) {
+-         this.m_233602_(p_263372_, p_263404_, p_263365_, p_263335_.m_203334_(), p_263417_, p_263416_, p_263349_, false, p_263408_);
++         this.playSound(p_263372_, p_263404_, p_263365_, p_263335_.m_203334_(), p_263417_, p_263416_, p_263349_, false, p_263408_);
+       }
+ 
+    }
+@@ -468,15 +_,15 @@
+ 
+    }
+ 
+-   public void m_7785_(double p_104600_, double p_104601_, double p_104602_, SoundEvent p_104603_, SoundSource p_104604_, float p_104605_, float p_104606_, boolean p_104607_) {
+-      this.m_233602_(p_104600_, p_104601_, p_104602_, p_104603_, p_104604_, p_104605_, p_104606_, p_104607_, this.f_46441_.m_188505_());
++   public void playLocalSound(me.alphamode.mclong.math.BigDecimal p_104600_, me.alphamode.mclong.math.BigDecimal p_104601_, me.alphamode.mclong.math.BigDecimal p_104602_, SoundEvent p_104603_, SoundSource p_104604_, float p_104605_, float p_104606_, boolean p_104607_) {
++      this.playSound(p_104600_, p_104601_, p_104602_, p_104603_, p_104604_, p_104605_, p_104606_, p_104607_, this.f_46441_.m_188505_());
+    }
+ 
+-   private void m_233602_(double p_233603_, double p_233604_, double p_233605_, SoundEvent p_233606_, SoundSource p_233607_, float p_233608_, float p_233609_, boolean p_233610_, long p_233611_) {
+-      double d0 = this.f_104565_.f_91063_.m_109153_().m_90583_().m_82531_(p_233603_, p_233604_, p_233605_);
++   private void playSound(me.alphamode.mclong.math.BigDecimal p_233603_, me.alphamode.mclong.math.BigDecimal p_233604_, me.alphamode.mclong.math.BigDecimal p_233605_, SoundEvent p_233606_, SoundSource p_233607_, float p_233608_, float p_233609_, boolean p_233610_, long p_233611_) {
++      me.alphamode.mclong.math.BigDecimal d0 = this.f_104565_.f_91063_.m_109153_().m_90583_().distanceToSqr(p_233603_, p_233604_, p_233605_);
+       SimpleSoundInstance simplesoundinstance = new SimpleSoundInstance(p_233606_, p_233607_, p_233608_, p_233609_, RandomSource.m_216335_(p_233611_), p_233603_, p_233604_, p_233605_);
+-      if (p_233610_ && d0 > 100.0D) {
+-         double d1 = Math.sqrt(d0) / 40.0D;
++      if (p_233610_ && d0.compareTo(100.0D) > 0) {
++         double d1 = d0.sqrt().divide(me.alphamode.mclong.math.BigDecimal.valueOf(40.0D)).doubleValue();
+          this.f_104565_.m_91106_().m_120369_(simplesoundinstance, (int)(d1 * 20.0D));
+       } else {
+          this.f_104565_.m_91106_().m_120367_(simplesoundinstance);
+@@ -484,7 +_,7 @@
+ 
+    }
+ 
+-   public void m_7228_(double p_104585_, double p_104586_, double p_104587_, double p_104588_, double p_104589_, double p_104590_, @Nullable CompoundTag p_104591_) {
++   public void createFireworks(me.alphamode.mclong.math.BigDecimal p_104585_, me.alphamode.mclong.math.BigDecimal p_104586_, me.alphamode.mclong.math.BigDecimal p_104587_, double p_104588_, double p_104589_, double p_104590_, @Nullable CompoundTag p_104591_) {
+       this.f_104565_.f_91061_.m_107344_(new FireworkParticles.Starter(this, p_104585_, p_104586_, p_104587_, p_104588_, p_104589_, p_104590_, this.f_104565_.f_91061_, p_104591_));
+    }
+ 
 @@ -540,8 +_,8 @@
        this.f_104562_.m_109721_(p_104759_, p_104760_, p_104761_);
     }
@@ -134,7 +190,41 @@
     }
  
     public void m_6801_(int p_104634_, BlockPos p_104635_, int p_104636_) {
-@@ -586,7 +_,7 @@
+@@ -566,27 +_,27 @@
+       }
+    }
+ 
+-   public void m_7106_(ParticleOptions p_104706_, double p_104707_, double p_104708_, double p_104709_, double p_104710_, double p_104711_, double p_104712_) {
+-      this.f_104562_.m_109743_(p_104706_, p_104706_.m_6012_().m_123742_(), p_104707_, p_104708_, p_104709_, p_104710_, p_104711_, p_104712_);
+-   }
+-
+-   public void m_6493_(ParticleOptions p_104714_, boolean p_104715_, double p_104716_, double p_104717_, double p_104718_, double p_104719_, double p_104720_, double p_104721_) {
+-      this.f_104562_.m_109743_(p_104714_, p_104714_.m_6012_().m_123742_() || p_104715_, p_104716_, p_104717_, p_104718_, p_104719_, p_104720_, p_104721_);
+-   }
+-
+-   public void m_7107_(ParticleOptions p_104766_, double p_104767_, double p_104768_, double p_104769_, double p_104770_, double p_104771_, double p_104772_) {
+-      this.f_104562_.m_109752_(p_104766_, false, true, p_104767_, p_104768_, p_104769_, p_104770_, p_104771_, p_104772_);
+-   }
+-
+-   public void m_6485_(ParticleOptions p_104774_, boolean p_104775_, double p_104776_, double p_104777_, double p_104778_, double p_104779_, double p_104780_, double p_104781_) {
+-      this.f_104562_.m_109752_(p_104774_, p_104774_.m_6012_().m_123742_() || p_104775_, true, p_104776_, p_104777_, p_104778_, p_104779_, p_104780_, p_104781_);
++   public void addParticle(ParticleOptions p_104706_, me.alphamode.mclong.math.BigDecimal p_104707_, me.alphamode.mclong.math.BigDecimal p_104708_, me.alphamode.mclong.math.BigDecimal p_104709_, double p_104710_, double p_104711_, double p_104712_) {
++      this.f_104562_.addParticle(p_104706_, p_104706_.m_6012_().m_123742_(), p_104707_, p_104708_, p_104709_, p_104710_, p_104711_, p_104712_);
++   }
++
++   public void addParticle(ParticleOptions p_104714_, boolean p_104715_, me.alphamode.mclong.math.BigDecimal p_104716_, me.alphamode.mclong.math.BigDecimal p_104717_, me.alphamode.mclong.math.BigDecimal p_104718_, double p_104719_, double p_104720_, double p_104721_) {
++      this.f_104562_.addParticle(p_104714_, p_104714_.m_6012_().m_123742_() || p_104715_, p_104716_, p_104717_, p_104718_, p_104719_, p_104720_, p_104721_);
++   }
++
++   public void addAlwaysVisibleParticle(ParticleOptions p_104766_, me.alphamode.mclong.math.BigDecimal p_104767_, me.alphamode.mclong.math.BigDecimal p_104768_, me.alphamode.mclong.math.BigDecimal p_104769_, double p_104770_, double p_104771_, double p_104772_) {
++      this.f_104562_.addParticle(p_104766_, false, true, p_104767_, p_104768_, p_104769_, p_104770_, p_104771_, p_104772_);
++   }
++
++   public void addAlwaysVisibleParticle(ParticleOptions p_104774_, boolean p_104775_, me.alphamode.mclong.math.BigDecimal p_104776_, me.alphamode.mclong.math.BigDecimal p_104777_, me.alphamode.mclong.math.BigDecimal p_104778_, double p_104779_, double p_104780_, double p_104781_) {
++      this.f_104562_.addParticle(p_104774_, p_104774_.m_6012_().m_123742_() || p_104775_, true, p_104776_, p_104777_, p_104778_, p_104779_, p_104780_, p_104781_);
+    }
+ 
+    public List<AbstractClientPlayer> m_6907_() {
        return this.f_104566_;
     }
  
@@ -173,7 +263,7 @@
           int l = 0;
           int i1 = 0;
 -         Cursor3D cursor3d = new Cursor3D(p_104763_.m_123341_() - i, p_104763_.m_123342_(), p_104763_.m_123343_() - i, p_104763_.m_123341_() + i, p_104763_.m_123342_(), p_104763_.m_123343_() + i);
-+         var blendRadius = java.math.BigInteger.valueOf(i);
++         var blendRadius = me.alphamode.mclong.math.BigInteger.valueOf(i);
 +         Cursor3D cursor3d = new Cursor3D(p_104763_.getBigX().subtract(blendRadius), p_104763_.getBigY(), p_104763_.getBigZ().subtract(blendRadius), p_104763_.getBigX().add(blendRadius), p_104763_.getBigY(), p_104763_.getBigZ().add(blendRadius));
  
           int j1;

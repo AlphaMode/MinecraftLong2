@@ -52,8 +52,8 @@
 -      double d3 = d1 - p_140228_.m_20189_();
 +      double d0 = (double)SectionPos.sectionToBlockCoord(p_140227_.x(), 8);
 +      double d1 = (double)SectionPos.sectionToBlockCoord(p_140227_.z(), 8);
-+      double d2 = java.math.BigDecimal.valueOf(d0).subtract(p_140228_.getBigX()).doubleValue();
-+      double d3 = java.math.BigDecimal.valueOf(d1).subtract(p_140228_.getBigZ()).doubleValue();
++      double d2 = me.alphamode.mclong.math.BigDecimal.valueOf(d0).subtract(p_140228_.getBigX()).doubleValue();
++      double d3 = me.alphamode.mclong.math.BigDecimal.valueOf(d1).subtract(p_140228_.getBigZ()).doubleValue();
        return d2 * d2 + d3 * d3;
     }
  
@@ -511,12 +511,15 @@
        }
     }
  
-@@ -1375,7 +_,7 @@
+@@ -1375,9 +_,9 @@
           if (p_140498_ != this.f_140472_) {
              Vec3 vec3 = p_140498_.m_20182_().m_82546_(this.f_140472_.m_20182_());
              double d0 = (double)Math.min(this.m_140496_(), ChunkMap.this.f_140126_ * 16);
 -            double d1 = vec3.f_82479_ * vec3.f_82479_ + vec3.f_82481_ * vec3.f_82481_;
-+            double d1 = vec3.m_7096_() * vec3.m_7096_() + vec3.m_7094_() * vec3.m_7094_();
++            me.alphamode.mclong.math.BigDecimal d1 = vec3.getX().multiply(vec3.getX()).add(vec3.getZ().multiply(vec3.getZ()));
              double d2 = d0 * d0;
-             boolean flag = d1 <= d2 && this.f_140472_.m_6459_(p_140498_);
+-            boolean flag = d1 <= d2 && this.f_140472_.m_6459_(p_140498_);
++            boolean flag = d1.compareTo(me.alphamode.mclong.math.BigDecimal.valueOf(d2)) <= 0 && this.f_140472_.m_6459_(p_140498_);
              if (flag) {
+                if (this.f_140475_.add(p_140498_.f_8906_)) {
+                   this.f_140471_.m_8541_(p_140498_);

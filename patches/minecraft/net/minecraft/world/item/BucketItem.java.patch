@@ -9,7 +9,7 @@
           if (p_40703_.m_7966_(p_40704_, blockpos) && p_40704_.m_36204_(blockpos1, direction, itemstack)) {
              if (this.f_40687_ == Fluids.f_76191_) {
                 BlockState blockstate1 = p_40703_.m_8055_(blockpos);
-@@ -106,11 +_,11 @@
+@@ -106,15 +_,15 @@
           boolean flag = blockstate.m_60722_(this.f_40687_);
           boolean flag1 = blockstate.m_60795_() || flag || block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).m_6044_(p_150717_, p_150718_, blockstate, this.f_40687_);
           if (!flag1) {
@@ -19,9 +19,14 @@
 -            int i = p_150718_.m_123341_();
 -            int j = p_150718_.m_123342_();
 -            int k = p_150718_.m_123343_();
-+            long i = p_150718_.getX();
-+            long j = p_150718_.getY();
-+            long k = p_150718_.getZ();
++            me.alphamode.mclong.math.BigDecimal i = p_150718_.getBigDecX();
++            me.alphamode.mclong.math.BigDecimal j = p_150718_.getBigDecY();
++            me.alphamode.mclong.math.BigDecimal k = p_150718_.getBigDecZ();
              p_150717_.m_5594_(p_150716_, p_150718_, SoundEvents.f_11937_, SoundSource.BLOCKS, 0.5F, 2.6F + (p_150717_.f_46441_.m_188501_() - p_150717_.f_46441_.m_188501_()) * 0.8F);
  
              for(int l = 0; l < 8; ++l) {
+-               p_150717_.m_7106_(ParticleTypes.f_123755_, (double)i + Math.random(), (double)j + Math.random(), (double)k + Math.random(), 0.0D, 0.0D, 0.0D);
++               p_150717_.addParticle(ParticleTypes.f_123755_, i.add(Math.random()), j.add(Math.random()), k.add(Math.random()), 0.0D, 0.0D, 0.0D);
+             }
+ 
+             return true;

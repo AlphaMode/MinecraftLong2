@@ -14,21 +14,21 @@
              if (entity != null) {
                 entity.m_20091_();
              }
-@@ -77,22 +_,22 @@
+@@ -77,26 +_,26 @@
  
     public void m_214162_(BlockState p_221794_, Level p_221795_, BlockPos p_221796_, RandomSource p_221797_) {
        if (p_221797_.m_188503_(100) == 0) {
 -         p_221795_.m_7785_((double)p_221796_.m_123341_() + 0.5D, (double)p_221796_.m_123342_() + 0.5D, (double)p_221796_.m_123343_() + 0.5D, SoundEvents.f_12286_, SoundSource.BLOCKS, 0.5F, p_221797_.m_188501_() * 0.4F + 0.8F, false);
-+         p_221795_.m_7785_((double)p_221796_.getX() + 0.5D, (double)p_221796_.getY() + 0.5D, (double)p_221796_.getZ() + 0.5D, SoundEvents.f_12286_, SoundSource.BLOCKS, 0.5F, p_221797_.m_188501_() * 0.4F + 0.8F, false);
++         p_221795_.playLocalSound(p_221796_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), p_221796_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.AABB), p_221796_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), SoundEvents.f_12286_, SoundSource.BLOCKS, 0.5F, p_221797_.m_188501_() * 0.4F + 0.8F, false);
        }
  
        for(int i = 0; i < 4; ++i) {
 -         double d0 = (double)p_221796_.m_123341_() + p_221797_.m_188500_();
 -         double d1 = (double)p_221796_.m_123342_() + p_221797_.m_188500_();
 -         double d2 = (double)p_221796_.m_123343_() + p_221797_.m_188500_();
-+         double d0 = (double)p_221796_.getX() + p_221797_.m_188500_();
-+         double d1 = (double)p_221796_.getY() + p_221797_.m_188500_();
-+         double d2 = (double)p_221796_.getZ() + p_221797_.m_188500_();
++         me.alphamode.mclong.math.BigDecimal d0 = p_221796_.getBigDecX().add(p_221797_.m_188500_());
++         me.alphamode.mclong.math.BigDecimal d1 = p_221796_.getBigDecY().add(p_221797_.m_188500_());
++         me.alphamode.mclong.math.BigDecimal d2 = p_221796_.getBigDecZ().add(p_221797_.m_188500_());
           double d3 = ((double)p_221797_.m_188501_() - 0.5D) * 0.5D;
           double d4 = ((double)p_221797_.m_188501_() - 0.5D) * 0.5D;
           double d5 = ((double)p_221797_.m_188501_() - 0.5D) * 0.5D;
@@ -36,11 +36,16 @@
 -         if (!p_221795_.m_8055_(p_221796_.m_122024_()).m_60713_(this) && !p_221795_.m_8055_(p_221796_.m_122029_()).m_60713_(this)) {
 -            d0 = (double)p_221796_.m_123341_() + 0.5D + 0.25D * (double)j;
 +         if (!p_221795_.m_8055_(p_221796_.west()).m_60713_(this) && !p_221795_.m_8055_(p_221796_.east()).m_60713_(this)) {
-+            d0 = (double)p_221796_.getX() + 0.5D + 0.25D * (double)j;
++            d0 = p_221796_.getBigDecX().add(0.5D + 0.25D * (double)j);
              d3 = (double)(p_221797_.m_188501_() * 2.0F * (float)j);
           } else {
 -            d2 = (double)p_221796_.m_123343_() + 0.5D + 0.25D * (double)j;
-+            d2 = (double)p_221796_.getZ() + 0.5D + 0.25D * (double)j;
++            d2 = p_221796_.getBigDecZ().add(0.5D + 0.25D * (double)j);
              d5 = (double)(p_221797_.m_188501_() * 2.0F * (float)j);
           }
  
+-         p_221795_.m_7106_(ParticleTypes.f_123760_, d0, d1, d2, d3, d4, d5);
++         p_221795_.addParticle(ParticleTypes.f_123760_, d0, d1, d2, d3, d4, d5);
+       }
+ 
+    }
