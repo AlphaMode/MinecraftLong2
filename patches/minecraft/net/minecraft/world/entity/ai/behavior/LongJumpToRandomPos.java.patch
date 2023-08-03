@@ -17,10 +17,10 @@
 -      int j = blockpos.m_123342_();
 -      int k = blockpos.m_123343_();
 -      this.f_147630_ = BlockPos.m_121886_(i - this.f_147628_, j - this.f_147627_, k - this.f_147628_, i + this.f_147628_, j + this.f_147627_, k + this.f_147628_).filter((p_217317_) -> {
-+      long i = blockpos.getX();
-+      long j = blockpos.getY();
-+      long k = blockpos.getZ();
-+      this.f_147630_ = BlockPos.betweenClosedStream(i - this.f_147628_, j - this.f_147627_, k - this.f_147628_, i + this.f_147628_, j + this.f_147627_, k + this.f_147628_).filter((p_217317_) -> {
++      me.alphamode.mclong.math.BigInteger i = blockpos.getBigX();
++      me.alphamode.mclong.math.BigInteger j = blockpos.getBigY();
++      me.alphamode.mclong.math.BigInteger k = blockpos.getBigZ();
++      this.f_147630_ = BlockPos.betweenClosedStream(i.subtract(this.f_147628_), j.subtract(this.f_147627_), k.subtract(this.f_147628_), i.add(this.f_147628_), j.add(this.f_147627_), k.add(this.f_147628_)).filter((p_217317_) -> {
           return !p_217317_.equals(blockpos);
        }).map((p_217314_) -> {
 -         return new LongJumpToRandomPos.PossibleJump(p_217314_.m_7949_(), Mth.m_14165_(blockpos.m_123331_(p_217314_)));

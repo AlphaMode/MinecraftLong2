@@ -139,7 +139,7 @@
        return (short)(i << 8 | k << 4 | j << 0);
     }
  
-@@ -104,84 +_,100 @@
+@@ -104,84 +_,128 @@
        return p_123228_ >>> 4 & 15;
     }
  
@@ -237,6 +237,10 @@
 +      return sectionToBlockCoord(blockCord).add(offset);
 +   }
 +
++   public static me.alphamode.mclong.math.BigInteger sectionToBlockCoord(me.alphamode.mclong.math.BigInteger blockCord, int offset) {
++      return sectionToBlockCoord(blockCord).add(offset);
++   }
++
 +   public static long sectionToBlockCoord(long p_175555_, long p_175556_) {
 +      return sectionToBlockCoord(p_175555_) + p_175556_;
 +   }
@@ -277,6 +281,18 @@
 +      return sectionToBlockCoord(this.z());
 +   }
 +
++   public me.alphamode.mclong.math.BigInteger minBlockBigX() {
++      return sectionToBlockCoord(this.getBigX());
++   }
++
++   public me.alphamode.mclong.math.BigInteger minBlockBigY() {
++      return sectionToBlockCoord(this.getBigY());
++   }
++
++   public me.alphamode.mclong.math.BigInteger minBlockBigZ() {
++      return sectionToBlockCoord(this.getBigZ());
++   }
++
 +   public long maxBlockX() {
 +      return sectionToBlockCoord(this.x(), 15);
 +   }
@@ -287,6 +303,18 @@
 +
 +   public long maxBlockZ() {
 +      return sectionToBlockCoord(this.z(), 15);
++   }
++
++   public me.alphamode.mclong.math.BigInteger maxBlockBigX() {
++      return sectionToBlockCoord(this.getBigX(), 15);
++   }
++
++   public me.alphamode.mclong.math.BigInteger maxBlockBigY() {
++      return sectionToBlockCoord(this.getBigY(), 15);
++   }
++
++   public me.alphamode.mclong.math.BigInteger maxBlockBigZ() {
++      return sectionToBlockCoord(this.getBigZ(), 15);
     }
  
     public static long m_123235_(long p_123236_) {
@@ -344,12 +372,12 @@
 -   public SectionPos m_7918_(int p_175571_, int p_175572_, int p_175573_) {
 -      return p_175571_ == 0 && p_175572_ == 0 && p_175573_ == 0 ? this : new SectionPos(this.m_123170_() + p_175571_, this.m_123206_() + p_175572_, this.m_123222_() + p_175573_);
 +   public SectionPos offset(long p_175571_, long p_175572_, long p_175573_) {
-+      return p_175571_ == 0 && p_175572_ == 0 && p_175573_ == 0 ? this : new SectionPos(this.x() + p_175571_, this.y() + p_175572_, this.z() + p_175573_);
++      return p_175571_ == 0 && p_175572_ == 0 && p_175573_ == 0 ? this : new SectionPos(this.getBigX().add(p_175571_), this.getBigY().add(p_175572_), this.getBigZ().add(p_175573_));
     }
  
     public Stream<BlockPos> m_123253_() {
 -      return BlockPos.m_121886_(this.m_123229_(), this.m_123234_(), this.m_123239_(), this.m_123244_(), this.m_123247_(), this.m_123248_());
-+      return BlockPos.betweenClosedStream(this.minBlockX(), this.minBlockY(), this.minBlockZ(), this.maxBlockX(), this.maxBlockY(), this.maxBlockZ());
++      return BlockPos.betweenClosedStream(this.minBlockBigX(), this.minBlockBigY(), this.minBlockBigZ(), this.maxBlockBigX(), this.maxBlockBigY(), this.maxBlockBigZ());
     }
  
     public static Stream<SectionPos> m_123201_(SectionPos p_123202_, int p_123203_) {

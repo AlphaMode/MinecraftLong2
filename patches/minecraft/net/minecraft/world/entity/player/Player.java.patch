@@ -9,17 +9,21 @@
        this.f_20896_ = 180.0F;
     }
  
-@@ -258,8 +_,8 @@
+@@ -258,10 +_,10 @@
        }
  
        int i = 29999999;
 -      double d0 = Mth.m_14008_(this.m_20185_(), -2.9999999E7D, 2.9999999E7D);
 -      double d1 = Mth.m_14008_(this.m_20189_(), -2.9999999E7D, 2.9999999E7D);
-+      double d0 = this.m_20185_();
-+      double d1 = this.m_20189_();
-       if (d0 != this.m_20185_() || d1 != this.m_20189_()) {
-          this.m_6034_(d0, this.m_20186_(), d1);
+-      if (d0 != this.m_20185_() || d1 != this.m_20189_()) {
+-         this.m_6034_(d0, this.m_20186_(), d1);
++      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX();
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigZ();
++      if (!d0.equals(this.getBigX()) || !d1.equals(this.getBigZ())) {
++         this.setPos(d0, this.getBigY(), d1);
        }
+ 
+       ++this.f_20922_;
 @@ -404,7 +_,7 @@
     }
  
@@ -143,9 +147,16 @@
        }
     }
  
-@@ -1368,19 +_,19 @@
-       double d1 = this.m_20186_();
-       double d2 = this.m_20189_();
+@@ -1364,30 +_,30 @@
+    }
+ 
+    public void m_7023_(Vec3 p_36359_) {
+-      double d0 = this.m_20185_();
+-      double d1 = this.m_20186_();
+-      double d2 = this.m_20189_();
++      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX();
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigY();
++      me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ();
        if (this.m_6069_() && !this.m_20159_()) {
 -         double d3 = this.m_20154_().f_82480_;
 +         double d3 = this.m_20154_().m_7098_();
@@ -167,6 +178,14 @@
           this.m_183634_();
           this.m_20115_(7, false);
        } else {
+          super.m_7023_(p_36359_);
+       }
+ 
+-      this.m_36378_(this.m_20185_() - d0, this.m_20186_() - d1, this.m_20189_() - d2);
++      this.m_36378_(this.getBigX().subtract(d0).doubleValue(), this.getBigY().subtract(d1).doubleValue(), this.getBigZ().subtract(d2).doubleValue());
+    }
+ 
+    public void m_5844_() {
 @@ -1604,7 +_,7 @@
  
        if (p_36276_ > 0 && this.f_36078_ % 5 == 0 && (float)this.f_36111_ < (float)this.f_19797_ - 100.0F) {

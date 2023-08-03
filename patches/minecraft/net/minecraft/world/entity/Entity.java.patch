@@ -384,7 +384,8 @@
           }
        }
  
-       BlockPos blockpos = BlockPos.m_274561_(this.m_20185_(), d0, this.m_20189_());
+-      BlockPos blockpos = BlockPos.m_274561_(this.m_20185_(), d0, this.m_20189_());
++      BlockPos blockpos = BlockPos.containing(this.getBigX(), me.alphamode.mclong.math.BigDecimal.valueOf(d0), this.getBigZ());
        FluidState fluidstate = this.m_9236_().m_6425_(blockpos);
 -      double d1 = (double)((float)blockpos.m_123342_() + fluidstate.m_76155_(this.m_9236_(), blockpos));
 +      double d1 = (double)((float)blockpos.getY() + fluidstate.m_76155_(this.f_19853_, blockpos));
@@ -582,7 +583,12 @@
              double d2 = Mth.m_14005_(d0, d1);
              if (d2 >= (double)0.01F) {
                 d2 = Math.sqrt(d2);
-@@ -1492,9 +_,10 @@
+@@ -1488,13 +_,14 @@
+    }
+ 
+    public final Vec3 m_146892_() {
+-      return new Vec3(this.m_20185_(), this.m_20188_(), this.m_20189_());
++      return new Vec3(this.getBigX(), this.getEyeBigY(), this.getBigZ());
     }
  
     public final Vec3 m_20299_(float p_20300_) {
@@ -634,7 +640,15 @@
        double d3 = d0 * d0 + d1 * d1 + d2 * d2;
        return this.m_6783_(d3);
     }
-@@ -1581,7 +_,7 @@
+@@ -1575,13 +_,13 @@
+    public CompoundTag m_20240_(CompoundTag p_20241_) {
+       try {
+          if (this.f_19824_ != null) {
+-            p_20241_.m_128365_("Pos", this.m_20063_(this.f_19824_.m_20185_(), this.m_20186_(), this.f_19824_.m_20189_()));
++            p_20241_.m_128365_("Pos", this.newBigDecimalList(this.f_19824_.getBigX(), this.getBigY(), this.f_19824_.getBigZ()));
+          } else {
+-            p_20241_.m_128365_("Pos", this.m_20063_(this.m_20185_(), this.m_20186_(), this.m_20189_()));
++            p_20241_.m_128365_("Pos", this.newBigDecimalList(this.getBigX(), this.getBigY(), this.getBigZ()));
           }
  
           Vec3 vec3 = this.m_20184_();
@@ -648,10 +662,27 @@
           this.m_20334_(Math.abs(d0) > 10.0D ? 0.0D : d0, Math.abs(d1) > 10.0D ? 0.0D : d1, Math.abs(d2) > 10.0D ? 0.0D : d2);
           double d3 = 3.0000512E7D;
 -         this.m_20343_(Mth.m_14008_(listtag.m_128772_(0), -3.0000512E7D, 3.0000512E7D), Mth.m_14008_(listtag.m_128772_(1), -2.0E7D, 2.0E7D), Mth.m_14008_(listtag.m_128772_(2), -3.0000512E7D, 3.0000512E7D));
-+         this.m_20343_(listtag.m_128772_(0), listtag.m_128772_(1), listtag.m_128772_(2));
++         this.setPosRaw(new me.alphamode.mclong.math.BigDecimal(listtag.m_128778_(0)), new me.alphamode.mclong.math.BigDecimal(listtag.m_128778_(1)), new me.alphamode.mclong.math.BigDecimal(listtag.m_128778_(2)));
           this.m_146922_(listtag2.m_128775_(0));
           this.m_146926_(listtag2.m_128775_(1));
           this.m_146867_();
+@@ -1759,6 +_,16 @@
+       return listtag;
+    }
+ 
++   protected ListTag newBigDecimalList(me.alphamode.mclong.math.BigDecimal... vals) {
++      ListTag listtag = new ListTag();
++
++      for(me.alphamode.mclong.math.BigDecimal d0 : vals) {
++         listtag.add(net.minecraft.nbt.StringTag.m_129297_(d0.toString()));
++      }
++
++      return listtag;
++   }
++
+    protected ListTag m_20065_(float... p_20066_) {
+       ListTag listtag = new ListTag();
+ 
 @@ -1810,7 +_,7 @@
           AABB aabb = AABB.m_165882_(this.m_146892_(), (double)f, 1.0E-6D, (double)f);
           return BlockPos.m_121921_(aabb).anyMatch((p_201942_) -> {

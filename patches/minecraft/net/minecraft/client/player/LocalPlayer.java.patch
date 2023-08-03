@@ -1,5 +1,18 @@
 --- a/net/minecraft/client/player/LocalPlayer.java
 +++ b/net/minecraft/client/player/LocalPlayer.java
+@@ -103,9 +_,9 @@
+    private final ClientRecipeBook f_108592_;
+    private final List<AmbientSoundHandler> f_108593_ = Lists.newArrayList();
+    private int f_108594_ = 0;
+-   private double f_108595_;
+-   private double f_108596_;
+-   private double f_108597_;
++   private me.alphamode.mclong.math.BigDecimal f_108595_;
++   private me.alphamode.mclong.math.BigDecimal f_108596_;
++   private me.alphamode.mclong.math.BigDecimal f_108597_;
+    private float f_108598_;
+    private float f_108599_;
+    private boolean f_108600_;
 @@ -184,7 +_,7 @@
     }
  
@@ -9,6 +22,19 @@
           super.m_8119_();
           if (this.m_20159_()) {
              this.f_108617_.m_104955_(new ServerboundMovePlayerPacket.Rot(this.m_146908_(), this.m_146909_(), this.m_20096_()));
+@@ -225,9 +_,9 @@
+       }
+ 
+       if (this.m_108636_()) {
+-         double d4 = this.m_20185_() - this.f_108595_;
+-         double d0 = this.m_20186_() - this.f_108596_;
+-         double d1 = this.m_20189_() - this.f_108597_;
++         double d4 = this.getBigX().subtract(this.f_108595_).doubleValue();
++         double d0 = this.getBigY().subtract(this.f_108596_).doubleValue();
++         double d1 = this.getBigZ().subtract(this.f_108597_).doubleValue();
+          double d2 = (double)(this.m_146908_() - this.f_108598_);
+          double d3 = (double)(this.m_146909_() - this.f_108599_);
+          ++this.f_108604_;
 @@ -235,12 +_,12 @@
           boolean flag2 = d2 != 0.0D || d3 != 0.0D;
           if (this.m_20159_()) {
@@ -25,6 +51,19 @@
           } else if (flag2) {
              this.f_108617_.m_104955_(new ServerboundMovePlayerPacket.Rot(this.m_146908_(), this.m_146909_(), this.m_20096_()));
           } else if (this.f_108600_ != this.m_20096_()) {
+@@ -248,9 +_,9 @@
+          }
+ 
+          if (flag1) {
+-            this.f_108595_ = this.m_20185_();
+-            this.f_108596_ = this.m_20186_();
+-            this.f_108597_ = this.m_20189_();
++            this.f_108595_ = this.getBigX();
++            this.f_108596_ = this.getBigY();
++            this.f_108597_ = this.getBigZ();
+             this.f_108604_ = 0;
+          }
+ 
 @@ -395,19 +_,19 @@
        this.f_108619_.m_240442_().m_240494_(p_108696_, p_108697_);
     }
@@ -114,6 +153,20 @@
        }
  
        if (flag1) {
+@@ -838,10 +_,10 @@
+    }
+ 
+    public void m_6478_(MoverType p_108670_, Vec3 p_108671_) {
+-      double d0 = this.m_20185_();
+-      double d1 = this.m_20189_();
++      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX();
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigZ();
+       super.m_6478_(p_108670_, p_108671_);
+-      this.m_108743_((float)(this.m_20185_() - d0), (float)(this.m_20189_() - d1));
++      this.m_108743_((float)(this.getBigX().subtract(d0)).floatValue(), (float)(this.getBigZ().subtract(d1)).floatValue());
+    }
+ 
+    public boolean m_108638_() {
 @@ -861,7 +_,7 @@
              float f3 = f * vec2.f_82471_;
              float f4 = Mth.m_14031_(this.m_146908_() * ((float)Math.PI / 180F));

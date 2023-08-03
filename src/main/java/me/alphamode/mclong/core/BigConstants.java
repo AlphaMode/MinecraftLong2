@@ -40,6 +40,7 @@ public class BigConstants {
     public static final BigDecimal EPSILON_EQUAL = BigDecimal.valueOf(1.0E-5F);
 
     public static class Ints {
+        public static final BigInteger TWO = BigInteger.valueOf(2);
         public static boolean BIG_MODE = true;
         public static final BigInteger FIFTEEN = BigInteger.valueOf(15);
         public static final BigInteger SIXTEEN = BigInteger.valueOf(15);

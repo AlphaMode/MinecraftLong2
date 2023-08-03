@@ -1,34 +1,38 @@
 --- a/net/minecraft/util/CubicSampler.java
 +++ b/net/minecraft/util/CubicSampler.java
-@@ -11,9 +_,9 @@
+@@ -11,29 +_,29 @@
     }
  
     public static Vec3 m_130038_(Vec3 p_130039_, CubicSampler.Vec3Fetcher p_130040_) {
 -      int i = Mth.m_14107_(p_130039_.m_7096_());
 -      int j = Mth.m_14107_(p_130039_.m_7098_());
 -      int k = Mth.m_14107_(p_130039_.m_7094_());
-+      long i = Mth.m_14134_(p_130039_.m_7096_());
-+      long j = Mth.m_14134_(p_130039_.m_7098_());
-+      long k = Mth.m_14134_(p_130039_.m_7094_());
-       double d0 = p_130039_.m_7096_() - (double)i;
-       double d1 = p_130039_.m_7098_() - (double)j;
-       double d2 = p_130039_.m_7094_() - (double)k;
-@@ -22,18 +_,18 @@
+-      double d0 = p_130039_.m_7096_() - (double)i;
+-      double d1 = p_130039_.m_7098_() - (double)j;
+-      double d2 = p_130039_.m_7094_() - (double)k;
++      me.alphamode.mclong.math.BigDecimal i = p_130039_.getX().setScale(0, java.math.RoundingMode.FLOOR);
++      me.alphamode.mclong.math.BigDecimal j = p_130039_.getY().setScale(0, java.math.RoundingMode.FLOOR);
++      me.alphamode.mclong.math.BigDecimal k = p_130039_.getZ().setScale(0, java.math.RoundingMode.FLOOR);
++      double d0 = p_130039_.getX().subtract(i).doubleValue();
++      double d1 = p_130039_.getY().subtract(j).doubleValue();
++      double d2 = p_130039_.getZ().subtract(k).doubleValue();
+       double d3 = 0.0D;
+       Vec3 vec3 = Vec3.f_82478_;
  
        for(int l = 0; l < 6; ++l) {
           double d4 = Mth.m_14139_(d0, f_130036_[l + 1], f_130036_[l]);
 -         int i1 = i - 2 + l;
-+         long i1 = i - 2 + l;
++         long i1 = i.longValue() - 2 + l;
  
           for(int j1 = 0; j1 < 6; ++j1) {
              double d5 = Mth.m_14139_(d1, f_130036_[j1 + 1], f_130036_[j1]);
 -            int k1 = j - 2 + j1;
-+            long k1 = j - 2 + j1;
++            long k1 = j.longValue() - 2 + j1;
  
              for(int l1 = 0; l1 < 6; ++l1) {
                 double d6 = Mth.m_14139_(d2, f_130036_[l1 + 1], f_130036_[l1]);
 -               int i2 = k - 2 + l1;
-+               long i2 = k - 2 + l1;
++               long i2 = k.longValue() - 2 + l1;
                 double d7 = d4 * d5 * d6;
                 d3 += d7;
 -               vec3 = vec3.m_82549_(p_130040_.m_130041_(i1, k1, i2).m_82490_(d7));

@@ -31,6 +31,11 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         this.longBacking = backing.longValue();
     }
 
+    public BigInteger(long backing) {
+        this.longBacking = backing;
+        this.backing = java.math.BigInteger.valueOf(this.longBacking);
+    }
+
     public BigInteger(double backing) {
         this.longBacking = Mth.lfloor(backing);
         this.backing = java.math.BigInteger.valueOf(this.longBacking);
@@ -50,6 +55,10 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         if (BigConstants.Ints.BIG_MODE)
             return this.backing.compareTo(o.getBacking());
         return Long.compare(this.longBacking, o.longBacking);
+    }
+
+    public int compareTo(long o) {
+        return compareTo(new BigInteger(o));
     }
 
     @Override

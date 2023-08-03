@@ -26,7 +26,13 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     public BigDecimal(String val) {
-        this.backing = new java.math.BigDecimal(val);
+        java.math.BigDecimal backing;
+        try {
+            backing = new java.math.BigDecimal(val);
+        } catch (NumberFormatException e) {
+            backing = java.math.BigDecimal.valueOf(Double.parseDouble(val));
+        }
+        this.backing = backing;
         this.doubleBacking = this.backing.doubleValue();
     }
 
@@ -250,5 +256,9 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
 
     public java.math.BigDecimal getBacking() {
         return backing;
+    }
+
+    public BigInteger floor() {
+        return new BigInteger(this.backing.setScale(0, RoundingMode.FLOOR).toBigInteger(), Mth.lfloor(this.doubleBacking));
     }
 }
