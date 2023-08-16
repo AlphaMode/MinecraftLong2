@@ -14,15 +14,15 @@
 +   final long f_188718_;
 +   final long f_188719_;
 +   final long f_188720_;
-+   private final long f_188721_;
-+   private final long f_188722_;
-+   final long f_188723_;
-+   final long f_188724_;
++   private final me.alphamode.mclong.math.BigInteger f_188721_;
++   private final me.alphamode.mclong.math.BigInteger f_188722_;
++   final me.alphamode.mclong.math.BigInteger f_188723_;
++   final me.alphamode.mclong.math.BigInteger f_188724_;
     final List<NoiseChunk.NoiseInterpolator> f_188725_;
     final List<NoiseChunk.CacheAllInCell> f_209160_;
     private final Map<DensityFunction, DensityFunction> f_209161_ = new HashMap<>();
 -   private final Long2IntMap f_198238_ = new Long2IntOpenHashMap();
-+   private final it.unimi.dsi.fastutil.longs.Long2LongMap f_198238_ = new it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap();
++   private final it.unimi.dsi.fastutil.objects.Object2LongMap<ColumnPos> f_198238_ = new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>();
     private final Aquifer f_188728_;
     private final DensityFunction f_209162_;
     private final NoiseChunk.BlockStateFiller f_209163_;
@@ -47,12 +47,12 @@
 -   int f_209153_;
 -   int f_209154_;
 -   int f_209155_;
-+   private long f_209150_;
++   private me.alphamode.mclong.math.BigInteger f_209150_ = me.alphamode.mclong.math.BigInteger.ZERO;
 +   long f_209151_;
-+   private long f_209152_;
-+   long f_209153_;
++   private me.alphamode.mclong.math.BigInteger f_209152_ = me.alphamode.mclong.math.BigInteger.ZERO;
++   me.alphamode.mclong.math.BigInteger f_209153_;
 +   long f_209154_;
-+   long f_209155_;
++   me.alphamode.mclong.math.BigInteger f_209155_;
     long f_209156_;
     long f_209157_;
     int f_209158_;
@@ -63,11 +63,11 @@
 -      int i = 16 / noisesettings.m_189213_();
 -      return new NoiseChunk(i, p_224354_, chunkpos.m_45604_(), chunkpos.m_45605_(), noisesettings, p_224355_, p_224356_, p_224357_, p_224358_);
 +      long i = 16 / noisesettings.getCellWidth();
-+      return new NoiseChunk(i, p_224354_, chunkpos.getMinBlockX(), chunkpos.getMinBlockZ(), noisesettings, p_224355_, p_224356_, p_224357_, p_224358_);
++      return new NoiseChunk(i, p_224354_, chunkpos.getMinBigBlockX(), chunkpos.getMinBigBlockZ(), noisesettings, p_224355_, p_224356_, p_224357_, p_224358_);
     }
  
 -   public NoiseChunk(int p_224343_, RandomState p_224344_, int p_224345_, int p_224346_, NoiseSettings p_224347_, DensityFunctions.BeardifierOrMarker p_224348_, NoiseGeneratorSettings p_224349_, Aquifer.FluidPicker p_224350_, Blender p_224351_) {
-+   public NoiseChunk(long p_224343_, RandomState p_224344_, long p_224345_, long p_224346_, NoiseSettings p_224347_, DensityFunctions.BeardifierOrMarker p_224348_, NoiseGeneratorSettings p_224349_, Aquifer.FluidPicker p_224350_, Blender p_224351_) {
++   public NoiseChunk(long p_224343_, RandomState p_224344_, me.alphamode.mclong.math.BigInteger p_224345_, me.alphamode.mclong.math.BigInteger p_224346_, NoiseSettings p_224347_, DensityFunctions.BeardifierOrMarker p_224348_, NoiseGeneratorSettings p_224349_, Aquifer.FluidPicker p_224350_, Blender p_224351_) {
        this.f_188717_ = p_224347_;
 -      this.f_209170_ = p_224347_.m_189213_();
 -      this.f_209171_ = p_224347_.m_189212_();
@@ -76,10 +76,12 @@
        this.f_188718_ = p_224343_;
 -      this.f_188719_ = Mth.m_14042_(p_224347_.f_64508_(), this.f_209171_);
 -      this.f_188720_ = Mth.m_14042_(p_224347_.f_158688_(), this.f_209171_);
+-      this.f_188721_ = Math.floorDiv(p_224345_, this.f_209170_);
+-      this.f_188722_ = Math.floorDiv(p_224346_, this.f_209170_);
 +      this.f_188719_ = Mth.longFloorDiv(p_224347_.height(), this.f_209171_);
 +      this.f_188720_ = Mth.longFloorDiv(p_224347_.minY(), this.f_209171_);
-       this.f_188721_ = Math.floorDiv(p_224345_, this.f_209170_);
-       this.f_188722_ = Math.floorDiv(p_224346_, this.f_209170_);
++      this.f_188721_ = me.alphamode.mclong.math.BigMath.floorDiv(p_224345_, this.f_209170_);
++      this.f_188722_ = me.alphamode.mclong.math.BigMath.floorDiv(p_224346_, this.f_209170_);
        this.f_188725_ = Lists.newArrayList();
        this.f_209160_ = Lists.newArrayList();
 -      this.f_188723_ = QuartPos.m_175400_(p_224345_);
@@ -96,15 +98,15 @@
        for(int i = 0; i <= this.f_209169_; ++i) {
 -         int j = this.f_188723_ + i;
 -         int k = QuartPos.m_175402_(j);
-+         long j = this.f_188723_ + i;
-+         long k = QuartPos.toBlock(j);
++         me.alphamode.mclong.math.BigInteger j = this.f_188723_.add(i);
++         me.alphamode.mclong.math.BigInteger k = QuartPos.toBlock(j);
  
           for(int l = 0; l <= this.f_209169_; ++l) {
 -            int i1 = this.f_188724_ + l;
 -            int j1 = QuartPos.m_175402_(i1);
 -            Blender.BlendingOutput blender$blendingoutput = p_224351_.m_207242_(k, j1);
-+            long i1 = this.f_188724_ + l;
-+            long j1 = QuartPos.toBlock(i1);
++            me.alphamode.mclong.math.BigInteger i1 = this.f_188724_.add(l);
++            me.alphamode.mclong.math.BigInteger j1 = QuartPos.toBlock(i1);
 +            Blender.BlendingOutput blender$blendingoutput = p_224351_.blendOffsetAndFactor(k, j1);
              this.f_209164_.f_209327_[i][l] = blender$blendingoutput.f_209729_();
              this.f_209165_.f_209327_[i][l] = blender$blendingoutput.f_209730_();
@@ -116,69 +118,91 @@
 -         int k1 = SectionPos.m_123171_(p_224345_);
 -         int l1 = SectionPos.m_123171_(p_224346_);
 -         this.f_188728_ = Aquifer.m_223880_(this, new ChunkPos(k1, l1), noiserouter1, p_224344_.m_224581_(), p_224347_.f_158688_(), p_224347_.f_64508_(), p_224350_);
-+         long k1 = SectionPos.blockToSectionCoord(p_224345_);
-+         long l1 = SectionPos.blockToSectionCoord(p_224346_);
++         me.alphamode.mclong.math.BigInteger k1 = SectionPos.blockToSectionCoord(p_224345_);
++         me.alphamode.mclong.math.BigInteger l1 = SectionPos.blockToSectionCoord(p_224346_);
 +         this.f_188728_ = Aquifer.create(this, new ChunkPos(k1, l1), noiserouter1, p_224344_.m_224581_(), p_224347_.minY(), p_224347_.height(), p_224350_);
        }
  
        ImmutableList.Builder<NoiseChunk.BlockStateFiller> builder = ImmutableList.builder();
-@@ -148,30 +_,30 @@
+@@ -148,31 +_,31 @@
        return this.f_209163_.m_207387_(this);
     }
  
 -   public int m_207115_() {
-+   public long blockX() {
-       return this.f_209150_ + this.f_209153_;
-    }
- 
+-      return this.f_209150_ + this.f_209153_;
+-   }
+-
 -   public int m_207114_() {
-+   public long blockY() {
-       return this.f_209151_ + this.f_209154_;
-    }
- 
+-      return this.f_209151_ + this.f_209154_;
+-   }
+-
 -   public int m_207113_() {
-+   public long blockZ() {
-       return this.f_209152_ + this.f_209155_;
-    }
- 
+-      return this.f_209152_ + this.f_209155_;
+-   }
+-
 -   public int m_198256_(int p_198257_, int p_198258_) {
 -      int i = QuartPos.m_175402_(QuartPos.m_175400_(p_198257_));
 -      int j = QuartPos.m_175402_(QuartPos.m_175400_(p_198258_));
 -      return this.f_198238_.computeIfAbsent(ColumnPos.m_143197_(i, j), this::m_198249_);
-+   public long preliminarySurfaceLevel(long p_198257_, long p_198258_) {
-+      long i = QuartPos.toBlock(QuartPos.fromBlock(p_198257_));
-+      long j = QuartPos.toBlock(QuartPos.fromBlock(p_198258_));
-+      return this.f_198238_.computeIfAbsent(ColumnPos.asLong(i, j), this::computePreliminarySurfaceLevel);
-    }
- 
+-   }
+-
 -   private int m_198249_(long p_198250_) {
-+   private long computePreliminarySurfaceLevel(long p_198250_) {
-       int i = ColumnPos.m_214969_(p_198250_);
-       int j = ColumnPos.m_214971_(p_198250_);
+-      int i = ColumnPos.m_214969_(p_198250_);
+-      int j = ColumnPos.m_214971_(p_198250_);
 -      int k = this.f_188717_.f_158688_();
-+      long k = this.f_188717_.minY();
- 
+-
 -      for(int l = k + this.f_188717_.f_64508_(); l >= k; l -= this.f_209171_) {
+-         if (this.f_209162_.m_207386_(new DensityFunction.SinglePointContext(i, l, j)) > 0.390625D) {
++   public me.alphamode.mclong.math.BigInteger blockX() {
++      return this.f_209150_.add(this.f_209153_);
++   }
++
++   public me.alphamode.mclong.math.BigInteger blockY() {
++      return me.alphamode.mclong.math.BigInteger.valueOf(this.f_209151_ + this.f_209154_);
++   }
++
++   public me.alphamode.mclong.math.BigInteger blockZ() {
++      return this.f_209152_.add(this.f_209155_);
++   }
++
++   public long preliminarySurfaceLevel(me.alphamode.mclong.math.BigInteger p_198257_, me.alphamode.mclong.math.BigInteger p_198258_) {
++      me.alphamode.mclong.math.BigInteger i = QuartPos.toBlock(QuartPos.fromBlock(p_198257_));
++      me.alphamode.mclong.math.BigInteger j = QuartPos.toBlock(QuartPos.fromBlock(p_198258_));
++      return this.f_198238_.computeIfAbsent(new ColumnPos(i, j), this::computePreliminarySurfaceLevel);
++   }
++
++   private long computePreliminarySurfaceLevel(ColumnPos p_198250_) {
++      me.alphamode.mclong.math.BigInteger i = p_198250_.x();
++      me.alphamode.mclong.math.BigInteger j = p_198250_.z();
++      long k = this.f_188717_.minY();
++
 +      for(long l = k + this.f_188717_.height(); l >= k; l -= this.f_209171_) {
-          if (this.f_209162_.m_207386_(new DensityFunction.SinglePointContext(i, l, j)) > 0.390625D) {
++         if (this.f_209162_.m_207386_(new DensityFunction.SinglePointContext(i, me.alphamode.mclong.math.BigInteger.valueOf(l), j)) > 0.390625D) {
              return l;
           }
-@@ -184,12 +_,12 @@
+       }
+@@ -184,14 +_,14 @@
        return this.f_188731_;
     }
  
 -   private void m_209220_(boolean p_209221_, int p_209222_) {
-+   private void fillSlice(boolean p_209221_, long p_209222_) {
-       this.f_209150_ = p_209222_ * this.f_209170_;
-       this.f_209153_ = 0;
+-      this.f_209150_ = p_209222_ * this.f_209170_;
+-      this.f_209153_ = 0;
++   private void fillSlice(boolean p_209221_, me.alphamode.mclong.math.BigInteger p_209222_) {
++      this.f_209150_ = p_209222_.multiply(this.f_209170_);
++      this.f_209153_ = me.alphamode.mclong.math.BigInteger.ZERO;
  
        for(int i = 0; i < this.f_188718_ + 1; ++i) {
 -         int j = this.f_188722_ + i;
-+         long j = this.f_188722_ + i;
-          this.f_209152_ = j * this.f_209170_;
-          this.f_209155_ = 0;
+-         this.f_209152_ = j * this.f_209170_;
+-         this.f_209155_ = 0;
++         me.alphamode.mclong.math.BigInteger j = this.f_188722_.add(i);
++         this.f_209152_ = j.multiply(this.f_209170_);
++         this.f_209155_ = me.alphamode.mclong.math.BigInteger.ZERO;
           ++this.f_209157_;
-@@ -209,20 +_,20 @@
+ 
+          for(NoiseChunk.NoiseInterpolator noisechunk$noiseinterpolator : this.f_188725_) {
+@@ -209,23 +_,23 @@
        } else {
           this.f_209172_ = true;
           this.f_209156_ = 0L;
@@ -189,8 +213,9 @@
  
     public void m_188749_(int p_188750_) {
 -      this.m_209220_(false, this.f_188721_ + p_188750_ + 1);
-+      this.fillSlice(false, this.f_188721_ + p_188750_ + 1);
-       this.f_209150_ = (this.f_188721_ + p_188750_) * this.f_209170_;
+-      this.f_209150_ = (this.f_188721_ + p_188750_) * this.f_209170_;
++      this.fillSlice(false, this.f_188721_.add(p_188750_).add());
++      this.f_209150_ = (this.f_188721_.add(p_188750_)).multiply(this.f_209170_);
     }
  
     public NoiseChunk m_207263_(int p_209240_) {
@@ -198,14 +223,19 @@
 -      int j = Math.floorDiv(p_209240_, this.f_209170_);
 -      int k = Math.floorMod(j, this.f_209170_);
 -      int l = this.f_209171_ - 1 - Math.floorDiv(j, this.f_209170_);
+-      this.f_209153_ = k;
 +      long i = Math.floorMod(p_209240_, this.f_209170_);
 +      long j = Math.floorDiv(p_209240_, this.f_209170_);
 +      long k = Math.floorMod(j, this.f_209170_);
 +      long l = this.f_209171_ - 1 - Math.floorDiv(j, this.f_209170_);
-       this.f_209153_ = k;
++      this.f_209153_ = me.alphamode.mclong.math.BigInteger.valueOf(k);
        this.f_209154_ = l;
-       this.f_209155_ = i;
-@@ -233,7 +_,7 @@
+-      this.f_209155_ = i;
++      this.f_209155_ = me.alphamode.mclong.math.BigInteger.valueOf(i);
+       this.f_209158_ = p_209240_;
+       return this;
+    }
+@@ -233,14 +_,14 @@
     public void m_207207_(double[] p_209224_, DensityFunction p_209225_) {
        this.f_209158_ = 0;
  
@@ -214,7 +244,16 @@
           this.f_209154_ = i;
  
           for(int j = 0; j < this.f_209170_; ++j) {
-@@ -248,9 +_,9 @@
+-            this.f_209153_ = j;
++            this.f_209153_ = me.alphamode.mclong.math.BigInteger.valueOf(j);
+ 
+             for(int k = 0; k < this.f_209170_; ++k) {
+-               this.f_209155_ = k;
++               this.f_209155_ = me.alphamode.mclong.math.BigInteger.valueOf(k);
+                p_209224_[this.f_209158_++] = p_209225_.m_207386_(this);
+             }
+          }
+@@ -248,13 +_,13 @@
  
     }
  
@@ -226,7 +265,12 @@
        });
        this.f_209173_ = true;
        this.f_209151_ = (p_188811_ + this.f_188720_) * this.f_209171_;
-@@ -265,21 +_,21 @@
+-      this.f_209152_ = (this.f_188722_ + p_188812_) * this.f_209170_;
++      this.f_209152_ = (this.f_188722_.add(p_188812_)).multiply(this.f_209170_);
+       ++this.f_209157_;
+ 
+       for(NoiseChunk.CacheAllInCell noisechunk$cacheallincell : this.f_209160_) {
+@@ -265,22 +_,22 @@
        this.f_209173_ = false;
     }
  
@@ -239,18 +283,21 @@
     }
  
 -   public void m_209230_(int p_209231_, double p_209232_) {
-+   public void updateForX(long p_209231_, double p_209232_) {
-       this.f_209153_ = p_209231_ - this.f_209150_;
+-      this.f_209153_ = p_209231_ - this.f_209150_;
++   public void updateForX(me.alphamode.mclong.math.BigInteger p_209231_, double p_209232_) {
++      this.f_209153_ = p_209231_.subtract(this.f_209150_);
        this.f_188725_.forEach((p_209229_) -> {
           p_209229_.m_188861_(p_209232_);
        });
     }
  
 -   public void m_209241_(int p_209242_, double p_209243_) {
-+   public void updateForZ(long p_209242_, double p_209243_) {
-       this.f_209155_ = p_209242_ - this.f_209152_;
+-      this.f_209155_ = p_209242_ - this.f_209152_;
++   public void updateForZ(me.alphamode.mclong.math.BigInteger p_209242_, double p_209243_) {
++      this.f_209155_ = p_209242_.subtract(this.f_209152_);
        ++this.f_209156_;
        this.f_188725_.forEach((p_209188_) -> {
+          p_209188_.m_188866_(p_209243_);
 @@ -303,21 +_,21 @@
        return this.f_188728_;
     }
@@ -268,7 +315,7 @@
 -   Blender.BlendingOutput m_209244_(int p_209245_, int p_209246_) {
 -      long i = ChunkPos.m_45589_(p_209245_, p_209246_);
 -      if (this.f_209167_ == i) {
-+   Blender.BlendingOutput getOrComputeBlendingOutput(long p_209245_, long p_209246_) {
++   Blender.BlendingOutput getOrComputeBlendingOutput(me.alphamode.mclong.math.BigInteger p_209245_, me.alphamode.mclong.math.BigInteger p_209246_) {
 +      ChunkPos i = new ChunkPos(p_209245_, p_209246_);
 +      if (this.f_209167_.equals(i)) {
           return this.f_209168_;
@@ -314,8 +361,8 @@
 -         int j = p_209290_.m_207113_();
 -         long k = ChunkPos.m_45589_(i, j);
 -         if (this.f_209285_ == k) {
-+         long i = p_209290_.blockX();
-+         long j = p_209290_.blockZ();
++         me.alphamode.mclong.math.BigInteger i = p_209290_.blockX();
++         me.alphamode.mclong.math.BigInteger j = p_209290_.blockZ();
 +         ChunkPos k = new ChunkPos(i, j);
 +         if (this.f_209285_.equals(k)) {
              return this.f_209286_;
@@ -338,14 +385,14 @@
 -            int j = NoiseChunk.this.f_209154_;
 -            int k = NoiseChunk.this.f_209155_;
 -            return i >= 0 && j >= 0 && k >= 0 && i < NoiseChunk.this.f_209170_ && j < NoiseChunk.this.f_209171_ && k < NoiseChunk.this.f_209170_ ? this.f_209298_[((NoiseChunk.this.f_209171_ - 1 - j) * NoiseChunk.this.f_209170_ + i) * NoiseChunk.this.f_209170_ + k] : this.f_209297_.m_207386_(p_209303_);
-+            long i = NoiseChunk.this.f_209153_;
++            me.alphamode.mclong.math.BigInteger i = NoiseChunk.this.f_209153_;
 +            long j = NoiseChunk.this.f_209154_;
-+            long k = NoiseChunk.this.f_209155_;
-+            return i >= 0 && j >= 0 && k >= 0 && i < NoiseChunk.this.f_209170_ && j < NoiseChunk.this.f_209171_ && k < NoiseChunk.this.f_209170_ ? this.f_209298_[(int) (((NoiseChunk.this.f_209171_ - 1 - j) * NoiseChunk.this.f_209170_ + i) * NoiseChunk.this.f_209170_ + k)] : this.f_209297_.m_207386_(p_209303_);
++            me.alphamode.mclong.math.BigInteger k = NoiseChunk.this.f_209155_;
++            return i.compareTo(me.alphamode.mclong.math.BigInteger.ZERO) >= 0 && j >= 0 && k.compareTo(me.alphamode.mclong.math.BigInteger.ZERO) >= 0 && i.compareTo(NoiseChunk.this.f_209170_) < 0 && j < NoiseChunk.this.f_209171_ && k.compareTo(NoiseChunk.this.f_209170_) < 0 ? this.f_209298_[(int) (((me.alphamode.mclong.math.BigInteger.valueOf(NoiseChunk.this.f_209171_ - 1 - j)).multiply(NoiseChunk.this.f_209170_).add(i)).multiply(NoiseChunk.this.f_209170_).add(k)).intValue()] : this.f_209297_.m_207386_(p_209303_);
           }
        }
  
-@@ -569,15 +_,15 @@
+@@ -569,16 +_,16 @@
  
        FlatCache(DensityFunction p_209330_, boolean p_209331_) {
           this.f_209326_ = p_209330_;
@@ -355,17 +402,19 @@
              for(int i = 0; i <= NoiseChunk.this.f_209169_; ++i) {
 -               int j = NoiseChunk.this.f_188723_ + i;
 -               int k = QuartPos.m_175402_(j);
-+               long j = NoiseChunk.this.f_188723_ + i;
-+               long k = QuartPos.toBlock(j);
++               me.alphamode.mclong.math.BigInteger j = NoiseChunk.this.f_188723_.add(i);
++               me.alphamode.mclong.math.BigInteger k = QuartPos.toBlock(j);
  
                 for(int l = 0; l <= NoiseChunk.this.f_209169_; ++l) {
 -                  int i1 = NoiseChunk.this.f_188724_ + l;
 -                  int j1 = QuartPos.m_175402_(i1);
-+                  long i1 = NoiseChunk.this.f_188724_ + l;
-+                  long j1 = QuartPos.toBlock(i1);
-                   this.f_209327_[i][l] = p_209330_.m_207386_(new DensityFunction.SinglePointContext(k, 0, j1));
+-                  this.f_209327_[i][l] = p_209330_.m_207386_(new DensityFunction.SinglePointContext(k, 0, j1));
++                  me.alphamode.mclong.math.BigInteger i1 = NoiseChunk.this.f_188724_.add(l);
++                  me.alphamode.mclong.math.BigInteger j1 = QuartPos.toBlock(i1);
++                  this.f_209327_[i][l] = p_209330_.m_207386_(new DensityFunction.SinglePointContext(k, me.alphamode.mclong.math.BigInteger.ZERO, j1));
                 }
              }
+          }
 @@ -586,12 +_,12 @@
        }
  
@@ -374,10 +423,10 @@
 -         int j = QuartPos.m_175400_(p_209333_.m_207113_());
 -         int k = i - NoiseChunk.this.f_188723_;
 -         int l = j - NoiseChunk.this.f_188724_;
-+         long i = QuartPos.fromBlock(p_209333_.blockX());
-+         long j = QuartPos.fromBlock(p_209333_.blockZ());
-+         long k = i - NoiseChunk.this.f_188723_;
-+         long l = j - NoiseChunk.this.f_188724_;
++         me.alphamode.mclong.math.BigInteger i = QuartPos.fromBlock(p_209333_.blockX());
++         me.alphamode.mclong.math.BigInteger j = QuartPos.fromBlock(p_209333_.blockZ());
++         long k = i.subtract(NoiseChunk.this.f_188723_).longValue();
++         long l = j.subtract(NoiseChunk.this.f_188724_).longValue();
           int i1 = this.f_209327_.length;
 -         return k >= 0 && l >= 0 && k < i1 && l < i1 ? this.f_209327_[k][l] : this.f_209326_.m_207386_(p_209333_);
 +         return k >= 0 && l >= 0 && k < i1 && l < i1 ? this.f_209327_[(int) k][(int) l] : this.f_209326_.m_207386_(p_209333_);
@@ -393,5 +442,14 @@
 +         this.f_188828_ = this.m_188854_((int) NoiseChunk.this.f_188719_, (int) NoiseChunk.this.f_188718_);
 +         this.f_188829_ = this.m_188854_((int) NoiseChunk.this.f_188719_, (int) NoiseChunk.this.f_188718_);
           NoiseChunk.this.f_188725_.add(this);
+       }
+ 
+@@ -691,7 +_,7 @@
+          } else if (!NoiseChunk.this.f_209172_) {
+             throw new IllegalStateException("Trying to sample interpolator outside the interpolation loop");
+          } else {
+-            return NoiseChunk.this.f_209173_ ? Mth.m_14019_((double)NoiseChunk.this.f_209153_ / (double)NoiseChunk.this.f_209170_, (double)NoiseChunk.this.f_209154_ / (double)NoiseChunk.this.f_209171_, (double)NoiseChunk.this.f_209155_ / (double)NoiseChunk.this.f_209170_, this.f_188831_, this.f_188833_, this.f_188835_, this.f_188837_, this.f_188832_, this.f_188834_, this.f_188836_, this.f_188838_) : this.f_188845_;
++            return NoiseChunk.this.f_209173_ ? Mth.m_14019_(NoiseChunk.this.f_209153_.toBigDecimal().divide(NoiseChunk.this.f_209170_).doubleValue(), (double)NoiseChunk.this.f_209154_ / (double)NoiseChunk.this.f_209171_, NoiseChunk.this.f_209155_.toBigDecimal().divide(NoiseChunk.this.f_209170_).doubleValue(), this.f_188831_, this.f_188833_, this.f_188835_, this.f_188837_, this.f_188832_, this.f_188834_, this.f_188836_, this.f_188838_) : this.f_188845_;
+          }
        }
  

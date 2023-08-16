@@ -11,7 +11,7 @@
     }
  
     public CompletableFuture<ChunkAccess> m_213974_(Executor p_224183_, Blender p_224184_, RandomState p_224185_, StructureManager p_224186_, ChunkAccess p_224187_) {
-@@ -67,16 +_,16 @@
+@@ -67,16 +_,19 @@
        Heightmap heightmap = p_224187_.m_6005_(Heightmap.Types.OCEAN_FLOOR_WG);
        Heightmap heightmap1 = p_224187_.m_6005_(Heightmap.Types.WORLD_SURFACE_WG);
  
@@ -27,9 +27,12 @@
 -                  p_224187_.m_6978_(blockpos$mutableblockpos.m_122178_(k, j, l), blockstate, false);
 -                  heightmap.m_64249_(k, j, l, blockstate);
 -                  heightmap1.m_64249_(k, j, l, blockstate);
-+                  p_224187_.m_6978_(blockpos$mutableblockpos.set(k, j, l), blockstate, false);
-+                  heightmap.update(k, j, l, blockstate);
-+                  heightmap1.update(k, j, l, blockstate);
++                  var x = me.alphamode.mclong.math.BigInteger.valueOf(k);
++                  var y = me.alphamode.mclong.math.BigInteger.valueOf(j);
++                  var z = me.alphamode.mclong.math.BigInteger.valueOf(l);
++                  p_224187_.m_6978_(blockpos$mutableblockpos.set(x, y, z), blockstate, false);
++                  heightmap.update(x, y, z, blockstate);
++                  heightmap1.update(x, y, z, blockstate);
                 }
              }
           }
@@ -38,7 +41,7 @@
     }
  
 -   public int m_214096_(int p_224160_, int p_224161_, Heightmap.Types p_224162_, LevelHeightAccessor p_224163_, RandomState p_224164_) {
-+   public long getBaseHeight(long p_224160_, long p_224161_, Heightmap.Types p_224162_, LevelHeightAccessor p_224163_, RandomState p_224164_) {
++   public long getBaseHeight(me.alphamode.mclong.math.BigInteger p_224160_, me.alphamode.mclong.math.BigInteger p_224161_, Heightmap.Types p_224162_, LevelHeightAccessor p_224163_, RandomState p_224164_) {
        List<BlockState> list = this.f_64165_.m_161917_();
  
 -      for(int i = Math.min(list.size(), p_224163_.m_151558_()) - 1; i >= 0; --i) {
@@ -57,7 +60,7 @@
  
 -   public NoiseColumn m_214184_(int p_224155_, int p_224156_, LevelHeightAccessor p_224157_, RandomState p_224158_) {
 -      return new NoiseColumn(p_224157_.m_141937_(), this.f_64165_.m_161917_().stream().limit((long)p_224157_.m_141928_()).map((p_204549_) -> {
-+   public NoiseColumn getBaseColumn(long p_224155_, long p_224156_, LevelHeightAccessor p_224157_, RandomState p_224158_) {
++   public NoiseColumn getBaseColumn(me.alphamode.mclong.math.BigInteger p_224155_, me.alphamode.mclong.math.BigInteger p_224156_, LevelHeightAccessor p_224157_, RandomState p_224158_) {
 +      return new NoiseColumn(p_224157_.getMinBuildHeight(), this.f_64165_.m_161917_().stream().limit((long)p_224157_.getHeight()).map((p_204549_) -> {
           return p_204549_ == null ? Blocks.f_50016_.m_49966_() : p_204549_;
        }).toArray((p_204543_) -> {

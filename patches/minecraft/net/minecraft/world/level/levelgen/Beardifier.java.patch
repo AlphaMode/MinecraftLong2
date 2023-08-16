@@ -34,9 +34,9 @@
 -      int i = p_208200_.m_207115_();
 -      int j = p_208200_.m_207114_();
 -      int k = p_208200_.m_207113_();
-+      long i = p_208200_.blockX();
-+      long j = p_208200_.blockY();
-+      long k = p_208200_.blockZ();
++      me.alphamode.mclong.math.BigInteger i = p_208200_.blockX();
++      me.alphamode.mclong.math.BigInteger j = p_208200_.blockY();
++      me.alphamode.mclong.math.BigInteger k = p_208200_.blockZ();
  
        double d0;
        double d1;
@@ -50,10 +50,10 @@
 -         int l1 = j - k1;
 -         int i3;
 +         long l = beardifier$rigid.groundLevelDelta();
-+         long i1 = Math.max(0, Math.max(boundingbox.minX() - i, i - boundingbox.maxX()));
-+         long j1 = Math.max(0, Math.max(boundingbox.minZ() - k, k - boundingbox.maxZ()));
++         me.alphamode.mclong.math.BigInteger i1 = me.alphamode.mclong.math.BigInteger.ZERO.max(boundingbox.minBigX().subtract(i).max(i.subtract(boundingbox.maxBigX())));
++         me.alphamode.mclong.math.BigInteger j1 = me.alphamode.mclong.math.BigInteger.ZERO.max(boundingbox.minBigZ().subtract(k).max(k.subtract(boundingbox.maxBigZ())));
 +         long k1 = boundingbox.minY() + l;
-+         long l1 = j - k1;
++         long l1 = j.subtract(k1).longValue();
 +         long i3;
           switch (beardifier$rigid.f_223945_()) {
              case NONE:
@@ -63,7 +63,7 @@
                 break;
              case BEARD_BOX:
 -               i3 = Math.max(0, Math.max(k1 - j, j - boundingbox.m_162400_()));
-+               i3 = Math.max(0, Math.max(k1 - j, j - boundingbox.maxY()));
++               i3 = Math.max(0, Math.max(k1 - j.longValue(), j.longValue() - boundingbox.maxY()));
                 break;
              default:
                 throw new IncompatibleClassChangeError();
@@ -77,12 +77,12 @@
                 break;
              case BURY:
 -               d1 = m_158083_(i1, i2, j1);
-+               d1 = getBuryContribution(i1, i2, j1);
++               d1 = getBuryContribution(i1.longValue(), i2, j1.longValue());
                 break;
              case BEARD_THIN:
              case BEARD_BOX:
 -               d1 = m_223925_(i1, i2, j1, l1) * 0.8D;
-+               d1 = getBeardContribution(i1, i2, j1, l1) * 0.8D;
++               d1 = getBeardContribution(i1.longValue(), i2, j1.longValue(), l1) * 0.8D;
                 break;
              default:
                 throw new IncompatibleClassChangeError();
@@ -94,9 +94,9 @@
 -         int k2 = j - jigsawjunction.m_210257_();
 -         int l2 = k - jigsawjunction.m_210258_();
 -         d0 += m_223925_(j2, k2, l2, k2) * 0.4D;
-+         long j2 = i - jigsawjunction.getSourceX();
-+         long k2 = j - jigsawjunction.getSourceGroundY();
-+         long l2 = k - jigsawjunction.getSourceZ();
++         long j2 = i.longValue() - jigsawjunction.getSourceX();
++         long k2 = j.longValue() - jigsawjunction.getSourceGroundY();
++         long l2 = k.longValue() - jigsawjunction.getSourceZ();
 +         d0 += getBeardContribution(j2, k2, l2, k2) * 0.4D;
        }
  

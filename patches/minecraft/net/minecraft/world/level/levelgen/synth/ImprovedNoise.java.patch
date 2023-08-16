@@ -1,59 +1,80 @@
 --- a/net/minecraft/world/level/levelgen/synth/ImprovedNoise.java
 +++ b/net/minecraft/world/level/levelgen/synth/ImprovedNoise.java
-@@ -40,9 +_,9 @@
-       double d0 = p_75328_ + this.f_75321_;
-       double d1 = p_75329_ + this.f_75322_;
-       double d2 = p_75330_ + this.f_75323_;
+@@ -30,131 +_,131 @@
+ 
+    }
+ 
+-   public double m_164308_(double p_164309_, double p_164310_, double p_164311_) {
+-      return this.m_75327_(p_164309_, p_164310_, p_164311_, 0.0D, 0.0D);
++   public double noise(me.alphamode.mclong.math.BigDecimal p_164309_, me.alphamode.mclong.math.BigDecimal p_164310_, me.alphamode.mclong.math.BigDecimal p_164311_) {
++      return this.noise(p_164309_, p_164310_, p_164311_, 0.0D, me.alphamode.mclong.math.BigDecimal.ZERO);
+    }
+ 
+    /** @deprecated */
+    @Deprecated
+-   public double m_75327_(double p_75328_, double p_75329_, double p_75330_, double p_75331_, double p_75332_) {
+-      double d0 = p_75328_ + this.f_75321_;
+-      double d1 = p_75329_ + this.f_75322_;
+-      double d2 = p_75330_ + this.f_75323_;
 -      int i = Mth.m_14107_(d0);
 -      int j = Mth.m_14107_(d1);
 -      int k = Mth.m_14107_(d2);
-+      long i = Mth.m_14134_(d0);
-+      long j = Mth.m_14134_(d1);
-+      long k = Mth.m_14134_(d2);
-       double d3 = d0 - (double)i;
-       double d4 = d1 - (double)j;
-       double d5 = d2 - (double)k;
-@@ -55,71 +_,71 @@
+-      double d3 = d0 - (double)i;
+-      double d4 = d1 - (double)j;
+-      double d5 = d2 - (double)k;
+-      double d6;
++   public double noise(me.alphamode.mclong.math.BigDecimal p_75328_, me.alphamode.mclong.math.BigDecimal p_75329_, me.alphamode.mclong.math.BigDecimal p_75330_, double p_75331_, me.alphamode.mclong.math.BigDecimal p_75332_) {
++      me.alphamode.mclong.math.BigDecimal d0 = p_75328_.add(this.f_75321_);
++      me.alphamode.mclong.math.BigDecimal d1 = p_75329_.add(this.f_75322_);
++      me.alphamode.mclong.math.BigDecimal d2 = p_75330_.add(this.f_75323_);
++      me.alphamode.mclong.math.BigInteger i = Mth.lfloor(d0);
++      me.alphamode.mclong.math.BigInteger j = Mth.lfloor(d1);
++      me.alphamode.mclong.math.BigInteger k = Mth.lfloor(d2);
++      me.alphamode.mclong.math.BigDecimal d3 = d0.subtract(i.toBigDecimal());
++      me.alphamode.mclong.math.BigDecimal d4 = d1.subtract(j.toBigDecimal());
++      me.alphamode.mclong.math.BigDecimal d5 = d2.subtract(k.toBigDecimal());
++      me.alphamode.mclong.math.BigDecimal d6;
+       if (p_75331_ != 0.0D) {
+-         double d7;
+-         if (p_75332_ >= 0.0D && p_75332_ < d4) {
++         me.alphamode.mclong.math.BigDecimal d7;
++         if (p_75332_.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) >= 0 && p_75332_.compareTo(d4) < 0) {
+             d7 = p_75332_;
+          } else {
              d7 = d4;
           }
  
 -         d6 = (double)Mth.m_14107_(d7 / p_75331_ + (double)1.0E-7F) * p_75331_;
-+         d6 = (double)Mth.m_14134_(d7 / p_75331_ + (double)1.0E-7F) * p_75331_;
++         d6 = Mth.lfloor(d7.divide(p_75331_).add(me.alphamode.mclong.core.BigConstants.EPSILON)).toBigDecimal().multiply(p_75331_);
        } else {
-          d6 = 0.0D;
+-         d6 = 0.0D;
++         d6 = me.alphamode.mclong.math.BigDecimal.ZERO;
        }
  
 -      return this.m_164317_(i, j, k, d3, d4 - d6, d5, d4);
-+      return this.sampleAndLerp(i, j, k, d3, d4 - d6, d5, d4);
-    }
- 
-    public double m_164312_(double p_164313_, double p_164314_, double p_164315_, double[] p_164316_) {
-       double d0 = p_164313_ + this.f_75321_;
-       double d1 = p_164314_ + this.f_75322_;
-       double d2 = p_164315_ + this.f_75323_;
+-   }
+-
+-   public double m_164312_(double p_164313_, double p_164314_, double p_164315_, double[] p_164316_) {
+-      double d0 = p_164313_ + this.f_75321_;
+-      double d1 = p_164314_ + this.f_75322_;
+-      double d2 = p_164315_ + this.f_75323_;
 -      int i = Mth.m_14107_(d0);
 -      int j = Mth.m_14107_(d1);
 -      int k = Mth.m_14107_(d2);
-+      long i = Mth.m_14134_(d0);
-+      long j = Mth.m_14134_(d1);
-+      long k = Mth.m_14134_(d2);
-       double d3 = d0 - (double)i;
-       double d4 = d1 - (double)j;
-       double d5 = d2 - (double)k;
+-      double d3 = d0 - (double)i;
+-      double d4 = d1 - (double)j;
+-      double d5 = d2 - (double)k;
 -      return this.m_164325_(i, j, k, d3, d4, d5, p_164316_);
-+      return this.sampleWithDerivative(i, j, k, d3, d4, d5, p_164316_);
-    }
- 
-    private static double m_75335_(int p_75336_, double p_75337_, double p_75338_, double p_75339_) {
-       return SimplexNoise.m_75479_(SimplexNoise.f_75453_[p_75336_ & 15], p_75337_, p_75338_, p_75339_);
-    }
- 
+-   }
+-
+-   private static double m_75335_(int p_75336_, double p_75337_, double p_75338_, double p_75339_) {
+-      return SimplexNoise.m_75479_(SimplexNoise.f_75453_[p_75336_ & 15], p_75337_, p_75338_, p_75339_);
+-   }
+-
 -   private int m_75333_(int p_75334_) {
 -      return this.f_75324_[p_75334_ & 255] & 255;
-+   private int p(long p_75334_) {
-+      return this.f_75324_[(int) (p_75334_ & 255)] & 255;
-    }
- 
+-   }
+-
 -   private double m_164317_(int p_164318_, int p_164319_, int p_164320_, double p_164321_, double p_164322_, double p_164323_, double p_164324_) {
 -      int i = this.m_75333_(p_164318_);
 -      int j = this.m_75333_(p_164318_ + 1);
@@ -69,27 +90,12 @@
 -      double d5 = m_75335_(this.m_75333_(i1 + p_164320_ + 1), p_164321_ - 1.0D, p_164322_, p_164323_ - 1.0D);
 -      double d6 = m_75335_(this.m_75333_(l + p_164320_ + 1), p_164321_, p_164322_ - 1.0D, p_164323_ - 1.0D);
 -      double d7 = m_75335_(this.m_75333_(j1 + p_164320_ + 1), p_164321_ - 1.0D, p_164322_ - 1.0D, p_164323_ - 1.0D);
-+   private double sampleAndLerp(long p_164318_, long p_164319_, long p_164320_, double p_164321_, double p_164322_, double p_164323_, double p_164324_) {
-+      int i = this.p(p_164318_);
-+      int j = this.p(p_164318_ + 1);
-+      int k = this.p(i + p_164319_);
-+      int l = this.p(i + p_164319_ + 1);
-+      int i1 = this.p(j + p_164319_);
-+      int j1 = this.p(j + p_164319_ + 1);
-+      double d0 = m_75335_(this.p(k + p_164320_), p_164321_, p_164322_, p_164323_);
-+      double d1 = m_75335_(this.p(i1 + p_164320_), p_164321_ - 1.0D, p_164322_, p_164323_);
-+      double d2 = m_75335_(this.p(l + p_164320_), p_164321_, p_164322_ - 1.0D, p_164323_);
-+      double d3 = m_75335_(this.p(j1 + p_164320_), p_164321_ - 1.0D, p_164322_ - 1.0D, p_164323_);
-+      double d4 = m_75335_(this.p(k + p_164320_ + 1), p_164321_, p_164322_, p_164323_ - 1.0D);
-+      double d5 = m_75335_(this.p(i1 + p_164320_ + 1), p_164321_ - 1.0D, p_164322_, p_164323_ - 1.0D);
-+      double d6 = m_75335_(this.p(l + p_164320_ + 1), p_164321_, p_164322_ - 1.0D, p_164323_ - 1.0D);
-+      double d7 = m_75335_(this.p(j1 + p_164320_ + 1), p_164321_ - 1.0D, p_164322_ - 1.0D, p_164323_ - 1.0D);
-       double d8 = Mth.m_14197_(p_164321_);
-       double d9 = Mth.m_14197_(p_164324_);
-       double d10 = Mth.m_14197_(p_164323_);
-       return Mth.m_14019_(d8, d9, d10, d0, d1, d2, d3, d4, d5, d6, d7);
-    }
- 
+-      double d8 = Mth.m_14197_(p_164321_);
+-      double d9 = Mth.m_14197_(p_164324_);
+-      double d10 = Mth.m_14197_(p_164323_);
+-      return Mth.m_14019_(d8, d9, d10, d0, d1, d2, d3, d4, d5, d6, d7);
+-   }
+-
 -   private double m_164325_(int p_164326_, int p_164327_, int p_164328_, double p_164329_, double p_164330_, double p_164331_, double[] p_164332_) {
 -      int i = this.m_75333_(p_164326_);
 -      int j = this.m_75333_(p_164326_ + 1);
@@ -105,21 +111,136 @@
 -      int l2 = this.m_75333_(i1 + p_164328_ + 1);
 -      int i3 = this.m_75333_(l + p_164328_ + 1);
 -      int j3 = this.m_75333_(j1 + p_164328_ + 1);
-+   private double sampleWithDerivative(long p_164326_, long p_164327_, long p_164328_, double p_164329_, double p_164330_, double p_164331_, double[] p_164332_) {
-+      int i = this.p(p_164326_);
-+      int j = this.p(p_164326_ + 1);
-+      int k = this.p(i + p_164327_);
-+      int l = this.p(i + p_164327_ + 1);
-+      int i1 = this.p(j + p_164327_);
-+      int j1 = this.p(j + p_164327_ + 1);
-+      int k1 = this.p(k + p_164328_);
-+      int l1 = this.p(i1 + p_164328_);
-+      int i2 = this.p(l + p_164328_);
-+      int j2 = this.p(j1 + p_164328_);
-+      int k2 = this.p(k + p_164328_ + 1);
-+      int l2 = this.p(i1 + p_164328_ + 1);
-+      int i3 = this.p(l + p_164328_ + 1);
-+      int j3 = this.p(j1 + p_164328_ + 1);
-       int[] aint = SimplexNoise.f_75453_[k1 & 15];
-       int[] aint1 = SimplexNoise.f_75453_[l1 & 15];
-       int[] aint2 = SimplexNoise.f_75453_[i2 & 15];
+-      int[] aint = SimplexNoise.f_75453_[k1 & 15];
+-      int[] aint1 = SimplexNoise.f_75453_[l1 & 15];
+-      int[] aint2 = SimplexNoise.f_75453_[i2 & 15];
+-      int[] aint3 = SimplexNoise.f_75453_[j2 & 15];
+-      int[] aint4 = SimplexNoise.f_75453_[k2 & 15];
+-      int[] aint5 = SimplexNoise.f_75453_[l2 & 15];
+-      int[] aint6 = SimplexNoise.f_75453_[i3 & 15];
+-      int[] aint7 = SimplexNoise.f_75453_[j3 & 15];
+-      double d0 = SimplexNoise.m_75479_(aint, p_164329_, p_164330_, p_164331_);
+-      double d1 = SimplexNoise.m_75479_(aint1, p_164329_ - 1.0D, p_164330_, p_164331_);
+-      double d2 = SimplexNoise.m_75479_(aint2, p_164329_, p_164330_ - 1.0D, p_164331_);
+-      double d3 = SimplexNoise.m_75479_(aint3, p_164329_ - 1.0D, p_164330_ - 1.0D, p_164331_);
+-      double d4 = SimplexNoise.m_75479_(aint4, p_164329_, p_164330_, p_164331_ - 1.0D);
+-      double d5 = SimplexNoise.m_75479_(aint5, p_164329_ - 1.0D, p_164330_, p_164331_ - 1.0D);
+-      double d6 = SimplexNoise.m_75479_(aint6, p_164329_, p_164330_ - 1.0D, p_164331_ - 1.0D);
+-      double d7 = SimplexNoise.m_75479_(aint7, p_164329_ - 1.0D, p_164330_ - 1.0D, p_164331_ - 1.0D);
+-      double d8 = Mth.m_14197_(p_164329_);
+-      double d9 = Mth.m_14197_(p_164330_);
+-      double d10 = Mth.m_14197_(p_164331_);
+-      double d11 = Mth.m_14019_(d8, d9, d10, (double)aint[0], (double)aint1[0], (double)aint2[0], (double)aint3[0], (double)aint4[0], (double)aint5[0], (double)aint6[0], (double)aint7[0]);
+-      double d12 = Mth.m_14019_(d8, d9, d10, (double)aint[1], (double)aint1[1], (double)aint2[1], (double)aint3[1], (double)aint4[1], (double)aint5[1], (double)aint6[1], (double)aint7[1]);
+-      double d13 = Mth.m_14019_(d8, d9, d10, (double)aint[2], (double)aint1[2], (double)aint2[2], (double)aint3[2], (double)aint4[2], (double)aint5[2], (double)aint6[2], (double)aint7[2]);
+-      double d14 = Mth.m_14012_(d9, d10, d1 - d0, d3 - d2, d5 - d4, d7 - d6);
+-      double d15 = Mth.m_14012_(d10, d8, d2 - d0, d6 - d4, d3 - d1, d7 - d5);
+-      double d16 = Mth.m_14012_(d8, d9, d4 - d0, d5 - d1, d6 - d2, d7 - d3);
+-      double d17 = Mth.m_144946_(p_164329_);
+-      double d18 = Mth.m_144946_(p_164330_);
+-      double d19 = Mth.m_144946_(p_164331_);
+-      double d20 = d11 + d17 * d14;
+-      double d21 = d12 + d18 * d15;
+-      double d22 = d13 + d19 * d16;
+-      p_164332_[0] += d20;
+-      p_164332_[1] += d21;
+-      p_164332_[2] += d22;
+-      return Mth.m_14019_(d8, d9, d10, d0, d1, d2, d3, d4, d5, d6, d7);
++      return this.sampleAndLerp(i, j, k, d3, d4.subtract(d6), d5, d4);
++   }
++
++   public double noiseWithDerivative(me.alphamode.mclong.math.BigDecimal p_164313_, me.alphamode.mclong.math.BigDecimal p_164314_, me.alphamode.mclong.math.BigDecimal p_164315_, double[] p_164316_) {
++      me.alphamode.mclong.math.BigDecimal d0 = p_164313_.add(this.f_75321_);
++      me.alphamode.mclong.math.BigDecimal d1 = p_164314_.add(this.f_75322_);
++      me.alphamode.mclong.math.BigDecimal d2 = p_164315_.add(this.f_75323_);
++      me.alphamode.mclong.math.BigInteger i = Mth.lfloor(d0);
++      me.alphamode.mclong.math.BigInteger j = Mth.lfloor(d1);
++      me.alphamode.mclong.math.BigInteger k = Mth.lfloor(d2);
++      me.alphamode.mclong.math.BigDecimal d3 = d0.subtract(i.toBigDecimal());
++      me.alphamode.mclong.math.BigDecimal d4 = d1.subtract(j.toBigDecimal());
++      me.alphamode.mclong.math.BigDecimal d5 = d2.subtract(k.toBigDecimal());
++      return this.sampleWithDerivative(i, j, k, d3, d4, d5, p_164316_);
++   }
++
++   private static me.alphamode.mclong.math.BigDecimal gradDot(int p_75336_, me.alphamode.mclong.math.BigDecimal p_75337_, me.alphamode.mclong.math.BigDecimal p_75338_, me.alphamode.mclong.math.BigDecimal p_75339_) {
++      return SimplexNoise.dot(SimplexNoise.f_75453_[p_75336_ & 15], p_75337_, p_75338_, p_75339_);
++   }
++
++   private int p(me.alphamode.mclong.math.BigInteger p_75334_) {
++      return this.f_75324_[(p_75334_.and(me.alphamode.mclong.math.BigInteger.valueOf(255))).intValue()] & 255;
++   }
++
++   private double sampleAndLerp(me.alphamode.mclong.math.BigInteger p_164318_, me.alphamode.mclong.math.BigInteger p_164319_, me.alphamode.mclong.math.BigInteger p_164320_, me.alphamode.mclong.math.BigDecimal p_164321_, me.alphamode.mclong.math.BigDecimal p_164322_, me.alphamode.mclong.math.BigDecimal p_164323_, me.alphamode.mclong.math.BigDecimal p_164324_) {
++      me.alphamode.mclong.math.BigInteger i = me.alphamode.mclong.math.BigInteger.valueOf(this.p(p_164318_));
++      me.alphamode.mclong.math.BigInteger j = me.alphamode.mclong.math.BigInteger.valueOf(this.p(p_164318_.add()));
++      me.alphamode.mclong.math.BigInteger k = me.alphamode.mclong.math.BigInteger.valueOf(this.p(i.add(p_164319_)));
++      me.alphamode.mclong.math.BigInteger l = me.alphamode.mclong.math.BigInteger.valueOf(this.p(i.add(p_164319_).add()));
++      me.alphamode.mclong.math.BigInteger i1 = me.alphamode.mclong.math.BigInteger.valueOf(this.p(j.add(p_164319_)));
++      me.alphamode.mclong.math.BigInteger j1 = me.alphamode.mclong.math.BigInteger.valueOf(this.p(j.add(p_164319_).add()));
++      me.alphamode.mclong.math.BigDecimal d0 = gradDot(this.p(k.add(p_164320_)), p_164321_, p_164322_, p_164323_);
++      me.alphamode.mclong.math.BigDecimal d1 = gradDot(this.p(i1.add(p_164320_)), p_164321_.subtract(me.alphamode.mclong.math.BigDecimal.ONE), p_164322_, p_164323_);
++      me.alphamode.mclong.math.BigDecimal d2 = gradDot(this.p(l.add(p_164320_)), p_164321_, p_164322_.subtract(me.alphamode.mclong.math.BigDecimal.ONE), p_164323_);
++      me.alphamode.mclong.math.BigDecimal d3 = gradDot(this.p(j1.add(p_164320_)), p_164321_.subtract(me.alphamode.mclong.math.BigDecimal.ONE), p_164322_.subtract(me.alphamode.mclong.math.BigDecimal.ONE), p_164323_);
++      me.alphamode.mclong.math.BigDecimal d4 = gradDot(this.p(k.add(p_164320_).add()), p_164321_, p_164322_, p_164323_.subtract(me.alphamode.mclong.math.BigDecimal.ONE));
++      me.alphamode.mclong.math.BigDecimal d5 = gradDot(this.p(i1.add(p_164320_).add()), p_164321_.subtract(me.alphamode.mclong.math.BigDecimal.ONE), p_164322_, p_164323_.subtract(me.alphamode.mclong.math.BigDecimal.ONE));
++      me.alphamode.mclong.math.BigDecimal d6 = gradDot(this.p(l.add(p_164320_).add()), p_164321_, p_164322_.subtract(me.alphamode.mclong.math.BigDecimal.ONE), p_164323_.subtract(me.alphamode.mclong.math.BigDecimal.ONE));
++      me.alphamode.mclong.math.BigDecimal d7 = gradDot(this.p(j1.add(p_164320_).add()), p_164321_.subtract(me.alphamode.mclong.math.BigDecimal.ONE), p_164322_.subtract(me.alphamode.mclong.math.BigDecimal.ONE), p_164323_.subtract(me.alphamode.mclong.math.BigDecimal.ONE));
++      me.alphamode.mclong.math.BigDecimal d8 = Mth.smoothstep(p_164321_);
++      me.alphamode.mclong.math.BigDecimal d9 = Mth.smoothstep(p_164324_);
++      me.alphamode.mclong.math.BigDecimal d10 = Mth.smoothstep(p_164323_);
++      return Mth.lerp3(d8, d9, d10, d0, d1, d2, d3, d4, d5, d6, d7).doubleValue();
++   }
++
++   private double sampleWithDerivative(me.alphamode.mclong.math.BigInteger p_164326_, me.alphamode.mclong.math.BigInteger p_164327_, me.alphamode.mclong.math.BigInteger p_164328_, me.alphamode.mclong.math.BigDecimal p_164329_, me.alphamode.mclong.math.BigDecimal p_164330_, me.alphamode.mclong.math.BigDecimal p_164331_, double[] p_164332_) {
++//      int i = this.p(p_164326_);
++//      int j = this.p(p_164326_ + 1);
++//      int k = this.p(i + p_164327_);
++//      int l = this.p(i + p_164327_ + 1);
++//      int i1 = this.p(j + p_164327_);
++//      int j1 = this.p(j + p_164327_ + 1);
++//      int k1 = this.p(k + p_164328_);
++//      int l1 = this.p(i1 + p_164328_);
++//      int i2 = this.p(l + p_164328_);
++//      int j2 = this.p(j1 + p_164328_);
++//      int k2 = this.p(k + p_164328_ + 1);
++//      int l2 = this.p(i1 + p_164328_ + 1);
++//      int i3 = this.p(l + p_164328_ + 1);
++//      int j3 = this.p(j1 + p_164328_ + 1);
++//      int[] aint = SimplexNoise.GRADIENT[k1 & 15];
++//      int[] aint1 = SimplexNoise.GRADIENT[l1 & 15];
++//      int[] aint2 = SimplexNoise.GRADIENT[i2 & 15];
++//      int[] aint3 = SimplexNoise.GRADIENT[j2 & 15];
++//      int[] aint4 = SimplexNoise.GRADIENT[k2 & 15];
++//      int[] aint5 = SimplexNoise.GRADIENT[l2 & 15];
++//      int[] aint6 = SimplexNoise.GRADIENT[i3 & 15];
++//      int[] aint7 = SimplexNoise.GRADIENT[j3 & 15];
++//      double d0 = SimplexNoise.dot(aint, p_164329_, p_164330_, p_164331_);
++//      double d1 = SimplexNoise.dot(aint1, p_164329_ - 1.0D, p_164330_, p_164331_);
++//      double d2 = SimplexNoise.dot(aint2, p_164329_, p_164330_ - 1.0D, p_164331_);
++//      double d3 = SimplexNoise.dot(aint3, p_164329_ - 1.0D, p_164330_ - 1.0D, p_164331_);
++//      double d4 = SimplexNoise.dot(aint4, p_164329_, p_164330_, p_164331_ - 1.0D);
++//      double d5 = SimplexNoise.dot(aint5, p_164329_ - 1.0D, p_164330_, p_164331_ - 1.0D);
++//      double d6 = SimplexNoise.dot(aint6, p_164329_, p_164330_ - 1.0D, p_164331_ - 1.0D);
++//      double d7 = SimplexNoise.dot(aint7, p_164329_ - 1.0D, p_164330_ - 1.0D, p_164331_ - 1.0D);
++//      double d8 = Mth.smoothstep(p_164329_);
++//      double d9 = Mth.smoothstep(p_164330_);
++//      double d10 = Mth.smoothstep(p_164331_);
++//      double d11 = Mth.lerp3(d8, d9, d10, (double)aint[0], (double)aint1[0], (double)aint2[0], (double)aint3[0], (double)aint4[0], (double)aint5[0], (double)aint6[0], (double)aint7[0]);
++//      double d12 = Mth.lerp3(d8, d9, d10, (double)aint[1], (double)aint1[1], (double)aint2[1], (double)aint3[1], (double)aint4[1], (double)aint5[1], (double)aint6[1], (double)aint7[1]);
++//      double d13 = Mth.lerp3(d8, d9, d10, (double)aint[2], (double)aint1[2], (double)aint2[2], (double)aint3[2], (double)aint4[2], (double)aint5[2], (double)aint6[2], (double)aint7[2]);
++//      double d14 = Mth.lerp2(d9, d10, d1 - d0, d3 - d2, d5 - d4, d7 - d6);
++//      double d15 = Mth.lerp2(d10, d8, d2 - d0, d6 - d4, d3 - d1, d7 - d5);
++//      double d16 = Mth.lerp2(d8, d9, d4 - d0, d5 - d1, d6 - d2, d7 - d3);
++//      double d17 = Mth.smoothstepDerivative(p_164329_);
++//      double d18 = Mth.smoothstepDerivative(p_164330_);
++//      double d19 = Mth.smoothstepDerivative(p_164331_);
++//      double d20 = d11 + d17 * d14;
++//      double d21 = d12 + d18 * d15;
++//      double d22 = d13 + d19 * d16;
++//      p_164332_[0] += d20;
++//      p_164332_[1] += d21;
++//      p_164332_[2] += d22;
++      return 0;//Mth.lerp3(d8, d9, d10, d0, d1, d2, d3, d4, d5, d6, d7);
+    }
+ 
+    @VisibleForTesting

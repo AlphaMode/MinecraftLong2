@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/synth/SimplexNoise.java
 +++ b/net/minecraft/world/level/levelgen/synth/SimplexNoise.java
-@@ -30,8 +_,8 @@
+@@ -30,12 +_,12 @@
  
     }
  
@@ -10,7 +10,22 @@
 +      return this.f_75460_[(int) (p_75472_ & 255)];
     }
  
-    protected static double m_75479_(int[] p_75480_, double p_75481_, double p_75482_, double p_75483_) {
+-   protected static double m_75479_(int[] p_75480_, double p_75481_, double p_75482_, double p_75483_) {
+-      return (double)p_75480_[0] * p_75481_ + (double)p_75480_[1] * p_75482_ + (double)p_75480_[2] * p_75483_;
++   protected static me.alphamode.mclong.math.BigDecimal dot(int[] p_75480_, me.alphamode.mclong.math.BigDecimal p_75481_, me.alphamode.mclong.math.BigDecimal p_75482_, me.alphamode.mclong.math.BigDecimal p_75483_) {
++      return me.alphamode.mclong.math.BigDecimal.valueOf(p_75480_[0]).multiply(p_75481_).add(me.alphamode.mclong.math.BigDecimal.valueOf(p_75480_[1]).multiply(p_75482_)).add(me.alphamode.mclong.math.BigDecimal.valueOf(p_75480_[2]).multiply(p_75483_));
+    }
+ 
+    private double m_75473_(int p_75474_, double p_75475_, double p_75476_, double p_75477_, double p_75478_) {
+@@ -45,7 +_,7 @@
+          d0 = 0.0D;
+       } else {
+          d1 *= d1;
+-         d0 = d1 * d1 * m_75479_(f_75453_[p_75474_], p_75475_, p_75476_, p_75477_);
++         d0 = d1 * d1 * dot(f_75453_[p_75474_], me.alphamode.mclong.math.BigDecimal.valueOf(p_75475_), me.alphamode.mclong.math.BigDecimal.valueOf(p_75476_), me.alphamode.mclong.math.BigDecimal.valueOf(p_75477_)).doubleValue();
+       }
+ 
+       return d0;
 @@ -53,8 +_,8 @@
  
     public double m_75464_(double p_75465_, double p_75466_) {

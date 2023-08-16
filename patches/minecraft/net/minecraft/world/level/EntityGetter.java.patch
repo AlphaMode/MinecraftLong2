@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/EntityGetter.java
 +++ b/net/minecraft/world/level/EntityGetter.java
-@@ -89,6 +_,24 @@
+@@ -89,14 +_,38 @@
     }
  
     @Nullable
@@ -23,9 +23,11 @@
 +
 +   @Nullable
     default Player m_45930_(Entity p_45931_, double p_45932_) {
-       return this.m_45924_(p_45931_.m_20185_(), p_45931_.m_20186_(), p_45931_.m_20189_(), p_45932_, false);
+-      return this.m_45924_(p_45931_.m_20185_(), p_45931_.m_20186_(), p_45931_.m_20189_(), p_45932_, false);
++      return this.getNearestPlayer(p_45931_.getBigX(), p_45931_.getBigY(), p_45931_.getBigZ(), p_45932_, false);
     }
-@@ -97,6 +_,12 @@
+ 
+    @Nullable
     default Player m_45924_(double p_45925_, double p_45926_, double p_45927_, double p_45928_, boolean p_45929_) {
        Predicate<Entity> predicate = p_45929_ ? EntitySelector.f_20406_ : EntitySelector.f_20408_;
        return this.m_5788_(p_45925_, p_45926_, p_45927_, p_45928_, predicate);

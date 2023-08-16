@@ -22,21 +22,21 @@
        for(int l = 0; l < 6; ++l) {
           double d4 = Mth.m_14139_(d0, f_130036_[l + 1], f_130036_[l]);
 -         int i1 = i - 2 + l;
-+         long i1 = i.longValue() - 2 + l;
++         me.alphamode.mclong.math.BigDecimal i1 = i.subtract(2).add(l);
  
           for(int j1 = 0; j1 < 6; ++j1) {
              double d5 = Mth.m_14139_(d1, f_130036_[j1 + 1], f_130036_[j1]);
 -            int k1 = j - 2 + j1;
-+            long k1 = j.longValue() - 2 + j1;
++            me.alphamode.mclong.math.BigDecimal k1 = j.subtract(2).add(j1);
  
              for(int l1 = 0; l1 < 6; ++l1) {
                 double d6 = Mth.m_14139_(d2, f_130036_[l1 + 1], f_130036_[l1]);
 -               int i2 = k - 2 + l1;
-+               long i2 = k.longValue() - 2 + l1;
++               me.alphamode.mclong.math.BigDecimal i2 = k.subtract(2).add(l1);
                 double d7 = d4 * d5 * d6;
                 d3 += d7;
 -               vec3 = vec3.m_82549_(p_130040_.m_130041_(i1, k1, i2).m_82490_(d7));
-+               vec3 = vec3.m_82549_(p_130040_.fetch(i1, k1, i2).m_82490_(d7));
++               vec3 = vec3.m_82549_(p_130040_.fetch(i1.toBigInteger(), k1.toBigInteger(), i2.toBigInteger()).m_82490_(d7));
              }
           }
        }
@@ -45,6 +45,6 @@
     @FunctionalInterface
     public interface Vec3Fetcher {
 -      Vec3 m_130041_(int p_130042_, int p_130043_, int p_130044_);
-+      Vec3 fetch(long p_130042_, long p_130043_, long p_130044_);
++      Vec3 fetch(me.alphamode.mclong.math.BigInteger p_130042_, me.alphamode.mclong.math.BigInteger p_130043_, me.alphamode.mclong.math.BigInteger p_130044_);
     }
  }

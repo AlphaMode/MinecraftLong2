@@ -43,33 +43,36 @@
  
 -   public boolean m_64249_(int p_64250_, int p_64251_, int p_64252_, BlockState p_64253_) {
 -      int i = this.m_64242_(p_64250_, p_64252_);
-+   public boolean update(long p_64250_, long p_64251_, long p_64252_, BlockState p_64253_) {
-+      long i = this.getFirstAvailable(p_64250_, p_64252_);
-       if (p_64251_ <= i - 2) {
+-      if (p_64251_ <= i - 2) {
++   public boolean update(me.alphamode.mclong.math.BigInteger p_64250_, me.alphamode.mclong.math.BigInteger p_64251_, me.alphamode.mclong.math.BigInteger p_64252_, BlockState p_64253_) {
++      long i = this.getFirstAvailable(p_64250_.longValue(), p_64252_.longValue());
++      if (p_64251_.compareTo(i - 2) <= 0) {
           return false;
        } else {
           if (this.f_64233_.test(p_64253_)) {
-             if (p_64251_ >= i) {
+-            if (p_64251_ >= i) {
 -               this.m_64245_(p_64250_, p_64252_, p_64251_ + 1);
-+               this.setHeight(p_64250_, p_64252_, p_64251_ + 1);
++            if (p_64251_.compareTo(i) >= 0) {
++               this.setHeight(p_64250_.longValue(), p_64252_.longValue(), p_64251_.longValue() + 1);
                 return true;
              }
-          } else if (i - 1 == p_64251_) {
+-         } else if (i - 1 == p_64251_) {
++         } else if (i - 1 == p_64251_.longValue()) {
              BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
 -            for(int j = p_64251_ - 1; j >= this.f_64234_.m_141937_(); --j) {
 -               blockpos$mutableblockpos.m_122178_(p_64250_, j, p_64252_);
-+            for(long j = p_64251_ - 1; j >= this.f_64234_.getMinBuildHeight(); --j) {
++            for(me.alphamode.mclong.math.BigInteger j = p_64251_.subtract(me.alphamode.mclong.math.BigInteger.ONE); j.compareTo(this.f_64234_.getMinBuildHeight()) >= 0; j = j.subtract(me.alphamode.mclong.math.BigInteger.ONE)) {
 +               blockpos$mutableblockpos.set(p_64250_, j, p_64252_);
                 if (this.f_64233_.test(this.f_64234_.m_8055_(blockpos$mutableblockpos))) {
 -                  this.m_64245_(p_64250_, p_64252_, j + 1);
-+                  this.setHeight(p_64250_, p_64252_, j + 1);
++                  this.setHeight(p_64250_.longValue(), p_64252_.longValue(), j.add().longValue());
                    return true;
                 }
              }
  
 -            this.m_64245_(p_64250_, p_64252_, this.f_64234_.m_141937_());
-+            this.setHeight(p_64250_, p_64252_, this.f_64234_.getMinBuildHeight());
++            this.setHeight(p_64250_.longValue(), p_64252_.longValue(), this.f_64234_.getMinBuildHeight());
              return true;
           }
  
@@ -100,11 +103,11 @@
 +   }
 +
 +   private long getFirstAvailable(long p_64241_) {
-+      return this.f_64232_.get((int) p_64241_) + this.f_64234_.getMinBuildHeight();
++      return this.f_64232_.get(p_64241_) + this.f_64234_.getMinBuildHeight();
 +   }
 +
 +   private void setHeight(long p_64246_, long p_64247_, long p_64248_) {
-+      this.f_64232_.set((int) getIndex(p_64246_, p_64247_), (int) (p_64248_ - this.f_64234_.getMinBuildHeight()));
++      this.f_64232_.set(getIndex(p_64246_, p_64247_), (int) (p_64248_ - this.f_64234_.getMinBuildHeight()));
     }
  
     public void m_158364_(ChunkAccess p_158365_, Heightmap.Types p_158366_, long[] p_158367_) {

@@ -26,7 +26,7 @@
  
 -   public Holder<Biome> m_203675_(int p_203775_, int p_203776_, int p_203777_) {
 -      return this.m_7726_().m_8481_().m_62218_().m_203407_(p_203775_, p_203776_, p_203777_, this.m_7726_().m_214994_().m_224579_());
-+   public Holder<Biome> getUncachedNoiseBiome(long p_203775_, long p_203776_, long p_203777_) {
++   public Holder<Biome> getUncachedNoiseBiome(me.alphamode.mclong.math.BigInteger p_203775_, me.alphamode.mclong.math.BigInteger p_203776_, me.alphamode.mclong.math.BigInteger p_203777_) {
 +      return this.m_7726_().m_8481_().m_62218_().getNoiseBiome(p_203775_, p_203776_, p_203777_, this.m_7726_().m_214994_().m_224579_());
     }
  
@@ -279,7 +279,7 @@
     }
  
 -   public boolean m_8602_(int p_8603_, int p_8604_, boolean p_8605_) {
-+   public boolean setChunkForced(long p_8603_, long p_8604_, boolean p_8605_) {
++   public boolean setChunkForced(me.alphamode.mclong.math.BigInteger p_8603_, me.alphamode.mclong.math.BigInteger p_8604_, boolean p_8605_) {
        ForcedChunksSavedData forcedchunkssaveddata = this.m_8895_().m_164861_(ForcedChunksSavedData::m_151483_, ForcedChunksSavedData::new, "chunks");
        ChunkPos chunkpos = new ChunkPos(p_8603_, p_8604_);
 -      long i = chunkpos.m_45588_();
@@ -289,7 +289,7 @@
 +         flag = forcedchunkssaveddata.getChunks().add(chunkpos);
           if (flag) {
 -            this.m_6325_(p_8603_, p_8604_);
-+            this.getChunk(p_8603_, p_8604_);
++            this.getChunk(p_8603_.longValue(), p_8604_.longValue());
           }
        } else {
 -         flag = forcedchunkssaveddata.m_46116_().remove(i);

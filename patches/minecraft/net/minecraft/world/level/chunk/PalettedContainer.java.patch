@@ -59,7 +59,7 @@
 +      this.f_188032_.f_188101_.set((int) p_63133_, i);
 +   }
 +
-+   public T get(long p_63088_, long p_63089_, long p_63090_) {
++   public T get(me.alphamode.mclong.math.BigInteger p_63088_, me.alphamode.mclong.math.BigInteger p_63089_, me.alphamode.mclong.math.BigInteger p_63090_) {
 +      return this.get(this.f_188033_.getIndex(p_63088_, p_63089_, p_63090_));
 +   }
 +
@@ -115,12 +115,17 @@
                 case 0:
                    palettedcontainer$configuration = new PalettedContainer.Configuration(f_188134_, p_188163_);
                    break;
-@@ -395,7 +_,7 @@
+@@ -395,8 +_,12 @@
           return 1 << this.f_188140_ * 3;
        }
  
 -      public int m_188145_(int p_188146_, int p_188147_, int p_188148_) {
 +      public long getIndex(long p_188146_, long p_188147_, long p_188148_) {
           return (p_188147_ << this.f_188140_ | p_188148_) << this.f_188140_ | p_188146_;
++      }
++
++      public long getIndex(me.alphamode.mclong.math.BigInteger x, me.alphamode.mclong.math.BigInteger y, me.alphamode.mclong.math.BigInteger z) {
++         return (y.shiftLeft(this.f_188140_).or(z)).shiftLeft(this.f_188140_).or(x).longValue();
        }
  
+       public abstract <A> PalettedContainer.Configuration<A> m_183248_(IdMap<A> p_188149_, int p_188150_);

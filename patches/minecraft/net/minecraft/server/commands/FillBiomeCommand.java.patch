@@ -6,13 +6,13 @@
  
 -   private static int m_261188_(int p_261998_) {
 -      return QuartPos.m_175402_(QuartPos.m_175400_(p_261998_));
-+   private static long quantize(long p_261998_) {
++   private static me.alphamode.mclong.math.BigInteger quantize(me.alphamode.mclong.math.BigInteger p_261998_) {
 +      return QuartPos.toBlock(QuartPos.fromBlock(p_261998_));
     }
  
     private static BlockPos m_260812_(BlockPos p_262148_) {
 -      return new BlockPos(m_261188_(p_262148_.m_123341_()), m_261188_(p_262148_.m_123342_()), m_261188_(p_262148_.m_123343_()));
-+      return new BlockPos(quantize(p_262148_.getX()), quantize(p_262148_.getY()), quantize(p_262148_.getZ()));
++      return new BlockPos(quantize(p_262148_.getBigX()), quantize(p_262148_.getBigY()), quantize(p_262148_.getBigZ()));
     }
  
     private static BiomeResolver m_262439_(MutableInt p_262615_, ChunkAccess p_262698_, BoundingBox p_262622_, Holder<Biome> p_262705_, Predicate<Holder<Biome>> p_262695_) {
@@ -22,9 +22,9 @@
 -         int k = QuartPos.m_175402_(p_262552_);
 -         Holder<Biome> holder = p_262698_.m_203495_(p_262550_, p_262551_, p_262552_);
 -         if (p_262622_.m_260866_(i, j, k) && p_262695_.test(holder)) {
-+         long i = QuartPos.toBlock(p_262550_);
-+         long j = QuartPos.toBlock(p_262551_);
-+         long k = QuartPos.toBlock(p_262552_);
++         me.alphamode.mclong.math.BigInteger i = QuartPos.toBlock(p_262550_);
++         me.alphamode.mclong.math.BigInteger j = QuartPos.toBlock(p_262551_);
++         me.alphamode.mclong.math.BigInteger k = QuartPos.toBlock(p_262552_);
 +         Holder<Biome> holder = p_262698_.getNoiseBiome(p_262550_, p_262551_, p_262552_);
 +         if (p_262622_.isInside(i, j, k) && p_262695_.test(holder)) {
              p_262615_.increment();

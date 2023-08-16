@@ -89,45 +89,45 @@
        if (!this.f_190267_) {
           if (p_190319_.contains(Direction8.NORTH) || p_190319_.contains(Direction8.WEST) || p_190319_.contains(Direction8.NORTH_WEST)) {
 -            this.m_190299_(m_190330_(0, 0), p_190318_, 0, 0);
-+            this.addValuesForColumn(getInsideIndex(0, 0), p_190318_, 0, 0);
++            this.addValuesForColumn(getInsideIndex(0, 0), p_190318_, me.alphamode.mclong.math.BigInteger.ZERO, me.alphamode.mclong.math.BigInteger.ZERO);
           }
  
           if (p_190319_.contains(Direction8.NORTH)) {
              for(int i = 1; i < f_190258_; ++i) {
 -               this.m_190299_(m_190330_(i, 0), p_190318_, 4 * i, 0);
-+               this.addValuesForColumn(getInsideIndex(i, 0), p_190318_, 4 * i, 0);
++               this.addValuesForColumn(getInsideIndex(i, 0), p_190318_, me.alphamode.mclong.math.BigInteger.valueOf(4 * i), me.alphamode.mclong.math.BigInteger.ZERO);
              }
           }
  
           if (p_190319_.contains(Direction8.WEST)) {
              for(int j = 1; j < f_190258_; ++j) {
 -               this.m_190299_(m_190330_(0, j), p_190318_, 0, 4 * j);
-+               this.addValuesForColumn(getInsideIndex(0, j), p_190318_, 0, 4 * j);
++               this.addValuesForColumn(getInsideIndex(0, j), p_190318_, me.alphamode.mclong.math.BigInteger.ZERO, me.alphamode.mclong.math.BigInteger.valueOf(4 * j));
              }
           }
  
           if (p_190319_.contains(Direction8.EAST)) {
              for(int k = 1; k < f_190258_; ++k) {
 -               this.m_190299_(m_190350_(f_190260_, k), p_190318_, 15, 4 * k);
-+               this.addValuesForColumn(getOutsideIndex(f_190260_, k), p_190318_, 15, 4 * k);
++               this.addValuesForColumn(getOutsideIndex(f_190260_, k), p_190318_, me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN, me.alphamode.mclong.math.BigInteger.valueOf(4 * k));
              }
           }
  
           if (p_190319_.contains(Direction8.SOUTH)) {
              for(int l = 0; l < f_190258_; ++l) {
 -               this.m_190299_(m_190350_(l, f_190260_), p_190318_, 4 * l, 15);
-+               this.addValuesForColumn(getOutsideIndex(l, f_190260_), p_190318_, 4 * l, 15);
++               this.addValuesForColumn(getOutsideIndex(l, f_190260_), p_190318_, me.alphamode.mclong.math.BigInteger.valueOf(4 * l), me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
              }
           }
  
           if (p_190319_.contains(Direction8.EAST) && p_190319_.contains(Direction8.NORTH_EAST)) {
 -            this.m_190299_(m_190350_(f_190260_, 0), p_190318_, 15, 0);
-+            this.addValuesForColumn(getOutsideIndex(f_190260_, 0), p_190318_, 15, 0);
++            this.addValuesForColumn(getOutsideIndex(f_190260_, 0), p_190318_, me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN, me.alphamode.mclong.math.BigInteger.ZERO);
           }
  
           if (p_190319_.contains(Direction8.EAST) && p_190319_.contains(Direction8.SOUTH) && p_190319_.contains(Direction8.SOUTH_EAST)) {
 -            this.m_190299_(m_190350_(f_190260_, f_190260_), p_190318_, 15, 15);
-+            this.addValuesForColumn(getOutsideIndex(f_190260_, f_190260_), p_190318_, 15, 15);
++            this.addValuesForColumn(getOutsideIndex(f_190260_, f_190260_), p_190318_, me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN, me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
           }
  
           this.f_190267_ = true;
@@ -137,20 +137,20 @@
 -   private void m_190299_(int p_190300_, ChunkAccess p_190301_, int p_190302_, int p_190303_) {
 -      if (this.f_190269_[p_190300_] == Double.MAX_VALUE) {
 -         this.f_190269_[p_190300_] = (double)this.m_190310_(p_190301_, p_190302_, p_190303_);
-+   private void addValuesForColumn(long p_190300_, ChunkAccess p_190301_, int p_190302_, int p_190303_) {
++   private void addValuesForColumn(long p_190300_, ChunkAccess p_190301_, me.alphamode.mclong.math.BigInteger p_190302_, me.alphamode.mclong.math.BigInteger p_190303_) {
 +      if (this.f_190269_[(int) p_190300_] == Double.MAX_VALUE) {
 +         this.f_190269_[(int) p_190300_] = (double)this.getHeightAtXZ(p_190301_, p_190302_, p_190303_);
        }
  
 -      this.f_190270_[p_190300_] = this.m_198292_(p_190301_, p_190302_, p_190303_, Mth.m_14107_(this.f_190269_[p_190300_]));
 -      this.f_202276_.set(p_190300_, this.m_224757_(p_190301_, p_190302_, p_190303_));
-+      this.f_190270_[(int) p_190300_] = this.m_198292_(p_190301_, p_190302_, p_190303_, Mth.m_14107_(this.f_190269_[(int) p_190300_]));
-+      this.f_202276_.set((int) p_190300_, this.m_224757_(p_190301_, p_190302_, p_190303_));
++      this.f_190270_[(int) p_190300_] = this.getDensityColumn(p_190301_, p_190302_, p_190303_, Mth.m_14107_(this.f_190269_[(int) p_190300_]));
++      this.f_202276_.set((int) p_190300_, this.getBiomeColumn(p_190301_, p_190302_, p_190303_));
     }
  
 -   private int m_190310_(ChunkAccess p_190311_, int p_190312_, int p_190313_) {
 -      int i;
-+   private long getHeightAtXZ(ChunkAccess p_190311_, int p_190312_, int p_190313_) {
++   private long getHeightAtXZ(ChunkAccess p_190311_, me.alphamode.mclong.math.BigInteger p_190312_, me.alphamode.mclong.math.BigInteger p_190313_) {
 +      long i;
        if (p_190311_.m_187658_(Heightmap.Types.WORLD_SURFACE_WG)) {
 -         i = Math.min(p_190311_.m_5885_(Heightmap.Types.WORLD_SURFACE_WG, p_190312_, p_190313_) + 1, this.f_224738_.m_151558_());
@@ -161,8 +161,9 @@
        }
  
 -      int j = this.f_224738_.m_141937_();
+-      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_190312_, i, p_190313_);
 +      long j = this.f_224738_.getMinBuildHeight();
-       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_190312_, i, p_190313_);
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_190312_, me.alphamode.mclong.math.BigInteger.valueOf(i), p_190313_);
  
 -      while(blockpos$mutableblockpos.m_123342_() > j) {
 +      while(blockpos$mutableblockpos.getY() > j) {
@@ -173,15 +174,17 @@
           }
        }
  
-@@ -199,9 +_,9 @@
+@@ -198,10 +_,10 @@
+       return d0;
     }
  
-    private double[] m_198292_(ChunkAccess p_198293_, int p_198294_, int p_198295_, int p_198296_) {
+-   private double[] m_198292_(ChunkAccess p_198293_, int p_198294_, int p_198295_, int p_198296_) {
 -      double[] adouble = new double[this.m_190327_()];
++   private double[] getDensityColumn(ChunkAccess p_198293_, me.alphamode.mclong.math.BigInteger p_198294_, me.alphamode.mclong.math.BigInteger p_198295_, int p_198296_) {
 +      double[] adouble = new double[(int) this.cellCountPerColumn()];
        Arrays.fill(adouble, -1.0D);
 -      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_198294_, this.f_224738_.m_151558_(), p_198295_);
-+      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_198294_, this.f_224738_.getMaxBuildHeight(), p_198295_);
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_198294_, me.alphamode.mclong.math.BigInteger.valueOf(this.f_224738_.getMaxBuildHeight()), p_198295_);
        double d0 = m_198300_(p_198293_, blockpos$mutableblockpos);
  
        for(int i = adouble.length - 2; i >= 0; --i) {
@@ -204,9 +207,10 @@
        return adouble;
     }
  
-    private List<Holder<Biome>> m_224757_(ChunkAccess p_224758_, int p_224759_, int p_224760_) {
+-   private List<Holder<Biome>> m_224757_(ChunkAccess p_224758_, int p_224759_, int p_224760_) {
 -      ObjectArrayList<Holder<Biome>> objectarraylist = new ObjectArrayList<>(this.m_224763_());
 -      objectarraylist.size(this.m_224763_());
++   private List<Holder<Biome>> getBiomeColumn(ChunkAccess p_224758_, me.alphamode.mclong.math.BigInteger p_224759_, me.alphamode.mclong.math.BigInteger p_224760_) {
 +      ObjectArrayList<Holder<Biome>> objectarraylist = new ObjectArrayList<>((int) this.quartCountPerColumn());
 +      objectarraylist.size((int) this.quartCountPerColumn());
  
@@ -214,7 +218,7 @@
 -         int j = i + QuartPos.m_175400_(this.f_224738_.m_141937_());
 -         objectarraylist.set(i, p_224758_.m_203495_(QuartPos.m_175400_(p_224759_), j, QuartPos.m_175400_(p_224760_)));
 +         long j = i + QuartPos.fromBlock(this.f_224738_.getMinBuildHeight());
-+         objectarraylist.set(i, p_224758_.getNoiseBiome(QuartPos.fromBlock(p_224759_), j, QuartPos.fromBlock(p_224760_)));
++         objectarraylist.set(i, p_224758_.getNoiseBiome(QuartPos.fromBlock(p_224759_), me.alphamode.mclong.math.BigInteger.valueOf(j), QuartPos.fromBlock(p_224760_)));
        }
  
        return objectarraylist;

@@ -38,11 +38,11 @@
 -      int k = p_63217_.m_123343_();
 -      if (j >= this.m_141937_() && j < this.m_151558_()) {
 -         int l = this.m_151564_(j);
-+      long i = p_63217_.getX();
-+      long j = p_63217_.getY();
-+      long k = p_63217_.getZ();
-+      if (j >= this.getMinBuildHeight() && j < this.getMaxBuildHeight()) {
-+         int l = this.getSectionIndex(j);
++      me.alphamode.mclong.math.BigInteger i = p_63217_.getBigX();
++      me.alphamode.mclong.math.BigInteger j = p_63217_.getBigY();
++      me.alphamode.mclong.math.BigInteger k = p_63217_.getBigZ();
++      if (j.compareTo(this.getMinBuildHeight()) >= 0 && j.compareTo(this.getMaxBuildHeight()) < 0) {
++         int l = this.getSectionIndex(j.longValue());
           LevelChunkSection levelchunksection = this.m_183278_(l);
           boolean flag = levelchunksection.m_188008_();
           if (flag && p_63218_.m_60713_(Blocks.f_50016_)) {
@@ -52,9 +52,9 @@
 -            int j1 = SectionPos.m_123207_(j);
 -            int k1 = SectionPos.m_123207_(k);
 -            BlockState blockstate = levelchunksection.m_62986_(i1, j1, k1, p_63218_);
-+            long i1 = SectionPos.sectionRelative(i);
-+            long j1 = SectionPos.sectionRelative(j);
-+            long k1 = SectionPos.sectionRelative(k);
++            me.alphamode.mclong.math.BigInteger i1 = SectionPos.sectionRelative(i);
++            me.alphamode.mclong.math.BigInteger j1 = SectionPos.sectionRelative(j);
++            me.alphamode.mclong.math.BigInteger k1 = SectionPos.sectionRelative(k);
 +            BlockState blockstate = levelchunksection.setBlockState(i1, j1, k1, p_63218_);
              if (this.f_63153_.m_62427_(ChunkStatus.f_279614_)) {
                 boolean flag1 = levelchunksection.m_188008_();
@@ -91,7 +91,7 @@
     }
  
 -   public Holder<Biome> m_203495_(int p_204450_, int p_204451_, int p_204452_) {
-+   public Holder<Biome> getNoiseBiome(long p_204450_, long p_204451_, long p_204452_) {
++   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger p_204450_, me.alphamode.mclong.math.BigInteger p_204451_, me.alphamode.mclong.math.BigInteger p_204452_) {
        if (this.m_284331_().m_62427_(ChunkStatus.f_62317_)) {
 -         return super.m_203495_(p_204450_, p_204451_, p_204452_);
 +         return super.getNoiseBiome(p_204450_, p_204451_, p_204452_);

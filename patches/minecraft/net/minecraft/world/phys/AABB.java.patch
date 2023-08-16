@@ -45,17 +45,17 @@
  
     public AABB(BlockPos p_82305_) {
 -      this((double)p_82305_.m_123341_(), (double)p_82305_.m_123342_(), (double)p_82305_.m_123343_(), (double)(p_82305_.m_123341_() + 1), (double)(p_82305_.m_123342_() + 1), (double)(p_82305_.m_123343_() + 1));
-+      this((double)p_82305_.getX(), (double)p_82305_.getY(), (double)p_82305_.getZ(), (double)(p_82305_.getX() + 1), (double)(p_82305_.getY() + 1), (double)(p_82305_.getZ() + 1));
++      this(p_82305_.getBigDecX(), p_82305_.getBigDecY(), p_82305_.getBigDecZ(), p_82305_.getBigDecX().add(), p_82305_.getBigDecY().add(), p_82305_.getBigDecZ().add());
     }
  
     public AABB(BlockPos p_82307_, BlockPos p_82308_) {
 -      this((double)p_82307_.m_123341_(), (double)p_82307_.m_123342_(), (double)p_82307_.m_123343_(), (double)p_82308_.m_123341_(), (double)p_82308_.m_123342_(), (double)p_82308_.m_123343_());
-+      this((double)p_82307_.getX(), (double)p_82307_.getY(), (double)p_82307_.getZ(), (double)p_82308_.getX(), (double)p_82308_.getY(), (double)p_82308_.getZ());
++      this(p_82307_.getBigDecX(), p_82307_.getBigDecY(), p_82307_.getBigDecZ(), p_82308_.getBigDecX(), p_82308_.getBigDecY(), p_82308_.getBigDecZ());
     }
  
     public AABB(Vec3 p_82302_, Vec3 p_82303_) {
 -      this(p_82302_.f_82479_, p_82302_.f_82480_, p_82302_.f_82481_, p_82303_.f_82479_, p_82303_.f_82480_, p_82303_.f_82481_);
-+      this(p_82302_.m_7096_(), p_82302_.m_7098_(), p_82302_.m_7094_(), p_82303_.m_7096_(), p_82303_.m_7098_(), p_82303_.m_7094_());
++      this(p_82302_.getX(), p_82302_.getY(), p_82302_.getZ(), p_82303_.getX(), p_82303_.getY(), p_82303_.getZ());
     }
  
     public static AABB m_82321_(BoundingBox p_82322_) {
@@ -520,7 +520,7 @@
 +      me.alphamode.mclong.math.BigDecimal d0 = this.f_82288_.subtract(p_273572_.getX()).max(p_273572_.getX().subtract(this.f_82291_)).max(me.alphamode.mclong.math.BigDecimal.ZERO);
 +      me.alphamode.mclong.math.BigDecimal d1 = this.f_82289_.subtract(p_273572_.getY()).max(p_273572_.getY().subtract(this.f_82292_)).max(me.alphamode.mclong.math.BigDecimal.ZERO);
 +      me.alphamode.mclong.math.BigDecimal d2 = this.f_82290_.subtract(p_273572_.getZ()).max(p_273572_.getZ().subtract(this.f_82293_)).max(me.alphamode.mclong.math.BigDecimal.ZERO);
-+      return Mth.m_211592_(d0.doubleValue(), d1.doubleValue(), d2.doubleValue());
++      return Mth.lengthSquared(d0, d1, d2).doubleValue();
     }
  
     public String toString() {
@@ -539,6 +539,6 @@
  
     public static AABB m_165882_(Vec3 p_165883_, double p_165884_, double p_165885_, double p_165886_) {
 -      return new AABB(p_165883_.f_82479_ - p_165884_ / 2.0D, p_165883_.f_82480_ - p_165885_ / 2.0D, p_165883_.f_82481_ - p_165886_ / 2.0D, p_165883_.f_82479_ + p_165884_ / 2.0D, p_165883_.f_82480_ + p_165885_ / 2.0D, p_165883_.f_82481_ + p_165886_ / 2.0D);
-+      return new AABB(p_165883_.m_7096_() - p_165884_ / 2.0D, p_165883_.m_7098_() - p_165885_ / 2.0D, p_165883_.m_7094_() - p_165886_ / 2.0D, p_165883_.m_7096_() + p_165884_ / 2.0D, p_165883_.m_7098_() + p_165885_ / 2.0D, p_165883_.m_7094_() + p_165886_ / 2.0D);
++      return new AABB(p_165883_.getX().subtract(p_165884_ / 2.0D), p_165883_.getY().subtract(p_165885_ / 2.0D), p_165883_.getZ().subtract(p_165886_ / 2.0D), p_165883_.getX().add(p_165884_ / 2.0D), p_165883_.getY().add(p_165885_ / 2.0D), p_165883_.getZ().add(p_165886_ / 2.0D));
     }
  }

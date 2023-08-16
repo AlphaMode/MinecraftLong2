@@ -30,11 +30,11 @@
 +      it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = serverlevel.getForcedChunks();
        longset.forEach((p_137675_) -> {
 -         serverlevel.m_8602_(ChunkPos.m_45592_(p_137675_), ChunkPos.m_45602_(p_137675_), false);
-+         serverlevel.setChunkForced(p_137675_.x(), p_137675_.z(), false);
++         serverlevel.setChunkForced(p_137675_.getX(), p_137675_.getZ(), false);
        });
        p_137696_.m_288197_(() -> {
           return Component.m_237110_("commands.forceload.removed.all", resourcekey.m_135782_());
-@@ -101,15 +_,14 @@
+@@ -101,17 +_,16 @@
     }
  
     private static int m_137685_(CommandSourceStack p_137686_, ColumnPos p_137687_, ColumnPos p_137688_, boolean p_137689_) throws CommandSyntaxException {
@@ -47,17 +47,21 @@
 -         int j1 = SectionPos.m_123171_(j);
 -         int k1 = SectionPos.m_123171_(k);
 -         int l1 = SectionPos.m_123171_(l);
-+      long i = Math.min(p_137687_.x(), p_137688_.x());
-+      long j = Math.min(p_137687_.z(), p_137688_.z());
-+      long k = Math.max(p_137687_.x(), p_137688_.x());
-+      long l = Math.max(p_137687_.z(), p_137688_.z());
-+         long i1 = SectionPos.blockToSectionCoord(i);
-+         long j1 = SectionPos.blockToSectionCoord(j);
-+         long k1 = SectionPos.blockToSectionCoord(k);
-+         long l1 = SectionPos.blockToSectionCoord(l);
-          long i2 = ((long)(k1 - i1) + 1L) * ((long)(l1 - j1) + 1L);
-          if (i2 > 256L) {
+-         long i2 = ((long)(k1 - i1) + 1L) * ((long)(l1 - j1) + 1L);
+-         if (i2 > 256L) {
++      me.alphamode.mclong.math.BigInteger i = p_137687_.x().min(p_137688_.x());
++      me.alphamode.mclong.math.BigInteger j = p_137687_.z().min(p_137688_.z());
++      me.alphamode.mclong.math.BigInteger k = p_137687_.x().max(p_137688_.x());
++      me.alphamode.mclong.math.BigInteger l = p_137687_.z().max(p_137688_.z());
++         me.alphamode.mclong.math.BigInteger i1 = SectionPos.blockToSectionCoord(i);
++         me.alphamode.mclong.math.BigInteger j1 = SectionPos.blockToSectionCoord(j);
++         me.alphamode.mclong.math.BigInteger k1 = SectionPos.blockToSectionCoord(k);
++         me.alphamode.mclong.math.BigInteger l1 = SectionPos.blockToSectionCoord(l);
++      me.alphamode.mclong.math.BigInteger i2 = ((k1.subtract(i1)).add()).multiply(((l1.subtract(j1)).add()));
++         if (i2.compareTo(256L) > 0) {
              throw f_137668_.create(256, i2);
+          } else {
+             ServerLevel serverlevel = p_137686_.m_81372_();
 @@ -119,9 +_,9 @@
              ChunkPos chunkpos = null;
              int j2 = 0;
@@ -65,8 +69,8 @@
 -            for(int k2 = i1; k2 <= k1; ++k2) {
 -               for(int l2 = j1; l2 <= l1; ++l2) {
 -                  boolean flag = serverlevel.m_8602_(k2, l2, p_137689_);
-+            for(long k2 = i1; k2 <= k1; ++k2) {
-+               for(long l2 = j1; l2 <= l1; ++l2) {
++            for(me.alphamode.mclong.math.BigInteger k2 = i1; k2.compareTo(k1) <= 0; k2 = k2.add()) {
++               for(me.alphamode.mclong.math.BigInteger l2 = j1; l2.compareTo(l1) <= 0; l2 = l2.add()) {
 +                  boolean flag = serverlevel.setChunkForced(k2, l2, p_137689_);
                    if (flag) {
                       ++j2;

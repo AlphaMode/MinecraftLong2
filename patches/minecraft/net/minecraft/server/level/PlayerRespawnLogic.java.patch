@@ -11,14 +11,14 @@
 -      int i = flag ? p_183929_.m_7726_().m_8481_().m_142051_(p_183929_) : levelchunk.m_5885_(Heightmap.Types.MOTION_BLOCKING, p_183930_ & 15, p_183931_ & 15);
 -      if (i < p_183929_.m_141937_()) {
 +      LevelChunk levelchunk = p_183929_.getChunk(SectionPos.blockToSectionCoord(p_183930_), SectionPos.blockToSectionCoord(p_183931_));
-+      long i = flag ? p_183929_.m_7726_().m_8481_().getSpawnHeight(p_183929_) : levelchunk.getHeight(Heightmap.Types.MOTION_BLOCKING, p_183930_ & 15, p_183931_ & 15);
++      long i = flag ? p_183929_.m_7726_().m_8481_().getSpawnHeight(p_183929_) : levelchunk.getHeight(Heightmap.Types.MOTION_BLOCKING, me.alphamode.mclong.math.BigInteger.valueOf(p_183930_ & 15), me.alphamode.mclong.math.BigInteger.valueOf(p_183931_ & 15));
 +      if (i < p_183929_.getMinBuildHeight()) {
           return null;
        } else {
 -         int j = levelchunk.m_5885_(Heightmap.Types.WORLD_SURFACE, p_183930_ & 15, p_183931_ & 15);
 -         if (j <= i && j > levelchunk.m_5885_(Heightmap.Types.OCEAN_FLOOR, p_183930_ & 15, p_183931_ & 15)) {
-+         long j = levelchunk.getHeight(Heightmap.Types.WORLD_SURFACE, p_183930_ & 15, p_183931_ & 15);
-+         if (j <= i && j > levelchunk.getHeight(Heightmap.Types.OCEAN_FLOOR, p_183930_ & 15, p_183931_ & 15)) {
++         long j = levelchunk.getHeight(Heightmap.Types.WORLD_SURFACE, me.alphamode.mclong.math.BigInteger.valueOf(p_183930_ & 15), me.alphamode.mclong.math.BigInteger.valueOf(p_183931_ & 15));
++         if (j <= i && j > levelchunk.getHeight(Heightmap.Types.OCEAN_FLOOR, me.alphamode.mclong.math.BigInteger.valueOf(p_183930_ & 15), me.alphamode.mclong.math.BigInteger.valueOf(p_183931_ & 15))) {
              return null;
           } else {
              BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();

@@ -38,15 +38,15 @@
 -
 -   public boolean m_187594_(int p_187595_, int p_187596_, int p_187597_) {
 -      return this.f_196706_.m_196716_(p_187595_, p_187596_, p_187597_) || this.f_187577_.get(this.m_187598_(p_187595_, p_187596_, p_187597_));
-+   private int getIndex(long p_187599_, long p_187600_, long p_187601_) {
-+      return (int) (p_187599_ & 15 | (p_187601_ & 15) << 4 | p_187600_ - this.f_187576_ << 8);
++   private int getIndex(me.alphamode.mclong.math.BigInteger p_187599_, me.alphamode.mclong.math.BigInteger p_187600_, me.alphamode.mclong.math.BigInteger p_187601_) {
++      return (p_187599_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).or((p_187601_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN)).shiftLeft(4)).or(p_187600_.subtract(this.f_187576_).shiftLeft(8))).intValue();
 +   }
 +
-+   public void set(long p_187586_, long p_187587_, long p_187588_) {
++   public void set(me.alphamode.mclong.math.BigInteger p_187586_, me.alphamode.mclong.math.BigInteger p_187587_, me.alphamode.mclong.math.BigInteger p_187588_) {
 +      this.f_187577_.set(this.getIndex(p_187586_, p_187587_, p_187588_));
 +   }
 +
-+   public boolean get(long p_187595_, long p_187596_, long p_187597_) {
++   public boolean get(me.alphamode.mclong.math.BigInteger p_187595_, me.alphamode.mclong.math.BigInteger p_187596_, me.alphamode.mclong.math.BigInteger p_187597_) {
 +      return this.f_196706_.test(p_187595_, p_187596_, p_187597_) || this.f_187577_.get(this.getIndex(p_187595_, p_187596_, p_187597_));
     }
  
@@ -65,6 +65,6 @@
  
     public interface Mask {
 -      boolean m_196716_(int p_196717_, int p_196718_, int p_196719_);
-+      boolean test(long p_196717_, long p_196718_, long p_196719_);
++      boolean test(me.alphamode.mclong.math.BigInteger p_196717_, me.alphamode.mclong.math.BigInteger p_196718_, me.alphamode.mclong.math.BigInteger p_196719_);
     }
  }

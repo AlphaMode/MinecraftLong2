@@ -101,6 +101,10 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         return new BigInteger(this.longBacking + val);
     }
 
+    public BigInteger add() {
+        return add(ONE);
+    }
+
     public BigInteger and(BigInteger val) {
         if (BigConstants.Ints.BIG_MODE)
             return new BigInteger(this.backing.and(val.backing));
@@ -139,6 +143,12 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         return new BigInteger(this.longBacking << n);
     }
 
+    public BigInteger or(BigInteger n) {
+        if (BigConstants.Ints.BIG_MODE)
+            return new BigInteger(this.backing.or(n.backing));
+        return new BigInteger(this.longBacking | n.longBacking);
+    }
+
     public BigInteger subtract(BigInteger val) {
         if (BigConstants.Ints.BIG_MODE)
             return new BigInteger(this.backing.subtract(val.backing));
@@ -161,6 +171,12 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         if (BigConstants.Ints.BIG_MODE)
             return new BigInteger(this.backing.multiply(val.backing));
         return new BigInteger(this.longBacking * val.longBacking);
+    }
+
+    public BigInteger multiply(long val) {
+        if (BigConstants.Ints.BIG_MODE)
+            return new BigInteger(this.backing.multiply(java.math.BigInteger.valueOf(val)));
+        return new BigInteger(this.longBacking * val);
     }
 
     public BigInteger min(BigInteger val) {
@@ -228,5 +244,17 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         if (BigConstants.Ints.BIG_MODE)
             return new BigInteger(this.backing.negate());
         return new BigInteger(-this.longBacking);
+    }
+
+    public BigInteger remainder(BigInteger val) {
+        if (BigConstants.Ints.BIG_MODE)
+            return new BigInteger(this.backing.remainder(val.backing));
+        return new BigInteger(this.longBacking % val.longBacking);
+    }
+
+    public BigInteger remainder(int val) {
+        if (BigConstants.Ints.BIG_MODE)
+            return new BigInteger(this.backing.remainder(java.math.BigInteger.valueOf(val)));
+        return new BigInteger(this.longBacking % val);
     }
 }

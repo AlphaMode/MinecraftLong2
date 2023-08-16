@@ -14,7 +14,7 @@
  
     static Biome m_47095_(BlockPos p_47096_, ChunkAccess p_47097_) {
 -      return p_47097_.m_203495_(QuartPos.m_175400_(p_47096_.m_123341_()), QuartPos.m_175400_(p_47096_.m_123342_()), QuartPos.m_175400_(p_47096_.m_123343_())).m_203334_();
-+      return p_47097_.getNoiseBiome(QuartPos.fromBlock(p_47096_.getX()), QuartPos.fromBlock(p_47096_.getY()), QuartPos.fromBlock(p_47096_.getZ())).m_203334_();
++      return p_47097_.getNoiseBiome(QuartPos.fromBlock(p_47096_.getBigX()), QuartPos.fromBlock(p_47096_.getBigY()), QuartPos.fromBlock(p_47096_.getBigZ())).m_203334_();
     }
  
     public static void m_47029_(ServerLevel p_47030_, LevelChunk p_47031_, NaturalSpawner.SpawnState p_47032_, boolean p_47033_, boolean p_47034_, boolean p_47035_) {
@@ -82,7 +82,7 @@
           Structure structure = p_220459_.m_220521_().m_175515_(Registries.f_256944_).m_6246_(BuiltinStructures.f_209859_);
           return structure == null ? false : p_220459_.m_220494_(p_220456_, structure).m_73603_();
        } else {
-@@ -272,10 +_,10 @@
+@@ -272,11 +_,11 @@
  
     private static BlockPos m_47062_(Level p_47063_, LevelChunk p_47064_) {
        ChunkPos chunkpos = p_47064_.m_7697_();
@@ -90,13 +90,15 @@
 -      int j = chunkpos.m_45605_() + p_47063_.f_46441_.m_188503_(16);
 -      int k = p_47064_.m_5885_(Heightmap.Types.WORLD_SURFACE, i, j) + 1;
 -      int l = Mth.m_216287_(p_47063_.f_46441_, p_47063_.m_141937_(), k);
-+      long i = chunkpos.getMinBlockX() + p_47063_.f_46441_.m_188503_(16);
-+      long j = chunkpos.getMinBlockZ() + p_47063_.f_46441_.m_188503_(16);
+-      return new BlockPos(i, l, j);
++      me.alphamode.mclong.math.BigInteger i = chunkpos.getMinBigBlockX().add(p_47063_.f_46441_.m_188503_(16));
++      me.alphamode.mclong.math.BigInteger j = chunkpos.getMinBigBlockZ().add(p_47063_.f_46441_.m_188503_(16));
 +      long k = p_47064_.getHeight(Heightmap.Types.WORLD_SURFACE, i, j) + 1;
 +      long l = Mth.randomBetweenInclusive(p_47063_.f_46441_, p_47063_.getMinBuildHeight(), k);
-       return new BlockPos(i, l, j);
++      return new BlockPos(i, me.alphamode.mclong.math.BigInteger.valueOf(l), j);
     }
  
+    public static boolean m_47056_(BlockGetter p_47057_, BlockPos p_47058_, BlockState p_47059_, FluidState p_47060_, EntityType<?> p_47061_) {
 @@ -299,8 +_,8 @@
        } else if (p_47055_ != null && p_47053_.m_6857_().m_61937_(p_47054_)) {
           BlockState blockstate = p_47053_.m_8055_(p_47054_);

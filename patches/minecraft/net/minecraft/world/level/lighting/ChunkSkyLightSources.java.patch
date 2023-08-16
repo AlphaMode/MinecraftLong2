@@ -65,15 +65,16 @@
 -      int i = p_285358_ + 1;
 -      int j = m_284186_(p_284999_, p_284944_);
 -      int k = this.m_284474_(j);
-+   public boolean update(BlockGetter p_285514_, long p_284999_, long p_285358_, long p_284944_) {
-+      long i = p_285358_ + 1;
-+      long j = index(p_284999_, p_284944_);
+-      if (i < k) {
++   public boolean update(BlockGetter p_285514_, me.alphamode.mclong.math.BigInteger p_284999_, me.alphamode.mclong.math.BigInteger p_285358_, me.alphamode.mclong.math.BigInteger p_284944_) {
++      me.alphamode.mclong.math.BigInteger i = p_285358_.add();
++      long j = index(p_284999_.longValue(), p_284944_.longValue());
 +      int k = this.get(j);
-       if (i < k) {
++      if (i.compareTo(k) < 0) {
           return false;
        } else {
 -         BlockPos blockpos = this.f_283859_.m_122178_(p_284999_, p_285358_ + 1, p_284944_);
-+         BlockPos blockpos = this.f_283859_.set(p_284999_, p_285358_ + 1, p_284944_);
++         BlockPos blockpos = this.f_283859_.set(p_284999_, p_285358_.add(), p_284944_);
           BlockState blockstate = p_285514_.m_8055_(blockpos);
 -         BlockPos blockpos1 = this.f_283783_.m_122178_(p_284999_, p_285358_, p_284944_);
 +         BlockPos blockpos1 = this.f_283783_.set(p_284999_, p_285358_, p_284944_);
@@ -83,7 +84,7 @@
              return true;
           } else {
 -            BlockPos blockpos2 = this.f_283859_.m_122178_(p_284999_, p_285358_ - 1, p_284944_);
-+            BlockPos blockpos2 = this.f_283859_.set(p_284999_, p_285358_ - 1, p_284944_);
++            BlockPos blockpos2 = this.f_283859_.set(p_284999_, p_285358_.subtract(me.alphamode.mclong.math.BigInteger.ONE), p_284944_);
              BlockState blockstate2 = p_285514_.m_8055_(blockpos2);
 -            return this.m_284301_(p_285514_, j, k, blockpos1, blockstate1, blockpos2, blockstate2);
 +            return this.updateEdge(p_285514_, j, k, blockpos1, blockstate1, blockpos2, blockstate2);

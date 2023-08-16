@@ -44,7 +44,7 @@
     }
  
 -   public int m_5885_(Heightmap.Types p_62080_, int p_62081_, int p_62082_) {
-+   public long getHeight(Heightmap.Types p_62080_, long p_62081_, long p_62082_) {
++   public long getHeight(Heightmap.Types p_62080_, me.alphamode.mclong.math.BigInteger p_62081_, me.alphamode.mclong.math.BigInteger p_62082_) {
        Heightmap heightmap = this.f_187608_.get(p_62080_);
        if (heightmap == null) {
           if (SharedConstants.f_136183_ && this instanceof LevelChunk) {
@@ -53,7 +53,7 @@
        }
  
 -      return heightmap.m_64242_(p_62081_ & 15, p_62082_ & 15) - 1;
-+      return heightmap.getFirstAvailable(p_62081_ & 15, p_62082_ & 15) - 1;
++      return heightmap.getFirstAvailable(p_62081_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).longValue(), p_62082_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).longValue()) - 1;
     }
  
     public ChunkPos m_7697_() {
@@ -157,18 +157,18 @@
     }
  
 -   public Holder<Biome> m_203495_(int p_204347_, int p_204348_, int p_204349_) {
-+   public Holder<Biome> getNoiseBiome(long p_204347_, long p_204348_, long p_204349_) {
++   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger p_204347_, me.alphamode.mclong.math.BigInteger p_204348_, me.alphamode.mclong.math.BigInteger p_204349_) {
        try {
 -         int i = QuartPos.m_175400_(this.m_141937_());
 -         int k = i + QuartPos.m_175400_(this.m_141928_()) - 1;
 -         int l = Mth.m_14045_(p_204348_, i, k);
 -         int j = this.m_151564_(QuartPos.m_175402_(l));
 -         return this.f_187612_[j].m_204433_(p_204347_ & 3, l & 3, p_204349_ & 3);
-+         long i = QuartPos.fromBlock(this.getMinBuildHeight());
-+         long k = i + QuartPos.fromBlock(this.getHeight()) - 1;
-+         long l = Mth.clamp(p_204348_, i, k);
-+         int j = this.getSectionIndex(QuartPos.toBlock(l));
-+         return this.f_187612_[j].getNoiseBiome(p_204347_ & 3, l & 3, p_204349_ & 3);
++         me.alphamode.mclong.math.BigDecimal i = me.alphamode.mclong.math.BigDecimal.valueOf(QuartPos.fromBlock(this.getMinBuildHeight()));
++         me.alphamode.mclong.math.BigDecimal k = i.add(QuartPos.fromBlock(this.getHeight())).subtract(me.alphamode.mclong.math.BigDecimal.ONE);
++         me.alphamode.mclong.math.BigInteger l = Mth.clamp(p_204348_.toBigDecimal(), i, k).toBigInteger();
++         int j = this.getSectionIndex(QuartPos.toBlock(l).longValue());
++         return this.f_187612_[j].getNoiseBiome(p_204347_.and(me.alphamode.mclong.core.BigConstants.Ints.THREE), l.and(me.alphamode.mclong.core.BigConstants.Ints.THREE), p_204349_.and(me.alphamode.mclong.core.BigConstants.Ints.THREE));
        } catch (Throwable throwable) {
           CrashReport crashreport = CrashReport.m_127521_(throwable, "Getting biome");
           CrashReportCategory crashreportcategory = crashreport.m_127514_("Biome being got");
@@ -184,8 +184,8 @@
        ChunkPos chunkpos = this.m_7697_();
 -      int i = QuartPos.m_175400_(chunkpos.m_45604_());
 -      int j = QuartPos.m_175400_(chunkpos.m_45605_());
-+      long i = QuartPos.fromBlock(chunkpos.getMinBlockX());
-+      long j = QuartPos.fromBlock(chunkpos.getMinBlockZ());
++      me.alphamode.mclong.math.BigInteger i = QuartPos.fromBlock(chunkpos.getMinBigBlockX());
++      me.alphamode.mclong.math.BigInteger j = QuartPos.fromBlock(chunkpos.getMinBigBlockZ());
        LevelHeightAccessor levelheightaccessor = this.m_183618_();
  
 -      for(int k = levelheightaccessor.m_151560_(); k < levelheightaccessor.m_151561_(); ++k) {
@@ -195,7 +195,7 @@
 +      for(long k = levelheightaccessor.getMinSection(); k < levelheightaccessor.getMaxSection(); ++k) {
 +         LevelChunkSection levelchunksection = this.m_183278_(this.getSectionIndexFromSectionY(k));
 +         long l = QuartPos.fromSection(k);
-+         levelchunksection.fillBiomesFromNoise(p_187638_, p_187639_, i, l, j);
++         levelchunksection.fillBiomesFromNoise(p_187638_, p_187639_, i, me.alphamode.mclong.math.BigInteger.valueOf(l), j);
        }
  
     }

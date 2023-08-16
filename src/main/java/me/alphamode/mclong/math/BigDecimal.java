@@ -63,6 +63,10 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         return new BigDecimal(this.doubleBacking + val);
     }
 
+    public BigDecimal add() {
+        return add(ONE);
+    }
+
     public BigDecimal multiply(BigDecimal val) {
         if (BigConstants.BIG_MODE)
             return new BigDecimal(this.backing.multiply(val.backing));
@@ -220,6 +224,12 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         if (BigConstants.BIG_MODE)
             return new BigDecimal(this.backing.divide(java.math.BigDecimal.valueOf(divisor)));
         return new BigDecimal(this.doubleBacking / divisor);
+    }
+
+    public BigDecimal pow(int n) {
+        if (BigConstants.BIG_MODE)
+            return new BigDecimal(this.backing.pow(n));
+        return new BigDecimal(Math.pow(this.doubleBacking, n));
     }
 
     public BigDecimal abs() {

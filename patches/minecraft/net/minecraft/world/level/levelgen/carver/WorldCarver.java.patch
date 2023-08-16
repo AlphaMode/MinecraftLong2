@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/carver/WorldCarver.java
 +++ b/net/minecraft/world/level/levelgen/carver/WorldCarver.java
-@@ -57,40 +_,41 @@
+@@ -57,40 +_,42 @@
        return 4;
     }
  
@@ -60,9 +60,10 @@
 -                     if (!p_190765_.m_159425_(p_190754_, d3, d5, d4, j3) && (!p_190764_.m_187594_(j2, j3, l2) || m_159423_(p_190755_))) {
 -                        p_190764_.m_187585_(j2, j3, l2);
 -                        blockpos$mutableblockpos.m_122178_(k2, j3, i3);
-+                     if (!p_190765_.shouldSkip(p_190754_, d3, d5, d4, j3) && (!p_190764_.get(j2.longValue(), j3, l2.longValue()) || m_159423_(p_190755_))) {
-+                        p_190764_.set(j2.longValue(), j3, l2.longValue());
-+                        blockpos$mutableblockpos.set(k2.longValue(), j3, i3.longValue());
++                     var bigY = me.alphamode.mclong.math.BigInteger.valueOf(j3);
++                     if (!p_190765_.shouldSkip(p_190754_, d3, d5, d4, j3) && (!p_190764_.get(j2, bigY, l2) || m_159423_(p_190755_))) {
++                        p_190764_.set(j2, bigY, l2);
++                        blockpos$mutableblockpos.set(k2, bigY, i3);
                          flag |= this.m_183633_(p_190754_, p_190755_, p_190756_, p_190757_, p_190764_, blockpos$mutableblockpos, blockpos$mutableblockpos1, p_190758_, mutableboolean);
                       }
                    }
@@ -84,7 +85,7 @@
           return f_64982_.m_76188_();
        } else {
 -         BlockState blockstate = p_159422_.m_207104_(new DensityFunction.SinglePointContext(p_159421_.m_123341_(), p_159421_.m_123342_(), p_159421_.m_123343_()), 0.0D);
-+         BlockState blockstate = p_159422_.m_207104_(new DensityFunction.SinglePointContext(p_159421_.getX(), p_159421_.getY(), p_159421_.getZ()), 0.0D);
++         BlockState blockstate = p_159422_.m_207104_(new DensityFunction.SinglePointContext(p_159421_.getBigX(), p_159421_.getBigY(), p_159421_.getBigZ()), 0.0D);
           if (blockstate == null) {
              return m_159423_(p_159420_) ? p_159420_.f_159092_.m_159148_() : null;
           } else {

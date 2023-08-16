@@ -10,19 +10,20 @@
 -      int k = QuartPos.m_175402_(p_204294_);
 -      int l = SectionPos.m_123171_(i);
 -      int i1 = SectionPos.m_123171_(k);
-+   public Holder<Biome> getNoiseBiome(long p_204292_, long p_204293_, long p_204294_, Climate.Sampler p_204295_) {
-+      long i = QuartPos.toBlock(p_204292_);
-+      long j = QuartPos.toBlock(p_204293_);
-+      long k = QuartPos.toBlock(p_204294_);
-+      long l = SectionPos.blockToSectionCoord(i);
-+      long i1 = SectionPos.blockToSectionCoord(k);
-       if ((long)l * (long)l + (long)i1 * (long)i1 <= 4096L) {
+-      if ((long)l * (long)l + (long)i1 * (long)i1 <= 4096L) {
++   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger p_204292_, me.alphamode.mclong.math.BigInteger p_204293_, me.alphamode.mclong.math.BigInteger p_204294_, Climate.Sampler p_204295_) {
++      me.alphamode.mclong.math.BigInteger i = QuartPos.toBlock(p_204292_);
++      me.alphamode.mclong.math.BigInteger j = QuartPos.toBlock(p_204293_);
++      me.alphamode.mclong.math.BigInteger k = QuartPos.toBlock(p_204294_);
++      me.alphamode.mclong.math.BigInteger l = SectionPos.blockToSectionCoord(i);
++      me.alphamode.mclong.math.BigInteger i1 = SectionPos.blockToSectionCoord(k);
++      if (l.multiply(l).compareTo(i1.multiply(i1)) <= 4096L) {
           return this.f_48621_;
        } else {
 -         int j1 = (SectionPos.m_123171_(i) * 2 + 1) * 8;
 -         int k1 = (SectionPos.m_123171_(k) * 2 + 1) * 8;
-+         long j1 = (SectionPos.blockToSectionCoord(i) * 2 + 1) * 8;
-+         long k1 = (SectionPos.blockToSectionCoord(k) * 2 + 1) * 8;
++         me.alphamode.mclong.math.BigInteger j1 = (SectionPos.blockToSectionCoord(i).multiply(me.alphamode.mclong.core.BigConstants.Ints.TWO).add()).multiply(me.alphamode.mclong.core.BigConstants.Ints.EIGHT);
++         me.alphamode.mclong.math.BigInteger k1 = (SectionPos.blockToSectionCoord(k).multiply(me.alphamode.mclong.core.BigConstants.Ints.TWO).add()).multiply(me.alphamode.mclong.core.BigConstants.Ints.EIGHT);
           double d0 = p_204295_.f_207848_().m_207386_(new DensityFunction.SinglePointContext(j1, j, k1));
           if (d0 > 0.25D) {
              return this.f_48622_;

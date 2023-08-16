@@ -5,7 +5,7 @@
  
     public static boolean m_46741_(BlockPos p_46742_) {
 -      return !m_46724_(p_46742_.m_123342_()) && m_46457_(p_46742_);
-+      return true;//!isOutsideSpawnableHeight(p_46742_.getY()) && isInWorldBoundsHorizontal(p_46742_);
++      return isOutsideSpawnableHeight(p_46742_.getY()) && m_46457_(p_46742_);
     }
  
     private static boolean m_46457_(BlockPos p_46458_) {
@@ -49,7 +49,7 @@
 +   public long getHeight(Heightmap.Types p_46571_, long p_46572_, long p_46573_) {
 +      long i;
 +         if (this.hasChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_))) {
-+            i = this.getChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_)).getHeight(p_46571_, p_46572_ & 15, p_46573_ & 15) + 1;
++            i = this.getChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_)).getHeight(p_46571_, me.alphamode.mclong.math.BigInteger.valueOf(p_46572_ & 15), me.alphamode.mclong.math.BigInteger.valueOf(p_46573_ & 15)) + 1;
           } else {
 -            i = this.m_141937_();
 +            i = this.getMinBuildHeight();

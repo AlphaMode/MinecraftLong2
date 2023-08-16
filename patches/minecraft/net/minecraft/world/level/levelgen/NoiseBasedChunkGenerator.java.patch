@@ -1,17 +1,26 @@
 --- a/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
 +++ b/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
+@@ -73,7 +_,7 @@
+       Aquifer.FluidStatus aquifer$fluidstatus1 = new Aquifer.FluidStatus(i, p_249264_.f_64441_());
+       Aquifer.FluidStatus aquifer$fluidstatus2 = new Aquifer.FluidStatus(DimensionType.f_156653_ * 2, Blocks.f_50016_.m_49966_());
+       return (p_224274_, p_224275_, p_224276_) -> {
+-         return p_224275_ < Math.min(-54, i) ? aquifer$fluidstatus : aquifer$fluidstatus1;
++         return p_224275_.longValue() < Math.min(-54, i) ? aquifer$fluidstatus : aquifer$fluidstatus1;
+       };
+    }
+ 
 @@ -108,79 +_,79 @@
        return this.f_64318_.m_203565_(p_224222_);
     }
  
 -   public int m_214096_(int p_224216_, int p_224217_, Heightmap.Types p_224218_, LevelHeightAccessor p_224219_, RandomState p_224220_) {
 -      return this.m_224239_(p_224219_, p_224220_, p_224216_, p_224217_, (MutableObject<NoiseColumn>)null, p_224218_.m_64299_()).orElse(p_224219_.m_141937_());
-+   public long getBaseHeight(long p_224216_, long p_224217_, Heightmap.Types p_224218_, LevelHeightAccessor p_224219_, RandomState p_224220_) {
++   public long getBaseHeight(me.alphamode.mclong.math.BigInteger p_224216_, me.alphamode.mclong.math.BigInteger p_224217_, Heightmap.Types p_224218_, LevelHeightAccessor p_224219_, RandomState p_224220_) {
 +      return this.iterateNoiseColumn(p_224219_, p_224220_, p_224216_, p_224217_, (MutableObject<NoiseColumn>)null, p_224218_.m_64299_()).orElse(p_224219_.getMinBuildHeight());
     }
  
 -   public NoiseColumn m_214184_(int p_224211_, int p_224212_, LevelHeightAccessor p_224213_, RandomState p_224214_) {
-+   public NoiseColumn getBaseColumn(long p_224211_, long p_224212_, LevelHeightAccessor p_224213_, RandomState p_224214_) {
++   public NoiseColumn getBaseColumn(me.alphamode.mclong.math.BigInteger p_224211_, me.alphamode.mclong.math.BigInteger p_224212_, LevelHeightAccessor p_224213_, RandomState p_224214_) {
        MutableObject<NoiseColumn> mutableobject = new MutableObject<>();
 -      this.m_224239_(p_224213_, p_224214_, p_224211_, p_224212_, mutableobject, (Predicate<BlockState>)null);
 +      this.iterateNoiseColumn(p_224213_, p_224214_, p_224211_, p_224212_, mutableobject, (Predicate<BlockState>)null);
@@ -22,13 +31,13 @@
        DecimalFormat decimalformat = new DecimalFormat("0.000");
        NoiseRouter noiserouter = p_224305_.m_224578_();
 -      DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(p_224306_.m_123341_(), p_224306_.m_123342_(), p_224306_.m_123343_());
-+      DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(p_224306_.getX(), p_224306_.getY(), p_224306_.getZ());
++      DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(p_224306_.getBigX(), p_224306_.getBigY(), p_224306_.getBigZ());
        double d0 = noiserouter.f_209389_().m_207386_(densityfunction$singlepointcontext);
        p_224304_.add("NoiseRouter T: " + decimalformat.format(noiserouter.f_209384_().m_207386_(densityfunction$singlepointcontext)) + " V: " + decimalformat.format(noiserouter.f_224392_().m_207386_(densityfunction$singlepointcontext)) + " C: " + decimalformat.format(noiserouter.f_209386_().m_207386_(densityfunction$singlepointcontext)) + " E: " + decimalformat.format(noiserouter.f_209387_().m_207386_(densityfunction$singlepointcontext)) + " D: " + decimalformat.format(noiserouter.f_209388_().m_207386_(densityfunction$singlepointcontext)) + " W: " + decimalformat.format(d0) + " PV: " + decimalformat.format((double)NoiseRouterData.m_224435_((float)d0)) + " AS: " + decimalformat.format(noiserouter.f_209390_().m_207386_(densityfunction$singlepointcontext)) + " N: " + decimalformat.format(noiserouter.f_209391_().m_207386_(densityfunction$singlepointcontext)));
     }
  
 -   protected OptionalInt m_224239_(LevelHeightAccessor p_224240_, RandomState p_224241_, int p_224242_, int p_224243_, @Nullable MutableObject<NoiseColumn> p_224244_, @Nullable Predicate<BlockState> p_224245_) {
-+   protected java.util.OptionalLong iterateNoiseColumn(LevelHeightAccessor p_224240_, RandomState p_224241_, long p_224242_, long p_224243_, @Nullable MutableObject<NoiseColumn> p_224244_, @Nullable Predicate<BlockState> p_224245_) {
++   protected java.util.OptionalLong iterateNoiseColumn(LevelHeightAccessor p_224240_, RandomState p_224241_, me.alphamode.mclong.math.BigInteger p_224242_, me.alphamode.mclong.math.BigInteger p_224243_, @Nullable MutableObject<NoiseColumn> p_224244_, @Nullable Predicate<BlockState> p_224245_) {
        NoiseSettings noisesettings = this.f_64318_.m_203334_().f_64439_().m_224530_(p_224240_);
 -      int i = noisesettings.m_189212_();
 -      int j = noisesettings.f_158688_();
@@ -58,15 +67,17 @@
 -         int i2 = Math.floorMod(p_224243_, i1);
 -         int j2 = j1 * i1;
 -         int k2 = k1 * i1;
+-         double d0 = (double)l1 / (double)i1;
+-         double d1 = (double)i2 / (double)i1;
 +         long i1 = noisesettings.getCellWidth();
-+         long j1 = Math.floorDiv(p_224242_, i1);
-+         long k1 = Math.floorDiv(p_224243_, i1);
-+         long l1 = Math.floorMod(p_224242_, i1);
-+         long i2 = Math.floorMod(p_224243_, i1);
-+         long j2 = j1 * i1;
-+         long k2 = k1 * i1;
-          double d0 = (double)l1 / (double)i1;
-          double d1 = (double)i2 / (double)i1;
++         me.alphamode.mclong.math.BigInteger j1 = me.alphamode.mclong.math.BigMath.floorDiv(p_224242_, i1);
++         me.alphamode.mclong.math.BigInteger k1 = me.alphamode.mclong.math.BigMath.floorDiv(p_224243_, i1);
++         me.alphamode.mclong.math.BigInteger l1 = me.alphamode.mclong.math.BigMath.floorMod(p_224242_, i1);
++         me.alphamode.mclong.math.BigInteger i2 = me.alphamode.mclong.math.BigMath.floorMod(p_224243_, i1);
++         me.alphamode.mclong.math.BigInteger j2 = j1.multiply(i1);
++         me.alphamode.mclong.math.BigInteger k2 = k1.multiply(i1);
++         me.alphamode.mclong.math.BigDecimal d0 = l1.toBigDecimal().divide((double)i1);
++         me.alphamode.mclong.math.BigDecimal d1 = i2.toBigDecimal().divide((double)i1);
           NoiseChunk noisechunk = new NoiseChunk(1, p_224241_, j2, k2, noisesettings, DensityFunctions.BeardifierMarker.INSTANCE, this.f_64318_.m_203334_(), this.f_188607_.get(), Blender.m_190153_());
           noisechunk.m_188791_();
           noisechunk.m_188749_(0);
@@ -85,8 +96,8 @@
 -               noisechunk.m_209230_(p_224242_, d0);
 -               noisechunk.m_209241_(p_224243_, d1);
 +               noisechunk.updateForY(j3, d2);
-+               noisechunk.updateForX(p_224242_, d0);
-+               noisechunk.updateForZ(p_224243_, d1);
++               noisechunk.updateForX(p_224242_, d0.doubleValue());
++               noisechunk.updateForZ(p_224243_, d1.doubleValue());
                 BlockState blockstate = noisechunk.m_209247_();
                 BlockState blockstate1 = blockstate == null ? this.f_64318_.m_203334_().f_64440_() : blockstate;
                 if (ablockstate != null) {
@@ -129,7 +140,7 @@
 +            ChunkAccess chunkaccess = p_224224_.getChunk(chunkpos1.x(), chunkpos1.z());
              BiomeGenerationSettings biomegenerationsettings = chunkaccess.m_223014_(() -> {
 -               return this.m_223131_(this.f_62137_.m_203407_(QuartPos.m_175400_(chunkpos1.m_45604_()), 0, QuartPos.m_175400_(chunkpos1.m_45605_()), p_224226_.m_224579_()));
-+               return this.m_223131_(this.f_62137_.getNoiseBiome(QuartPos.fromBlock(chunkpos1.getMinBlockX()), 0, QuartPos.fromBlock(chunkpos1.getMinBlockZ()), p_224226_.m_224579_()));
++               return this.m_223131_(this.f_62137_.getNoiseBiome(QuartPos.fromBlock(chunkpos1.getMinBigBlockX()), me.alphamode.mclong.math.BigInteger.ZERO, QuartPos.fromBlock(chunkpos1.getMinBigBlockZ()), p_224226_.m_224579_()));
              });
              Iterable<Holder<ConfiguredWorldCarver<?>>> iterable = biomegenerationsettings.m_204187_(p_224230_);
              int l = 0;
@@ -184,8 +195,8 @@
        ChunkPos chunkpos = p_224288_.m_7697_();
 -      int i = chunkpos.m_45604_();
 -      int j = chunkpos.m_45605_();
-+      long i = chunkpos.getMinBlockX();
-+      long j = chunkpos.getMinBlockZ();
++      me.alphamode.mclong.math.BigInteger i = chunkpos.getMinBigBlockX();
++      me.alphamode.mclong.math.BigInteger j = chunkpos.getMinBigBlockZ();
        Aquifer aquifer = noisechunk.m_188817_();
        noisechunk.m_188791_();
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
@@ -214,9 +225,9 @@
 -                  int i3 = l2 & 15;
 -                  int j3 = p_224288_.m_151564_(l2);
 +               for(long k2 = l - 1; k2 >= 0; --k2) {
-+                  long l2 = (p_224289_ + j2) * l + k2;
-+                  long i3 = l2 & 15;
-+                  int j3 = p_224288_.getSectionIndex(l2);
++                  me.alphamode.mclong.math.BigInteger l2 = me.alphamode.mclong.math.BigInteger.valueOf((p_224289_ + j2) * l + k2);
++                  me.alphamode.mclong.math.BigInteger i3 = l2.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++                  int j3 = p_224288_.getSectionIndex(l2.longValue());
                    if (i2 != j3) {
                       i2 = j3;
                       levelchunksection = p_224288_.m_183278_(j3);
@@ -224,13 +235,13 @@
  
                    double d0 = (double)k2 / (double)l;
 -                  noisechunk.m_209191_(l2, d0);
-+                  noisechunk.updateForY(l2, d0);
++                  noisechunk.updateForY(l2.longValue(), d0);
  
                    for(int k3 = 0; k3 < k; ++k3) {
 -                     int l3 = i + k1 * k + k3;
 -                     int i4 = l3 & 15;
-+                     long l3 = i + k1 * k + k3;
-+                     long i4 = l3 & 15;
++                     me.alphamode.mclong.math.BigInteger l3 = i.add(k1 * k).add(k3);
++                     me.alphamode.mclong.math.BigInteger i4 = l3.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
                       double d1 = (double)k3 / (double)k;
 -                     noisechunk.m_209230_(l3, d1);
 +                     noisechunk.updateForX(l3, d1);
@@ -238,8 +249,8 @@
                       for(int j4 = 0; j4 < k; ++j4) {
 -                        int k4 = j + l1 * k + j4;
 -                        int l4 = k4 & 15;
-+                        long k4 = j + l1 * k + j4;
-+                        long l4 = k4 & 15;
++                        me.alphamode.mclong.math.BigInteger k4 = j.add(l1 * k).add(j4);
++                        me.alphamode.mclong.math.BigInteger l4 = k4.add(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
                          double d2 = (double)j4 / (double)k;
 -                        noisechunk.m_209241_(k4, d2);
 +                        noisechunk.updateForZ(k4, d2);
@@ -268,7 +279,7 @@
     }
  
 -   private BlockState m_198231_(NoiseChunk p_198232_, int p_198233_, int p_198234_, int p_198235_, BlockState p_198236_) {
-+   private BlockState debugPreliminarySurfaceLevel(NoiseChunk p_198232_, long p_198233_, long p_198234_, long p_198235_, BlockState p_198236_) {
++   private BlockState debugPreliminarySurfaceLevel(NoiseChunk p_198232_, me.alphamode.mclong.math.BigInteger p_198233_, me.alphamode.mclong.math.BigInteger p_198234_, me.alphamode.mclong.math.BigInteger p_198235_, BlockState p_198236_) {
        return p_198236_;
     }
  

@@ -1,15 +1,57 @@
 --- a/net/minecraft/world/level/levelgen/synth/BlendedNoise.java
 +++ b/net/minecraft/world/level/levelgen/synth/BlendedNoise.java
-@@ -68,9 +_,9 @@
+@@ -68,12 +_,12 @@
     }
  
     public double m_207386_(DensityFunction.FunctionContext p_210621_) {
 -      double d0 = (double)p_210621_.m_207115_() * this.f_230456_;
 -      double d1 = (double)p_210621_.m_207114_() * this.f_230457_;
 -      double d2 = (double)p_210621_.m_207113_() * this.f_230456_;
-+      double d0 = (double)p_210621_.blockX() * this.f_230456_;
-+      double d1 = (double)p_210621_.blockY() * this.f_230457_;
-+      double d2 = (double)p_210621_.blockZ() * this.f_230456_;
-       double d3 = d0 / this.f_230458_;
-       double d4 = d1 / this.f_230459_;
-       double d5 = d2 / this.f_230458_;
+-      double d3 = d0 / this.f_230458_;
+-      double d4 = d1 / this.f_230459_;
+-      double d5 = d2 / this.f_230458_;
++      me.alphamode.mclong.math.BigDecimal d0 = p_210621_.blockX().toBigDecimal().multiply(this.f_230456_);
++      me.alphamode.mclong.math.BigDecimal d1 = p_210621_.blockY().toBigDecimal().multiply(this.f_230457_);
++      me.alphamode.mclong.math.BigDecimal d2 = p_210621_.blockZ().toBigDecimal().multiply(this.f_230456_);
++      me.alphamode.mclong.math.BigDecimal d3 = d0.divide(this.f_230458_);
++      me.alphamode.mclong.math.BigDecimal d4 = d1.divide(this.f_230459_);
++      me.alphamode.mclong.math.BigDecimal d5 = d2.divide(this.f_230458_);
+       double d6 = this.f_230457_ * this.f_230460_;
+       double d7 = d6 / this.f_230459_;
+       double d8 = 0.0D;
+@@ -85,7 +_,7 @@
+       for(int i = 0; i < 8; ++i) {
+          ImprovedNoise improvednoise = this.f_164290_.m_75424_(i);
+          if (improvednoise != null) {
+-            d10 += improvednoise.m_75327_(PerlinNoise.m_75406_(d3 * d11), PerlinNoise.m_75406_(d4 * d11), PerlinNoise.m_75406_(d5 * d11), d7 * d11, d4 * d11) / d11;
++            d10 += improvednoise.noise(PerlinNoise.wrap(d3.multiply(d11)), PerlinNoise.wrap(d4.multiply(d11)), PerlinNoise.wrap(d5.multiply(d11)), d7 * d11, d4.multiply(d11)) / d11;
+          }
+ 
+          d11 /= 2.0D;
+@@ -97,21 +_,21 @@
+       d11 = 1.0D;
+ 
+       for(int j = 0; j < 16; ++j) {
+-         double d12 = PerlinNoise.m_75406_(d0 * d11);
+-         double d13 = PerlinNoise.m_75406_(d1 * d11);
+-         double d14 = PerlinNoise.m_75406_(d2 * d11);
++         me.alphamode.mclong.math.BigDecimal d12 = PerlinNoise.wrap(d0.multiply(d11));
++         me.alphamode.mclong.math.BigDecimal d13 = PerlinNoise.wrap(d1.multiply(d11));
++         me.alphamode.mclong.math.BigDecimal d14 = PerlinNoise.wrap(d2.multiply(d11));
+          double d15 = d6 * d11;
+          if (!flag1) {
+             ImprovedNoise improvednoise1 = this.f_164288_.m_75424_(j);
+             if (improvednoise1 != null) {
+-               d8 += improvednoise1.m_75327_(d12, d13, d14, d15, d1 * d11) / d11;
++               d8 += improvednoise1.noise(d12, d13, d14, d15, d1.multiply(d11)) / d11;
+             }
+          }
+ 
+          if (!flag2) {
+             ImprovedNoise improvednoise2 = this.f_164289_.m_75424_(j);
+             if (improvednoise2 != null) {
+-               d9 += improvednoise2.m_75327_(d12, d13, d14, d15, d1 * d11) / d11;
++               d9 += improvednoise2.noise(d12, d13, d14, d15, d1.multiply(d11)) / d11;
+             }
+          }
+ 

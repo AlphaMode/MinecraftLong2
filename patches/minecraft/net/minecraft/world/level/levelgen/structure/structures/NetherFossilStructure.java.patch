@@ -7,15 +7,16 @@
 -      int i = p_228576_.f_226628_().m_45604_() + worldgenrandom.m_188503_(16);
 -      int j = p_228576_.f_226628_().m_45605_() + worldgenrandom.m_188503_(16);
 -      int k = p_228576_.f_226622_().m_6337_();
-+      long i = p_228576_.f_226628_().getMinBlockX() + worldgenrandom.m_188503_(16);
-+      long j = p_228576_.f_226628_().getMinBlockZ() + worldgenrandom.m_188503_(16);
++      me.alphamode.mclong.math.BigInteger i = p_228576_.f_226628_().getMinBigBlockX().add(worldgenrandom.m_188503_(16));
++      me.alphamode.mclong.math.BigInteger j = p_228576_.f_226628_().getMinBigBlockZ().add(worldgenrandom.m_188503_(16));
 +      long k = p_228576_.f_226622_().getSeaLevel();
        WorldGenerationContext worldgenerationcontext = new WorldGenerationContext(p_228576_.f_226622_(), p_228576_.f_226629_());
 -      int l = this.f_228570_.m_213859_(worldgenrandom, worldgenerationcontext);
 -      NoiseColumn noisecolumn = p_228576_.f_226622_().m_214184_(i, j, p_228576_.f_226629_(), p_228576_.f_226624_());
+-      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(i, l, j);
 +      long l = this.f_228570_.sample(worldgenrandom, worldgenerationcontext);
 +      NoiseColumn noisecolumn = p_228576_.f_226622_().getBaseColumn(i, j, p_228576_.f_226629_(), p_228576_.f_226624_());
-       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(i, l, j);
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(i, me.alphamode.mclong.math.BigInteger.valueOf(l), j);
  
        while(l > k) {
 -         BlockState blockstate = noisecolumn.m_183556_(l);
@@ -28,3 +29,12 @@
              break;
           }
        }
+@@ -50,7 +_,7 @@
+       if (l <= k) {
+          return Optional.empty();
+       } else {
+-         BlockPos blockpos = new BlockPos(i, l, j);
++         BlockPos blockpos = new BlockPos(i, me.alphamode.mclong.math.BigInteger.valueOf(l), j);
+          return Optional.of(new Structure.GenerationStub(blockpos, (p_228581_) -> {
+             NetherFossilPieces.m_228534_(p_228576_.f_226625_(), p_228581_, worldgenrandom, blockpos);
+          }));

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/pools/JigsawPlacement.java
 +++ b/net/minecraft/world/level/levelgen/structure/pools/JigsawPlacement.java
-@@ -73,22 +_,22 @@
+@@ -73,27 +_,27 @@
              blockpos = p_227243_;
           }
  
@@ -13,26 +13,32 @@
 -         int i = (boundingbox.m_162399_() + boundingbox.m_162395_()) / 2;
 -         int j = (boundingbox.m_162401_() + boundingbox.m_162398_()) / 2;
 -         int k;
-+         long i = (boundingbox.maxX() + boundingbox.minX()) / 2;
-+         long j = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
-+         long k;
++         me.alphamode.mclong.math.BigInteger i = (boundingbox.maxBigX().add(boundingbox.minBigX())).divide(me.alphamode.mclong.core.BigConstants.Ints.TWO);
++         me.alphamode.mclong.math.BigInteger j = (boundingbox.maxBigZ().add(boundingbox.minBigZ())).divide(me.alphamode.mclong.core.BigConstants.Ints.TWO);
++         me.alphamode.mclong.math.BigInteger k;
           if (p_227245_.isPresent()) {
 -            k = p_227243_.m_123342_() + chunkgenerator.m_223221_(i, j, p_227245_.get(), levelheightaccessor, p_227239_.f_226624_());
-+            k = p_227243_.getY() + chunkgenerator.getFirstFreeHeight(i, j, p_227245_.get(), levelheightaccessor, p_227239_.f_226624_());
++            k = p_227243_.getBigY().add(chunkgenerator.getFirstFreeHeight(i, j, p_227245_.get(), levelheightaccessor, p_227239_.f_226624_()));
           } else {
 -            k = blockpos1.m_123342_();
-+            k = blockpos1.getY();
++            k = blockpos1.getBigY();
           }
  
 -         int l = boundingbox.m_162396_() + poolelementstructurepiece.m_72647_();
 -         poolelementstructurepiece.m_6324_(0, k - l, 0);
 -         int i1 = k + vec3i.m_123342_();
-+         long l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
-+         poolelementstructurepiece.move(0, k - l, 0);
-+         long i1 = k + vec3i.getY();
++         me.alphamode.mclong.math.BigInteger l = boundingbox.minBigY().add(poolelementstructurepiece.getGroundLevelDelta());
++         poolelementstructurepiece.move(0, k.subtract(l).longValue(), 0);
++         me.alphamode.mclong.math.BigInteger i1 = k.add(vec3i.getBigY());
           return Optional.of(new Structure.GenerationStub(new BlockPos(i, i1, j), (p_227237_) -> {
              List<PoolElementStructurePiece> list = Lists.newArrayList();
              list.add(poolelementstructurepiece);
+             if (p_227242_ > 0) {
+-               AABB aabb = new AABB((double)(i - p_227246_), (double)(i1 - p_227246_), (double)(j - p_227246_), (double)(i + p_227246_ + 1), (double)(i1 + p_227246_ + 1), (double)(j + p_227246_ + 1));
++               AABB aabb = new AABB((i.subtract(p_227246_)).toBigDecimal(), (i1.subtract(p_227246_)).toBigDecimal(), (j.subtract(p_227246_)).toBigDecimal(), (i.add(p_227246_).add()).toBigDecimal(), (i1.add(p_227246_).add()).toBigDecimal(), (j.add(p_227246_).add()).toBigDecimal());
+                VoxelShape voxelshape = Shapes.m_83113_(Shapes.m_83064_(aabb), Shapes.m_83064_(AABB.m_82321_(boundingbox)), BooleanOp.f_82685_);
+                m_227210_(p_227239_.f_226624_(), p_227242_, p_227244_, chunkgenerator, structuretemplatemanager, levelheightaccessor, worldgenrandom, registry, poolelementstructurepiece, list, voxelshape);
+                list.forEach(p_227237_::m_142679_);
 @@ -191,15 +_,15 @@
           boolean flag = structuretemplatepool$projection == StructureTemplatePool.Projection.RIGID;
           MutableObject<VoxelShape> mutableobject = new MutableObject<>();
@@ -118,7 +124,7 @@
                                   } else {
                                      if (k == -1) {
 -                                       k = this.f_210317_.m_223221_(blockpos1.m_123341_(), blockpos1.m_123343_(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
-+                                       k = this.f_210317_.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
++                                       k = this.f_210317_.getFirstFreeHeight(blockpos1.getBigX(), blockpos1.getBigZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
                                      }
  
                                      l1 = k - j1;
@@ -159,7 +165,7 @@
                                      } else {
                                         if (k == -1) {
 -                                          k = this.f_210317_.m_223221_(blockpos1.m_123341_(), blockpos1.m_123343_(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
-+                                          k = this.f_210317_.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
++                                          k = this.f_210317_.getFirstFreeHeight(blockpos1.getBigX(), blockpos1.getBigZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
                                         }
  
                                         l2 = k + k1 / 2;
