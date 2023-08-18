@@ -1,11 +1,14 @@
 --- a/net/minecraft/world/level/levelgen/structure/placement/ConcentricRingsStructurePlacement.java
 +++ b/net/minecraft/world/level/levelgen/structure/placement/ConcentricRingsStructurePlacement.java
-@@ -56,7 +_,7 @@
+@@ -56,9 +_,9 @@
        return this.f_226974_;
     }
  
 -   protected boolean m_214090_(ChunkGeneratorStructureState p_256631_, int p_256202_, int p_255915_) {
-+   protected boolean isPlacementChunk(ChunkGeneratorStructureState p_256631_, long p_256202_, long p_255915_) {
++   protected boolean isPlacementChunk(ChunkGeneratorStructureState p_256631_, long p_256202_, long chunkY, long p_255915_) {
        List<ChunkPos> list = p_256631_.m_255182_(this);
-       return list == null ? false : list.contains(new ChunkPos(p_256202_, p_255915_));
+-      return list == null ? false : list.contains(new ChunkPos(p_256202_, p_255915_));
++      return list == null ? false : list.contains(new ChunkPos(p_256202_, chunkY, p_255915_));
     }
+ 
+    public StructurePlacementType<?> m_203443_() {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/BambooFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/BambooFeature.java
-@@ -36,12 +_,12 @@
+@@ -36,29 +_,32 @@
              if (randomsource.m_188501_() < probabilityfeatureconfiguration.f_67859_) {
                 int k = randomsource.m_188503_(4) + 1;
  
@@ -8,17 +8,24 @@
 -                  for(int i1 = blockpos.m_123343_() - k; i1 <= blockpos.m_123343_() + k; ++i1) {
 -                     int j1 = l - blockpos.m_123341_();
 -                     int k1 = i1 - blockpos.m_123343_();
+-                     if (j1 * j1 + k1 * k1 <= k * k) {
+-                        blockpos$mutableblockpos1.m_122178_(l, worldgenlevel.m_6924_(Heightmap.Types.WORLD_SURFACE, l, i1) - 1, i1);
 +               for(long l = blockpos.getX() - k; l <= blockpos.getX() + k; ++l) {
++                  for(long yPos = blockpos.getY() - k; yPos <= blockpos.getY() + k; ++yPos) {
 +                  for(long i1 = blockpos.getZ() - k; i1 <= blockpos.getZ() + k; ++i1) {
 +                     long j1 = l - blockpos.getX();
++                     long y = yPos - blockpos.getY();
 +                     long k1 = i1 - blockpos.getZ();
-                      if (j1 * j1 + k1 * k1 <= k * k) {
--                        blockpos$mutableblockpos1.m_122178_(l, worldgenlevel.m_6924_(Heightmap.Types.WORLD_SURFACE, l, i1) - 1, i1);
-+                        blockpos$mutableblockpos1.set(l, worldgenlevel.getHeight(Heightmap.Types.WORLD_SURFACE, l, i1) - 1, i1);
++                     if (j1 * j1 + y * y + k1 * k1 <= k * k) {
++                        blockpos$mutableblockpos1.set(l, worldgenlevel.getHeight(Heightmap.Types.WORLD_SURFACE, l, yPos, i1) - 1, i1);
                          if (m_159759_(worldgenlevel.m_8055_(blockpos$mutableblockpos1))) {
                             worldgenlevel.m_7731_(blockpos$mutableblockpos1, Blocks.f_50599_.m_49966_(), 2);
                          }
-@@ -52,13 +_,13 @@
+                      }
+                   }
++                  }
+                }
+             }
  
              for(int l1 = 0; l1 < j && worldgenlevel.m_46859_(blockpos$mutableblockpos); ++l1) {
                 worldgenlevel.m_7731_(blockpos$mutableblockpos, f_65131_, 2);

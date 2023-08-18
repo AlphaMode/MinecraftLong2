@@ -22,7 +22,7 @@
     final List<NoiseChunk.CacheAllInCell> f_209160_;
     private final Map<DensityFunction, DensityFunction> f_209161_ = new HashMap<>();
 -   private final Long2IntMap f_198238_ = new Long2IntOpenHashMap();
-+   private final it.unimi.dsi.fastutil.longs.Long2LongMap f_198238_ = new it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap();
++   private final it.unimi.dsi.fastutil.objects.Object2LongMap<ColumnPos> f_198238_ = new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>();
     private final Aquifer f_188728_;
     private final DensityFunction f_209162_;
     private final NoiseChunk.BlockStateFiller f_209163_;
@@ -63,11 +63,11 @@
 -      int i = 16 / noisesettings.m_189213_();
 -      return new NoiseChunk(i, p_224354_, chunkpos.m_45604_(), chunkpos.m_45605_(), noisesettings, p_224355_, p_224356_, p_224357_, p_224358_);
 +      long i = 16 / noisesettings.getCellWidth();
-+      return new NoiseChunk(i, p_224354_, chunkpos.getMinBlockX(), chunkpos.getMinBlockZ(), noisesettings, p_224355_, p_224356_, p_224357_, p_224358_);
++      return new NoiseChunk(i, p_224354_, chunkpos.getMinBlockX(), chunkpos.getMinBlockY(), chunkpos.getMinBlockZ(), noisesettings, p_224355_, p_224356_, p_224357_, p_224358_);
     }
  
 -   public NoiseChunk(int p_224343_, RandomState p_224344_, int p_224345_, int p_224346_, NoiseSettings p_224347_, DensityFunctions.BeardifierOrMarker p_224348_, NoiseGeneratorSettings p_224349_, Aquifer.FluidPicker p_224350_, Blender p_224351_) {
-+   public NoiseChunk(long p_224343_, RandomState p_224344_, long p_224345_, long p_224346_, NoiseSettings p_224347_, DensityFunctions.BeardifierOrMarker p_224348_, NoiseGeneratorSettings p_224349_, Aquifer.FluidPicker p_224350_, Blender p_224351_) {
++   public NoiseChunk(long p_224343_, RandomState p_224344_, long p_224345_, long chunkY, long p_224346_, NoiseSettings p_224347_, DensityFunctions.BeardifierOrMarker p_224348_, NoiseGeneratorSettings p_224349_, Aquifer.FluidPicker p_224350_, Blender p_224351_) {
        this.f_188717_ = p_224347_;
 -      this.f_209170_ = p_224347_.m_189213_();
 -      this.f_209171_ = p_224347_.m_189212_();
@@ -118,7 +118,7 @@
 -         this.f_188728_ = Aquifer.m_223880_(this, new ChunkPos(k1, l1), noiserouter1, p_224344_.m_224581_(), p_224347_.f_158688_(), p_224347_.f_64508_(), p_224350_);
 +         long k1 = SectionPos.blockToSectionCoord(p_224345_);
 +         long l1 = SectionPos.blockToSectionCoord(p_224346_);
-+         this.f_188728_ = Aquifer.create(this, new ChunkPos(k1, l1), noiserouter1, p_224344_.m_224581_(), p_224347_.minY(), p_224347_.height(), p_224350_);
++         this.f_188728_ = Aquifer.create(this, new ChunkPos(k1, SectionPos.blockToSectionCoord(chunkY), l1), noiserouter1, p_224344_.m_224581_(), p_224347_.minY(), p_224347_.height(), p_224350_);
        }
  
        ImmutableList.Builder<NoiseChunk.BlockStateFiller> builder = ImmutableList.builder();
@@ -148,14 +148,16 @@
 +   public long preliminarySurfaceLevel(long p_198257_, long p_198258_) {
 +      long i = QuartPos.toBlock(QuartPos.fromBlock(p_198257_));
 +      long j = QuartPos.toBlock(QuartPos.fromBlock(p_198258_));
-+      return this.f_198238_.computeIfAbsent(ColumnPos.asLong(i, j), this::computePreliminarySurfaceLevel);
++      return this.f_198238_.computeIfAbsent(new ColumnPos(i, 0, j), this::computePreliminarySurfaceLevel);
     }
  
 -   private int m_198249_(long p_198250_) {
-+   private long computePreliminarySurfaceLevel(long p_198250_) {
-       int i = ColumnPos.m_214969_(p_198250_);
-       int j = ColumnPos.m_214971_(p_198250_);
+-      int i = ColumnPos.m_214969_(p_198250_);
+-      int j = ColumnPos.m_214971_(p_198250_);
 -      int k = this.f_188717_.f_158688_();
++   private long computePreliminarySurfaceLevel(ColumnPos p_198250_) {
++      long i = p_198250_.x();
++      long j = p_198250_.z();
 +      long k = this.f_188717_.minY();
  
 -      for(int l = k + this.f_188717_.f_64508_(); l >= k; l -= this.f_209171_) {
@@ -268,8 +270,8 @@
 -   Blender.BlendingOutput m_209244_(int p_209245_, int p_209246_) {
 -      long i = ChunkPos.m_45589_(p_209245_, p_209246_);
 -      if (this.f_209167_ == i) {
-+   Blender.BlendingOutput getOrComputeBlendingOutput(long p_209245_, long p_209246_) {
-+      ChunkPos i = new ChunkPos(p_209245_, p_209246_);
++   Blender.BlendingOutput getOrComputeBlendingOutput(long p_209245_, long chunkY, long p_209246_) {
++      ChunkPos i = new ChunkPos(p_209245_, chunkY, p_209246_);
 +      if (this.f_209167_.equals(i)) {
           return this.f_209168_;
        } else {
@@ -284,7 +286,7 @@
  
        public double m_207386_(DensityFunction.FunctionContext p_209264_) {
 -         return NoiseChunk.this.m_209244_(p_209264_.m_207115_(), p_209264_.m_207113_()).f_209729_();
-+         return NoiseChunk.this.getOrComputeBlendingOutput(p_209264_.blockX(), p_209264_.blockZ()).f_209729_();
++         return NoiseChunk.this.getOrComputeBlendingOutput(p_209264_.blockX(), p_209264_.blockY(), p_209264_.blockZ()).f_209729_();
        }
  
        public void m_207362_(double[] p_209266_, DensityFunction.ContextProvider p_209267_) {
@@ -293,7 +295,7 @@
  
        public double m_207386_(DensityFunction.FunctionContext p_209276_) {
 -         return NoiseChunk.this.m_209244_(p_209276_.m_207115_(), p_209276_.m_207113_()).f_209730_();
-+         return NoiseChunk.this.getOrComputeBlendingOutput(p_209276_.blockX(), p_209276_.blockZ()).f_209730_();
++         return NoiseChunk.this.getOrComputeBlendingOutput(p_209276_.blockX(), p_209276_.blockY(), p_209276_.blockZ()).f_209730_();
        }
  
        public void m_207362_(double[] p_209278_, DensityFunction.ContextProvider p_209279_) {
@@ -316,7 +318,7 @@
 -         if (this.f_209285_ == k) {
 +         long i = p_209290_.blockX();
 +         long j = p_209290_.blockZ();
-+         ChunkPos k = new ChunkPos(i, j);
++         ChunkPos k = new ChunkPos(i, p_209290_.blockY(), j);
 +         if (this.f_209285_.equals(k)) {
              return this.f_209286_;
           } else {

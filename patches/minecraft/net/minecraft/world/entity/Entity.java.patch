@@ -108,7 +108,7 @@
     @Deprecated
     public float m_213856_() {
 -      return this.m_9236_().m_151577_(this.m_146903_(), this.m_146907_()) ? this.m_9236_().m_220417_(BlockPos.m_274561_(this.m_20185_(), this.m_20188_(), this.m_20189_())) : 0.0F;
-+      return this.f_19853_.hasChunkAt(this.getBlockX(), this.getBlockZ()) ? this.f_19853_.m_220417_(BlockPos.m_274561_(this.m_20185_(), this.m_20188_(), this.m_20189_())) : 0.0F;
++      return this.f_19853_.hasChunkAt(this.getBlockX(), this.getBlockY(), this.getBlockZ()) ? this.f_19853_.m_220417_(BlockPos.m_274561_(this.m_20185_(), this.m_20188_(), this.m_20189_())) : 0.0F;
     }
  
     public void m_19890_(double p_19891_, double p_19892_, double p_19893_, float p_19894_, float p_19895_) {
@@ -189,7 +189,7 @@
           ChunkPos chunkpos = new ChunkPos(BlockPos.m_274561_(p_20325_, p_20326_, p_20327_));
           ((ServerLevel)this.m_9236_()).m_7726_().m_8387_(TicketType.f_9448_, chunkpos, 0, this.m_19879_());
 -         this.m_9236_().m_6325_(chunkpos.f_45578_, chunkpos.f_45579_);
-+         this.f_19853_.getChunk(chunkpos.f_45578_, chunkpos.f_45579_);
++         this.f_19853_.getChunk(chunkpos.f_45578_, chunkpos.y, chunkpos.f_45579_);
           this.m_6021_(p_20325_, p_20326_, p_20327_);
        }
     }
@@ -227,7 +227,7 @@
                    FluidState fluidstate = this.m_9236_().m_6425_(blockpos$mutableblockpos);
                    if (fluidstate.m_205070_(p_204032_)) {
                       double d1 = (double)((float)i2 + fluidstate.m_76155_(this.m_9236_(), blockpos$mutableblockpos));
-@@ -3049,11 +_,11 @@
+@@ -3049,11 +_,13 @@
  
     public boolean m_146899_() {
        AABB aabb = this.m_20191_().m_82400_(1.0D);
@@ -238,9 +238,11 @@
 -      return !this.m_9236_().m_151572_(i, k, j, l);
 +      long i = Mth.m_14134_(aabb.f_82288_);
 +      long j = Mth.lceil(aabb.f_82291_);
++      long y1 = Mth.m_14134_(aabb.f_82289_);
++      long y2 = Mth.lceil(aabb.f_82292_);
 +      long k = Mth.m_14134_(aabb.f_82290_);
 +      long l = Mth.lceil(aabb.f_82293_);
-+      return !this.f_19853_.hasChunksAt(i, k, j, l);
++      return !this.f_19853_.hasChunksAt(i, y1, k, j, y2, l);
     }
  
     public double m_204036_(TagKey<Fluid> p_204037_) {

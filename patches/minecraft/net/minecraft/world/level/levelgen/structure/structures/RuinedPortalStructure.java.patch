@@ -15,7 +15,7 @@
 -         int i = chunkgenerator.m_214096_(blockpos2.m_123341_(), blockpos2.m_123343_(), RuinedPortalPiece.m_229160_(ruinedportalstructure$setup3.f_229307_()), levelheightaccessor, randomstate) - 1;
 -         int j = m_229266_(worldgenrandom, chunkgenerator, ruinedportalstructure$setup3.f_229307_(), ruinedportalpiece$properties.f_229200_, i, boundingbox.m_71057_(), boundingbox, levelheightaccessor, randomstate);
 -         BlockPos blockpos3 = new BlockPos(blockpos1.m_123341_(), j, blockpos1.m_123343_());
-+         long i = chunkgenerator.getBaseHeight(blockpos2.getX(), blockpos2.getZ(), RuinedPortalPiece.m_229160_(ruinedportalstructure$setup3.f_229307_()), levelheightaccessor, randomstate) - 1;
++         long i = chunkgenerator.getBaseHeight(blockpos2.getX(), blockpos2.getY(), blockpos2.getZ(), RuinedPortalPiece.m_229160_(ruinedportalstructure$setup3.f_229307_()), levelheightaccessor, randomstate) - 1;
 +         long j = findSuitableY(worldgenrandom, chunkgenerator, ruinedportalstructure$setup3.f_229307_(), ruinedportalpiece$properties.f_229200_, i, boundingbox.getYSpan(), boundingbox, levelheightaccessor, randomstate);
 +         BlockPos blockpos3 = new BlockPos(blockpos1.getX(), j, blockpos1.getZ());
           return Optional.of(new Structure.GenerationStub(blockpos3, (p_229297_) -> {
@@ -61,7 +61,7 @@
 +      List<BlockPos> list1 = ImmutableList.of(new BlockPos(p_229273_.minX(), 0, p_229273_.minZ()), new BlockPos(p_229273_.maxX(), 0, p_229273_.minZ()), new BlockPos(p_229273_.minX(), 0, p_229273_.maxZ()), new BlockPos(p_229273_.maxX(), 0, p_229273_.maxZ()));
        List<NoiseColumn> list = list1.stream().map((p_229280_) -> {
 -         return p_229268_.m_214184_(p_229280_.m_123341_(), p_229280_.m_123343_(), p_229274_, p_229275_);
-+         return p_229268_.getBaseColumn(p_229280_.getX(), p_229280_.getZ(), p_229274_, p_229275_);
++         return p_229268_.getBaseColumn(p_229280_.getX(), p_229280_.getY(), p_229280_.getZ(), p_229274_, p_229275_);
        }).collect(Collectors.toList());
        Heightmap.Types heightmap$types = p_229269_ == RuinedPortalPiece.VerticalPlacement.ON_OCEAN_FLOOR ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
  

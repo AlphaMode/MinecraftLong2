@@ -52,13 +52,14 @@
              }
           }
        }
-@@ -187,32 +_,32 @@
+@@ -187,36 +_,39 @@
     private void m_229178_(RandomSource p_229179_, LevelAccessor p_229180_) {
        boolean flag = this.f_229101_ == RuinedPortalPiece.VerticalPlacement.ON_LAND_SURFACE || this.f_229101_ == RuinedPortalPiece.VerticalPlacement.ON_OCEAN_FLOOR;
        BlockPos blockpos = this.f_73383_.m_162394_();
 -      int i = blockpos.m_123341_();
 -      int j = blockpos.m_123343_();
 +      long i = blockpos.getX();
++      long blockY = blockpos.getY();
 +      long j = blockpos.getZ();
        float[] afloat = new float[]{1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 0.9F, 0.9F, 0.8F, 0.7F, 0.6F, 0.4F, 0.2F};
        int k = afloat.length;
@@ -74,6 +75,7 @@
 -            int i2 = Math.abs(k1 - i) + Math.abs(l1 - j);
 -            int j2 = Math.max(0, i2 + i1);
 +      for(long k1 = i - k; k1 <= i + k; ++k1) {
++         for(long y = blockY - k; y <= blockY + k; ++y) {
 +         for(long l1 = j - k; l1 <= j + k; ++l1) {
 +            long i2 = Math.abs(k1 - i) + Math.abs(l1 - j);
 +            long j2 = Math.max(0, i2 + i1);
@@ -85,7 +87,7 @@
 -                  int l2 = flag ? k2 : Math.min(this.f_73383_.m_162396_(), k2);
 -                  blockpos$mutableblockpos.m_122178_(k1, l2, l1);
 -                  if (Math.abs(l2 - this.f_73383_.m_162396_()) <= 3 && this.m_229133_(p_229180_, blockpos$mutableblockpos)) {
-+                  long k2 = getSurfaceY(p_229180_, k1, l1, this.f_229101_);
++                  long k2 = getSurfaceY(p_229180_, k1, y, l1, this.f_229101_);
 +                  long l2 = flag ? k2 : Math.min(this.f_73383_.minY(), k2);
 +                  blockpos$mutableblockpos.set(k1, l2, l1);
 +                  if (Math.abs(l2 - this.f_73383_.minY()) <= 3 && this.m_229133_(p_229180_, blockpos$mutableblockpos)) {
@@ -99,14 +101,19 @@
                    }
                 }
              }
+          }
++         }
+       }
+ 
+    }
 @@ -235,8 +_,8 @@
  
     }
  
 -   private static int m_229128_(LevelAccessor p_229129_, int p_229130_, int p_229131_, RuinedPortalPiece.VerticalPlacement p_229132_) {
 -      return p_229129_.m_6924_(m_229160_(p_229132_), p_229130_, p_229131_) - 1;
-+   private static long getSurfaceY(LevelAccessor p_229129_, long p_229130_, long p_229131_, RuinedPortalPiece.VerticalPlacement p_229132_) {
-+      return p_229129_.getHeight(m_229160_(p_229132_), p_229130_, p_229131_) - 1;
++   private static long getSurfaceY(LevelAccessor p_229129_, long p_229130_, long y, long p_229131_, RuinedPortalPiece.VerticalPlacement p_229132_) {
++      return p_229129_.getHeight(m_229160_(p_229132_), p_229130_, y, p_229131_) - 1;
     }
  
     public static Heightmap.Types m_229160_(RuinedPortalPiece.VerticalPlacement p_229161_) {

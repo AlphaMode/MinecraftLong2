@@ -1,7 +1,13 @@
 --- a/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
 +++ b/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
-@@ -125,10 +_,10 @@
-             int l1 = (int)Math.round(Math.sin(d0) * d1);
+@@ -121,16 +_,16 @@
+ 
+          for(int j1 = 0; j1 < j; ++j1) {
+             double d1 = (double)(4 * i + i * i1 * 6) + (randomsource.m_188500_() - 0.5D) * (double)i * 2.5D;
+-            int k1 = (int)Math.round(Math.cos(d0) * d1);
+-            int l1 = (int)Math.round(Math.sin(d0) * d1);
++            long k1 = Math.round(Math.cos(d0) * d1);
++            long l1 = Math.round(Math.sin(d0) * d1);
              RandomSource randomsource1 = randomsource.m_213769_();
              list.add(CompletableFuture.supplyAsync(() -> {
 -               Pair<BlockPos, Holder<Biome>> pair = this.f_254681_.m_220570_(SectionPos.m_175554_(k1, 8), 0, SectionPos.m_175554_(l1, 8), 112, holderset::m_203333_, randomsource1, this.f_254677_.m_224579_());
@@ -9,24 +15,31 @@
                 if (pair != null) {
                    BlockPos blockpos = pair.getFirst();
 -                  return new ChunkPos(SectionPos.m_123171_(blockpos.m_123341_()), SectionPos.m_123171_(blockpos.m_123343_()));
-+                  return new ChunkPos(SectionPos.blockToSectionCoord(blockpos.getX()), SectionPos.blockToSectionCoord(blockpos.getZ()));
++                  return new ChunkPos(SectionPos.blockToSectionCoord(blockpos.getX()), SectionPos.blockToSectionCoord(blockpos.getY()), SectionPos.blockToSectionCoord(blockpos.getZ()));
                 } else {
-                   return new ChunkPos(k1, l1);
+-                  return new ChunkPos(k1, l1);
++                  return new ChunkPos(k1, 0, l1);
                 }
-@@ -176,12 +_,12 @@
+             }, Util.m_183991_()));
+             d0 += (Math.PI * 2D) / (double)k;
+@@ -176,14 +_,16 @@
        return this.f_254677_;
     }
  
 -   public boolean m_254936_(Holder<StructureSet> p_256489_, int p_256593_, int p_256115_, int p_256619_) {
-+   public boolean hasStructureChunkInRange(Holder<StructureSet> p_256489_, long p_256593_, long p_256115_, long p_256619_) {
++   public boolean hasStructureChunkInRange(Holder<StructureSet> p_256489_, long p_256593_, long chunkY, long p_256115_, long p_256619_) {
        StructurePlacement structureplacement = p_256489_.m_203334_().f_210004_();
  
 -      for(int i = p_256593_ - p_256619_; i <= p_256593_ + p_256619_; ++i) {
 -         for(int j = p_256115_ - p_256619_; j <= p_256115_ + p_256619_; ++j) {
 -            if (structureplacement.m_255071_(this, i, j)) {
 +      for(long i = p_256593_ - p_256619_; i <= p_256593_ + p_256619_; ++i) {
++         for(long yRange = chunkY - p_256619_; yRange <= chunkY + p_256619_; ++yRange) {
 +         for(long j = p_256115_ - p_256619_; j <= p_256115_ + p_256619_; ++j) {
-+            if (structureplacement.isStructureChunk(this, i, j)) {
++            if (structureplacement.isStructureChunk(this, i, yRange, j)) {
                 return true;
              }
++         }
           }
+       }
+ 

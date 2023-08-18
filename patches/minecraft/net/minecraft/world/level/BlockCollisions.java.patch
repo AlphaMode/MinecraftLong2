@@ -11,7 +11,7 @@
  
     public BlockCollisions(CollisionGetter p_286817_, @Nullable Entity p_286246_, AABB p_286624_, boolean p_286354_, BiFunction<BlockPos.MutableBlockPos, VoxelShape, T> p_286303_) {
        this.f_186393_ = p_286246_ == null ? CollisionContext.m_82749_() : CollisionContext.m_82750_(p_286246_);
-@@ -37,24 +_,24 @@
+@@ -37,24 +_,25 @@
        this.f_186392_ = p_286624_;
        this.f_186398_ = p_286354_;
        this.f_285595_ = p_286303_;
@@ -36,15 +36,16 @@
 -      int j = SectionPos.m_123171_(p_186413_);
 -      long k = ChunkPos.m_45589_(i, j);
 -      if (this.f_186399_ != null && this.f_186400_ == k) {
-+   private BlockGetter getChunk(long p_186412_, long p_186413_) {
++   private BlockGetter getChunk(long p_186412_, long y, long p_186413_) {
 +      long i = SectionPos.blockToSectionCoord(p_186412_);
++      long chunkY = SectionPos.blockToSectionCoord(y);
 +      long j = SectionPos.blockToSectionCoord(p_186413_);
-+      ChunkPos k = new ChunkPos(i, j);
++      ChunkPos k = new ChunkPos(i, chunkY, j);
 +      if (this.f_186399_ != null && this.f_186400_.equals(k)) {
           return this.f_186399_;
        } else {
 -         BlockGetter blockgetter = this.f_186397_.m_7925_(i, j);
-+         BlockGetter blockgetter = this.f_186397_.getChunkForCollisions(i, j);
++         BlockGetter blockgetter = this.f_186397_.getChunkForCollisions(i, chunkY, j);
           this.f_186399_ = blockgetter;
           this.f_186400_ = k;
           return blockgetter;
@@ -64,7 +65,7 @@
              }
  
 -            BlockGetter blockgetter = this.m_186411_(i, k);
-+            BlockGetter blockgetter = this.getChunk(i, k);
++            BlockGetter blockgetter = this.getChunk(i, j, k);
              if (blockgetter == null) {
                 continue;
              }

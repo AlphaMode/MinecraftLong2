@@ -33,17 +33,17 @@
  
     @Nullable
 -   public ChunkAccess m_7587_(int p_8360_, int p_8361_, ChunkStatus p_8362_, boolean p_8363_) {
-+   public ChunkAccess getChunk(long p_8360_, long p_8361_, ChunkStatus p_8362_, boolean p_8363_) {
++   public ChunkAccess getChunk(long p_8360_, long chunkY, long p_8361_, ChunkStatus p_8362_, boolean p_8363_) {
        if (Thread.currentThread() != this.f_8330_) {
           return CompletableFuture.supplyAsync(() -> {
 -            return this.m_7587_(p_8360_, p_8361_, p_8362_, p_8363_);
-+            return this.getChunk(p_8360_, p_8361_, p_8362_, p_8363_);
++            return this.getChunk(p_8360_, chunkY, p_8361_, p_8362_, p_8363_);
           }, this.f_8332_).join();
        } else {
           ProfilerFiller profilerfiller = this.f_8329_.m_46473_();
           profilerfiller.m_6174_("getChunk");
 -         long i = ChunkPos.m_45589_(p_8360_, p_8361_);
-+         ChunkPos i = new ChunkPos(p_8360_, p_8361_);
++         ChunkPos i = new ChunkPos(p_8360_, chunkY, p_8361_);
  
           for(int j = 0; j < 4; ++j) {
              if (i == this.f_8337_[j] && p_8362_ == this.f_8338_[j]) {
@@ -52,7 +52,7 @@
  
           profilerfiller.m_6174_("getChunkCacheMiss");
 -         CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.m_8456_(p_8360_, p_8361_, p_8362_, p_8363_);
-+         CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.getChunkFutureMainThread(p_8360_, p_8361_, p_8362_, p_8363_);
++         CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.getChunkFutureMainThread(p_8360_, chunkY, p_8361_, p_8362_, p_8363_);
           this.f_8332_.m_18701_(completablefuture::isDone);
           ChunkAccess chunkaccess1 = completablefuture.join().map((p_8406_) -> {
              return p_8406_;
@@ -68,13 +68,13 @@
  
     @Nullable
 -   public LevelChunk m_7131_(int p_8357_, int p_8358_) {
-+   public LevelChunk getChunkNow(long p_8357_, long p_8358_) {
++   public LevelChunk getChunkNow(long p_8357_, long chunkY, long p_8358_) {
        if (Thread.currentThread() != this.f_8330_) {
           return null;
        } else {
           this.f_8329_.m_46473_().m_6174_("getChunkNow");
 -         long i = ChunkPos.m_45589_(p_8357_, p_8358_);
-+         ChunkPos i = new ChunkPos(p_8357_, p_8358_);
++         ChunkPos i = new ChunkPos(p_8357_, chunkY, p_8358_);
  
           for(int j = 0; j < 4; ++j) {
              if (i == this.f_8337_[j] && this.f_8338_[j] == ChunkStatus.f_62326_) {
@@ -101,17 +101,17 @@
     }
  
 -   public CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_8431_(int p_8432_, int p_8433_, ChunkStatus p_8434_, boolean p_8435_) {
-+   public CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFuture(long p_8432_, long p_8433_, ChunkStatus p_8434_, boolean p_8435_) {
++   public CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFuture(long p_8432_, long chunkY, long p_8433_, ChunkStatus p_8434_, boolean p_8435_) {
        boolean flag = Thread.currentThread() == this.f_8330_;
        CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture;
        if (flag) {
 -         completablefuture = this.m_8456_(p_8432_, p_8433_, p_8434_, p_8435_);
-+         completablefuture = this.getChunkFutureMainThread(p_8432_, p_8433_, p_8434_, p_8435_);
++         completablefuture = this.getChunkFutureMainThread(p_8432_, chunkY, p_8433_, p_8434_, p_8435_);
           this.f_8332_.m_18701_(completablefuture::isDone);
        } else {
           completablefuture = CompletableFuture.supplyAsync(() -> {
 -            return this.m_8456_(p_8432_, p_8433_, p_8434_, p_8435_);
-+            return this.getChunkFutureMainThread(p_8432_, p_8433_, p_8434_, p_8435_);
++            return this.getChunkFutureMainThread(p_8432_, chunkY, p_8433_, p_8434_, p_8435_);
           }, this.f_8332_).thenCompose((p_8413_) -> {
              return p_8413_;
           });
@@ -120,9 +120,10 @@
     }
  
 -   private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_8456_(int p_8457_, int p_8458_, ChunkStatus p_8459_, boolean p_8460_) {
-+   private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFutureMainThread(long p_8457_, long p_8458_, ChunkStatus p_8459_, boolean p_8460_) {
-       ChunkPos chunkpos = new ChunkPos(p_8457_, p_8458_);
+-      ChunkPos chunkpos = new ChunkPos(p_8457_, p_8458_);
 -      long i = chunkpos.m_45588_();
++   private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFutureMainThread(long p_8457_, long chunkY, long p_8458_, ChunkStatus p_8459_, boolean p_8460_) {
++      ChunkPos chunkpos = new ChunkPos(p_8457_, chunkY, p_8458_);
        int j = ChunkLevel.m_287141_(p_8459_);
 -      ChunkHolder chunkholder = this.m_8364_(i);
 +      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(chunkpos);
@@ -143,8 +144,8 @@
  
 -   public boolean m_5563_(int p_8429_, int p_8430_) {
 -      ChunkHolder chunkholder = this.m_8364_((new ChunkPos(p_8429_, p_8430_)).m_45588_());
-+   public boolean hasChunk(long p_8429_, long p_8430_) {
-+      ChunkHolder chunkholder = this.getVisibleChunkIfPresent((new ChunkPos(p_8429_, p_8430_)));
++   public boolean hasChunk(long p_8429_, long chunkY, long p_8430_) {
++      ChunkHolder chunkholder = this.getVisibleChunkIfPresent((new ChunkPos(p_8429_, chunkY, p_8430_)));
        int i = ChunkLevel.m_287141_(ChunkStatus.f_62326_);
        return !this.m_8416_(chunkholder, i);
     }
@@ -153,8 +154,8 @@
 -   public LightChunk m_6196_(int p_8454_, int p_8455_) {
 -      long i = ChunkPos.m_45589_(p_8454_, p_8455_);
 -      ChunkHolder chunkholder = this.m_8364_(i);
-+   public LightChunk getChunkForLighting(long p_8454_, long p_8455_) {
-+      ChunkPos i = new ChunkPos(p_8454_, p_8455_);
++   public LightChunk getChunkForLighting(long p_8454_, long chunkY, long p_8455_) {
++      ChunkPos i = new ChunkPos(p_8454_, chunkY, p_8455_);
 +      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(i);
        if (chunkholder == null) {
           return null;
@@ -212,7 +213,7 @@
 -      ChunkHolder chunkholder = this.m_8364_(ChunkPos.m_45589_(i, j));
 +      long i = SectionPos.blockToSectionCoord(p_8451_.getX());
 +      long j = SectionPos.blockToSectionCoord(p_8451_.getZ());
-+      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(new ChunkPos(i, j));
++      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(new ChunkPos(i, SectionPos.blockToSectionCoord(p_8451_.getY()), j));
        if (chunkholder != null) {
           chunkholder.m_140056_(p_8451_);
        }

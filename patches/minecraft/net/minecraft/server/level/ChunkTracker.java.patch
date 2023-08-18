@@ -1,30 +1,22 @@
 --- a/net/minecraft/server/level/ChunkTracker.java
 +++ b/net/minecraft/server/level/ChunkTracker.java
-@@ -3,26 +_,32 @@
+@@ -3,48 +_,53 @@
  import net.minecraft.world.level.ChunkPos;
  import net.minecraft.world.level.lighting.DynamicGraphMinFixedPoint;
  
 -public abstract class ChunkTracker extends DynamicGraphMinFixedPoint {
-+public abstract class ChunkTracker extends DynamicGraphMinFixedPoint<net.minecraft.world.level.ChunkPos> {
++public abstract class ChunkTracker extends DynamicGraphMinFixedPoint<ChunkPos> {
     protected ChunkTracker(int p_140701_, int p_140702_, int p_140703_) {
        super(p_140701_, p_140702_, p_140703_);
     }
  
 -   protected boolean m_6163_(long p_140705_) {
 -      return p_140705_ == ChunkPos.f_45577_;
--   }
--
--   protected void m_7900_(long p_140707_, int p_140708_, boolean p_140709_) {
-+   protected boolean isSource(net.minecraft.world.level.ChunkPos p_140705_) {
++   protected boolean isSource(ChunkPos p_140705_) {
 +      return p_140705_.equals(ChunkPos.f_45577_);
-+   }
-+
-+   @Override
-+   protected ChunkPos createPosFromBlockPos(net.minecraft.core.BlockPos blockPos) {
-+      return new ChunkPos(blockPos);
-+   }
-+
-+   @Override
+    }
+ 
+-   protected void m_7900_(long p_140707_, int p_140708_, boolean p_140709_) {
 +   protected void checkNeighborsAfterUpdate(ChunkPos p_140707_, int p_140708_, boolean p_140709_) {
        if (!p_140709_ || p_140708_ < this.f_75537_ - 2) {
 -         ChunkPos chunkpos = new ChunkPos(p_140707_);
@@ -32,20 +24,23 @@
 -         int j = chunkpos.f_45579_;
 +         ChunkPos chunkpos = p_140707_;
 +         long i = chunkpos.f_45578_;
++         long y = chunkpos.y;
 +         long j = chunkpos.f_45579_;
  
           for(int k = -1; k <= 1; ++k) {
++            for(int chunkY = -1; chunkY <= 1; ++chunkY) {
              for(int l = -1; l <= 1; ++l) {
 -               long i1 = ChunkPos.m_45589_(i + k, j + l);
 -               if (i1 != p_140707_) {
 -                  this.m_75593_(p_140707_, i1, p_140708_, p_140709_);
-+               ChunkPos i1 = new ChunkPos(i + k, j + l);
-+               if (!i1.equals(chunkpos)) {
++               ChunkPos i1 = new ChunkPos(i + k, y + chunkY, j + l);
++               if (!i1.equals(p_140707_)) {
 +                  this.checkNeighbor(p_140707_, i1, p_140708_, p_140709_);
                 }
              }
++            }
           }
-@@ -30,21 +_,21 @@
+ 
        }
     }
  
@@ -57,14 +52,15 @@
 -      int k = chunkpos.f_45579_;
 +      ChunkPos chunkpos = p_140711_;
 +      long j = chunkpos.f_45578_;
++      long y = chunkpos.y;
 +      long k = chunkpos.f_45579_;
  
        for(int l = -1; l <= 1; ++l) {
++         for(int chunkY = -1; chunkY <= 1; ++chunkY) {
           for(int i1 = -1; i1 <= 1; ++i1) {
 -            long j1 = ChunkPos.m_45589_(j + l, k + i1);
--            if (j1 == p_140711_) {
-+            ChunkPos j1 = new ChunkPos(j + l, k + i1);
-+            if (j1.equals(chunkpos)) {
++            ChunkPos j1 = new ChunkPos(j + l, y + chunkY, k + i1);
+             if (j1 == p_140711_) {
                 j1 = ChunkPos.f_45577_;
              }
  
@@ -75,22 +71,36 @@
                 if (i > k1) {
                    i = k1;
                 }
-@@ -59,13 +_,13 @@
+@@ -54,18 +_,24 @@
+                }
+             }
+          }
++         }
+       }
+ 
        return i;
     }
  
 -   protected int m_6359_(long p_140720_, long p_140721_, int p_140722_) {
 -      return p_140720_ == ChunkPos.f_45577_ ? this.m_7031_(p_140721_) : p_140722_ + 1;
-+   protected int computeLevelFromNeighbor(ChunkPos p_140720_, ChunkPos p_140721_, int p_140722_) {
-+      return p_140720_.equals(ChunkPos.f_45577_) ? this.getLevelFromSource(p_140721_) : p_140722_ + 1;
-    }
- 
+-   }
+-
 -   protected abstract int m_7031_(long p_140714_);
-+   protected abstract int getLevelFromSource(net.minecraft.world.level.ChunkPos p_140714_);
- 
+-
 -   public void m_140715_(long p_140716_, int p_140717_, boolean p_140718_) {
 -      this.m_75576_(ChunkPos.f_45577_, p_140716_, p_140717_, p_140718_);
-+   public void update(net.minecraft.world.level.ChunkPos p_140716_, int p_140717_, boolean p_140718_) {
++   protected int computeLevelFromNeighbor(ChunkPos p_140720_, ChunkPos p_140721_, int p_140722_) {
++      return p_140720_.equals(ChunkPos.f_45577_) ? this.getLevelFromSource(p_140721_) : p_140722_ + 1;
++   }
++
++   protected abstract int getLevelFromSource(ChunkPos p_140714_);
++
++   public void update(ChunkPos p_140716_, int p_140717_, boolean p_140718_) {
 +      this.checkEdge(ChunkPos.f_45577_, p_140716_, p_140717_, p_140718_);
++   }
++
++   @Override
++   protected ChunkPos createPosFromBlockPos(net.minecraft.core.BlockPos blockPos) {
++      return new ChunkPos(blockPos);
     }
  }

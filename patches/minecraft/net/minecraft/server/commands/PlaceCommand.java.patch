@@ -1,6 +1,13 @@
 --- a/net/minecraft/server/commands/PlaceCommand.java
 +++ b/net/minecraft/server/commands/PlaceCommand.java
-@@ -93,7 +_,7 @@
+@@ -87,13 +_,13 @@
+       ServerLevel serverlevel = p_214576_.m_81372_();
+       ConfiguredFeature<?, ?> configuredfeature = p_248822_.m_203334_();
+       ChunkPos chunkpos = new ChunkPos(p_214578_);
+-      m_214543_(serverlevel, new ChunkPos(chunkpos.f_45578_ - 1, chunkpos.f_45579_ - 1), new ChunkPos(chunkpos.f_45578_ + 1, chunkpos.f_45579_ + 1));
++      m_214543_(serverlevel, new ChunkPos(chunkpos.f_45578_ - 1, chunkpos.y - 1, chunkpos.f_45579_ - 1), new ChunkPos(chunkpos.f_45578_ + 1, chunkpos.y + 1, chunkpos.f_45579_ + 1));
+       if (!configuredfeature.m_224953_(serverlevel, serverlevel.m_7726_().m_8481_(), serverlevel.m_213780_(), p_214578_)) {
+          throw f_214530_.create();
        } else {
           String s = p_248822_.m_205785_().m_135782_().toString();
           p_214576_.m_288197_(() -> {
@@ -24,8 +31,8 @@
           BoundingBox boundingbox = structurestart.m_73601_();
 -         ChunkPos chunkpos = new ChunkPos(SectionPos.m_123171_(boundingbox.m_162395_()), SectionPos.m_123171_(boundingbox.m_162398_()));
 -         ChunkPos chunkpos1 = new ChunkPos(SectionPos.m_123171_(boundingbox.m_162399_()), SectionPos.m_123171_(boundingbox.m_162401_()));
-+         ChunkPos chunkpos = new ChunkPos(SectionPos.blockToSectionCoord(boundingbox.minX()), SectionPos.blockToSectionCoord(boundingbox.minZ()));
-+         ChunkPos chunkpos1 = new ChunkPos(SectionPos.blockToSectionCoord(boundingbox.maxX()), SectionPos.blockToSectionCoord(boundingbox.maxZ()));
++         ChunkPos chunkpos = new ChunkPos(SectionPos.blockToSectionCoord(boundingbox.minX()), SectionPos.blockToSectionCoord(boundingbox.minY()), SectionPos.blockToSectionCoord(boundingbox.minZ()));
++         ChunkPos chunkpos1 = new ChunkPos(SectionPos.blockToSectionCoord(boundingbox.maxX()), SectionPos.blockToSectionCoord(boundingbox.maxY()), SectionPos.blockToSectionCoord(boundingbox.maxZ()));
           m_214543_(serverlevel, chunkpos, chunkpos1);
           ChunkPos.m_45599_(chunkpos, chunkpos1).forEach((p_289290_) -> {
 -            structurestart.m_226850_(serverlevel, serverlevel.m_215010_(), chunkgenerator, serverlevel.m_213780_(), new BoundingBox(p_289290_.m_45604_(), serverlevel.m_141937_(), p_289290_.m_45605_(), p_289290_.m_45608_(), serverlevel.m_151558_(), p_289290_.m_45609_()), p_289290_);

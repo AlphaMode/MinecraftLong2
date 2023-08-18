@@ -5,15 +5,15 @@
  public interface LevelReader extends BlockAndTintGetter, CollisionGetter, SignalGetter, BiomeManager.NoiseBiomeSource {
     @Nullable
 -   ChunkAccess m_6522_(int p_46823_, int p_46824_, ChunkStatus p_46825_, boolean p_46826_);
-+   ChunkAccess getChunk(long p_46823_, long p_46824_, ChunkStatus p_46825_, boolean p_46826_);
++   ChunkAccess getChunk(long p_46823_, long chunkY, long p_46824_, ChunkStatus p_46825_, boolean p_46826_);
  
     /** @deprecated */
     @Deprecated
 -   boolean m_7232_(int p_46838_, int p_46839_);
-+   boolean hasChunk(long p_46838_, long p_46839_);
++   boolean hasChunk(long p_46838_, long chunkY, long p_46839_);
  
 -   int m_6924_(Heightmap.Types p_46827_, int p_46828_, int p_46829_);
-+   long getHeight(Heightmap.Types p_46827_, long p_46828_, long p_46829_);
++   long getHeight(Heightmap.Types p_46827_, long p_46828_, long y, long p_46829_);
  
     int m_7445_();
  
@@ -51,7 +51,7 @@
 +   }
 +
 +   default Holder<Biome> getNoiseBiome(long p_204163_, long p_204164_, long p_204165_) {
-+      ChunkAccess chunkaccess = this.getChunk(QuartPos.toSection(p_204163_), QuartPos.toSection(p_204165_), ChunkStatus.f_62317_, false);
++      ChunkAccess chunkaccess = this.getChunk(QuartPos.toSection(p_204163_), QuartPos.toSection(p_204164_), QuartPos.toSection(p_204165_), ChunkStatus.f_62317_, false);
 +      return chunkaccess != null ? chunkaccess.getNoiseBiome(p_204163_, p_204164_, p_204165_) : this.getUncachedNoiseBiome(p_204163_, p_204164_, p_204165_);
 +   }
 +
@@ -75,7 +75,7 @@
  
     default BlockPos m_5452_(Heightmap.Types p_46830_, BlockPos p_46831_) {
 -      return new BlockPos(p_46831_.m_123341_(), this.m_6924_(p_46830_, p_46831_.m_123341_(), p_46831_.m_123343_()), p_46831_.m_123343_());
-+      return new BlockPos(p_46831_.getX(), this.getHeight(p_46830_, p_46831_.getX(), p_46831_.getZ()), p_46831_.getZ());
++      return new BlockPos(p_46831_.getX(), this.getHeight(p_46830_, p_46831_.getX(), p_46831_.getY(), p_46831_.getZ()), p_46831_.getZ());
     }
  
     default boolean m_46859_(BlockPos p_46860_) {
@@ -110,22 +110,22 @@
 -
 -   default ChunkAccess m_46819_(int p_46820_, int p_46821_, ChunkStatus p_46822_) {
 -      return this.m_6522_(p_46820_, p_46821_, p_46822_, true);
-+      return this.getChunk(SectionPos.blockToSectionCoord(p_46866_.getX()), SectionPos.blockToSectionCoord(p_46866_.getZ()));
++      return this.getChunk(SectionPos.blockToSectionCoord(p_46866_.getX()), SectionPos.blockToSectionCoord(p_46866_.getY()), SectionPos.blockToSectionCoord(p_46866_.getZ()));
 +   }
 +
-+   default ChunkAccess getChunk(long p_46807_, long p_46808_) {
-+      return this.getChunk(p_46807_, p_46808_, ChunkStatus.f_62326_, true);
++   default ChunkAccess getChunk(long p_46807_, long chunkY, long p_46808_) {
++      return this.getChunk(p_46807_, chunkY, p_46808_, ChunkStatus.f_62326_, true);
 +   }
 +
-+   default ChunkAccess getChunk(long p_46820_, long p_46821_, ChunkStatus p_46822_) {
-+      return this.getChunk(p_46820_, p_46821_, p_46822_, true);
++   default ChunkAccess getChunk(long p_46820_, long chunkY, long p_46821_, ChunkStatus p_46822_) {
++      return this.getChunk(p_46820_, chunkY, p_46821_, p_46822_, true);
     }
  
     @Nullable
 -   default BlockGetter m_7925_(int p_46845_, int p_46846_) {
 -      return this.m_6522_(p_46845_, p_46846_, ChunkStatus.f_62314_, false);
-+   default BlockGetter getChunkForCollisions(long p_46845_, long p_46846_) {
-+      return this.getChunk(p_46845_, p_46846_, ChunkStatus.f_62314_, false);
++   default BlockGetter getChunkForCollisions(long p_46845_, long chunkY, long p_46846_) {
++      return this.getChunk(p_46845_, chunkY, p_46846_, ChunkStatus.f_62314_, false);
     }
  
     default boolean m_46801_(BlockPos p_46802_) {
@@ -158,7 +158,7 @@
                 if (!blockstate.m_60819_().m_76178_()) {
                    return true;
                 }
-@@ -166,44 +_,44 @@
+@@ -166,46 +_,44 @@
     }
  
     default int m_46849_(BlockPos p_46850_, int p_46851_) {
@@ -170,15 +170,15 @@
     @Deprecated
 -   default boolean m_151577_(int p_151578_, int p_151579_) {
 -      return this.m_7232_(SectionPos.m_123171_(p_151578_), SectionPos.m_123171_(p_151579_));
-+   default boolean hasChunkAt(long p_151578_, long p_151579_) {
-+      return this.hasChunk(SectionPos.blockToSectionCoord(p_151578_), SectionPos.blockToSectionCoord(p_151579_));
++   default boolean hasChunkAt(long p_151578_, long y, long p_151579_) {
++      return this.hasChunk(SectionPos.blockToSectionCoord(p_151578_), SectionPos.blockToSectionCoord(y), SectionPos.blockToSectionCoord(p_151579_));
     }
  
     /** @deprecated */
     @Deprecated
     default boolean m_46805_(BlockPos p_46806_) {
 -      return this.m_151577_(p_46806_.m_123341_(), p_46806_.m_123343_());
-+      return this.hasChunkAt(p_46806_.getX(), p_46806_.getZ());
++      return this.hasChunkAt(p_46806_.getX(), p_46806_.getY(), p_46806_.getZ());
     }
  
     /** @deprecated */
@@ -209,21 +209,21 @@
 +
 +   /** @deprecated */
 +   @Deprecated
-+   default boolean hasChunksAt(long p_46813_, long p_46814_, long p_46815_, long p_46816_, long p_46817_, long p_46818_) {
-+      return p_46817_ >= this.getMinBuildHeight() && p_46814_ < this.getMaxBuildHeight() ? this.hasChunksAt(p_46813_, p_46815_, p_46816_, p_46818_) : false;
-+   }
-+
-+   /** @deprecated */
-+   @Deprecated
-+   default boolean hasChunksAt(long p_151573_, long p_151574_, long p_151575_, long p_151576_) {
++   default boolean hasChunksAt(long p_151573_, long y, long p_151574_, long p_151575_, long y2, long p_151576_) {
 +      long i = SectionPos.blockToSectionCoord(p_151573_);
 +      long j = SectionPos.blockToSectionCoord(p_151575_);
++      long chunkY1 = SectionPos.blockToSectionCoord(y);
++      long chunkY2 = SectionPos.blockToSectionCoord(y2);
 +      long k = SectionPos.blockToSectionCoord(p_151574_);
 +      long l = SectionPos.blockToSectionCoord(p_151576_);
 +
 +      for(long i1 = i; i1 <= j; ++i1) {
++         for(long chunkY = chunkY1; chunkY <= chunkY2; ++chunkY) {
 +         for(long j1 = k; j1 <= l; ++j1) {
-+            if (!this.hasChunk(i1, j1)) {
++            if (!this.hasChunk(i1, chunkY, j1)) {
                 return false;
              }
++         }
           }
+       }
+ 

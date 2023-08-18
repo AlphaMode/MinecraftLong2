@@ -7,16 +7,16 @@
 -   private int m_284344_(int p_285058_, int p_285191_, int p_285111_) {
 -      ChunkSkyLightSources chunkskylightsources = this.m_284231_(SectionPos.m_123171_(p_285058_), SectionPos.m_123171_(p_285191_));
 -      return chunkskylightsources == null ? p_285111_ : chunkskylightsources.m_284402_(SectionPos.m_123207_(p_285058_), SectionPos.m_123207_(p_285191_));
-+   private long getLowestSourceY(long p_285058_, long p_285191_, long p_285111_) {
-+      ChunkSkyLightSources chunkskylightsources = this.getChunkSources(SectionPos.blockToSectionCoord(p_285058_), SectionPos.blockToSectionCoord(p_285191_));
++   private long getLowestSourceY(long p_285058_, long y, long p_285191_, long p_285111_) {
++      ChunkSkyLightSources chunkskylightsources = this.getChunkSources(SectionPos.blockToSectionCoord(p_285058_), SectionPos.blockToSectionCoord(y), SectionPos.blockToSectionCoord(p_285191_));
 +      return chunkskylightsources == null ? p_285111_ : chunkskylightsources.getLowestSourceY(SectionPos.sectionRelative(p_285058_), SectionPos.sectionRelative(p_285191_));
     }
  
     @Nullable
 -   private ChunkSkyLightSources m_284231_(int p_285270_, int p_285307_) {
 -      LightChunk lightchunk = this.f_283884_.m_6196_(p_285270_, p_285307_);
-+   private ChunkSkyLightSources getChunkSources(long p_285270_, long p_285307_) {
-+      LightChunk lightchunk = this.f_283884_.getChunkForLighting(p_285270_, p_285307_);
++   private ChunkSkyLightSources getChunkSources(long p_285270_, long chunkY, long p_285307_) {
++      LightChunk lightchunk = this.f_283884_.getChunkForLighting(p_285270_, chunkY, p_285307_);
        return lightchunk != null ? lightchunk.m_284400_() : null;
     }
  
@@ -33,9 +33,9 @@
 +      long j = p_75859_.getY();
 +      long k = p_75859_.getZ();
 +      SectionPos l = SectionPos.m_123199_(p_75859_);
-+      long i1 = this.f_283849_.lightOnInSection(l) ? this.getLowestSourceY(i, k, java.lang.Long.MAX_VALUE) : java.lang.Long.MAX_VALUE;
++      long i1 = this.f_283849_.lightOnInSection(l) ? this.getLowestSourceY(i, j, k, java.lang.Long.MAX_VALUE) : java.lang.Long.MAX_VALUE;
 +      if (i1 != java.lang.Long.MAX_VALUE) {
-+         this.updateSourcesInColumn(i, k, i1);
++         this.updateSourcesInColumn(i, j, k, i1);
        }
  
 -      if (this.f_283849_.m_75791_(l)) {
@@ -67,10 +67,10 @@
 -      int i = SectionPos.m_123223_(this.f_283849_.m_284293_());
 -      this.m_284317_(p_285053_, p_285140_, p_285337_, i);
 -      this.m_284375_(p_285053_, p_285140_, p_285337_, i);
-+   private void updateSourcesInColumn(long p_285053_, long p_285140_, long p_285337_) {
++   private void updateSourcesInColumn(long p_285053_, long y, long p_285140_, long p_285337_) {
 +      long i = SectionPos.sectionToBlockCoord(this.f_283849_.getBottomSectionY());
 +      this.removeSourcesBelow(p_285053_, p_285140_, p_285337_, i);
-+      this.addSourcesAbove(p_285053_, p_285140_, p_285337_, i);
++      this.addSourcesAbove(p_285053_, y, p_285140_, p_285337_, i);
     }
  
 -   private void m_284317_(int p_285475_, int p_285138_, int p_285130_, int p_285112_) {
@@ -128,10 +128,10 @@
 -            for(int l1 = Math.max(j1, l); l1 <= k1; ++l1) {
 -               long i2 = BlockPos.m_121882_(p_285241_, l1, p_285212_);
 -               if (m_284444_(this.f_283849_.m_75795_(i2))) {
-+   private void addSourcesAbove(long p_285241_, long p_285212_, long p_284972_, long p_285134_) {
++   private void addSourcesAbove(long p_285241_, long y, long p_285212_, long p_284972_, long p_285134_) {
 +      long i = SectionPos.blockToSectionCoord(p_285241_);
 +      long j = SectionPos.blockToSectionCoord(p_285212_);
-+      long k = Math.max(Math.max(this.getLowestSourceY(p_285241_ - 1, p_285212_, Integer.MIN_VALUE), this.getLowestSourceY(p_285241_ + 1, p_285212_, Integer.MIN_VALUE)), Math.max(this.getLowestSourceY(p_285241_, p_285212_ - 1, Integer.MIN_VALUE), this.getLowestSourceY(p_285241_, p_285212_ + 1, Integer.MIN_VALUE)));
++      long k = Math.max(Math.max(this.getLowestSourceY(p_285241_ - 1, y, p_285212_, Integer.MIN_VALUE), this.getLowestSourceY(p_285241_ + 1, y, p_285212_, Integer.MIN_VALUE)), Math.max(this.getLowestSourceY(p_285241_, y, p_285212_ - 1, Integer.MIN_VALUE), this.getLowestSourceY(p_285241_, y, p_285212_ + 1, Integer.MIN_VALUE)));
 +      long l = Math.max(p_284972_, p_285134_);
 +
 +      for(SectionPos i1 = SectionPos.of(i, SectionPos.blockToSectionCoord(l), j); !this.f_283849_.isAboveData(i1); i1 = i1.relative(Direction.UP)) {
@@ -335,7 +335,7 @@
 -         long k = SectionPos.m_284454_(p_285459_.f_45578_, p_285459_.f_45579_);
 -         int l = this.f_283849_.m_284384_(k);
 -         int i1 = Math.max(this.f_283849_.m_284293_(), j);
-+         ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285459_.f_45578_, p_285459_.f_45579_), this.f_283855_);
++         ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285459_.f_45578_, p_285459_.y, p_285459_.f_45579_), this.f_283855_);
 +         long i = chunkskylightsources.getHighestLowestSourceY() - 1;
 +         long j = SectionPos.blockToSectionCoord(i) + 1;
 +         SectionPos k = SectionPos.getZeroNode(p_285459_.f_45578_, p_285459_.f_45579_);
@@ -366,11 +366,11 @@
 -      int i1 = SectionPos.m_123223_(p_285333_.f_45579_);
 +      SectionPos i = SectionPos.getZeroNode(p_285333_.f_45578_, p_285333_.f_45579_);
 +      this.f_283849_.setLightEnabled(i, true);
-+      ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_, p_285333_.f_45579_), this.f_283855_);
-+      ChunkSkyLightSources chunkskylightsources1 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_, p_285333_.f_45579_ - 1), this.f_283855_);
-+      ChunkSkyLightSources chunkskylightsources2 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_, p_285333_.f_45579_ + 1), this.f_283855_);
-+      ChunkSkyLightSources chunkskylightsources3 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_ - 1, p_285333_.f_45579_), this.f_283855_);
-+      ChunkSkyLightSources chunkskylightsources4 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_ + 1, p_285333_.f_45579_), this.f_283855_);
++      ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_, p_285333_.y, p_285333_.f_45579_), this.f_283855_);
++      ChunkSkyLightSources chunkskylightsources1 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_, p_285333_.y, p_285333_.f_45579_ - 1), this.f_283855_);
++      ChunkSkyLightSources chunkskylightsources2 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_, p_285333_.y, p_285333_.f_45579_ + 1), this.f_283855_);
++      ChunkSkyLightSources chunkskylightsources3 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_ - 1, p_285333_.y, p_285333_.f_45579_), this.f_283855_);
++      ChunkSkyLightSources chunkskylightsources4 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.f_45578_ + 1, p_285333_.y, p_285333_.f_45579_), this.f_283855_);
 +      long j = this.f_283849_.getTopSectionY(i);
 +      long k = this.f_283849_.getBottomSectionY();
 +      long l = SectionPos.sectionToBlockCoord(p_285333_.f_45578_);

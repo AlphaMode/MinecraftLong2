@@ -1,14 +1,16 @@
 --- a/net/minecraft/server/level/progress/StoringChunkProgressListener.java
 +++ b/net/minecraft/server/level/progress/StoringChunkProgressListener.java
-@@ -7,7 +_,7 @@
+@@ -7,8 +_,8 @@
  
  public class StoringChunkProgressListener implements ChunkProgressListener {
     private final LoggerChunkProgressListener f_9653_;
 -   private final Long2ObjectOpenHashMap<ChunkStatus> f_9654_;
+-   private ChunkPos f_9655_ = new ChunkPos(0, 0);
 +   private final it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, ChunkStatus> f_9654_;
-    private ChunkPos f_9655_ = new ChunkPos(0, 0);
++   private ChunkPos f_9655_ = new ChunkPos(0, 0, 0);
     private final int f_9656_;
     private final int f_9657_;
+    private final int f_9658_;
 @@ -19,7 +_,7 @@
        this.f_9656_ = p_9661_ * 2 + 1;
        this.f_9657_ = p_9661_ + ChunkStatus.m_62421_();
@@ -36,7 +38,7 @@
     @Nullable
 -   public ChunkStatus m_9663_(int p_9664_, int p_9665_) {
 -      return this.f_9654_.get(ChunkPos.m_45589_(p_9664_ + this.f_9655_.f_45578_ - this.f_9657_, p_9665_ + this.f_9655_.f_45579_ - this.f_9657_));
-+   public ChunkStatus getStatus(long p_9664_, long p_9665_) {
-+      return this.f_9654_.get(new ChunkPos(p_9664_ + this.f_9655_.f_45578_ - this.f_9657_, p_9665_ + this.f_9655_.f_45579_ - this.f_9657_));
++   public ChunkStatus getStatus(long p_9664_, long chunkY, long p_9665_) {
++      return this.f_9654_.get(new ChunkPos(p_9664_ + this.f_9655_.f_45578_ - this.f_9657_, chunkY + this.f_9655_.y - this.f_9657_, p_9665_ + this.f_9655_.f_45579_ - this.f_9657_));
     }
  }

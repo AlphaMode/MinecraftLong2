@@ -18,7 +18,7 @@
 +         long k;
           if (p_227245_.isPresent()) {
 -            k = p_227243_.m_123342_() + chunkgenerator.m_223221_(i, j, p_227245_.get(), levelheightaccessor, p_227239_.f_226624_());
-+            k = p_227243_.getY() + chunkgenerator.getFirstFreeHeight(i, j, p_227245_.get(), levelheightaccessor, p_227239_.f_226624_());
++            k = p_227243_.getY() + chunkgenerator.getFirstFreeHeight(i, (boundingbox.maxY() + boundingbox.minY()) / 2, j, p_227245_.get(), levelheightaccessor, p_227239_.f_226624_());
           } else {
 -            k = blockpos1.m_123342_();
 +            k = blockpos1.getY();
@@ -118,7 +118,7 @@
                                   } else {
                                      if (k == -1) {
 -                                       k = this.f_210317_.m_223221_(blockpos1.m_123341_(), blockpos1.m_123343_(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
-+                                       k = this.f_210317_.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
++                                       k = this.f_210317_.getFirstFreeHeight(blockpos1.getX(), blockpos1.getY(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
                                      }
  
                                      l1 = k - j1;
@@ -159,7 +159,7 @@
                                      } else {
                                         if (k == -1) {
 -                                          k = this.f_210317_.m_223221_(blockpos1.m_123341_(), blockpos1.m_123343_(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
-+                                          k = this.f_210317_.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
++                                          k = this.f_210317_.getFirstFreeHeight(blockpos1.getX(), blockpos1.getY(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_);
                                         }
  
                                         l2 = k + k1 / 2;

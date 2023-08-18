@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/FriendlyByteBuf.java
 +++ b/net/minecraft/network/FriendlyByteBuf.java
-@@ -439,29 +_,34 @@
+@@ -439,29 +_,35 @@
     }
  
     public BlockPos m_130135_() {
@@ -18,12 +18,13 @@
  
     public ChunkPos m_178383_() {
 -      return new ChunkPos(this.readLong());
-+      return new ChunkPos(this.readLong(), this.readLong());
++      return new ChunkPos(this.readLong(), this.readLong(), this.readLong());
     }
  
     public FriendlyByteBuf m_178341_(ChunkPos p_178342_) {
 -      this.writeLong(p_178342_.m_45588_());
 +      this.writeLong(p_178342_.f_45578_);
++      this.writeLong(p_178342_.y);
 +      this.writeLong(p_178342_.f_45579_);
        return this;
     }

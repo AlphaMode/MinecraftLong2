@@ -58,12 +58,12 @@
     @Nullable
 -   public static BlendingData m_190304_(WorldGenRegion p_190305_, int p_190306_, int p_190307_) {
 -      ChunkAccess chunkaccess = p_190305_.m_6325_(p_190306_, p_190307_);
-+   public static BlendingData getOrUpdateBlendingData(WorldGenRegion p_190305_, long p_190306_, long p_190307_) {
-+      ChunkAccess chunkaccess = p_190305_.getChunk(p_190306_, p_190307_);
++   public static BlendingData getOrUpdateBlendingData(WorldGenRegion p_190305_, long p_190306_, long chunkY, long p_190307_) {
++      ChunkAccess chunkaccess = p_190305_.getChunk(p_190306_, chunkY, p_190307_);
        BlendingData blendingdata = chunkaccess.m_183407_();
        if (blendingdata != null && chunkaccess.m_284331_().m_62427_(ChunkStatus.f_62317_)) {
 -         blendingdata.m_190317_(chunkaccess, m_197065_(p_190305_, p_190306_, p_190307_, false));
-+         blendingdata.m_190317_(chunkaccess, sideByGenerationAge(p_190305_, p_190306_, p_190307_, false));
++         blendingdata.m_190317_(chunkaccess, sideByGenerationAge(p_190305_, p_190306_, chunkY, p_190307_, false));
           return blendingdata;
        } else {
           return null;
@@ -71,7 +71,7 @@
     }
  
 -   public static Set<Direction8> m_197065_(WorldGenLevel p_197066_, int p_197067_, int p_197068_, boolean p_197069_) {
-+   public static Set<Direction8> sideByGenerationAge(WorldGenLevel p_197066_, long p_197067_, long p_197068_, boolean p_197069_) {
++   public static Set<Direction8> sideByGenerationAge(WorldGenLevel p_197066_, long p_197067_, long y, long p_197068_, boolean p_197069_) {
        Set<Direction8> set = EnumSet.noneOf(Direction8.class);
  
        for(Direction8 direction8 : Direction8.values()) {
@@ -80,7 +80,7 @@
 -         if (p_197066_.m_6325_(i, j).m_187675_() == p_197069_) {
 +         long i = p_197067_ + direction8.m_235697_();
 +         long j = p_197068_ + direction8.m_235698_();
-+         if (p_197066_.getChunk(i, j).m_187675_() == p_197069_) {
++         if (p_197066_.getChunk(i, y + direction8.getStepY(), j).m_187675_() == p_197069_) {
              set.add(direction8);
           }
        }

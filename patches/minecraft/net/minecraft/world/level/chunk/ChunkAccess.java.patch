@@ -21,7 +21,7 @@
     /** @deprecated */
     @Nullable
     @Deprecated
-@@ -74,7 +_,7 @@
+@@ -74,30 +_,35 @@
     protected final Map<Heightmap.Types, Heightmap> f_187608_ = Maps.newEnumMap(Heightmap.Types.class);
     protected ChunkSkyLightSources f_283754_;
     private final Map<Structure, StructureStart> f_187617_ = Maps.newHashMap();
@@ -30,18 +30,46 @@
     protected final Map<BlockPos, CompoundTag> f_187609_ = Maps.newHashMap();
     protected final Map<BlockPos, BlockEntity> f_187610_ = Maps.newHashMap();
     protected final LevelHeightAccessor f_187611_;
-@@ -84,9 +_,9 @@
+-   protected final LevelChunkSection[] f_187612_;
++//   protected final LevelChunkSection[] sections;
++   protected final LevelChunkSection section;
+ 
+-   public ChunkAccess(ChunkPos p_187621_, UpgradeData p_187622_, LevelHeightAccessor p_187623_, Registry<Biome> p_187624_, long p_187625_, @Nullable LevelChunkSection[] p_187626_, @Nullable BlendingData p_187627_) {
++   public ChunkAccess(ChunkPos p_187621_, UpgradeData p_187622_, LevelHeightAccessor p_187623_, Registry<Biome> p_187624_, long p_187625_, @Nullable LevelChunkSection p_187626_, @Nullable BlendingData p_187627_) {
        this.f_187604_ = p_187621_;
        this.f_187606_ = p_187622_;
        this.f_187611_ = p_187623_;
 -      this.f_187612_ = new LevelChunkSection[p_187623_.m_151559_()];
-+      this.f_187612_ = new LevelChunkSection[(int) p_187623_.getSectionsCount()]; // TODO: long support
++//      this.sections = new LevelChunkSection[(int) p_187623_.getSectionsCount()];
++      if (p_187626_ == null)
++         this.section = new LevelChunkSection(p_187624_);
++      else
++         this.section = p_187626_;
        this.f_187615_ = p_187625_;
 -      this.f_187602_ = new ShortList[p_187623_.m_151559_()];
 +      this.f_187602_ = new ShortList[(int) p_187623_.getSectionsCount()];
        this.f_187607_ = p_187627_;
        this.f_283754_ = new ChunkSkyLightSources(p_187623_);
-       if (p_187626_ != null) {
+-      if (p_187626_ != null) {
+-         if (this.f_187612_.length == p_187626_.length) {
+-            System.arraycopy(p_187626_, 0, this.f_187612_, 0, this.f_187612_.length);
+-         } else {
+-            f_187613_.warn("Could not set level chunk sections, array length is {} instead of {}", p_187626_.length, this.f_187612_.length);
+-         }
+-      }
++//      if (p_187626_ != null) {
++//         if (this.sections.length == p_187626_.length) {
++//            System.arraycopy(p_187626_, 0, this.sections, 0, this.sections.length);
++//         } else {
++//            LOGGER.warn("Could not set level chunk sections, array length is {} instead of {}", p_187626_.length, this.sections.length);
++//         }
++//      }
+ 
+-      m_280116_(p_187624_, this.f_187612_);
++//      replaceMissingSections(p_187624_, this.sections);
+    }
+ 
+    private static void m_280116_(Registry<Biome> p_281389_, LevelChunkSection[] p_282796_) {
 @@ -109,7 +_,7 @@
  
     }
@@ -63,14 +91,18 @@
     }
  
     public Set<BlockPos> m_5928_() {
-@@ -152,8 +_,8 @@
-       return this.f_187612_;
+@@ -149,11 +_,11 @@
+    }
+ 
+    public LevelChunkSection[] m_7103_() {
+-      return this.f_187612_;
++      return new LevelChunkSection[] {this.section};//this.sections;
     }
  
 -   public LevelChunkSection m_183278_(int p_187657_) {
 -      return this.m_7103_()[p_187657_];
 +   public LevelChunkSection getSection(long p_187657_) {
-+      return this.m_7103_()[(int) p_187657_]; // TODO: long support
++      return this.section;
     }
  
     public Collection<Map.Entry<Heightmap.Types, Heightmap>> m_6890_() {
@@ -134,13 +166,13 @@
 -      for(int i = p_62075_; i <= p_62076_; i += 16) {
 -         if (!this.m_183278_(this.m_151564_(i)).m_188008_()) {
 +   public boolean isYSpaceEmpty(long p_62075_, long p_62076_) {
-+      if (p_62075_ < this.getMinBuildHeight()) {
-+         p_62075_ = this.getMinBuildHeight();
-+      }
++//      if (p_62075_ < this.getMinBuildHeight()) {
++//         p_62075_ = this.getMinBuildHeight();
++//      }
 +
-+      if (p_62076_ >= this.getMaxBuildHeight()) {
-+         p_62076_ = this.getMaxBuildHeight() - 1;
-+      }
++//      if (p_62076_ >= this.getMaxBuildHeight()) {
++//         p_62076_ = this.getMaxBuildHeight() - 1;
++//      }
 +
 +      for(long i = p_62075_; i <= p_62076_; i += 16) {
 +         if (!this.getSection(this.getSectionIndex(i)).m_188008_()) {
@@ -229,7 +261,7 @@
 +         long k = i + QuartPos.fromBlock(this.getHeight()) - 1;
 +         long l = Mth.clamp(p_204348_, i, k);
 +         long j = this.getSectionIndex(QuartPos.toBlock(l));
-+         return this.f_187612_[(int) j].getNoiseBiome(p_204347_ & 3, l & 3, p_204349_ & 3);
++         return this.section.getNoiseBiome(p_204347_ & 3, l & 3, p_204349_ & 3);
        } catch (Throwable throwable) {
           CrashReport crashreport = CrashReport.m_127521_(throwable, "Getting biome");
           CrashReportCategory crashreportcategory = crashreport.m_127514_("Biome being got");

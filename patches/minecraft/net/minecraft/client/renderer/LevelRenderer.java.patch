@@ -46,7 +46,7 @@
           Tesselator tesselator = Tesselator.m_85913_();
           BufferBuilder bufferbuilder = tesselator.m_85915_();
           RenderSystem.disableCull();
-@@ -290,17 +_,17 @@
+@@ -290,17 +_,18 @@
           RenderSystem.setShader(GameRenderer::m_172829_);
           BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
@@ -56,6 +56,7 @@
 -               double d0 = (double)this.f_109451_[l1] * 0.5D;
 -               double d1 = (double)this.f_109452_[l1] * 0.5D;
 +         for(long j1 = k - l; j1 <= k + l; ++j1) {
++            for(long y = j - l; y <= j + l; ++y) {
 +            for(long k1 = i - l; k1 <= i + l; ++k1) {
 +               long l1 = (j1 - k + 16) * 32 + k1 - i + 16;
 +               double d0 = (double)this.f_109451_[(int) l1] * 0.5D;
@@ -66,7 +67,7 @@
 -                  int i2 = level.m_6924_(Heightmap.Types.MOTION_BLOCKING, k1, j1);
 -                  int j2 = j - l;
 -                  int k2 = j + l;
-+                  long i2 = level.getHeight(Heightmap.Types.MOTION_BLOCKING, k1, j1);
++                  long i2 = level.getHeight(Heightmap.Types.MOTION_BLOCKING, k1, y, j1);
 +                  long j2 = j - l;
 +                  long k2 = j + l;
                    if (j2 < i2) {
@@ -114,6 +115,14 @@
                          int k3 = m_109541_(level, blockpos$mutableblockpos);
                          int l3 = k3 >> 16 & '\uffff';
                          int i4 = k3 & '\uffff';
+@@ -372,6 +_,7 @@
+                      }
+                   }
+                }
++               }
+             }
+          }
+ 
 @@ -397,11 +_,11 @@
           for(int j = 0; j < i; ++j) {
              int k = randomsource.m_188503_(21) - 10;
@@ -305,7 +314,7 @@
 -      return !ChunkMap.m_200878_(k, l, i, j, this.f_109438_ - 3);
 +      long k = SectionPos.blockToSectionCoord(blockpos.getX());
 +      long l = SectionPos.blockToSectionCoord(blockpos.getZ());
-+      return !ChunkMap.isChunkInRange(k, l, i, j, this.f_109438_ - 2);
++      return !ChunkMap.isChunkInRange(k, SectionPos.blockToSectionCoord(blockpos.getY()), l, i, SectionPos.blockToSectionCoord(p_194360_.getY()), j, this.f_109438_ - 2);
     }
  
     private void m_252964_(Matrix4f p_253756_, Matrix4f p_253787_, double p_254187_, double p_253833_, double p_254547_, Frustum p_253954_) {

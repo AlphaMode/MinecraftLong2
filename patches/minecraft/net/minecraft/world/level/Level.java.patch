@@ -20,20 +20,20 @@
  
     public LevelChunk m_46745_(BlockPos p_46746_) {
 -      return this.m_6325_(SectionPos.m_123171_(p_46746_.m_123341_()), SectionPos.m_123171_(p_46746_.m_123343_()));
-+      return this.getChunk(SectionPos.blockToSectionCoord(p_46746_.getX()), SectionPos.blockToSectionCoord(p_46746_.getZ()));
++      return this.getChunk(SectionPos.blockToSectionCoord(p_46746_.getX()), SectionPos.blockToSectionCoord(p_46746_.getY()), SectionPos.blockToSectionCoord(p_46746_.getZ()));
     }
  
 -   public LevelChunk m_6325_(int p_46727_, int p_46728_) {
 -      return (LevelChunk)this.m_46819_(p_46727_, p_46728_, ChunkStatus.f_62326_);
-+   public LevelChunk getChunk(long p_46727_, long p_46728_) {
-+      return (LevelChunk)this.getChunk(p_46727_, p_46728_, ChunkStatus.f_62326_);
++   public LevelChunk getChunk(long p_46727_, long chunkY, long p_46728_) {
++      return (LevelChunk)this.getChunk(p_46727_, chunkY, p_46728_, ChunkStatus.f_62326_);
     }
  
     @Nullable
 -   public ChunkAccess m_6522_(int p_46502_, int p_46503_, ChunkStatus p_46504_, boolean p_46505_) {
 -      ChunkAccess chunkaccess = this.m_7726_().m_7587_(p_46502_, p_46503_, p_46504_, p_46505_);
-+   public ChunkAccess getChunk(long p_46502_, long p_46503_, ChunkStatus p_46504_, boolean p_46505_) {
-+      ChunkAccess chunkaccess = this.m_7726_().getChunk(p_46502_, p_46503_, p_46504_, p_46505_);
++   public ChunkAccess getChunk(long p_46502_, long chunkY, long p_46503_, ChunkStatus p_46504_, boolean p_46505_) {
++      ChunkAccess chunkaccess = this.m_7726_().getChunk(p_46502_, chunkY, p_46503_, p_46504_, p_46505_);
        if (chunkaccess == null && p_46505_) {
           throw new IllegalStateException("Should always be able to create a chunk!");
        } else {
@@ -46,10 +46,10 @@
 -      if (p_46572_ >= -30000000 && p_46573_ >= -30000000 && p_46572_ < 30000000 && p_46573_ < 30000000) {
 -         if (this.m_7232_(SectionPos.m_123171_(p_46572_), SectionPos.m_123171_(p_46573_))) {
 -            i = this.m_6325_(SectionPos.m_123171_(p_46572_), SectionPos.m_123171_(p_46573_)).m_5885_(p_46571_, p_46572_ & 15, p_46573_ & 15) + 1;
-+   public long getHeight(Heightmap.Types p_46571_, long p_46572_, long p_46573_) {
++   public long getHeight(Heightmap.Types p_46571_, long p_46572_, long y, long p_46573_) {
 +      long i;
-+         if (this.hasChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_))) {
-+            i = this.getChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_)).getHeight(p_46571_, p_46572_ & 15, p_46573_ & 15) + 1;
++         if (this.hasChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(y), SectionPos.blockToSectionCoord(p_46573_))) {
++            i = this.getChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(y), SectionPos.blockToSectionCoord(p_46573_)).getHeight(p_46571_, p_46572_ & 15, p_46573_ & 15) + 1;
           } else {
 -            i = this.m_141937_();
 +            i = this.getMinBuildHeight();
@@ -65,7 +65,7 @@
           return Blocks.f_50626_.m_49966_();
        } else {
 -         LevelChunk levelchunk = this.m_6325_(SectionPos.m_123171_(p_46732_.m_123341_()), SectionPos.m_123171_(p_46732_.m_123343_()));
-+         LevelChunk levelchunk = this.getChunk(SectionPos.blockToSectionCoord(p_46732_.getX()), SectionPos.blockToSectionCoord(p_46732_.getZ()));
++         LevelChunk levelchunk = this.getChunk(SectionPos.blockToSectionCoord(p_46732_.getX()), SectionPos.blockToSectionCoord(p_46732_.getY()), SectionPos.blockToSectionCoord(p_46732_.getZ()));
           return levelchunk.m_8055_(p_46732_);
        }
     }
@@ -107,7 +107,7 @@
  
     public boolean m_46749_(BlockPos p_46750_) {
 -      return this.m_151570_(p_46750_) ? false : this.m_7726_().m_5563_(SectionPos.m_123171_(p_46750_.m_123341_()), SectionPos.m_123171_(p_46750_.m_123343_()));
-+      return this.m_151570_(p_46750_) ? false : this.m_7726_().hasChunk(SectionPos.blockToSectionCoord(p_46750_.getX()), SectionPos.blockToSectionCoord(p_46750_.getZ()));
++      return this.m_151570_(p_46750_) ? false : this.m_7726_().hasChunk(SectionPos.blockToSectionCoord(p_46750_.getX()), SectionPos.blockToSectionCoord(p_46750_.getY()), SectionPos.blockToSectionCoord(p_46750_.getZ()));
     }
  
     public boolean m_46578_(BlockPos p_46579_, Entity p_46580_, Direction p_46581_) {
@@ -115,7 +115,7 @@
           return false;
        } else {
 -         ChunkAccess chunkaccess = this.m_6522_(SectionPos.m_123171_(p_46579_.m_123341_()), SectionPos.m_123171_(p_46579_.m_123343_()), ChunkStatus.f_62326_, false);
-+         ChunkAccess chunkaccess = this.getChunk(SectionPos.blockToSectionCoord(p_46579_.getX()), SectionPos.blockToSectionCoord(p_46579_.getZ()), ChunkStatus.f_62326_, false);
++         ChunkAccess chunkaccess = this.getChunk(SectionPos.blockToSectionCoord(p_46579_.getX()), SectionPos.blockToSectionCoord(p_46579_.getY()), SectionPos.blockToSectionCoord(p_46579_.getZ()), ChunkStatus.f_62326_, false);
           return chunkaccess == null ? false : chunkaccess.m_8055_(p_46579_).m_60638_(this, p_46579_, p_46580_, p_46581_);
        }
     }
@@ -134,8 +134,8 @@
     @Nullable
 -   public BlockGetter m_7925_(int p_46711_, int p_46712_) {
 -      return this.m_6522_(p_46711_, p_46712_, ChunkStatus.f_62326_, false);
-+   public BlockGetter getChunkForCollisions(long p_46711_, long p_46712_) {
-+      return this.getChunk(p_46711_, p_46712_, ChunkStatus.f_62326_, false);
++   public BlockGetter getChunkForCollisions(long p_46711_, long chunkY, long p_46712_) {
++      return this.getChunk(p_46711_, chunkY, p_46712_, ChunkStatus.f_62326_, false);
     }
  
     public List<Entity> m_6249_(@Nullable Entity p_46536_, AABB p_46537_, Predicate<? super Entity> p_46538_) {

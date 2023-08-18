@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/Structure.java
 +++ b/net/minecraft/world/level/levelgen/structure/Structure.java
-@@ -95,36 +_,36 @@
+@@ -95,36 +_,37 @@
  
     protected static Optional<Structure.GenerationStub> m_226585_(Structure.GenerationContext p_226586_, Heightmap.Types p_226587_, Consumer<StructurePiecesBuilder> p_226588_) {
        ChunkPos chunkpos = p_226586_.f_226628_();
@@ -9,7 +9,7 @@
 -      int k = p_226586_.f_226622_().m_223235_(i, j, p_226587_, p_226586_.f_226629_(), p_226586_.f_226624_());
 +      long i = chunkpos.getMiddleBlockX();
 +      long j = chunkpos.getMiddleBlockZ();
-+      long k = p_226586_.f_226622_().getFirstOccupiedHeight(i, j, p_226587_, p_226586_.f_226629_(), p_226586_.f_226624_());
++      long k = p_226586_.f_226622_().getFirstOccupiedHeight(i, chunkpos.getMiddleBlockY(), j, p_226587_, p_226586_.f_226629_(), p_226586_.f_226624_());
        return Optional.of(new Structure.GenerationStub(new BlockPos(i, k, j), p_226588_));
     }
  
@@ -23,12 +23,12 @@
     }
  
 -   private static int[] m_226613_(Structure.GenerationContext p_226614_, int p_226615_, int p_226616_, int p_226617_, int p_226618_) {
-+   private static long[] getCornerHeights(Structure.GenerationContext p_226614_, long p_226615_, long p_226616_, long p_226617_, int p_226618_) {
++   private static long[] getCornerHeights(Structure.GenerationContext p_226614_, long p_226615_, long p_226616_, long p_226617_, int p_226618_, long y) {
        ChunkGenerator chunkgenerator = p_226614_.f_226622_();
        LevelHeightAccessor levelheightaccessor = p_226614_.f_226629_();
        RandomState randomstate = p_226614_.f_226624_();
 -      return new int[]{chunkgenerator.m_223235_(p_226615_, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.m_223235_(p_226615_, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.m_223235_(p_226615_ + p_226616_, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.m_223235_(p_226615_ + p_226616_, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate)};
-+      return new long[]{chunkgenerator.getFirstOccupiedHeight(p_226615_, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_ + p_226616_, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_ + p_226616_, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate)};
++      return new long[]{chunkgenerator.getFirstOccupiedHeight(p_226615_, y, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_, y, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_ + p_226616_, y, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_ + p_226616_, y, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate)};
     }
  
 -   protected static int m_226572_(Structure.GenerationContext p_226573_, int p_226574_, int p_226575_) {
@@ -38,14 +38,15 @@
 -      int j = chunkpos.m_45605_();
 -      return m_226576_(p_226573_, i, j, p_226574_, p_226575_);
 +      long i = chunkpos.getMinBlockX();
++      long minBlockY = chunkpos.getMinBlockY();
 +      long j = chunkpos.getMinBlockZ();
-+      return getLowestY(p_226573_, i, j, p_226574_, p_226575_);
++      return getLowestY(p_226573_, i, minBlockY, j, p_226574_, p_226575_);
     }
  
 -   protected static int m_226576_(Structure.GenerationContext p_226577_, int p_226578_, int p_226579_, int p_226580_, int p_226581_) {
 -      int[] aint = m_226613_(p_226577_, p_226578_, p_226580_, p_226579_, p_226581_);
-+   protected static long getLowestY(Structure.GenerationContext p_226577_, long p_226578_, long p_226579_, int p_226580_, int p_226581_) {
-+      long[] aint = getCornerHeights(p_226577_, p_226578_, p_226580_, p_226579_, p_226581_);
++   protected static long getLowestY(Structure.GenerationContext p_226577_, long p_226578_, long y, long p_226579_, int p_226580_, int p_226581_) {
++      long[] aint = getCornerHeights(p_226577_, p_226578_, p_226580_, p_226579_, p_226581_, y);
        return Math.min(Math.min(aint[0], aint[1]), Math.min(aint[2], aint[3]));
     }
  
@@ -58,7 +59,7 @@
 -      return new BlockPos(k, m_226576_(p_226583_, k, l, i, j), l);
 +      long k = chunkpos.getBlockX(7);
 +      long l = chunkpos.getBlockZ(7);
-+      return new BlockPos(k, getLowestY(p_226583_, k, l, i, j), l);
++      return new BlockPos(k, getLowestY(p_226583_, k, chunkpos.getBlockY(7), l, i, j), l);
     }
  
     protected abstract Optional<Structure.GenerationStub> m_214086_(Structure.GenerationContext p_226571_);

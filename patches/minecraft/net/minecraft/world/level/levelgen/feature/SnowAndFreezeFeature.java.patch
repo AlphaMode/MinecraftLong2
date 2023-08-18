@@ -1,8 +1,10 @@
 --- a/net/minecraft/world/level/levelgen/feature/SnowAndFreezeFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/SnowAndFreezeFeature.java
-@@ -24,11 +_,11 @@
+@@ -23,12 +_,13 @@
+       BlockPos.MutableBlockPos blockpos$mutableblockpos1 = new BlockPos.MutableBlockPos();
  
        for(int i = 0; i < 16; ++i) {
++         for(int chunkY = 0; chunkY < 16; ++chunkY) {
           for(int j = 0; j < 16; ++j) {
 -            int k = blockpos.m_123341_() + i;
 -            int l = blockpos.m_123343_() + j;
@@ -11,9 +13,17 @@
 -            blockpos$mutableblockpos1.m_122190_(blockpos$mutableblockpos).m_122175_(Direction.DOWN, 1);
 +            long k = blockpos.getX() + i;
 +            long l = blockpos.getZ() + j;
-+            long i1 = worldgenlevel.getHeight(Heightmap.Types.MOTION_BLOCKING, k, l);
++            long i1 = worldgenlevel.getHeight(Heightmap.Types.MOTION_BLOCKING, k, blockpos.getY() + chunkY, l);
 +            blockpos$mutableblockpos.set(k, i1, l);
 +            blockpos$mutableblockpos1.set(blockpos$mutableblockpos).move(Direction.DOWN, 1);
              Biome biome = worldgenlevel.m_204166_(blockpos$mutableblockpos).m_203334_();
              if (biome.m_47480_(worldgenlevel, blockpos$mutableblockpos1, false)) {
                 worldgenlevel.m_7731_(blockpos$mutableblockpos1, Blocks.f_50126_.m_49966_(), 2);
+@@ -41,6 +_,7 @@
+                   worldgenlevel.m_7731_(blockpos$mutableblockpos1, blockstate.m_61124_(SnowyDirtBlock.f_56637_, Boolean.valueOf(true)), 2);
+                }
+             }
++         }
+          }
+       }
+ 

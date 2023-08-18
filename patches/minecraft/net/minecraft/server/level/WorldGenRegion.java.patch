@@ -1,5 +1,14 @@
 --- a/net/minecraft/server/level/WorldGenRegion.java
 +++ b/net/minecraft/server/level/WorldGenRegion.java
+@@ -87,7 +_,7 @@
+       this.f_143480_ = p_143486_;
+       this.f_143481_ = p_143487_;
+       int i = Mth.m_14107_(Math.sqrt((double)p_143485_.size()));
+-      if (i * i != p_143485_.size()) {
++      if (/*i * i != p_143485_.size()*/false) {
+          throw (IllegalStateException)Util.m_137570_(new IllegalStateException("Cache size is not a square."));
+       } else {
+          this.f_9475_ = p_143485_;
 @@ -105,8 +_,8 @@
        }
     }
@@ -17,37 +26,52 @@
  
 -   public ChunkAccess m_6325_(int p_9507_, int p_9508_) {
 -      return this.m_46819_(p_9507_, p_9508_, ChunkStatus.f_62314_);
-+   public ChunkAccess getChunk(long p_9507_, long p_9508_) {
-+      return this.getChunk(p_9507_, p_9508_, ChunkStatus.f_62314_);
++   public ChunkAccess getChunk(long p_9507_, long chunkY, long p_9508_) {
++      return this.getChunk(p_9507_, chunkY, p_9508_, ChunkStatus.f_62314_);
     }
  
     @Nullable
 -   public ChunkAccess m_6522_(int p_9514_, int p_9515_, ChunkStatus p_9516_, boolean p_9517_) {
-+   public ChunkAccess getChunk(long p_9514_, long p_9515_, ChunkStatus p_9516_, boolean p_9517_) {
++   public ChunkAccess getChunk(long p_9514_, long chunkY, long p_9515_, ChunkStatus p_9516_, boolean p_9517_) {
        ChunkAccess chunkaccess;
 -      if (this.m_7232_(p_9514_, p_9515_)) {
 -         int i = p_9514_ - this.f_9487_.f_45578_;
 -         int j = p_9515_ - this.f_9487_.f_45579_;
 -         chunkaccess = this.f_9475_.get(i + j * this.f_9478_);
-+      if (this.hasChunk(p_9514_, p_9515_)) {
++      if (this.hasChunk(p_9514_, chunkY, p_9515_)) {
 +         long i = p_9514_ - this.f_9487_.f_45578_;
 +         long j = p_9515_ - this.f_9487_.f_45579_;
 +         chunkaccess = this.f_9475_.get((int) (i + j * this.f_9478_));
           if (chunkaccess.m_6415_().m_62427_(p_9516_)) {
              return chunkaccess;
           }
-@@ -148,12 +_,12 @@
+@@ -138,22 +_,22 @@
+       if (!p_9517_) {
+          return null;
+       } else {
+-         f_9474_.error("Requested chunk : {} {}", p_9514_, p_9515_);
+-         f_9474_.error("Region bounds : {} {} | {} {}", this.f_9487_.f_45578_, this.f_9487_.f_45579_, this.f_9488_.f_45578_, this.f_9488_.f_45579_);
++         f_9474_.error("Requested chunk : {} {} {}", p_9514_, chunkY, p_9515_);
++         f_9474_.error("Region bounds : {} {} {} | {} {} {}", this.f_9487_.f_45578_, this.f_9487_.y, this.f_9487_.f_45579_, this.f_9488_.f_45578_, this.f_9488_.y, this.f_9488_.f_45579_);
+          if (chunkaccess != null) {
+-            throw (RuntimeException)Util.m_137570_(new RuntimeException(String.format(Locale.ROOT, "Chunk is not of correct status. Expecting %s, got %s | %s %s", p_9516_, chunkaccess.m_6415_(), p_9514_, p_9515_)));
++            throw (RuntimeException)Util.m_137570_(new RuntimeException(String.format(Locale.ROOT, "Chunk is not of correct status. Expecting %s, got %s | %s %s %s", p_9516_, chunkaccess.m_6415_(), p_9514_, chunkY, p_9515_)));
+          } else {
+-            throw (RuntimeException)Util.m_137570_(new RuntimeException(String.format(Locale.ROOT, "We are asking a region for a chunk out of bound | %s %s", p_9514_, p_9515_)));
++            throw (RuntimeException)Util.m_137570_(new RuntimeException(String.format(Locale.ROOT, "We are asking a region for a chunk out of bound | %s %s %s", p_9514_, chunkY, p_9515_)));
+          }
        }
     }
  
 -   public boolean m_7232_(int p_9574_, int p_9575_) {
-+   public boolean hasChunk(long p_9574_, long p_9575_) {
-       return p_9574_ >= this.f_9487_.f_45578_ && p_9574_ <= this.f_9488_.f_45578_ && p_9575_ >= this.f_9487_.f_45579_ && p_9575_ <= this.f_9488_.f_45579_;
+-      return p_9574_ >= this.f_9487_.f_45578_ && p_9574_ <= this.f_9488_.f_45578_ && p_9575_ >= this.f_9487_.f_45579_ && p_9575_ <= this.f_9488_.f_45579_;
++   public boolean hasChunk(long p_9574_, long chunkY, long p_9575_) {
++      return p_9574_ >= this.f_9487_.f_45578_ && p_9574_ <= this.f_9488_.f_45578_ && chunkY >= this.f_9487_.y && chunkY <= this.f_9488_.y && p_9575_ >= this.f_9487_.f_45579_ && p_9575_ <= this.f_9488_.f_45579_;
     }
  
     public BlockState m_8055_(BlockPos p_9587_) {
 -      return this.m_6325_(SectionPos.m_123171_(p_9587_.m_123341_()), SectionPos.m_123171_(p_9587_.m_123343_())).m_8055_(p_9587_);
-+      return this.getChunk(SectionPos.blockToSectionCoord(p_9587_.getX()), SectionPos.blockToSectionCoord(p_9587_.getZ())).m_8055_(p_9587_);
++      return this.getChunk(SectionPos.blockToSectionCoord(p_9587_.getX()), SectionPos.blockToSectionCoord(p_9587_.getY()), SectionPos.blockToSectionCoord(p_9587_.getZ())).m_8055_(p_9587_);
     }
  
     public FluidState m_6425_(BlockPos p_9577_) {
@@ -62,27 +86,39 @@
     }
  
     public float m_7717_(Direction p_9555_, boolean p_9556_) {
-@@ -234,15 +_,15 @@
+@@ -234,22 +_,23 @@
     }
  
     public boolean m_180807_(BlockPos p_181031_) {
 -      int i = SectionPos.m_123171_(p_181031_.m_123341_());
 -      int j = SectionPos.m_123171_(p_181031_.m_123343_());
 +      long i = SectionPos.blockToSectionCoord(p_181031_.getX());
++      long chunkY = SectionPos.blockToSectionCoord(p_181031_.getY());
 +      long j = SectionPos.blockToSectionCoord(p_181031_.getZ());
        ChunkPos chunkpos = this.m_143488_();
 -      int k = Math.abs(chunkpos.f_45578_ - i);
 -      int l = Math.abs(chunkpos.f_45579_ - j);
+-      if (k <= this.f_143481_ && l <= this.f_143481_) {
 +      long k = Math.abs(chunkpos.f_45578_ - i);
 +      long l = Math.abs(chunkpos.f_45579_ - j);
-       if (k <= this.f_143481_ && l <= this.f_143481_) {
++      if (k <= this.f_143481_ && Math.abs(chunkpos.y - i) <= this.f_143481_ && l <= this.f_143481_) {
           if (this.f_143479_.m_187679_()) {
              LevelHeightAccessor levelheightaccessor = this.f_143479_.m_183618_();
 -            if (p_181031_.m_123342_() < levelheightaccessor.m_141937_() || p_181031_.m_123342_() >= levelheightaccessor.m_151558_()) {
-+            if (p_181031_.getY() < levelheightaccessor.getMinBuildHeight() || p_181031_.getY() >= levelheightaccessor.getMaxBuildHeight()) {
-                return false;
-             }
+-               return false;
+-            }
++//            if (p_181031_.getY() < levelheightaccessor.getMinBuildHeight() || p_181031_.getY() >= levelheightaccessor.getMaxBuildHeight()) {
++//               return false;
++//            }
           }
+ 
+          return true;
+       } else {
+-         Util.m_143785_("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + p_181031_ + ", status: " + this.f_143480_ + (this.f_143482_ == null ? "" : ", currently generating: " + (String)this.f_143482_.get()));
++         Util.m_143785_("Detected setBlock in a far chunk [" + i + ", " + chunkY + ", " + j + "], pos: " + p_181031_ + ", status: " + this.f_143480_ + (this.f_143482_ == null ? "" : ", currently generating: " + (String)this.f_143482_.get()));
+          return false;
+       }
+    }
 @@ -274,9 +_,9 @@
                 }
              } else {
@@ -105,7 +141,7 @@
 -      this.m_6325_(i, j).m_6286_(p_9580_);
 +      long i = SectionPos.blockToSectionCoord(p_9580_.getBlockX());
 +      long j = SectionPos.blockToSectionCoord(p_9580_.getBlockZ());
-+      this.getChunk(i, j).m_6286_(p_9580_);
++      this.getChunk(i, SectionPos.blockToSectionCoord(p_9580_.getBlockY()), j).m_6286_(p_9580_);
        return true;
     }
  
@@ -114,7 +150,7 @@
  
     public DifficultyInstance m_6436_(BlockPos p_9585_) {
 -      if (!this.m_7232_(SectionPos.m_123171_(p_9585_.m_123341_()), SectionPos.m_123171_(p_9585_.m_123343_()))) {
-+      if (!this.hasChunk(SectionPos.blockToSectionCoord(p_9585_.getX()), SectionPos.blockToSectionCoord(p_9585_.getZ()))) {
++      if (!this.hasChunk(SectionPos.blockToSectionCoord(p_9585_.getX()), SectionPos.blockToSectionCoord(p_9585_.getY()), SectionPos.blockToSectionCoord(p_9585_.getZ()))) {
           throw new RuntimeException("We are asking a region for a chunk out of bound");
        } else {
           return new DifficultyInstance(this.f_9479_.m_46791_(), this.f_9479_.m_46468_(), 0L, this.f_9479_.m_46940_());
@@ -124,8 +160,8 @@
  
 -   public int m_6924_(Heightmap.Types p_9535_, int p_9536_, int p_9537_) {
 -      return this.m_6325_(SectionPos.m_123171_(p_9536_), SectionPos.m_123171_(p_9537_)).m_5885_(p_9535_, p_9536_ & 15, p_9537_ & 15) + 1;
-+   public long getHeight(Heightmap.Types p_9535_, long p_9536_, long p_9537_) {
-+      return this.getChunk(SectionPos.blockToSectionCoord(p_9536_), SectionPos.blockToSectionCoord(p_9537_)).getHeight(p_9535_, p_9536_ & 15, p_9537_ & 15) + 1;
++   public long getHeight(Heightmap.Types p_9535_, long p_9536_, long y, long p_9537_) {
++      return this.getChunk(SectionPos.blockToSectionCoord(p_9536_), SectionPos.blockToSectionCoord(y), SectionPos.blockToSectionCoord(p_9537_)).getHeight(p_9535_, p_9536_ & 15, p_9537_ & 15) + 1;
     }
  
     public void m_5594_(@Nullable Player p_9528_, BlockPos p_9529_, SoundEvent p_9530_, SoundSource p_9531_, float p_9532_, float p_9533_) {

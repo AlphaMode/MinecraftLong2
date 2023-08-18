@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -384,17 +_,17 @@
+@@ -384,30 +_,32 @@
  
     private static void m_177896_(ServerLevel p_177897_, ServerLevelData p_177898_, boolean p_177899_, boolean p_177900_) {
        if (p_177900_) {
@@ -15,14 +15,35 @@
 +         if (i < p_177897_.getMinBuildHeight()) {
              BlockPos blockpos = chunkpos.m_45615_();
 -            i = p_177897_.m_6924_(Heightmap.Types.WORLD_SURFACE, blockpos.m_123341_() + 8, blockpos.m_123343_() + 8);
-+            i = p_177897_.getHeight(Heightmap.Types.WORLD_SURFACE, blockpos.getX() + 8, blockpos.getZ() + 8);
++            i = p_177897_.getHeight(Heightmap.Types.WORLD_SURFACE, blockpos.getX() + 8, blockpos.getY() + 8, blockpos.getZ() + 8);
           }
  
 -         p_177898_.m_7250_(chunkpos.m_45615_().m_7918_(8, i, 8), 0.0F);
 +         p_177898_.m_7250_(chunkpos.m_45615_().offset(8, i, 8), 0.0F);
           int k1 = 0;
++         int chunkY = 0;
           int j = 0;
           int k = 0;
+          int l = -1;
+          int i1 = 5;
+ 
+          for(int j1 = 0; j1 < Mth.m_144944_(11); ++j1) {
+-            if (k1 >= -5 && k1 <= 5 && j >= -5 && j <= 5) {
+-               BlockPos blockpos1 = PlayerRespawnLogic.m_183932_(p_177897_, new ChunkPos(chunkpos.f_45578_ + k1, chunkpos.f_45579_ + j));
+-               if (blockpos1 != null) {
+-                  p_177898_.m_7250_(blockpos1, 0.0F);
+-                  break;
+-               }
++            if (k1 >= -5 && k1 <= 5 && chunkY >= -5 && chunkY <= 5 && j >= -5 && j <= 5) {
++//               BlockPos blockpos1 = PlayerRespawnLogic.getSpawnPosInChunk(p_177897_, new ChunkPos(chunkpos.x + k1, chunkpos.y, chunkpos.z + j));
++//               if (blockpos1 != null) {
++//                  p_177898_.setSpawn(blockpos1, 0.0F);
++//                  break;
++//               }
++               break;
+             }
+ 
+             if (k1 == j || k1 < 0 && k1 == -j || k1 > 0 && k1 == 1 - j) {
 @@ -424,7 +_,7 @@
              p_177897_.m_9598_().m_6632_(Registries.f_256911_).flatMap((p_258226_) -> {
                 return p_258226_.m_203636_(MiscOverworldFeatures.f_195021_);
@@ -32,6 +53,15 @@
              });
           }
  
+@@ -451,7 +_,7 @@
+       this.f_129726_ = Util.m_137550_();
+       serverchunkcache.m_8387_(TicketType.f_9442_, new ChunkPos(blockpos), 11, Unit.INSTANCE);
+ 
+-      while(serverchunkcache.m_8427_() != 441) {
++      while(serverchunkcache.m_8427_() != f_177891_) {
+          this.f_129726_ = Util.m_137550_() + 10L;
+          this.m_130012_();
+       }
 @@ -462,11 +_,10 @@
        for(ServerLevel serverlevel1 : this.f_129762_.values()) {
           ForcedChunksSavedData forcedchunkssaveddata = serverlevel1.m_8895_().m_164858_(ForcedChunksSavedData::m_151483_, "chunks");

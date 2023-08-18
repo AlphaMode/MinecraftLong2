@@ -1,23 +1,28 @@
 --- a/net/minecraft/network/protocol/game/ClientboundLightUpdatePacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundLightUpdatePacket.java
-@@ -8,8 +_,8 @@
+@@ -8,25 +_,29 @@
  import net.minecraft.world.level.lighting.LevelLightEngine;
  
  public class ClientboundLightUpdatePacket implements Packet<ClientGamePacketListener> {
 -   private final int f_132323_;
 -   private final int f_132324_;
 +   private final long f_132323_;
++   private final long y;
 +   private final long f_132324_;
     private final ClientboundLightUpdatePacketData f_195721_;
  
     public ClientboundLightUpdatePacket(ChunkPos p_285255_, LevelLightEngine p_285409_, @Nullable BitSet p_285387_, @Nullable BitSet p_285074_) {
-@@ -19,14 +_,14 @@
+       this.f_132323_ = p_285255_.f_45578_;
++      this.y = p_285255_.y;
+       this.f_132324_ = p_285255_.f_45579_;
+       this.f_195721_ = new ClientboundLightUpdatePacketData(p_285255_, p_285409_, p_285387_, p_285074_);
     }
  
     public ClientboundLightUpdatePacket(FriendlyByteBuf p_178918_) {
 -      this.f_132323_ = p_178918_.m_130242_();
 -      this.f_132324_ = p_178918_.m_130242_();
 +      this.f_132323_ = p_178918_.readLong();
++      this.y = p_178918_.readLong();
 +      this.f_132324_ = p_178918_.readLong();
        this.f_195721_ = new ClientboundLightUpdatePacketData(p_178918_, this.f_132323_, this.f_132324_);
     }
@@ -26,11 +31,12 @@
 -      p_132351_.m_130130_(this.f_132323_);
 -      p_132351_.m_130130_(this.f_132324_);
 +      p_132351_.writeLong(this.f_132323_);
++      p_132351_.writeLong(this.y);
 +      p_132351_.writeLong(this.f_132324_);
        this.f_195721_.m_195749_(p_132351_);
     }
  
-@@ -34,11 +_,11 @@
+@@ -34,11 +_,15 @@
        p_132348_.m_183514_(this);
     }
  
@@ -40,6 +46,10 @@
     }
  
 -   public int m_132352_() {
++   public long getY() {
++      return this.y;
++   }
++
 +   public long getZ() {
        return this.f_132324_;
     }

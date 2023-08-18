@@ -1,23 +1,31 @@
 --- a/net/minecraft/network/protocol/game/ClientboundLevelChunkWithLightPacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundLevelChunkWithLightPacket.java
-@@ -9,8 +_,8 @@
+@@ -9,29 +_,33 @@
  import net.minecraft.world.level.lighting.LevelLightEngine;
  
  public class ClientboundLevelChunkWithLightPacket implements Packet<ClientGamePacketListener> {
 -   private final int f_195699_;
 -   private final int f_195700_;
 +   private final long f_195699_;
++   private final long y;
 +   private final long f_195700_;
     private final ClientboundLevelChunkPacketData f_195701_;
     private final ClientboundLightUpdatePacketData f_195702_;
  
-@@ -23,15 +_,15 @@
+    public ClientboundLevelChunkWithLightPacket(LevelChunk p_285290_, LevelLightEngine p_285254_, @Nullable BitSet p_285350_, @Nullable BitSet p_285304_) {
+       ChunkPos chunkpos = p_285290_.m_7697_();
+       this.f_195699_ = chunkpos.f_45578_;
++      this.y = chunkpos.y;
+       this.f_195700_ = chunkpos.f_45579_;
+       this.f_195701_ = new ClientboundLevelChunkPacketData(p_285290_);
+       this.f_195702_ = new ClientboundLightUpdatePacketData(chunkpos, p_285254_, p_285350_, p_285304_);
     }
  
     public ClientboundLevelChunkWithLightPacket(FriendlyByteBuf p_195710_) {
 -      this.f_195699_ = p_195710_.readInt();
 -      this.f_195700_ = p_195710_.readInt();
 +      this.f_195699_ = p_195710_.readLong();
++      this.y = p_195710_.readLong();
 +      this.f_195700_ = p_195710_.readLong();
        this.f_195701_ = new ClientboundLevelChunkPacketData(p_195710_, this.f_195699_, this.f_195700_);
        this.f_195702_ = new ClientboundLightUpdatePacketData(p_195710_, this.f_195699_, this.f_195700_);
@@ -27,11 +35,12 @@
 -      p_195712_.writeInt(this.f_195699_);
 -      p_195712_.writeInt(this.f_195700_);
 +      p_195712_.writeLong(this.f_195699_);
++      p_195712_.writeLong(this.y);
 +      p_195712_.writeLong(this.f_195700_);
        this.f_195701_.m_195666_(p_195712_);
        this.f_195702_.m_195749_(p_195712_);
     }
-@@ -40,11 +_,11 @@
+@@ -40,11 +_,15 @@
        p_195716_.m_183388_(this);
     }
  
@@ -41,6 +50,10 @@
     }
  
 -   public int m_195718_() {
++   public long getY() {
++      return this.y;
++   }
++
 +   public long getZ() {
        return this.f_195700_;
     }

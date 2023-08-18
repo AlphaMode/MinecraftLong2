@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/net/minecraft/world/level/chunk/LevelChunk.java
-@@ -72,7 +_,7 @@
+@@ -72,18 +_,18 @@
     private Supplier<FullChunkStatus> f_62790_;
     @Nullable
     private LevelChunk.PostLoadProcessor f_62791_;
@@ -9,8 +9,13 @@
     private final LevelChunkTicks<Block> f_62784_;
     private final LevelChunkTicks<Fluid> f_187943_;
  
-@@ -83,7 +_,7 @@
-    public LevelChunk(Level p_196854_, ChunkPos p_196855_, UpgradeData p_196856_, LevelChunkTicks<Block> p_196857_, LevelChunkTicks<Fluid> p_196858_, long p_196859_, @Nullable LevelChunkSection[] p_196860_, @Nullable LevelChunk.PostLoadProcessor p_196861_, @Nullable BlendingData p_196862_) {
+    public LevelChunk(Level p_187945_, ChunkPos p_187946_) {
+-      this(p_187945_, p_187946_, UpgradeData.f_63320_, new LevelChunkTicks<>(), new LevelChunkTicks<>(), 0L, (LevelChunkSection[])null, (LevelChunk.PostLoadProcessor)null, (BlendingData)null);
++      this(p_187945_, p_187946_, UpgradeData.f_63320_, new LevelChunkTicks<>(), new LevelChunkTicks<>(), 0L, null, (LevelChunk.PostLoadProcessor)null, (BlendingData)null);
+    }
+ 
+-   public LevelChunk(Level p_196854_, ChunkPos p_196855_, UpgradeData p_196856_, LevelChunkTicks<Block> p_196857_, LevelChunkTicks<Fluid> p_196858_, long p_196859_, @Nullable LevelChunkSection[] p_196860_, @Nullable LevelChunk.PostLoadProcessor p_196861_, @Nullable BlendingData p_196862_) {
++   public LevelChunk(Level p_196854_, ChunkPos p_196855_, UpgradeData p_196856_, LevelChunkTicks<Block> p_196857_, LevelChunkTicks<Fluid> p_196858_, long p_196859_, @Nullable LevelChunkSection p_196860_, @Nullable LevelChunk.PostLoadProcessor p_196861_, @Nullable BlendingData p_196862_) {
        super(p_196855_, p_196856_, p_196854_, p_196854_.m_9598_().m_175515_(Registries.f_256952_), p_196859_, p_196860_, p_196862_);
        this.f_62776_ = p_196854_;
 -      this.f_244451_ = new Int2ObjectOpenHashMap<>();
@@ -18,6 +23,15 @@
  
        for(Heightmap.Types heightmap$types : Heightmap.Types.values()) {
           if (ChunkStatus.f_62326_.m_62500_().contains(heightmap$types)) {
+@@ -97,7 +_,7 @@
+    }
+ 
+    public LevelChunk(ServerLevel p_196850_, ProtoChunk p_196851_, @Nullable LevelChunk.PostLoadProcessor p_196852_) {
+-      this(p_196850_, p_196851_.m_7697_(), p_196851_.m_7387_(), p_196851_.m_188181_(), p_196851_.m_188182_(), p_196851_.m_6319_(), p_196851_.m_7103_(), p_196852_, p_196851_.m_183407_());
++      this(p_196850_, p_196851_.m_7697_(), p_196851_.m_7387_(), p_196851_.m_188181_(), p_196851_.m_188182_(), p_196851_.m_6319_(), p_196851_.getSection(0), p_196852_, p_196851_.m_183407_());
+ 
+       for(BlockEntity blockentity : p_196851_.m_63292_().values()) {
+          this.m_142169_(blockentity);
 @@ -135,21 +_,21 @@
        return new ChunkAccess.TicksToSave(this.f_62784_, this.f_187943_);
     }
@@ -46,7 +60,7 @@
        if (this.f_62776_.m_46659_()) {
           BlockState blockstate = null;
           if (j == 60) {
-@@ -157,17 +_,17 @@
+@@ -157,26 +_,26 @@
           }
  
           if (j == 70) {
@@ -58,17 +72,20 @@
        } else {
           try {
 -            int l = this.m_151564_(j);
-+            long l = this.getSectionIndex(j);
-             if (l >= 0 && l < this.f_187612_.length) {
+-            if (l >= 0 && l < this.f_187612_.length) {
 -               LevelChunkSection levelchunksection = this.f_187612_[l];
-+               LevelChunkSection levelchunksection = this.f_187612_[(int) l]; // TODO: long support
++            long l = this.getSectionIndex(j);
++//            if (l >= 0 && l < this.sections.length) {
++               LevelChunkSection levelchunksection = this.section;
                 if (!levelchunksection.m_188008_()) {
 -                  return levelchunksection.m_62982_(i & 15, j & 15, k & 15);
 +                  return levelchunksection.getBlockState(i & 15, j & 15, k & 15);
                 }
-             }
+-            }
++//            }
  
-@@ -176,7 +_,7 @@
+             return Blocks.f_50016_.m_49966_();
+          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.m_127521_(throwable, "Getting block state");
              CrashReportCategory crashreportcategory = crashreport.m_127514_("Block being got");
              crashreportcategory.m_128165_("Location", () -> {
@@ -77,7 +94,7 @@
              });
              throw new ReportedException(crashreport);
           }
-@@ -184,16 +_,16 @@
+@@ -184,17 +_,17 @@
     }
  
     public FluidState m_6425_(BlockPos p_62895_) {
@@ -89,16 +106,19 @@
 +   public FluidState getFluidState(long p_62815_, long p_62816_, long p_62817_) {
        try {
 -         int i = this.m_151564_(p_62816_);
-+         long i = this.getSectionIndex(p_62816_);
-          if (i >= 0 && i < this.f_187612_.length) {
+-         if (i >= 0 && i < this.f_187612_.length) {
 -            LevelChunkSection levelchunksection = this.f_187612_[i];
-+            LevelChunkSection levelchunksection = this.f_187612_[(int) i]; // TODO: long support
++         long i = this.getSectionIndex(p_62816_);
++//         if (i >= 0 && i < this.sections.length) {
++            LevelChunkSection levelchunksection = this.section;
              if (!levelchunksection.m_188008_()) {
 -               return levelchunksection.m_63007_(p_62815_ & 15, p_62816_ & 15, p_62817_ & 15);
+-            }
 +               return levelchunksection.getFluidState(p_62815_ & 15, p_62816_ & 15, p_62817_ & 15);
-             }
++//            }
           }
  
+          return Fluids.f_76191_.m_76145_();
 @@ -202,7 +_,7 @@
           CrashReport crashreport = CrashReport.m_127521_(throwable, "Getting fluid state");
           CrashReportCategory crashreportcategory = crashreport.m_127514_("Block being got");
@@ -187,6 +207,32 @@
 -   private void m_280642_(int p_283355_) {
 +   private void removeGameEventListenerRegistry(long p_283355_) {
        this.f_244451_.remove(p_283355_);
+    }
+ 
+@@ -440,9 +_,9 @@
+    public void m_187971_(FriendlyByteBuf p_187972_, CompoundTag p_187973_, Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> p_187974_) {
+       this.m_187957_();
+ 
+-      for(LevelChunkSection levelchunksection : this.f_187612_) {
+-         levelchunksection.m_63004_(p_187972_);
+-      }
++//      for(LevelChunkSection levelchunksection : this.sections) {
++         this.section.m_63004_(p_187972_);
++//      }
+ 
+       for(Heightmap.Types heightmap$types : Heightmap.Types.values()) {
+          String s = heightmap$types.m_64294_();
+@@ -462,9 +_,9 @@
+    }
+ 
+    public void m_274381_(FriendlyByteBuf p_275574_) {
+-      for(LevelChunkSection levelchunksection : this.f_187612_) {
+-         levelchunksection.m_274599_(p_275574_);
+-      }
++//      for(LevelChunkSection levelchunksection : this.sections) {
++         this.section.m_274599_(p_275574_);
++//      }
+ 
     }
  
 @@ -486,7 +_,7 @@

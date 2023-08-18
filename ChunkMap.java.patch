@@ -42,7 +42,7 @@
     public ChunkMap(ServerLevel p_214836_, LevelStorageSource.LevelStorageAccess p_214837_, DataFixer p_214838_, StructureTemplateManager p_214839_, Executor p_214840_, BlockableEventLoop<Runnable> p_214841_, LightChunkGetter p_214842_, ChunkGenerator p_214843_, ChunkProgressListener p_214844_, ChunkStatusUpdateListener p_214845_, Supplier<DimensionDataStorage> p_214846_, int p_214847_, boolean p_214848_) {
        super(p_214837_.m_197394_(p_214836_.m_46472_()).resolve("region"), p_214838_, p_214848_);
        this.f_214833_ = p_214839_;
-@@ -199,16 +_,16 @@
+@@ -199,28 +_,29 @@
     }
  
     private static double m_140226_(ChunkPos p_140227_, Entity p_140228_) {
@@ -58,24 +58,27 @@
 -   public static boolean m_200878_(int p_200879_, int p_200880_, int p_200881_, int p_200882_, int p_200883_) {
 -      int i = Math.max(0, Math.abs(p_200879_ - p_200881_) - 1);
 -      int j = Math.max(0, Math.abs(p_200880_ - p_200882_) - 1);
-+   public static boolean isChunkInRange(long p_200879_, long p_200880_, long p_200881_, long p_200882_, int p_200883_) {
-+      long i = Math.max(0, Math.abs(p_200879_ - p_200881_) - 1);
+-      long k = (long)Math.max(0, Math.max(i, j) - 1);
+-      long l = (long)Math.min(i, j);
++   public static boolean isChunkInRange(long p_200879_, long y1, long p_200880_, long p_200881_, long y2, long p_200882_, int p_200883_) {
++      long i = Math.max(0, Math.abs(p_200879_ - p_200881_) - 1); // TODO: finish implementing this hurts my brain
++      long yMax = Math.max(0, Math.abs(y1 - y2) - 1);
 +      long j = Math.max(0, Math.abs(p_200880_ - p_200882_) - 1);
-       long k = (long)Math.max(0, Math.max(i, j) - 1);
-       long l = (long)Math.min(i, j);
++      long k = (long)Math.max(0, Math.max(Math.max(i, j), yMax) - 1);
++      long l = (long)Math.min(Math.min(i, j), yMax);
        long i1 = l * l + k * k;
-@@ -216,11 +_,11 @@
+       int j1 = p_200883_ * p_200883_;
        return i1 < (long)j1;
     }
  
 -   private static boolean m_183828_(int p_183829_, int p_183830_, int p_183831_, int p_183832_, int p_183833_) {
 -      if (!m_200878_(p_183829_, p_183830_, p_183831_, p_183832_, p_183833_)) {
-+   private static boolean isChunkOnRangeBorder(long p_183829_, long p_183830_, long p_183831_, long p_183832_, int p_183833_) {
-+      if (!isChunkInRange(p_183829_, p_183830_, p_183831_, p_183832_, p_183833_)) {
++   private static boolean isChunkOnRangeBorder(long p_183829_, long y1, long p_183830_, long p_183831_, long y2, long p_183832_, int p_183833_) {
++      if (!isChunkInRange(p_183829_, y1, p_183830_, p_183831_, y2, p_183832_, p_183833_)) {
           return false;
        } else {
 -         return !m_200878_(p_183829_ + 1, p_183830_ + 1, p_183831_, p_183832_, p_183833_) || !m_200878_(p_183829_ - 1, p_183830_ + 1, p_183831_, p_183832_, p_183833_) || !m_200878_(p_183829_ + 1, p_183830_ - 1, p_183831_, p_183832_, p_183833_) || !m_200878_(p_183829_ - 1, p_183830_ - 1, p_183831_, p_183832_, p_183833_);
-+         return !isChunkInRange(p_183829_ + 1, p_183830_ + 1, p_183831_, p_183832_, p_183833_) || !isChunkInRange(p_183829_ - 1, p_183830_ + 1, p_183831_, p_183832_, p_183833_) || !isChunkInRange(p_183829_ + 1, p_183830_ - 1, p_183831_, p_183832_, p_183833_) || !isChunkInRange(p_183829_ - 1, p_183830_ - 1, p_183831_, p_183832_, p_183833_);
++         return !isChunkInRange(p_183829_ + 1, y1 + 1, p_183830_ + 1, p_183831_, y2, p_183832_, p_183833_) || !isChunkInRange(p_183829_ - 1, y1 - 1, p_183830_ + 1, p_183831_, y2, p_183832_, p_183833_) || !isChunkInRange(p_183829_ + 1, y1, p_183830_ - 1, p_183831_, y2, p_183832_, p_183833_) || !isChunkInRange(p_183829_ - 1, y1 - 1, p_183830_ - 1, p_183831_, y2, p_183832_, p_183833_);
        }
     }
  
@@ -109,7 +112,7 @@
        if (chunkholder == null) {
           return "null";
        } else {
-@@ -277,15 +_,14 @@
+@@ -277,27 +_,28 @@
           List<CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>>> list = new ArrayList<>();
           List<ChunkHolder> list1 = new ArrayList<>();
           ChunkPos chunkpos = p_281446_.m_140092_();
@@ -119,15 +122,52 @@
 +         long j = chunkpos.f_45579_;
  
           for(int k = -p_282030_; k <= p_282030_; ++k) {
-             for(int l = -p_282030_; l <= p_282030_; ++l) {
-                int i1 = Math.max(Math.abs(l), Math.abs(k));
-                final ChunkPos chunkpos1 = new ChunkPos(i + l, j + k);
+-            for(int l = -p_282030_; l <= p_282030_; ++l) {
+-               int i1 = Math.max(Math.abs(l), Math.abs(k));
+-               final ChunkPos chunkpos1 = new ChunkPos(i + l, j + k);
 -               long j1 = chunkpos1.m_45588_();
 -               ChunkHolder chunkholder = this.m_140174_(j1);
-+               ChunkHolder chunkholder = this.getUpdatingChunkIfPresent(chunkpos1);
-                if (chunkholder == null) {
-                   return CompletableFuture.completedFuture(Either.right(new ChunkHolder.ChunkLoadingFailure() {
+-               if (chunkholder == null) {
+-                  return CompletableFuture.completedFuture(Either.right(new ChunkHolder.ChunkLoadingFailure() {
+-                     public String toString() {
+-                        return "Unloaded " + chunkpos1;
+-                     }
+-                  }));
+-               }
++            for (int yOffset = -p_282030_; yOffset <= p_282030_; ++yOffset) {
++               for (int l = -p_282030_; l <= p_282030_; ++l) {
++                  int i1 = Math.max(Math.max(Math.abs(l), Math.abs(k)), Math.abs(yOffset));
++                  final ChunkPos chunkpos1 = new ChunkPos(i + l, chunkpos.y + yOffset, j + k);
++                  ChunkHolder chunkholder = this.getUpdatingChunkIfPresent(chunkpos1);
++                  if (chunkholder == null) {
++                     return CompletableFuture.completedFuture(Either.right(new ChunkHolder.ChunkLoadingFailure() {
++                        public String toString() {
++                           return "Unloaded " + chunkpos1;
++                        }
++                     }));
++                  }
+ 
+-               ChunkStatus chunkstatus = p_282923_.apply(i1);
+-               CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture = chunkholder.m_140049_(chunkstatus, this);
+-               list1.add(chunkholder);
+-               list.add(completablefuture);
++                  ChunkStatus chunkstatus = p_282923_.apply(i1);
++                  CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture = chunkholder.m_140049_(chunkstatus, this);
++                  list1.add(chunkholder);
++                  list.add(completablefuture);
++               }
+             }
+          }
+ 
+@@ -316,7 +_,7 @@
+                   final int l1 = k1;
+                   return Either.right(new ChunkHolder.ChunkLoadingFailure() {
                       public String toString() {
+-                        return "Unloaded " + new ChunkPos(i + l1 % (p_282030_ * 2 + 1), j + l1 / (p_282030_ * 2 + 1)) + " " + either.right().get();
++                        return "Unloaded " + new ChunkPos(i + l1 % (p_282030_ * 2 + 1), chunkpos.y + l1 % (p_282030_ * 2 + 1), j + l1 / (p_282030_ * 2 + 1)) + " " + either.right().get();
+                      }
+                   });
+                }
 @@ -370,7 +_,7 @@
     }
  
@@ -255,8 +295,8 @@
                 SectionPos sectionpos = p_214864_.m_8965_();
 -               boolean flag = m_200878_(chunkpos.f_45578_, chunkpos.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), j);
 -               boolean flag1 = m_200878_(chunkpos.f_45578_, chunkpos.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), this.f_140126_);
-+               boolean flag = isChunkInRange(chunkpos.f_45578_, chunkpos.f_45579_, sectionpos.x(), sectionpos.z(), j);
-+               boolean flag1 = isChunkInRange(chunkpos.f_45578_, chunkpos.f_45579_, sectionpos.x(), sectionpos.z(), this.f_140126_);
++               boolean flag = isChunkInRange(chunkpos.f_45578_, chunkpos.y, chunkpos.f_45579_, sectionpos.x(), sectionpos.y(), sectionpos.z(), j);
++               boolean flag1 = isChunkInRange(chunkpos.f_45578_, chunkpos.y, chunkpos.f_45579_, sectionpos.x(), sectionpos.y(), sectionpos.z(), this.f_140126_);
                 this.m_183754_(p_214864_, chunkpos, mutableobject, flag, flag1);
              });
           }
@@ -321,17 +361,18 @@
              if (this.m_183751_(serverplayer, p_183889_)) {
                 builder.add(serverplayer);
              }
-@@ -1002,25 +_,25 @@
+@@ -1002,29 +_,32 @@
     void m_140192_(ServerPlayer p_140193_, boolean p_140194_) {
        boolean flag = this.m_140329_(p_140193_);
        boolean flag1 = this.f_140149_.m_8260_(p_140193_);
 -      int i = SectionPos.m_123171_(p_140193_.m_146903_());
 -      int j = SectionPos.m_123171_(p_140193_.m_146907_());
 +      long i = SectionPos.blockToSectionCoord(p_140193_.getBlockX());
++      long ySection = SectionPos.blockToSectionCoord(p_140193_.getBlockY());
 +      long j = SectionPos.blockToSectionCoord(p_140193_.getBlockZ());
        if (p_140194_) {
 -         this.f_140149_.m_8252_(ChunkPos.m_45589_(i, j), p_140193_, flag);
-+         this.f_140149_.addPlayer(new ChunkPos(i, j), p_140193_, flag);
++         this.f_140149_.addPlayer(new ChunkPos(i, ySection, j), p_140193_, flag);
           this.m_140373_(p_140193_);
           if (!flag) {
              this.f_140145_.m_140802_(SectionPos.m_235861_(p_140193_), p_140193_);
@@ -348,12 +389,19 @@
 -      for(int l = i - this.f_140126_ - 1; l <= i + this.f_140126_ + 1; ++l) {
 -         for(int k = j - this.f_140126_ - 1; k <= j + this.f_140126_ + 1; ++k) {
 -            if (m_200878_(l, k, i, j, this.f_140126_)) {
+-               ChunkPos chunkpos = new ChunkPos(l, k);
 +      for(long l = i - this.f_140126_ - 1; l <= i + this.f_140126_ + 1; ++l) {
++         for(long chunkY = ySection - this.f_140126_ - 1; chunkY <= ySection + this.f_140126_ + 1; ++chunkY) {
 +         for(long k = j - this.f_140126_ - 1; k <= j + this.f_140126_ + 1; ++k) {
-+            if (isChunkInRange(l, k, i, j, this.f_140126_)) {
-                ChunkPos chunkpos = new ChunkPos(l, k);
++            if (isChunkInRange(l, chunkY, k, i, ySection, j, this.f_140126_)) {
++               ChunkPos chunkpos = new ChunkPos(l, chunkY, k);
                 this.m_183754_(p_140193_, chunkpos, new MutableObject<>(), !p_140194_, p_140194_);
              }
+          }
++         }
+       }
+ 
+    }
 @@ -1032,7 +_,7 @@
     private SectionPos m_140373_(ServerPlayer p_140374_) {
        SectionPos sectionpos = SectionPos.m_235861_(p_140374_);
@@ -363,13 +411,14 @@
        return sectionpos;
     }
  
-@@ -1045,15 +_,13 @@
+@@ -1045,15 +_,14 @@
           }
        }
  
 -      int j2 = SectionPos.m_123171_(p_140185_.m_146903_());
 -      int k2 = SectionPos.m_123171_(p_140185_.m_146907_());
 +      long j2 = SectionPos.blockToSectionCoord(p_140185_.getBlockX());
++      long chunkY = SectionPos.blockToSectionCoord(p_140185_.getBlockY());
 +      long k2 = SectionPos.blockToSectionCoord(p_140185_.getBlockZ());
        SectionPos sectionpos = p_140185_.m_8965_();
        SectionPos sectionpos1 = SectionPos.m_235861_(p_140185_);
@@ -382,7 +431,7 @@
        if (flag2 || flag != flag1) {
           this.m_140373_(p_140185_);
           if (!flag) {
-@@ -1072,31 +_,31 @@
+@@ -1072,45 +_,54 @@
              this.f_140149_.m_8258_(p_140185_);
           }
  
@@ -396,27 +445,34 @@
 -      int k = sectionpos.m_123170_();
 -      int l = sectionpos.m_123222_();
 +      long k = sectionpos.x();
++      long secY = sectionpos.y();
 +      long l = sectionpos.z();
        int i1 = this.f_140126_ + 1;
-       if (Math.abs(k - j2) <= i1 * 2 && Math.abs(l - k2) <= i1 * 2) {
+-      if (Math.abs(k - j2) <= i1 * 2 && Math.abs(l - k2) <= i1 * 2) {
 -         int i3 = Math.min(j2, k) - i1;
 -         int k3 = Math.min(k2, l) - i1;
 -         int l3 = Math.max(j2, k) + i1;
 -         int i4 = Math.max(k2, l) + i1;
++      if (Math.abs(k - j2) <= i1 * 2 && Math.abs(secY - chunkY) <= i1 * 2 && Math.abs(l - k2) <= i1 * 2) {
 +         long i3 = Math.min(j2, k) - i1;
++         long yMin = Math.min(chunkY, secY) - i1;
 +         long k3 = Math.min(k2, l) - i1;
 +         long l3 = Math.max(j2, k) + i1;
++         long yMax = Math.max(chunkY, secY) + i1;
 +         long i4 = Math.max(k2, l) + i1;
  
 -         for(int l1 = i3; l1 <= l3; ++l1) {
 -            for(int i2 = k3; i2 <= i4; ++i2) {
 -               boolean flag5 = m_200878_(l1, i2, k, l, this.f_140126_);
 -               boolean flag6 = m_200878_(l1, i2, j2, k2, this.f_140126_);
+-               this.m_183754_(p_140185_, new ChunkPos(l1, i2), new MutableObject<>(), flag5, flag6);
 +         for(long l1 = i3; l1 <= l3; ++l1) {
++            for(long y1 = yMin; y1 <= yMax; ++y1) {
 +            for(long i2 = k3; i2 <= i4; ++i2) {
-+               boolean flag5 = isChunkInRange(l1, i2, k, l, this.f_140126_);
-+               boolean flag6 = isChunkInRange(l1, i2, j2, k2, this.f_140126_);
-                this.m_183754_(p_140185_, new ChunkPos(l1, i2), new MutableObject<>(), flag5, flag6);
++               boolean flag5 = isChunkInRange(l1, y1, i2, k, secY, l, this.f_140126_);
++               boolean flag6 = isChunkInRange(l1, y1, i2, j2, chunkY, k2, this.f_140126_);
++               this.m_183754_(p_140185_, new ChunkPos(l1, y1, i2), new MutableObject<>(), flag5, flag6);
++            }
              }
           }
        } else {
@@ -424,24 +480,34 @@
 -            for(int k1 = l - i1; k1 <= l + i1; ++k1) {
 -               if (m_200878_(j1, k1, k, l, this.f_140126_)) {
 +         for(long j1 = k - i1; j1 <= k + i1; ++j1) {
++            for(long y1 = secY - i1; y1 <= secY + i1; ++y1) {
 +            for(long k1 = l - i1; k1 <= l + i1; ++k1) {
-+               if (isChunkInRange(j1, k1, k, l, this.f_140126_)) {
++               if (isChunkInRange(j1, y1, k1, k, secY, l, this.f_140126_)) {
                    boolean flag3 = true;
                    boolean flag4 = false;
-                   this.m_183754_(p_140185_, new ChunkPos(j1, k1), new MutableObject<>(), true, false);
-@@ -1104,9 +_,9 @@
+-                  this.m_183754_(p_140185_, new ChunkPos(j1, k1), new MutableObject<>(), true, false);
++                  this.m_183754_(p_140185_, new ChunkPos(j1, y1, k1), new MutableObject<>(), true, false);
+                }
              }
++            }
           }
  
 -         for(int l2 = j2 - i1; l2 <= j2 + i1; ++l2) {
 -            for(int j3 = k2 - i1; j3 <= k2 + i1; ++j3) {
 -               if (m_200878_(l2, j3, j2, k2, this.f_140126_)) {
 +         for(long l2 = j2 - i1; l2 <= j2 + i1; ++l2) {
++            for(long y1 = chunkY - i1; y1 <= chunkY + i1; ++y1) {
 +            for(long j3 = k2 - i1; j3 <= k2 + i1; ++j3) {
-+               if (isChunkInRange(l2, j3, j2, k2, this.f_140126_)) {
++               if (isChunkInRange(l2, y1, j3, j2, chunkY, k2, this.f_140126_)) {
                    boolean flag7 = false;
                    boolean flag8 = true;
-                   this.m_183754_(p_140185_, new ChunkPos(l2, j3), new MutableObject<>(), false, true);
+-                  this.m_183754_(p_140185_, new ChunkPos(l2, j3), new MutableObject<>(), false, true);
++                  this.m_183754_(p_140185_, new ChunkPos(l2, y1, j3), new MutableObject<>(), false, true);
+                }
++            }
+             }
+          }
+       }
 @@ -1118,12 +_,12 @@
     }
  
@@ -453,7 +519,7 @@
        for(ServerPlayer serverplayer : set) {
           SectionPos sectionpos = serverplayer.m_8965_();
 -         if (p_183802_ && m_183828_(p_183801_.f_45578_, p_183801_.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), this.f_140126_) || !p_183802_ && m_200878_(p_183801_.f_45578_, p_183801_.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), this.f_140126_)) {
-+         if (p_183802_ && isChunkOnRangeBorder(p_183801_.f_45578_, p_183801_.f_45579_, sectionpos.x(), sectionpos.z(), this.f_140126_) || !p_183802_ && isChunkInRange(p_183801_.f_45578_, p_183801_.f_45579_, sectionpos.x(), sectionpos.z(), this.f_140126_)) {
++         if (p_183802_ && isChunkOnRangeBorder(p_183801_.f_45578_, p_183801_.y, p_183801_.f_45579_, sectionpos.x(), sectionpos.y(), sectionpos.z(), this.f_140126_) || !p_183802_ && isChunkInRange(p_183801_.f_45578_, p_183801_.y, p_183801_.f_45579_, sectionpos.x(), sectionpos.y(), sectionpos.z(), this.f_140126_)) {
              builder.add(serverplayer);
           }
        }
@@ -471,7 +537,7 @@
              levelchunk = levelchunk1;
           } else {
 -            levelchunk = this.f_140133_.m_6325_(chunkpos.f_45578_, chunkpos.f_45579_);
-+            levelchunk = this.f_140133_.getChunk(chunkpos.f_45578_, chunkpos.f_45579_);
++            levelchunk = this.f_140133_.getChunk(chunkpos.f_45578_, chunkpos.y, chunkpos.f_45579_);
           }
  
           for(ServerPlayer serverplayer : this.m_183262_(chunkpos, false)) {

@@ -38,7 +38,7 @@
     }
  
 -   public int m_214096_(int p_224160_, int p_224161_, Heightmap.Types p_224162_, LevelHeightAccessor p_224163_, RandomState p_224164_) {
-+   public long getBaseHeight(long p_224160_, long p_224161_, Heightmap.Types p_224162_, LevelHeightAccessor p_224163_, RandomState p_224164_) {
++   public long getBaseHeight(long p_224160_, long y, long p_224161_, Heightmap.Types p_224162_, LevelHeightAccessor p_224163_, RandomState p_224164_) {
        List<BlockState> list = this.f_64165_.m_161917_();
  
 -      for(int i = Math.min(list.size(), p_224163_.m_151558_()) - 1; i >= 0; --i) {
@@ -57,7 +57,7 @@
  
 -   public NoiseColumn m_214184_(int p_224155_, int p_224156_, LevelHeightAccessor p_224157_, RandomState p_224158_) {
 -      return new NoiseColumn(p_224157_.m_141937_(), this.f_64165_.m_161917_().stream().limit((long)p_224157_.m_141928_()).map((p_204549_) -> {
-+   public NoiseColumn getBaseColumn(long p_224155_, long p_224156_, LevelHeightAccessor p_224157_, RandomState p_224158_) {
++   public NoiseColumn getBaseColumn(long p_224155_, long y, long p_224156_, LevelHeightAccessor p_224157_, RandomState p_224158_) {
 +      return new NoiseColumn(p_224157_.getMinBuildHeight(), this.f_64165_.m_161917_().stream().limit((long)p_224157_.getHeight()).map((p_204549_) -> {
           return p_204549_ == null ? Blocks.f_50016_.m_49966_() : p_204549_;
        }).toArray((p_204543_) -> {

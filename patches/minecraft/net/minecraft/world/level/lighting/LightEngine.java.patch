@@ -26,7 +26,7 @@
 -      LightChunk lightchunk = this.m_284303_(i, j);
 +      long i = SectionPos.blockToSectionCoord(p_285338_.getX());
 +      long j = SectionPos.blockToSectionCoord(p_285338_.getZ());
-+      LightChunk lightchunk = this.getChunk(i, j);
++      LightChunk lightchunk = this.getChunk(i, SectionPos.blockToSectionCoord(p_285338_.getY()), j);
        return lightchunk == null ? Blocks.f_50752_.m_49966_() : lightchunk.m_8055_(p_285338_);
     }
  
@@ -52,8 +52,8 @@
     @Nullable
 -   protected LightChunk m_284303_(int p_284967_, int p_285447_) {
 -      long i = ChunkPos.m_45589_(p_284967_, p_285447_);
-+   protected LightChunk getChunk(long p_284967_, long p_285447_) {
-+      ChunkPos i = new ChunkPos(p_284967_, p_285447_);
++   protected LightChunk getChunk(long p_284967_, long chunkY, long p_285447_) {
++      ChunkPos i = new ChunkPos(p_284967_, chunkY, p_285447_);
  
        for(int j = 0; j < 2; ++j) {
 -         if (i == this.f_283833_[j]) {
@@ -63,7 +63,7 @@
        }
  
 -      LightChunk lightchunk = this.f_283884_.m_6196_(p_284967_, p_285447_);
-+      LightChunk lightchunk = this.f_283884_.getChunkForLighting(p_284967_, p_285447_);
++      LightChunk lightchunk = this.f_283884_.getChunkForLighting(p_284967_, chunkY, p_285447_);
  
        for(int k = 1; k > 0; --k) {
           this.f_283833_[k] = this.f_283833_[k - 1];

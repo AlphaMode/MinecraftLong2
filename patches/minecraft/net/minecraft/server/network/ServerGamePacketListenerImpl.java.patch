@@ -32,7 +32,7 @@
              this.f_9743_.f_8906_.m_215201_(p_9889_.m_237987_());
              return;
           default:
-@@ -1034,18 +_,18 @@
+@@ -1034,31 +_,31 @@
           BlockHitResult blockhitresult = p_9930_.m_134706_();
           Vec3 vec3 = blockhitresult.m_82450_();
           BlockPos blockpos = blockhitresult.m_82425_();
@@ -48,16 +48,29 @@
 -               if (blockpos.m_123342_() < i) {
 -                  if (this.f_9766_ == null && this.f_9743_.m_20275_((double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_() + 0.5D, (double)blockpos.m_123343_() + 0.5D) < 64.0D && serverlevel.m_7966_(this.f_9743_, blockpos)) {
 +               long i = this.f_9743_.m_9236_().getMaxBuildHeight();
-+               if (blockpos.getY() < i) {
++//               if (blockpos.getY() < i) {
 +                  if (this.f_9766_ == null && this.f_9743_.m_20275_((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.5D, (double)blockpos.getZ() + 0.5D) < 64.0D && serverlevel.m_7966_(this.f_9743_, blockpos)) {
                       InteractionResult interactionresult = this.f_9743_.f_8941_.m_7179_(this.f_9743_, serverlevel, itemstack, interactionhand, blockhitresult);
 -                     if (direction == Direction.UP && !interactionresult.m_19077_() && blockpos.m_123342_() >= i - 1 && m_9790_(this.f_9743_, itemstack)) {
-+                     if (direction == Direction.UP && !interactionresult.m_19077_() && blockpos.getY() >= i - 1 && m_9790_(this.f_9743_, itemstack)) {
-                         Component component = Component.m_237110_("build.tooHigh", i - 1).m_130940_(ChatFormatting.RED);
-                         this.f_9743_.m_240418_(component, true);
-                      } else if (interactionresult.m_19080_()) {
-@@ -1058,7 +_,7 @@
-                }
+-                        Component component = Component.m_237110_("build.tooHigh", i - 1).m_130940_(ChatFormatting.RED);
+-                        this.f_9743_.m_240418_(component, true);
+-                     } else if (interactionresult.m_19080_()) {
++//                     if (direction == Direction.UP && !interactionresult.consumesAction() && blockpos.getY() >= i - 1 && wasBlockPlacementAttempt(this.player, itemstack)) {
++//                        Component component = Component.translatable("build.tooHigh", i - 1).withStyle(ChatFormatting.RED);
++//                        this.player.sendSystemMessage(component, true);
++//                     } else if (interactionresult.shouldSwing()) {
+                         this.f_9743_.m_21011_(interactionhand, true);
+-                     }
++//                     }
+                   }
+-               } else {
+-                  Component component1 = Component.m_237110_("build.tooHigh", i - 1).m_130940_(ChatFormatting.RED);
+-                  this.f_9743_.m_240418_(component1, true);
+-               }
++//               } else {
++//                  Component component1 = Component.translatable("build.tooHigh", i - 1).withStyle(ChatFormatting.RED);
++//                  this.player.sendSystemMessage(component1, true);
++//               }
  
                 this.f_9743_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(serverlevel, blockpos));
 -               this.f_9743_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(serverlevel, blockpos.m_121945_(direction)));

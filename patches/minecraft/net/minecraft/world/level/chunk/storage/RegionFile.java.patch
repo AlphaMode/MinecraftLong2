@@ -18,7 +18,14 @@
                    }
                 }
              }
-@@ -102,14 +_,14 @@
+@@ -96,21 +_,21 @@
+    }
+ 
+    private Path m_63684_(ChunkPos p_63685_) {
+-      String s = "c." + p_63685_.f_45578_ + "." + p_63685_.f_45579_ + ".mcc";
++      String s = "c." + p_63685_.f_45578_ + "." + p_63685_.y + "." + p_63685_.f_45579_ + ".mcc";
+       return this.f_63622_.resolve(s);
+    }
  
     @Nullable
     public synchronized DataInputStream m_63645_(ChunkPos p_63646_) throws IOException {
@@ -29,12 +36,15 @@
        } else {
           int j = m_63671_(i);
           int k = m_63640_(i);
-          int l = k * 4096;
+-         int l = k * 4096;
 -         ByteBuffer bytebuffer = ByteBuffer.allocate(l);
-+         ByteBuffer bytebuffer = ByteBuffer.allocate((int) l); // Todo Long Region
-          this.f_63621_.read(bytebuffer, (long)(j * 4096));
+-         this.f_63621_.read(bytebuffer, (long)(j * 4096));
++         int l = k * f_156605_;
++         ByteBuffer bytebuffer = ByteBuffer.allocate((int) l);
++         this.f_63621_.read(bytebuffer, (long)(j * f_156605_));
           bytebuffer.flip();
           if (bytebuffer.remaining() < 5) {
+             f_63619_.error("Chunk {} header is truncated: expected {} but read {}", p_63646_, l, bytebuffer.remaining());
 @@ -255,10 +_,10 @@
  
     public void m_156613_(ChunkPos p_156614_) throws IOException {

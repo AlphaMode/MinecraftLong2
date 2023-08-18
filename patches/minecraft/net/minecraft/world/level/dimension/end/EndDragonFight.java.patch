@@ -9,16 +9,44 @@
        this.f_64071_ = p_289768_.f_289710_;
        this.f_64070_ = p_289768_.f_289702_.orElse((UUID)null);
        this.f_64068_ = p_289768_.f_289711_;
-@@ -240,7 +_,7 @@
+@@ -136,7 +_,7 @@
+       }
+ 
+       if (!this.f_64060_.m_8324_().isEmpty()) {
+-         this.f_64061_.m_7726_().m_8387_(TicketType.f_9443_, new ChunkPos(0, 0), 9, Unit.INSTANCE);
++         this.f_64061_.m_7726_().m_8387_(TicketType.f_9443_, new ChunkPos(0, 0, 0), 9, Unit.INSTANCE);
+          boolean flag = this.m_64106_();
+          if (this.f_64071_ && flag) {
+             this.m_64102_();
+@@ -164,7 +_,7 @@
+             }
+          }
+       } else {
+-         this.f_64061_.m_7726_().m_8438_(TicketType.f_9443_, new ChunkPos(0, 0), 9, Unit.INSTANCE);
++         this.f_64061_.m_7726_().m_8438_(TicketType.f_9443_, new ChunkPos(0, 0, 0), 9, Unit.INSTANCE);
+       }
+ 
+    }
+@@ -239,8 +_,9 @@
+ 
     private boolean m_64104_() {
        for(int i = -8; i <= 8; ++i) {
++         for(int y = -f_156740_; y <= f_156740_; ++y) {
           for(int j = -8; j <= 8; ++j) {
 -            LevelChunk levelchunk = this.f_64061_.m_6325_(i, j);
-+            LevelChunk levelchunk = this.f_64061_.getChunk(i, j);
++            LevelChunk levelchunk = this.f_64061_.getChunk(i, y, j);
  
              for(BlockEntity blockentity : levelchunk.m_62954_().values()) {
                 if (blockentity instanceof TheEndPortalBlockEntity) {
-@@ -257,9 +_,9 @@
+@@ -248,6 +_,7 @@
+                }
+             }
+          }
++         }
+       }
+ 
+       return false;
+@@ -257,9 +_,10 @@
     private BlockPattern.BlockPatternMatch m_64105_() {
        ChunkPos chunkpos = new ChunkPos(this.f_286985_);
  
@@ -26,12 +54,17 @@
 -         for(int j = -8 + chunkpos.f_45579_; j <= 8 + chunkpos.f_45579_; ++j) {
 -            LevelChunk levelchunk = this.f_64061_.m_6325_(i, j);
 +      for(long i = -8 + chunkpos.f_45578_; i <= 8 + chunkpos.f_45578_; ++i) {
++         for(long y = -f_156740_ + chunkpos.f_45578_; y <= f_156740_ + chunkpos.f_45578_; ++y) {
 +         for(long j = -8 + chunkpos.f_45579_; j <= 8 + chunkpos.f_45579_; ++j) {
-+            LevelChunk levelchunk = this.f_64061_.getChunk(i, j);
++            LevelChunk levelchunk = this.f_64061_.getChunk(i, y, j);
  
              for(BlockEntity blockentity : levelchunk.m_62954_().values()) {
                 if (blockentity instanceof TheEndPortalBlockEntity) {
-@@ -278,10 +_,10 @@
+@@ -275,13 +_,14 @@
+                }
+             }
+          }
++         }
        }
  
        BlockPos blockpos1 = EndPodiumFeature.m_287210_(this.f_286985_);
@@ -45,7 +78,7 @@
           if (blockpattern$blockpatternmatch1 != null) {
              if (this.f_64072_ == null) {
                 this.f_64072_ = blockpattern$blockpatternmatch1.m_61229_(3, 3, 3).m_61176_();
-@@ -300,9 +_,9 @@
+@@ -300,9 +_,10 @@
        } else {
           ChunkPos chunkpos = new ChunkPos(this.f_286985_);
  
@@ -53,11 +86,20 @@
 -            for(int j = 8 + chunkpos.f_45579_; j <= 8 + chunkpos.f_45579_; ++j) {
 -               ChunkAccess chunkaccess = this.f_64061_.m_6522_(i, j, ChunkStatus.f_62326_, false);
 +         for(long i = -8 + chunkpos.f_45578_; i <= 8 + chunkpos.f_45578_; ++i) {
++            for(long y = -f_156740_ + chunkpos.f_45578_; y <= f_156740_ + chunkpos.f_45578_; ++y) {
 +            for(long j = 8 + chunkpos.f_45579_; j <= 8 + chunkpos.f_45579_; ++j) {
-+               ChunkAccess chunkaccess = this.f_64061_.getChunk(i, j, ChunkStatus.f_62326_, false);
++               ChunkAccess chunkaccess = this.f_64061_.getChunk(i, y, j, ChunkStatus.f_62326_, false);
                 if (!(chunkaccess instanceof LevelChunk)) {
                    return false;
                 }
+@@ -312,6 +_,7 @@
+                   return false;
+                }
+             }
++            }
+          }
+ 
+          return true;
 @@ -390,7 +_,7 @@
     private void m_64093_(boolean p_64094_) {
        EndPodiumFeature endpodiumfeature = new EndPodiumFeature(p_64094_);

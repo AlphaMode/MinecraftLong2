@@ -1,46 +1,58 @@
 --- a/net/minecraft/world/level/chunk/storage/ChunkSerializer.java
 +++ b/net/minecraft/world/level/chunk/storage/ChunkSerializer.java
-@@ -77,7 +_,7 @@
+@@ -77,16 +_,17 @@
     public static final String f_223447_ = "SkyLight";
  
     public static ProtoChunk m_188230_(ServerLevel p_188231_, PoiManager p_188232_, ChunkPos p_188233_, CompoundTag p_188234_) {
 -      ChunkPos chunkpos = new ChunkPos(p_188234_.m_128451_("xPos"), p_188234_.m_128451_("zPos"));
-+      ChunkPos chunkpos = new ChunkPos(p_188234_.m_128454_("xPos"), p_188234_.m_128454_("zPos"));
++      ChunkPos chunkpos = new ChunkPos(p_188234_.m_128454_(f_223441_), p_188234_.m_128454_("yPos"), p_188234_.m_128454_(f_223442_));
        if (!Objects.equals(p_188233_, chunkpos)) {
           f_63449_.error("Chunk file at {} is in the wrong location; relocating. (Expected {}, got {})", p_188233_, p_188233_, chunkpos);
        }
-@@ -85,8 +_,8 @@
+ 
        UpgradeData upgradedata = p_188234_.m_128425_("UpgradeData", 10) ? new UpgradeData(p_188234_.m_128469_("UpgradeData"), p_188231_) : UpgradeData.f_63320_;
        boolean flag = p_188234_.m_128471_("isLightOn");
-       ListTag listtag = p_188234_.m_128437_("sections", 10);
+-      ListTag listtag = p_188234_.m_128437_("sections", 10);
 -      int i = p_188231_.m_151559_();
 -      LevelChunkSection[] alevelchunksection = new LevelChunkSection[i];
-+      long i = p_188231_.getSectionsCount();
-+      LevelChunkSection[] alevelchunksection = new LevelChunkSection[(int) i];
++//      ListTag listtag = p_188234_.getList("sections", 10);
++      CompoundTag section = p_188234_.m_128469_("section");
++//      long i = p_188231_.getSectionsCount();
++//      LevelChunkSection[] alevelchunksection = new LevelChunkSection[(int) i];
        boolean flag1 = p_188231_.m_6042_().f_223549_();
        ChunkSource chunksource = p_188231_.m_7726_();
        LevelLightEngine levellightengine = chunksource.m_7827_();
-@@ -97,7 +_,7 @@
-       for(int j = 0; j < listtag.size(); ++j) {
-          CompoundTag compoundtag = listtag.m_128728_(j);
+@@ -94,11 +_,11 @@
+       Codec<PalettedContainerRO<Holder<Biome>>> codec = m_188260_(registry);
+       boolean flag2 = false;
+ 
+-      for(int j = 0; j < listtag.size(); ++j) {
+-         CompoundTag compoundtag = listtag.m_128728_(j);
++//      for(int j = 0; j < listtag.size(); ++j) {
++         CompoundTag compoundtag = section;//listtag.getCompound(j);
           int k = compoundtag.m_128445_("Y");
 -         int l = p_188231_.m_151566_(k);
+-         if (l >= 0 && l < alevelchunksection.length) {
 +         long l = p_188231_.getSectionIndexFromSectionY(k);
-          if (l >= 0 && l < alevelchunksection.length) {
++//         if (l >= 0 && l < alevelchunksection.length) {
              PalettedContainer<BlockState> palettedcontainer;
              if (compoundtag.m_128425_("block_states", 10)) {
-@@ -118,8 +_,8 @@
+                palettedcontainer = f_188227_.parse(NbtOps.f_128958_, compoundtag.m_128469_("block_states")).promotePartial((p_188283_) -> {
+@@ -118,10 +_,10 @@
              }
  
              LevelChunkSection levelchunksection = new LevelChunkSection(palettedcontainer, palettedcontainerro);
 -            alevelchunksection[l] = levelchunksection;
 -            SectionPos sectionpos = SectionPos.m_123196_(p_188233_, k);
 +            SectionPos sectionpos = SectionPos.of(p_188233_, k);
-+            alevelchunksection[(int) l] = levelchunksection;
++//            alevelchunksection[(int) l] = levelchunksection;
              p_188232_.m_280570_(sectionpos, levelchunksection);
-          }
+-         }
++//         }
  
-@@ -132,11 +_,11 @@
+          boolean flag3 = compoundtag.m_128425_("BlockLight", 7);
+          boolean flag4 = flag1 && compoundtag.m_128425_("SkyLight", 7);
+@@ -132,14 +_,14 @@
              }
  
              if (flag3) {
@@ -53,7 +65,29 @@
 +               levellightengine.m_284126_(LightLayer.SKY, SectionPos.of(p_188233_, k), new DataLayer(compoundtag.m_128463_("SkyLight")));
              }
           }
-       }
+-      }
++//      }
+ 
+       long k1 = p_188234_.m_128454_("InhabitedTime");
+       ChunkStatus.ChunkType chunkstatus$chunktype = m_63485_(p_188234_);
+@@ -158,7 +_,7 @@
+          LevelChunkTicks<Fluid> levelchunkticks1 = LevelChunkTicks.m_193185_(p_188234_.m_128437_("fluid_ticks", 10), (p_258990_) -> {
+             return BuiltInRegistries.f_257020_.m_6612_(ResourceLocation.m_135820_(p_258990_));
+          }, p_188233_);
+-         chunkaccess = new LevelChunk(p_188231_.m_6018_(), p_188233_, upgradedata, levelchunkticks, levelchunkticks1, k1, alevelchunksection, m_196890_(p_188231_, p_188234_), blendingdata);
++         chunkaccess = new LevelChunk(p_188231_.m_6018_(), p_188233_, upgradedata, levelchunkticks, levelchunkticks1, k1, levelchunksection, m_196890_(p_188231_, p_188234_), blendingdata);
+       } else {
+          ProtoChunkTicks<Block> protochunkticks = ProtoChunkTicks.m_193302_(p_188234_.m_128437_("block_ticks", 10), (p_258992_) -> {
+             return BuiltInRegistries.f_256975_.m_6612_(ResourceLocation.m_135820_(p_258992_));
+@@ -166,7 +_,7 @@
+          ProtoChunkTicks<Fluid> protochunkticks1 = ProtoChunkTicks.m_193302_(p_188234_.m_128437_("fluid_ticks", 10), (p_258991_) -> {
+             return BuiltInRegistries.f_257020_.m_6612_(ResourceLocation.m_135820_(p_258991_));
+          }, p_188233_);
+-         ProtoChunk protochunk = new ProtoChunk(p_188233_, upgradedata, alevelchunksection, protochunkticks, protochunkticks1, p_188231_, registry, blendingdata);
++         ProtoChunk protochunk = new ProtoChunk(p_188233_, upgradedata, levelchunksection, protochunkticks, protochunkticks1, p_188231_, registry, blendingdata);
+          chunkaccess = protochunk;
+          protochunk.m_6141_(k1);
+          if (p_188234_.m_128425_("below_zero_retrogen", 10)) {
 @@ -232,7 +_,7 @@
  
           for(String s1 : compoundtag4.m_128431_()) {
@@ -71,7 +105,7 @@
 -      compoundtag.m_128405_("yPos", p_63456_.m_151560_());
 -      compoundtag.m_128405_("zPos", chunkpos.f_45579_);
 +      compoundtag.m_128356_("xPos", chunkpos.f_45578_);
-+      compoundtag.m_128356_("yPos", p_63456_.getMinSection());
++      compoundtag.m_128356_("yPos", chunkpos.y);
 +      compoundtag.m_128356_("zPos", chunkpos.f_45579_);
        compoundtag.m_128356_("LastUpdate", p_63455_.m_46467_());
        compoundtag.m_128356_("InhabitedTime", p_63456_.m_6319_());
@@ -150,7 +184,7 @@
 +            if (along.size() != 0) {
 +               it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> chunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
 +               along.forEach((p_208153_) -> {
-+                  ChunkPos chunkpos = new ChunkPos(((CompoundTag) p_208153_).m_128454_("x"), ((CompoundTag) p_208153_).m_128454_("z"));
++                  ChunkPos chunkpos = new ChunkPos(((CompoundTag) p_208153_).m_128454_("x"), ((CompoundTag) p_208153_).m_128454_("y"), ((CompoundTag) p_208153_).m_128454_("z"));
 +                  if (chunkpos.getChessboardDistance(p_208156_) > 8) {
                       f_63449_.warn("Found invalid structure reference [ {} @ {} ] for chunk {}.", resourcelocation, chunkpos, p_208156_);
 -                     return false;

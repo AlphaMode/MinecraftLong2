@@ -30,11 +30,11 @@
 +      it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = serverlevel.getForcedChunks();
        longset.forEach((p_137675_) -> {
 -         serverlevel.m_8602_(ChunkPos.m_45592_(p_137675_), ChunkPos.m_45602_(p_137675_), false);
-+         serverlevel.setChunkForced(p_137675_.f_45578_, p_137675_.f_45579_, false);
++         serverlevel.setChunkForced(p_137675_.f_45578_, p_137675_.y, p_137675_.f_45579_, false);
        });
        p_137696_.m_288197_(() -> {
           return Component.m_237110_("commands.forceload.removed.all", resourcekey.m_135782_());
-@@ -101,15 +_,14 @@
+@@ -101,15 +_,18 @@
     }
  
     private static int m_137685_(CommandSourceStack p_137686_, ColumnPos p_137687_, ColumnPos p_137688_, boolean p_137689_) throws CommandSyntaxException {
@@ -48,17 +48,21 @@
 -         int k1 = SectionPos.m_123171_(k);
 -         int l1 = SectionPos.m_123171_(l);
 +      long i = Math.min(p_137687_.x(), p_137688_.x());
++      long minY = Math.min(p_137687_.y(), p_137688_.y());
 +      long j = Math.min(p_137687_.z(), p_137688_.z());
 +      long k = Math.max(p_137687_.x(), p_137688_.x());
++      long maxY = Math.max(p_137687_.y(), p_137688_.y());
 +      long l = Math.max(p_137687_.z(), p_137688_.z());
 +         long i1 = SectionPos.blockToSectionCoord(i);
++         long y1 = SectionPos.blockToSectionCoord(minY);
 +         long j1 = SectionPos.blockToSectionCoord(j);
 +         long k1 = SectionPos.blockToSectionCoord(k);
++         long y2 = SectionPos.blockToSectionCoord(maxY);
 +         long l1 = SectionPos.blockToSectionCoord(l);
           long i2 = ((long)(k1 - i1) + 1L) * ((long)(l1 - j1) + 1L);
           if (i2 > 256L) {
              throw f_137668_.create(256, i2);
-@@ -119,9 +_,9 @@
+@@ -119,16 +_,18 @@
              ChunkPos chunkpos = null;
              int j2 = 0;
  
@@ -66,11 +70,32 @@
 -               for(int l2 = j1; l2 <= l1; ++l2) {
 -                  boolean flag = serverlevel.m_8602_(k2, l2, p_137689_);
 +            for(long k2 = i1; k2 <= k1; ++k2) {
++               for(long chunkY = y1; chunkY <= y2; ++chunkY) {
 +               for(long l2 = j1; l2 <= l1; ++l2) {
-+                  boolean flag = serverlevel.setChunkForced(k2, l2, p_137689_);
++                  boolean flag = serverlevel.setChunkForced(k2, chunkY, l2, p_137689_);
                    if (flag) {
                       ++j2;
                       if (chunkpos == null) {
+-                        chunkpos = new ChunkPos(k2, l2);
++                        chunkpos = new ChunkPos(k2, chunkY, l2);
+                      }
+                   }
+                }
++               }
+             }
+ 
+             ChunkPos chunkpos1 = chunkpos;
+@@ -140,8 +_,8 @@
+                      return Component.m_237110_("commands.forceload." + (p_137689_ ? "added" : "removed") + ".single", chunkpos1, resourcekey.m_135782_());
+                   }, true);
+                } else {
+-                  ChunkPos chunkpos2 = new ChunkPos(i1, j1);
+-                  ChunkPos chunkpos3 = new ChunkPos(k1, l1);
++                  ChunkPos chunkpos2 = new ChunkPos(i1, y1, j1);
++                  ChunkPos chunkpos3 = new ChunkPos(k1, y2, l1);
+                   p_137686_.m_288197_(() -> {
+                      return Component.m_237110_("commands.forceload." + (p_137689_ ? "added" : "removed") + ".multiple", chunkpos1, resourcekey.m_135782_(), chunkpos2, chunkpos3);
+                   }, true);
 @@ -150,8 +_,5 @@
                 return j2;
              }

@@ -1,12 +1,14 @@
 --- a/net/minecraft/world/level/levelgen/feature/SeagrassFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/SeagrassFeature.java
-@@ -24,15 +_,15 @@
+@@ -23,16 +_,17 @@
+       BlockPos blockpos = p_160318_.m_159777_();
        ProbabilityFeatureConfiguration probabilityfeatureconfiguration = p_160318_.m_159778_();
        int i = randomsource.m_188503_(8) - randomsource.m_188503_(8);
++      int y = randomsource.m_188503_(8) - randomsource.m_188503_(8);
        int j = randomsource.m_188503_(8) - randomsource.m_188503_(8);
 -      int k = worldgenlevel.m_6924_(Heightmap.Types.OCEAN_FLOOR, blockpos.m_123341_() + i, blockpos.m_123343_() + j);
 -      BlockPos blockpos1 = new BlockPos(blockpos.m_123341_() + i, k, blockpos.m_123343_() + j);
-+      long k = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX() + i, blockpos.getZ() + j);
++      long k = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX() + i, blockpos.getY() + y, blockpos.getZ() + j);
 +      BlockPos blockpos1 = new BlockPos(blockpos.getX() + i, k, blockpos.getZ() + j);
        if (worldgenlevel.m_8055_(blockpos1).m_60713_(Blocks.f_49990_)) {
           boolean flag1 = randomsource.m_188500_() < (double)probabilityfeatureconfiguration.f_67859_;

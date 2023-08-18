@@ -1,20 +1,20 @@
 --- a/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
 +++ b/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
-@@ -108,79 +_,79 @@
+@@ -108,79 +_,80 @@
        return this.f_64318_.m_203565_(p_224222_);
     }
  
 -   public int m_214096_(int p_224216_, int p_224217_, Heightmap.Types p_224218_, LevelHeightAccessor p_224219_, RandomState p_224220_) {
 -      return this.m_224239_(p_224219_, p_224220_, p_224216_, p_224217_, (MutableObject<NoiseColumn>)null, p_224218_.m_64299_()).orElse(p_224219_.m_141937_());
-+   public long getBaseHeight(long p_224216_, long p_224217_, Heightmap.Types p_224218_, LevelHeightAccessor p_224219_, RandomState p_224220_) {
-+      return this.iterateNoiseColumn(p_224219_, p_224220_, p_224216_, p_224217_, (MutableObject<NoiseColumn>)null, p_224218_.m_64299_()).orElse(p_224219_.getMinBuildHeight());
++   public long getBaseHeight(long p_224216_, long y, long p_224217_, Heightmap.Types p_224218_, LevelHeightAccessor p_224219_, RandomState p_224220_) {
++      return this.iterateNoiseColumn(p_224219_, p_224220_, p_224216_, y, p_224217_, (MutableObject<NoiseColumn>)null, p_224218_.m_64299_()).orElse(p_224219_.getMinBuildHeight());
     }
  
 -   public NoiseColumn m_214184_(int p_224211_, int p_224212_, LevelHeightAccessor p_224213_, RandomState p_224214_) {
-+   public NoiseColumn getBaseColumn(long p_224211_, long p_224212_, LevelHeightAccessor p_224213_, RandomState p_224214_) {
++   public NoiseColumn getBaseColumn(long p_224211_, long y, long p_224212_, LevelHeightAccessor p_224213_, RandomState p_224214_) {
        MutableObject<NoiseColumn> mutableobject = new MutableObject<>();
 -      this.m_224239_(p_224213_, p_224214_, p_224211_, p_224212_, mutableobject, (Predicate<BlockState>)null);
-+      this.iterateNoiseColumn(p_224213_, p_224214_, p_224211_, p_224212_, mutableobject, (Predicate<BlockState>)null);
++      this.iterateNoiseColumn(p_224213_, p_224214_, p_224211_, y, p_224212_, mutableobject, (Predicate<BlockState>)null);
        return mutableobject.getValue();
     }
  
@@ -28,7 +28,7 @@
     }
  
 -   protected OptionalInt m_224239_(LevelHeightAccessor p_224240_, RandomState p_224241_, int p_224242_, int p_224243_, @Nullable MutableObject<NoiseColumn> p_224244_, @Nullable Predicate<BlockState> p_224245_) {
-+   protected java.util.OptionalLong iterateNoiseColumn(LevelHeightAccessor p_224240_, RandomState p_224241_, long p_224242_, long p_224243_, @Nullable MutableObject<NoiseColumn> p_224244_, @Nullable Predicate<BlockState> p_224245_) {
++   protected java.util.OptionalLong iterateNoiseColumn(LevelHeightAccessor p_224240_, RandomState p_224241_, long p_224242_, long y, long p_224243_, @Nullable MutableObject<NoiseColumn> p_224244_, @Nullable Predicate<BlockState> p_224245_) {
        NoiseSettings noisesettings = this.f_64318_.m_203334_().f_64439_().m_224530_(p_224240_);
 -      int i = noisesettings.m_189212_();
 -      int j = noisesettings.f_158688_();
@@ -60,6 +60,7 @@
 -         int k2 = k1 * i1;
 +         long i1 = noisesettings.getCellWidth();
 +         long j1 = Math.floorDiv(p_224242_, i1);
++         long divY = Math.floorDiv(y, i1);
 +         long k1 = Math.floorDiv(p_224243_, i1);
 +         long l1 = Math.floorMod(p_224242_, i1);
 +         long i2 = Math.floorMod(p_224243_, i1);
@@ -67,7 +68,8 @@
 +         long k2 = k1 * i1;
           double d0 = (double)l1 / (double)i1;
           double d1 = (double)i2 / (double)i1;
-          NoiseChunk noisechunk = new NoiseChunk(1, p_224241_, j2, k2, noisesettings, DensityFunctions.BeardifierMarker.INSTANCE, this.f_64318_.m_203334_(), this.f_188607_.get(), Blender.m_190153_());
+-         NoiseChunk noisechunk = new NoiseChunk(1, p_224241_, j2, k2, noisesettings, DensityFunctions.BeardifierMarker.INSTANCE, this.f_64318_.m_203334_(), this.f_188607_.get(), Blender.m_190153_());
++         NoiseChunk noisechunk = new NoiseChunk(1, p_224241_, j2, divY * i1, k2, noisesettings, DensityFunctions.BeardifierMarker.INSTANCE, this.f_64318_.m_203334_(), this.f_188607_.get(), Blender.m_190153_());
           noisechunk.m_188791_();
           noisechunk.m_188749_(0);
  
@@ -119,15 +121,19 @@
        });
        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.m_224599_()));
        int i = 8;
-@@ -217,16 +_,16 @@
+@@ -215,18 +_,19 @@
+       CarvingMask carvingmask = ((ProtoChunk)p_224229_).m_183613_(p_224230_);
+ 
        for(int j = -8; j <= 8; ++j) {
++         for(int yOffset = -8; yOffset <= 8; ++yOffset) {
           for(int k = -8; k <= 8; ++k) {
-             ChunkPos chunkpos1 = new ChunkPos(chunkpos.f_45578_ + j, chunkpos.f_45579_ + k);
+-            ChunkPos chunkpos1 = new ChunkPos(chunkpos.f_45578_ + j, chunkpos.f_45579_ + k);
 -            ChunkAccess chunkaccess = p_224224_.m_6325_(chunkpos1.f_45578_, chunkpos1.f_45579_);
-+            ChunkAccess chunkaccess = p_224224_.getChunk(chunkpos1.f_45578_, chunkpos1.f_45579_);
++            ChunkPos chunkpos1 = new ChunkPos(chunkpos.f_45578_ + j, chunkpos.y + yOffset, chunkpos.f_45579_ + k);
++            ChunkAccess chunkaccess = p_224224_.getChunk(chunkpos1.f_45578_, chunkpos1.y, chunkpos1.f_45579_);
              BiomeGenerationSettings biomegenerationsettings = chunkaccess.m_223014_(() -> {
 -               return this.m_223131_(this.f_62137_.m_203407_(QuartPos.m_175400_(chunkpos1.m_45604_()), 0, QuartPos.m_175400_(chunkpos1.m_45605_()), p_224226_.m_224579_()));
-+               return this.m_223131_(this.f_62137_.getNoiseBiome(QuartPos.fromBlock(chunkpos1.getMinBlockX()), 0, QuartPos.fromBlock(chunkpos1.getMinBlockZ()), p_224226_.m_224579_()));
++               return this.m_223131_(this.f_62137_.getNoiseBiome(QuartPos.fromBlock(chunkpos1.getMinBlockX()), QuartPos.fromBlock(chunkpos1.getMinBlockY()), QuartPos.fromBlock(chunkpos1.getMinBlockZ()), p_224226_.m_224579_()));
              });
              Iterable<Holder<ConfiguredWorldCarver<?>>> iterable = biomegenerationsettings.m_204187_(p_224230_);
              int l = 0;
@@ -139,7 +145,14 @@
                 if (configuredworldcarver.m_224896_(worldgenrandom)) {
                    configuredworldcarver.m_224898_(carvingcontext, p_224229_, biomemanager::m_204214_, worldgenrandom, aquifer, chunkpos1, carvingmask);
                 }
-@@ -240,24 +_,24 @@
+@@ -234,101 +_,102 @@
+                ++l;
+             }
+          }
++         }
+       }
+ 
+    }
  
     public CompletableFuture<ChunkAccess> m_213974_(Executor p_224312_, Blender p_224313_, RandomState p_224314_, StructureManager p_224315_, ChunkAccess p_224316_) {
        NoiseSettings noisesettings = this.f_64318_.m_203334_().f_64439_().m_224530_(p_224316_.m_183618_());
@@ -168,11 +181,15 @@
  
           return CompletableFuture.supplyAsync(Util.m_183946_("wgen_fill_noise", () -> {
 -            return this.m_224284_(p_224313_, p_224315_, p_224314_, p_224316_, j, k);
+-         }), Util.m_183991_()).whenCompleteAsync((p_224309_, p_224310_) -> {
 +            return this.doFill(p_224313_, p_224315_, p_224314_, p_224316_, j, k);
-          }), Util.m_183991_()).whenCompleteAsync((p_224309_, p_224310_) -> {
++         }), Util.m_183991_()).whenComplete/*Async*/((p_224309_, p_224310_) -> {
              for(LevelChunkSection levelchunksection1 : set) {
                 levelchunksection1.m_63006_();
-@@ -267,68 +_,68 @@
+             }
+ 
+-         }, p_224312_);
++         }/*, p_224312_*/);
        }
     }
  

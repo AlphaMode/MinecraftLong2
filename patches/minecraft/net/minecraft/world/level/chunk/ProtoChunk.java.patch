@@ -1,5 +1,18 @@
 --- a/net/minecraft/world/level/chunk/ProtoChunk.java
 +++ b/net/minecraft/world/level/chunk/ProtoChunk.java
+@@ -48,10 +_,10 @@
+    private final ProtoChunkTicks<Fluid> f_188165_;
+ 
+    public ProtoChunk(ChunkPos p_188167_, UpgradeData p_188168_, LevelHeightAccessor p_188169_, Registry<Biome> p_188170_, @Nullable BlendingData p_188171_) {
+-      this(p_188167_, p_188168_, (LevelChunkSection[])null, new ProtoChunkTicks<>(), new ProtoChunkTicks<>(), p_188169_, p_188170_, p_188171_);
++      this(p_188167_, p_188168_, null, new ProtoChunkTicks<>(), new ProtoChunkTicks<>(), p_188169_, p_188170_, p_188171_);
+    }
+ 
+-   public ProtoChunk(ChunkPos p_188173_, UpgradeData p_188174_, @Nullable LevelChunkSection[] p_188175_, ProtoChunkTicks<Block> p_188176_, ProtoChunkTicks<Fluid> p_188177_, LevelHeightAccessor p_188178_, Registry<Biome> p_188179_, @Nullable BlendingData p_188180_) {
++   public ProtoChunk(ChunkPos p_188173_, UpgradeData p_188174_, @Nullable LevelChunkSection p_188175_, ProtoChunkTicks<Block> p_188176_, ProtoChunkTicks<Fluid> p_188177_, LevelHeightAccessor p_188178_, Registry<Biome> p_188179_, @Nullable BlendingData p_188180_) {
+       super(p_188173_, p_188174_, p_188178_, p_188179_, 0L, p_188175_, p_188180_);
+       this.f_63163_ = p_188176_;
+       this.f_188165_ = p_188177_;
 @@ -70,41 +_,41 @@
     }
  
@@ -42,7 +55,7 @@
 +      long i = p_63217_.getX();
 +      long j = p_63217_.getY();
 +      long k = p_63217_.getZ();
-+      if (j >= this.getMinBuildHeight() && j < this.getMaxBuildHeight()) {
++//      if (j >= this.getMinBuildHeight() && j < this.getMaxBuildHeight()) {
 +         long l = this.getSectionIndex(j);
 +         LevelChunkSection levelchunksection = this.getSection(l);
           boolean flag = levelchunksection.m_188008_();
@@ -69,7 +82,7 @@
                    this.f_63151_.m_7174_(p_63217_);
                 }
              }
-@@ -136,7 +_,7 @@
+@@ -136,14 +_,14 @@
              }
  
              for(Heightmap.Types heightmap$types1 : enumset1) {
@@ -78,15 +91,29 @@
              }
  
              return blockstate;
-@@ -176,7 +_,7 @@
+          }
+-      } else {
+-         return Blocks.f_50626_.m_49966_();
+-      }
++//      } else {
++//         return Blocks.VOID_AIR.defaultBlockState();
++//      }
+    }
+ 
+    public void m_142169_(BlockEntity p_156488_) {
+@@ -176,9 +_,9 @@
        if (belowzeroretrogen != null && p_223433_.m_73603_()) {
           BoundingBox boundingbox = p_223433_.m_73601_();
           LevelHeightAccessor levelheightaccessor = this.m_183618_();
 -         if (boundingbox.m_162396_() < levelheightaccessor.m_141937_() || boundingbox.m_162400_() >= levelheightaccessor.m_151558_()) {
-+         if (boundingbox.minY() < levelheightaccessor.getMinBuildHeight() || boundingbox.maxY() >= levelheightaccessor.getMaxBuildHeight()) {
-             return;
-          }
+-            return;
+-         }
++//         if (boundingbox.minY() < levelheightaccessor.getMinBuildHeight() || boundingbox.maxY() >= levelheightaccessor.getMaxBuildHeight()) {
++//            return;
++//         }
        }
+ 
+       super.m_213792_(p_223432_, p_223433_);
 @@ -203,38 +_,38 @@
  
     public Holder<Biome> m_203495_(int p_204450_, int p_204451_, int p_204452_) {

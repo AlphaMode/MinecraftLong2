@@ -75,16 +75,19 @@
        StructureBlockEntity structureblockentity = m_127890_(p_127884_, blockpos, p_127886_, p_127888_, p_127889_);
        p_127888_.m_183326_().m_193234_(boundingbox);
        p_127888_.m_8722_(boundingbox);
-@@ -166,35 +_,35 @@
+@@ -165,36 +_,38 @@
+       ChunkPos chunkpos = new ChunkPos(p_127858_);
  
        for(int i = -1; i < 4; ++i) {
++         for(int y = -1; y < 4; ++y) {
           for(int j = -1; j < 4; ++j) {
 -            int k = chunkpos.f_45578_ + i;
 -            int l = chunkpos.f_45579_ + j;
 -            p_127859_.m_8602_(k, l, true);
 +            long k = chunkpos.f_45578_ + i;
 +            long l = chunkpos.f_45579_ + j;
-+            p_127859_.setChunkForced(k, l, true);
++            p_127859_.setChunkForced(k, chunkpos.y + y, l, true);
++         }
           }
        }
  

@@ -19,7 +19,7 @@
        List<GameEvent.ListenerInfo> list = new ArrayList<>();
        GameEventListenerRegistry.ListenerVisitor gameeventlistenerregistry$listenervisitor = (p_251272_, p_248685_) -> {
           if (p_251272_.m_247514_() == GameEventListener.DeliveryMode.BY_DISTANCE) {
-@@ -37,12 +_,12 @@
+@@ -37,14 +_,16 @@
        };
        boolean flag = false;
  
@@ -27,8 +27,9 @@
 -         for(int i2 = l; i2 <= k1; ++i2) {
 -            ChunkAccess chunkaccess = this.f_243917_.m_7726_().m_7131_(l1, i2);
 +      for(long l1 = j; l1 <= i1; ++l1) {
++         for(long chunkY = k; chunkY <= j1; ++chunkY) {
 +         for(long i2 = l; i2 <= k1; ++i2) {
-+            ChunkAccess chunkaccess = this.f_243917_.m_7726_().getChunkNow(l1, i2);
++            ChunkAccess chunkaccess = this.f_243917_.m_7726_().getChunkNow(l1, chunkY, i2);
              if (chunkaccess != null) {
 -               for(int j2 = k; j2 <= j1; ++j2) {
 -                  flag |= chunkaccess.m_246686_(j2).m_245521_(p_251754_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
@@ -36,4 +37,7 @@
 +                  flag |= chunkaccess.getListenerRegistry(j2).m_245521_(p_251754_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
                 }
              }
++         }
           }
+       }
+ 

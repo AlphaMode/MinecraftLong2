@@ -1,11 +1,20 @@
 --- a/net/minecraft/server/level/ChunkHolder.java
 +++ b/net/minecraft/server/level/ChunkHolder.java
+@@ -56,7 +_,7 @@
+    private int f_140008_;
+    final ChunkPos f_140009_;
+    private boolean f_140010_;
+-   private final ShortSet[] f_140011_;
++   private ShortSet/*[]*/ f_140011_;
+    private final BitSet f_140012_ = new BitSet();
+    private final BitSet f_140013_ = new BitSet();
+    private final LevelLightEngine f_140014_;
 @@ -75,7 +_,7 @@
        this.f_140007_ = this.f_140006_;
        this.f_140008_ = this.f_140006_;
        this.m_140027_(p_142987_);
 -      this.f_140011_ = new ShortSet[p_142988_.m_151559_()];
-+      this.f_140011_ = new ShortSet[(int) p_142988_.getSectionsCount()]; // TODO: long support
++//      this.changedBlocksPerSection = new ShortSet[(int) p_142988_.getSectionsCount()]; // TODO: long support
     }
  
     public CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_140047_(ChunkStatus p_140048_) {
@@ -15,15 +24,15 @@
        if (levelchunk != null) {
 -         int i = this.f_142983_.m_151564_(p_140057_.m_123342_());
 -         if (this.f_140011_[i] == null) {
-+         long i = this.f_142983_.getSectionIndex(p_140057_.getY());
-+         if (this.f_140011_[(int) i] == null) { // TODO: long support
++//         long i = this.levelHeightAccessor.getSectionIndex(p_140057_.getY());
++         if (this.f_140011_/*[(int) i]*/ == null) { // TODO: long support
              this.f_140010_ = true;
 -            this.f_140011_[i] = new ShortOpenHashSet();
-+            this.f_140011_[(int) i] = new ShortOpenHashSet();
++            this.f_140011_/*[(int) i]*/ = new ShortOpenHashSet();
           }
  
 -         this.f_140011_[i].add(SectionPos.m_123218_(p_140057_));
-+         this.f_140011_[(int) i].add(SectionPos.m_123218_(p_140057_));
++         this.f_140011_/*[(int) i]*/.add(SectionPos.m_123218_(p_140057_));
        }
     }
  
@@ -52,14 +61,22 @@
                    }
  
                 }
-@@ -205,15 +_,15 @@
+@@ -200,20 +_,20 @@
+          if (this.f_140010_) {
+             List<ServerPlayer> list1 = this.f_140016_.m_183262_(this.f_140009_, false);
+ 
+-            for(int j = 0; j < this.f_140011_.length; ++j) {
+-               ShortSet shortset = this.f_140011_[j];
++//            for(int j = 0; j < this.changedBlocksPerSection.length; ++j) {
++               ShortSet shortset = this.f_140011_/*[j]*/;
                 if (shortset != null) {
-                   this.f_140011_[j] = null;
+-                  this.f_140011_[j] = null;
++                  this.f_140011_/*[j]*/ = null;
                    if (!list1.isEmpty()) {
 -                     int i = this.f_142983_.m_151568_(j);
 -                     SectionPos sectionpos = SectionPos.m_123196_(p_140055_.m_7697_(), i);
-+                     long i = this.f_142983_.getSectionYFromSectionIndex(j);
-+                     SectionPos sectionpos = SectionPos.of(p_140055_.m_7697_(), i);
++//                     long i = this.levelHeightAccessor.getSectionYFromSectionIndex(j);
++                     SectionPos sectionpos = SectionPos.of(p_140055_.m_7697_()/*, i*/);
                       if (shortset.size() == 1) {
                          BlockPos blockpos = sectionpos.m_123245_(shortset.iterator().nextShort());
                          BlockState blockstate = level.m_8055_(blockpos);
@@ -67,10 +84,19 @@
                          this.m_288224_(list1, level, blockpos, blockstate);
                       } else {
 -                        LevelChunkSection levelchunksection = p_140055_.m_183278_(j);
-+                        LevelChunkSection levelchunksection = p_140055_.getSection(j);
++                        LevelChunkSection levelchunksection = p_140055_.getSection(/*j*/0);
                          ClientboundSectionBlocksUpdatePacket clientboundsectionblocksupdatepacket = new ClientboundSectionBlocksUpdatePacket(sectionpos, shortset, levelchunksection);
                          this.m_288202_(list1, clientboundsectionblocksupdatepacket);
                          clientboundsectionblocksupdatepacket.m_132992_((p_288761_, p_288762_) -> {
+@@ -222,7 +_,7 @@
+                      }
+                   }
+                }
+-            }
++//            }
+ 
+             this.f_140010_ = false;
+          }
 @@ -270,6 +_,7 @@
  
        if (ChunkLevel.m_287158_(this.f_140007_).m_62427_(p_140050_)) {

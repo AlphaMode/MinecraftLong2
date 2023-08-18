@@ -41,7 +41,7 @@
        int j = p_262664_.m_81372_().m_46469_().m_46215_(GameRules.f_263760_);
        if (i > j) {
           throw f_260575_.create(j, i);
-@@ -81,9 +_,9 @@
+@@ -81,15 +_,17 @@
           ServerLevel serverlevel = p_262664_.m_81372_();
           List<ChunkAccess> list = new ArrayList<>();
  
@@ -49,11 +49,19 @@
 -            for(int l = SectionPos.m_123171_(boundingbox.m_162395_()); l <= SectionPos.m_123171_(boundingbox.m_162399_()); ++l) {
 -               ChunkAccess chunkaccess = serverlevel.m_6522_(l, k, ChunkStatus.f_62326_, false);
 +         for(long k = SectionPos.blockToSectionCoord(boundingbox.minZ()); k <= SectionPos.blockToSectionCoord(boundingbox.maxZ()); ++k) {
++            for(long chunkY = SectionPos.blockToSectionCoord(boundingbox.minY()); chunkY <= SectionPos.blockToSectionCoord(boundingbox.maxY()); ++chunkY) {
 +            for(long l = SectionPos.blockToSectionCoord(boundingbox.minX()); l <= SectionPos.blockToSectionCoord(boundingbox.maxX()); ++l) {
-+               ChunkAccess chunkaccess = serverlevel.getChunk(l, k, ChunkStatus.f_62326_, false);
++               ChunkAccess chunkaccess = serverlevel.getChunk(l, chunkY, k, ChunkStatus.f_62326_, false);
                 if (chunkaccess == null) {
                    throw f_260663_.create();
                 }
+ 
+                list.add(chunkaccess);
+             }
++            }
+          }
+ 
+          MutableInt mutableint = new MutableInt(0);
 @@ -101,7 +_,7 @@
  
           serverlevel.m_7726_().f_8325_.m_274524_(list);
