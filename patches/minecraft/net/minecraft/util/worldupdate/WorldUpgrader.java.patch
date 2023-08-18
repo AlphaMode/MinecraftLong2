@@ -1,0 +1,32 @@
+--- a/net/minecraft/util/worldupdate/WorldUpgrader.java
++++ b/net/minecraft/util/worldupdate/WorldUpgrader.java
+@@ -130,7 +_,7 @@
+                         CompoundTag compoundtag1 = chunkstorage.m_188288_(resourcekey2, () -> {
+                            return this.f_18813_;
+                         }, compoundtag, chunkgenerator.m_187743_());
+-                        ChunkPos chunkpos1 = new ChunkPos(compoundtag1.m_128451_("xPos"), compoundtag1.m_128451_("zPos"));
++                        ChunkPos chunkpos1 = new ChunkPos(compoundtag1.m_128451_("xPos"), compoundtag1.m_128451_("yPos"), compoundtag1.m_128451_("zPos"));
+                         if (!chunkpos1.equals(chunkpos)) {
+                            f_18797_.warn("Chunk {} has invalid position {}", chunkpos, chunkpos1);
+                         }
+@@ -218,15 +_,18 @@
+             Matcher matcher = f_18812_.matcher(file3.getName());
+             if (matcher.matches()) {
+                int i = Integer.parseInt(matcher.group(1)) << 5;
+-               int j = Integer.parseInt(matcher.group(2)) << 5;
++               int yRegion = Integer.parseInt(matcher.group(2)) << 5;
++               int j = Integer.parseInt(matcher.group(3)) << 5;
+ 
+                try (RegionFile regionfile = new RegionFile(file3.toPath(), file2.toPath(), true)) {
+                   for(int k = 0; k < 32; ++k) {
++                     for(int y = 0; y < 32; ++y) {
+                      for(int l = 0; l < 32; ++l) {
+-                        ChunkPos chunkpos = new ChunkPos(k + i, l + j);
++                        ChunkPos chunkpos = new ChunkPos(k + i, y + yRegion, l + j);
+                         if (regionfile.m_63673_(chunkpos)) {
+                            list.add(chunkpos);
+                         }
++                     }
+                      }
+                   }
+                } catch (Throwable throwable) {

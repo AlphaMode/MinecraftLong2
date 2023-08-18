@@ -1,0 +1,676 @@
+--- a/net/minecraft/server/level/ChunkMap.java
++++ b/net/minecraft/server/level/ChunkMap.java
+@@ -114,10 +_,10 @@
+    private static final int f_143038_ = 2;
+    public static final int f_143032_ = 32;
+    public static final int f_143033_ = ChunkLevel.m_287154_(FullChunkStatus.ENTITY_TICKING);
+-   private final Long2ObjectLinkedOpenHashMap<ChunkHolder> f_140129_ = new Long2ObjectLinkedOpenHashMap<>();
+-   private volatile Long2ObjectLinkedOpenHashMap<ChunkHolder> f_140130_ = this.f_140129_.clone();
+-   private final Long2ObjectLinkedOpenHashMap<ChunkHolder> f_140131_ = new Long2ObjectLinkedOpenHashMap<>();
+-   private final LongSet f_140132_ = new LongOpenHashSet();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, ChunkHolder> f_140129_ = new it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<>();
++   private volatile it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, ChunkHolder> f_140130_ = this.f_140129_.clone();
++   private final it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, ChunkHolder> f_140131_ = new it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> f_140132_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+    final ServerLevel f_140133_;
+    private final ThreadedLevelLightEngine f_140134_;
+    private final BlockableEventLoop<Runnable> f_140135_;
+@@ -126,7 +_,7 @@
+    private final ChunkGeneratorStructureState f_254626_;
+    private final Supplier<DimensionDataStorage> f_140137_;
+    private final PoiManager f_140138_;
+-   final LongSet f_140139_ = new LongOpenHashSet();
++   final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> f_140139_ = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+    private boolean f_140140_;
+    private final ChunkTaskPriorityQueueSorter f_140141_;
+    private final ProcessorHandle<ChunkTaskPriorityQueueSorter.Message<Runnable>> f_140142_;
+@@ -139,8 +_,8 @@
+    private final String f_182284_;
+    private final PlayerMap f_140149_ = new PlayerMap();
+    private final Int2ObjectMap<ChunkMap.TrackedEntity> f_140150_ = new Int2ObjectOpenHashMap<>();
+-   private final Long2ByteMap f_140151_ = new Long2ByteOpenHashMap();
+-   private final Long2LongMap f_202981_ = new Long2LongOpenHashMap();
++   private final it.unimi.dsi.fastutil.objects.Object2ByteMap<ChunkPos> f_140151_ = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>();
++   private final it.unimi.dsi.fastutil.objects.Object2LongMap<ChunkPos> f_202981_ = new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>();
+    private final Queue<Runnable> f_140125_ = Queues.newConcurrentLinkedQueue();
+    int f_140126_;
+ 
+@@ -199,28 +_,30 @@
+    }
+ 
+    private static double m_140226_(ChunkPos p_140227_, Entity p_140228_) {
+-      double d0 = (double)SectionPos.m_175554_(p_140227_.f_45578_, 8);
+-      double d1 = (double)SectionPos.m_175554_(p_140227_.f_45579_, 8);
++      double d0 = (double)SectionPos.sectionToBlockCoord(p_140227_.f_45578_, 8);
++      double d1 = (double)SectionPos.sectionToBlockCoord(p_140227_.f_45579_, 8);
+       double d2 = d0 - p_140228_.m_20185_();
+       double d3 = d1 - p_140228_.m_20189_();
+       return d2 * d2 + d3 * d3;
+    }
+ 
+-   public static boolean m_200878_(int p_200879_, int p_200880_, int p_200881_, int p_200882_, int p_200883_) {
+-      int i = Math.max(0, Math.abs(p_200879_ - p_200881_) - 1);
+-      int j = Math.max(0, Math.abs(p_200880_ - p_200882_) - 1);
++   public static boolean isChunkInRange(long p_200879_, long y1, long p_200880_, long p_200881_, long y2, long p_200882_, int p_200883_) {
++      long i = Math.max(0, Math.abs(p_200879_ - p_200881_) - 1);
++      long maxY = Math.max(0, Math.abs(y1 - y2) - 1);
++      long j = Math.max(0, Math.abs(p_200880_ - p_200882_) - 1);
+       long k = (long)Math.max(0, Math.max(i, j) - 1);
+       long l = (long)Math.min(i, j);
+-      long i1 = l * l + k * k;
++      long i1 = l * l + k * k + maxY * maxY;
+       int j1 = p_200883_ * p_200883_;
+       return i1 < (long)j1;
+    }
+ 
+-   private static boolean m_183828_(int p_183829_, int p_183830_, int p_183831_, int p_183832_, int p_183833_) {
+-      if (!m_200878_(p_183829_, p_183830_, p_183831_, p_183832_, p_183833_)) {
++   private static boolean isChunkOnRangeBorder(long p_183829_, long y1, long p_183830_, long p_183831_, long y2, long p_183832_, int p_183833_) {
++      if (!isChunkInRange(p_183829_, y1, p_183830_, p_183831_, y2, p_183832_, p_183833_)) {
+          return false;
+       } else {
+-         return !m_200878_(p_183829_ + 1, p_183830_ + 1, p_183831_, p_183832_, p_183833_) || !m_200878_(p_183829_ - 1, p_183830_ + 1, p_183831_, p_183832_, p_183833_) || !m_200878_(p_183829_ + 1, p_183830_ - 1, p_183831_, p_183832_, p_183833_) || !m_200878_(p_183829_ - 1, p_183830_ - 1, p_183831_, p_183832_, p_183833_);
++         return !isChunkInRange(p_183829_ + 1, y1 + 1, p_183830_ + 1, p_183831_, y2, p_183832_, p_183833_) || !isChunkInRange(p_183829_ - 1, y1 + 1, p_183830_ + 1, p_183831_, y2, p_183832_, p_183833_) || !isChunkInRange(p_183829_ + 1, y1 + 1, p_183830_ - 1, p_183831_, y2, p_183832_, p_183833_) || !isChunkInRange(p_183829_ - 1, y1 + 1, p_183830_ - 1, p_183831_, y2, p_183832_, p_183833_)
++                 || !isChunkInRange(p_183829_ + 1, y1 - 1, p_183830_ + 1, p_183831_, y2, p_183832_, p_183833_) || !isChunkInRange(p_183829_ - 1, y1 - 1, p_183830_ + 1, p_183831_, y2, p_183832_, p_183833_) || !isChunkInRange(p_183829_ + 1, y1 - 1, p_183830_ - 1, p_183831_, y2, p_183832_, p_183833_) || !isChunkInRange(p_183829_ - 1, y1 - 1, p_183830_ - 1, p_183831_, y2, p_183832_, p_183833_);
+       }
+    }
+ 
+@@ -229,24 +_,24 @@
+    }
+ 
+    @Nullable
+-   protected ChunkHolder m_140174_(long p_140175_) {
++   protected ChunkHolder getUpdatingChunkIfPresent(ChunkPos p_140175_) {
+       return this.f_140129_.get(p_140175_);
+    }
+ 
+    @Nullable
+-   protected ChunkHolder m_140327_(long p_140328_) {
++   protected ChunkHolder getVisibleChunkIfPresent(ChunkPos p_140328_) {
+       return this.f_140130_.get(p_140328_);
+    }
+ 
+-   protected IntSupplier m_140371_(long p_140372_) {
++   protected IntSupplier getChunkQueueLevel(ChunkPos p_140372_) {
+       return () -> {
+-         ChunkHolder chunkholder = this.m_140327_(p_140372_);
++         ChunkHolder chunkholder = this.getVisibleChunkIfPresent(p_140372_);
+          return chunkholder == null ? ChunkTaskPriorityQueue.f_140508_ - 1 : Math.min(chunkholder.m_140094_(), ChunkTaskPriorityQueue.f_140508_ - 1);
+       };
+    }
+ 
+    public String m_140204_(ChunkPos p_140205_) {
+-      ChunkHolder chunkholder = this.m_140327_(p_140205_.m_45588_());
++      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(p_140205_);
+       if (chunkholder == null) {
+          return "null";
+       } else {
+@@ -277,15 +_,16 @@
+          List<CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>>> list = new ArrayList<>();
+          List<ChunkHolder> list1 = new ArrayList<>();
+          ChunkPos chunkpos = p_281446_.m_140092_();
+-         int i = chunkpos.f_45578_;
+-         int j = chunkpos.f_45579_;
++         long i = chunkpos.f_45578_;
++         long chunkY = chunkpos.y;
++         long j = chunkpos.f_45579_;
+ 
+          for(int k = -p_282030_; k <= p_282030_; ++k) {
++            for(int y = -p_282030_; y <= p_282030_; ++y) {
+             for(int l = -p_282030_; l <= p_282030_; ++l) {
+-               int i1 = Math.max(Math.abs(l), Math.abs(k));
+-               final ChunkPos chunkpos1 = new ChunkPos(i + l, j + k);
+-               long j1 = chunkpos1.m_45588_();
+-               ChunkHolder chunkholder = this.m_140174_(j1);
++               int i1 = Math.max(Math.max(Math.abs(l), Math.abs(k)), Math.abs(y));
++               final ChunkPos chunkpos1 = new ChunkPos(i + l, chunkY + y, j + k);
++               ChunkHolder chunkholder = this.getUpdatingChunkIfPresent(chunkpos1);
+                if (chunkholder == null) {
+                   return CompletableFuture.completedFuture(Either.right(new ChunkHolder.ChunkLoadingFailure() {
+                      public String toString() {
+@@ -299,6 +_,7 @@
+                list1.add(chunkholder);
+                list.add(completablefuture);
+             }
++            }
+          }
+ 
+          CompletableFuture<List<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>>> completablefuture1 = Util.m_137567_(list);
+@@ -316,7 +_,7 @@
+                   final int l1 = k1;
+                   return Either.right(new ChunkHolder.ChunkLoadingFailure() {
+                      public String toString() {
+-                        return "Unloaded " + new ChunkPos(i + l1 % (p_282030_ * 2 + 1), j + l1 / (p_282030_ * 2 + 1)) + " " + either.right().get();
++                        return "Unloaded " + new ChunkPos(i + l1 % (p_282030_ * 2 + 1), chunkY + l1 % (p_282030_ * 2 + 1), j + l1 / (p_282030_ * 2 + 1)) + " " + either.right().get();
+                      }
+                   });
+                }
+@@ -362,15 +_,15 @@
+    public CompletableFuture<Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>> m_280208_(ChunkHolder p_281455_) {
+       return this.m_280541_(p_281455_, 2, (p_203078_) -> {
+          return ChunkStatus.f_62326_;
+-      }).thenApplyAsync((p_212878_) -> {
++      }).thenApply/*Async*/((p_212878_) -> {
+          return p_212878_.mapLeft((p_203092_) -> {
+             return (LevelChunk)p_203092_.get(p_203092_.size() / 2);
+          });
+-      }, this.f_140135_);
++      }/*, this.mainThreadExecutor*/);
+    }
+ 
+    @Nullable
+-   ChunkHolder m_140176_(long p_140177_, int p_140178_, @Nullable ChunkHolder p_140179_, int p_140180_) {
++   ChunkHolder updateChunkScheduling(ChunkPos p_140177_, int p_140178_, @Nullable ChunkHolder p_140179_, int p_140180_) {
+       if (!ChunkLevel.m_287217_(p_140180_) && !ChunkLevel.m_287217_(p_140178_)) {
+          return p_140179_;
+       } else {
+@@ -391,7 +_,7 @@
+             if (p_140179_ != null) {
+                p_140179_.m_140027_(p_140178_);
+             } else {
+-               p_140179_ = new ChunkHolder(new ChunkPos(p_140177_), p_140178_, this.f_140133_, this.f_140134_, this.f_140141_, this);
++               p_140179_ = new ChunkHolder(p_140177_, p_140178_, this.f_140133_, this.f_140134_, this.f_140141_, this);
+             }
+ 
+             this.f_140129_.put(p_140177_, p_140179_);
+@@ -461,16 +_,16 @@
+    }
+ 
+    private void m_140353_(BooleanSupplier p_140354_) {
+-      LongIterator longiterator = this.f_140139_.iterator();
++      it.unimi.dsi.fastutil.objects.ObjectIterator<ChunkPos> longiterator = this.f_140139_.iterator();
+ 
+       for(int i = 0; longiterator.hasNext() && (p_140354_.getAsBoolean() || i < 200 || this.f_140139_.size() > 2000); longiterator.remove()) {
+-         long j = longiterator.nextLong();
++         ChunkPos j = longiterator.next();
+          ChunkHolder chunkholder = this.f_140129_.remove(j);
+          if (chunkholder != null) {
+             this.f_140131_.put(j, chunkholder);
+             this.f_140140_ = true;
+             ++i;
+-            this.m_140181_(j, chunkholder);
++            this.scheduleUnload(j, chunkholder);
+          }
+       }
+ 
+@@ -493,12 +_,12 @@
+ 
+    }
+ 
+-   private void m_140181_(long p_140182_, ChunkHolder p_140183_) {
++   private void scheduleUnload(ChunkPos p_140182_, ChunkHolder p_140183_) {
+       CompletableFuture<ChunkAccess> completablefuture = p_140183_.m_140090_();
+       completablefuture.thenAcceptAsync((p_203002_) -> {
+          CompletableFuture<ChunkAccess> completablefuture1 = p_140183_.m_140090_();
+          if (completablefuture1 != completablefuture) {
+-            this.m_140181_(p_140182_, p_140183_);
++            this.scheduleUnload(p_140182_, p_140183_);
+          } else {
+             if (this.f_140131_.remove(p_140182_, p_140183_) && p_203002_ != null) {
+                if (p_203002_ instanceof LevelChunk) {
+@@ -514,7 +_,7 @@
+                this.f_140134_.m_9330_(p_203002_.m_7697_());
+                this.f_140134_.m_9409_();
+                this.f_140144_.m_5511_(p_203002_.m_7697_(), (ChunkStatus)null);
+-               this.f_202981_.remove(p_203002_.m_7697_().m_45588_());
++               this.f_202981_.removeLong(p_203002_.m_7697_());
+             }
+ 
+          }
+@@ -570,7 +_,7 @@
+ 
+             return flag;
+          });
+-      }).<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>>thenApplyAsync((p_269770_) -> {
++      }).<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>>thenApply/*Async*/((p_269770_) -> {
+          this.f_140133_.m_46473_().m_6174_("chunkLoad");
+          if (p_269770_.isPresent()) {
+             ChunkAccess chunkaccess = ChunkSerializer.m_188230_(this.f_140133_, this.f_140138_, p_140418_, p_269770_.get());
+@@ -579,9 +_,9 @@
+          } else {
+             return Either.left(this.m_214961_(p_140418_));
+          }
+-      }, this.f_140135_).exceptionallyAsync((p_214888_) -> {
++      }/*, this.mainThreadExecutor*/).exceptionally/*Async*/((p_214888_) -> {
+          return this.m_214901_(p_214888_, p_140418_);
+-      }, this.f_140135_);
++      }/*, this.mainThreadExecutor*/);
+    }
+ 
+    private static boolean m_214940_(CompoundTag p_214941_) {
+@@ -610,11 +_,11 @@
+    }
+ 
+    private void m_140422_(ChunkPos p_140423_) {
+-      this.f_140151_.put(p_140423_.m_45588_(), (byte)-1);
++      this.f_140151_.put(p_140423_, (byte)-1);
+    }
+ 
+    private byte m_140229_(ChunkPos p_140230_, ChunkStatus.ChunkType p_140231_) {
+-      return this.f_140151_.put(p_140230_.m_45588_(), (byte)(p_140231_ == ChunkStatus.ChunkType.PROTOCHUNK ? -1 : 1));
++      return this.f_140151_.put(p_140230_, (byte)(p_140231_ == ChunkStatus.ChunkType.PROTOCHUNK ? -1 : 1));
+    }
+ 
+    private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_140360_(ChunkHolder p_140361_, ChunkStatus p_140362_) {
+@@ -628,7 +_,7 @@
+       Executor executor = (p_214958_) -> {
+          this.f_140142_.m_6937_(ChunkTaskPriorityQueueSorter.m_140642_(p_140361_, p_214958_));
+       };
+-      return completablefuture.thenComposeAsync((p_214873_) -> {
++      return completablefuture.thenCompose/*Async*/((p_214873_) -> {
+          return p_214873_.map((p_280971_) -> {
+             try {
+                ChunkAccess chunkaccess = p_280971_.get(p_280971_.size() / 2);
+@@ -650,7 +_,7 @@
+                CrashReport crashreport = CrashReport.m_127521_(exception, "Exception generating new chunk");
+                CrashReportCategory crashreportcategory = crashreport.m_127514_("Chunk to be generated");
+                crashreportcategory.m_128159_("Location", String.format(Locale.ROOT, "%d,%d", chunkpos.f_45578_, chunkpos.f_45579_));
+-               crashreportcategory.m_128159_("Position hash", ChunkPos.m_45589_(chunkpos.f_45578_, chunkpos.f_45579_));
++               crashreportcategory.m_128159_("Position hash", ChunkPos.asLong(chunkpos.f_45578_, chunkpos.f_45579_));
+                crashreportcategory.m_128159_("Generator", this.f_140136_);
+                this.f_140135_.execute(() -> {
+                   throw new ReportedException(crashreport);
+@@ -661,7 +_,7 @@
+             this.m_140375_(chunkpos);
+             return CompletableFuture.completedFuture(Either.right(p_214867_));
+          });
+-      }, executor);
++      }/*, executor*/);
+    }
+ 
+    protected void m_140375_(ChunkPos p_140376_) {
+@@ -692,7 +_,7 @@
+ 
+    private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_140383_(ChunkHolder p_140384_) {
+       CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture = p_140384_.m_140047_(ChunkStatus.f_62326_.m_62482_());
+-      return completablefuture.thenApplyAsync((p_287363_) -> {
++      return completablefuture.thenApply/*Async*/((p_287363_) -> {
+          ChunkStatus chunkstatus = ChunkLevel.m_287158_(p_140384_.m_140093_());
+          return !chunkstatus.m_62427_(ChunkStatus.f_62326_) ? ChunkHolder.f_139995_ : p_287363_.mapLeft((p_214856_) -> {
+             ChunkPos chunkpos = p_140384_.m_140092_();
+@@ -711,7 +_,7 @@
+                return ChunkLevel.m_287264_(p_140384_.m_140093_());
+             });
+             levelchunk.m_62952_();
+-            if (this.f_140132_.add(chunkpos.m_45588_())) {
++            if (this.f_140132_.add(chunkpos)) {
+                levelchunk.m_62913_(true);
+                levelchunk.m_156369_();
+                levelchunk.m_187958_(this.f_140133_);
+@@ -719,52 +_,52 @@
+ 
+             return levelchunk;
+          });
+-      }, (p_214951_) -> {
+-         this.f_140143_.m_6937_(ChunkTaskPriorityQueueSorter.m_140624_(p_214951_, p_140384_.m_140092_().m_45588_(), p_140384_::m_140093_));
+-      });
++      }/*, (p_214951_) -> {
++         this.mainThreadMailbox.tell(ChunkTaskPriorityQueueSorter.message(p_214951_, p_140384_.getPos(), p_140384_::getTicketLevel));
++      }*/);
+    }
+ 
+    public CompletableFuture<Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>> m_143053_(ChunkHolder p_143054_) {
+       CompletableFuture<Either<List<ChunkAccess>, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.m_280541_(p_143054_, 1, (p_214916_) -> {
+          return ChunkStatus.f_62326_;
+       });
+-      CompletableFuture<Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>> completablefuture1 = completablefuture.thenApplyAsync((p_280964_) -> {
++      CompletableFuture<Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>> completablefuture1 = completablefuture.thenApply/*Async*/((p_280964_) -> {
+          return p_280964_.mapLeft((p_214939_) -> {
+             return (LevelChunk)p_214939_.get(p_214939_.size() / 2);
+          });
+-      }, (p_214944_) -> {
+-         this.f_140143_.m_6937_(ChunkTaskPriorityQueueSorter.m_140642_(p_143054_, p_214944_));
+-      }).thenApplyAsync((p_214930_) -> {
++      }/*, (p_214944_) -> {
++         this.mainThreadMailbox.tell(ChunkTaskPriorityQueueSorter.message(p_143054_, p_214944_));
++      }*/).thenApply/*Async*/((p_214930_) -> {
+          return p_214930_.ifLeft((p_214960_) -> {
+             p_214960_.m_62812_();
+             this.f_140133_.m_184102_(p_214960_);
+          });
+-      }, this.f_140135_);
++      }/*, this.mainThreadExecutor*/);
+       completablefuture1.handle((p_287364_, p_287365_) -> {
+          this.f_140146_.getAndIncrement();
+          return null;
+       });
+-      completablefuture1.thenAcceptAsync((p_214882_) -> {
++      completablefuture1.thenAccept/*Async*/((p_214882_) -> {
+          p_214882_.ifLeft((p_287368_) -> {
+             MutableObject<ClientboundLevelChunkWithLightPacket> mutableobject = new MutableObject<>();
+             this.m_183262_(p_143054_.m_140092_(), false).forEach((p_214911_) -> {
+                this.m_183760_(p_214911_, mutableobject, p_287368_);
+             });
+          });
+-      }, (p_214922_) -> {
+-         this.f_140143_.m_6937_(ChunkTaskPriorityQueueSorter.m_140642_(p_143054_, p_214922_));
+-      });
++      }/*, (p_214922_) -> {
++         this.mainThreadMailbox.tell(ChunkTaskPriorityQueueSorter.message(p_143054_, p_214922_));
++      }*/);
+       return completablefuture1;
+    }
+ 
+    public CompletableFuture<Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>> m_143109_(ChunkHolder p_143110_) {
+-      return this.m_280541_(p_143110_, 1, ChunkStatus::m_156185_).thenApplyAsync((p_203086_) -> {
++      return this.m_280541_(p_143110_, 1, ChunkStatus::m_156185_).thenApply/*Async*/((p_203086_) -> {
+          return p_203086_.mapLeft((p_214905_) -> {
+             return (LevelChunk)p_214905_.get(p_214905_.size() / 2);
+          });
+-      }, (p_214859_) -> {
+-         this.f_140143_.m_6937_(ChunkTaskPriorityQueueSorter.m_140642_(p_143110_, p_214859_));
+-      });
++      }/*, (p_214859_) -> {
++         this.mainThreadMailbox.tell(ChunkTaskPriorityQueueSorter.message(p_143110_, p_214859_));
++      }*/);
+    }
+ 
+    public int m_140368_() {
+@@ -779,7 +_,7 @@
+          if (!(chunkaccess instanceof ImposterProtoChunk) && !(chunkaccess instanceof LevelChunk)) {
+             return false;
+          } else {
+-            long i = chunkaccess.m_7697_().m_45588_();
++            ChunkPos i = chunkaccess.m_7697_();
+             long j = this.f_202981_.getOrDefault(i, -1L);
+             long k = System.currentTimeMillis();
+             if (k < j) {
+@@ -830,7 +_,7 @@
+    }
+ 
+    private boolean m_140425_(ChunkPos p_140426_) {
+-      byte b0 = this.f_140151_.get(p_140426_.m_45588_());
++      byte b0 = this.f_140151_.getByte(p_140426_);
+       if (b0 != 0) {
+          return b0 == 1;
+       } else {
+@@ -864,8 +_,8 @@
+             MutableObject<ClientboundLevelChunkWithLightPacket> mutableobject = new MutableObject<>();
+             this.m_183262_(chunkpos, false).forEach((p_214864_) -> {
+                SectionPos sectionpos = p_214864_.m_8965_();
+-               boolean flag = m_200878_(chunkpos.f_45578_, chunkpos.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), j);
+-               boolean flag1 = m_200878_(chunkpos.f_45578_, chunkpos.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), this.f_140126_);
++               boolean flag = isChunkInRange(chunkpos.f_45578_, chunkpos.y, chunkpos.f_45579_, sectionpos.x(), sectionpos.y(), sectionpos.z(), j);
++               boolean flag1 = isChunkInRange(chunkpos.f_45578_, chunkpos.y, chunkpos.f_45579_, sectionpos.x(), sectionpos.y(), sectionpos.z(), this.f_140126_);
+                this.m_183754_(p_214864_, chunkpos, mutableobject, flag, flag1);
+             });
+          }
+@@ -876,7 +_,7 @@
+    protected void m_183754_(ServerPlayer p_183755_, ChunkPos p_183756_, MutableObject<ClientboundLevelChunkWithLightPacket> p_183757_, boolean p_183758_, boolean p_183759_) {
+       if (p_183755_.m_9236_() == this.f_140133_) {
+          if (p_183759_ && !p_183758_) {
+-            ChunkHolder chunkholder = this.m_140327_(p_183756_.m_45588_());
++            ChunkHolder chunkholder = this.getVisibleChunkIfPresent(p_183756_);
+             if (chunkholder != null) {
+                LevelChunk levelchunk = chunkholder.m_140085_();
+                if (levelchunk != null) {
+@@ -910,17 +_,16 @@
+       CsvOutput csvoutput = CsvOutput.m_13619_().m_13630_("x").m_13630_("z").m_13630_("level").m_13630_("in_memory").m_13630_("status").m_13630_("full_status").m_13630_("accessible_ready").m_13630_("ticking_ready").m_13630_("entity_ticking_ready").m_13630_("ticket").m_13630_("spawning").m_13630_("block_entity_count").m_13630_("ticking_ticket").m_13630_("ticking_level").m_13630_("block_ticks").m_13630_("fluid_ticks").m_13628_(p_140275_);
+       TickingTracker tickingtracker = this.f_140145_.m_183915_();
+ 
+-      for(Long2ObjectMap.Entry<ChunkHolder> entry : this.f_140130_.long2ObjectEntrySet()) {
+-         long i = entry.getLongKey();
+-         ChunkPos chunkpos = new ChunkPos(i);
++      for(it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<ChunkPos, ChunkHolder> entry : this.f_140130_.object2ObjectEntrySet()) {
++         ChunkPos chunkpos = entry.getKey();
+          ChunkHolder chunkholder = entry.getValue();
+          Optional<ChunkAccess> optional = Optional.ofNullable(chunkholder.m_140089_());
+          Optional<LevelChunk> optional1 = optional.flatMap((p_214932_) -> {
+             return p_214932_ instanceof LevelChunk ? Optional.of((LevelChunk)p_214932_) : Optional.empty();
+          });
+-         csvoutput.m_13624_(chunkpos.f_45578_, chunkpos.f_45579_, chunkholder.m_140093_(), optional.isPresent(), optional.map(ChunkAccess::m_6415_).orElse((ChunkStatus)null), optional1.map(LevelChunk::m_287138_).orElse((FullChunkStatus)null), m_140278_(chunkholder.m_140082_()), m_140278_(chunkholder.m_140026_()), m_140278_(chunkholder.m_140073_()), this.f_140145_.m_140838_(i), this.m_183879_(chunkpos), optional1.map((p_214953_) -> {
++         csvoutput.m_13624_(chunkpos.f_45578_, chunkpos.f_45579_, chunkholder.m_140093_(), optional.isPresent(), optional.map(ChunkAccess::m_6415_).orElse((ChunkStatus)null), optional1.map(LevelChunk::m_287138_).orElse((FullChunkStatus)null), m_140278_(chunkholder.m_140082_()), m_140278_(chunkholder.m_140026_()), m_140278_(chunkholder.m_140073_()), this.f_140145_.getTicketDebugString(chunkpos), this.m_183879_(chunkpos), optional1.map((p_214953_) -> {
+             return p_214953_.m_62954_().size();
+-         }).orElse(0), tickingtracker.m_184175_(i), tickingtracker.m_6172_(i), optional1.map((p_214946_) -> {
++         }).orElse(0), tickingtracker.getTicketDebugString(chunkpos), tickingtracker.getLevel(chunkpos), optional1.map((p_214946_) -> {
+             return p_214946_.m_183531_().m_183574_();
+          }).orElse(0), optional1.map((p_214937_) -> {
+             return p_214937_.m_183526_().m_183574_();
+@@ -945,9 +_,9 @@
+    }
+ 
+    private CompletableFuture<Optional<CompoundTag>> m_214963_(ChunkPos p_214964_) {
+-      return this.m_223454_(p_214964_).thenApplyAsync((p_214907_) -> {
++      return this.m_223454_(p_214964_).thenApply/*Async*/((p_214907_) -> {
+          return p_214907_.map(this::m_214947_);
+-      }, Util.m_183991_());
++      }/*, Util.backgroundExecutor()*/);
+    }
+ 
+    private CompoundTag m_214947_(CompoundTag p_214948_) {
+@@ -955,11 +_,10 @@
+    }
+ 
+    boolean m_183879_(ChunkPos p_183880_) {
+-      long i = p_183880_.m_45588_();
+-      if (!this.f_140145_.m_140847_(i)) {
++      if (!this.f_140145_.hasPlayersNearby(p_183880_)) {
+          return false;
+       } else {
+-         for(ServerPlayer serverplayer : this.f_140149_.m_183926_(i)) {
++         for(ServerPlayer serverplayer : this.f_140149_.getPlayers(p_183880_)) {
+             if (this.m_183751_(serverplayer, p_183880_)) {
+                return true;
+             }
+@@ -970,13 +_,12 @@
+    }
+ 
+    public List<ServerPlayer> m_183888_(ChunkPos p_183889_) {
+-      long i = p_183889_.m_45588_();
+-      if (!this.f_140145_.m_140847_(i)) {
++      if (!this.f_140145_.hasPlayersNearby(p_183889_)) {
+          return List.of();
+       } else {
+          ImmutableList.Builder<ServerPlayer> builder = ImmutableList.builder();
+ 
+-         for(ServerPlayer serverplayer : this.f_140149_.m_183926_(i)) {
++         for(ServerPlayer serverplayer : this.f_140149_.getPlayers(p_183889_)) {
+             if (this.m_183751_(serverplayer, p_183889_)) {
+                builder.add(serverplayer);
+             }
+@@ -1002,29 +_,32 @@
+    void m_140192_(ServerPlayer p_140193_, boolean p_140194_) {
+       boolean flag = this.m_140329_(p_140193_);
+       boolean flag1 = this.f_140149_.m_8260_(p_140193_);
+-      int i = SectionPos.m_123171_(p_140193_.m_146903_());
+-      int j = SectionPos.m_123171_(p_140193_.m_146907_());
++      long i = SectionPos.blockToSectionCoord(p_140193_.getBlockX());
++      long chunkY = SectionPos.blockToSectionCoord(p_140193_.getBlockY());
++      long j = SectionPos.blockToSectionCoord(p_140193_.getBlockZ());
+       if (p_140194_) {
+-         this.f_140149_.m_8252_(ChunkPos.m_45589_(i, j), p_140193_, flag);
++         this.f_140149_.addPlayer(new ChunkPos(i, chunkY, j), p_140193_, flag);
+          this.m_140373_(p_140193_);
+          if (!flag) {
+             this.f_140145_.m_140802_(SectionPos.m_235861_(p_140193_), p_140193_);
+          }
+       } else {
+          SectionPos sectionpos = p_140193_.m_8965_();
+-         this.f_140149_.m_8249_(sectionpos.m_123251_().m_45588_(), p_140193_);
++         this.f_140149_.removePlayer(sectionpos.m_123251_(), p_140193_);
+          if (!flag1) {
+             this.f_140145_.m_140828_(sectionpos, p_140193_);
+          }
+       }
+ 
+-      for(int l = i - this.f_140126_ - 1; l <= i + this.f_140126_ + 1; ++l) {
+-         for(int k = j - this.f_140126_ - 1; k <= j + this.f_140126_ + 1; ++k) {
+-            if (m_200878_(l, k, i, j, this.f_140126_)) {
+-               ChunkPos chunkpos = new ChunkPos(l, k);
++      for(long l = i - this.f_140126_ - 1; l <= i + this.f_140126_ + 1; ++l) {
++         for(long y = chunkY - this.f_140126_ - 1; y <= chunkY + this.f_140126_ + 1; ++y) {
++         for(long k = j - this.f_140126_ - 1; k <= j + this.f_140126_ + 1; ++k) {
++            if (isChunkInRange(l, y, k, i, chunkY, j, this.f_140126_)) {
++               ChunkPos chunkpos = new ChunkPos(l, y, k);
+                this.m_183754_(p_140193_, chunkpos, new MutableObject<>(), !p_140194_, p_140194_);
+             }
+          }
++         }
+       }
+ 
+    }
+@@ -1032,7 +_,7 @@
+    private SectionPos m_140373_(ServerPlayer p_140374_) {
+       SectionPos sectionpos = SectionPos.m_235861_(p_140374_);
+       p_140374_.m_9119_(sectionpos);
+-      p_140374_.f_8906_.m_9829_(new ClientboundSetChunkCacheCenterPacket(sectionpos.m_123170_(), sectionpos.m_123222_()));
++      p_140374_.f_8906_.m_9829_(new ClientboundSetChunkCacheCenterPacket(sectionpos.x(), sectionpos.y(), sectionpos.z()));
+       return sectionpos;
+    }
+ 
+@@ -1045,15 +_,16 @@
+          }
+       }
+ 
+-      int j2 = SectionPos.m_123171_(p_140185_.m_146903_());
+-      int k2 = SectionPos.m_123171_(p_140185_.m_146907_());
++      long j2 = SectionPos.blockToSectionCoord(p_140185_.getBlockX());
++      long chunkY = SectionPos.blockToSectionCoord(p_140185_.getBlockY());
++      long k2 = SectionPos.blockToSectionCoord(p_140185_.getBlockZ());
+       SectionPos sectionpos = p_140185_.m_8965_();
+       SectionPos sectionpos1 = SectionPos.m_235861_(p_140185_);
+-      long i = sectionpos.m_123251_().m_45588_();
+-      long j = sectionpos1.m_123251_().m_45588_();
++      ChunkPos i = sectionpos.m_123251_();
++      ChunkPos j = sectionpos1.m_123251_();
+       boolean flag = this.f_140149_.m_8262_(p_140185_);
+       boolean flag1 = this.m_140329_(p_140185_);
+-      boolean flag2 = sectionpos.m_123252_() != sectionpos1.m_123252_();
++      boolean flag2 = !sectionpos.equals(sectionpos1);
+       if (flag2 || flag != flag1) {
+          this.m_140373_(p_140185_);
+          if (!flag) {
+@@ -1072,45 +_,54 @@
+             this.f_140149_.m_8258_(p_140185_);
+          }
+ 
+-         if (i != j) {
+-            this.f_140149_.m_8245_(i, j, p_140185_);
++         if (!i.equals(j)) {
++            this.f_140149_.updatePlayer(i, j, p_140185_);
+          }
+       }
+ 
+-      int k = sectionpos.m_123170_();
+-      int l = sectionpos.m_123222_();
++      long k = sectionpos.x();
++      long y = sectionpos.y();
++      long l = sectionpos.z();
+       int i1 = this.f_140126_ + 1;
+-      if (Math.abs(k - j2) <= i1 * 2 && Math.abs(l - k2) <= i1 * 2) {
+-         int i3 = Math.min(j2, k) - i1;
+-         int k3 = Math.min(k2, l) - i1;
+-         int l3 = Math.max(j2, k) + i1;
+-         int i4 = Math.max(k2, l) + i1;
++      if (Math.abs(k - j2) <= i1 * 2 && Math.abs(y - chunkY) <= i1 * 2 && Math.abs(l - k2) <= i1 * 2) {
++         long i3 = Math.min(j2, k) - i1;
++         long minY = Math.min(chunkY, y) - i1;
++         long k3 = Math.min(k2, l) - i1;
++         long l3 = Math.max(j2, k) + i1;
++         long maxY = Math.max(chunkY, y) + i1;
++         long i4 = Math.max(k2, l) + i1;
+ 
+-         for(int l1 = i3; l1 <= l3; ++l1) {
+-            for(int i2 = k3; i2 <= i4; ++i2) {
+-               boolean flag5 = m_200878_(l1, i2, k, l, this.f_140126_);
+-               boolean flag6 = m_200878_(l1, i2, j2, k2, this.f_140126_);
+-               this.m_183754_(p_140185_, new ChunkPos(l1, i2), new MutableObject<>(), flag5, flag6);
++         for(long l1 = i3; l1 <= l3; ++l1) {
++            for(long y1 = minY; y1 <= maxY; ++y1) {
++            for(long i2 = k3; i2 <= i4; ++i2) {
++               boolean flag5 = isChunkInRange(l1, y1, i2, k, y, l, this.f_140126_);
++               boolean flag6 = isChunkInRange(l1, y1, i2, j2, chunkY, k2, this.f_140126_);
++               this.m_183754_(p_140185_, new ChunkPos(l1, y1, i2), new MutableObject<>(), flag5, flag6);
++            }
+             }
+          }
+       } else {
+-         for(int j1 = k - i1; j1 <= k + i1; ++j1) {
+-            for(int k1 = l - i1; k1 <= l + i1; ++k1) {
+-               if (m_200878_(j1, k1, k, l, this.f_140126_)) {
++         for(long j1 = k - i1; j1 <= k + i1; ++j1) {
++            for(long y1 = y - i1; y1 <= y + i1; ++y1) {
++            for(long k1 = l - i1; k1 <= l + i1; ++k1) {
++               if (isChunkInRange(j1, y1, k1, k, y, l, this.f_140126_)) {
+                   boolean flag3 = true;
+                   boolean flag4 = false;
+-                  this.m_183754_(p_140185_, new ChunkPos(j1, k1), new MutableObject<>(), true, false);
++                  this.m_183754_(p_140185_, new ChunkPos(j1, y1, k1), new MutableObject<>(), true, false);
+                }
+             }
++            }
+          }
+ 
+-         for(int l2 = j2 - i1; l2 <= j2 + i1; ++l2) {
+-            for(int j3 = k2 - i1; j3 <= k2 + i1; ++j3) {
+-               if (m_200878_(l2, j3, j2, k2, this.f_140126_)) {
++         for(long l2 = j2 - i1; l2 <= j2 + i1; ++l2) {
++            for(long y1 = chunkY - i1; y1 <= chunkY + i1; ++y1) {
++            for(long j3 = k2 - i1; j3 <= k2 + i1; ++j3) {
++               if (isChunkInRange(l2, y1, j3, j2, chunkY, k2, this.f_140126_)) {
+                   boolean flag7 = false;
+                   boolean flag8 = true;
+-                  this.m_183754_(p_140185_, new ChunkPos(l2, j3), new MutableObject<>(), false, true);
++                  this.m_183754_(p_140185_, new ChunkPos(l2, y1, j3), new MutableObject<>(), false, true);
+                }
++            }
+             }
+          }
+       }
+@@ -1118,12 +_,12 @@
+    }
+ 
+    public List<ServerPlayer> m_183262_(ChunkPos p_183801_, boolean p_183802_) {
+-      Set<ServerPlayer> set = this.f_140149_.m_183926_(p_183801_.m_45588_());
++      Set<ServerPlayer> set = this.f_140149_.getPlayers(p_183801_);
+       ImmutableList.Builder<ServerPlayer> builder = ImmutableList.builder();
+ 
+       for(ServerPlayer serverplayer : set) {
+          SectionPos sectionpos = serverplayer.m_8965_();
+-         if (p_183802_ && m_183828_(p_183801_.f_45578_, p_183801_.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), this.f_140126_) || !p_183802_ && m_200878_(p_183801_.f_45578_, p_183801_.f_45579_, sectionpos.m_123170_(), sectionpos.m_123222_(), this.f_140126_)) {
++         if (p_183802_ && isChunkOnRangeBorder(p_183801_.f_45578_, p_183801_.y, p_183801_.f_45579_, sectionpos.x(), sectionpos.y(), sectionpos.z(), this.f_140126_) || !p_183802_ && isChunkInRange(p_183801_.f_45578_, p_183801_.y, p_183801_.f_45579_, sectionpos.x(), sectionpos.y(), sectionpos.z(), this.f_140126_)) {
+             builder.add(serverplayer);
+          }
+       }
+@@ -1193,7 +_,7 @@
+             chunkmap$trackedentity.f_140474_ = sectionpos1;
+          }
+ 
+-         if (flag || this.f_140145_.m_183913_(sectionpos1.m_123251_().m_45588_())) {
++         if (flag || this.f_140145_.inEntityTickingRange(sectionpos1.m_123251_())) {
+             chunkmap$trackedentity.f_140471_.m_8533_();
+          }
+       }
+@@ -1231,7 +_,7 @@
+          if (chunkaccess instanceof LevelChunk levelchunk1) {
+             levelchunk = levelchunk1;
+          } else {
+-            levelchunk = this.f_140133_.m_6325_(chunkpos.f_45578_, chunkpos.f_45579_);
++            levelchunk = this.f_140133_.getChunk(chunkpos.f_45578_, chunkpos.y, chunkpos.f_45579_);
+          }
+ 
+          for(ServerPlayer serverplayer : this.m_183262_(chunkpos, false)) {
+@@ -1301,18 +_,18 @@
+          super(p_140459_, p_140460_);
+       }
+ 
+-      protected boolean m_7009_(long p_140462_) {
++      protected boolean isChunkToRemove(ChunkPos p_140462_) {
+          return ChunkMap.this.f_140139_.contains(p_140462_);
+       }
+ 
+       @Nullable
+-      protected ChunkHolder m_7316_(long p_140469_) {
+-         return ChunkMap.this.m_140174_(p_140469_);
++      protected ChunkHolder getChunk(ChunkPos p_140469_) {
++         return ChunkMap.this.getUpdatingChunkIfPresent(p_140469_);
+       }
+ 
+       @Nullable
+-      protected ChunkHolder m_7288_(long p_140464_, int p_140465_, @Nullable ChunkHolder p_140466_, int p_140467_) {
+-         return ChunkMap.this.m_140176_(p_140464_, p_140465_, p_140466_, p_140467_);
++      protected ChunkHolder updateChunkScheduling(ChunkPos p_140464_, int p_140465_, @Nullable ChunkHolder p_140466_, int p_140467_) {
++         return ChunkMap.this.updateChunkScheduling(p_140464_, p_140465_, p_140466_, p_140467_);
+       }
+    }
+ 
