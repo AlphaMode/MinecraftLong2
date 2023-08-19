@@ -42,10 +42,11 @@
 -         int j = p_27011_.m_123341_() + p_27010_.f_46441_.m_188503_(16) - 8;
 -         int k = p_27011_.m_123343_() + p_27010_.f_46441_.m_188503_(16) - 8;
 -         int l = p_27010_.m_6924_(Heightmap.Types.WORLD_SURFACE, j, k);
-+         long j = p_27011_.getX() + p_27010_.f_46441_.m_188503_(16) - 8;
-+         long k = p_27011_.getZ() + p_27010_.f_46441_.m_188503_(16) - 8;
+-         BlockPos blockpos = new BlockPos(j, l, k);
++         me.alphamode.mclong.math.BigInteger j = p_27011_.getBigX().add(p_27010_.f_46441_.m_188503_(16) - 8);
++         me.alphamode.mclong.math.BigInteger k = p_27011_.getBigZ().add(p_27010_.f_46441_.m_188503_(16) - 8);
 +         long l = p_27010_.getHeight(Heightmap.Types.WORLD_SURFACE, j, k);
-          BlockPos blockpos = new BlockPos(j, l, k);
++         BlockPos blockpos = new BlockPos(j, me.alphamode.mclong.math.BigInteger.valueOf(l), k);
           if (p_27010_.m_8802_(blockpos) && Monster.m_219013_(EntityType.f_20501_, p_27010_, MobSpawnType.EVENT, blockpos, p_27010_.f_46441_)) {
 -            return Vec3.m_82539_(blockpos);
 +            return Vec3.atBottomCenterOf(blockpos);

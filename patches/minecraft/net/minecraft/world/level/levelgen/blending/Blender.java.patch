@@ -55,7 +55,7 @@
 -                     BlendingData blendingdata = BlendingData.m_190304_(p_190203_, l, i1);
 +                     me.alphamode.mclong.math.BigInteger l = chunkpos.getX().add(j);
 +                     me.alphamode.mclong.math.BigInteger i1 = chunkpos.getZ().add(k);
-+                     BlendingData blendingdata = BlendingData.getOrUpdateBlendingData(p_190203_, l.longValue(), i1.longValue());
++                     BlendingData blendingdata = BlendingData.getOrUpdateBlendingData(p_190203_, l, i1);
                       if (blendingdata != null) {
 -                        long2objectopenhashmap.put(ChunkPos.m_45589_(l, i1), blendingdata);
 +                        long2objectopenhashmap.put(new ChunkPos(l, i1), blendingdata);
@@ -251,7 +251,7 @@
  
           for(Direction direction : Direction.Plane.HORIZONTAL) {
 -            if (p_197032_.m_6325_(chunkpos.f_45578_ + direction.m_122429_(), chunkpos.f_45579_ + direction.m_122431_()).m_187675_() != flag) {
-+            if (p_197032_.getChunk(chunkpos.x() + direction.m_122429_(), chunkpos.z() + direction.m_122431_()).m_187675_() != flag) {
++            if (p_197032_.getChunk(chunkpos.getX().add(direction.m_122429_()), chunkpos.getZ().add(direction.m_122431_())).m_187675_() != flag) {
                 int i1 = direction == Direction.EAST ? 15 : 0;
                 int j1 = direction == Direction.WEST ? 0 : 15;
                 int k1 = direction == Direction.SOUTH ? 15 : 0;
@@ -276,8 +276,8 @@
 -         int i = chunkpos.f_45578_ + direction8.m_235697_();
 -         int j = chunkpos.f_45579_ + direction8.m_235698_();
 -         BlendingData blendingdata = p_197035_.m_6325_(i, j).m_183407_();
-+         long i = chunkpos.x() + direction8.m_235697_();
-+         long j = chunkpos.z() + direction8.m_235698_();
++         me.alphamode.mclong.math.BigInteger i = chunkpos.getX().add(direction8.m_235697_());
++         me.alphamode.mclong.math.BigInteger j = chunkpos.getZ().add(direction8.m_235698_());
 +         BlendingData blendingdata = p_197035_.getChunk(i, j).m_183407_();
           if (blendingdata != null) {
              builder.put(direction8, blendingdata);

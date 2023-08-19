@@ -12,12 +12,12 @@
 -      int j1 = SectionPos.m_123171_(blockpos.m_123342_() + i);
 -      int k1 = SectionPos.m_123171_(blockpos.m_123343_() + i);
 +      BlockPos blockpos = BlockPos.containing(p_250613_);
-+      long j = SectionPos.blockToSectionCoord(blockpos.getX() - i);
-+      long k = SectionPos.blockToSectionCoord(blockpos.getY() - i);
-+      long l = SectionPos.blockToSectionCoord(blockpos.getZ() - i);
-+      long i1 = SectionPos.blockToSectionCoord(blockpos.getX() + i);
-+      long j1 = SectionPos.blockToSectionCoord(blockpos.getY() + i);
-+      long k1 = SectionPos.blockToSectionCoord(blockpos.getZ() + i);
++      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(blockpos.getBigX().subtract(i));
++      me.alphamode.mclong.math.BigInteger k = SectionPos.blockToSectionCoord(blockpos.getBigY().subtract(i));
++      me.alphamode.mclong.math.BigInteger l = SectionPos.blockToSectionCoord(blockpos.getBigZ().subtract(i));
++      me.alphamode.mclong.math.BigInteger i1 = SectionPos.blockToSectionCoord(blockpos.getBigX().add(i));
++      me.alphamode.mclong.math.BigInteger j1 = SectionPos.blockToSectionCoord(blockpos.getBigY().add(i));
++      me.alphamode.mclong.math.BigInteger k1 = SectionPos.blockToSectionCoord(blockpos.getBigZ().add(i));
        List<GameEvent.ListenerInfo> list = new ArrayList<>();
        GameEventListenerRegistry.ListenerVisitor gameeventlistenerregistry$listenervisitor = (p_251272_, p_248685_) -> {
           if (p_251272_.m_247514_() == GameEventListener.DeliveryMode.BY_DISTANCE) {
@@ -28,14 +28,14 @@
 -      for(int l1 = j; l1 <= i1; ++l1) {
 -         for(int i2 = l; i2 <= k1; ++i2) {
 -            ChunkAccess chunkaccess = this.f_243917_.m_7726_().m_7131_(l1, i2);
-+      for(long l1 = j; l1 <= i1; ++l1) {
-+         for(long i2 = l; i2 <= k1; ++i2) {
++      for(me.alphamode.mclong.math.BigInteger l1 = j; l1.compareTo(i1) <= 0; l1 = l1.add()) {
++         for(me.alphamode.mclong.math.BigInteger i2 = l; i2.compareTo(k1) <= 0; i2 = i2.add()) {
 +            ChunkAccess chunkaccess = this.f_243917_.m_7726_().getChunkNow(l1, i2);
              if (chunkaccess != null) {
 -               for(int j2 = k; j2 <= j1; ++j2) {
 -                  flag |= chunkaccess.m_246686_(j2).m_245521_(p_251754_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
-+               for(long j2 = k; j2 <= j1; ++j2) {
-+                  flag |= chunkaccess.getListenerRegistry(j2).m_245521_(p_251754_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
++               for(me.alphamode.mclong.math.BigInteger j2 = k; j2.compareTo(j1) <= 0; j2 = j2.add()) {
++                  flag |= chunkaccess.getListenerRegistry(j2.longValue()).m_245521_(p_251754_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
                 }
              }
           }

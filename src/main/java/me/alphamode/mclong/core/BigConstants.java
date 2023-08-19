@@ -48,6 +48,7 @@ public class BigConstants {
         public static final BigInteger EIGHT = BigInteger.valueOf(8);
         public static final BigInteger THREE = BigInteger.valueOf(3);
         public static final BigInteger TWELVE = BigInteger.valueOf(12);
+        public static final BigInteger TEN = BigInteger.valueOf(10);
         public static boolean BIG_MODE = true;
         public static final BigInteger FIFTEEN = BigInteger.valueOf(15);
         public static final BigInteger SIXTEEN = BigInteger.valueOf(15);

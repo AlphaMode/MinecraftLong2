@@ -6,11 +6,11 @@
  public class ClientboundForgetLevelChunkPacket implements Packet<ClientGamePacketListener> {
 -   private final int f_132137_;
 -   private final int f_132138_;
-+   private final long f_132137_;
-+   private final long f_132138_;
++   private final me.alphamode.mclong.math.BigInteger f_132137_;
++   private final me.alphamode.mclong.math.BigInteger f_132138_;
  
 -   public ClientboundForgetLevelChunkPacket(int p_132141_, int p_132142_) {
-+   public ClientboundForgetLevelChunkPacket(long p_132141_, long p_132142_) {
++   public ClientboundForgetLevelChunkPacket(me.alphamode.mclong.math.BigInteger p_132141_, me.alphamode.mclong.math.BigInteger p_132142_) {
        this.f_132137_ = p_132141_;
        this.f_132138_ = p_132142_;
     }
@@ -18,15 +18,15 @@
     public ClientboundForgetLevelChunkPacket(FriendlyByteBuf p_178858_) {
 -      this.f_132137_ = p_178858_.readInt();
 -      this.f_132138_ = p_178858_.readInt();
-+      this.f_132137_ = p_178858_.readLong();
-+      this.f_132138_ = p_178858_.readLong();
++      this.f_132137_ = new me.alphamode.mclong.math.BigInteger(p_178858_.m_130277_());
++      this.f_132138_ = new me.alphamode.mclong.math.BigInteger(p_178858_.m_130277_());
     }
  
     public void m_5779_(FriendlyByteBuf p_132151_) {
 -      p_132151_.writeInt(this.f_132137_);
 -      p_132151_.writeInt(this.f_132138_);
-+      p_132151_.writeLong(this.f_132137_);
-+      p_132151_.writeLong(this.f_132138_);
++      p_132151_.m_130070_(this.f_132137_.toString());
++      p_132151_.m_130070_(this.f_132138_.toString());
     }
  
     public void m_5797_(ClientGamePacketListener p_132148_) {
@@ -34,12 +34,12 @@
     }
  
 -   public int m_132149_() {
-+   public long getX() {
++   public me.alphamode.mclong.math.BigInteger getX() {
        return this.f_132137_;
     }
  
 -   public int m_132152_() {
-+   public long getZ() {
++   public me.alphamode.mclong.math.BigInteger getZ() {
        return this.f_132138_;
     }
  }

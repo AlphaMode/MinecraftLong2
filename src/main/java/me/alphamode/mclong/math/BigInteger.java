@@ -155,6 +155,12 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         return new BigInteger(this.longBacking - val.longBacking);
     }
 
+    public BigInteger subtract() {
+        if (BigConstants.Ints.BIG_MODE)
+            return new BigInteger(this.backing.subtract(java.math.BigInteger.ONE));
+        return new BigInteger(this.longBacking - 1);
+    }
+
     public BigInteger subtract(long val) {
         if (BigConstants.Ints.BIG_MODE)
             return new BigInteger(this.backing.subtract(java.math.BigInteger.valueOf(val)));

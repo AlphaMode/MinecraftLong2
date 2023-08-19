@@ -6,8 +6,8 @@
  public class ClientboundLevelChunkWithLightPacket implements Packet<ClientGamePacketListener> {
 -   private final int f_195699_;
 -   private final int f_195700_;
-+   private final long f_195699_;
-+   private final long f_195700_;
++   private final me.alphamode.mclong.math.BigInteger f_195699_;
++   private final me.alphamode.mclong.math.BigInteger f_195700_;
     private final ClientboundLevelChunkPacketData f_195701_;
     private final ClientboundLightUpdatePacketData f_195702_;
  
@@ -15,8 +15,8 @@
        ChunkPos chunkpos = p_285290_.m_7697_();
 -      this.f_195699_ = chunkpos.f_45578_;
 -      this.f_195700_ = chunkpos.f_45579_;
-+      this.f_195699_ = chunkpos.x();
-+      this.f_195700_ = chunkpos.z();
++      this.f_195699_ = chunkpos.getX();
++      this.f_195700_ = chunkpos.getZ();
        this.f_195701_ = new ClientboundLevelChunkPacketData(p_285290_);
        this.f_195702_ = new ClientboundLightUpdatePacketData(chunkpos, p_285254_, p_285350_, p_285304_);
     }
@@ -24,8 +24,8 @@
     public ClientboundLevelChunkWithLightPacket(FriendlyByteBuf p_195710_) {
 -      this.f_195699_ = p_195710_.readInt();
 -      this.f_195700_ = p_195710_.readInt();
-+      this.f_195699_ = p_195710_.readLong();
-+      this.f_195700_ = p_195710_.readLong();
++      this.f_195699_ = new me.alphamode.mclong.math.BigInteger(p_195710_.m_130277_());
++      this.f_195700_ = new me.alphamode.mclong.math.BigInteger(p_195710_.m_130277_());
        this.f_195701_ = new ClientboundLevelChunkPacketData(p_195710_, this.f_195699_, this.f_195700_);
        this.f_195702_ = new ClientboundLightUpdatePacketData(p_195710_, this.f_195699_, this.f_195700_);
     }
@@ -33,8 +33,8 @@
     public void m_5779_(FriendlyByteBuf p_195712_) {
 -      p_195712_.writeInt(this.f_195699_);
 -      p_195712_.writeInt(this.f_195700_);
-+      p_195712_.writeLong(this.f_195699_);
-+      p_195712_.writeLong(this.f_195700_);
++      p_195712_.m_130070_(this.f_195699_.toString());
++      p_195712_.m_130070_(this.f_195700_.toString());
        this.f_195701_.m_195666_(p_195712_);
        this.f_195702_.m_195749_(p_195712_);
     }
@@ -43,12 +43,12 @@
     }
  
 -   public int m_195717_() {
-+   public long getX() {
++   public me.alphamode.mclong.math.BigInteger getX() {
        return this.f_195699_;
     }
  
 -   public int m_195718_() {
-+   public long getZ() {
++   public me.alphamode.mclong.math.BigInteger getZ() {
        return this.f_195700_;
     }
  

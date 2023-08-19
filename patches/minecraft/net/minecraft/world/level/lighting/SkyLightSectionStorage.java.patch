@@ -26,13 +26,13 @@
 +      long j = i.y();
        SkyLightSectionStorage.SkyDataLayerStorageMap skylightsectionstorage$skydatalayerstoragemap = p_164459_ ? this.f_75732_ : this.f_75731_;
 -      int k = skylightsectionstorage$skydatalayerstoragemap.f_75901_.get(SectionPos.m_123240_(i));
-+      long k = skylightsectionstorage$skydatalayerstoragemap.f_75901_.getLong(SectionPos.getZeroNode(i.x(), i.z()));
++      long k = skylightsectionstorage$skydatalayerstoragemap.f_75901_.getLong(SectionPos.getZeroNode(i.getBigX(), i.getBigZ()));
        if (k != skylightsectionstorage$skydatalayerstoragemap.f_75900_ && j < k) {
 -         DataLayer datalayer = this.m_75761_(skylightsectionstorage$skydatalayerstoragemap, i);
 +         DataLayer datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i);
           if (datalayer == null) {
 -            for(p_164458_ = BlockPos.m_122027_(p_164458_); datalayer == null; datalayer = this.m_75761_(skylightsectionstorage$skydatalayerstoragemap, i)) {
-+            for(p_164458_ = new BlockPos(p_164458_.getX(), 0, p_164458_.getZ()); datalayer == null; datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i)) {
++            for(p_164458_ = new BlockPos(p_164458_.getBigX(), me.alphamode.mclong.math.BigInteger.ZERO, p_164458_.getBigZ()); datalayer == null; datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i)) {
                 ++j;
                 if (j >= k) {
                    return 15;
@@ -62,7 +62,7 @@
  
 -      long j = SectionPos.m_123240_(p_75885_);
 -      int k = (this.f_75732_).f_75901_.get(j);
-+      SectionPos j = SectionPos.getZeroNode(p_75885_.x(), p_75885_.z());
++      SectionPos j = SectionPos.getZeroNode(p_75885_.getBigX(), p_75885_.getBigZ());
 +      long k = (this.f_75732_).f_75901_.getLong(j);
        if (k < i + 1) {
           (this.f_75732_).f_75901_.put(j, i + 1);
@@ -77,7 +77,7 @@
 -         long k;
 -         for(k = p_75887_; !this.m_75791_(k) && this.m_75870_(j); k = SectionPos.m_123191_(k, Direction.DOWN)) {
 +   protected void onNodeRemoved(SectionPos p_75887_) {
-+      SectionPos i = SectionPos.getZeroNode(p_75887_.x(), p_75887_.z());
++      SectionPos i = SectionPos.getZeroNode(p_75887_.getBigX(), p_75887_.getBigZ());
 +      long j = p_75887_.y();
 +      if ((this.f_75732_).f_75901_.getLong(i) == j + 1) {
 +         SectionPos k;
@@ -104,7 +104,7 @@
        } else {
 -         int i = (this.f_75732_).f_75901_.get(SectionPos.m_123240_(p_75883_));
 -         if (i != (this.f_75732_).f_75900_ && SectionPos.m_123225_(p_75883_) < i) {
-+         long i = (this.f_75732_).f_75901_.getLong(SectionPos.getZeroNode(p_75883_.x(), p_75883_.z()));
++         long i = (this.f_75732_).f_75901_.getLong(SectionPos.getZeroNode(p_75883_.getBigX(), p_75883_.getBigZ()));
 +         if (i != (this.f_75732_).f_75900_ && p_75883_.y() < i) {
              DataLayer datalayer1;
 -            for(long j = SectionPos.m_123191_(p_75883_, Direction.UP); (datalayer1 = this.m_75758_(j, true)) == null; j = SectionPos.m_123191_(j, Direction.UP)) {
@@ -139,7 +139,7 @@
 -
 -   protected int m_284293_() {
 +   protected boolean isAboveData(SectionPos p_75891_) {
-+      SectionPos i = SectionPos.getZeroNode(p_75891_.x(), p_75891_.z());
++      SectionPos i = SectionPos.getZeroNode(p_75891_.getBigX(), p_75891_.getBigZ());
 +      long j = (this.f_75732_).f_75901_.getLong(i);
 +      return j == (this.f_75732_).f_75900_ || p_75891_.y() >= j;
 +   }

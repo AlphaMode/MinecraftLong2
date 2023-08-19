@@ -42,7 +42,7 @@
 +   }
 +
 +   public BlockPos(me.alphamode.mclong.core.Vec3l p_121877_) {
-+      this(p_121877_.getX(), p_121877_.getY(), p_121877_.getZ());
++      this(p_121877_.getBigX(), p_121877_.getBigY(), p_121877_.getBigZ());
     }
  
     public static long m_121915_(long p_121916_, Direction p_121917_) {
@@ -265,11 +265,11 @@
 +   }
 +
 +   public BlockPos relative(Direction p_121946_) {
-+      return new BlockPos(this.getX() + p_121946_.m_122429_(), this.getY() + p_121946_.m_122430_(), this.getZ() + p_121946_.m_122431_());
++      return new BlockPos(this.getBigX().add(p_121946_.m_122429_()), this.getBigY().add(p_121946_.m_122430_()), this.getBigZ().add(p_121946_.m_122431_()));
 +   }
 +
 +   public BlockPos relative(Direction p_121948_, long p_121949_) {
-+      return p_121949_ == 0 ? this : new BlockPos(this.getX() + p_121948_.m_122429_() * p_121949_, this.getY() + p_121948_.m_122430_() * p_121949_, this.getZ() + p_121948_.m_122431_() * p_121949_);
++      return p_121949_ == 0 ? this : new BlockPos(this.getBigX().add(p_121948_.m_122429_() * p_121949_), this.getBigY().add(p_121948_.m_122430_() * p_121949_), this.getBigZ().add(p_121948_.m_122431_() * p_121949_));
 +   }
 +
 +   public BlockPos relative(Direction.Axis p_121943_, long p_121944_) {
@@ -283,7 +283,7 @@
 +         long i = p_121943_ == Direction.Axis.X ? p_121944_ : 0;
 +         long j = p_121943_ == Direction.Axis.Y ? p_121944_ : 0;
 +         long k = p_121943_ == Direction.Axis.Z ? p_121944_ : 0;
-+         return new BlockPos(this.getX() + i, this.getY() + j, this.getZ() + k);
++         return new BlockPos(this.getBigX().add(i), this.getBigY().add(j), this.getBigZ().add(k));
        }
     }
  
@@ -292,13 +292,13 @@
              return this;
           case CLOCKWISE_90:
 -            return new BlockPos(-this.m_123343_(), this.m_123342_(), this.m_123341_());
-+            return new BlockPos(-this.getZ(), this.getY(), this.getX());
++            return new BlockPos(this.getBigZ().negate(), this.getBigY(), this.getBigX());
           case CLOCKWISE_180:
 -            return new BlockPos(-this.m_123341_(), this.m_123342_(), -this.m_123343_());
-+            return new BlockPos(-this.getX(), this.getY(), -this.getZ());
++            return new BlockPos(this.getBigX().negate(), this.getBigY(), this.getBigZ().negate());
           case COUNTERCLOCKWISE_90:
 -            return new BlockPos(this.m_123343_(), this.m_123342_(), -this.m_123341_());
-+            return new BlockPos(this.getZ(), this.getY(), -this.getX());
++            return new BlockPos(this.getBigZ(), this.getBigY(), this.getBigX().negate());
        }
     }
  
@@ -311,7 +311,7 @@
 -   public BlockPos m_175288_(int p_175289_) {
 -      return new BlockPos(this.m_123341_(), p_175289_, this.m_123343_());
 +   public BlockPos atY(long p_175289_) {
-+      return new BlockPos(this.getX(), p_175289_, this.getZ());
++      return new BlockPos(this.getBigX(), me.alphamode.mclong.math.BigInteger.valueOf(p_175289_), this.getBigZ());
     }
  
     public BlockPos m_7949_() {
@@ -320,7 +320,7 @@
  
     public BlockPos.MutableBlockPos m_122032_() {
 -      return new BlockPos.MutableBlockPos(this.m_123341_(), this.m_123342_(), this.m_123343_());
-+      return new BlockPos.MutableBlockPos(this.getX(), this.getY(), this.getZ());
++      return new BlockPos.MutableBlockPos(this.getBigX(), this.getBigY(), this.getBigZ());
     }
  
     public static Iterable<BlockPos> m_235650_(RandomSource p_235651_, int p_235652_, BlockPos p_235653_, int p_235654_) {

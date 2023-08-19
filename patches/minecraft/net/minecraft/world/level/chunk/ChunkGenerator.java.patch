@@ -15,8 +15,8 @@
           if (!list.isEmpty()) {
 -            int i = SectionPos.m_123171_(p_223040_.m_123341_());
 -            int j = SectionPos.m_123171_(p_223040_.m_123343_());
-+            long i = SectionPos.blockToSectionCoord(p_223040_.getX());
-+            long j = SectionPos.blockToSectionCoord(p_223040_.getZ());
++            long i = SectionPos.blockToSectionCoord(p_223040_.getBigX()).longValue();
++            long j = SectionPos.blockToSectionCoord(p_223040_.getBigZ()).longValue();
  
              for(int k = 0; k <= p_223041_; ++k) {
                 boolean flag = false;
@@ -70,7 +70,7 @@
              }
  
 -            ChunkAccess chunkaccess = p_223200_.m_46819_(p_223204_.f_45578_, p_223204_.f_45579_, ChunkStatus.f_62315_);
-+            ChunkAccess chunkaccess = p_223200_.getChunk(p_223204_.x(), p_223204_.z(), ChunkStatus.f_62315_);
++            ChunkAccess chunkaccess = p_223200_.getChunk(p_223204_.getX(), p_223204_.getZ(), ChunkStatus.f_62315_);
              StructureStart structurestart = p_223201_.m_220512_(SectionPos.m_175562_(chunkaccess), holder.m_203334_(), chunkaccess);
              if (structurestart != null && structurestart.m_73603_() && (!p_223202_ || m_223059_(p_223201_, structurestart))) {
                 return Pair.of(p_223203_.m_227039_(structurestart.m_163625_()), holder);
@@ -92,7 +92,7 @@
           Set<Holder<Biome>> set = new ObjectArraySet<>();
           ChunkPos.m_45596_(sectionpos.m_123251_(), 1).forEach((p_223093_) -> {
 -            ChunkAccess chunkaccess = p_223087_.m_6325_(p_223093_.f_45578_, p_223093_.f_45579_);
-+            ChunkAccess chunkaccess = p_223087_.getChunk(p_223093_.x(), p_223093_.z());
++            ChunkAccess chunkaccess = p_223087_.getChunk(p_223093_.getX(), p_223093_.getZ());
  
              for(LevelChunkSection levelchunksection : chunkaccess.m_7103_()) {
                 levelchunksection.m_187996_().m_196879_(set::add);
@@ -183,17 +183,17 @@
 -      int k = chunkpos.f_45579_;
 -      int l = chunkpos.m_45604_();
 -      int i1 = chunkpos.m_45605_();
-+      long j = chunkpos.x();
-+      long k = chunkpos.z();
-+      long l = chunkpos.getMinBlockX();
-+      long i1 = chunkpos.getMinBlockZ();
++      me.alphamode.mclong.math.BigInteger j = chunkpos.getX();
++      me.alphamode.mclong.math.BigInteger k = chunkpos.getZ();
++      me.alphamode.mclong.math.BigInteger l = chunkpos.getMinBigBlockX();
++      me.alphamode.mclong.math.BigInteger i1 = chunkpos.getMinBigBlockZ();
        SectionPos sectionpos = SectionPos.m_175562_(p_223079_);
  
 -      for(int j1 = j - 8; j1 <= j + 8; ++j1) {
 -         for(int k1 = k - 8; k1 <= k + 8; ++k1) {
 -            long l1 = ChunkPos.m_45589_(j1, k1);
-+      for(long j1 = j - 8; j1 <= j + 8; ++j1) {
-+         for(long k1 = k - 8; k1 <= k + 8; ++k1) {
++      for(me.alphamode.mclong.math.BigInteger j1 = j.subtract(me.alphamode.mclong.core.BigConstants.Ints.EIGHT); j1.compareTo(j.add(me.alphamode.mclong.core.BigConstants.Ints.EIGHT)) <= 0; j1 = j1.add()) {
++         for(me.alphamode.mclong.math.BigInteger k1 = k.subtract(me.alphamode.mclong.core.BigConstants.Ints.EIGHT); k1.compareTo(k.add(me.alphamode.mclong.core.BigConstants.Ints.EIGHT)) <= 0; k1 = k1.add()) {
 +            ChunkPos l1 = new ChunkPos(j1, k1);
  
 -            for(StructureStart structurestart : p_223077_.m_6325_(j1, k1).m_6633_().values()) {
@@ -201,7 +201,7 @@
                 try {
 -                  if (structurestart.m_73603_() && structurestart.m_73601_().m_71019_(l, i1, l + 15, i1 + 15)) {
 -                     p_223078_.m_220507_(sectionpos, structurestart.m_226861_(), l1, p_223079_);
-+                  if (structurestart.m_73603_() && structurestart.m_73601_().intersects(l, i1, l + 15, i1 + 15)) {
++                  if (structurestart.m_73603_() && structurestart.m_73601_().intersects(l, i1, l.add(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), i1.add(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN))) {
 +                     p_223078_.addReferenceForStructure(sectionpos, structurestart.m_226861_(), l1, p_223079_);
                       DebugPackets.m_133711_(p_223077_, structurestart);
                    }

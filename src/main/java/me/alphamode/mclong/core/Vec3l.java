@@ -64,12 +64,12 @@ public class Vec3l implements Comparable<Vec3l> {
             return false;
         } else {
             Vec3l vec3l = (Vec3l) p_123327_;
-            if (this.getX() != vec3l.getX()) {
+            if (!this.getBigX().equals(vec3l.getBigX())) {
                 return false;
-            } else if (this.getY() != vec3l.getY()) {
+            } else if (!this.getBigY().equals(vec3l.getBigY())) {
                 return false;
             } else {
-                return this.getZ() == vec3l.getZ();
+                return this.getBigZ().equals(vec3l.getBigZ());
             }
         }
     }
@@ -79,8 +79,8 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public int compareTo(Vec3l p_123330_) {
-        if (this.getY() == p_123330_.getY()) {
-            return (int) (this.getZ() == p_123330_.getZ() ? this.getX() - p_123330_.getX() : this.getZ() - p_123330_.getZ());
+        if (this.getBigY().equals(p_123330_.getBigY())) {
+            return (int) (this.getBigZ().equals(p_123330_.getBigZ()) ? this.getBigX().subtract(p_123330_.getBigX()) : this.getBigZ().subtract(p_123330_.getBigZ())).intValue();
         } else {
             return (int) (this.getY() - p_123330_.getY());
         }
@@ -157,22 +157,26 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public Vec3l offset(long p_175593_, long p_175594_, long p_175595_) {
-        return p_175593_ == 0 && p_175594_ == 0 && p_175595_ == 0 ? this : new Vec3l(this.getX() + p_175593_, this.getY() + p_175594_, this.getZ() + p_175595_);
+        return p_175593_ == 0 && p_175594_ == 0 && p_175595_ == 0 ? this : new Vec3l(this.getBigX().add(p_175593_), this.getBigY().add(p_175594_), this.getBigZ().add(p_175595_));
+    }
+
+    public Vec3l offset(me.alphamode.mclong.math.BigInteger x, me.alphamode.mclong.math.BigInteger y, me.alphamode.mclong.math.BigInteger z) {
+        return x.equals(me.alphamode.mclong.math.BigInteger.ZERO) && y.equals(me.alphamode.mclong.math.BigInteger.ZERO) && z.equals(me.alphamode.mclong.math.BigInteger.ZERO) ? this : new Vec3l(this.getBigX().add(x), this.getBigY().add(y), this.getBigZ().add(z));
     }
 
     public Vec3l offset(Vec3l p_175597_) {
-        return this.offset(p_175597_.getX(), p_175597_.getY(), p_175597_.getZ());
+        return this.offset(p_175597_.getBigX(), p_175597_.getBigY(), p_175597_.getBigZ());
     }
 
     public Vec3l subtract(Vec3l p_175596_) {
-        return this.offset(-p_175596_.getX(), -p_175596_.getY(), -p_175596_.getZ());
+        return this.offset(p_175596_.getBigX().negate(), p_175596_.getBigY().negate(), p_175596_.getBigZ().negate());
     }
 
     public Vec3l multiply(int p_175602_) {
         if (p_175602_ == 1) {
             return this;
         } else {
-            return p_175602_ == 0 ? ZERO : new Vec3l(this.getX() * p_175602_, this.getY() * p_175602_, this.getZ() * p_175602_);
+            return p_175602_ == 0 ? ZERO : new Vec3l(this.getBigX().multiply(p_175602_), this.getBigY().multiply(p_175602_), this.getBigZ().multiply(p_175602_));
         }
     }
 
@@ -229,7 +233,7 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public Vec3l relative(Direction p_123321_, long p_123322_) {
-        return p_123322_ == 0 ? this : new Vec3l(this.getX() + p_123321_.getStepX() * p_123322_, this.getY() + p_123321_.getStepY() * p_123322_, this.getZ() + p_123321_.getStepZ() * p_123322_);
+        return p_123322_ == 0 ? this : new Vec3l(this.getBigX().add(p_123321_.getStepX() * p_123322_), this.getBigY().add(p_123321_.getStepY() * p_123322_), this.getBigZ().add(p_123321_.getStepZ() * p_123322_));
     }
 
     public Vec3l relative(Direction.Axis p_175590_, long p_175591_) {
@@ -239,7 +243,7 @@ public class Vec3l implements Comparable<Vec3l> {
             long i = p_175590_ == Direction.Axis.X ? p_175591_ : 0;
             long j = p_175590_ == Direction.Axis.Y ? p_175591_ : 0;
             long k = p_175590_ == Direction.Axis.Z ? p_175591_ : 0;
-            return new Vec3l(this.getX() + i, this.getY() + j, this.getZ() + k);
+            return new Vec3l(this.getBigX().add(i), this.getBigY().add(j), this.getBigZ().add(k));
         }
     }
 
@@ -270,13 +274,6 @@ public class Vec3l implements Comparable<Vec3l> {
         return d0 * d0 + d1 * d1 + d2 * d2;
     }
 
-    public double distToLowCornerSqr(double p_203203_, double p_203204_, double p_203205_) {
-        double d0 = (double) this.getX() - p_203203_;
-        double d1 = (double) this.getY() - p_203204_;
-        double d2 = (double) this.getZ() - p_203205_;
-        return d0 * d0 + d1 * d1 + d2 * d2;
-    }
-
     public double distToLowCornerSqr(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {
         double d0 = this.getBigDecX().subtract(x).doubleValue();
         double d1 = this.getBigDecY().subtract(y).doubleValue();
@@ -285,21 +282,21 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public int distManhattan(Vec3l p_123334_) {
-        float f = (float) Math.abs(p_123334_.getX() - this.getX());
-        float f1 = (float) Math.abs(p_123334_.getY() - this.getY());
-        float f2 = (float) Math.abs(p_123334_.getZ() - this.getZ());
+        float f = (float) p_123334_.getBigX().subtract(this.getBigX()).abs().floatValue();
+        float f1 = (float) p_123334_.getBigY().subtract(this.getBigY()).abs().floatValue();
+        float f2 = (float) p_123334_.getBigZ().subtract(this.getBigZ()).abs().floatValue();
         return (int) (f + f1 + f2);
     }
 
     public long get(Direction.Axis p_123305_) {
-        return 0;//p_123305_.choose(this.x, this.y, this.z);
+        return p_123305_.choose(this.x, this.y, this.z).longValue();
     }
 
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("x", this.getX()).add("y", this.getY()).add("z", this.getZ()).toString();
+        return MoreObjects.toStringHelper(this).add("x", this.getBigX()).add("y", this.getBigY()).add("z", this.getBigZ()).toString();
     }
 
     public String toShortString() {
-        return this.getX() + ", " + this.getY() + ", " + this.getZ();
+        return this.getBigX() + ", " + this.getBigY() + ", " + this.getBigZ();
     }
 }

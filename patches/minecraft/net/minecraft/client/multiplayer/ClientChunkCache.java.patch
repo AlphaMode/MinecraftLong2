@@ -5,20 +5,20 @@
     }
  
 -   private static boolean m_104438_(@Nullable LevelChunk p_104439_, int p_104440_, int p_104441_) {
-+   private static boolean isValidChunk(@Nullable LevelChunk p_104439_, long p_104440_, long p_104441_) {
++   private static boolean isValidChunk(@Nullable LevelChunk p_104439_, me.alphamode.mclong.math.BigInteger p_104440_, me.alphamode.mclong.math.BigInteger p_104441_) {
        if (p_104439_ == null) {
           return false;
        } else {
           ChunkPos chunkpos = p_104439_.m_7697_();
 -         return chunkpos.f_45578_ == p_104440_ && chunkpos.f_45579_ == p_104441_;
-+         return chunkpos.x() == p_104440_ && chunkpos.z() == p_104441_;
++         return chunkpos.getX().equals(p_104440_) && chunkpos.getZ().equals(p_104441_);
        }
     }
  
 -   public void m_104455_(int p_104456_, int p_104457_) {
 -      if (this.f_104410_.m_104500_(p_104456_, p_104457_)) {
 -         int i = this.f_104410_.m_104481_(p_104456_, p_104457_);
-+   public void drop(long p_104456_, long p_104457_) {
++   public void drop(me.alphamode.mclong.math.BigInteger p_104456_, me.alphamode.mclong.math.BigInteger p_104457_) {
 +      if (this.f_104410_.inRange(p_104456_, p_104457_)) {
 +         int i = this.f_104410_.getIndex(p_104456_, p_104457_);
           LevelChunk levelchunk = this.f_104410_.m_104479_(i);
@@ -35,7 +35,7 @@
 -      if (this.f_104410_.m_104500_(p_104451_, p_104452_)) {
 -         LevelChunk levelchunk = this.f_104410_.m_104479_(this.f_104410_.m_104481_(p_104451_, p_104452_));
 -         if (m_104438_(levelchunk, p_104451_, p_104452_)) {
-+   public LevelChunk getChunk(long p_104451_, long p_104452_, ChunkStatus p_104453_, boolean p_104454_) {
++   public LevelChunk getChunk(me.alphamode.mclong.math.BigInteger p_104451_, me.alphamode.mclong.math.BigInteger p_104452_, ChunkStatus p_104453_, boolean p_104454_) {
 +      if (this.f_104410_.inRange(p_104451_, p_104452_)) {
 +         LevelChunk levelchunk = this.f_104410_.m_104479_(this.f_104410_.getIndex(p_104451_, p_104452_));
 +         if (isValidChunk(levelchunk, p_104451_, p_104452_)) {
@@ -48,7 +48,7 @@
  
 -   public void m_274444_(int p_275374_, int p_275226_, FriendlyByteBuf p_275745_) {
 -      if (!this.f_104410_.m_104500_(p_275374_, p_275226_)) {
-+   public void replaceBiomes(long p_275374_, long p_275226_, FriendlyByteBuf p_275745_) {
++   public void replaceBiomes(me.alphamode.mclong.math.BigInteger p_275374_, me.alphamode.mclong.math.BigInteger p_275226_, FriendlyByteBuf p_275745_) {
 +      if (!this.f_104410_.inRange(p_275374_, p_275226_)) {
           f_104407_.warn("Ignoring chunk since it's not in the view range: {}, {}", p_275374_, p_275226_);
        } else {
@@ -66,7 +66,7 @@
     @Nullable
 -   public LevelChunk m_194116_(int p_194117_, int p_194118_, FriendlyByteBuf p_194119_, CompoundTag p_194120_, Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> p_194121_) {
 -      if (!this.f_104410_.m_104500_(p_194117_, p_194118_)) {
-+   public LevelChunk replaceWithPacketData(long p_194117_, long p_194118_, FriendlyByteBuf p_194119_, CompoundTag p_194120_, Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> p_194121_) {
++   public LevelChunk replaceWithPacketData(me.alphamode.mclong.math.BigInteger p_194117_, me.alphamode.mclong.math.BigInteger p_194118_, FriendlyByteBuf p_194119_, CompoundTag p_194120_, Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> p_194121_) {
 +      if (!this.f_104410_.inRange(p_194117_, p_194118_)) {
           f_104407_.warn("Ignoring chunk since it's not in the view range: {}, {}", p_194117_, p_194118_);
           return null;
@@ -85,7 +85,7 @@
     }
  
 -   public void m_104459_(int p_104460_, int p_104461_) {
-+   public void updateViewCenter(long p_104460_, long p_104461_) {
++   public void updateViewCenter(me.alphamode.mclong.math.BigInteger p_104460_, me.alphamode.mclong.math.BigInteger p_104461_) {
        this.f_104410_.f_104469_ = p_104460_;
        this.f_104410_.f_104470_ = p_104461_;
     }
@@ -95,8 +95,8 @@
                 ChunkPos chunkpos = levelchunk.m_7697_();
 -               if (clientchunkcache$storage.m_104500_(chunkpos.f_45578_, chunkpos.f_45579_)) {
 -                  clientchunkcache$storage.m_104484_(clientchunkcache$storage.m_104481_(chunkpos.f_45578_, chunkpos.f_45579_), levelchunk);
-+               if (clientchunkcache$storage.inRange(chunkpos.x(), chunkpos.z())) {
-+                  clientchunkcache$storage.m_104484_(clientchunkcache$storage.getIndex(chunkpos.x(), chunkpos.z()), levelchunk);
++               if (clientchunkcache$storage.inRange(chunkpos.getX(), chunkpos.getZ())) {
++                  clientchunkcache$storage.m_104484_(clientchunkcache$storage.getIndex(chunkpos.getX(), chunkpos.getZ()), levelchunk);
                 }
              }
           }
@@ -105,7 +105,7 @@
  
     public void m_6506_(LightLayer p_104436_, SectionPos p_104437_) {
 -      Minecraft.m_91087_().f_91060_.m_109770_(p_104437_.m_123170_(), p_104437_.m_123206_(), p_104437_.m_123222_());
-+      Minecraft.m_91087_().f_91060_.setSectionDirty(p_104437_.getX(), p_104437_.getY(), p_104437_.getZ());
++      Minecraft.m_91087_().f_91060_.setSectionDirty(p_104437_.getBigX(), p_104437_.getBigY(), p_104437_.getBigZ());
     }
  
     @OnlyIn(Dist.CLIENT)
@@ -115,29 +115,33 @@
        private final int f_104468_;
 -      volatile int f_104469_;
 -      volatile int f_104470_;
-+      volatile long f_104469_;
-+      volatile long f_104470_;
++      volatile me.alphamode.mclong.math.BigInteger f_104469_ = me.alphamode.mclong.math.BigInteger.ZERO;
++      volatile me.alphamode.mclong.math.BigInteger f_104470_ = me.alphamode.mclong.math.BigInteger.ZERO;
        int f_104471_;
  
        Storage(int p_104474_) {
-@@ -181,7 +_,7 @@
+@@ -181,8 +_,8 @@
           this.f_104466_ = new AtomicReferenceArray<>(this.f_104468_ * this.f_104468_);
        }
  
 -      int m_104481_(int p_104482_, int p_104483_) {
-+      int getIndex(long p_104482_, long p_104483_) {
-          return Math.floorMod(p_104483_, this.f_104468_) * this.f_104468_ + Math.floorMod(p_104482_, this.f_104468_);
+-         return Math.floorMod(p_104483_, this.f_104468_) * this.f_104468_ + Math.floorMod(p_104482_, this.f_104468_);
++      int getIndex(me.alphamode.mclong.math.BigInteger p_104482_, me.alphamode.mclong.math.BigInteger p_104483_) {
++         return me.alphamode.mclong.math.BigMath.floorMod(p_104483_, this.f_104468_).intValue() * this.f_104468_ + me.alphamode.mclong.math.BigMath.floorMod(p_104482_, this.f_104468_).intValue();
        }
  
-@@ -207,7 +_,7 @@
+       protected void m_104484_(int p_104485_, @Nullable LevelChunk p_104486_) {
+@@ -207,8 +_,8 @@
           return p_104489_;
        }
  
 -      boolean m_104500_(int p_104501_, int p_104502_) {
-+      boolean inRange(long p_104501_, long p_104502_) {
-          return Math.abs(p_104501_ - this.f_104469_) <= this.f_104467_ && Math.abs(p_104502_ - this.f_104470_) <= this.f_104467_;
+-         return Math.abs(p_104501_ - this.f_104469_) <= this.f_104467_ && Math.abs(p_104502_ - this.f_104470_) <= this.f_104467_;
++      boolean inRange(me.alphamode.mclong.math.BigInteger p_104501_, me.alphamode.mclong.math.BigInteger p_104502_) {
++         return p_104501_.subtract(this.f_104469_).abs().compareTo(this.f_104467_) <= 0 && p_104502_.subtract(this.f_104470_).abs().compareTo(this.f_104467_) <= 0;
        }
  
+       @Nullable
 @@ -220,12 +_,12 @@
           try (FileOutputStream fileoutputstream = new FileOutputStream(p_171623_)) {
              int i = ClientChunkCache.this.f_104410_.f_104467_;
@@ -145,13 +149,13 @@
 -            for(int j = this.f_104470_ - i; j <= this.f_104470_ + i; ++j) {
 -               for(int k = this.f_104469_ - i; k <= this.f_104469_ + i; ++k) {
 -                  LevelChunk levelchunk = ClientChunkCache.this.f_104410_.f_104466_.get(ClientChunkCache.this.f_104410_.m_104481_(k, j));
-+            for(long j = this.f_104470_ - i; j <= this.f_104470_ + i; ++j) {
-+               for(long k = this.f_104469_ - i; k <= this.f_104469_ + i; ++k) {
++            for(me.alphamode.mclong.math.BigInteger j = this.f_104470_.subtract(i); j.compareTo(this.f_104470_.add(i)) <= 0; j = j.add()) {
++               for(me.alphamode.mclong.math.BigInteger k = this.f_104469_.subtract(i); k.compareTo(this.f_104469_.add(i)) <= 0; k = k.add()) {
 +                  LevelChunk levelchunk = ClientChunkCache.this.f_104410_.f_104466_.get(ClientChunkCache.this.f_104410_.getIndex(k, j));
                    if (levelchunk != null) {
                       ChunkPos chunkpos = levelchunk.m_7697_();
 -                     fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + levelchunk.m_6430_() + "\n").getBytes(StandardCharsets.UTF_8));
-+                     fileoutputstream.write((chunkpos.x() + "\t" + chunkpos.z() + "\t" + levelchunk.m_6430_() + "\n").getBytes(StandardCharsets.UTF_8));
++                     fileoutputstream.write((chunkpos.getX() + "\t" + chunkpos.getZ() + "\t" + levelchunk.m_6430_() + "\n").getBytes(StandardCharsets.UTF_8));
                    }
                 }
              }

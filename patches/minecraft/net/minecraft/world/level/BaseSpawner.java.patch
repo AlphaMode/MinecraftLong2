@@ -26,25 +26,38 @@
           if (this.f_45442_ > 0) {
              --this.f_45442_;
           }
-@@ -95,9 +_,9 @@
+@@ -95,11 +_,11 @@
  
                 ListTag listtag = compoundtag.m_128437_("Pos", 6);
                 int j = listtag.size();
 -               double d0 = j >= 1 ? listtag.m_128772_(0) : (double)p_151313_.m_123341_() + (randomsource.m_188500_() - randomsource.m_188500_()) * (double)this.f_45453_ + 0.5D;
 -               double d1 = j >= 2 ? listtag.m_128772_(1) : (double)(p_151313_.m_123342_() + randomsource.m_188503_(3) - 1);
 -               double d2 = j >= 3 ? listtag.m_128772_(2) : (double)p_151313_.m_123343_() + (randomsource.m_188500_() - randomsource.m_188500_()) * (double)this.f_45453_ + 0.5D;
-+               double d0 = j >= 1 ? listtag.m_128772_(0) : (double)p_151313_.getX() + (randomsource.m_188500_() - randomsource.m_188500_()) * (double)this.f_45453_ + 0.5D;
-+               double d1 = j >= 2 ? listtag.m_128772_(1) : (double)(p_151313_.getY() + randomsource.m_188503_(3) - 1);
-+               double d2 = j >= 3 ? listtag.m_128772_(2) : (double)p_151313_.getZ() + (randomsource.m_188500_() - randomsource.m_188500_()) * (double)this.f_45453_ + 0.5D;
-                if (p_151312_.m_45772_(optional.get().m_20585_(d0, d1, d2))) {
-                   BlockPos blockpos = BlockPos.m_274561_(d0, d1, d2);
+-               if (p_151312_.m_45772_(optional.get().m_20585_(d0, d1, d2))) {
+-                  BlockPos blockpos = BlockPos.m_274561_(d0, d1, d2);
++               me.alphamode.mclong.math.BigDecimal d0 = j >= 1 ? new me.alphamode.mclong.math.BigDecimal(listtag.m_128778_(0)) : p_151313_.getBigDecX().add((randomsource.m_188500_() - randomsource.m_188500_()) * (double)this.f_45453_ + 0.5D);
++               me.alphamode.mclong.math.BigDecimal d1 = j >= 2 ? new me.alphamode.mclong.math.BigDecimal(listtag.m_128778_(1)) : (p_151313_.getBigDecY().add(randomsource.m_188503_(3) - 1));
++               me.alphamode.mclong.math.BigDecimal d2 = j >= 3 ? new me.alphamode.mclong.math.BigDecimal(listtag.m_128778_(2)) : p_151313_.getBigDecZ().add((randomsource.m_188500_() - randomsource.m_188500_()) * (double)this.f_45453_ + 0.5D);
++               if (p_151312_.m_45772_(optional.get().getAABB(d0, d1, d2))) {
++                  BlockPos blockpos = BlockPos.containing(d0, d1, d2);
                    if (spawndata.m_186574_().isPresent()) {
+                      if (!optional.get().m_20674_().m_21609_() && p_151312_.m_46791_() == Difficulty.PEACEFUL) {
+                         continue;
+@@ -114,7 +_,7 @@
+                   }
+ 
+                   Entity entity = EntityType.m_20645_(compoundtag, p_151312_, (p_151310_) -> {
+-                     p_151310_.m_7678_(d0, d1, d2, p_151310_.m_146908_(), p_151310_.m_146909_());
++                     p_151310_.moveTo(d0, d1, d2, p_151310_.m_146908_(), p_151310_.m_146909_());
+                      return p_151310_;
+                   });
+                   if (entity == null) {
 @@ -122,7 +_,7 @@
                       return;
                    }
  
 -                  int k = p_151312_.m_45976_(entity.getClass(), (new AABB((double)p_151313_.m_123341_(), (double)p_151313_.m_123342_(), (double)p_151313_.m_123343_(), (double)(p_151313_.m_123341_() + 1), (double)(p_151313_.m_123342_() + 1), (double)(p_151313_.m_123343_() + 1))).m_82400_((double)this.f_45453_)).size();
-+                  int k = p_151312_.m_45976_(entity.getClass(), (new AABB((double)p_151313_.getX(), (double)p_151313_.getY(), (double)p_151313_.getZ(), (double)(p_151313_.getX() + 1), (double)(p_151313_.getY() + 1), (double)(p_151313_.getZ() + 1))).m_82400_((double)this.f_45453_)).size();
++                  int k = p_151312_.m_45976_(entity.getClass(), (new AABB(p_151313_.getBigDecX(), p_151313_.getBigDecY(), p_151313_.getBigDecZ(), (p_151313_.getBigDecX().add()), (p_151313_.getBigDecY().add()), (p_151313_.getBigDecZ().add()))).m_82400_((double)this.f_45453_)).size();
                    if (k >= this.f_45451_) {
                       this.m_151350_(p_151312_, p_151313_);
                       return;

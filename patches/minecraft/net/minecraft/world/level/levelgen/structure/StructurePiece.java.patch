@@ -9,16 +9,16 @@
        return p_163545_.m_122434_() == Direction.Axis.Z ? new BoundingBox(p_163542_, p_163543_, p_163544_, p_163542_ + p_163546_ - 1, p_163543_ + p_163547_ - 1, p_163544_ + p_163548_ - 1) : new BoundingBox(p_163542_, p_163543_, p_163544_, p_163542_ + p_163548_ - 1, p_163543_ + p_163547_ - 1, p_163544_ + p_163546_ - 1);
     }
  
-@@ -103,20 +_,20 @@
+@@ -103,65 +_,65 @@
     }
  
     public boolean m_73411_(ChunkPos p_73412_, int p_73413_) {
 -      int i = p_73412_.m_45604_();
 -      int j = p_73412_.m_45605_();
 -      return this.f_73383_.m_71019_(i - p_73413_, j - p_73413_, i + 15 + p_73413_, j + 15 + p_73413_);
-+      long i = p_73412_.getMinBlockX();
-+      long j = p_73412_.getMinBlockZ();
-+      return this.f_73383_.intersects(i - p_73413_, j - p_73413_, i + 15 + p_73413_, j + 15 + p_73413_);
++      me.alphamode.mclong.math.BigInteger i = p_73412_.getMinBigBlockX();
++      me.alphamode.mclong.math.BigInteger j = p_73412_.getMinBigBlockZ();
++      return this.f_73383_.intersects(i.subtract(p_73413_), j.subtract(p_73413_), i.add(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).add(p_73413_), j.add(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).add(p_73413_));
     }
  
     public BlockPos m_142171_() {
@@ -27,66 +27,100 @@
  
 -   protected BlockPos.MutableBlockPos m_163582_(int p_163583_, int p_163584_, int p_163585_) {
 -      return new BlockPos.MutableBlockPos(this.m_73392_(p_163583_, p_163585_), this.m_73544_(p_163584_), this.m_73525_(p_163583_, p_163585_));
-+   protected BlockPos.MutableBlockPos getWorldPos(long p_163583_, long p_163584_, long p_163585_) {
-+      return new BlockPos.MutableBlockPos(this.getWorldX(p_163583_, p_163585_), this.getWorldY(p_163584_), this.getWorldZ(p_163583_, p_163585_));
-    }
- 
+-   }
+-
 -   protected int m_73392_(int p_73393_, int p_73394_) {
-+   protected long getWorldX(long p_73393_, long p_73394_) {
-       Direction direction = this.m_73549_();
-       if (direction == null) {
-          return p_73393_;
-@@ -124,44 +_,44 @@
-          switch (direction) {
-             case NORTH:
-             case SOUTH:
+-      Direction direction = this.m_73549_();
+-      if (direction == null) {
+-         return p_73393_;
+-      } else {
+-         switch (direction) {
+-            case NORTH:
+-            case SOUTH:
 -               return this.f_73383_.m_162395_() + p_73393_;
-+               return this.f_73383_.minX() + p_73393_;
-             case WEST:
+-            case WEST:
 -               return this.f_73383_.m_162399_() - p_73394_;
-+               return this.f_73383_.maxX() - p_73394_;
-             case EAST:
+-            case EAST:
 -               return this.f_73383_.m_162395_() + p_73394_;
-+               return this.f_73383_.minX() + p_73394_;
-             default:
-                return p_73393_;
-          }
-       }
-    }
- 
+-            default:
+-               return p_73393_;
+-         }
+-      }
+-   }
+-
 -   protected int m_73544_(int p_73545_) {
 -      return this.m_73549_() == null ? p_73545_ : p_73545_ + this.f_73383_.m_162396_();
-+   protected long getWorldY(long p_73545_) {
-+      return this.m_73549_() == null ? p_73545_ : p_73545_ + this.f_73383_.minY();
-    }
- 
+-   }
+-
 -   protected int m_73525_(int p_73526_, int p_73527_) {
-+   protected long getWorldZ(long p_73526_, long p_73527_) {
-       Direction direction = this.m_73549_();
-       if (direction == null) {
-          return p_73527_;
-       } else {
-          switch (direction) {
-             case NORTH:
+-      Direction direction = this.m_73549_();
+-      if (direction == null) {
+-         return p_73527_;
+-      } else {
+-         switch (direction) {
+-            case NORTH:
 -               return this.f_73383_.m_162401_() - p_73527_;
-+               return this.f_73383_.maxZ() - p_73527_;
-             case SOUTH:
+-            case SOUTH:
 -               return this.f_73383_.m_162398_() + p_73527_;
-+               return this.f_73383_.minZ() + p_73527_;
-             case WEST:
-             case EAST:
+-            case WEST:
+-            case EAST:
 -               return this.f_73383_.m_162398_() + p_73526_;
-+               return this.f_73383_.minZ() + p_73526_;
-             default:
-                return p_73527_;
-          }
-       }
-    }
- 
+-            default:
+-               return p_73527_;
+-         }
+-      }
+-   }
+-
 -   protected void m_73434_(WorldGenLevel p_73435_, BlockState p_73436_, int p_73437_, int p_73438_, int p_73439_, BoundingBox p_73440_) {
 -      BlockPos blockpos = this.m_163582_(p_73437_, p_73438_, p_73439_);
 -      if (p_73440_.m_71051_(blockpos)) {
 -         if (this.m_142085_(p_73435_, p_73437_, p_73438_, p_73439_, p_73440_)) {
++   protected BlockPos.MutableBlockPos getWorldPos(long p_163583_, long p_163584_, long p_163585_) {
++      return new BlockPos.MutableBlockPos(this.getWorldX(p_163583_, p_163585_), this.getWorldY(p_163584_), this.getWorldZ(p_163583_, p_163585_));
++   }
++
++   protected me.alphamode.mclong.math.BigInteger getWorldX(long p_73393_, long p_73394_) {
++      Direction direction = this.m_73549_();
++      if (direction == null) {
++         return me.alphamode.mclong.math.BigInteger.valueOf(p_73393_);
++      } else {
++         switch (direction) {
++            case NORTH:
++            case SOUTH:
++               return this.f_73383_.minBigX().add(p_73393_);
++            case WEST:
++               return this.f_73383_.maxBigX().subtract(p_73394_);
++            case EAST:
++               return this.f_73383_.minBigX().add(p_73394_);
++            default:
++               return me.alphamode.mclong.math.BigInteger.valueOf(p_73393_);
++         }
++      }
++   }
++
++   protected me.alphamode.mclong.math.BigInteger getWorldY(long p_73545_) {
++      return this.m_73549_() == null ? me.alphamode.mclong.math.BigInteger.valueOf(p_73545_) : this.f_73383_.minBigY().add(p_73545_);
++   }
++
++   protected me.alphamode.mclong.math.BigInteger getWorldZ(long p_73526_, long p_73527_) {
++      Direction direction = this.m_73549_();
++      if (direction == null) {
++         return me.alphamode.mclong.math.BigInteger.valueOf(p_73527_);
++      } else {
++         switch (direction) {
++            case NORTH:
++               return this.f_73383_.maxBigZ().subtract(p_73527_);
++            case SOUTH:
++               return this.f_73383_.minBigZ().add(p_73527_);
++            case WEST:
++            case EAST:
++               return this.f_73383_.minBigZ().add(p_73526_);
++            default:
++               return me.alphamode.mclong.math.BigInteger.valueOf(p_73527_);
++         }
++      }
++   }
++
 +   protected void placeBlock(WorldGenLevel p_73435_, BlockState p_73436_, long p_73437_, long p_73438_, long p_73439_, BoundingBox p_73440_) {
 +      BlockPos blockpos = this.getWorldPos(p_73437_, p_73438_, p_73439_);
 +      if (p_73440_.isInside(blockpos)) {
@@ -120,7 +154,7 @@
           return false;
        } else {
 -         return blockpos.m_123342_() < p_73415_.m_6924_(Heightmap.Types.OCEAN_FLOOR_WG, blockpos.m_123341_(), blockpos.m_123343_());
-+         return blockpos.getY() < p_73415_.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockpos.getX(), blockpos.getZ());
++         return blockpos.getY() < p_73415_.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockpos.getBigX(), blockpos.getBigZ());
        }
     }
  

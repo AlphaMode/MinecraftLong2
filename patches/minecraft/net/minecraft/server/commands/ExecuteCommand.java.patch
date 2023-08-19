@@ -1,24 +1,30 @@
 --- a/net/minecraft/server/commands/ExecuteCommand.java
 +++ b/net/minecraft/server/commands/ExecuteCommand.java
-@@ -151,10 +_,10 @@
+@@ -149,13 +_,13 @@
+       }))).then(Commands.m_82127_("over").then(Commands.m_82129_("heightmap", HeightmapTypeArgument.m_274509_()).redirect(literalcommandnode, (p_274814_) -> {
+          Vec3 vec3 = p_274814_.getSource().m_81371_();
           ServerLevel serverlevel = p_274814_.getSource().m_81372_();
-          double d0 = vec3.m_7096_();
-          double d1 = vec3.m_7094_();
+-         double d0 = vec3.m_7096_();
+-         double d1 = vec3.m_7094_();
 -         if (!serverlevel.m_7232_(SectionPos.m_235865_(d0), SectionPos.m_235865_(d1))) {
++         me.alphamode.mclong.math.BigDecimal d0 = vec3.getX();
++         me.alphamode.mclong.math.BigDecimal d1 = vec3.getZ();
 +         if (!serverlevel.hasChunk(SectionPos.blockToSectionCoord(d0), SectionPos.blockToSectionCoord(d1))) {
              throw BlockPosArgument.f_118234_.create();
           } else {
 -            int i = serverlevel.m_6924_(HeightmapTypeArgument.m_274370_(p_274814_, "heightmap"), Mth.m_14107_(d0), Mth.m_14107_(d1));
-+            long i = serverlevel.getHeight(HeightmapTypeArgument.m_274370_(p_274814_, "heightmap"), Mth.m_14134_(d0), Mth.m_14134_(d1));
-             return p_274814_.getSource().m_81348_(new Vec3(d0, (double)i, d1));
+-            return p_274814_.getSource().m_81348_(new Vec3(d0, (double)i, d1));
++            long i = serverlevel.getHeight(HeightmapTypeArgument.m_274370_(p_274814_, "heightmap"), Mth.lfloor(d0), Mth.lfloor(d1));
++            return p_274814_.getSource().m_81348_(new Vec3(d0, me.alphamode.mclong.math.BigDecimal.valueOf(i), d1));
           }
        })))).then(Commands.m_82127_("rotated").then(Commands.m_82129_("rot", RotationArgument.m_120479_()).redirect(literalcommandnode, (p_137291_) -> {
+          return p_137291_.getSource().m_81346_(RotationArgument.m_120482_(p_137291_, "rot").m_6970_(p_137291_.getSource()));
 @@ -271,11 +_,11 @@
  
     private static boolean m_264155_(ServerLevel p_265261_, BlockPos p_265260_) {
        ChunkPos chunkpos = new ChunkPos(p_265260_);
 -      LevelChunk levelchunk = p_265261_.m_7726_().m_7131_(chunkpos.f_45578_, chunkpos.f_45579_);
-+      LevelChunk levelchunk = p_265261_.m_7726_().getChunkNow(chunkpos.x(), chunkpos.z());
++      LevelChunk levelchunk = p_265261_.m_7726_().getChunkNow(chunkpos.getX(), chunkpos.getZ());
        if (levelchunk == null) {
           return false;
        } else {

@@ -1315,7 +1315,7 @@
                    if (!f_228811_.contains(blockstate.m_60734_())) {
 -                     if (this.m_73544_(i) >= p_228881_.m_5736_() && blockstate != f_228810_) {
 -                        this.m_73434_(p_228881_, Blocks.f_50016_.m_49966_(), j, i, k, p_228882_);
-+                     if (this.getWorldY(i) >= p_228881_.m_5736_() && blockstate != f_228810_) {
++                     if (this.getWorldY(i).longValue() >= p_228881_.m_5736_() && blockstate != f_228810_) {
 +                        this.placeBlock(p_228881_, Blocks.f_50016_.m_49966_(), j, i, k, p_228882_);
                       } else {
 -                        this.m_73434_(p_228881_, f_228810_, j, i, k, p_228882_);
@@ -1369,11 +1369,11 @@
 -         int k = this.m_73392_(p_228869_, p_228870_);
 -         int l = this.m_73525_(p_228869_, p_228870_);
 -         return p_228866_.m_71019_(Math.min(i, k), Math.min(j, l), Math.max(i, k), Math.max(j, l));
-+         long i = this.getWorldX(p_228867_, p_228868_);
-+         long j = this.getWorldZ(p_228867_, p_228868_);
-+         long k = this.getWorldX(p_228869_, p_228870_);
-+         long l = this.getWorldZ(p_228869_, p_228870_);
-+         return p_228866_.intersects(Math.min(i, k), Math.min(j, l), Math.max(i, k), Math.max(j, l));
++         me.alphamode.mclong.math.BigInteger i = this.getWorldX(p_228867_, p_228868_);
++         me.alphamode.mclong.math.BigInteger j = this.getWorldZ(p_228867_, p_228868_);
++         me.alphamode.mclong.math.BigInteger k = this.getWorldX(p_228869_, p_228870_);
++         me.alphamode.mclong.math.BigInteger l = this.getWorldZ(p_228869_, p_228870_);
++         return p_228866_.intersects(i.min(k), j.min(l), i.max(k), j.max(l));
        }
  
        protected void m_247483_(WorldGenLevel p_251919_, BoundingBox p_248944_, int p_251311_, int p_249326_, int p_252095_) {

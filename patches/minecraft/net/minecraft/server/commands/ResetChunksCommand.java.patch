@@ -21,7 +21,7 @@
 +         for(long j1 = k; j1 <= l; ++j1) {
              ChunkPos chunkpos1 = new ChunkPos(j1, i1);
 -            LevelChunk levelchunk = serverchunkcache.m_62227_(j1, i1, false);
-+            LevelChunk levelchunk = serverchunkcache.getChunk(j1, i1, false);
++            LevelChunk levelchunk = serverchunkcache.getChunk(me.alphamode.mclong.math.BigInteger.valueOf(j1), me.alphamode.mclong.math.BigInteger.valueOf(i1), false);
              if (levelchunk != null && (!p_183687_ || !levelchunk.m_187675_())) {
 -               for(BlockPos blockpos : BlockPos.m_121976_(chunkpos1.m_45604_(), serverlevel.m_141937_(), chunkpos1.m_45605_(), chunkpos1.m_45608_(), serverlevel.m_151558_() - 1, chunkpos1.m_45609_())) {
 +               for(BlockPos blockpos : BlockPos.betweenClosed(chunkpos1.getMinBlockX(), serverlevel.getMinBuildHeight(), chunkpos1.getMinBlockZ(), chunkpos1.getMaxBlockX(), serverlevel.getMaxBuildHeight() - 1, chunkpos1.getMaxBlockZ())) {
@@ -38,7 +38,7 @@
 +            for(long j2 = chunkpos.x() - p_183686_; j2 <= chunkpos.x() + p_183686_; ++j2) {
                 ChunkPos chunkpos2 = new ChunkPos(j2, i2);
 -               LevelChunk levelchunk1 = serverchunkcache.m_62227_(j2, i2, false);
-+               LevelChunk levelchunk1 = serverchunkcache.getChunk(j2, i2, false);
++               LevelChunk levelchunk1 = serverchunkcache.getChunk(me.alphamode.mclong.math.BigInteger.valueOf(j2), me.alphamode.mclong.math.BigInteger.valueOf(i2), false);
                 if (levelchunk1 != null && (!p_183687_ || !levelchunk1.m_187675_())) {
                    List<ChunkAccess> list = Lists.newArrayList();
 -                  int k2 = Math.max(1, chunkstatus.m_62488_());
@@ -49,7 +49,7 @@
 -                        ChunkAccess chunkaccess = serverchunkcache.m_7587_(i3, l2, chunkstatus.m_62482_(), true);
 +                  for(long l2 = chunkpos2.z() - k2; l2 <= chunkpos2.z() + k2; ++l2) {
 +                     for(long i3 = chunkpos2.x() - k2; i3 <= chunkpos2.x() + k2; ++i3) {
-+                        ChunkAccess chunkaccess = serverchunkcache.getChunk(i3, l2, chunkstatus.m_62482_(), true);
++                        ChunkAccess chunkaccess = serverchunkcache.getChunk(me.alphamode.mclong.math.BigInteger.valueOf(i3), me.alphamode.mclong.math.BigInteger.valueOf(l2), chunkstatus.m_62482_(), true);
                          ChunkAccess chunkaccess1;
                          if (chunkaccess instanceof ImposterProtoChunk) {
                             chunkaccess1 = new ImposterProtoChunk(((ImposterProtoChunk)chunkaccess).m_62768_(), true);
@@ -63,7 +63,7 @@
 +         for(long l1 = chunkpos.x() - p_183686_; l1 <= chunkpos.x() + p_183686_; ++l1) {
              ChunkPos chunkpos3 = new ChunkPos(l1, i4);
 -            LevelChunk levelchunk2 = serverchunkcache.m_62227_(l1, i4, false);
-+            LevelChunk levelchunk2 = serverchunkcache.getChunk(l1, i4, false);
++            LevelChunk levelchunk2 = serverchunkcache.getChunk(me.alphamode.mclong.math.BigInteger.valueOf(l1), me.alphamode.mclong.math.BigInteger.valueOf(i4), false);
              if (levelchunk2 != null && (!p_183687_ || !levelchunk2.m_187675_())) {
 -               for(BlockPos blockpos1 : BlockPos.m_121976_(chunkpos3.m_45604_(), serverlevel.m_141937_(), chunkpos3.m_45605_(), chunkpos3.m_45608_(), serverlevel.m_151558_() - 1, chunkpos3.m_45609_())) {
 +               for(BlockPos blockpos1 : BlockPos.betweenClosed(chunkpos3.getMinBlockX(), serverlevel.getMinBuildHeight(), chunkpos3.getMinBlockZ(), chunkpos3.getMaxBlockX(), serverlevel.getMaxBuildHeight() - 1, chunkpos3.getMaxBlockZ())) {

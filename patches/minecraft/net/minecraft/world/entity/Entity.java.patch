@@ -334,9 +334,9 @@
 -            for(int j = blockpos.m_123342_(); j <= blockpos1.m_123342_(); ++j) {
 -               for(int k = blockpos.m_123343_(); k <= blockpos1.m_123343_(); ++k) {
 -                  blockpos$mutableblockpos.m_122178_(i, j, k);
-+         for(long i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
-+            for(long j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
-+               for(long k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
++         for(me.alphamode.mclong.math.BigInteger i = blockpos.getBigX(); i.compareTo(blockpos1.getBigX()) <= 0; i = i.add()) {
++            for(me.alphamode.mclong.math.BigInteger j = blockpos.getBigY(); j.compareTo(blockpos1.getBigY()) <= 0; j = j.add()) {
++               for(me.alphamode.mclong.math.BigInteger k = blockpos.getBigZ(); k.compareTo(blockpos1.getBigZ()) <= 0; k = k.add()) {
 +                  blockpos$mutableblockpos.set(i, j, k);
                    BlockState blockstate = this.m_9236_().m_8055_(blockpos$mutableblockpos);
  
@@ -464,7 +464,7 @@
     @Deprecated
     public float m_213856_() {
 -      return this.m_9236_().m_151577_(this.m_146903_(), this.m_146907_()) ? this.m_9236_().m_220417_(BlockPos.m_274561_(this.m_20185_(), this.m_20188_(), this.m_20189_())) : 0.0F;
-+      return this.f_19853_.hasChunkAt(this.getBlockX(), this.getBlockZ()) ? this.f_19853_.m_220417_(BlockPos.m_274561_(this.m_20185_(), this.m_20188_(), this.m_20189_())) : 0.0F;
++      return this.f_19853_.hasChunkAt(this.getBigBlockX(), this.getBigBlockZ()) ? this.f_19853_.m_220417_(BlockPos.m_274561_(this.m_20185_(), this.m_20188_(), this.m_20189_())) : 0.0F;
     }
  
     public void m_19890_(double p_19891_, double p_19892_, double p_19893_, float p_19894_, float p_19895_) {
@@ -840,7 +840,7 @@
           ChunkPos chunkpos = new ChunkPos(BlockPos.m_274561_(p_20325_, p_20326_, p_20327_));
           ((ServerLevel)this.m_9236_()).m_7726_().m_8387_(TicketType.f_9448_, chunkpos, 0, this.m_19879_());
 -         this.m_9236_().m_6325_(chunkpos.f_45578_, chunkpos.f_45579_);
-+         this.f_19853_.getChunk(chunkpos.x(), chunkpos.z());
++         this.f_19853_.getChunk(chunkpos.getX(), chunkpos.getZ());
           this.m_6021_(p_20325_, p_20326_, p_20327_);
        }
     }
@@ -1003,15 +1003,15 @@
 -      int k = Mth.m_14107_(aabb.f_82290_);
 -      int l = Mth.m_14165_(aabb.f_82293_);
 -      return !this.m_9236_().m_151572_(i, k, j, l);
-+      long i = Mth.lfloor(aabb.f_82288_).longValue();
-+      long j = Mth.lceil(aabb.f_82291_).longValue();
-+      long k = Mth.lfloor(aabb.f_82290_).longValue();
-+      long l = Mth.lceil(aabb.f_82293_).longValue();
++      me.alphamode.mclong.math.BigInteger i = Mth.lfloor(aabb.f_82288_);
++      me.alphamode.mclong.math.BigInteger j = Mth.lceil(aabb.f_82291_);
++      me.alphamode.mclong.math.BigInteger k = Mth.lfloor(aabb.f_82290_);
++      me.alphamode.mclong.math.BigInteger l = Mth.lceil(aabb.f_82293_);
 +      return !this.f_19853_.hasChunksAt(i, k, j, l);
     }
  
     public double m_204036_(TagKey<Fluid> p_204037_) {
-@@ -3124,68 +_,127 @@
+@@ -3124,68 +_,135 @@
        this.m_20256_(new Vec3(p_20335_, p_20336_, p_20337_));
     }
  
@@ -1023,6 +1023,10 @@
 +
 +   public final long getBlockX() {
 +      return this.f_19826_.getX();
++   }
++
++   public final me.alphamode.mclong.math.BigInteger getBigBlockX() {
++      return this.f_19826_.getBigX();
     }
  
     public final double m_20185_() {
@@ -1110,6 +1114,10 @@
 +
 +   public final long getBlockZ() {
 +      return this.f_19826_.getZ();
++   }
++
++   public final me.alphamode.mclong.math.BigInteger getBigBlockZ() {
++      return this.f_19826_.getBigZ();
     }
  
     public final double m_20189_() {

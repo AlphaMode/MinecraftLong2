@@ -120,7 +120,7 @@
 +                  BlockPos blockpos3 = this.getBlockRandomPos(i, k1, j, 15);
                    profilerfiller.m_6180_("randomTick");
 -                  BlockState blockstate2 = levelchunksection.m_62982_(blockpos3.m_123341_() - i, blockpos3.m_123342_() - k1, blockpos3.m_123343_() - j);
-+                  BlockState blockstate2 = levelchunksection.getBlockState(Mth.abs(blockpos3.getX() - i), blockpos3.getY() - k1, Mth.m_14143_(blockpos3.getZ() - j));
++                  BlockState blockstate2 = levelchunksection.getBlockState(blockpos3.getBigX().subtract(i), blockpos3.getBigY().subtract(k1), blockpos3.getBigZ().subtract(j));
                    if (blockstate2.m_60823_()) {
                       blockstate2.m_222972_(this, blockpos3, this.f_46441_);
                    }
@@ -129,7 +129,7 @@
           return p_215059_.m_203565_(PoiTypes.f_218066_);
        }, (p_184055_) -> {
 -         return p_184055_.m_123342_() == this.m_6924_(Heightmap.Types.WORLD_SURFACE, p_184055_.m_123341_(), p_184055_.m_123343_()) - 1;
-+         return p_184055_.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, p_184055_.getX(), p_184055_.getZ()) - 1;
++         return p_184055_.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, p_184055_.getBigX(), p_184055_.getBigZ()) - 1;
        }, p_143249_, 128, PoiManager.Occupancy.ANY);
        return optional.map((p_184053_) -> {
 -         return p_184053_.m_6630_(1);
@@ -289,7 +289,7 @@
 +         flag = forcedchunkssaveddata.getChunks().add(chunkpos);
           if (flag) {
 -            this.m_6325_(p_8603_, p_8604_);
-+            this.getChunk(p_8603_.longValue(), p_8604_.longValue());
++            this.getChunk(p_8603_, p_8604_);
           }
        } else {
 -         flag = forcedchunkssaveddata.m_46116_().remove(i);

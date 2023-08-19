@@ -339,8 +339,8 @@
        boolean flag1 = this.f_140149_.m_8260_(p_140193_);
 -      int i = SectionPos.m_123171_(p_140193_.m_146903_());
 -      int j = SectionPos.m_123171_(p_140193_.m_146907_());
-+      long i = SectionPos.blockToSectionCoord(p_140193_.getBlockX());
-+      long j = SectionPos.blockToSectionCoord(p_140193_.getBlockZ());
++      long i = SectionPos.blockToSectionCoord(p_140193_.getBigBlockX()).longValue();
++      long j = SectionPos.blockToSectionCoord(p_140193_.getBigBlockZ()).longValue();
        if (p_140194_) {
 -         this.f_140149_.m_8252_(ChunkPos.m_45589_(i, j), p_140193_, flag);
 +         this.f_140149_.addPlayer(new ChunkPos(i, j), p_140193_, flag);
@@ -371,7 +371,7 @@
        SectionPos sectionpos = SectionPos.m_235861_(p_140374_);
        p_140374_.m_9119_(sectionpos);
 -      p_140374_.f_8906_.m_9829_(new ClientboundSetChunkCacheCenterPacket(sectionpos.m_123170_(), sectionpos.m_123222_()));
-+      p_140374_.f_8906_.m_9829_(new ClientboundSetChunkCacheCenterPacket(sectionpos.x(), sectionpos.z()));
++      p_140374_.f_8906_.m_9829_(new ClientboundSetChunkCacheCenterPacket(sectionpos.getBigX(), sectionpos.getBigZ()));
        return sectionpos;
     }
  
@@ -381,8 +381,8 @@
  
 -      int j2 = SectionPos.m_123171_(p_140185_.m_146903_());
 -      int k2 = SectionPos.m_123171_(p_140185_.m_146907_());
-+      long j2 = SectionPos.blockToSectionCoord(p_140185_.getBlockX());
-+      long k2 = SectionPos.blockToSectionCoord(p_140185_.getBlockZ());
++      long j2 = SectionPos.blockToSectionCoord(p_140185_.getBigBlockX()).longValue();
++      long k2 = SectionPos.blockToSectionCoord(p_140185_.getBigBlockZ()).longValue();
        SectionPos sectionpos = p_140185_.m_8965_();
        SectionPos sectionpos1 = SectionPos.m_235861_(p_140185_);
 -      long i = sectionpos.m_123251_().m_45588_();
@@ -483,7 +483,7 @@
              levelchunk = levelchunk1;
           } else {
 -            levelchunk = this.f_140133_.m_6325_(chunkpos.f_45578_, chunkpos.f_45579_);
-+            levelchunk = this.f_140133_.getChunk(chunkpos.x(), chunkpos.z());
++            levelchunk = this.f_140133_.getChunk(chunkpos.getX(), chunkpos.getZ());
           }
  
           for(ServerPlayer serverplayer : this.m_183262_(chunkpos, false)) {

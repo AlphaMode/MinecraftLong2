@@ -20,7 +20,7 @@
 -   public static Vec3 m_82528_(Vec3i p_82529_) {
 -      return new Vec3((double)p_82529_.m_123341_(), (double)p_82529_.m_123342_(), (double)p_82529_.m_123343_());
 +   public static Vec3 atLowerCornerOf(me.alphamode.mclong.core.Vec3l p_82529_) {
-+      return new Vec3(p_82529_.getX(), p_82529_.getY(), p_82529_.getZ());
++      return new Vec3(p_82529_.getBigDecX(), p_82529_.getBigDecY(), p_82529_.getBigDecZ());
     }
  
     public static Vec3 m_272021_(Vec3i p_272866_, double p_273680_, double p_273668_, double p_273687_) {
@@ -28,7 +28,7 @@
     }
  
 +   public static Vec3 atLowerCornerWithOffset(me.alphamode.mclong.core.Vec3l p_272866_, double p_273680_, double p_273668_, double p_273687_) {
-+      return new Vec3(p_272866_.getX() + p_273680_, p_272866_.getY() + p_273668_, p_272866_.getZ() + p_273687_);
++      return new Vec3(p_272866_.getBigDecX().add(p_273680_), p_272866_.getBigDecY().add(p_273668_), p_272866_.getBigDecZ().add(p_273687_));
 +   }
 +
     public static Vec3 m_82512_(Vec3i p_82513_) {
@@ -78,8 +78,8 @@
     public Vec3 m_82541_() {
 -      double d0 = Math.sqrt(this.f_82479_ * this.f_82479_ + this.f_82480_ * this.f_82480_ + this.f_82481_ * this.f_82481_);
 -      return d0 < 1.0E-4D ? f_82478_ : new Vec3(this.f_82479_ / d0, this.f_82480_ / d0, this.f_82481_ / d0);
-+      double d0 = Math.sqrt(this.m_7096_() * this.m_7096_() + this.m_7098_() * this.m_7098_() + this.m_7094_() * this.m_7094_());
-+      return d0 < 1.0E-4D ? f_82478_ : new Vec3(this.m_7096_() / d0, this.m_7098_() / d0, this.m_7094_() / d0);
++      me.alphamode.mclong.math.BigDecimal d0 = this.getX().multiply(this.getX()).add(this.getY().multiply(this.getY())).add(this.getZ().multiply(this.getZ())).sqrt();
++      return d0.compareTo(1.0E-4D) < 0 ? f_82478_ : new Vec3(this.getX().divide(d0, java.math.RoundingMode.HALF_UP), this.getY().divide(d0, java.math.RoundingMode.HALF_UP), this.getZ().divide(d0, java.math.RoundingMode.HALF_UP));
     }
  
     public double m_82526_(Vec3 p_82527_) {

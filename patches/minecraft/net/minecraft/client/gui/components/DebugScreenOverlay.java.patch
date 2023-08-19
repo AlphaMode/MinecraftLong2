@@ -72,7 +72,7 @@
           ServerLevel serverlevel = this.m_94081_();
           if (serverlevel != null) {
 -            this.f_94036_ = serverlevel.m_7726_().m_8431_(this.f_94034_.f_45578_, this.f_94034_.f_45579_, ChunkStatus.f_62326_, false).thenApply((p_205369_) -> {
-+            this.f_94036_ = serverlevel.m_7726_().getChunkFuture(this.f_94034_.x(), this.f_94034_.z(), ChunkStatus.f_62326_, false).thenApply((p_205369_) -> {
++            this.f_94036_ = serverlevel.m_7726_().getChunkFuture(this.f_94034_.getX(), this.f_94034_.getZ(), ChunkStatus.f_62326_, false).thenApply((p_205369_) -> {
                 return p_205369_.map((p_205371_) -> {
                    return (LevelChunk)p_205371_;
                 }, (p_205363_) -> {
@@ -81,7 +81,7 @@
     private LevelChunk m_94085_() {
        if (this.f_94035_ == null) {
 -         this.f_94035_ = this.f_94030_.f_91073_.m_6325_(this.f_94034_.f_45578_, this.f_94034_.f_45579_);
-+         this.f_94035_ = this.f_94030_.f_91073_.getChunk(this.f_94034_.x(), this.f_94034_.z());
++         this.f_94035_ = this.f_94030_.f_91073_.getChunk(this.f_94034_.getX(), this.f_94034_.getZ());
        }
  
        return this.f_94035_;
@@ -90,7 +90,7 @@
              BlockState blockstate = this.f_94030_.f_91073_.m_8055_(blockpos);
              list.add("");
 -            list.add(ChatFormatting.UNDERLINE + "Targeted Block: " + blockpos.m_123341_() + ", " + blockpos.m_123342_() + ", " + blockpos.m_123343_());
-+            list.add(ChatFormatting.UNDERLINE + "Targeted Block: " + blockpos.getX() + ", " + blockpos.getY() + ", " + blockpos.getZ());
++            list.add(ChatFormatting.UNDERLINE + "Targeted Block: " + blockpos.getBigX() + ", " + blockpos.getBigY() + ", " + blockpos.getBigZ());
              list.add(String.valueOf((Object)BuiltInRegistries.f_256975_.m_7981_(blockstate.m_60734_())));
  
              for(Map.Entry<Property<?>, Comparable<?>> entry : blockstate.m_61148_().entrySet()) {
@@ -99,7 +99,7 @@
              FluidState fluidstate = this.f_94030_.f_91073_.m_6425_(blockpos1);
              list.add("");
 -            list.add(ChatFormatting.UNDERLINE + "Targeted Fluid: " + blockpos1.m_123341_() + ", " + blockpos1.m_123342_() + ", " + blockpos1.m_123343_());
-+            list.add(ChatFormatting.UNDERLINE + "Targeted Fluid: " + blockpos1.getX() + ", " + blockpos1.getY() + ", " + blockpos1.getZ());
++            list.add(ChatFormatting.UNDERLINE + "Targeted Fluid: " + blockpos1.getBigX() + ", " + blockpos1.getBigY() + ", " + blockpos1.getBigZ());
              list.add(String.valueOf((Object)BuiltInRegistries.f_257020_.m_7981_(fluidstate.m_76152_())));
  
              for(Map.Entry<Property<?>, Comparable<?>> entry1 : fluidstate.m_61148_().entrySet()) {

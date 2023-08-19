@@ -153,8 +153,8 @@
 -      int i = p_194241_.m_195717_();
 -      int j = p_194241_.m_195718_();
 -      this.m_194198_(i, j, p_194241_.m_195719_());
-+      long i = p_194241_.getX();
-+      long j = p_194241_.getZ();
++      me.alphamode.mclong.math.BigInteger i = p_194241_.getX();
++      me.alphamode.mclong.math.BigInteger j = p_194241_.getZ();
 +      this.updateLevelChunk(i, j, p_194241_.m_195719_());
        ClientboundLightUpdatePacketData clientboundlightupdatepacketdata = p_194241_.m_195720_();
        this.f_104889_.m_194171_(() -> {
@@ -173,12 +173,12 @@
  
        for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata : p_275437_.f_273816_()) {
 -         this.f_104889_.m_7726_().m_274444_(clientboundchunksbiomespacket$chunkbiomedata.f_273927_().f_45578_, clientboundchunksbiomespacket$chunkbiomedata.f_273927_().f_45579_, clientboundchunksbiomespacket$chunkbiomedata.m_274543_());
-+         this.f_104889_.m_7726_().replaceBiomes(clientboundchunksbiomespacket$chunkbiomedata.f_273927_().x(), clientboundchunksbiomespacket$chunkbiomedata.f_273927_().z(), clientboundchunksbiomespacket$chunkbiomedata.m_274543_());
++         this.f_104889_.m_7726_().replaceBiomes(clientboundchunksbiomespacket$chunkbiomedata.f_273927_().getX(), clientboundchunksbiomespacket$chunkbiomedata.f_273927_().getZ(), clientboundchunksbiomespacket$chunkbiomedata.m_274543_());
        }
  
        for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata1 : p_275437_.f_273816_()) {
 -         this.f_104889_.m_171649_(new ChunkPos(clientboundchunksbiomespacket$chunkbiomedata1.f_273927_().f_45578_, clientboundchunksbiomespacket$chunkbiomedata1.f_273927_().f_45579_));
-+         this.f_104889_.m_171649_(new ChunkPos(clientboundchunksbiomespacket$chunkbiomedata1.f_273927_().x(), clientboundchunksbiomespacket$chunkbiomedata1.f_273927_().z()));
++         this.f_104889_.m_171649_(new ChunkPos(clientboundchunksbiomespacket$chunkbiomedata1.f_273927_().getX(), clientboundchunksbiomespacket$chunkbiomedata1.f_273927_().getZ()));
        }
  
        for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata2 : p_275437_.f_273816_()) {
@@ -187,7 +187,7 @@
 -               for(int k = this.f_104889_.m_151560_(); k < this.f_104889_.m_151561_(); ++k) {
 -                  this.f_104888_.f_91060_.m_109770_(clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().f_45578_ + i, k, clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().f_45579_ + j);
 +               for(long k = this.f_104889_.getMinSection(); k < this.f_104889_.getMaxSection(); ++k) {
-+                  this.f_104888_.f_91060_.setSectionDirty(clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().x() + i, k, clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().z() + j);
++                  this.f_104888_.f_91060_.setSectionDirty(clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().getX().add(i), me.alphamode.mclong.math.BigInteger.valueOf(k), clientboundchunksbiomespacket$chunkbiomedata2.f_273927_().getZ().add(j));
                 }
              }
           }
@@ -197,12 +197,12 @@
  
 -   private void m_194198_(int p_194199_, int p_194200_, ClientboundLevelChunkPacketData p_194201_) {
 -      this.f_104889_.m_7726_().m_194116_(p_194199_, p_194200_, p_194201_.m_195656_(), p_194201_.m_195678_(), p_194201_.m_195657_(p_194199_, p_194200_));
-+   private void updateLevelChunk(long p_194199_, long p_194200_, ClientboundLevelChunkPacketData p_194201_) {
++   private void updateLevelChunk(me.alphamode.mclong.math.BigInteger p_194199_, me.alphamode.mclong.math.BigInteger p_194200_, ClientboundLevelChunkPacketData p_194201_) {
 +      this.f_104889_.m_7726_().replaceWithPacketData(p_194199_, p_194200_, p_194201_.m_195656_(), p_194201_.m_195678_(), p_194201_.getBlockEntitiesTagsConsumer(p_194199_, p_194200_));
     }
  
 -   private void m_194212_(LevelChunk p_194213_, int p_194214_, int p_194215_) {
-+   private void enableChunkLight(LevelChunk p_194213_, long p_194214_, long p_194215_) {
++   private void enableChunkLight(LevelChunk p_194213_, me.alphamode.mclong.math.BigInteger p_194214_, me.alphamode.mclong.math.BigInteger p_194215_) {
        LevelLightEngine levellightengine = this.f_104889_.m_7726_().m_7827_();
        LevelChunkSection[] alevelchunksection = p_194213_.m_7103_();
        ChunkPos chunkpos = p_194213_.m_7697_();
@@ -214,7 +214,7 @@
 -         this.f_104889_.m_104793_(p_194214_, j, p_194215_);
 +         long j = this.f_104889_.getSectionYFromSectionIndex(i);
 +         levellightengine.m_6191_(SectionPos.of(chunkpos, j), levelchunksection.m_188008_());
-+         this.f_104889_.setSectionDirtyWithNeighbors(p_194214_, j, p_194215_);
++         this.f_104889_.setSectionDirtyWithNeighbors(p_194214_, me.alphamode.mclong.math.BigInteger.valueOf(j), p_194215_);
        }
  
     }
@@ -223,8 +223,8 @@
        PacketUtils.m_131363_(p_105014_, this, this.f_104888_);
 -      int i = p_105014_.m_132149_();
 -      int j = p_105014_.m_132152_();
-+      long i = p_105014_.getX();
-+      long j = p_105014_.getZ();
++      me.alphamode.mclong.math.BigInteger i = p_105014_.getX();
++      me.alphamode.mclong.math.BigInteger j = p_105014_.getZ();
        ClientChunkCache clientchunkcache = this.f_104889_.m_7726_();
 -      clientchunkcache.m_104455_(i, j);
 +      clientchunkcache.drop(i, j);
@@ -347,8 +347,8 @@
        PacketUtils.m_131363_(p_194243_, this, this.f_104888_);
 -      int i = p_194243_.m_132349_();
 -      int j = p_194243_.m_132352_();
-+      long i = p_194243_.getX();
-+      long j = p_194243_.getZ();
++      me.alphamode.mclong.math.BigInteger i = p_194243_.getX();
++      me.alphamode.mclong.math.BigInteger j = p_194243_.getZ();
        ClientboundLightUpdatePacketData clientboundlightupdatepacketdata = p_194243_.m_195722_();
        this.f_104889_.m_194171_(() -> {
 -         this.m_194248_(i, j, clientboundlightupdatepacketdata);
@@ -357,7 +357,7 @@
     }
  
 -   private void m_194248_(int p_194249_, int p_194250_, ClientboundLightUpdatePacketData p_194251_) {
-+   private void applyLightData(long p_194249_, long p_194250_, ClientboundLightUpdatePacketData p_194251_) {
++   private void applyLightData(me.alphamode.mclong.math.BigInteger p_194249_, me.alphamode.mclong.math.BigInteger p_194250_, ClientboundLightUpdatePacketData p_194251_) {
        LevelLightEngine levellightengine = this.f_104889_.m_7726_().m_7827_();
        BitSet bitset = p_194251_.m_195740_();
        BitSet bitset1 = p_194251_.m_195751_();
@@ -388,7 +388,7 @@
 -   private void m_171734_(int p_171735_, int p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_) {
 -      for(int i = 0; i < p_171737_.m_164446_(); ++i) {
 -         int j = p_171737_.m_164447_() + i;
-+   private void readSectionList(long p_171735_, long p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_) {
++   private void readSectionList(me.alphamode.mclong.math.BigInteger p_171735_, me.alphamode.mclong.math.BigInteger p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_) {
 +      for(int i = 0; i < p_171737_.getLightSectionCount(); ++i) {
 +         long j = p_171737_.getMinLightSection() + i;
           boolean flag = p_171739_.get(i);
@@ -396,8 +396,8 @@
           if (flag || flag1) {
 -            p_171737_.m_284126_(p_171738_, SectionPos.m_123173_(p_171735_, j, p_171736_), flag ? new DataLayer((byte[])p_171741_.next().clone()) : new DataLayer());
 -            this.f_104889_.m_104793_(p_171735_, j, p_171736_);
-+            p_171737_.m_284126_(p_171738_, SectionPos.of(p_171735_, j, p_171736_), flag ? new DataLayer((byte[])p_171741_.next().clone()) : new DataLayer());
-+            this.f_104889_.setSectionDirtyWithNeighbors(p_171735_, j, p_171736_);
++            p_171737_.m_284126_(p_171738_, SectionPos.of(p_171735_, me.alphamode.mclong.math.BigInteger.valueOf(j), p_171736_), flag ? new DataLayer((byte[])p_171741_.next().clone()) : new DataLayer());
++            this.f_104889_.setSectionDirtyWithNeighbors(p_171735_, me.alphamode.mclong.math.BigInteger.valueOf(j), p_171736_);
           }
        }
  

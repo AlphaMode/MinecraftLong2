@@ -69,7 +69,7 @@
              return false;
           } else {
 -            return p_220422_.m_45772_(entitytype.m_20585_((double)p_220427_.m_123341_() + 0.5D, (double)p_220427_.m_123342_(), (double)p_220427_.m_123343_() + 0.5D));
-+            return p_220422_.m_45772_(entitytype.m_20585_((double)p_220427_.getX() + 0.5D, (double)p_220427_.getY(), (double)p_220427_.getZ() + 0.5D));
++            return p_220422_.m_45772_(entitytype.getAABB(p_220427_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), p_220427_.getBigDecY(), p_220427_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB)));
           }
        } else {
           return false;
@@ -116,8 +116,8 @@
        if (!weightedrandomlist.m_146337_()) {
 -         int i = p_220453_.m_45604_();
 -         int j = p_220453_.m_45605_();
-+         long i = p_220453_.getMinBlockX();
-+         long j = p_220453_.getMinBlockZ();
++         me.alphamode.mclong.math.BigInteger i = p_220453_.getMinBigBlockX();
++         me.alphamode.mclong.math.BigInteger j = p_220453_.getMinBigBlockZ();
  
           while(p_220454_.m_188501_() < mobspawnsettings.m_48344_()) {
              Optional<MobSpawnSettings.SpawnerData> optional = weightedrandomlist.m_216829_(p_220454_);
@@ -129,10 +129,10 @@
 -               int i1 = j + p_220454_.m_188503_(16);
 -               int j1 = l;
 -               int k1 = i1;
-+               long l = i + p_220454_.m_188503_(16);
-+               long i1 = j + p_220454_.m_188503_(16);
-+               long j1 = l;
-+               long k1 = i1;
++               me.alphamode.mclong.math.BigInteger l = i.add(p_220454_.m_188503_(16));
++               me.alphamode.mclong.math.BigInteger i1 = j.add(p_220454_.m_188503_(16));
++               me.alphamode.mclong.math.BigInteger j1 = l;
++               me.alphamode.mclong.math.BigInteger k1 = i1;
  
                 for(int l1 = 0; l1 < k; ++l1) {
                    boolean flag = false;
@@ -142,10 +142,12 @@
 +                     BlockPos blockpos = getTopNonCollidingPos(p_220451_, mobspawnsettings$spawnerdata.f_48404_, l, i1);
                       if (mobspawnsettings$spawnerdata.f_48404_.m_20654_() && m_47051_(SpawnPlacements.m_21752_(mobspawnsettings$spawnerdata.f_48404_), p_220451_, blockpos, mobspawnsettings$spawnerdata.f_48404_)) {
                          float f = mobspawnsettings$spawnerdata.f_48404_.m_20678_();
-                         double d0 = Mth.m_14008_((double)l, (double)i + (double)f, (double)i + 16.0D - (double)f);
-                         double d1 = Mth.m_14008_((double)i1, (double)j + (double)f, (double)j + 16.0D - (double)f);
+-                        double d0 = Mth.m_14008_((double)l, (double)i + (double)f, (double)i + 16.0D - (double)f);
+-                        double d1 = Mth.m_14008_((double)i1, (double)j + (double)f, (double)j + 16.0D - (double)f);
 -                        if (!p_220451_.m_45772_(mobspawnsettings$spawnerdata.f_48404_.m_20585_(d0, (double)blockpos.m_123342_(), d1)) || !SpawnPlacements.m_217074_(mobspawnsettings$spawnerdata.f_48404_, p_220451_, MobSpawnType.CHUNK_GENERATION, BlockPos.m_274561_(d0, (double)blockpos.m_123342_(), d1), p_220451_.m_213780_())) {
-+                        if (!p_220451_.m_45772_(mobspawnsettings$spawnerdata.f_48404_.m_20585_(d0, (double)blockpos.getY(), d1)) || !SpawnPlacements.m_217074_(mobspawnsettings$spawnerdata.f_48404_, p_220451_, MobSpawnType.CHUNK_GENERATION, BlockPos.m_274561_(d0, (double)blockpos.getY(), d1), p_220451_.m_213780_())) {
++                        me.alphamode.mclong.math.BigDecimal d0 = Mth.clamp(l.toBigDecimal(), i.toBigDecimal().add(f), i.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.SIXTEEN).subtract(f));
++                        me.alphamode.mclong.math.BigDecimal d1 = Mth.clamp(i1.toBigDecimal(), j.toBigDecimal().add(f), j.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.SIXTEEN).subtract(f));
++                        if (!p_220451_.m_45772_(mobspawnsettings$spawnerdata.f_48404_.getAABB(d0, blockpos.getBigDecY(), d1)) || !SpawnPlacements.m_217074_(mobspawnsettings$spawnerdata.f_48404_, p_220451_, MobSpawnType.CHUNK_GENERATION, BlockPos.containing(d0, blockpos.getBigDecY(), d1), p_220451_.m_213780_())) {
                             continue;
                          }
  
@@ -154,21 +156,37 @@
                          }
  
 -                        entity.m_7678_(d0, (double)blockpos.m_123342_(), d1, p_220454_.m_188501_() * 360.0F, 0.0F);
-+                        entity.m_7678_(d0, (double)blockpos.getY(), d1, p_220454_.m_188501_() * 360.0F, 0.0F);
++                        entity.moveTo(d0, blockpos.getBigDecY(), d1, p_220454_.m_188501_() * 360.0F, 0.0F);
                          if (entity instanceof Mob) {
                             Mob mob = (Mob)entity;
                             if (mob.m_5545_(p_220451_, MobSpawnType.CHUNK_GENERATION) && mob.m_6914_(p_220451_)) {
-@@ -387,8 +_,8 @@
+@@ -374,10 +_,10 @@
+                         }
+                      }
+ 
+-                     l += p_220454_.m_188503_(5) - p_220454_.m_188503_(5);
++                     l = l.add(p_220454_.m_188503_(5) - p_220454_.m_188503_(5));
+ 
+-                     for(i1 += p_220454_.m_188503_(5) - p_220454_.m_188503_(5); l < i || l >= i + 16 || i1 < j || i1 >= j + 16; i1 = k1 + p_220454_.m_188503_(5) - p_220454_.m_188503_(5)) {
+-                        l = j1 + p_220454_.m_188503_(5) - p_220454_.m_188503_(5);
++                     for(i1 = i1.add(p_220454_.m_188503_(5) - p_220454_.m_188503_(5)); l.compareTo(i) < 0 || l.compareTo(i.add(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN)) >= 0 || i1.compareTo(j) < 0 || i1.compareTo(j.add(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN)) >= 0; i1 = k1.add(p_220454_.m_188503_(5) - p_220454_.m_188503_(5))) {
++                        l = j1.add(p_220454_.m_188503_(5) - p_220454_.m_188503_(5));
+                      }
+                   }
+                }
+@@ -387,9 +_,9 @@
        }
     }
  
 -   private static BlockPos m_47065_(LevelReader p_47066_, EntityType<?> p_47067_, int p_47068_, int p_47069_) {
 -      int i = p_47066_.m_6924_(SpawnPlacements.m_21765_(p_47067_), p_47068_, p_47069_);
-+   private static BlockPos getTopNonCollidingPos(LevelReader p_47066_, EntityType<?> p_47067_, long p_47068_, long p_47069_) {
+-      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_47068_, i, p_47069_);
++   private static BlockPos getTopNonCollidingPos(LevelReader p_47066_, EntityType<?> p_47067_, me.alphamode.mclong.math.BigInteger p_47068_, me.alphamode.mclong.math.BigInteger p_47069_) {
 +      long i = p_47066_.getHeight(SpawnPlacements.m_21765_(p_47067_), p_47068_, p_47069_);
-       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_47068_, i, p_47069_);
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_47068_, me.alphamode.mclong.math.BigInteger.valueOf(i), p_47069_);
        if (p_47066_.m_6042_().f_63856_()) {
           do {
+             blockpos$mutableblockpos.m_122173_(Direction.DOWN);
 @@ -397,11 +_,11 @@
  
           do {

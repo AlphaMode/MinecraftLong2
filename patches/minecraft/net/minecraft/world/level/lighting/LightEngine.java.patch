@@ -24,8 +24,8 @@
 -      int i = SectionPos.m_123171_(p_285338_.m_123341_());
 -      int j = SectionPos.m_123171_(p_285338_.m_123343_());
 -      LightChunk lightchunk = this.m_284303_(i, j);
-+      long i = SectionPos.blockToSectionCoord(p_285338_.getX());
-+      long j = SectionPos.blockToSectionCoord(p_285338_.getZ());
++      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(p_285338_.getBigX());
++      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(p_285338_.getBigZ());
 +      LightChunk lightchunk = this.getChunk(i, j);
        return lightchunk == null ? Blocks.f_50752_.m_49966_() : lightchunk.m_8055_(p_285338_);
     }
@@ -52,7 +52,7 @@
     @Nullable
 -   protected LightChunk m_284303_(int p_284967_, int p_285447_) {
 -      long i = ChunkPos.m_45589_(p_284967_, p_285447_);
-+   protected LightChunk getChunk(long p_284967_, long p_285447_) {
++   protected LightChunk getChunk(me.alphamode.mclong.math.BigInteger p_284967_, me.alphamode.mclong.math.BigInteger p_285447_) {
 +      ChunkPos i = new ChunkPos(p_284967_, p_285447_);
  
        for(int j = 0; j < 2; ++j) {
@@ -83,7 +83,7 @@
  
     public void m_284245_(ChunkPos p_285314_, boolean p_284937_) {
 -      this.f_283849_.m_75782_(SectionPos.m_284454_(p_285314_.f_45578_, p_285314_.f_45579_), p_284937_);
-+      this.f_283849_.retainData(SectionPos.getZeroNode(p_285314_.x(), p_285314_.z()), p_284937_);
++      this.f_283849_.retainData(SectionPos.getZeroNode(p_285314_.getX(), p_285314_.getZ()), p_284937_);
     }
  
     public void m_6191_(SectionPos p_285167_, boolean p_284934_) {
@@ -93,7 +93,7 @@
  
     public void m_9335_(ChunkPos p_285116_, boolean p_285522_) {
 -      this.f_283849_.m_284259_(SectionPos.m_284454_(p_285116_.f_45578_, p_285116_.f_45579_), p_285522_);
-+      this.f_283849_.setLightEnabled(SectionPos.getZeroNode(p_285116_.x(), p_285116_.z()), p_285522_);
++      this.f_283849_.setLightEnabled(SectionPos.getZeroNode(p_285116_.getX(), p_285116_.getZ()), p_285522_);
     }
  
     public int m_9323_() {
@@ -106,31 +106,45 @@
        }
  
        this.f_283863_.clear();
-@@ -157,17 +_,16 @@
+@@ -155,44 +_,40 @@
+    }
+ 
     private int m_284361_() {
-       int i;
-       for(i = 0; !this.f_283934_.isEmpty(); ++i) {
+-      int i;
+-      for(i = 0; !this.f_283934_.isEmpty(); ++i) {
 -         long j = this.f_283934_.dequeueLong();
 -         long k = this.f_283934_.dequeueLong();
 -         int l = this.f_283849_.m_75795_(j);
 -         int i1 = LightEngine.QueueEntry.m_284170_(k);
 -         if (LightEngine.QueueEntry.m_284312_(k) && l < i1) {
 -            this.f_283849_.m_75772_(j, i1);
-+         me.alphamode.mclong.lighting.LightingData lightingData = this.f_283934_.dequeue();
-+         int l = this.f_283849_.getStoredLevel(lightingData.pos());
-+         int i1 = LightEngine.QueueEntry.m_284170_(lightingData.data());
-+         if (LightEngine.QueueEntry.m_284312_(lightingData.data()) && l < i1) {
-+            this.f_283849_.setStoredLevel(lightingData.pos(), i1);
-             l = i1;
-          }
- 
-          if (l == i1) {
+-            l = i1;
+-         }
+-
+-         if (l == i1) {
 -            this.m_284316_(j, k, l);
-+            this.propagateIncrease(lightingData.pos(), lightingData.data(), l);
-          }
-       }
+-         }
+-      }
+-
+-      return i;
++//      int i;
++//      for(i = 0; !this.increaseQueue.isEmpty(); ++i) {
++//         me.alphamode.mclong.lighting.LightingData lightingData = this.increaseQueue.dequeue();
++//         int l = this.storage.getStoredLevel(lightingData.pos());
++//         int i1 = LightEngine.QueueEntry.getFromLevel(lightingData.data());
++//         if (LightEngine.QueueEntry.isIncreaseFromEmission(lightingData.data()) && l < i1) {
++//            this.storage.setStoredLevel(lightingData.pos(), i1);
++//            l = i1;
++//         }
++//
++//         if (l == i1) {
++//            this.propagateIncrease(lightingData.pos(), lightingData.data(), l);
++//         }
++//      }
++
++      return 15;
+    }
  
-@@ -177,22 +_,19 @@
     private int m_284399_() {
        int i;
        for(i = 0; !this.f_283823_.isEmpty(); ++i) {

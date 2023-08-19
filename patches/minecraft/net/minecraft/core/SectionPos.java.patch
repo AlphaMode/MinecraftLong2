@@ -9,7 +9,7 @@
     public static final int f_175535_ = 4;
     public static final int f_175536_ = 16;
     public static final int f_175539_ = 15;
-@@ -29,20 +_,28 @@
+@@ -29,20 +_,32 @@
     private static final int f_175550_ = 0;
     private static final int f_175551_ = 4;
  
@@ -26,6 +26,10 @@
     }
  
 -   public static SectionPos m_123173_(int p_123174_, int p_123175_, int p_123176_) {
++   public static SectionPos of(me.alphamode.mclong.math.BigInteger x, me.alphamode.mclong.math.BigInteger y, me.alphamode.mclong.math.BigInteger z) {
++      return new SectionPos(x, y, z);
++   }
++
 +   public static SectionPos of(long p_123174_, long p_123175_, long p_123176_) {
        return new SectionPos(p_123174_, p_123175_, p_123176_);
     }
@@ -327,8 +331,8 @@
 +      return m_123240_(asLong(p_285381_, 0, p_285068_));
 +   }
 +
-+   public static SectionPos getZeroNode(long p_285381_, long p_285068_) {
-+      return of(p_285381_, 0, p_285068_);
++   public static SectionPos getZeroNode(me.alphamode.mclong.math.BigInteger p_285381_, me.alphamode.mclong.math.BigInteger p_285068_) {
++      return of(p_285381_, me.alphamode.mclong.math.BigInteger.ZERO, p_285068_);
     }
  
     public static long m_123240_(long p_123241_) {
@@ -348,12 +352,12 @@
  
     public ChunkPos m_123251_() {
 -      return new ChunkPos(this.m_123170_(), this.m_123222_());
-+      return new ChunkPos(this.x(), this.z());
++      return new ChunkPos(this.getBigX(), this.getBigZ());
     }
  
     public static long m_175568_(BlockPos p_175569_) {
 -      return m_123209_(m_123171_(p_175569_.m_123341_()), m_123171_(p_175569_.m_123342_()), m_123171_(p_175569_.m_123343_()));
-+      return asLong(blockToSectionCoord(p_175569_.getX()), blockToSectionCoord(p_175569_.getY()), blockToSectionCoord(p_175569_.getZ()));
++      return asLong(blockToSectionCoord(p_175569_.getBigX()).longValue(), blockToSectionCoord(p_175569_.getBigY()).longValue(), blockToSectionCoord(p_175569_.getBigZ()).longValue());
     }
  
 -   public static long m_123209_(int p_123210_, int p_123211_, int p_123212_) {
@@ -438,20 +442,20 @@
 -      int i1 = m_123171_(p_194637_ - 1);
 -      int j1 = m_123171_(p_194637_ + 1);
 +   public static void aroundAndAtBlockPos(BlockPos p_194643_, java.util.function.Consumer<SectionPos> p_194644_) {
-+      aroundAndAtBlockPos(p_194643_.getX(), p_194643_.getY(), p_194643_.getZ(), p_194644_);
++      aroundAndAtBlockPos(p_194643_.getBigX(), p_194643_.getBigY(), p_194643_.getBigZ(), p_194644_);
 +   }
 +
 +   public static void aroundAndAtBlockPos(SectionPos p_194640_, java.util.function.Consumer<SectionPos> p_194641_) {
-+      aroundAndAtBlockPos(p_194640_.minBlockX(), p_194640_.minBlockY(), p_194640_.minBlockZ(), p_194641_);
++      aroundAndAtBlockPos(p_194640_.minBlockBigX(), p_194640_.minBlockBigY(), p_194640_.minBlockBigZ(), p_194641_);
 +   }
 +
-+   public static void aroundAndAtBlockPos(long p_194635_, long p_194636_, long p_194637_, java.util.function.Consumer<SectionPos> p_194638_) {
-+      long i = blockToSectionCoord(p_194635_ - 1);
-+      long j = blockToSectionCoord(p_194635_ + 1);
-+      long k = blockToSectionCoord(p_194636_ - 1);
-+      long l = blockToSectionCoord(p_194636_ + 1);
-+      long i1 = blockToSectionCoord(p_194637_ - 1);
-+      long j1 = blockToSectionCoord(p_194637_ + 1);
++   public static void aroundAndAtBlockPos(me.alphamode.mclong.math.BigInteger p_194635_, me.alphamode.mclong.math.BigInteger p_194636_, me.alphamode.mclong.math.BigInteger p_194637_, java.util.function.Consumer<SectionPos> p_194638_) {
++      long i = blockToSectionCoord(p_194635_.subtract()).longValue();
++      long j = blockToSectionCoord(p_194635_.add()).longValue();
++      long k = blockToSectionCoord(p_194636_.subtract()).longValue();
++      long l = blockToSectionCoord(p_194636_.add()).longValue();
++      long i1 = blockToSectionCoord(p_194637_.subtract()).longValue();
++      long j1 = blockToSectionCoord(p_194637_.add()).longValue();
        if (i == j && k == l && i1 == j1) {
 -         p_194638_.accept(m_123209_(i, k, i1));
 +         p_194638_.accept(of(i, k, i1));

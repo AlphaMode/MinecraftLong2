@@ -6,8 +6,8 @@
  public class PathNavigationRegion implements BlockGetter, CollisionGetter {
 -   protected final int f_47158_;
 -   protected final int f_47159_;
-+   protected final long f_47158_;
-+   protected final long f_47159_;
++   protected final me.alphamode.mclong.math.BigInteger f_47158_;
++   protected final me.alphamode.mclong.math.BigInteger f_47159_;
     protected final ChunkAccess[][] f_47160_;
     protected boolean f_47161_;
     protected final Level f_47162_;
@@ -20,20 +20,20 @@
 -      int i = SectionPos.m_123171_(p_47166_.m_123341_());
 -      int j = SectionPos.m_123171_(p_47166_.m_123343_());
 -      this.f_47160_ = new ChunkAccess[i - this.f_47158_ + 1][j - this.f_47159_ + 1];
-+      this.f_47158_ = SectionPos.blockToSectionCoord(p_47165_.getX());
-+      this.f_47159_ = SectionPos.blockToSectionCoord(p_47165_.getZ());
-+      long i = SectionPos.blockToSectionCoord(p_47166_.getX());
-+      long j = SectionPos.blockToSectionCoord(p_47166_.getZ());
-+      this.f_47160_ = new ChunkAccess[(int) (i - this.f_47158_ + 1)][(int) (j - this.f_47159_ + 1)];
++      this.f_47158_ = SectionPos.blockToSectionCoord(p_47165_.getBigX());
++      this.f_47159_ = SectionPos.blockToSectionCoord(p_47165_.getBigZ());
++      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(p_47166_.getBigX());
++      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(p_47166_.getBigZ());
++      this.f_47160_ = new ChunkAccess[(int) (i.subtract(this.f_47158_).add()).intValue()][(int) (j.subtract(this.f_47159_).add().intValue())];
        ChunkSource chunksource = p_47164_.m_7726_();
        this.f_47161_ = true;
  
 -      for(int k = this.f_47158_; k <= i; ++k) {
 -         for(int l = this.f_47159_; l <= j; ++l) {
 -            this.f_47160_[k - this.f_47158_][l - this.f_47159_] = chunksource.m_7131_(k, l);
-+      for(long k = this.f_47158_; k <= i; ++k) {
-+         for(long l = this.f_47159_; l <= j; ++l) {
-+            this.f_47160_[(int) (k - this.f_47158_)][(int) (l - this.f_47159_)] = chunksource.getChunkNow(k, l);
++      for(me.alphamode.mclong.math.BigInteger k = this.f_47158_; k.compareTo(i) <= 0; k = k.add()) {
++         for(me.alphamode.mclong.math.BigInteger l = this.f_47159_; l.compareTo(j) <= 0; l = l.add()) {
++            this.f_47160_[k.subtract(this.f_47158_).intValue()][l.subtract(this.f_47159_).intValue()] = chunksource.getChunkNow(k, l);
           }
        }
  
@@ -41,41 +41,37 @@
 -         for(int j1 = SectionPos.m_123171_(p_47165_.m_123343_()); j1 <= SectionPos.m_123171_(p_47166_.m_123343_()); ++j1) {
 -            ChunkAccess chunkaccess = this.f_47160_[i1 - this.f_47158_][j1 - this.f_47159_];
 -            if (chunkaccess != null && !chunkaccess.m_5566_(p_47165_.m_123342_(), p_47166_.m_123342_())) {
-+      for(long i1 = SectionPos.blockToSectionCoord(p_47165_.getX()); i1 <= SectionPos.blockToSectionCoord(p_47166_.getX()); ++i1) {
-+         for(long j1 = SectionPos.blockToSectionCoord(p_47165_.getZ()); j1 <= SectionPos.blockToSectionCoord(p_47166_.getZ()); ++j1) {
-+            ChunkAccess chunkaccess = this.f_47160_[(int) (i1 - this.f_47158_)][(int) (j1 - this.f_47159_)];
++      for(me.alphamode.mclong.math.BigInteger i1 = SectionPos.blockToSectionCoord(p_47165_.getBigX()); i1.compareTo(SectionPos.blockToSectionCoord(p_47166_.getBigX())) <= 0; i1 = i1.add()) {
++         for(me.alphamode.mclong.math.BigInteger j1 = SectionPos.blockToSectionCoord(p_47165_.getBigZ()); j1.compareTo(SectionPos.blockToSectionCoord(p_47166_.getBigZ())) <= 0; j1 = j1.add()) {
++            ChunkAccess chunkaccess = this.f_47160_[i1.subtract(this.f_47158_).intValue()][j1.subtract(this.f_47159_).intValue()];
 +            if (chunkaccess != null && !chunkaccess.isYSpaceEmpty(p_47165_.getY(), p_47166_.getY())) {
                 this.f_47161_ = false;
                 return;
              }
-@@ -64,14 +_,14 @@
+@@ -64,12 +_,12 @@
     }
  
     private ChunkAccess m_47185_(BlockPos p_47186_) {
 -      return this.m_47167_(SectionPos.m_123171_(p_47186_.m_123341_()), SectionPos.m_123171_(p_47186_.m_123343_()));
-+      return this.getChunk(SectionPos.blockToSectionCoord(p_47186_.getX()), SectionPos.blockToSectionCoord(p_47186_.getZ()));
++      return this.getChunk(SectionPos.blockToSectionCoord(p_47186_.getBigX()), SectionPos.blockToSectionCoord(p_47186_.getBigZ()));
     }
  
 -   private ChunkAccess m_47167_(int p_47168_, int p_47169_) {
 -      int i = p_47168_ - this.f_47158_;
 -      int j = p_47169_ - this.f_47159_;
--      if (i >= 0 && i < this.f_47160_.length && j >= 0 && j < this.f_47160_[i].length) {
--         ChunkAccess chunkaccess = this.f_47160_[i][j];
-+   private ChunkAccess getChunk(long p_47168_, long p_47169_) {
-+      long i = p_47168_ - this.f_47158_;
-+      long j = p_47169_ - this.f_47159_;
-+      if (i >= 0 && i < this.f_47160_.length && j >= 0 && j < this.f_47160_[(int) i].length) { // TODO: long support
-+         ChunkAccess chunkaccess = this.f_47160_[(int) i][(int) j];
++   private ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger p_47168_, me.alphamode.mclong.math.BigInteger p_47169_) {
++      int i = p_47168_.subtract(this.f_47158_).intValue();
++      int j = p_47169_.subtract(this.f_47159_).intValue();
+       if (i >= 0 && i < this.f_47160_.length && j >= 0 && j < this.f_47160_[i].length) {
+          ChunkAccess chunkaccess = this.f_47160_[i][j];
           return (ChunkAccess)(chunkaccess != null ? chunkaccess : new EmptyLevelChunk(this.f_47162_, new ChunkPos(p_47168_, p_47169_), this.f_204180_.get()));
-       } else {
-          return new EmptyLevelChunk(this.f_47162_, new ChunkPos(p_47168_, p_47169_), this.f_204180_.get());
 @@ -82,8 +_,8 @@
        return this.f_47162_.m_6857_();
     }
  
 -   public BlockGetter m_7925_(int p_47173_, int p_47174_) {
 -      return this.m_47167_(p_47173_, p_47174_);
-+   public BlockGetter getChunkForCollisions(long p_47173_, long p_47174_) {
++   public BlockGetter getChunkForCollisions(me.alphamode.mclong.math.BigInteger p_47173_, me.alphamode.mclong.math.BigInteger p_47174_) {
 +      return this.getChunk(p_47173_, p_47174_);
     }
  

@@ -81,7 +81,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
 
     public BigDecimal sqrt() {
         if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.sqrt(MathContext.UNLIMITED));
+            return new BigDecimal(this.backing.sqrt(MathContext.DECIMAL64));
         return new BigDecimal(Math.sqrt(this.doubleBacking));
     }
 

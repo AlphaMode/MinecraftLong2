@@ -18,7 +18,7 @@
  
        for(Heightmap.Types heightmap$types : Heightmap.Types.values()) {
           if (ChunkStatus.f_62326_.m_62500_().contains(heightmap$types)) {
-@@ -135,21 +_,21 @@
+@@ -135,39 +_,39 @@
        return new ChunkAccess.TicksToSave(this.f_62784_, this.f_187943_);
     }
  
@@ -40,31 +40,33 @@
 -      int i = p_62923_.m_123341_();
 -      int j = p_62923_.m_123342_();
 -      int k = p_62923_.m_123343_();
-+      long i = p_62923_.getX();
-+      long j = p_62923_.getY();
-+      long k = p_62923_.getZ();
++      me.alphamode.mclong.math.BigInteger i = p_62923_.getBigX();
++      me.alphamode.mclong.math.BigInteger j = p_62923_.getBigY();
++      me.alphamode.mclong.math.BigInteger k = p_62923_.getBigZ();
        if (this.f_62776_.m_46659_()) {
           BlockState blockstate = null;
-          if (j == 60) {
-@@ -157,17 +_,17 @@
+-         if (j == 60) {
++         if (j.longValue() == 60) {
+             blockstate = Blocks.f_50375_.m_49966_();
           }
  
-          if (j == 70) {
+-         if (j == 70) {
 -            blockstate = DebugLevelSource.m_64148_(i, k);
-+            blockstate = DebugLevelSource.getBlockStateFor(i, k);
++         if (j.longValue() == 70) {
++            blockstate = DebugLevelSource.getBlockStateFor(i.longValue(), k.longValue());
           }
  
           return blockstate == null ? Blocks.f_50016_.m_49966_() : blockstate;
        } else {
           try {
 -            int l = this.m_151564_(j);
-+            long l = this.getSectionIndex(j);
++            long l = this.getSectionIndex(j.longValue());
              if (l >= 0 && l < this.f_187612_.length) {
 -               LevelChunkSection levelchunksection = this.f_187612_[l];
 +               LevelChunkSection levelchunksection = this.f_187612_[(int) l]; // TODO: long support
                 if (!levelchunksection.m_188008_()) {
 -                  return levelchunksection.m_62982_(i & 15, j & 15, k & 15);
-+                  return levelchunksection.getBlockState(i & 15, j & 15, k & 15);
++                  return levelchunksection.getBlockState(i.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), j.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), k.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN));
                 }
              }
  
@@ -82,20 +84,20 @@
  
     public FluidState m_6425_(BlockPos p_62895_) {
 -      return this.m_62814_(p_62895_.m_123341_(), p_62895_.m_123342_(), p_62895_.m_123343_());
-+      return this.getFluidState(p_62895_.getX(), p_62895_.getY(), p_62895_.getZ());
++      return this.getFluidState(p_62895_.getBigX(), p_62895_.getBigY(), p_62895_.getBigZ());
     }
  
 -   public FluidState m_62814_(int p_62815_, int p_62816_, int p_62817_) {
-+   public FluidState getFluidState(long p_62815_, long p_62816_, long p_62817_) {
++   public FluidState getFluidState(me.alphamode.mclong.math.BigInteger p_62815_, me.alphamode.mclong.math.BigInteger p_62816_, me.alphamode.mclong.math.BigInteger p_62817_) {
        try {
 -         int i = this.m_151564_(p_62816_);
-+         long i = this.getSectionIndex(p_62816_);
++         long i = this.getSectionIndex(p_62816_.longValue());
           if (i >= 0 && i < this.f_187612_.length) {
 -            LevelChunkSection levelchunksection = this.f_187612_[i];
 +            LevelChunkSection levelchunksection = this.f_187612_[(int) i]; // TODO: long support
              if (!levelchunksection.m_188008_()) {
 -               return levelchunksection.m_63007_(p_62815_ & 15, p_62816_ & 15, p_62817_ & 15);
-+               return levelchunksection.getFluidState(p_62815_ & 15, p_62816_ & 15, p_62817_ & 15);
++               return levelchunksection.getFluidState(p_62815_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), p_62816_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), p_62817_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN));
              }
           }
  
@@ -125,8 +127,8 @@
 -         int l = p_62865_.m_123343_() & 15;
 -         BlockState blockstate = levelchunksection.m_62986_(j, k, l, p_62866_);
 +         me.alphamode.mclong.math.BigInteger j = p_62865_.getBigX().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
-+         me.alphamode.mclong.math.BigInteger k = i.add(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
-+         me.alphamode.mclong.math.BigInteger l = p_62865_.getBigZ().add(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++         me.alphamode.mclong.math.BigInteger k = i.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++         me.alphamode.mclong.math.BigInteger l = p_62865_.getBigZ().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
 +         BlockState blockstate = levelchunksection.setBlockState(j, k, l, p_62866_);
           if (blockstate == p_62866_) {
              return null;

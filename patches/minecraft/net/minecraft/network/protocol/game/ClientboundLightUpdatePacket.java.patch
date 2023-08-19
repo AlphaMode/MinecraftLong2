@@ -6,31 +6,31 @@
  public class ClientboundLightUpdatePacket implements Packet<ClientGamePacketListener> {
 -   private final int f_132323_;
 -   private final int f_132324_;
-+   private final long f_132323_;
-+   private final long f_132324_;
++   private final me.alphamode.mclong.math.BigInteger f_132323_;
++   private final me.alphamode.mclong.math.BigInteger f_132324_;
     private final ClientboundLightUpdatePacketData f_195721_;
  
     public ClientboundLightUpdatePacket(ChunkPos p_285255_, LevelLightEngine p_285409_, @Nullable BitSet p_285387_, @Nullable BitSet p_285074_) {
 -      this.f_132323_ = p_285255_.f_45578_;
 -      this.f_132324_ = p_285255_.f_45579_;
-+      this.f_132323_ = p_285255_.x();
-+      this.f_132324_ = p_285255_.z();
++      this.f_132323_ = p_285255_.getX();
++      this.f_132324_ = p_285255_.getZ();
        this.f_195721_ = new ClientboundLightUpdatePacketData(p_285255_, p_285409_, p_285387_, p_285074_);
     }
  
     public ClientboundLightUpdatePacket(FriendlyByteBuf p_178918_) {
 -      this.f_132323_ = p_178918_.m_130242_();
 -      this.f_132324_ = p_178918_.m_130242_();
-+      this.f_132323_ = p_178918_.readLong();
-+      this.f_132324_ = p_178918_.readLong();
++      this.f_132323_ = new me.alphamode.mclong.math.BigInteger(p_178918_.m_130277_());
++      this.f_132324_ = new me.alphamode.mclong.math.BigInteger(p_178918_.m_130277_());
        this.f_195721_ = new ClientboundLightUpdatePacketData(p_178918_, this.f_132323_, this.f_132324_);
     }
  
     public void m_5779_(FriendlyByteBuf p_132351_) {
 -      p_132351_.m_130130_(this.f_132323_);
 -      p_132351_.m_130130_(this.f_132324_);
-+      p_132351_.writeLong(this.f_132323_);
-+      p_132351_.writeLong(this.f_132324_);
++      p_132351_.m_130070_(this.f_132323_.toString());
++      p_132351_.m_130070_(this.f_132324_.toString());
        this.f_195721_.m_195749_(p_132351_);
     }
  
@@ -39,12 +39,12 @@
     }
  
 -   public int m_132349_() {
-+   public long getX() {
++   public me.alphamode.mclong.math.BigInteger getX() {
        return this.f_132323_;
     }
  
 -   public int m_132352_() {
-+   public long getZ() {
++   public me.alphamode.mclong.math.BigInteger getZ() {
        return this.f_132324_;
     }
  

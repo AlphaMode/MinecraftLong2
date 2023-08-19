@@ -15,8 +15,8 @@
     public int m_193812_(BlockPos p_193813_) {
 -      int i = SectionPos.m_123171_(p_193813_.m_123341_());
 -      int j = SectionPos.m_123171_(p_193813_.m_123343_());
-+      long i = SectionPos.blockToSectionCoord(p_193813_.getX());
-+      long j = SectionPos.blockToSectionCoord(p_193813_.getZ());
++      long i = SectionPos.blockToSectionCoord(p_193813_.getBigX()).longValue();
++      long j = SectionPos.blockToSectionCoord(p_193813_.getBigZ()).longValue();
        BlockTintCache.LatestCacheInfo blocktintcache$latestcacheinfo = this.f_92650_.get();
        if (blocktintcache$latestcacheinfo.f_92665_ != i || blocktintcache$latestcacheinfo.f_92666_ != j || blocktintcache$latestcacheinfo.f_92667_ == null || blocktintcache$latestcacheinfo.f_92667_.m_262488_()) {
           blocktintcache$latestcacheinfo.f_92665_ = i;
@@ -31,8 +31,8 @@
 -      int i1 = l << 4 | k;
 -      int j1 = aint[i1];
 +      int[] aint = blocktintcache$latestcacheinfo.f_92667_.getLayer(p_193813_.getY());
-+      long k = p_193813_.getX() & 15;
-+      long l = p_193813_.getZ() & 15;
++      long k = p_193813_.getBigX().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).longValue();
++      long l = p_193813_.getBigZ().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).longValue();
 +      long i1 = l << 4 | k;
 +      int j1 = aint[(int) i1];
        if (j1 != -1) {

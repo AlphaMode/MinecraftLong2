@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/ChunkPos.java
 +++ b/net/minecraft/world/level/ChunkPos.java
-@@ -8,55 +_,55 @@
+@@ -8,57 +_,53 @@
  import net.minecraft.core.BlockPos;
  import net.minecraft.core.SectionPos;
  
@@ -81,12 +81,13 @@
        return (long)p_45590_ & 4294967295L | ((long)p_45591_ & 4294967295L) << 32;
     }
  
-    public static long m_151388_(BlockPos p_151389_) {
+-   public static long m_151388_(BlockPos p_151389_) {
 -      return m_45589_(SectionPos.m_123171_(p_151389_.m_123341_()), SectionPos.m_123171_(p_151389_.m_123343_()));
-+      return asLong(SectionPos.blockToSectionCoord(p_151389_.getX()), SectionPos.blockToSectionCoord(p_151389_.getZ()));
-    }
- 
+-   }
+-
     public static int m_45592_(long p_45593_) {
+       return (int)(p_45593_ & 4294967295L);
+    }
 @@ -68,7 +_,7 @@
     }
  

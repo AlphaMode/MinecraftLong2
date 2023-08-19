@@ -9,16 +9,18 @@
  
              for(Map.Entry<Heightmap.Types, Heightmap> entry : chunkaccess.m_6890_()) {
                 Heightmap.Types heightmap$types = entry.getKey();
-@@ -43,9 +_,9 @@
+@@ -43,10 +_,10 @@
  
                 for(int k = 0; k < 16; ++k) {
                    for(int l = 0; l < 16; ++l) {
 -                     int i1 = SectionPos.m_175554_(chunkpos.f_45578_, k);
 -                     int j1 = SectionPos.m_175554_(chunkpos.f_45579_, l);
 -                     float f = (float)((double)((float)levelaccessor.m_6924_(heightmap$types, i1, j1) + (float)heightmap$types.ordinal() * 0.09375F) - p_113579_);
-+                     long i1 = SectionPos.sectionToBlockCoord(chunkpos.x(), k);
-+                     long j1 = SectionPos.sectionToBlockCoord(chunkpos.z(), l);
+-                     LevelRenderer.m_269208_(p_113576_, vertexconsumer, (double)((float)i1 + 0.25F) - p_113578_, (double)f, (double)((float)j1 + 0.25F) - p_113580_, (double)((float)i1 + 0.75F) - p_113578_, (double)(f + 0.09375F), (double)((float)j1 + 0.75F) - p_113580_, vector3f.x(), vector3f.y(), vector3f.z(), 1.0F);
++                     me.alphamode.mclong.math.BigInteger i1 = SectionPos.sectionToBlockCoord(chunkpos.getX(), k);
++                     me.alphamode.mclong.math.BigInteger j1 = SectionPos.sectionToBlockCoord(chunkpos.getZ(), l);
 +                     float f = (float)((double)((float)levelaccessor.getHeight(heightmap$types, i1, j1) + (float)heightmap$types.ordinal() * 0.09375F) - p_113579_);
-                      LevelRenderer.m_269208_(p_113576_, vertexconsumer, (double)((float)i1 + 0.25F) - p_113578_, (double)f, (double)((float)j1 + 0.25F) - p_113580_, (double)((float)i1 + 0.75F) - p_113578_, (double)(f + 0.09375F), (double)((float)j1 + 0.75F) - p_113580_, vector3f.x(), vector3f.y(), vector3f.z(), 1.0F);
++                     LevelRenderer.m_269208_(p_113576_, vertexconsumer, (double)((float)i1.longValue() + 0.25F) - p_113578_, (double)f, (double)((float)j1.longValue() + 0.25F) - p_113580_, (double)((float)i1.longValue() + 0.75F) - p_113578_, (double)(f + 0.09375F), (double)((float)j1.longValue() + 0.75F) - p_113580_, vector3f.x(), vector3f.y(), vector3f.z(), 1.0F);
                    }
                 }
+             }

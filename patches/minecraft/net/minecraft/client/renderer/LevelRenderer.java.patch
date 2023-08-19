@@ -90,7 +90,7 @@
 -                  int i2 = level.m_6924_(Heightmap.Types.MOTION_BLOCKING, k1, j1);
 -                  int j2 = j - l;
 -                  int k2 = j + l;
-+                  long i2 = level.getHeight(Heightmap.Types.MOTION_BLOCKING, k1, j1);
++                  long i2 = level.getHeight(Heightmap.Types.MOTION_BLOCKING, me.alphamode.mclong.math.BigInteger.valueOf(k1), me.alphamode.mclong.math.BigInteger.valueOf(j1));
 +                  long j2 = j - l;
 +                  long k2 = j + l;
                    if (j2 < i2) {
@@ -288,7 +288,7 @@
           ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = levelrenderer$renderchunkinfo.f_109839_;
           p_194363_.add(levelrenderer$renderchunkinfo);
 -         boolean flag = Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().m_123341_() - blockpos.m_123341_()) > 60 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().m_123342_() - blockpos.m_123342_()) > 60 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().m_123343_() - blockpos.m_123343_()) > 60;
-+         boolean flag = Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().getX() - blockpos.getX()) > 60 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().getY() - blockpos.getY()) > 60 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().getZ() - blockpos.getZ()) > 60;
++         boolean flag = chunkrenderdispatcher$renderchunk.m_112839_().getBigX().subtract(blockpos.getBigX()).abs().compareTo(60) > 0 || chunkrenderdispatcher$renderchunk.m_112839_().getBigY().subtract(blockpos.getBigY()).abs().compareTo(60) > 0 || chunkrenderdispatcher$renderchunk.m_112839_().getBigZ().subtract(blockpos.getBigZ()).abs().compareTo(60) > 0;
  
           for(Direction direction : f_109434_) {
              ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk1 = this.m_109728_(blockpos, chunkrenderdispatcher$renderchunk, direction);
@@ -297,11 +297,11 @@
                          blockpos2 = chunkrenderdispatcher$renderchunk1.m_112839_();
                          if (direction.m_122434_() == Direction.Axis.X) {
 -                           if (blockpos1.m_123341_() > blockpos2.m_123341_()) {
-+                           if (blockpos1.getX() > blockpos2.getX()) {
++                           if (blockpos1.getBigX().compareTo(blockpos2.getBigX()) > 0) {
                                break label125;
                             }
 -                        } else if (blockpos1.m_123341_() < blockpos2.m_123341_()) {
-+                        } else if (blockpos1.getX() < blockpos2.getX()) {
++                        } else if (blockpos1.getBigX().compareTo(blockpos2.getBigX()) < 0) {
                             break label125;
                          }
  
@@ -310,11 +310,11 @@
                       label117: {
                          if (direction.m_122434_() == Direction.Axis.Y) {
 -                           if (blockpos1.m_123342_() > blockpos2.m_123342_()) {
-+                           if (blockpos1.getY() > blockpos2.getY()) {
++                           if (blockpos1.getBigY().compareTo(blockpos2.getBigY()) > 0) {
                                break label117;
                             }
 -                        } else if (blockpos1.m_123342_() < blockpos2.m_123342_()) {
-+                        } else if (blockpos1.getY() < blockpos2.getY()) {
++                        } else if (blockpos1.getBigY().compareTo(blockpos2.getBigY()) < 0) {
                             break label117;
                          }
  
@@ -323,11 +323,11 @@
                       label109: {
                          if (direction.m_122434_() == Direction.Axis.Z) {
 -                           if (blockpos1.m_123343_() > blockpos2.m_123343_()) {
-+                           if (blockpos1.getZ() > blockpos2.getZ()) {
++                           if (blockpos1.getBigZ().compareTo(blockpos2.getBigZ()) > 0) {
                                break label109;
                             }
 -                        } else if (blockpos1.m_123343_() < blockpos2.m_123343_()) {
-+                        } else if (blockpos1.getZ() < blockpos2.getZ()) {
++                        } else if (blockpos1.getBigZ().compareTo(blockpos2.getBigZ()) < 0) {
                             break label109;
                          }
  
@@ -359,12 +359,12 @@
     private ChunkRenderDispatcher.RenderChunk m_109728_(BlockPos p_109729_, ChunkRenderDispatcher.RenderChunk p_109730_, Direction p_109731_) {
        BlockPos blockpos = p_109730_.m_112824_(p_109731_);
 -      if (Mth.m_14040_(p_109729_.m_123341_() - blockpos.m_123341_()) > this.f_109438_ * 16) {
-+      if (Mth.abs(p_109729_.getX() - blockpos.getX()) > this.f_109438_ * 16) {
++      if (Mth.abs(p_109729_.getBigX().subtract(blockpos.getBigX()).longValue()) > this.f_109438_ * 16) {
           return null;
 -      } else if (Mth.m_14040_(p_109729_.m_123342_() - blockpos.m_123342_()) <= this.f_109438_ * 16 && blockpos.m_123342_() >= this.f_109465_.m_141937_() && blockpos.m_123342_() < this.f_109465_.m_151558_()) {
 -         return Mth.m_14040_(p_109729_.m_123343_() - blockpos.m_123343_()) > this.f_109438_ * 16 ? null : this.f_109469_.m_110866_(blockpos);
-+      } else if (Mth.abs(p_109729_.getY() - blockpos.getY()) <= this.f_109438_ * 16 && blockpos.getY() >= this.f_109465_.getMinBuildHeight() && blockpos.getY() < this.f_109465_.getMaxBuildHeight()) {
-+         return Mth.abs(p_109729_.getZ() - blockpos.getZ()) > this.f_109438_ * 16 ? null : this.f_109469_.m_110866_(blockpos);
++      } else if (Mth.abs(p_109729_.getBigY().subtract(blockpos.getBigY()).longValue()) <= this.f_109438_ * 16 && blockpos.getY() >= this.f_109465_.getMinBuildHeight() && blockpos.getY() < this.f_109465_.getMaxBuildHeight()) {
++         return Mth.abs(p_109729_.getBigZ().subtract(blockpos.getBigZ()).longValue()) > this.f_109438_ * 16 ? null : this.f_109469_.m_110866_(blockpos);
        } else {
           return null;
        }
@@ -373,15 +373,16 @@
     private boolean m_194359_(BlockPos p_194360_, ChunkRenderDispatcher.RenderChunk p_194361_) {
 -      int i = SectionPos.m_123171_(p_194360_.m_123341_());
 -      int j = SectionPos.m_123171_(p_194360_.m_123343_());
-+      long i = SectionPos.blockToSectionCoord(p_194360_.getX());
-+      long j = SectionPos.blockToSectionCoord(p_194360_.getZ());
-       BlockPos blockpos = p_194361_.m_112839_();
+-      BlockPos blockpos = p_194361_.m_112839_();
 -      int k = SectionPos.m_123171_(blockpos.m_123341_());
 -      int l = SectionPos.m_123171_(blockpos.m_123343_());
 -      return !ChunkMap.m_200878_(k, l, i, j, this.f_109438_ - 3);
-+      long k = SectionPos.blockToSectionCoord(blockpos.getX());
-+      long l = SectionPos.blockToSectionCoord(blockpos.getZ());
-+      return !ChunkMap.isChunkInRange(k, l, i, j, this.f_109438_ - 2);
++//      long i = SectionPos.blockToSectionCoord(p_194360_.getX());
++//      long j = SectionPos.blockToSectionCoord(p_194360_.getZ());
++//      BlockPos blockpos = p_194361_.getOrigin();
++//      long k = SectionPos.blockToSectionCoord(blockpos.getX());
++//      long l = SectionPos.blockToSectionCoord(blockpos.getZ());
++      return false;//!ChunkMap.isChunkInRange(k, l, i, j, this.lastViewDistance - 2);
     }
  
 -   private void m_252964_(Matrix4f p_253756_, Matrix4f p_253787_, double p_254187_, double p_253833_, double p_254547_, Frustum p_253954_) {
@@ -921,9 +922,9 @@
 -         for(int j = p_109733_.m_123341_() - 1; j <= p_109733_.m_123341_() + 1; ++j) {
 -            for(int k = p_109733_.m_123342_() - 1; k <= p_109733_.m_123342_() + 1; ++k) {
 -               this.m_109501_(SectionPos.m_123171_(j), SectionPos.m_123171_(k), SectionPos.m_123171_(i), p_109734_);
-+      for(long i = p_109733_.getZ() - 1; i <= p_109733_.getZ() + 1; ++i) {
-+         for(long j = p_109733_.getX() - 1; j <= p_109733_.getX() + 1; ++j) {
-+            for(long k = p_109733_.getY() - 1; k <= p_109733_.getY() + 1; ++k) {
++      for(me.alphamode.mclong.math.BigInteger i = p_109733_.getBigZ().subtract(me.alphamode.mclong.math.BigInteger.ONE); i.compareTo(p_109733_.getBigZ().add(me.alphamode.mclong.math.BigInteger.ONE)) <= 0; i = i.add()) {
++         for(me.alphamode.mclong.math.BigInteger j = p_109733_.getBigX().subtract(me.alphamode.mclong.math.BigInteger.ONE); j.compareTo(p_109733_.getBigX().add(me.alphamode.mclong.math.BigInteger.ONE)) <= 0; j = j.add()) {
++            for(me.alphamode.mclong.math.BigInteger k = p_109733_.getBigY().subtract(me.alphamode.mclong.math.BigInteger.ONE); k.compareTo(p_109733_.getBigY().add(me.alphamode.mclong.math.BigInteger.ONE)) <= 0; k = k.add()) {
 +               this.setSectionDirty(SectionPos.blockToSectionCoord(j), SectionPos.blockToSectionCoord(k), SectionPos.blockToSectionCoord(i), p_109734_);
              }
           }
@@ -936,10 +937,10 @@
 -         for(int j = p_109495_ - 1; j <= p_109498_ + 1; ++j) {
 -            for(int k = p_109496_ - 1; k <= p_109499_ + 1; ++k) {
 -               this.m_109770_(SectionPos.m_123171_(j), SectionPos.m_123171_(k), SectionPos.m_123171_(i));
-+   public void setBlocksDirty(long p_109495_, long p_109496_, long p_109497_, long p_109498_, long p_109499_, long p_109500_) {
-+      for(long i = p_109497_ - 1; i <= p_109500_ + 1; ++i) {
-+         for(long j = p_109495_ - 1; j <= p_109498_ + 1; ++j) {
-+            for(long k = p_109496_ - 1; k <= p_109499_ + 1; ++k) {
++   public void setBlocksDirty(me.alphamode.mclong.math.BigInteger p_109495_, me.alphamode.mclong.math.BigInteger p_109496_, me.alphamode.mclong.math.BigInteger p_109497_, me.alphamode.mclong.math.BigInteger p_109498_, me.alphamode.mclong.math.BigInteger p_109499_, me.alphamode.mclong.math.BigInteger p_109500_) {
++      for(me.alphamode.mclong.math.BigInteger i = p_109497_.subtract(me.alphamode.mclong.math.BigInteger.ONE); i.compareTo(p_109500_.add()) <= 0; i = i.add()) {
++         for(me.alphamode.mclong.math.BigInteger j = p_109495_.subtract(me.alphamode.mclong.math.BigInteger.ONE); j.compareTo(p_109498_.add()) <= 0; j = j.add()) {
++            for(me.alphamode.mclong.math.BigInteger k = p_109496_.subtract(me.alphamode.mclong.math.BigInteger.ONE); k.compareTo(p_109499_.add()) <= 0; k = k.add()) {
 +               this.setSectionDirty(SectionPos.blockToSectionCoord(j), SectionPos.blockToSectionCoord(k), SectionPos.blockToSectionCoord(i));
              }
           }
@@ -949,7 +950,7 @@
     public void m_109721_(BlockPos p_109722_, BlockState p_109723_, BlockState p_109724_) {
        if (this.f_109461_.m_91304_().m_119415_(p_109723_, p_109724_)) {
 -         this.m_109494_(p_109722_.m_123341_(), p_109722_.m_123342_(), p_109722_.m_123343_(), p_109722_.m_123341_(), p_109722_.m_123342_(), p_109722_.m_123343_());
-+         this.setBlocksDirty(p_109722_.getX(), p_109722_.getY(), p_109722_.getZ(), p_109722_.getX(), p_109722_.getY(), p_109722_.getZ());
++         this.setBlocksDirty(p_109722_.getBigX(), p_109722_.getBigY(), p_109722_.getBigZ(), p_109722_.getBigX(), p_109722_.getBigY(), p_109722_.getBigZ());
        }
  
     }
@@ -959,10 +960,10 @@
 -         for(int j = p_109491_ - 1; j <= p_109491_ + 1; ++j) {
 -            for(int k = p_109492_ - 1; k <= p_109492_ + 1; ++k) {
 -               this.m_109770_(j, k, i);
-+   public void setSectionDirtyWithNeighbors(long p_109491_, long p_109492_, long p_109493_) {
-+      for(long i = p_109493_ - 1; i <= p_109493_ + 1; ++i) {
-+         for(long j = p_109491_ - 1; j <= p_109491_ + 1; ++j) {
-+            for(long k = p_109492_ - 1; k <= p_109492_ + 1; ++k) {
++   public void setSectionDirtyWithNeighbors(me.alphamode.mclong.math.BigInteger p_109491_, me.alphamode.mclong.math.BigInteger p_109492_, me.alphamode.mclong.math.BigInteger p_109493_) {
++      for(me.alphamode.mclong.math.BigInteger i = p_109493_.subtract(); i.compareTo(p_109493_.add()) <= 0; i = i.add()) {
++         for(me.alphamode.mclong.math.BigInteger j = p_109491_.subtract(); j.compareTo(p_109491_.add()) <= 0; j = j.add()) {
++            for(me.alphamode.mclong.math.BigInteger k = p_109492_.subtract(); k.compareTo(p_109492_.add()) <= 0; k = k.add()) {
 +               this.setSectionDirty(j, k, i);
              }
           }
@@ -972,13 +973,13 @@
  
 -   public void m_109770_(int p_109771_, int p_109772_, int p_109773_) {
 -      this.m_109501_(p_109771_, p_109772_, p_109773_, false);
-+   public void setSectionDirty(long p_109771_, long p_109772_, long p_109773_) {
++   public void setSectionDirty(me.alphamode.mclong.math.BigInteger p_109771_, me.alphamode.mclong.math.BigInteger p_109772_, me.alphamode.mclong.math.BigInteger p_109773_) {
 +      this.setSectionDirty(p_109771_, p_109772_, p_109773_, false);
     }
  
 -   private void m_109501_(int p_109502_, int p_109503_, int p_109504_, boolean p_109505_) {
 -      this.f_109469_.m_110859_(p_109502_, p_109503_, p_109504_, p_109505_);
-+   private void setSectionDirty(long p_109502_, long p_109503_, long p_109504_, boolean p_109505_) {
++   private void setSectionDirty(me.alphamode.mclong.math.BigInteger p_109502_, me.alphamode.mclong.math.BigInteger p_109503_, me.alphamode.mclong.math.BigInteger p_109504_, boolean p_109505_) {
 +      this.f_109469_.setDirty(p_109502_, p_109503_, p_109504_, p_109505_);
     }
  
