@@ -115,7 +115,7 @@
        long i = 0L;
        i |= ((long)p_121883_ & f_121858_) << f_121862_;
        i |= ((long)p_121884_ & f_121859_) << 0;
-@@ -102,94 +_,98 @@
+@@ -102,94 +_,102 @@
        return p_122028_ & -16L;
     }
  
@@ -123,6 +123,10 @@
 -      return p_121973_ == 0 && p_121974_ == 0 && p_121975_ == 0 ? this : new BlockPos(this.m_123341_() + p_121973_, this.m_123342_() + p_121974_, this.m_123343_() + p_121975_);
 +   public BlockPos offset(long p_121973_, long p_121974_, long p_121975_) {
 +      return p_121973_ == 0 && p_121974_ == 0 && p_121975_ == 0 ? this : new BlockPos(this.getBigX().add(me.alphamode.mclong.math.BigInteger.valueOf(p_121973_)), this.getBigY().add(me.alphamode.mclong.math.BigInteger.valueOf(p_121974_)), this.getBigZ().add(me.alphamode.mclong.math.BigInteger.valueOf(p_121975_)));
++   }
++
++   public BlockPos offset(me.alphamode.mclong.math.BigInteger x, me.alphamode.mclong.math.BigInteger y, me.alphamode.mclong.math.BigInteger z) {
++      return x.equals(me.alphamode.mclong.math.BigInteger.ZERO) && y.equals(me.alphamode.mclong.math.BigInteger.ZERO) && z.equals(me.alphamode.mclong.math.BigInteger.ZERO) ? this : new BlockPos(this.getBigX().add(x), this.getBigY().add(y), this.getBigZ().add(z));
     }
  
     public Vec3 m_252807_() {
@@ -131,7 +135,7 @@
 +   }
 +
 +   public BlockPos offset(me.alphamode.mclong.core.Vec3l p_121956_) {
-+      return this.offset(p_121956_.getX(), p_121956_.getY(), p_121956_.getZ());
++      return this.offset(p_121956_.getBigX(), p_121956_.getBigY(), p_121956_.getBigZ());
     }
  
     public BlockPos m_121955_(Vec3i p_121956_) {
@@ -147,7 +151,7 @@
 +   }
 +
 +   public BlockPos subtract(me.alphamode.mclong.core.Vec3l p_121997_) {
-+      return this.offset(-p_121997_.getX(), -p_121997_.getY(), -p_121997_.getZ());
++      return this.offset(p_121997_.getBigX().negate(), p_121997_.getBigY().negate(), p_121997_.getBigZ().negate());
 +   }
 +
 +   public BlockPos multiply(long p_175263_) {
@@ -155,7 +159,7 @@
           return this;
        } else {
 -         return p_175263_ == 0 ? f_121853_ : new BlockPos(this.m_123341_() * p_175263_, this.m_123342_() * p_175263_, this.m_123343_() * p_175263_);
-+         return p_175263_ == 0 ? f_121853_ : new BlockPos(this.getX() * p_175263_, this.getY() * p_175263_, this.getZ() * p_175263_);
++         return p_175263_ == 0 ? f_121853_ : new BlockPos(this.getBigX().multiply(p_175263_), this.getBigY().multiply(p_175263_), this.getBigZ().multiply(p_175263_));
        }
     }
  
@@ -358,7 +362,7 @@
                    --this.f_122040_;
                    return blockpos;
                 }
-@@ -255,25 +_,25 @@
+@@ -255,51 +_,51 @@
        };
     }
  
@@ -369,9 +373,9 @@
 -      int l = p_121926_.m_123343_();
 +   public static Iterable<BlockPos> withinManhattan(BlockPos p_121926_, long p_121927_, long p_121928_, long p_121929_) {
 +      long i = p_121927_ + p_121928_ + p_121929_;
-+      long j = p_121926_.getX();
-+      long k = p_121926_.getY();
-+      long l = p_121926_.getZ();
++      me.alphamode.mclong.math.BigInteger j = p_121926_.getBigX();
++      me.alphamode.mclong.math.BigInteger k = p_121926_.getBigY();
++      me.alphamode.mclong.math.BigInteger l = p_121926_.getBigZ();
        return () -> {
           return new AbstractIterator<BlockPos>() {
              private final BlockPos.MutableBlockPos f_122067_ = new BlockPos.MutableBlockPos();
@@ -380,34 +384,55 @@
 -            private int f_122070_;
 -            private int f_122071_;
 -            private int f_122072_;
-+            private long f_122069_;
-+            private long f_122070_;
-+            private long f_122071_;
-+            private long f_122072_;
++            private me.alphamode.mclong.math.BigInteger f_122069_;
++            private me.alphamode.mclong.math.BigInteger f_122070_;
++            private me.alphamode.mclong.math.BigInteger f_122071_ = me.alphamode.mclong.math.BigInteger.ZERO;
++            private me.alphamode.mclong.math.BigInteger f_122072_ = me.alphamode.mclong.math.BigInteger.ZERO;
              private boolean f_122073_;
  
              protected BlockPos computeNext() {
                 if (this.f_122073_) {
                    this.f_122073_ = false;
 -                  this.f_122067_.m_142443_(l - (this.f_122067_.m_123343_() - l));
-+                  this.f_122067_.setZ(l - (this.f_122067_.getZ() - l));
++                  this.f_122067_.setZ(l.subtract((this.f_122067_.getBigZ().subtract(l))));
                    return this.f_122067_;
                 } else {
                    BlockPos blockpos;
-@@ -294,12 +_,12 @@
-                         this.f_122072_ = -this.f_122070_;
+-                  for(blockpos = null; blockpos == null; ++this.f_122072_) {
+-                     if (this.f_122072_ > this.f_122070_) {
+-                        ++this.f_122071_;
+-                        if (this.f_122071_ > this.f_122069_) {
++                  for(blockpos = null; blockpos == null; this.f_122072_ = this.f_122072_.add()) {
++                     if (this.f_122072_.compareTo(this.f_122070_) > 0) {
++                        this.f_122071_ = this.f_122071_.add();
++                        if (this.f_122071_.compareTo(this.f_122069_) > 0) {
+                            ++this.f_122068_;
+                            if (this.f_122068_ > i) {
+                               return this.endOfData();
+                            }
+ 
+-                           this.f_122069_ = Math.min(p_121927_, this.f_122068_);
+-                           this.f_122071_ = -this.f_122069_;
++                           this.f_122069_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.min(p_121927_, this.f_122068_));
++                           this.f_122071_ = this.f_122069_.negate();
+                         }
+ 
+-                        this.f_122070_ = Math.min(p_121928_, this.f_122068_ - Math.abs(this.f_122071_));
+-                        this.f_122072_ = -this.f_122070_;
++                        this.f_122070_ = me.alphamode.mclong.math.BigInteger.valueOf(p_121928_).min(me.alphamode.mclong.math.BigInteger.valueOf(this.f_122068_).subtract(this.f_122071_.abs()));
++                        this.f_122072_ = this.f_122070_.negate();
                       }
  
 -                     int i1 = this.f_122071_;
 -                     int j1 = this.f_122072_;
 -                     int k1 = this.f_122068_ - Math.abs(i1) - Math.abs(j1);
-+                     long i1 = this.f_122071_;
-+                     long j1 = this.f_122072_;
-+                     long k1 = this.f_122068_ - Math.abs(i1) - Math.abs(j1);
++                     me.alphamode.mclong.math.BigInteger i1 = this.f_122071_;
++                     me.alphamode.mclong.math.BigInteger j1 = this.f_122072_;
++                     long k1 = me.alphamode.mclong.math.BigInteger.valueOf(this.f_122068_).subtract(i1.abs()).subtract(j1.abs()).longValue();
                       if (k1 <= p_121929_) {
                          this.f_122073_ = k1 != 0;
 -                        blockpos = this.f_122067_.m_122178_(j + i1, k + j1, l + k1);
-+                        blockpos = this.f_122067_.set(j + i1, k + j1, l + k1);
++                        blockpos = this.f_122067_.set(j.add(i1), k.add(j1), l.add(k1));
                       }
                    }
  
@@ -535,9 +560,9 @@
 +            private int leg = -1;
 +            private int legSize;
 +            private int legIndex;
-+            private long lastX = this.cursor.getX();
-+            private long lastY = this.cursor.getY();
-+            private long lastZ = this.cursor.getZ();
++            private me.alphamode.mclong.math.BigInteger lastX = this.cursor.getBigX();
++            private me.alphamode.mclong.math.BigInteger lastY = this.cursor.getBigY();
++            private me.alphamode.mclong.math.BigInteger lastZ = this.cursor.getBigZ();
  
              protected BlockPos.MutableBlockPos computeNext() {
 -               this.f_122106_.m_122178_(this.f_122111_, this.f_122112_, this.f_122113_).m_122173_(this.f_122105_[(this.f_122108_ + 4) % 4]);
@@ -547,9 +572,9 @@
 -               if (this.f_122110_ >= this.f_122109_) {
 -                  if (this.f_122108_ >= this.f_122107_) {
 +               this.cursor.set(this.lastX, this.lastY, this.lastZ).m_122173_(this.directions[(this.leg + 4) % 4]);
-+               this.lastX = this.cursor.getX();
-+               this.lastY = this.cursor.getY();
-+               this.lastZ = this.cursor.getZ();
++               this.lastX = this.cursor.getBigX();
++               this.lastY = this.cursor.getBigY();
++               this.lastZ = this.cursor.getBigZ();
 +               if (this.legIndex >= this.legSize) {
 +                  if (this.leg >= this.legs) {
                       return this.endOfData();
@@ -682,7 +707,7 @@
 +      }
 +
 +      public BlockPos.MutableBlockPos set(me.alphamode.mclong.core.Vec3l p_122191_) {
-+         return this.set(p_122191_.getX(), p_122191_.getY(), p_122191_.getZ());
++         return this.set(p_122191_.getBigX(), p_122191_.getBigY(), p_122191_.getBigZ());
        }
  
        public BlockPos.MutableBlockPos m_122188_(long p_122189_) {
@@ -711,15 +736,15 @@
 +      }
 +
 +      public BlockPos.MutableBlockPos setWithOffset(me.alphamode.mclong.core.Vec3l p_122160_, Direction p_122161_) {
-+         return this.set(p_122160_.getX() + p_122161_.m_122429_(), p_122160_.getY() + p_122161_.m_122430_(), p_122160_.getZ() + p_122161_.m_122431_());
++         return this.set(p_122160_.getBigX().add(p_122161_.m_122429_()), p_122160_.getBigY().add(p_122161_.m_122430_()), p_122160_.getBigZ().add(p_122161_.m_122431_()));
 +      }
 +
 +      public BlockPos.MutableBlockPos setWithOffset(me.alphamode.mclong.core.Vec3l p_122155_, long p_122156_, long p_122157_, long p_122158_) {
-+         return this.set(p_122155_.getX() + p_122156_, p_122155_.getY() + p_122157_, p_122155_.getZ() + p_122158_);
++         return this.set(p_122155_.getBigX().add(p_122156_), p_122155_.getBigY().add(p_122157_), p_122155_.getBigZ().add(p_122158_));
 +      }
 +
 +      public BlockPos.MutableBlockPos setWithOffset(me.alphamode.mclong.core.Vec3l p_175307_, me.alphamode.mclong.core.Vec3l p_175308_) {
-+         return this.set(p_175307_.getX() + p_175308_.getX(), p_175307_.getY() + p_175308_.getY(), p_175307_.getZ() + p_175308_.getZ());
++         return this.set(p_175307_.getBigX().add(p_175308_.getBigX()), p_175307_.getBigY().add(p_175308_.getBigY()), p_175307_.getBigZ().add(p_175308_.getBigZ()));
        }
  
        public BlockPos.MutableBlockPos m_122173_(Direction p_122174_) {
@@ -743,15 +768,15 @@
 +      }
 +
 +      public BlockPos.MutableBlockPos move(Direction p_122176_, long p_122177_) {
-+         return this.set(this.getX() + p_122176_.m_122429_() * p_122177_, this.getY() + p_122176_.m_122430_() * p_122177_, this.getZ() + p_122176_.m_122431_() * p_122177_);
++         return this.set(this.getBigX().add(p_122176_.m_122429_() * p_122177_), this.getBigY().add(p_122176_.m_122430_() * p_122177_), this.getBigZ().add(p_122176_.m_122431_() * p_122177_));
 +      }
 +
 +      public BlockPos.MutableBlockPos move(long p_122185_, long p_122186_, long p_122187_) {
-+         return this.set(this.getX() + p_122185_, this.getY() + p_122186_, this.getZ() + p_122187_);
++         return this.set(this.getBigX().add(p_122185_), this.getBigY().add(p_122186_), this.getBigZ().add(p_122187_));
 +      }
 +
 +      public BlockPos.MutableBlockPos move(me.alphamode.mclong.core.Vec3l p_122194_) {
-+         return this.set(this.getX() + p_122194_.getX(), this.getY() + p_122194_.getY(), this.getZ() + p_122194_.getZ());
++         return this.set(this.getBigX().add(p_122194_.getBigX()), this.getBigY().add(p_122194_.getY()), this.getBigZ().add(p_122194_.getBigZ()));
 +      }
 +
 +      public BlockPos.MutableBlockPos clamp(Direction.Axis p_122148_, long p_122149_, long p_122150_) {

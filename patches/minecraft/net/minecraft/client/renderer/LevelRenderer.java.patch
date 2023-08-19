@@ -202,7 +202,16 @@
        this.f_109463_.m_114406_(p_109702_);
        this.f_109465_ = p_109702_;
        if (p_109702_ != null) {
-@@ -786,29 +_,29 @@
+@@ -727,7 +_,7 @@
+          this.f_194297_.clear();
+          Entity entity = this.f_109461_.m_91288_();
+          if (entity != null) {
+-            this.f_109469_.m_110850_(entity.m_20185_(), entity.m_20189_());
++            this.f_109469_.repositionCamera(entity.getBigX(), entity.getBigZ());
+          }
+ 
+       }
+@@ -786,30 +_,30 @@
        }
  
        this.f_109465_.m_46473_().m_6180_("camera");
@@ -227,7 +236,7 @@
           this.f_109423_ = j;
           this.f_109424_ = k;
 -         this.f_109469_.m_110850_(d0, d2);
-+         this.f_109469_.m_110850_(d0.doubleValue(), d2.doubleValue());
++         this.f_109469_.repositionCamera(d0, d2);
        }
  
        this.f_109436_.m_112693_(vec3);
@@ -237,12 +246,14 @@
 -      double d3 = Math.floor(vec3.f_82479_ / 8.0D);
 -      double d4 = Math.floor(vec3.f_82480_ / 8.0D);
 -      double d5 = Math.floor(vec3.f_82481_ / 8.0D);
+-      this.f_194300_ = this.f_194300_ || d3 != this.f_109425_ || d4 != this.f_109426_ || d5 != this.f_109427_;
 +      me.alphamode.mclong.math.BigDecimal d3 = vec3.getX().divide(me.alphamode.mclong.core.BigConstants.EIGHT).setScale(0, java.math.RoundingMode.FLOOR);
 +      me.alphamode.mclong.math.BigDecimal d4 = vec3.getY().divide(me.alphamode.mclong.core.BigConstants.EIGHT).setScale(0, java.math.RoundingMode.FLOOR);
 +      me.alphamode.mclong.math.BigDecimal d5 = vec3.getZ().divide(me.alphamode.mclong.core.BigConstants.EIGHT).setScale(0, java.math.RoundingMode.FLOOR);
-       this.f_194300_ = this.f_194300_ || d3 != this.f_109425_ || d4 != this.f_109426_ || d5 != this.f_109427_;
++      this.f_194300_ = this.f_194300_ || !d3.equals(this.f_109425_) || !d4.equals(this.f_109426_) || !d5.equals(this.f_109427_);
        this.f_194301_.updateAndGet((p_234309_) -> {
           if (p_234309_ > 0L && System.currentTimeMillis() > p_234309_) {
+             this.f_194300_ = true;
 @@ -896,15 +_,15 @@
        BlockPos blockpos = p_194344_.m_90588_();
        ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_109469_.m_110866_(blockpos);
@@ -279,7 +290,7 @@
        int i = 16;
 -      BlockPos blockpos = new BlockPos(Mth.m_14107_(p_194365_.f_82479_ / 16.0D) * 16, Mth.m_14107_(p_194365_.f_82480_ / 16.0D) * 16, Mth.m_14107_(p_194365_.f_82481_ / 16.0D) * 16);
 -      BlockPos blockpos1 = blockpos.m_7918_(8, 8, 8);
-+      BlockPos blockpos = new BlockPos(p_194365_.getX().divide(me.alphamode.mclong.core.BigConstants.SIXTEEN).setScale(0, java.math.RoundingMode.FLOOR).multiply(me.alphamode.mclong.core.BigConstants.SIXTEEN), p_194365_.getY().divide(me.alphamode.mclong.core.BigConstants.SIXTEEN).setScale(0, java.math.RoundingMode.FLOOR).multiply(me.alphamode.mclong.core.BigConstants.SIXTEEN), p_194365_.getZ().divide(me.alphamode.mclong.core.BigConstants.SIXTEEN).setScale(0, java.math.RoundingMode.FLOOR).multiply(me.alphamode.mclong.core.BigConstants.SIXTEEN));
++      BlockPos blockpos = new BlockPos(Mth.lfloor(p_194365_.getX().divide(me.alphamode.mclong.core.BigConstants.SIXTEEN)).multiply(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN), Mth.lfloor(p_194365_.getY().divide(me.alphamode.mclong.core.BigConstants.SIXTEEN)).multiply(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN), Mth.lfloor(p_194365_.getZ().divide(me.alphamode.mclong.core.BigConstants.SIXTEEN)).multiply(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN));
 +      BlockPos blockpos1 = blockpos.offset(8, 8, 8);
        Entity.m_20103_(Mth.m_14008_((double)this.f_109461_.f_91066_.m_193772_() / 8.0D, 1.0D, 2.5D) * this.f_109461_.f_91066_.m_232018_().m_231551_());
  
@@ -288,7 +299,7 @@
           ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = levelrenderer$renderchunkinfo.f_109839_;
           p_194363_.add(levelrenderer$renderchunkinfo);
 -         boolean flag = Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().m_123341_() - blockpos.m_123341_()) > 60 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().m_123342_() - blockpos.m_123342_()) > 60 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().m_123343_() - blockpos.m_123343_()) > 60;
-+         boolean flag = chunkrenderdispatcher$renderchunk.m_112839_().getBigX().subtract(blockpos.getBigX()).abs().compareTo(60) > 0 || chunkrenderdispatcher$renderchunk.m_112839_().getBigY().subtract(blockpos.getBigY()).abs().compareTo(60) > 0 || chunkrenderdispatcher$renderchunk.m_112839_().getBigZ().subtract(blockpos.getBigZ()).abs().compareTo(60) > 0;
++         boolean flag = chunkrenderdispatcher$renderchunk.m_112839_().getBigX().subtract(blockpos.getBigX()).abs().compareTo(60) > 0 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().getY() - blockpos.getY()) > 60 || chunkrenderdispatcher$renderchunk.m_112839_().getBigZ().subtract(blockpos.getBigZ()).abs().compareTo(60) > 0;
  
           for(Direction direction : f_109434_) {
              ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk1 = this.m_109728_(blockpos, chunkrenderdispatcher$renderchunk, direction);
@@ -310,11 +321,11 @@
                       label117: {
                          if (direction.m_122434_() == Direction.Axis.Y) {
 -                           if (blockpos1.m_123342_() > blockpos2.m_123342_()) {
-+                           if (blockpos1.getBigY().compareTo(blockpos2.getBigY()) > 0) {
++                           if (blockpos1.getY() > blockpos2.getY()) {
                                break label117;
                             }
 -                        } else if (blockpos1.m_123342_() < blockpos2.m_123342_()) {
-+                        } else if (blockpos1.getBigY().compareTo(blockpos2.getBigY()) < 0) {
++                        } else if (blockpos1.getY() < blockpos2.getY()) {
                             break label117;
                          }
  
@@ -350,7 +361,7 @@
                       }
  
 -                     ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk2 = this.f_109469_.m_110866_(BlockPos.m_274561_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_));
-+                     ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk2 = this.f_109469_.m_110866_(BlockPos.containing(vec31));
++                     ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk2 = this.f_109469_.m_110866_(BlockPos.containing(vec31.getX(), vec31.getY(), vec31.getZ()));
                       if (chunkrenderdispatcher$renderchunk2 == null || p_194364_.m_173035_(chunkrenderdispatcher$renderchunk2) == null) {
                          flag2 = false;
                          break;
@@ -938,9 +949,9 @@
 -            for(int k = p_109496_ - 1; k <= p_109499_ + 1; ++k) {
 -               this.m_109770_(SectionPos.m_123171_(j), SectionPos.m_123171_(k), SectionPos.m_123171_(i));
 +   public void setBlocksDirty(me.alphamode.mclong.math.BigInteger p_109495_, me.alphamode.mclong.math.BigInteger p_109496_, me.alphamode.mclong.math.BigInteger p_109497_, me.alphamode.mclong.math.BigInteger p_109498_, me.alphamode.mclong.math.BigInteger p_109499_, me.alphamode.mclong.math.BigInteger p_109500_) {
-+      for(me.alphamode.mclong.math.BigInteger i = p_109497_.subtract(me.alphamode.mclong.math.BigInteger.ONE); i.compareTo(p_109500_.add()) <= 0; i = i.add()) {
-+         for(me.alphamode.mclong.math.BigInteger j = p_109495_.subtract(me.alphamode.mclong.math.BigInteger.ONE); j.compareTo(p_109498_.add()) <= 0; j = j.add()) {
-+            for(me.alphamode.mclong.math.BigInteger k = p_109496_.subtract(me.alphamode.mclong.math.BigInteger.ONE); k.compareTo(p_109499_.add()) <= 0; k = k.add()) {
++      for(me.alphamode.mclong.math.BigInteger i = p_109497_.subtract(); i.compareTo(p_109500_.add()) <= 0; i = i.add()) {
++         for(me.alphamode.mclong.math.BigInteger j = p_109495_.subtract(); j.compareTo(p_109498_.add()) <= 0; j = j.add()) {
++            for(me.alphamode.mclong.math.BigInteger k = p_109496_.subtract(); k.compareTo(p_109499_.add()) <= 0; k = k.add()) {
 +               this.setSectionDirty(SectionPos.blockToSectionCoord(j), SectionPos.blockToSectionCoord(k), SectionPos.blockToSectionCoord(i));
              }
           }
