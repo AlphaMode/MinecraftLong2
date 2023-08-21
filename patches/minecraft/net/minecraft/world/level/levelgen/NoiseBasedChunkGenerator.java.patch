@@ -211,7 +211,7 @@
  
        for(int k1 = 0; k1 < i1; ++k1) {
           noisechunk.m_188749_(k1);
-@@ -291,44 +_,44 @@
+@@ -291,44 +_,45 @@
              int i2 = p_224288_.m_151559_() - 1;
              LevelChunkSection levelchunksection = p_224288_.m_183278_(i2);
  
@@ -225,9 +225,9 @@
 -                  int i3 = l2 & 15;
 -                  int j3 = p_224288_.m_151564_(l2);
 +               for(long k2 = l - 1; k2 >= 0; --k2) {
-+                  me.alphamode.mclong.math.BigInteger l2 = me.alphamode.mclong.math.BigInteger.valueOf((p_224289_ + j2) * l + k2);
-+                  me.alphamode.mclong.math.BigInteger i3 = l2.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
-+                  int j3 = p_224288_.getSectionIndex(l2.longValue());
++                  long l2 = (p_224289_ + j2) * l + k2;
++                  long i3 = l2 & 15;
++                  int j3 = p_224288_.getSectionIndex(l2);
                    if (i2 != j3) {
                       i2 = j3;
                       levelchunksection = p_224288_.m_183278_(j3);
@@ -235,12 +235,12 @@
  
                    double d0 = (double)k2 / (double)l;
 -                  noisechunk.m_209191_(l2, d0);
-+                  noisechunk.updateForY(l2.longValue(), d0);
++                  noisechunk.updateForY(l2, d0);
  
                    for(int k3 = 0; k3 < k; ++k3) {
 -                     int l3 = i + k1 * k + k3;
 -                     int i4 = l3 & 15;
-+                     me.alphamode.mclong.math.BigInteger l3 = i.add(k1 * k).add(k3);
++                     me.alphamode.mclong.math.BigInteger l3 = i.add(k1 * k + k3);
 +                     me.alphamode.mclong.math.BigInteger i4 = l3.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
                       double d1 = (double)k3 / (double)k;
 -                     noisechunk.m_209230_(l3, d1);
@@ -249,7 +249,7 @@
                       for(int j4 = 0; j4 < k; ++j4) {
 -                        int k4 = j + l1 * k + j4;
 -                        int l4 = k4 & 15;
-+                        me.alphamode.mclong.math.BigInteger k4 = j.add(l1 * k).add(j4);
++                        me.alphamode.mclong.math.BigInteger k4 = j.add(l1 * k + j4);
 +                        me.alphamode.mclong.math.BigInteger l4 = k4.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
                          double d2 = (double)j4 / (double)k;
 -                        noisechunk.m_209241_(k4, d2);
@@ -260,17 +260,18 @@
                          }
  
 -                        blockstate = this.m_198231_(noisechunk, l3, l2, k4, blockstate);
-+                        blockstate = this.debugPreliminarySurfaceLevel(noisechunk, l3, l2, k4, blockstate);
++                        var y = me.alphamode.mclong.math.BigInteger.valueOf(l2);
++                        blockstate = this.debugPreliminarySurfaceLevel(noisechunk, l3, me.alphamode.mclong.math.BigInteger.valueOf(l2), y, blockstate);
                          if (blockstate != f_64321_ && !SharedConstants.m_183707_(p_224288_.m_7697_())) {
 -                           levelchunksection.m_62991_(i4, i3, l4, blockstate, false);
 -                           heightmap.m_64249_(i4, l2, l4, blockstate);
 -                           heightmap1.m_64249_(i4, l2, l4, blockstate);
-+                           levelchunksection.setBlockState(i4, i3, l4, blockstate, false);
-+                           heightmap.update(i4, l2, l4, blockstate);
-+                           heightmap1.update(i4, l2, l4, blockstate);
++                           levelchunksection.setBlockState(i4, me.alphamode.mclong.math.BigInteger.valueOf(i3), l4, blockstate, false);
++                           heightmap.update(i4, y, l4, blockstate);
++                           heightmap1.update(i4, y, l4, blockstate);
                             if (aquifer.m_142203_() && !blockstate.m_60819_().m_76178_()) {
 -                              blockpos$mutableblockpos.m_122178_(l3, l2, k4);
-+                              blockpos$mutableblockpos.set(l3, l2, k4);
++                              blockpos$mutableblockpos.set(l3, y, k4);
                                p_224288_.m_8113_(blockpos$mutableblockpos);
                             }
                          }

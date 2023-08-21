@@ -451,7 +451,7 @@
        }
  
     }
-@@ -1318,43 +_,55 @@
+@@ -1318,43 +_,47 @@
           Vec3 vec3 = (d0 > 1.0D ? p_20016_.m_82541_() : p_20016_).m_82490_((double)p_20017_);
           float f = Mth.m_14031_(p_20018_ * ((float)Math.PI / 180F));
           float f1 = Mth.m_14089_(p_20018_ * ((float)Math.PI / 180F));
@@ -464,14 +464,17 @@
     @Deprecated
     public float m_213856_() {
 -      return this.m_9236_().m_151577_(this.m_146903_(), this.m_146907_()) ? this.m_9236_().m_220417_(BlockPos.m_274561_(this.m_20185_(), this.m_20188_(), this.m_20189_())) : 0.0F;
-+      return this.f_19853_.hasChunkAt(this.getBigBlockX(), this.getBigBlockZ()) ? this.f_19853_.m_220417_(BlockPos.m_274561_(this.m_20185_(), this.m_20188_(), this.m_20189_())) : 0.0F;
++      return this.f_19853_.hasChunkAt(this.getBigBlockX(), this.getBigBlockZ()) ? this.f_19853_.m_220417_(BlockPos.containing(this.getBigX(), this.getEyeBigY(), this.getBigZ())) : 0.0F;
     }
  
-    public void m_19890_(double p_19891_, double p_19892_, double p_19893_, float p_19894_, float p_19895_) {
+-   public void m_19890_(double p_19891_, double p_19892_, double p_19893_, float p_19894_, float p_19895_) {
 -      this.m_20248_(p_19891_, p_19892_, p_19893_);
-+      this.absMoveTo(me.alphamode.mclong.math.BigDecimal.valueOf(p_19891_), me.alphamode.mclong.math.BigDecimal.valueOf(p_19892_), me.alphamode.mclong.math.BigDecimal.valueOf(p_19893_));
-       this.m_146922_(p_19894_ % 360.0F);
-       this.m_146926_(Mth.m_14036_(p_19895_, -90.0F, 90.0F) % 360.0F);
+-      this.m_146922_(p_19894_ % 360.0F);
+-      this.m_146926_(Mth.m_14036_(p_19895_, -90.0F, 90.0F) % 360.0F);
++   public void absMoveTo(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z, float yRot, float xRot) {
++      this.absMoveTo(x, y, z);
++      this.m_146922_(yRot % 360.0F);
++      this.m_146926_(Mth.m_14036_(xRot, -90.0F, 90.0F) % 360.0F);
        this.f_19859_ = this.m_146908_();
        this.f_19860_ = this.m_146909_();
     }
@@ -479,14 +482,6 @@
 -   public void m_20248_(double p_20249_, double p_20250_, double p_20251_) {
 -      double d0 = Mth.m_14008_(p_20249_, -3.0E7D, 3.0E7D);
 -      double d1 = Mth.m_14008_(p_20251_, -3.0E7D, 3.0E7D);
-+   public void absMoveTo(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z, float yRot, float xRot) {
-+      this.absMoveTo(x, y, z);
-+      this.m_146922_(yRot % 360.0F);
-+      this.m_146926_(Mth.m_14036_(xRot, -90.0F, 90.0F) % 360.0F);
-+      this.f_19859_ = this.m_146908_();
-+      this.f_19860_ = this.m_146909_();
-+   }
-+
 +   public void absMoveTo(me.alphamode.mclong.math.BigDecimal p_20249_, me.alphamode.mclong.math.BigDecimal p_20250_, me.alphamode.mclong.math.BigDecimal p_20251_) {
 +      me.alphamode.mclong.math.BigDecimal d0 = p_20249_;
 +      me.alphamode.mclong.math.BigDecimal d1 = p_20251_;
@@ -512,7 +507,7 @@
 +
     public void m_20035_(BlockPos p_20036_, float p_20037_, float p_20038_) {
 -      this.m_7678_((double)p_20036_.m_123341_() + 0.5D, (double)p_20036_.m_123342_(), (double)p_20036_.m_123343_() + 0.5D, p_20037_, p_20038_);
-+      this.m_7678_((double)p_20036_.getX() + 0.5D, (double)p_20036_.getY(), (double)p_20036_.getZ() + 0.5D, p_20037_, p_20038_);
++      this.moveTo(p_20036_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), p_20036_.getBigDecY(), p_20036_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), p_20037_, p_20038_);
     }
  
     public void m_7678_(double p_20108_, double p_20109_, double p_20110_, float p_20111_, float p_20112_) {
@@ -797,6 +792,15 @@
        }
  
     }
+@@ -2397,7 +_,7 @@
+    }
+ 
+    public void m_20359_(Entity p_20360_) {
+-      this.m_7678_(p_20360_.m_20185_(), p_20360_.m_20186_(), p_20360_.m_20189_(), p_20360_.m_146908_(), p_20360_.m_146909_());
++      this.moveTo(p_20360_.getBigX(), p_20360_.getBigY(), p_20360_.getBigZ(), p_20360_.m_146908_(), p_20360_.m_146909_());
+    }
+ 
+    public void m_20361_(Entity p_20362_) {
 @@ -2422,7 +_,7 @@
              Entity entity = this.m_6095_().m_20615_(p_20118_);
              if (entity != null) {
@@ -1181,7 +1185,7 @@
 +         if (!i.equals(this.f_19826_.getBigX()) || !j.equals(this.f_19826_.getBigX()) || !k.equals(this.f_19826_.getBigZ())) {
 +            this.f_19826_ = new BlockPos(i, j, k);
 +            this.f_185934_ = null;
-+            if (!SectionPos.blockToSectionCoord(i).equals(me.alphamode.mclong.math.BigInteger.valueOf(this.f_185933_.x())) || !SectionPos.blockToSectionCoord(k).equals(me.alphamode.mclong.math.BigInteger.valueOf(this.f_185933_.z()))) {
++            if (!SectionPos.blockToSectionCoord(i).equals(this.f_185933_.getX()) || !SectionPos.blockToSectionCoord(k).equals(this.f_185933_.getZ())) {
                 this.f_185933_ = new ChunkPos(this.f_19826_);
              }
           }

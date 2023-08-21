@@ -25,12 +25,12 @@
 +      it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> remaining = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
 +      var remainingTag = p_163535_.m_128437_("Remaining", 10);
 +      remainingTag.stream().map(CompoundTag.class::cast).forEach(tag -> {
-+         remaining.add(new net.minecraft.world.level.ChunkPos(tag.m_128454_("x"), tag.m_128454_("z")));
++         remaining.add(new net.minecraft.world.level.ChunkPos(new me.alphamode.mclong.math.BigInteger(tag.m_128461_("x")), new me.alphamode.mclong.math.BigInteger(tag.m_128461_("z"))));
 +      });
 +      it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> all = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
 +      var allTag = p_163535_.m_128437_("All", 10);
 +      allTag.stream().map(CompoundTag.class::cast).forEach(tag -> {
-+         all.add(new net.minecraft.world.level.ChunkPos(tag.m_128454_("x"), tag.m_128454_("z")));
++         all.add(new net.minecraft.world.level.ChunkPos(new me.alphamode.mclong.math.BigInteger(tag.m_128461_("x")), new me.alphamode.mclong.math.BigInteger(tag.m_128461_("z"))));
 +      });
 +      return new StructureFeatureIndexSavedData(all, remaining);
     }
@@ -41,16 +41,16 @@
 +      var allTag = new net.minecraft.nbt.ListTag();
 +      this.f_73360_.forEach(chunkPos -> {
 +         CompoundTag chunk = new CompoundTag();
-+         chunk.m_128356_("x", chunkPos.x());
-+         chunk.m_128356_("z", chunkPos.z());
++         chunk.m_128359_("x", chunkPos.getX().toString());
++         chunk.m_128359_("z", chunkPos.getZ().toString());
 +         allTag.add(chunk);
 +      });
 +      p_73372_.m_128365_("All", allTag);
 +      var ramainingTag = new net.minecraft.nbt.ListTag();
 +      this.f_73361_.forEach(chunkPos -> {
 +         CompoundTag chunk = new CompoundTag();
-+         chunk.m_128356_("x", chunkPos.x());
-+         chunk.m_128356_("z", chunkPos.z());
++         chunk.m_128359_("x", chunkPos.getX().toString());
++         chunk.m_128359_("z", chunkPos.getZ().toString());
 +         ramainingTag.add(chunk);
 +      });
 +      p_73372_.m_128365_("Remaining", ramainingTag);

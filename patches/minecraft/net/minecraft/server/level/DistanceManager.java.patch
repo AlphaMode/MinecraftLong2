@@ -258,7 +258,7 @@
  
              for(Ticket<?> ticket : entry.getValue()) {
 -               fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + ticket.m_9428_() + "\t" + ticket.m_9433_() + "\t\n").getBytes(StandardCharsets.UTF_8));
-+               fileoutputstream.write((chunkpos.x() + "\t" + chunkpos.z() + "\t" + ticket.m_9428_() + "\t" + ticket.m_9433_() + "\t\n").getBytes(StandardCharsets.UTF_8));
++               fileoutputstream.write((chunkpos.getX() + "\t" + chunkpos.getZ() + "\t" + ticket.m_9428_() + "\t" + ticket.m_9433_() + "\t\n").getBytes(StandardCharsets.UTF_8));
              }
           }
        } catch (IOException ioexception) {
@@ -393,7 +393,7 @@
 +               net.minecraft.world.level.ChunkPos chunkpos = entry.getKey();
                 String s = Byte.toString(entry.getByteValue());
 -               fileoutputstream.write((chunkpos.f_45578_ + "\t" + chunkpos.f_45579_ + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
-+               fileoutputstream.write((chunkpos.x() + "\t" + chunkpos.z() + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
++               fileoutputstream.write((chunkpos.getX() + "\t" + chunkpos.getZ() + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
              }
           } catch (IOException ioexception) {
              DistanceManager.f_140758_.error("Failed to dump chunks to {}", p_143213_, ioexception);

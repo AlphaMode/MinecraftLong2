@@ -22,7 +22,7 @@
 +      it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> chunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
 +      var forced = p_151484_.m_128437_(f_151480_, 10);
 +      forced.stream().map(CompoundTag.class::cast).forEach(chunk -> {
-+         chunks.add(new net.minecraft.world.level.ChunkPos(chunk.m_128454_("x"), chunk.m_128454_("z")));
++         chunks.add(new net.minecraft.world.level.ChunkPos(new me.alphamode.mclong.math.BigInteger(chunk.m_128461_("x")), new me.alphamode.mclong.math.BigInteger(chunk.m_128461_("z"))));
 +      });
 +      return new ForcedChunksSavedData(chunks);
     }
@@ -32,8 +32,8 @@
 +      var chunksTag = new net.minecraft.nbt.ListTag();
 +      this.f_46114_.forEach(chunkPos -> {
 +         CompoundTag chunk = new CompoundTag();
-+         chunk.m_128356_("x", chunkPos.x());
-+         chunk.m_128356_("z", chunkPos.z());
++         chunk.m_128359_("x", chunkPos.getX().toString());
++         chunk.m_128359_("z", chunkPos.getZ().toString());
 +      });
 +      p_46120_.m_128365_(f_151480_, chunksTag);
        return p_46120_;

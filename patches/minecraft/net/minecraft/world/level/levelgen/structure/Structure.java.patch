@@ -50,7 +50,7 @@
        return Math.min(Math.min(aint[0], aint[1]), Math.min(aint[2], aint[3]));
     }
  
-@@ -143,9 +_,9 @@
+@@ -143,17 +_,18 @@
        }
  
        ChunkPos chunkpos = p_226583_.f_226628_();
@@ -63,6 +63,18 @@
     }
  
     protected abstract Optional<Structure.GenerationStub> m_214086_(Structure.GenerationContext p_226571_);
+ 
+    public Optional<Structure.GenerationStub> m_262864_(Structure.GenerationContext p_263060_) {
+-      return this.m_214086_(p_263060_).filter((p_262911_) -> {
+-         return m_262828_(p_262911_, p_263060_);
+-      });
++//      return this.findGenerationPoint(p_263060_).filter((p_262911_) -> {
++//         return isValidBiome(p_262911_, p_263060_);
++//      });
++      return Optional.empty();
+    }
+ 
+    public abstract StructureType<?> m_213658_();
 @@ -165,7 +_,7 @@
  
        private static WorldgenRandom m_226653_(long p_226654_, ChunkPos p_226655_) {

@@ -90,13 +90,13 @@
     public boolean m_180807_(BlockPos p_181031_) {
 -      int i = SectionPos.m_123171_(p_181031_.m_123341_());
 -      int j = SectionPos.m_123171_(p_181031_.m_123343_());
-+      long i = SectionPos.blockToSectionCoord(p_181031_.getBigX()).longValue();
-+      long j = SectionPos.blockToSectionCoord(p_181031_.getBigZ()).longValue();
++      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(p_181031_.getBigX());
++      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(p_181031_.getBigZ());
        ChunkPos chunkpos = this.m_143488_();
 -      int k = Math.abs(chunkpos.f_45578_ - i);
 -      int l = Math.abs(chunkpos.f_45579_ - j);
-+      long k = Math.abs(chunkpos.x() - i);
-+      long l = Math.abs(chunkpos.z() - j);
++      long k = chunkpos.getX().subtract(i).abs().longValue();
++      long l = chunkpos.getZ().subtract(j).abs().longValue();
        if (k <= this.f_143481_ && l <= this.f_143481_) {
           if (this.f_143479_.m_187679_()) {
              LevelHeightAccessor levelheightaccessor = this.f_143479_.m_183618_();

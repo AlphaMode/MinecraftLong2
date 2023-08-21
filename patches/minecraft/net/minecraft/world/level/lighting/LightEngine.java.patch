@@ -106,45 +106,31 @@
        }
  
        this.f_283863_.clear();
-@@ -155,44 +_,40 @@
-    }
- 
+@@ -157,17 +_,16 @@
     private int m_284361_() {
--      int i;
--      for(i = 0; !this.f_283934_.isEmpty(); ++i) {
+       int i;
+       for(i = 0; !this.f_283934_.isEmpty(); ++i) {
 -         long j = this.f_283934_.dequeueLong();
 -         long k = this.f_283934_.dequeueLong();
 -         int l = this.f_283849_.m_75795_(j);
 -         int i1 = LightEngine.QueueEntry.m_284170_(k);
 -         if (LightEngine.QueueEntry.m_284312_(k) && l < i1) {
 -            this.f_283849_.m_75772_(j, i1);
--            l = i1;
--         }
--
--         if (l == i1) {
--            this.m_284316_(j, k, l);
--         }
--      }
--
--      return i;
-+//      int i;
-+//      for(i = 0; !this.increaseQueue.isEmpty(); ++i) {
-+//         me.alphamode.mclong.lighting.LightingData lightingData = this.increaseQueue.dequeue();
-+//         int l = this.storage.getStoredLevel(lightingData.pos());
-+//         int i1 = LightEngine.QueueEntry.getFromLevel(lightingData.data());
-+//         if (LightEngine.QueueEntry.isIncreaseFromEmission(lightingData.data()) && l < i1) {
-+//            this.storage.setStoredLevel(lightingData.pos(), i1);
-+//            l = i1;
-+//         }
-+//
-+//         if (l == i1) {
-+//            this.propagateIncrease(lightingData.pos(), lightingData.data(), l);
-+//         }
-+//      }
-+
-+      return 15;
-    }
++         me.alphamode.mclong.lighting.LightingData lightingData = this.f_283934_.dequeue();
++         int l = this.f_283849_.getStoredLevel(lightingData.pos());
++         int i1 = LightEngine.QueueEntry.m_284170_(lightingData.data());
++         if (LightEngine.QueueEntry.m_284312_(lightingData.data()) && l < i1) {
++            this.f_283849_.setStoredLevel(lightingData.pos(), i1);
+             l = i1;
+          }
  
+          if (l == i1) {
+-            this.m_284316_(j, k, l);
++            this.propagateIncrease(lightingData.pos(), lightingData.data(), l);
+          }
+       }
+ 
+@@ -177,22 +_,19 @@
     private int m_284399_() {
        int i;
        for(i = 0; !this.f_283823_.isEmpty(); ++i) {

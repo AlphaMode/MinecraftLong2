@@ -7,24 +7,25 @@
 -   public ChunkPos m_227008_(long p_227009_, int p_227010_, int p_227011_) {
 -      int i = Math.floorDiv(p_227010_, this.f_204973_);
 -      int j = Math.floorDiv(p_227011_, this.f_204973_);
-+   public ChunkPos getPotentialStructureChunk(long p_227009_, long p_227010_, long p_227011_) {
-+      long i = Math.floorDiv(p_227010_, this.f_204973_);
-+      long j = Math.floorDiv(p_227011_, this.f_204973_);
++   public ChunkPos getPotentialStructureChunk(long p_227009_, me.alphamode.mclong.math.BigInteger p_227010_, me.alphamode.mclong.math.BigInteger p_227011_) {
++      me.alphamode.mclong.math.BigInteger i = me.alphamode.mclong.math.BigMath.floorDiv(p_227010_, this.f_204973_);
++      me.alphamode.mclong.math.BigInteger j = me.alphamode.mclong.math.BigMath.floorDiv(p_227011_, this.f_204973_);
        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
 -      worldgenrandom.m_190058_(p_227009_, i, j, this.m_227075_());
-+      worldgenrandom.setLargeFeatureWithSalt(p_227009_, i, j, this.m_227075_());
++      worldgenrandom.setLargeFeatureWithSalt(p_227009_, i.longValue(), j.longValue(), this.m_227075_());
        int k = this.f_204973_ - this.f_204974_;
        int l = this.f_204975_.m_227018_(worldgenrandom, k);
        int i1 = this.f_204975_.m_227018_(worldgenrandom, k);
-       return new ChunkPos(i * this.f_204973_ + l, j * this.f_204973_ + i1);
+-      return new ChunkPos(i * this.f_204973_ + l, j * this.f_204973_ + i1);
++      return new ChunkPos(i.multiply(this.f_204973_ + l), j.multiply(this.f_204973_ + i1));
     }
  
 -   protected boolean m_214090_(ChunkGeneratorStructureState p_256267_, int p_256050_, int p_255975_) {
 -      ChunkPos chunkpos = this.m_227008_(p_256267_.m_254887_(), p_256050_, p_255975_);
 -      return chunkpos.f_45578_ == p_256050_ && chunkpos.f_45579_ == p_255975_;
-+   protected boolean isPlacementChunk(ChunkGeneratorStructureState p_256267_, long p_256050_, long p_255975_) {
++   protected boolean isPlacementChunk(ChunkGeneratorStructureState p_256267_, me.alphamode.mclong.math.BigInteger p_256050_, me.alphamode.mclong.math.BigInteger p_255975_) {
 +      ChunkPos chunkpos = this.getPotentialStructureChunk(p_256267_.m_254887_(), p_256050_, p_255975_);
-+      return chunkpos.x() == p_256050_ && chunkpos.z() == p_255975_;
++      return chunkpos.getX().equals(p_256050_) && chunkpos.getZ().equals(p_255975_);
     }
  
     public StructurePlacementType<?> m_203443_() {

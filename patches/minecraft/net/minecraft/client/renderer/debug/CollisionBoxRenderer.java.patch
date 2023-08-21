@@ -1,11 +1,20 @@
 --- a/net/minecraft/client/renderer/debug/CollisionBoxRenderer.java
 +++ b/net/minecraft/client/renderer/debug/CollisionBoxRenderer.java
+@@ -25,7 +_,7 @@
+       this.f_113400_ = p_113404_;
+    }
+ 
+-   public void m_7790_(PoseStack p_113408_, MultiBufferSource p_113409_, double p_113410_, double p_113411_, double p_113412_) {
++   public void render(PoseStack p_113408_, MultiBufferSource p_113409_, me.alphamode.mclong.math.BigDecimal p_113410_, me.alphamode.mclong.math.BigDecimal p_113411_, me.alphamode.mclong.math.BigDecimal p_113412_) {
+       double d0 = (double)Util.m_137569_();
+       if (d0 - this.f_113401_ > 1.0E8D) {
+          this.f_113401_ = d0;
 @@ -36,7 +_,7 @@
        VertexConsumer vertexconsumer = p_113409_.m_6299_(RenderType.m_110504_());
  
        for(VoxelShape voxelshape : this.f_113402_) {
 -         LevelRenderer.m_285900_(p_113408_, vertexconsumer, voxelshape, -p_113410_, -p_113411_, -p_113412_, 1.0F, 1.0F, 1.0F, 1.0F, true);
-+         LevelRenderer.renderVoxelShape(p_113408_, vertexconsumer, voxelshape, me.alphamode.mclong.math.BigDecimal.valueOf(-p_113410_), me.alphamode.mclong.math.BigDecimal.valueOf(-p_113411_), me.alphamode.mclong.math.BigDecimal.valueOf(-p_113412_), 1.0F, 1.0F, 1.0F, 1.0F, true);
++         LevelRenderer.renderVoxelShape(p_113408_, vertexconsumer, voxelshape, p_113410_.negate(), p_113411_.negate(), p_113412_.negate(), 1.0F, 1.0F, 1.0F, 1.0F, true);
        }
  
     }

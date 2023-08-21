@@ -1,0 +1,66 @@
+--- a/net/minecraft/network/protocol/game/ClientboundMoveVehiclePacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundMoveVehiclePacket.java
+@@ -5,32 +_,32 @@
+ import net.minecraft.world.entity.Entity;
+ 
+ public class ClientboundMoveVehiclePacket implements Packet<ClientGamePacketListener> {
+-   private final double f_132577_;
+-   private final double f_132578_;
+-   private final double f_132579_;
++   private final me.alphamode.mclong.math.BigDecimal f_132577_;
++   private final me.alphamode.mclong.math.BigDecimal f_132578_;
++   private final me.alphamode.mclong.math.BigDecimal f_132579_;
+    private final float f_132580_;
+    private final float f_132581_;
+ 
+    public ClientboundMoveVehiclePacket(Entity p_132584_) {
+-      this.f_132577_ = p_132584_.m_20185_();
+-      this.f_132578_ = p_132584_.m_20186_();
+-      this.f_132579_ = p_132584_.m_20189_();
++      this.f_132577_ = p_132584_.getBigX();
++      this.f_132578_ = p_132584_.getBigY();
++      this.f_132579_ = p_132584_.getBigZ();
+       this.f_132580_ = p_132584_.m_146908_();
+       this.f_132581_ = p_132584_.m_146909_();
+    }
+ 
+    public ClientboundMoveVehiclePacket(FriendlyByteBuf p_179007_) {
+-      this.f_132577_ = p_179007_.readDouble();
+-      this.f_132578_ = p_179007_.readDouble();
+-      this.f_132579_ = p_179007_.readDouble();
++      this.f_132577_ = new me.alphamode.mclong.math.BigDecimal(p_179007_.m_130277_());
++      this.f_132578_ = new me.alphamode.mclong.math.BigDecimal(p_179007_.m_130277_());
++      this.f_132579_ = new me.alphamode.mclong.math.BigDecimal(p_179007_.m_130277_());
+       this.f_132580_ = p_179007_.readFloat();
+       this.f_132581_ = p_179007_.readFloat();
+    }
+ 
+    public void m_5779_(FriendlyByteBuf p_132593_) {
+-      p_132593_.writeDouble(this.f_132577_);
+-      p_132593_.writeDouble(this.f_132578_);
+-      p_132593_.writeDouble(this.f_132579_);
++      p_132593_.m_130070_(this.f_132577_.toString());
++      p_132593_.m_130070_(this.f_132578_.toString());
++      p_132593_.m_130070_(this.f_132579_.toString());
+       p_132593_.writeFloat(this.f_132580_);
+       p_132593_.writeFloat(this.f_132581_);
+    }
+@@ -39,15 +_,15 @@
+       p_132590_.m_7410_(this);
+    }
+ 
+-   public double m_132591_() {
++   public me.alphamode.mclong.math.BigDecimal getX() {
+       return this.f_132577_;
+    }
+ 
+-   public double m_132594_() {
++   public me.alphamode.mclong.math.BigDecimal getY() {
+       return this.f_132578_;
+    }
+ 
+-   public double m_132595_() {
++   public me.alphamode.mclong.math.BigDecimal getZ() {
+       return this.f_132579_;
+    }
+ 

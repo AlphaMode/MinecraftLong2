@@ -99,7 +99,7 @@
 +   protected int getStoredLevel(BlockPos p_75796_) {
 +      SectionPos i = SectionPos.m_123199_(p_75796_);
 +      DataLayer datalayer = this.getDataLayer(i, true);
-+      return datalayer.get(SectionPos.sectionRelative(p_75796_.getX()), SectionPos.sectionRelative(p_75796_.getY()), SectionPos.sectionRelative(p_75796_.getZ()));
++      return datalayer.get(SectionPos.sectionRelative(p_75796_.getBigX()), SectionPos.sectionRelative(p_75796_.getBigY()), SectionPos.sectionRelative(p_75796_.getBigZ()));
 +   }
 +
 +   protected void setStoredLevel(BlockPos p_75773_, int p_75774_) {
@@ -115,7 +115,7 @@
  
 -      datalayer.m_62564_(SectionPos.m_123207_(BlockPos.m_121983_(p_75773_)), SectionPos.m_123207_(BlockPos.m_122008_(p_75773_)), SectionPos.m_123207_(BlockPos.m_122015_(p_75773_)), p_75774_);
 -      SectionPos.m_194639_(p_75773_, this.f_75734_::add);
-+      datalayer.set(SectionPos.sectionRelative(p_75773_.getX()), SectionPos.sectionRelative(p_75773_.getY()), SectionPos.sectionRelative(p_75773_.getZ()), p_75774_);
++      datalayer.set(SectionPos.sectionRelative(p_75773_.getBigX()), SectionPos.sectionRelative(p_75773_.getBigY()), SectionPos.sectionRelative(p_75773_.getBigZ()), p_75774_);
 +      SectionPos.aroundAndAtBlockPos(p_75773_, this.f_75734_::add);
     }
  
@@ -124,15 +124,15 @@
 -      int j = SectionPos.m_123225_(p_281610_);
 -      int k = SectionPos.m_123230_(p_281610_);
 +   protected void markSectionAndNeighborsAsAffected(SectionPos p_281610_) {
-+      long i = p_281610_.x();
-+      long j = p_281610_.y();
-+      long k = p_281610_.z();
++      me.alphamode.mclong.math.BigInteger i = p_281610_.getBigX();
++      me.alphamode.mclong.math.BigInteger j = p_281610_.getBigY();
++      me.alphamode.mclong.math.BigInteger k = p_281610_.getBigZ();
  
        for(int l = -1; l <= 1; ++l) {
           for(int i1 = -1; i1 <= 1; ++i1) {
              for(int j1 = -1; j1 <= 1; ++j1) {
 -               this.f_75734_.add(SectionPos.m_123209_(i + i1, j + j1, k + l));
-+               this.f_75734_.add(SectionPos.of(i + i1, j + j1, k + l));
++               this.f_75734_.add(SectionPos.of(i.add(i1), j.add(j1), k.add(l)));
              }
           }
        }

@@ -1,6 +1,31 @@
 --- a/net/minecraft/client/renderer/debug/BrainDebugRenderer.java
 +++ b/net/minecraft/client/renderer/debug/BrainDebugRenderer.java
-@@ -133,19 +_,19 @@
+@@ -107,9 +_,9 @@
+       });
+    }
+ 
+-   public void m_7790_(PoseStack p_113214_, MultiBufferSource p_113215_, double p_113216_, double p_113217_, double p_113218_) {
++   public void render(PoseStack p_113214_, MultiBufferSource p_113215_, me.alphamode.mclong.math.BigDecimal p_113216_, me.alphamode.mclong.math.BigDecimal p_113217_, me.alphamode.mclong.math.BigDecimal p_113218_) {
+       this.m_113264_();
+-      this.m_269077_(p_113214_, p_113215_, p_113216_, p_113217_, p_113218_);
++      this.doRender(p_113214_, p_113215_, p_113216_, p_113217_, p_113218_);
+       if (!this.f_113194_.f_91074_.m_5833_()) {
+          this.m_113286_();
+       }
+@@ -123,29 +_,29 @@
+       });
+    }
+ 
+-   private void m_269077_(PoseStack p_270747_, MultiBufferSource p_270289_, double p_270303_, double p_270416_, double p_270542_) {
+-      BlockPos blockpos = BlockPos.m_274561_(p_270303_, p_270416_, p_270542_);
++   private void doRender(PoseStack p_270747_, MultiBufferSource p_270289_, me.alphamode.mclong.math.BigDecimal p_270303_, me.alphamode.mclong.math.BigDecimal p_270416_, me.alphamode.mclong.math.BigDecimal p_270542_) {
++      BlockPos blockpos = BlockPos.containing(p_270303_, p_270416_, p_270542_);
+       this.f_113196_.values().forEach((p_269714_) -> {
+          if (this.m_113280_(p_269714_)) {
+-            this.m_269312_(p_270747_, p_270289_, p_269714_, p_270303_, p_270416_, p_270542_);
++            this.renderBrainInfo(p_270747_, p_270289_, p_269714_, p_270303_, p_270416_, p_270542_);
+          }
+ 
        });
  
        for(BlockPos blockpos1 : this.f_113195_.keySet()) {
@@ -23,6 +48,33 @@
              this.m_269509_(p_270747_, p_270289_, p_269707_, p_269708_);
           }
  
+@@ -187,14 +_,14 @@
+       m_269588_(p_270999_, p_270627_, p_270986_.f_113334_, p_270986_, i, -1);
+    }
+ 
+-   private void m_269424_(PoseStack p_270435_, MultiBufferSource p_270439_, BrainDebugRenderer.BrainDump p_270979_, double p_270109_, double p_270342_, double p_270834_) {
++   private void renderPath(PoseStack p_270435_, MultiBufferSource p_270439_, BrainDebugRenderer.BrainDump p_270979_, me.alphamode.mclong.math.BigDecimal p_270109_, me.alphamode.mclong.math.BigDecimal p_270342_, me.alphamode.mclong.math.BigDecimal p_270834_) {
+       if (p_270979_.f_113302_ != null) {
+-         PathfindingRenderer.m_269027_(p_270435_, p_270439_, p_270979_.f_113302_, 0.5F, false, false, p_270109_, p_270342_, p_270834_);
++         PathfindingRenderer.renderPath(p_270435_, p_270439_, p_270979_.f_113302_, 0.5F, false, false, p_270109_, p_270342_, p_270834_);
+       }
+ 
+    }
+ 
+-   private void m_269312_(PoseStack p_270145_, MultiBufferSource p_270489_, BrainDebugRenderer.BrainDump p_270259_, double p_270922_, double p_270468_, double p_270838_) {
++   private void renderBrainInfo(PoseStack p_270145_, MultiBufferSource p_270489_, BrainDebugRenderer.BrainDump p_270259_, me.alphamode.mclong.math.BigDecimal p_270922_, me.alphamode.mclong.math.BigDecimal p_270468_, me.alphamode.mclong.math.BigDecimal p_270838_) {
+       boolean flag = this.m_113265_(p_270259_);
+       int i = 0;
+       m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, p_270259_.f_113295_, -1, 0.03F);
+@@ -259,7 +_,7 @@
+       }
+ 
+       if (flag) {
+-         this.m_269424_(p_270145_, p_270489_, p_270259_, p_270922_, p_270468_, p_270838_);
++         this.renderPath(p_270145_, p_270489_, p_270259_, p_270922_, p_270468_, p_270838_);
+       }
+ 
+    }
 @@ -271,9 +_,9 @@
     private static void m_269385_(PoseStack p_270640_, MultiBufferSource p_270809_, String p_270632_, BlockPos p_270082_, int p_270078_, int p_270440_) {
        double d0 = 1.3D;

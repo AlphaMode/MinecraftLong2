@@ -1,5 +1,24 @@
 --- a/net/minecraft/Util.java
 +++ b/net/minecraft/Util.java
+@@ -648,6 +_,18 @@
+       }
+    }
+ 
++   public static DataResult<String[]> fixedSize(java.util.stream.Stream<String> p_287579_, int p_287631_) {
++      String[] along = p_287579_.limit((p_287631_ + 1)).toArray(String[]::new);
++      if (along.length != p_287631_) {
++         Supplier<String> supplier = () -> {
++            return "Input is not a list of " + p_287631_ + " strings";
++         };
++         return along.length >= p_287631_ ? DataResult.error(supplier, Arrays.copyOf(along, p_287631_)) : DataResult.error(supplier);
++      } else {
++         return DataResult.success(along);
++      }
++   }
++
+    public static <T> DataResult<List<T>> m_143795_(List<T> p_143796_, int p_143797_) {
+       if (p_143796_.size() != p_143797_) {
+          Supplier<String> supplier = () -> {
 @@ -695,30 +_,30 @@
  
     public static <T, R> Function<T, R> m_143827_(final Function<T, R> p_143828_) {

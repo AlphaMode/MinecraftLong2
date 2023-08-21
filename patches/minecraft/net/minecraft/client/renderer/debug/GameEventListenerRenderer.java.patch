@@ -1,15 +1,39 @@
 --- a/net/minecraft/client/renderer/debug/GameEventListenerRenderer.java
 +++ b/net/minecraft/client/renderer/debug/GameEventListenerRenderer.java
+@@ -35,13 +_,13 @@
+       this.f_173816_ = p_173822_;
+    }
+ 
+-   public void m_7790_(PoseStack p_173846_, MultiBufferSource p_173847_, double p_173848_, double p_173849_, double p_173850_) {
++   public void render(PoseStack p_173846_, MultiBufferSource p_173847_, me.alphamode.mclong.math.BigDecimal p_173848_, me.alphamode.mclong.math.BigDecimal p_173849_, me.alphamode.mclong.math.BigDecimal p_173850_) {
+       Level level = this.f_173816_.f_91073_;
+       if (level == null) {
+          this.f_173819_.clear();
+          this.f_173820_.clear();
+       } else {
+-         Vec3 vec3 = new Vec3(p_173848_, 0.0D, p_173850_);
++         Vec3 vec3 = new Vec3(p_173848_, me.alphamode.mclong.math.BigDecimal.ZERO, p_173850_);
+          this.f_173819_.removeIf(GameEventListenerRenderer.TrackedGameEvent::m_173868_);
+          this.f_173820_.removeIf((p_234512_) -> {
+             return p_234512_.m_234542_(level, vec3);
 @@ -56,7 +_,7 @@
                 double d10 = p_269731_.m_7096_() + (double)gameeventlistenerrenderer$trackedlistener.m_142078_();
                 double d11 = p_269731_.m_7098_() + (double)gameeventlistenerrenderer$trackedlistener.m_142078_();
                 double d12 = p_269731_.m_7094_() + (double)gameeventlistenerrenderer$trackedlistener.m_142078_();
 -               LevelRenderer.m_285900_(p_173846_, vertexconsumer, Shapes.m_83064_(new AABB(d7, d8, d9, d10, d11, d12)), -p_173848_, -p_173849_, -p_173850_, 1.0F, 1.0F, 0.0F, 0.35F, true);
-+               LevelRenderer.renderVoxelShape(p_173846_, vertexconsumer, Shapes.m_83064_(new AABB(d7, d8, d9, d10, d11, d12)), me.alphamode.mclong.math.BigDecimal.valueOf(-p_173848_), me.alphamode.mclong.math.BigDecimal.valueOf(-p_173849_), me.alphamode.mclong.math.BigDecimal.valueOf(-p_173850_), 1.0F, 1.0F, 0.0F, 0.35F, true);
++               LevelRenderer.renderVoxelShape(p_173846_, vertexconsumer, Shapes.m_83064_(new AABB(d7, d8, d9, d10, d11, d12)), p_173848_.negate(), p_173849_.negate(), p_173850_.negate(), 1.0F, 1.0F, 0.0F, 0.35F, true);
              });
           }
  
-@@ -71,21 +_,21 @@
+@@ -64,28 +_,28 @@
+ 
+          for(GameEventListenerRenderer.TrackedListener gameeventlistenerrenderer$trackedlistener1 : this.f_173820_) {
+             gameeventlistenerrenderer$trackedlistener1.m_173875_(level).ifPresent((p_269724_) -> {
+-               LevelRenderer.m_269208_(p_173846_, vertexconsumer1, p_269724_.m_7096_() - 0.25D - p_173848_, p_269724_.m_7098_() - p_173849_, p_269724_.m_7094_() - 0.25D - p_173850_, p_269724_.m_7096_() + 0.25D - p_173848_, p_269724_.m_7098_() - p_173849_ + 1.0D, p_269724_.m_7094_() + 0.25D - p_173850_, 1.0F, 1.0F, 0.0F, 0.35F);
++               LevelRenderer.m_269208_(p_173846_, vertexconsumer1, p_269724_.m_7096_() - 0.25D - p_173848_.doubleValue(), p_269724_.m_7098_() - p_173849_.doubleValue(), p_269724_.m_7094_() - 0.25D - p_173850_.doubleValue(), p_269724_.m_7096_() + 0.25D - p_173848_.doubleValue(), p_269724_.m_7098_() - p_173849_.doubleValue() + 1.0D, p_269724_.m_7094_() + 0.25D - p_173850_.doubleValue(), 1.0F, 1.0F, 0.0F, 0.35F);
+             });
+          }
+ 
           for(GameEventListenerRenderer.TrackedListener gameeventlistenerrenderer$trackedlistener2 : this.f_173820_) {
              gameeventlistenerrenderer$trackedlistener2.m_173875_(level).ifPresent((p_274713_) -> {
                 DebugRenderer.m_269569_(p_173846_, p_173847_, "Listener Origin", p_274713_.m_7096_(), p_274713_.m_7098_() + (double)1.8F, p_274713_.m_7094_(), -1, 0.025F);

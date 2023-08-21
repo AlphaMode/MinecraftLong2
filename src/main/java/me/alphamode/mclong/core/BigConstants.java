@@ -19,7 +19,7 @@ public class BigConstants {
     public static final BigDecimal TEN = BigDecimal.valueOf(10.0D);
     public static final BigDecimal SIX = BigDecimal.valueOf(6.0D);
     public static final BigDecimal FIFTEEN = BigDecimal.valueOf(15.0D);
-    public static boolean BIG_MODE = true;
+    public static boolean BIG_MODE = false;
 
     public static final Logger LOGGER = LogUtils.getLogger();
 
@@ -33,6 +33,7 @@ public class BigConstants {
     public static final BigDecimal EPSILON = BigDecimal.valueOf(1.0E-7D);
     public static final BigDecimal ENTITY = BigDecimal.valueOf(1.0E-6D);
     public static final BigDecimal AABB = BigDecimal.valueOf(0.5D);
+    public static final BigDecimal GOLEM = BigDecimal.valueOf(0.05D);
     public static final BigDecimal TWO = BigDecimal.valueOf(2.0D);
     public static final BigDecimal FIVE = BigDecimal.valueOf(5.0D);
     public static final BigDecimal EIGHT = BigDecimal.valueOf(8.0D);
@@ -49,7 +50,8 @@ public class BigConstants {
         public static final BigInteger THREE = BigInteger.valueOf(3);
         public static final BigInteger TWELVE = BigInteger.valueOf(12);
         public static final BigInteger TEN = BigInteger.valueOf(10);
-        public static boolean BIG_MODE = true;
+        public static final BigInteger FOUR = BigInteger.valueOf(4);
+        public static final boolean BIG_MODE = true;
         public static final BigInteger FIFTEEN = BigInteger.valueOf(15);
         public static final BigInteger SIXTEEN = BigInteger.valueOf(15);
     }

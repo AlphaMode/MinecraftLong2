@@ -60,8 +60,8 @@
 -      int j = ChunkPos.m_45602_(p_156862_);
 -      LongSortedSet longsortedset = this.m_156858_(i, j);
 +   public Stream<SectionPos> getExistingSectionPositionsInChunk(ChunkPos p_156862_) {
-+      long i = p_156862_.x();
-+      long j = p_156862_.z();
++      me.alphamode.mclong.math.BigInteger i = p_156862_.getX();
++      me.alphamode.mclong.math.BigInteger j = p_156862_.getZ();
 +      it.unimi.dsi.fastutil.objects.ObjectSortedSet<SectionPos> longsortedset = this.getChunkSections(i, j);
        if (longsortedset.isEmpty()) {
 -         return LongStream.empty();
@@ -90,9 +90,9 @@
 -
 -   public EntitySection<T> m_156893_(long p_156894_) {
 -      return this.f_156852_.computeIfAbsent(p_156894_, this::m_156901_);
-+   private it.unimi.dsi.fastutil.objects.ObjectSortedSet<SectionPos> getChunkSections(long p_156859_, long p_156860_) {
-+      SectionPos i = SectionPos.of(p_156859_, 0, p_156860_);
-+      SectionPos j = SectionPos.of(p_156859_, -1, p_156860_);
++   private it.unimi.dsi.fastutil.objects.ObjectSortedSet<SectionPos> getChunkSections(me.alphamode.mclong.math.BigInteger p_156859_, me.alphamode.mclong.math.BigInteger p_156860_) {
++      SectionPos i = SectionPos.of(p_156859_, me.alphamode.mclong.math.BigInteger.ZERO, p_156860_);
++      SectionPos j = SectionPos.of(p_156859_, me.alphamode.mclong.math.BigInteger.ONE.negate(), p_156860_);
 +      return this.f_156853_.subSet(i, j.offset(1L));
 +   }
 +
@@ -101,7 +101,7 @@
 +   }
 +
 +   private static ChunkPos getChunkKeyFromSectionKey(SectionPos p_156900_) {
-+      return new ChunkPos(p_156900_.x(), p_156900_.z());
++      return new ChunkPos(p_156900_.getX(), p_156900_.getZ());
 +   }
 +
 +   public EntitySection<T> getOrCreateSection(SectionPos p_156894_) {

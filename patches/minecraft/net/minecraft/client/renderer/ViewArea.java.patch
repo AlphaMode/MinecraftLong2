@@ -45,12 +45,11 @@
 -      int i = Math.floorMod(p_110860_, this.f_110841_);
 -      int j = Math.floorMod(p_110861_ - this.f_110839_.m_151560_(), this.f_110840_);
 -      int k = Math.floorMod(p_110862_, this.f_110842_);
--      ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[this.m_110855_(i, j, k)];
 +   public void setDirty(me.alphamode.mclong.math.BigInteger p_110860_, me.alphamode.mclong.math.BigInteger p_110861_, me.alphamode.mclong.math.BigInteger p_110862_, boolean p_110863_) {
-+      me.alphamode.mclong.math.BigInteger i = me.alphamode.mclong.math.BigMath.floorMod(p_110860_, this.f_110841_);
-+      me.alphamode.mclong.math.BigInteger j = me.alphamode.mclong.math.BigMath.floorMod(p_110861_.subtract(this.f_110839_.getMinSection()), this.f_110840_);
-+      me.alphamode.mclong.math.BigInteger k = me.alphamode.mclong.math.BigMath.floorMod(p_110862_, this.f_110842_);
-+      ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[this.m_110855_(i.intValue(), j.intValue(), k.intValue())];
++      int i = me.alphamode.mclong.math.BigMath.floorMod(p_110860_, this.f_110841_).intValue();
++      int j = me.alphamode.mclong.math.BigMath.floorMod(p_110861_.subtract(this.f_110839_.getMinSection()), this.f_110840_).intValue();
++      int k = me.alphamode.mclong.math.BigMath.floorMod(p_110862_, this.f_110842_).intValue();
+       ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[this.m_110855_(i, j, k)];
        chunkrenderdispatcher$renderchunk.m_112828_(p_110863_);
     }
  
@@ -59,17 +58,16 @@
 -      int i = Mth.m_14042_(p_110867_.m_123341_(), 16);
 -      int j = Mth.m_14042_(p_110867_.m_123342_() - this.f_110839_.m_141937_(), 16);
 -      int k = Mth.m_14042_(p_110867_.m_123343_(), 16);
--      if (j >= 0 && j < this.f_110840_) {
++      long i = Mth.floorDiv(p_110867_.getBigX(), 16).longValue();
++      long j = Mth.floorDiv(p_110867_.getBigY().subtract(this.f_110839_.getMinBuildHeight()), 16).longValue();
++      long k = Mth.floorDiv(p_110867_.getBigZ(), 16).longValue();
+       if (j >= 0 && j < this.f_110840_) {
 -         i = Mth.m_14100_(i, this.f_110841_);
 -         k = Mth.m_14100_(k, this.f_110842_);
 -         return this.f_110843_[this.m_110855_(i, j, k)];
-+      me.alphamode.mclong.math.BigInteger i = Mth.floorDiv(p_110867_.getBigX(), me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN);
-+      me.alphamode.mclong.math.BigInteger j = Mth.floorDiv(p_110867_.getBigY().subtract(this.f_110839_.getMinBuildHeight()), me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN);
-+      me.alphamode.mclong.math.BigInteger k = Mth.floorDiv(p_110867_.getBigZ(), me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN);
-+      if (j.compareTo(me.alphamode.mclong.math.BigInteger.ZERO) >= 0 && j.compareTo(this.f_110840_) < 0) {
-+         i = Mth.positiveModulo(i, me.alphamode.mclong.math.BigInteger.valueOf(this.f_110841_));
-+         k = Mth.positiveModulo(k, me.alphamode.mclong.math.BigInteger.valueOf(this.f_110842_));
-+         return this.f_110843_[this.m_110855_(i.intValue(), j.intValue(), k.intValue())];
++         i = Mth.positiveModulo(i, this.f_110841_);
++         k = Mth.positiveModulo(k, this.f_110842_);
++         return this.f_110843_[this.m_110855_((int) i, (int) j, (int) k)];
        } else {
           return null;
        }

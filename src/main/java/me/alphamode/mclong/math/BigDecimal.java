@@ -216,13 +216,13 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
      */
     public BigDecimal divide(BigDecimal divisor) {
         if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.divide(divisor.backing));
+            return new BigDecimal(this.backing.divide(divisor.backing, RoundingMode.HALF_UP));
         return new BigDecimal(this.doubleBacking / divisor.doubleBacking);
     }
 
     public BigDecimal divide(double divisor) {
         if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.divide(java.math.BigDecimal.valueOf(divisor)));
+            return new BigDecimal(this.backing.divide(java.math.BigDecimal.valueOf(divisor), RoundingMode.HALF_UP));
         return new BigDecimal(this.doubleBacking / divisor);
     }
 

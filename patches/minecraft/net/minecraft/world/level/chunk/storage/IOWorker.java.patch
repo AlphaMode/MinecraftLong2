@@ -16,9 +16,9 @@
 -   public boolean m_223471_(ChunkPos p_223472_, int p_223473_) {
 -      ChunkPos chunkpos = new ChunkPos(p_223472_.f_45578_ - p_223473_, p_223472_.f_45579_ - p_223473_);
 -      ChunkPos chunkpos1 = new ChunkPos(p_223472_.f_45578_ + p_223473_, p_223472_.f_45579_ + p_223473_);
-+   public boolean isOldChunkAround(ChunkPos p_223472_, long p_223473_) {
-+      ChunkPos chunkpos = new ChunkPos(p_223472_.x() - p_223473_, p_223472_.z() - p_223473_);
-+      ChunkPos chunkpos1 = new ChunkPos(p_223472_.x() + p_223473_, p_223472_.z() + p_223473_);
++   public boolean isOldChunkAround(ChunkPos p_223472_, me.alphamode.mclong.math.BigInteger p_223473_) {
++      ChunkPos chunkpos = new ChunkPos(p_223472_.getX().subtract(p_223473_), p_223472_.getZ().subtract(p_223473_));
++      ChunkPos chunkpos1 = new ChunkPos(p_223472_.getX().add(p_223473_), p_223472_.getZ().add(p_223473_));
  
 -      for(int i = chunkpos.m_45610_(); i <= chunkpos1.m_45610_(); ++i) {
 -         for(int j = chunkpos.m_45612_(); j <= chunkpos1.m_45612_(); ++j) {
@@ -33,10 +33,10 @@
 -               int i1 = Math.min(chunkpos1.f_45578_ - chunkpos2.f_45578_, 31);
 -               int j1 = Math.min(chunkpos1.f_45579_ - chunkpos2.f_45579_, 31);
 +               ChunkPos chunkpos2 = ChunkPos.minFromRegion(i, j);
-+               long k = Math.max(chunkpos.x() - chunkpos2.x(), 0);
-+               long l = Math.max(chunkpos.z() - chunkpos2.z(), 0);
-+               long i1 = Math.min(chunkpos1.x() - chunkpos2.x(), 31);
-+               long j1 = Math.min(chunkpos1.z() - chunkpos2.z(), 31);
++               long k = Math.max(chunkpos.getX().subtract(chunkpos2.getX()).longValue(), 0);
++               long l = Math.max(chunkpos.getZ().subtract(chunkpos2.getZ()).longValue(), 0);
++               long i1 = Math.min(chunkpos1.getX().subtract(chunkpos2.getX()).longValue(), 31);
++               long j1 = Math.min(chunkpos1.getZ().subtract(chunkpos2.getZ()).longValue(), 31);
  
 -               for(int k1 = k; k1 <= i1; ++k1) {
 -                  for(int l1 = l; l1 <= j1; ++l1) {

@@ -1,11 +1,30 @@
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
+@@ -145,12 +_,12 @@
+    public float f_36099_;
+    public float f_36100_;
+    public int f_36101_;
+-   public double f_36102_;
+-   public double f_36103_;
+-   public double f_36104_;
+-   public double f_36105_;
+-   public double f_36106_;
+-   public double f_36075_;
++   public me.alphamode.mclong.math.BigDecimal f_36102_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   public me.alphamode.mclong.math.BigDecimal f_36103_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   public me.alphamode.mclong.math.BigDecimal f_36104_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   public me.alphamode.mclong.math.BigDecimal f_36105_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   public me.alphamode.mclong.math.BigDecimal f_36106_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   public me.alphamode.mclong.math.BigDecimal f_36075_ = me.alphamode.mclong.math.BigDecimal.ZERO;
+    private int f_36110_;
+    protected boolean f_36076_;
+    private final Abilities f_36077_ = new Abilities();
 @@ -175,7 +_,7 @@
        this.f_36084_ = p_252153_;
        this.f_36095_ = new InventoryMenu(this.f_36093_, !p_250508_.f_46443_, this);
        this.f_36096_ = this.f_36095_;
 -      this.m_7678_((double)p_250289_.m_123341_() + 0.5D, (double)(p_250289_.m_123342_() + 1), (double)p_250289_.m_123343_() + 0.5D, p_251702_, 0.0F);
-+      this.m_7678_((double)p_250289_.getX() + 0.5D, (double)(p_250289_.getY() + 1), (double)p_250289_.getZ() + 0.5D, p_251702_, 0.0F);
++      this.moveTo(p_250289_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), (p_250289_.getBigY().add().toBigDecimal()), p_250289_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), p_251702_, 0.0F);
        this.f_20896_ = 180.0F;
     }
  
@@ -24,6 +43,86 @@
        }
  
        ++this.f_20922_;
+@@ -312,43 +_,43 @@
+       this.f_36102_ = this.f_36105_;
+       this.f_36103_ = this.f_36106_;
+       this.f_36104_ = this.f_36075_;
+-      double d0 = this.m_20185_() - this.f_36105_;
+-      double d1 = this.m_20186_() - this.f_36106_;
+-      double d2 = this.m_20189_() - this.f_36075_;
++      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().subtract(this.f_36105_);
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().subtract(this.f_36106_);
++      me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().subtract(this.f_36075_);
+       double d3 = 10.0D;
+-      if (d0 > 10.0D) {
+-         this.f_36105_ = this.m_20185_();
+-         this.f_36102_ = this.f_36105_;
+-      }
+-
+-      if (d2 > 10.0D) {
+-         this.f_36075_ = this.m_20189_();
+-         this.f_36104_ = this.f_36075_;
+-      }
+-
+-      if (d1 > 10.0D) {
+-         this.f_36106_ = this.m_20186_();
+-         this.f_36103_ = this.f_36106_;
+-      }
+-
+-      if (d0 < -10.0D) {
+-         this.f_36105_ = this.m_20185_();
+-         this.f_36102_ = this.f_36105_;
+-      }
+-
+-      if (d2 < -10.0D) {
+-         this.f_36075_ = this.m_20189_();
+-         this.f_36104_ = this.f_36075_;
+-      }
+-
+-      if (d1 < -10.0D) {
+-         this.f_36106_ = this.m_20186_();
+-         this.f_36103_ = this.f_36106_;
+-      }
+-
+-      this.f_36105_ += d0 * 0.25D;
+-      this.f_36075_ += d2 * 0.25D;
+-      this.f_36106_ += d1 * 0.25D;
++      if (d0.compareTo(me.alphamode.mclong.core.BigConstants.TEN) > 0) {
++         this.f_36105_ = this.getBigX();
++         this.f_36102_ = this.f_36105_;
++      }
++
++      if (d2.compareTo(me.alphamode.mclong.core.BigConstants.TEN) > 0) {
++         this.f_36075_ = this.getBigZ();
++         this.f_36104_ = this.f_36075_;
++      }
++
++      if (d1.compareTo(me.alphamode.mclong.core.BigConstants.TEN) > 0) {
++         this.f_36106_ = this.getBigY();
++         this.f_36103_ = this.f_36106_;
++      }
++
++      if (d0.compareTo(me.alphamode.mclong.core.BigConstants.TEN.negate()) < 0) {
++         this.f_36105_ = this.getBigX();
++         this.f_36102_ = this.f_36105_;
++      }
++
++      if (d2.compareTo(me.alphamode.mclong.core.BigConstants.TEN.negate()) < 0) {
++         this.f_36075_ = this.getBigZ();
++         this.f_36104_ = this.f_36075_;
++      }
++
++      if (d1.compareTo(me.alphamode.mclong.core.BigConstants.TEN.negate()) < 0) {
++         this.f_36106_ = this.getBigY();
++         this.f_36103_ = this.f_36106_;
++      }
++
++      this.f_36105_ = this.f_36105_.add(d0.multiply(me.alphamode.mclong.core.BigConstants.PARTICLES));
++      this.f_36075_ = this.f_36075_.add(d2.multiply(me.alphamode.mclong.core.BigConstants.PARTICLES));
++      this.f_36106_ = this.f_36106_.add(d1.multiply(me.alphamode.mclong.core.BigConstants.PARTICLES));
+    }
+ 
+    protected void m_7594_() {
 @@ -404,7 +_,7 @@
     }
  

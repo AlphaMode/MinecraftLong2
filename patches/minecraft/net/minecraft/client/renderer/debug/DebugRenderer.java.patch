@@ -1,5 +1,21 @@
 --- a/net/minecraft/client/renderer/debug/DebugRenderer.java
 +++ b/net/minecraft/client/renderer/debug/DebugRenderer.java
+@@ -96,12 +_,12 @@
+       return this.f_113431_;
+    }
+ 
+-   public void m_113457_(PoseStack p_113458_, MultiBufferSource.BufferSource p_113459_, double p_113460_, double p_113461_, double p_113462_) {
++   public void render(PoseStack p_113458_, MultiBufferSource.BufferSource p_113459_, me.alphamode.mclong.math.BigDecimal p_113460_, me.alphamode.mclong.math.BigDecimal p_113461_, me.alphamode.mclong.math.BigDecimal p_113462_) {
+       if (this.f_113431_ && !Minecraft.m_91087_().m_91299_()) {
+-         this.f_113415_.m_7790_(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
++         this.f_113415_.render(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
+       }
+ 
+-      this.f_113430_.m_7790_(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
++      this.f_113430_.render(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
+    }
+ 
+    public static Optional<Entity> m_113448_(@Nullable Entity p_113449_, int p_113450_) {
 @@ -144,7 +_,7 @@
     }
  
@@ -22,3 +38,12 @@
           p_270649_.m_85836_();
           p_270649_.m_252880_((float)(p_270942_ - d0), (float)(p_270292_ - d1) + 0.07F, (float)(p_270885_ - d2));
           p_270649_.m_252931_((new Matrix4f()).rotation(camera.m_253121_()));
+@@ -185,7 +_,7 @@
+ 
+    @OnlyIn(Dist.CLIENT)
+    public interface SimpleDebugRenderer {
+-      void m_7790_(PoseStack p_113507_, MultiBufferSource p_113508_, double p_113509_, double p_113510_, double p_113511_);
++      void render(PoseStack p_113507_, MultiBufferSource p_113508_, me.alphamode.mclong.math.BigDecimal p_113509_, me.alphamode.mclong.math.BigDecimal p_113510_, me.alphamode.mclong.math.BigDecimal p_113511_);
+ 
+       default void m_5630_() {
+       }

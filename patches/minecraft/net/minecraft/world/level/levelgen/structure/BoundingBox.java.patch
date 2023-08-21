@@ -6,13 +6,14 @@
     private static final Logger f_162355_ = LogUtils.getLogger();
 -   public static final Codec<BoundingBox> f_162354_ = Codec.INT_STREAM.comapFlatMap((p_162383_) -> {
 -      return Util.m_137539_(p_162383_, 6).map((p_162385_) -> {
-+   public static final Codec<BoundingBox> f_162354_ = Codec.LONG_STREAM.comapFlatMap((p_162383_) -> {
-+      return Util.m_287262_(p_162383_, 6).map((p_162385_) -> {
-          return new BoundingBox(p_162385_[0], p_162385_[1], p_162385_[2], p_162385_[3], p_162385_[4], p_162385_[5]);
+-         return new BoundingBox(p_162385_[0], p_162385_[1], p_162385_[2], p_162385_[3], p_162385_[4], p_162385_[5]);
++   public static final Codec<BoundingBox> f_162354_ = me.alphamode.mclong.core.ModdedCodec.STRING_STREAM.comapFlatMap((p_162383_) -> {
++      return Util.fixedSize(p_162383_, 6).map((p_162385_) -> {
++         return new BoundingBox(new me.alphamode.mclong.math.BigInteger(p_162385_[0]), new me.alphamode.mclong.math.BigInteger(p_162385_[1]), new me.alphamode.mclong.math.BigInteger(p_162385_[2]), new me.alphamode.mclong.math.BigInteger(p_162385_[3]), new me.alphamode.mclong.math.BigInteger(p_162385_[4]), new me.alphamode.mclong.math.BigInteger(p_162385_[5]));
        });
     }, (p_162391_) -> {
 -      return IntStream.of(p_162391_.f_162356_, p_162391_.f_162357_, p_162391_.f_162358_, p_162391_.f_162359_, p_162391_.f_162360_, p_162391_.f_162361_);
-+      return java.util.stream.LongStream.of(p_162391_.minX(), p_162391_.minY(), p_162391_.minZ(), p_162391_.maxX(), p_162391_.maxY(), p_162391_.maxZ());
++      return java.util.stream.Stream.of(p_162391_.minBigX().toString(), p_162391_.minBigY().toString(), p_162391_.minBigZ().toString(), p_162391_.maxBigX().toString(), p_162391_.maxBigY().toString(), p_162391_.maxBigZ().toString());
     }).stable();
 -   private int f_162356_;
 -   private int f_162357_;

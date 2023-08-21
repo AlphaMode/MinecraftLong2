@@ -1,8 +1,30 @@
 --- a/net/minecraft/client/renderer/debug/LightSectionDebugRenderer.java
 +++ b/net/minecraft/client/renderer/debug/LightSectionDebugRenderer.java
-@@ -53,30 +_,30 @@
+@@ -37,46 +_,46 @@
+       this.f_279558_ = p_283096_;
+    }
  
-    private static void m_280198_(PoseStack p_283088_, DiscreteVoxelShape p_281747_, SectionPos p_282941_, VertexConsumer p_283103_, double p_281419_, double p_282520_, double p_281976_, Vector4f p_282342_) {
+-   public void m_7790_(PoseStack p_281418_, MultiBufferSource p_282487_, double p_282164_, double p_282565_, double p_281615_) {
++   public void render(PoseStack p_281418_, MultiBufferSource p_282487_, me.alphamode.mclong.math.BigDecimal p_282164_, me.alphamode.mclong.math.BigDecimal p_282565_, me.alphamode.mclong.math.BigDecimal p_281615_) {
+       Instant instant = Instant.now();
+       if (this.f_279532_ == null || Duration.between(this.f_279524_, instant).compareTo(f_279526_) > 0) {
+          this.f_279524_ = instant;
+          this.f_279532_ = new LightSectionDebugRenderer.SectionData(this.f_279566_.f_91073_.m_5518_(), SectionPos.m_123199_(this.f_279566_.f_91074_.m_20183_()), 10, this.f_279558_);
+       }
+ 
+-      m_280110_(p_281418_, this.f_279532_.f_279657_, this.f_279532_.f_279546_, p_282487_, p_282164_, p_282565_, p_281615_, f_279653_);
+-      m_280110_(p_281418_, this.f_279532_.f_279596_, this.f_279532_.f_279546_, p_282487_, p_282164_, p_282565_, p_281615_, f_279579_);
++      renderEdges(p_281418_, this.f_279532_.f_279657_, this.f_279532_.f_279546_, p_282487_, p_282164_, p_282565_, p_281615_, f_279653_);
++      renderEdges(p_281418_, this.f_279532_.f_279596_, this.f_279532_.f_279546_, p_282487_, p_282164_, p_282565_, p_281615_, f_279579_);
+       VertexConsumer vertexconsumer = p_282487_.m_6299_(RenderType.m_280070_());
+-      m_280198_(p_281418_, this.f_279532_.f_279657_, this.f_279532_.f_279546_, vertexconsumer, p_282164_, p_282565_, p_281615_, f_279653_);
+-      m_280198_(p_281418_, this.f_279532_.f_279596_, this.f_279532_.f_279546_, vertexconsumer, p_282164_, p_282565_, p_281615_, f_279579_);
++      renderFaces(p_281418_, this.f_279532_.f_279657_, this.f_279532_.f_279546_, vertexconsumer, p_282164_, p_282565_, p_281615_, f_279653_);
++      renderFaces(p_281418_, this.f_279532_.f_279596_, this.f_279532_.f_279546_, vertexconsumer, p_282164_, p_282565_, p_281615_, f_279579_);
+    }
+ 
+-   private static void m_280198_(PoseStack p_283088_, DiscreteVoxelShape p_281747_, SectionPos p_282941_, VertexConsumer p_283103_, double p_281419_, double p_282520_, double p_281976_, Vector4f p_282342_) {
++   private static void renderFaces(PoseStack p_283088_, DiscreteVoxelShape p_281747_, SectionPos p_282941_, VertexConsumer p_283103_, me.alphamode.mclong.math.BigDecimal p_281419_, me.alphamode.mclong.math.BigDecimal p_282520_, me.alphamode.mclong.math.BigDecimal p_281976_, Vector4f p_282342_) {
        p_281747_.m_82810_((p_282087_, p_283360_, p_282854_, p_282233_) -> {
 -         int i = p_283360_ + p_282941_.m_123341_();
 -         int j = p_282854_ + p_282941_.m_123342_();
@@ -11,11 +33,12 @@
 +         long i = p_283360_ + p_282941_.getX();
 +         long j = p_282854_ + p_282941_.getY();
 +         long k = p_282233_ + p_282941_.getZ();
-+         renderFace(p_283088_, p_283103_, p_282087_, p_281419_, p_282520_, p_281976_, i, j, k, p_282342_);
++         renderFace(p_283088_, p_283103_, p_282087_, p_281419_.doubleValue(), p_282520_.doubleValue(), p_281976_.doubleValue(), i, j, k, p_282342_);
        });
     }
  
-    private static void m_280110_(PoseStack p_282890_, DiscreteVoxelShape p_282950_, SectionPos p_281925_, MultiBufferSource p_281516_, double p_281554_, double p_283233_, double p_281690_, Vector4f p_282916_) {
+-   private static void m_280110_(PoseStack p_282890_, DiscreteVoxelShape p_282950_, SectionPos p_281925_, MultiBufferSource p_281516_, double p_281554_, double p_283233_, double p_281690_, Vector4f p_282916_) {
++   private static void renderEdges(PoseStack p_282890_, DiscreteVoxelShape p_282950_, SectionPos p_281925_, MultiBufferSource p_281516_, me.alphamode.mclong.math.BigDecimal p_281554_, me.alphamode.mclong.math.BigDecimal p_283233_, me.alphamode.mclong.math.BigDecimal p_281690_, Vector4f p_282916_) {
        p_282950_.m_82819_((p_283441_, p_283631_, p_282083_, p_281900_, p_281481_, p_283547_) -> {
 -         int i = p_283441_ + p_281925_.m_123341_();
 -         int j = p_283631_ + p_281925_.m_123342_();
@@ -31,7 +54,7 @@
 +         long j1 = p_283547_ + p_281925_.getZ();
           VertexConsumer vertexconsumer = p_281516_.m_6299_(RenderType.m_269399_(1.0D));
 -         m_280135_(p_282890_, vertexconsumer, p_281554_, p_283233_, p_281690_, i, j, k, l, i1, j1, p_282916_);
-+         renderEdge(p_282890_, vertexconsumer, p_281554_, p_283233_, p_281690_, i, j, k, l, i1, j1, p_282916_);
++         renderEdge(p_282890_, vertexconsumer, p_281554_.doubleValue(), p_283233_.doubleValue(), p_281690_.doubleValue(), i, j, k, l, i1, j1, p_282916_);
        }, true);
     }
  

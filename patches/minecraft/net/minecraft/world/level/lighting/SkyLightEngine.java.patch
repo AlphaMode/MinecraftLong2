@@ -7,9 +7,9 @@
 -   private int m_284344_(int p_285058_, int p_285191_, int p_285111_) {
 -      ChunkSkyLightSources chunkskylightsources = this.m_284231_(SectionPos.m_123171_(p_285058_), SectionPos.m_123171_(p_285191_));
 -      return chunkskylightsources == null ? p_285111_ : chunkskylightsources.m_284402_(SectionPos.m_123207_(p_285058_), SectionPos.m_123207_(p_285191_));
-+   private long getLowestSourceY(long p_285058_, long p_285191_, long p_285111_) {
-+      ChunkSkyLightSources chunkskylightsources = this.getChunkSources(me.alphamode.mclong.math.BigInteger.valueOf(SectionPos.blockToSectionCoord(p_285058_)), me.alphamode.mclong.math.BigInteger.valueOf(SectionPos.blockToSectionCoord(p_285191_)));
-+      return chunkskylightsources == null ? p_285111_ : chunkskylightsources.getLowestSourceY(SectionPos.sectionRelative(p_285058_), SectionPos.sectionRelative(p_285191_));
++   private long getLowestSourceY(me.alphamode.mclong.math.BigInteger p_285058_, me.alphamode.mclong.math.BigInteger p_285191_, long p_285111_) {
++      ChunkSkyLightSources chunkskylightsources = this.getChunkSources(SectionPos.blockToSectionCoord(p_285058_), SectionPos.blockToSectionCoord(p_285191_));
++      return chunkskylightsources == null ? p_285111_ : chunkskylightsources.getLowestSourceY(SectionPos.sectionRelative(p_285058_).longValue(), SectionPos.sectionRelative(p_285191_).longValue());
     }
  
     @Nullable
@@ -27,9 +27,9 @@
 -      long l = SectionPos.m_123235_(p_75859_);
 -      int i1 = this.f_283849_.m_284382_(l) ? this.m_284344_(i, k, Integer.MAX_VALUE) : Integer.MAX_VALUE;
 +   protected void checkNode(BlockPos p_75859_) {
-+      long i = p_75859_.getX();
-+      long j = p_75859_.getY();
-+      long k = p_75859_.getZ();
++      me.alphamode.mclong.math.BigInteger i = p_75859_.getBigX();
++      me.alphamode.mclong.math.BigInteger j = p_75859_.getBigY();
++      me.alphamode.mclong.math.BigInteger k = p_75859_.getBigZ();
 +      SectionPos l = SectionPos.m_123199_(p_75859_);
 +      long i1 = this.f_283849_.lightOnInSection(l) ? this.getLowestSourceY(i, k, Integer.MAX_VALUE) : Integer.MAX_VALUE;
        if (i1 != Integer.MAX_VALUE) {
@@ -38,8 +38,9 @@
        }
  
 -      if (this.f_283849_.m_75791_(l)) {
+-         boolean flag = j >= i1;
 +      if (this.f_283849_.storingLightForSection(l)) {
-          boolean flag = j >= i1;
++         boolean flag = j.compareTo(i1) >= 0;
           if (flag) {
 -            this.m_284343_(p_75859_, f_283845_);
 -            this.m_284218_(p_75859_, f_283756_);
@@ -66,14 +67,14 @@
 -      int i = SectionPos.m_123223_(this.f_283849_.m_284293_());
 -      this.m_284317_(p_285053_, p_285140_, p_285337_, i);
 -      this.m_284375_(p_285053_, p_285140_, p_285337_, i);
-+   private void updateSourcesInColumn(long p_285053_, long p_285140_, long p_285337_) {
++   private void updateSourcesInColumn(me.alphamode.mclong.math.BigInteger p_285053_, me.alphamode.mclong.math.BigInteger p_285140_, long p_285337_) {
 +      long i = SectionPos.sectionToBlockCoord(this.f_283849_.getBottomSectionY());
 +      this.removeSourcesBelow(p_285053_, p_285140_, p_285337_, i);
 +      this.addSourcesAbove(p_285053_, p_285140_, p_285337_, i);
     }
  
 -   private void m_284317_(int p_285475_, int p_285138_, int p_285130_, int p_285112_) {
-+   private void removeSourcesBelow(long p_285475_, long p_285138_, long p_285130_, long p_285112_) {
++   private void removeSourcesBelow(me.alphamode.mclong.math.BigInteger p_285475_, me.alphamode.mclong.math.BigInteger p_285138_, long p_285130_, long p_285112_) {
        if (p_285130_ > p_285112_) {
 -         int i = SectionPos.m_123171_(p_285475_);
 -         int j = SectionPos.m_123171_(p_285138_);
@@ -87,17 +88,17 @@
 -               for(int k1 = Math.min(j1, k); k1 >= i1; --k1) {
 -                  long l1 = BlockPos.m_121882_(p_285475_, k1, p_285138_);
 -                  if (!m_284444_(this.f_283849_.m_75795_(l1))) {
-+         long i = SectionPos.blockToSectionCoord(p_285475_);
-+         long j = SectionPos.blockToSectionCoord(p_285138_);
++         me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(p_285475_);
++         me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(p_285138_);
 +         long k = p_285130_ - 1;
 +
 +         for(long l = SectionPos.blockToSectionCoord(k); this.f_283849_.hasLightDataAtOrBelow(l); --l) {
-+            if (this.f_283849_.storingLightForSection(SectionPos.of(i, l, j))) {
++            if (this.f_283849_.storingLightForSection(SectionPos.of(i, me.alphamode.mclong.math.BigInteger.valueOf(l), j))) {
 +               long i1 = SectionPos.sectionToBlockCoord(l);
 +               long j1 = i1 + 15;
 +
 +               for(long k1 = Math.min(j1, k); k1 >= i1; --k1) {
-+                  BlockPos l1 = new BlockPos(p_285475_, k1, p_285138_);
++                  BlockPos l1 = new BlockPos(p_285475_, me.alphamode.mclong.math.BigInteger.valueOf(k1), p_285138_);
 +                  if (!m_284444_(this.f_283849_.getStoredLevel(l1))) {
                       return;
                    }
@@ -127,19 +128,19 @@
 -            for(int l1 = Math.max(j1, l); l1 <= k1; ++l1) {
 -               long i2 = BlockPos.m_121882_(p_285241_, l1, p_285212_);
 -               if (m_284444_(this.f_283849_.m_75795_(i2))) {
-+   private void addSourcesAbove(long p_285241_, long p_285212_, long p_284972_, long p_285134_) {
-+      long i = SectionPos.blockToSectionCoord(p_285241_);
-+      long j = SectionPos.blockToSectionCoord(p_285212_);
-+      long k = Math.max(Math.max(this.getLowestSourceY(p_285241_ - 1, p_285212_, Integer.MIN_VALUE), this.getLowestSourceY(p_285241_ + 1, p_285212_, Integer.MIN_VALUE)), Math.max(this.getLowestSourceY(p_285241_, p_285212_ - 1, Integer.MIN_VALUE), this.getLowestSourceY(p_285241_, p_285212_ + 1, Integer.MIN_VALUE)));
++   private void addSourcesAbove(me.alphamode.mclong.math.BigInteger p_285241_, me.alphamode.mclong.math.BigInteger p_285212_, long p_284972_, long p_285134_) {
++      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(p_285241_);
++      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(p_285212_);
++      long k = Math.max(Math.max(this.getLowestSourceY(p_285241_.subtract(), p_285212_, Integer.MIN_VALUE), this.getLowestSourceY(p_285241_.add(), p_285212_, Integer.MIN_VALUE)), Math.max(this.getLowestSourceY(p_285241_, p_285212_.subtract(), Integer.MIN_VALUE), this.getLowestSourceY(p_285241_, p_285212_.add(), Integer.MIN_VALUE)));
 +      long l = Math.max(p_284972_, p_285134_);
 +
-+      for(SectionPos i1 = SectionPos.of(i, SectionPos.blockToSectionCoord(l), j); !this.f_283849_.isAboveData(i1); i1 = i1.relative(Direction.UP)) {
++      for(SectionPos i1 = SectionPos.of(i, me.alphamode.mclong.math.BigInteger.valueOf(SectionPos.blockToSectionCoord(l)), j); !this.f_283849_.isAboveData(i1); i1 = i1.relative(Direction.UP)) {
 +         if (this.f_283849_.storingLightForSection(i1)) {
 +            long j1 = SectionPos.sectionToBlockCoord(i1.y());
 +            long k1 = j1 + 15;
 +
 +            for(long l1 = Math.max(j1, l); l1 <= k1; ++l1) {
-+               BlockPos i2 = new BlockPos(p_285241_, l1, p_285212_);
++               BlockPos i2 = new BlockPos(p_285241_, me.alphamode.mclong.math.BigInteger.valueOf(l1), p_285212_);
 +               if (m_284444_(this.f_283849_.getStoredLevel(i2))) {
                    return;
                 }
@@ -405,7 +406,7 @@
 -                     for(int j4 = i2; j4 >= Math.max(l1, l2); --j4) {
 -                        datalayer.m_62564_(k2, SectionPos.m_123207_(j4), j2, 15);
 +                     for(long j4 = i2; j4 >= Math.max(l1, l2); --j4) {
-+                        datalayer.set(k2, SectionPos.sectionRelative(j4), j2, 15);
++                        datalayer.set(me.alphamode.mclong.math.BigInteger.valueOf(k2), me.alphamode.mclong.math.BigInteger.valueOf(SectionPos.sectionRelative(j4)), me.alphamode.mclong.math.BigInteger.valueOf(j2), 15);
                          if (j4 == l2 || j4 < i4) {
 -                           long k4 = BlockPos.m_121882_(l + k2, j4, i1 + j2);
 -                           this.m_284218_(k4, LightEngine.QueueEntry.m_284543_(j4 == l2, j4 < i3, j4 < j3, j4 < k3, j4 < l3));

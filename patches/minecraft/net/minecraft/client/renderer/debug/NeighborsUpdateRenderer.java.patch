@@ -1,12 +1,21 @@
 --- a/net/minecraft/client/renderer/debug/NeighborsUpdateRenderer.java
 +++ b/net/minecraft/client/renderer/debug/NeighborsUpdateRenderer.java
+@@ -34,7 +_,7 @@
+       map.put(p_113598_, i + 1);
+    }
+ 
+-   public void m_7790_(PoseStack p_113600_, MultiBufferSource p_113601_, double p_113602_, double p_113603_, double p_113604_) {
++   public void render(PoseStack p_113600_, MultiBufferSource p_113601_, me.alphamode.mclong.math.BigDecimal p_113602_, me.alphamode.mclong.math.BigDecimal p_113603_, me.alphamode.mclong.math.BigDecimal p_113604_) {
+       long i = this.f_113592_.f_91073_.m_46467_();
+       int j = 200;
+       double d0 = 0.0025D;
 @@ -55,8 +_,8 @@
                 BlockPos blockpos = entry1.getKey();
                 Integer integer = entry1.getValue();
                 if (set.add(blockpos)) {
 -                  AABB aabb = (new AABB(BlockPos.f_121853_)).m_82400_(0.002D).m_82406_(0.0025D * (double)k).m_82386_((double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_()).m_82386_(-p_113602_, -p_113603_, -p_113604_);
 -                  LevelRenderer.m_109608_(p_113600_, vertexconsumer, aabb.f_82288_, aabb.f_82289_, aabb.f_82290_, aabb.f_82291_, aabb.f_82292_, aabb.f_82293_, 1.0F, 1.0F, 1.0F, 1.0F);
-+                  AABB aabb = (new AABB(BlockPos.f_121853_)).m_82400_(0.002D).m_82406_(0.0025D * (double)k).m_82386_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ()).m_82386_(-p_113602_, -p_113603_, -p_113604_);
++                  AABB aabb = (new AABB(BlockPos.f_121853_)).m_82400_(0.002D).m_82406_(0.0025D * (double)k).m_82386_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ()).move(p_113602_.negate(), p_113603_.negate(), p_113604_.negate());
 +                  LevelRenderer.m_109608_(p_113600_, vertexconsumer, aabb.f_82288_.doubleValue(), aabb.f_82289_.doubleValue(), aabb.f_82290_.doubleValue(), aabb.f_82291_.doubleValue(), aabb.f_82292_.doubleValue(), aabb.f_82293_.doubleValue(), 1.0F, 1.0F, 1.0F, 1.0F);
                    map.put(blockpos, integer);
                 }

@@ -31,15 +31,15 @@
 -         int i = chunkpos.f_45578_;
 -         int j = chunkpos.f_45579_;
 +         ChunkPos chunkpos = p_140707_;
-+         long i = chunkpos.x();
-+         long j = chunkpos.z();
++         me.alphamode.mclong.math.BigInteger i = chunkpos.getX();
++         me.alphamode.mclong.math.BigInteger j = chunkpos.getZ();
  
           for(int k = -1; k <= 1; ++k) {
              for(int l = -1; l <= 1; ++l) {
 -               long i1 = ChunkPos.m_45589_(i + k, j + l);
 -               if (i1 != p_140707_) {
 -                  this.m_75593_(p_140707_, i1, p_140708_, p_140709_);
-+               ChunkPos i1 = new ChunkPos(i + k, j + l);
++               ChunkPos i1 = new ChunkPos(i.add(k), j.add(l));
 +               if (!i1.equals(chunkpos)) {
 +                  this.checkNeighbor(p_140707_, i1, p_140708_, p_140709_);
                 }
@@ -56,14 +56,14 @@
 -      int j = chunkpos.f_45578_;
 -      int k = chunkpos.f_45579_;
 +      ChunkPos chunkpos = p_140711_;
-+      long j = chunkpos.x();
-+      long k = chunkpos.z();
++      me.alphamode.mclong.math.BigInteger j = chunkpos.getX();
++      me.alphamode.mclong.math.BigInteger k = chunkpos.getZ();
  
        for(int l = -1; l <= 1; ++l) {
           for(int i1 = -1; i1 <= 1; ++i1) {
 -            long j1 = ChunkPos.m_45589_(j + l, k + i1);
 -            if (j1 == p_140711_) {
-+            ChunkPos j1 = new ChunkPos(j + l, k + i1);
++            ChunkPos j1 = new ChunkPos(j.add(l), k.add(i1));
 +            if (j1.equals(chunkpos)) {
                 j1 = ChunkPos.f_45577_;
              }

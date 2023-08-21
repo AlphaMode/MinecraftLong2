@@ -1,10 +1,15 @@
 --- a/net/minecraft/client/renderer/debug/LightDebugRenderer.java
 +++ b/net/minecraft/client/renderer/debug/LightDebugRenderer.java
-@@ -25,19 +_,19 @@
-    public void m_7790_(PoseStack p_113587_, MultiBufferSource p_113588_, double p_113589_, double p_113590_, double p_113591_) {
+@@ -22,22 +_,22 @@
+       this.f_113583_ = p_113585_;
+    }
+ 
+-   public void m_7790_(PoseStack p_113587_, MultiBufferSource p_113588_, double p_113589_, double p_113590_, double p_113591_) {
++   public void render(PoseStack p_113587_, MultiBufferSource p_113588_, me.alphamode.mclong.math.BigDecimal p_113589_, me.alphamode.mclong.math.BigDecimal p_113590_, me.alphamode.mclong.math.BigDecimal p_113591_) {
        Level level = this.f_113583_.f_91073_;
-       BlockPos blockpos = BlockPos.m_274561_(p_113589_, p_113590_, p_113591_);
+-      BlockPos blockpos = BlockPos.m_274561_(p_113589_, p_113590_, p_113591_);
 -      LongSet longset = new LongOpenHashSet();
++      BlockPos blockpos = BlockPos.containing(p_113589_, p_113590_, p_113591_);
 +      it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> longset = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
  
 -      for(BlockPos blockpos1 : BlockPos.m_121940_(blockpos.m_7918_(-10, -10, -10), blockpos.m_7918_(10, 10, 10))) {

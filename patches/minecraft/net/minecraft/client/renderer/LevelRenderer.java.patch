@@ -384,16 +384,15 @@
     private boolean m_194359_(BlockPos p_194360_, ChunkRenderDispatcher.RenderChunk p_194361_) {
 -      int i = SectionPos.m_123171_(p_194360_.m_123341_());
 -      int j = SectionPos.m_123171_(p_194360_.m_123343_());
--      BlockPos blockpos = p_194361_.m_112839_();
++      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(p_194360_.getBigX());
++      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(p_194360_.getBigZ());
+       BlockPos blockpos = p_194361_.m_112839_();
 -      int k = SectionPos.m_123171_(blockpos.m_123341_());
 -      int l = SectionPos.m_123171_(blockpos.m_123343_());
 -      return !ChunkMap.m_200878_(k, l, i, j, this.f_109438_ - 3);
-+//      long i = SectionPos.blockToSectionCoord(p_194360_.getX());
-+//      long j = SectionPos.blockToSectionCoord(p_194360_.getZ());
-+//      BlockPos blockpos = p_194361_.getOrigin();
-+//      long k = SectionPos.blockToSectionCoord(blockpos.getX());
-+//      long l = SectionPos.blockToSectionCoord(blockpos.getZ());
-+      return false;//!ChunkMap.isChunkInRange(k, l, i, j, this.lastViewDistance - 2);
++      me.alphamode.mclong.math.BigInteger k = SectionPos.blockToSectionCoord(blockpos.getBigX());
++      me.alphamode.mclong.math.BigInteger l = SectionPos.blockToSectionCoord(blockpos.getBigZ());
++      return !ChunkMap.isChunkInRange(k, l, i, j, this.f_109438_ - 2);
     }
  
 -   private void m_252964_(Matrix4f p_253756_, Matrix4f p_253787_, double p_254187_, double p_253833_, double p_254547_, Frustum p_253954_) {
@@ -552,7 +551,7 @@
        }
  
 -      this.f_109461_.f_91064_.m_113457_(p_109600_, multibuffersource$buffersource, d0, d1, d2);
-+      this.f_109461_.f_91064_.m_113457_(p_109600_, multibuffersource$buffersource, d0.doubleValue(), d1.doubleValue(), d2.doubleValue());
++      this.f_109461_.f_91064_.render(p_109600_, multibuffersource$buffersource, d0, d1, d2);
        multibuffersource$buffersource.m_173043_();
        PoseStack posestack = RenderSystem.getModelViewStack();
        RenderSystem.applyModelViewMatrix();

@@ -5,7 +5,7 @@
  
     public static ProtoChunk m_188230_(ServerLevel p_188231_, PoiManager p_188232_, ChunkPos p_188233_, CompoundTag p_188234_) {
 -      ChunkPos chunkpos = new ChunkPos(p_188234_.m_128451_("xPos"), p_188234_.m_128451_("zPos"));
-+      ChunkPos chunkpos = new ChunkPos(p_188234_.m_128454_("xPos"), p_188234_.m_128454_("zPos"));
++      ChunkPos chunkpos = new ChunkPos(new me.alphamode.mclong.math.BigInteger(p_188234_.m_128461_("xPos")), new me.alphamode.mclong.math.BigInteger(p_188234_.m_128461_("zPos")));
        if (!Objects.equals(p_188233_, chunkpos)) {
           f_63449_.error("Chunk file at {} is in the wrong location; relocating. (Expected {}, got {})", p_188233_, p_188233_, chunkpos);
        }
@@ -79,9 +79,9 @@
 -      compoundtag.m_128405_("xPos", chunkpos.f_45578_);
 -      compoundtag.m_128405_("yPos", p_63456_.m_151560_());
 -      compoundtag.m_128405_("zPos", chunkpos.f_45579_);
-+      compoundtag.m_128356_("xPos", chunkpos.x());
++      compoundtag.m_128359_("xPos", chunkpos.getX().toString());
 +      compoundtag.m_128356_("yPos", p_63456_.getMinSection());
-+      compoundtag.m_128356_("zPos", chunkpos.z());
++      compoundtag.m_128359_("zPos", chunkpos.getZ().toString());
        compoundtag.m_128356_("LastUpdate", p_63455_.m_46467_());
        compoundtag.m_128356_("InhabitedTime", p_63456_.m_6319_());
        compoundtag.m_128359_("Status", BuiltInRegistries.f_256940_.m_7981_(p_63456_.m_6415_()).toString());

@@ -1,5 +1,14 @@
 --- a/net/minecraft/client/renderer/debug/ChunkDebugRenderer.java
 +++ b/net/minecraft/client/renderer/debug/ChunkDebugRenderer.java
+@@ -33,7 +_,7 @@
+       this.f_113363_ = p_113368_;
+    }
+ 
+-   public void m_7790_(PoseStack p_113370_, MultiBufferSource p_113371_, double p_113372_, double p_113373_, double p_113374_) {
++   public void render(PoseStack p_113370_, MultiBufferSource p_113371_, me.alphamode.mclong.math.BigDecimal p_113372_, me.alphamode.mclong.math.BigDecimal p_113373_, me.alphamode.mclong.math.BigDecimal p_113374_) {
+       double d0 = (double)Util.m_137569_();
+       if (d0 - this.f_113364_ > 3.0E9D) {
+          this.f_113364_ = d0;
 @@ -47,7 +_,7 @@
  
        if (this.f_113366_ != null) {
@@ -18,25 +27,29 @@
                 i -= 2;
              }
           }
-@@ -76,16 +_,16 @@
-       ChunkData(IntegratedServer p_113382_, double p_113383_, double p_113384_) {
+@@ -73,19 +_,19 @@
+       final Map<ChunkPos, String> f_113378_;
+       final CompletableFuture<Map<ChunkPos, String>> f_113379_;
+ 
+-      ChunkData(IntegratedServer p_113382_, double p_113383_, double p_113384_) {
++      ChunkData(IntegratedServer p_113382_, me.alphamode.mclong.math.BigDecimal p_113383_, me.alphamode.mclong.math.BigDecimal p_113384_) {
           ClientLevel clientlevel = ChunkDebugRenderer.this.f_113363_.f_91073_;
           ResourceKey<Level> resourcekey = clientlevel.m_46472_();
 -         int i = SectionPos.m_175552_(p_113383_);
 -         int j = SectionPos.m_175552_(p_113384_);
-+         long i = SectionPos.posToSectionCoord(p_113383_);
-+         long j = SectionPos.posToSectionCoord(p_113384_);
++         me.alphamode.mclong.math.BigInteger i = SectionPos.posToSectionCoord(p_113383_);
++         me.alphamode.mclong.math.BigInteger j = SectionPos.posToSectionCoord(p_113384_);
           ImmutableMap.Builder<ChunkPos, String> builder = ImmutableMap.builder();
           ClientChunkCache clientchunkcache = clientlevel.m_7726_();
  
 -         for(int k = i - 12; k <= i + 12; ++k) {
 -            for(int l = j - 12; l <= j + 12; ++l) {
-+         for(long k = i - 12; k <= i + 12; ++k) {
-+            for(long l = j - 12; l <= j + 12; ++l) {
++         for(me.alphamode.mclong.math.BigInteger k = i.subtract(me.alphamode.mclong.core.BigConstants.Ints.TWELVE); k.compareTo(i.add(me.alphamode.mclong.core.BigConstants.Ints.TWELVE)) <= 0; k = k.add()) {
++            for(me.alphamode.mclong.math.BigInteger l = j.subtract(me.alphamode.mclong.core.BigConstants.Ints.TWELVE); l.compareTo(j.add(me.alphamode.mclong.core.BigConstants.Ints.TWELVE)) <= 0; l = l.add()) {
                 ChunkPos chunkpos = new ChunkPos(k, l);
                 String s = "";
 -               LevelChunk levelchunk = clientchunkcache.m_62227_(k, l, false);
-+               LevelChunk levelchunk = clientchunkcache.getChunk(me.alphamode.mclong.math.BigInteger.valueOf(k), me.alphamode.mclong.math.BigInteger.valueOf(l), false);
++               LevelChunk levelchunk = clientchunkcache.getChunk(k, l, false);
                 s = s + "Client: ";
                 if (levelchunk == null) {
                    s = s + "0n/a\n";
@@ -46,8 +59,8 @@
  
 -               for(int i1 = i - 12; i1 <= i + 12; ++i1) {
 -                  for(int j1 = j - 12; j1 <= j + 12; ++j1) {
-+               for(long i1 = i - 12; i1 <= i + 12; ++i1) {
-+                  for(long j1 = j - 12; j1 <= j + 12; ++j1) {
++               for(me.alphamode.mclong.math.BigInteger i1 = i.subtract(me.alphamode.mclong.core.BigConstants.Ints.TWELVE); i1.compareTo(i.add(me.alphamode.mclong.core.BigConstants.Ints.TWELVE)) <= 0; i1 = i1.add()) {
++                  for(me.alphamode.mclong.math.BigInteger j1 = j.subtract(me.alphamode.mclong.core.BigConstants.Ints.TWELVE); j1.compareTo(j.add(me.alphamode.mclong.core.BigConstants.Ints.TWELVE)) <= 0; j1 = j1.add()) {
                       ChunkPos chunkpos1 = new ChunkPos(i1, j1);
                       builder1.put(chunkpos1, "Server: " + serverchunkcache.m_8448_(chunkpos1));
                    }

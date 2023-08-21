@@ -260,12 +260,16 @@
                 blockstate = this.m_8055_(blockpos);
                 if (blockstate.m_60713_(Blocks.f_50328_)) {
                    this.m_213960_(blockstate, blockpos, p_46719_, p_46718_, false);
-@@ -834,7 +_,7 @@
+@@ -834,10 +_,10 @@
  
     public abstract RecipeManager m_7465_();
  
 -   public BlockPos m_46496_(int p_46497_, int p_46498_, int p_46499_, int p_46500_) {
-+   public BlockPos getBlockRandomPos(long p_46497_, long p_46498_, long p_46499_, int p_46500_) {
++   public BlockPos getBlockRandomPos(me.alphamode.mclong.math.BigInteger p_46497_, me.alphamode.mclong.math.BigInteger p_46498_, me.alphamode.mclong.math.BigInteger p_46499_, int p_46500_) {
        this.f_46435_ = this.f_46435_ * 3 + 1013904223;
        int i = this.f_46435_ >> 2;
-       return new BlockPos(p_46497_ + (i & 15), p_46498_ + (i >> 16 & p_46500_), p_46499_ + (i >> 8 & 15));
+-      return new BlockPos(p_46497_ + (i & 15), p_46498_ + (i >> 16 & p_46500_), p_46499_ + (i >> 8 & 15));
++      return new BlockPos(p_46497_.add((i & 15)), p_46498_.add((i >> 16 & p_46500_)), p_46499_.add((i >> 8 & 15)));
+    }
+ 
+    public boolean m_7441_() {
