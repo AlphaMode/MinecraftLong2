@@ -1,10 +1,16 @@
 --- a/net/minecraft/world/item/MinecartItem.java
 +++ b/net/minecraft/world/item/MinecartItem.java
-@@ -26,7 +_,7 @@
-          double d0 = p_42949_.m_7096_() + (double)direction.m_122429_() * 1.125D;
-          double d1 = Math.floor(p_42949_.m_7098_()) + (double)direction.m_122430_();
-          double d2 = p_42949_.m_7094_() + (double)direction.m_122431_() * 1.125D;
+@@ -23,10 +_,10 @@
+       public ItemStack m_7498_(BlockSource p_42949_, ItemStack p_42950_) {
+          Direction direction = p_42949_.m_6414_().m_61143_(DispenserBlock.f_52659_);
+          Level level = p_42949_.m_7727_();
+-         double d0 = p_42949_.m_7096_() + (double)direction.m_122429_() * 1.125D;
+-         double d1 = Math.floor(p_42949_.m_7098_()) + (double)direction.m_122430_();
+-         double d2 = p_42949_.m_7094_() + (double)direction.m_122431_() * 1.125D;
 -         BlockPos blockpos = p_42949_.m_7961_().m_121945_(direction);
++         me.alphamode.mclong.math.BigDecimal d0 = p_42949_.getX().add((double)direction.m_122429_() * 1.125D);
++         me.alphamode.mclong.math.BigDecimal d1 = me.alphamode.mclong.math.BigDecimal.valueOf(Math.floor(p_42949_.m_7098_()) + (double)direction.m_122430_());
++         me.alphamode.mclong.math.BigDecimal d2 = p_42949_.getZ().add((double)direction.m_122431_() * 1.125D);
 +         BlockPos blockpos = p_42949_.m_7961_().relative(direction);
           BlockState blockstate = level.m_8055_(blockpos);
           RailShape railshape = blockstate.m_60734_() instanceof BaseRailBlock ? blockstate.m_61143_(((BaseRailBlock)blockstate.m_60734_()).m_7978_()) : RailShape.NORTH_SOUTH;
@@ -23,12 +29,21 @@
              RailShape railshape1 = blockstate1.m_60734_() instanceof BaseRailBlock ? blockstate1.m_61143_(((BaseRailBlock)blockstate1.m_60734_()).m_7978_()) : RailShape.NORTH_SOUTH;
              if (direction != Direction.DOWN && railshape1.m_61745_()) {
                 d3 = -0.4D;
+@@ -50,7 +_,7 @@
+             }
+          }
+ 
+-         AbstractMinecart abstractminecart = AbstractMinecart.m_38119_(level, d0, d1 + d3, d2, ((MinecartItem)p_42950_.m_41720_()).f_42935_);
++         AbstractMinecart abstractminecart = AbstractMinecart.createMinecart(level, d0, d1.add(d3), d2, ((MinecartItem)p_42950_.m_41720_()).f_42935_);
+          if (p_42950_.m_41788_()) {
+             abstractminecart.m_6593_(p_42950_.m_41786_());
+          }
 @@ -87,13 +_,13 @@
                 d0 = 0.5D;
              }
  
 -            AbstractMinecart abstractminecart = AbstractMinecart.m_38119_(level, (double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_() + 0.0625D + d0, (double)blockpos.m_123343_() + 0.5D, this.f_42935_);
-+            AbstractMinecart abstractminecart = AbstractMinecart.m_38119_(level, (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.0625D + d0, (double)blockpos.getZ() + 0.5D, this.f_42935_);
++            AbstractMinecart abstractminecart = AbstractMinecart.createMinecart(level, blockpos.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), blockpos.getBigDecY().add(0.0625D + d0), blockpos.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), this.f_42935_);
              if (itemstack.m_41788_()) {
                 abstractminecart.m_6593_(itemstack.m_41786_());
              }

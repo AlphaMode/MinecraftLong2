@@ -96,16 +96,16 @@
 -      int j = SectionPos.m_175552_((double)p_193237_.m_162398_());
 -      int k = SectionPos.m_175552_((double)p_193237_.m_162399_());
 -      int l = SectionPos.m_175552_((double)p_193237_.m_162401_());
-+      long i = SectionPos.posToSectionCoord((double)p_193237_.minX());
-+      long j = SectionPos.posToSectionCoord((double)p_193237_.minZ());
-+      long k = SectionPos.posToSectionCoord((double)p_193237_.maxX());
-+      long l = SectionPos.posToSectionCoord((double)p_193237_.maxZ());
++      me.alphamode.mclong.math.BigInteger i = SectionPos.posToSectionCoord(p_193237_.minBigX().toBigDecimal());
++      me.alphamode.mclong.math.BigInteger j = SectionPos.posToSectionCoord(p_193237_.minBigZ().toBigDecimal());
++      me.alphamode.mclong.math.BigInteger k = SectionPos.posToSectionCoord(p_193237_.maxBigX().toBigDecimal());
++      me.alphamode.mclong.math.BigInteger l = SectionPos.posToSectionCoord(p_193237_.maxBigZ().toBigDecimal());
  
 -      for(int i1 = i; i1 <= k; ++i1) {
 -         for(int j1 = j; j1 <= l; ++j1) {
 -            long k1 = ChunkPos.m_45589_(i1, j1);
-+      for(long i1 = i; i1 <= k; ++i1) {
-+         for(long j1 = j; j1 <= l; ++j1) {
++      for(me.alphamode.mclong.math.BigInteger i1 = i; i1.compareTo(k) <= 0; i1 = i1.add()) {
++         for(me.alphamode.mclong.math.BigInteger j1 = j; j1.compareTo(l) <= 0; j1 = j1.add()) {
 +            ChunkPos k1 = new ChunkPos(i1, j1);
              LevelChunkTicks<T> levelchunkticks = this.f_193202_.get(k1);
              if (levelchunkticks != null) {

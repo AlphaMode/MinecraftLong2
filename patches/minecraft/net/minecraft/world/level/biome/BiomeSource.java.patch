@@ -33,44 +33,51 @@
 -               int j3 = j + l2;
 -               int k3 = k + j2;
 -               set.add(this.m_203407_(i3, j3, k3, p_186709_));
-+               long i3 = i + k2;
-+               long j3 = j + l2;
-+               long k3 = k + j2;
-+               set.add(this.getNoiseBiome(me.alphamode.mclong.math.BigInteger.valueOf(i3), me.alphamode.mclong.math.BigInteger.valueOf(j3), me.alphamode.mclong.math.BigInteger.valueOf(k3), p_186709_));
++               me.alphamode.mclong.math.BigInteger i3 = me.alphamode.mclong.math.BigInteger.valueOf(i + k2);
++               me.alphamode.mclong.math.BigInteger j3 = me.alphamode.mclong.math.BigInteger.valueOf(j + l2);
++               me.alphamode.mclong.math.BigInteger k3 = me.alphamode.mclong.math.BigInteger.valueOf(k + j2);
++               set.add(this.getNoiseBiome(i3, j3, k3, p_186709_));
              }
           }
        }
-@@ -67,8 +_,8 @@
+@@ -67,30 +_,30 @@
     }
  
     @Nullable
 -   public Pair<BlockPos, Holder<Biome>> m_220570_(int p_220571_, int p_220572_, int p_220573_, int p_220574_, Predicate<Holder<Biome>> p_220575_, RandomSource p_220576_, Climate.Sampler p_220577_) {
 -      return this.m_213971_(p_220571_, p_220572_, p_220573_, p_220574_, 1, p_220575_, p_220576_, false, p_220577_);
-+   public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(long p_220571_, long p_220572_, long p_220573_, long p_220574_, Predicate<Holder<Biome>> p_220575_, RandomSource p_220576_, Climate.Sampler p_220577_) {
++   public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(long p_220571_, long p_220572_, long p_220573_, int p_220574_, Predicate<Holder<Biome>> p_220575_, RandomSource p_220576_, Climate.Sampler p_220577_) {
 +      return this.findBiomeHorizontal(p_220571_, p_220572_, p_220573_, p_220574_, 1, p_220575_, p_220576_, false, p_220577_);
     }
  
     @Nullable
-@@ -78,19 +_,19 @@
+-   public Pair<BlockPos, Holder<Biome>> m_214004_(BlockPos p_220578_, int p_220579_, int p_220580_, int p_220581_, Predicate<Holder<Biome>> p_220582_, Climate.Sampler p_220583_, LevelReader p_220584_) {
++   public Pair<BlockPos, Holder<Biome>> findClosestBiome3d(BlockPos p_220578_, long p_220579_, long p_220580_, long p_220581_, Predicate<Holder<Biome>> p_220582_, Climate.Sampler p_220583_, LevelReader p_220584_) {
+       Set<Holder<Biome>> set = this.m_207840_().stream().filter(p_220582_).collect(Collectors.toUnmodifiableSet());
+       if (set.isEmpty()) {
           return null;
        } else {
-          int i = Math.floorDiv(p_220579_, p_220580_);
+-         int i = Math.floorDiv(p_220579_, p_220580_);
 -         int[] aint = Mth.m_216250_(p_220578_.m_123342_(), p_220584_.m_141937_() + 1, p_220584_.m_151558_(), p_220581_).toArray();
-+         long[] aint = Mth.outFromOrigin(p_220578_.getY(), p_220584_.getMinBuildHeight() + 1, p_220584_.getMaxBuildHeight(), p_220581_).toArray();
- 
-          for(BlockPos.MutableBlockPos blockpos$mutableblockpos : BlockPos.m_121935_(BlockPos.f_121853_, i, Direction.EAST, Direction.SOUTH)) {
+-
+-         for(BlockPos.MutableBlockPos blockpos$mutableblockpos : BlockPos.m_121935_(BlockPos.f_121853_, i, Direction.EAST, Direction.SOUTH)) {
 -            int j = p_220578_.m_123341_() + blockpos$mutableblockpos.m_123341_() * p_220580_;
 -            int k = p_220578_.m_123343_() + blockpos$mutableblockpos.m_123343_() * p_220580_;
 -            int l = QuartPos.m_175400_(j);
 -            int i1 = QuartPos.m_175400_(k);
+-
+-            for(int j1 : aint) {
+-               int k1 = QuartPos.m_175400_(j1);
+-               Holder<Biome> holder = this.m_203407_(l, k1, i1, p_220583_);
++         long i = Math.floorDiv(p_220579_, p_220580_);
++         long[] aint = Mth.outFromOrigin(p_220578_.getY(), p_220584_.getMinBuildHeight() + 1, p_220584_.getMaxBuildHeight(), p_220581_).toArray();
++
++         for(BlockPos.MutableBlockPos blockpos$mutableblockpos : BlockPos.spiralAround(BlockPos.f_121853_, i, Direction.EAST, Direction.SOUTH)) {
 +            me.alphamode.mclong.math.BigInteger j = p_220578_.getBigX().add(blockpos$mutableblockpos.getBigX().multiply(p_220580_));
 +            me.alphamode.mclong.math.BigInteger k = p_220578_.getBigZ().add(blockpos$mutableblockpos.getBigZ().multiply(p_220580_));
 +            me.alphamode.mclong.math.BigInteger l = QuartPos.fromBlock(j);
 +            me.alphamode.mclong.math.BigInteger i1 = QuartPos.fromBlock(k);
- 
--            for(int j1 : aint) {
--               int k1 = QuartPos.m_175400_(j1);
--               Holder<Biome> holder = this.m_203407_(l, k1, i1, p_220583_);
++
 +            for(long j1 : aint) {
 +               long k1 = QuartPos.fromBlock(j1);
 +               Holder<Biome> holder = this.getNoiseBiome(l, me.alphamode.mclong.math.BigInteger.valueOf(k1), i1, p_220583_);
@@ -80,7 +87,7 @@
                 }
              }
           }
-@@ -100,50 +_,50 @@
+@@ -100,20 +_,20 @@
     }
  
     @Nullable
@@ -89,7 +96,7 @@
 -      int j = QuartPos.m_175400_(p_220563_);
 -      int k = QuartPos.m_175400_(p_220564_);
 -      int l = QuartPos.m_175400_(p_220562_);
-+   public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(long p_220561_, long p_220562_, long p_220563_, long p_220564_, int p_220565_, Predicate<Holder<Biome>> p_220566_, RandomSource p_220567_, boolean p_220568_, Climate.Sampler p_220569_) {
++   public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(long p_220561_, long p_220562_, long p_220563_, int p_220564_, int p_220565_, Predicate<Holder<Biome>> p_220566_, RandomSource p_220567_, boolean p_220568_, Climate.Sampler p_220569_) {
 +      long i = QuartPos.fromBlock(p_220561_);
 +      long j = QuartPos.fromBlock(p_220563_);
 +      long k = QuartPos.fromBlock(p_220564_);
@@ -97,70 +104,37 @@
        Pair<BlockPos, Holder<Biome>> pair = null;
        int i1 = 0;
 -      int j1 = p_220568_ ? 0 : k;
--
++      long j1 = p_220568_ ? 0 : k;
+ 
 -      for(int k1 = j1; k1 <= k; k1 += p_220565_) {
 -         for(int l1 = SharedConstants.f_183698_ ? 0 : -k1; l1 <= k1; l1 += p_220565_) {
--            boolean flag = Math.abs(l1) == k1;
--
++      for(long k1 = j1; k1 <= k; k1 += p_220565_) {
++         for(long l1 = SharedConstants.f_183698_ ? 0 : -k1; l1 <= k1; l1 += p_220565_) {
+             boolean flag = Math.abs(l1) == k1;
+ 
 -            for(int i2 = -k1; i2 <= k1; i2 += p_220565_) {
--               if (p_220568_) {
--                  boolean flag1 = Math.abs(i2) == k1;
--                  if (!flag1 && !flag) {
--                     continue;
--                  }
--               }
--
++            for(long i2 = -k1; i2 <= k1; i2 += p_220565_) {
+                if (p_220568_) {
+                   boolean flag1 = Math.abs(i2) == k1;
+                   if (!flag1 && !flag) {
+@@ -121,12 +_,12 @@
+                   }
+                }
+ 
 -               int k2 = i + i2;
 -               int j2 = j + l1;
 -               Holder<Biome> holder = this.m_203407_(k2, l, j2, p_220569_);
--               if (p_220566_.test(holder)) {
--                  if (pair == null || p_220567_.m_188503_(i1 + 1) == 0) {
++               long k2 = i + i2;
++               long j2 = j + l1;
++               Holder<Biome> holder = this.getNoiseBiome(me.alphamode.mclong.math.BigInteger.valueOf(k2), me.alphamode.mclong.math.BigInteger.valueOf(l), me.alphamode.mclong.math.BigInteger.valueOf(j2), p_220569_);
+                if (p_220566_.test(holder)) {
+                   if (pair == null || p_220567_.m_188503_(i1 + 1) == 0) {
 -                     BlockPos blockpos = new BlockPos(QuartPos.m_175402_(k2), p_220562_, QuartPos.m_175402_(j2));
--                     if (p_220568_) {
--                        return Pair.of(blockpos, holder);
--                     }
--
--                     pair = Pair.of(blockpos, holder);
--                  }
--
--                  ++i1;
--               }
--            }
--         }
--      }
-+      long j1 = p_220568_ ? 0 : k;
-+
-+//      for(long k1 = j1; k1 <= k; k1 += p_220565_) {
-+//         for(long l1 = SharedConstants.debugGenerateSquareTerrainWithoutNoise ? 0 : -k1; l1 <= k1; l1 += p_220565_) {
-+//            boolean flag = Math.abs(l1) == k1;
-+//
-+//            for(long i2 = -k1; i2 <= k1; i2 += p_220565_) {
-+//               if (p_220568_) {
-+//                  boolean flag1 = Math.abs(i2) == k1;
-+//                  if (!flag1 && !flag) {
-+//                     continue;
-+//                  }
-+//               }
-+//
-+//               long k2 = i + i2;
-+//               long j2 = j + l1;
-+//               Holder<Biome> holder = this.getNoiseBiome(me.alphamode.mclong.math.BigInteger.valueOf(k2), me.alphamode.mclong.math.BigInteger.valueOf(l), me.alphamode.mclong.math.BigInteger.valueOf(j2), p_220569_);
-+//               if (p_220566_.test(holder)) {
-+//                  if (pair == null || p_220567_.nextInt(i1 + 1) == 0) {
-+//                     BlockPos blockpos = new BlockPos(QuartPos.toBlock(k2), p_220562_, QuartPos.toBlock(j2));
-+//                     if (p_220568_) {
-+//                        return Pair.of(blockpos, holder);
-+//                     }
-+//
-+//                     pair = Pair.of(blockpos, holder);
-+//                  }
-+//
-+//                  ++i1;
-+//               }
-+//            }
-+//         }
-+//      }
- 
++                     BlockPos blockpos = new BlockPos(QuartPos.toBlock(k2), p_220562_, QuartPos.toBlock(j2));
+                      if (p_220568_) {
+                         return Pair.of(blockpos, holder);
+                      }
+@@ -143,7 +_,7 @@
        return pair;
     }
  

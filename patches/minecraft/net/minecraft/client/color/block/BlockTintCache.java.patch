@@ -15,10 +15,11 @@
     public int m_193812_(BlockPos p_193813_) {
 -      int i = SectionPos.m_123171_(p_193813_.m_123341_());
 -      int j = SectionPos.m_123171_(p_193813_.m_123343_());
-+      long i = SectionPos.blockToSectionCoord(p_193813_.getBigX()).longValue();
-+      long j = SectionPos.blockToSectionCoord(p_193813_.getBigZ()).longValue();
++      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(p_193813_.getBigX());
++      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(p_193813_.getBigZ());
        BlockTintCache.LatestCacheInfo blocktintcache$latestcacheinfo = this.f_92650_.get();
-       if (blocktintcache$latestcacheinfo.f_92665_ != i || blocktintcache$latestcacheinfo.f_92666_ != j || blocktintcache$latestcacheinfo.f_92667_ == null || blocktintcache$latestcacheinfo.f_92667_.m_262488_()) {
+-      if (blocktintcache$latestcacheinfo.f_92665_ != i || blocktintcache$latestcacheinfo.f_92666_ != j || blocktintcache$latestcacheinfo.f_92667_ == null || blocktintcache$latestcacheinfo.f_92667_.m_262488_()) {
++      if (!blocktintcache$latestcacheinfo.f_92665_.equals(i) || !blocktintcache$latestcacheinfo.f_92666_.equals(j) || blocktintcache$latestcacheinfo.f_92667_ == null || blocktintcache$latestcacheinfo.f_92667_.m_262488_()) {
           blocktintcache$latestcacheinfo.f_92665_ = i;
           blocktintcache$latestcacheinfo.f_92666_ = j;
 -         blocktintcache$latestcacheinfo.f_92667_ = this.m_193814_(i, j);
@@ -46,14 +47,14 @@
     }
  
 -   public void m_92655_(int p_92656_, int p_92657_) {
-+   public void invalidateForChunk(long p_92656_, long p_92657_) {
++   public void invalidateForChunk(me.alphamode.mclong.math.BigInteger p_92656_, me.alphamode.mclong.math.BigInteger p_92657_) {
        try {
           this.f_92652_.writeLock().lock();
  
           for(int i = -1; i <= 1; ++i) {
              for(int j = -1; j <= 1; ++j) {
 -               long k = ChunkPos.m_45589_(p_92656_ + i, p_92657_ + j);
-+               ChunkPos k = new ChunkPos(p_92656_ + i, p_92657_ + j);
++               ChunkPos k = new ChunkPos(p_92656_.add(i), p_92657_.add(j));
                 BlockTintCache.CacheData blocktintcache$cachedata = this.f_92651_.remove(k);
                 if (blocktintcache$cachedata != null) {
                    blocktintcache$cachedata.m_262378_();
@@ -63,7 +64,7 @@
  
 -   private BlockTintCache.CacheData m_193814_(int p_193815_, int p_193816_) {
 -      long i = ChunkPos.m_45589_(p_193815_, p_193816_);
-+   private BlockTintCache.CacheData findOrCreateChunkCache(long p_193815_, long p_193816_) {
++   private BlockTintCache.CacheData findOrCreateChunkCache(me.alphamode.mclong.math.BigInteger p_193815_, me.alphamode.mclong.math.BigInteger p_193816_) {
 +      ChunkPos i = new ChunkPos(p_193815_, p_193816_);
        this.f_92652_.readLock().lock();
  
@@ -89,8 +90,8 @@
     static class LatestCacheInfo {
 -      public int f_92665_ = Integer.MIN_VALUE;
 -      public int f_92666_ = Integer.MIN_VALUE;
-+      public long f_92665_ = java.lang.Long.MIN_VALUE;
-+      public long f_92666_ = java.lang.Long.MIN_VALUE;
++      public me.alphamode.mclong.math.BigInteger f_92665_ = me.alphamode.mclong.math.BigInteger.valueOf(java.lang.Long.MIN_VALUE);
++      public me.alphamode.mclong.math.BigInteger f_92666_ = me.alphamode.mclong.math.BigInteger.valueOf(java.lang.Long.MIN_VALUE);
        @Nullable
        BlockTintCache.CacheData f_92667_;
  

@@ -9,12 +9,16 @@
     public static final int f_175535_ = 4;
     public static final int f_175536_ = 16;
     public static final int f_175539_ = 15;
-@@ -29,20 +_,32 @@
+@@ -29,20 +_,40 @@
     private static final int f_175550_ = 0;
     private static final int f_175551_ = 4;
  
 +   SectionPos(me.alphamode.mclong.math.BigInteger p_123162_, me.alphamode.mclong.math.BigInteger p_123163_, me.alphamode.mclong.math.BigInteger p_123164_) {
 +      super(p_123162_, p_123163_, p_123164_);
++   }
++
++   SectionPos(me.alphamode.mclong.math.BigInteger p_123162_, long p_123163_, me.alphamode.mclong.math.BigInteger p_123164_) {
++      super(p_123162_, me.alphamode.mclong.math.BigInteger.valueOf(p_123163_), p_123164_);
 +   }
 +
 +   SectionPos(long p_123162_, long p_123163_, long p_123164_) {
@@ -27,6 +31,10 @@
  
 -   public static SectionPos m_123173_(int p_123174_, int p_123175_, int p_123176_) {
 +   public static SectionPos of(me.alphamode.mclong.math.BigInteger x, me.alphamode.mclong.math.BigInteger y, me.alphamode.mclong.math.BigInteger z) {
++      return new SectionPos(x, y, z);
++   }
++
++   public static SectionPos of(me.alphamode.mclong.math.BigInteger x, long y, me.alphamode.mclong.math.BigInteger z) {
 +      return new SectionPos(x, y, z);
 +   }
 +
@@ -343,7 +351,7 @@
  
     public BlockPos m_123249_() {
 -      return new BlockPos(m_123223_(this.m_123170_()), m_123223_(this.m_123206_()), m_123223_(this.m_123222_()));
-+      return new BlockPos(sectionToBlockCoord(this.x()), sectionToBlockCoord(this.y()), sectionToBlockCoord(this.z()));
++      return new BlockPos(sectionToBlockCoord(this.getBigX()), sectionToBlockCoord(this.getBigY()), sectionToBlockCoord(this.getBigZ()));
     }
  
     public BlockPos m_123250_() {

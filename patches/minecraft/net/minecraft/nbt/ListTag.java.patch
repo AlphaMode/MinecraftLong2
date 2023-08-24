@@ -1,0 +1,18 @@
+--- a/net/minecraft/nbt/ListTag.java
++++ b/net/minecraft/nbt/ListTag.java
+@@ -263,6 +_,15 @@
+       }
+    }
+ 
++   public me.alphamode.mclong.math.BigDecimal getBigDecimal(int p_128779_) {
++      if (p_128779_ >= 0 && p_128779_ < this.f_128716_.size()) {
++         Tag tag = this.f_128716_.get(p_128779_);
++         return new me.alphamode.mclong.math.BigDecimal(tag.m_7060_() == 8 ? tag.m_7916_() : tag.toString());
++      } else {
++         return me.alphamode.mclong.math.BigDecimal.ZERO;
++      }
++   }
++
+    public int size() {
+       return this.f_128716_.size();
+    }

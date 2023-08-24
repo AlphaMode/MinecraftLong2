@@ -1,11 +1,12 @@
 --- a/net/minecraft/util/Mth.java
 +++ b/net/minecraft/util/Mth.java
-@@ -65,10 +_,22 @@
+@@ -65,10 +_,23 @@
        return p_14135_ < (double)i ? i - 1L : i;
     }
  
 +   public static me.alphamode.mclong.math.BigInteger lfloor(me.alphamode.mclong.math.BigDecimal val) {
-+      return val.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
++      me.alphamode.mclong.math.BigInteger i = val.toBigInteger();
++      return val.compareTo(i.toBigDecimal()) < 0 ? i.subtract() : i;
 +   }
 +
 +   public static me.alphamode.mclong.math.BigDecimal lfloorD(me.alphamode.mclong.math.BigDecimal val) {
@@ -23,7 +24,7 @@
     public static int m_14040_(int p_14041_) {
        return Math.abs(p_14041_);
     }
-@@ -83,10 +_,23 @@
+@@ -83,10 +_,27 @@
        return p_14166_ > (double)i ? i + 1 : i;
     }
  
@@ -42,6 +43,10 @@
  
 +   public static long clamp(long p_14046_, long p_14047_, long p_14048_) {
 +      return Math.min(Math.max(p_14046_, p_14047_), p_14048_);
++   }
++
++   public static me.alphamode.mclong.math.BigInteger clamp(me.alphamode.mclong.math.BigInteger p_14046_, me.alphamode.mclong.math.BigInteger p_14047_, me.alphamode.mclong.math.BigInteger p_14048_) {
++      return p_14046_.max(p_14047_).min(p_14048_);
 +   }
 +
     public static float m_14036_(float p_14037_, float p_14038_, float p_14039_) {
@@ -120,7 +125,7 @@
 +      return Math.floorMod(p_14101_, p_14102_);
 +   }
 +
-+   public static me.alphamode.mclong.math.BigInteger positiveModulo(me.alphamode.mclong.math.BigInteger p_14101_, me.alphamode.mclong.math.BigInteger p_14102_) {
++   public static me.alphamode.mclong.math.BigInteger positiveModulo(me.alphamode.mclong.math.BigInteger p_14101_, long p_14102_) {
 +      return me.alphamode.mclong.math.BigMath.floorMod(p_14101_, p_14102_);
 +   }
 +

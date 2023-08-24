@@ -9,17 +9,23 @@
     private final Object2BooleanMap<AABB> f_77546_ = new Object2BooleanOpenHashMap<>();
  
     public void m_6028_(PathNavigationRegion p_77620_, Mob p_77621_) {
-@@ -48,7 +_,7 @@
+@@ -48,8 +_,8 @@
  
     public Node m_7171_() {
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 -      int i = this.f_77313_.m_146904_();
+-      BlockState blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos.m_122169_(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_()));
 +      long i = this.f_77313_.getBlockY();
-       BlockState blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos.m_122169_(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_()));
++      BlockState blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos.set(this.f_77313_.getBigX(), (double)i, this.f_77313_.getBigZ()));
        if (!this.f_77313_.m_203441_(blockstate.m_60819_())) {
           if (this.m_77361_() && this.f_77313_.m_20069_()) {
-@@ -62,13 +_,13 @@
-                blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos.m_122169_(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_()));
+             while(true) {
+@@ -59,35 +_,36 @@
+                }
+ 
+                ++i;
+-               blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos.m_122169_(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_()));
++               blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos.set(this.f_77313_.getBigX(), (double)i, this.f_77313_.getBigZ()));
              }
           } else if (this.f_77313_.m_20096_()) {
 -            i = Mth.m_14107_(this.f_77313_.m_20186_() + 0.5D);
@@ -35,7 +41,12 @@
           }
        } else {
           while(this.f_77313_.m_203441_(blockstate.m_60819_())) {
-@@ -80,14 +_,15 @@
+             ++i;
+-            blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos.m_122169_(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_()));
++            blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos.set(this.f_77313_.getBigX(), (double)i, this.f_77313_.getBigZ()));
+          }
+ 
+          --i;
        }
  
        BlockPos blockpos1 = this.f_77313_.m_20183_();
@@ -50,7 +61,7 @@
        }
  
 -      return this.m_230631_(new BlockPos(blockpos1.m_123341_(), i, blockpos1.m_123343_()));
-+      return this.m_230631_(new BlockPos(blockpos1.getX(), i, blockpos1.getZ()));
++      return this.m_230631_(new BlockPos(blockpos1.getBigX(), i, blockpos1.getBigZ()));
     }
  
     protected Node m_230631_(BlockPos p_230632_) {

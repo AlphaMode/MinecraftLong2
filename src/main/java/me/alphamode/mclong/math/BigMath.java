@@ -23,7 +23,7 @@ public class BigMath {
             final java.math.BigInteger[] qr = x.divideAndRemainder(y);
             return new BigInteger(qr[1].signum() == 0 ? qr[0] : qr[0].subtract(java.math.BigInteger.ONE));
         }
-        return new BigInteger(Math.floorDiv(x.longValue(), y.longValue()));
+        return new BigInteger(Math.floorDiv(x.longValue(), yLong));
     }
 
     public static BigInteger floorMod(BigInteger dividend, BigInteger divisor) {

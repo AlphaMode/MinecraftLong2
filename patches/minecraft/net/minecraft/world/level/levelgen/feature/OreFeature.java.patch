@@ -8,21 +8,21 @@
 -      double d1 = (double)blockpos.m_123341_() - Math.sin((double)f) * (double)f1;
 -      double d2 = (double)blockpos.m_123343_() + Math.cos((double)f) * (double)f1;
 -      double d3 = (double)blockpos.m_123343_() - Math.cos((double)f) * (double)f1;
-+      double d0 = (double)blockpos.getX() + Math.sin((double)f) * (double)f1;
-+      double d1 = (double)blockpos.getX() - Math.sin((double)f) * (double)f1;
-+      double d2 = (double)blockpos.getZ() + Math.cos((double)f) * (double)f1;
-+      double d3 = (double)blockpos.getZ() - Math.cos((double)f) * (double)f1;
++      me.alphamode.mclong.math.BigDecimal d0 = blockpos.getBigX().toBigDecimal().add(Math.sin((double)f) * (double)f1);
++      me.alphamode.mclong.math.BigDecimal d1 = blockpos.getBigX().toBigDecimal().subtract(Math.sin((double)f) * (double)f1);
++      me.alphamode.mclong.math.BigDecimal d2 = blockpos.getBigZ().toBigDecimal().add(Math.cos((double)f) * (double)f1);
++      me.alphamode.mclong.math.BigDecimal d3 = blockpos.getBigZ().toBigDecimal().subtract(Math.cos((double)f) * (double)f1);
        int j = 2;
 -      double d4 = (double)(blockpos.m_123342_() + randomsource.m_188503_(3) - 2);
 -      double d5 = (double)(blockpos.m_123342_() + randomsource.m_188503_(3) - 2);
 -      int k = blockpos.m_123341_() - Mth.m_14167_(f1) - i;
 -      int l = blockpos.m_123342_() - 2 - i;
 -      int i1 = blockpos.m_123343_() - Mth.m_14167_(f1) - i;
-+      double d4 = (double)(blockpos.getY() + randomsource.m_188503_(3) - 2);
-+      double d5 = (double)(blockpos.getY() + randomsource.m_188503_(3) - 2);
-+      long k = blockpos.getX() - Mth.m_14167_(f1) - i;
++      me.alphamode.mclong.math.BigDecimal d4 = (blockpos.getBigY().add(randomsource.m_188503_(3) - 2)).toBigDecimal();
++      me.alphamode.mclong.math.BigDecimal d5 = (blockpos.getBigY().add(randomsource.m_188503_(3) - 2)).toBigDecimal();
++      me.alphamode.mclong.math.BigInteger k = blockpos.getBigX().subtract(Mth.m_14167_(f1) - i);
 +      long l = blockpos.getY() - 2 - i;
-+      long i1 = blockpos.getZ() - Mth.m_14167_(f1) - i;
++      me.alphamode.mclong.math.BigInteger i1 = blockpos.getBigZ().subtract(Mth.m_14167_(f1) - i);
        int j1 = 2 * (Mth.m_14167_(f1) + i);
        int k1 = 2 * (2 + i);
  
@@ -30,59 +30,119 @@
 -         for(int i2 = i1; i2 <= i1 + j1; ++i2) {
 -            if (l <= worldgenlevel.m_6924_(Heightmap.Types.OCEAN_FLOOR_WG, l1, i2)) {
 -               return this.m_225171_(worldgenlevel, randomsource, oreconfiguration, d0, d1, d2, d3, d4, d5, k, l, i1, j1, k1);
-+      for(long l1 = k; l1 <= k + j1; ++l1) {
-+         for(long i2 = i1; i2 <= i1 + j1; ++i2) {
-+            if (l <= worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, me.alphamode.mclong.math.BigInteger.valueOf(l1), me.alphamode.mclong.math.BigInteger.valueOf(i2))) {
++      for(me.alphamode.mclong.math.BigInteger l1 = k; l1.compareTo(k.add(j1)) <= 0; l1 = l1.add()) {
++         for(me.alphamode.mclong.math.BigInteger i2 = i1; i2.compareTo(i1.add(j1)) <= 0; i2 = i2.add()) {
++            if (l <= worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, l1, i2)) {
 +               return this.doPlace(worldgenlevel, randomsource, oreconfiguration, d0, d1, d2, d3, d4, d5, k, l, i1, j1, k1);
              }
           }
        }
-@@ -51,7 +_,7 @@
+@@ -51,39 +_,39 @@
        return false;
     }
  
 -   protected boolean m_225171_(WorldGenLevel p_225172_, RandomSource p_225173_, OreConfiguration p_225174_, double p_225175_, double p_225176_, double p_225177_, double p_225178_, double p_225179_, double p_225180_, int p_225181_, int p_225182_, int p_225183_, int p_225184_, int p_225185_) {
-+   protected boolean doPlace(WorldGenLevel p_225172_, RandomSource p_225173_, OreConfiguration p_225174_, double p_225175_, double p_225176_, double p_225177_, double p_225178_, double p_225179_, double p_225180_, long p_225181_, long p_225182_, long p_225183_, int p_225184_, int p_225185_) {
++   protected boolean doPlace(WorldGenLevel p_225172_, RandomSource p_225173_, OreConfiguration p_225174_, me.alphamode.mclong.math.BigDecimal p_225175_, me.alphamode.mclong.math.BigDecimal p_225176_, me.alphamode.mclong.math.BigDecimal p_225177_, me.alphamode.mclong.math.BigDecimal p_225178_, me.alphamode.mclong.math.BigDecimal p_225179_, me.alphamode.mclong.math.BigDecimal p_225180_, me.alphamode.mclong.math.BigInteger p_225181_, long p_225182_, me.alphamode.mclong.math.BigInteger p_225183_, int p_225184_, int p_225185_) {
        int i = 0;
        BitSet bitset = new BitSet(p_225184_ * p_225185_ * p_225184_);
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-@@ -98,37 +_,37 @@
-                double d11 = adouble[j4 * 4 + 0];
-                double d13 = adouble[j4 * 4 + 1];
-                double d15 = adouble[j4 * 4 + 2];
+       int j = p_225174_.f_67839_;
+-      double[] adouble = new double[j * 4];
++      me.alphamode.mclong.math.BigDecimal[] adouble = new me.alphamode.mclong.math.BigDecimal[j * 4];
+ 
+       for(int k = 0; k < j; ++k) {
+          float f = (float)k / (float)j;
+-         double d0 = Mth.m_14139_((double)f, p_225175_, p_225176_);
+-         double d1 = Mth.m_14139_((double)f, p_225179_, p_225180_);
+-         double d2 = Mth.m_14139_((double)f, p_225177_, p_225178_);
++         me.alphamode.mclong.math.BigDecimal d0 = Mth.lerp((double)f, p_225175_, p_225176_);
++         me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp((double)f, p_225179_, p_225180_);
++         me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp((double)f, p_225177_, p_225178_);
+          double d3 = p_225173_.m_188500_() * (double)j / 16.0D;
+          double d4 = ((double)(Mth.m_14031_((float)Math.PI * f) + 1.0F) * d3 + 1.0D) / 2.0D;
+          adouble[k * 4 + 0] = d0;
+          adouble[k * 4 + 1] = d1;
+          adouble[k * 4 + 2] = d2;
+-         adouble[k * 4 + 3] = d4;
++         adouble[k * 4 + 3] = me.alphamode.mclong.math.BigDecimal.valueOf(d4);
+       }
+ 
+       for(int l3 = 0; l3 < j - 1; ++l3) {
+-         if (!(adouble[l3 * 4 + 3] <= 0.0D)) {
++         if (!(adouble[l3 * 4 + 3].compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) <= 0)) {
+             for(int i4 = l3 + 1; i4 < j; ++i4) {
+-               if (!(adouble[i4 * 4 + 3] <= 0.0D)) {
+-                  double d8 = adouble[l3 * 4 + 0] - adouble[i4 * 4 + 0];
+-                  double d10 = adouble[l3 * 4 + 1] - adouble[i4 * 4 + 1];
+-                  double d12 = adouble[l3 * 4 + 2] - adouble[i4 * 4 + 2];
+-                  double d14 = adouble[l3 * 4 + 3] - adouble[i4 * 4 + 3];
+-                  if (d14 * d14 > d8 * d8 + d10 * d10 + d12 * d12) {
+-                     if (d14 > 0.0D) {
+-                        adouble[i4 * 4 + 3] = -1.0D;
++               if (!(adouble[i4 * 4 + 3].compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) <= 0)) {
++                  me.alphamode.mclong.math.BigDecimal d8 = adouble[l3 * 4 + 0].subtract(adouble[i4 * 4 + 0]);
++                  me.alphamode.mclong.math.BigDecimal d10 = adouble[l3 * 4 + 1].subtract(adouble[i4 * 4 + 1]);
++                  me.alphamode.mclong.math.BigDecimal d12 = adouble[l3 * 4 + 2].subtract(adouble[i4 * 4 + 2]);
++                  me.alphamode.mclong.math.BigDecimal d14 = adouble[l3 * 4 + 3].subtract(adouble[i4 * 4 + 3]);
++                  if (d14.multiply(d14).compareTo(d8.multiply(d8).add(d10.multiply(d10)).add(d12.multiply(d12))) > 0) {
++                     if (d14.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) > 0) {
++                        adouble[i4 * 4 + 3] = me.alphamode.mclong.math.BigDecimal.ONE.negate();
+                      } else {
+-                        adouble[l3 * 4 + 3] = -1.0D;
++                        adouble[l3 * 4 + 3] = me.alphamode.mclong.math.BigDecimal.ONE.negate();
+                      }
+                   }
+                }
+@@ -93,42 +_,42 @@
+ 
+       try (BulkSectionAccess bulksectionaccess = new BulkSectionAccess(p_225172_)) {
+          for(int j4 = 0; j4 < j; ++j4) {
+-            double d9 = adouble[j4 * 4 + 3];
+-            if (!(d9 < 0.0D)) {
+-               double d11 = adouble[j4 * 4 + 0];
+-               double d13 = adouble[j4 * 4 + 1];
+-               double d15 = adouble[j4 * 4 + 2];
 -               int k4 = Math.max(Mth.m_14107_(d11 - d9), p_225181_);
 -               int l = Math.max(Mth.m_14107_(d13 - d9), p_225182_);
 -               int i1 = Math.max(Mth.m_14107_(d15 - d9), p_225183_);
 -               int j1 = Math.max(Mth.m_14107_(d11 + d9), k4);
 -               int k1 = Math.max(Mth.m_14107_(d13 + d9), l);
 -               int l1 = Math.max(Mth.m_14107_(d15 + d9), i1);
-+               long k4 = Math.max(Mth.m_14134_(d11 - d9), p_225181_);
-+               long l = Math.max(Mth.m_14134_(d13 - d9), p_225182_);
-+               long i1 = Math.max(Mth.m_14134_(d15 - d9), p_225183_);
-+               long j1 = Math.max(Mth.m_14134_(d11 + d9), k4);
-+               long k1 = Math.max(Mth.m_14134_(d13 + d9), l);
-+               long l1 = Math.max(Mth.m_14134_(d15 + d9), i1);
++            me.alphamode.mclong.math.BigDecimal d9 = adouble[j4 * 4 + 3];
++            if (!(d9.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0)) {
++               me.alphamode.mclong.math.BigDecimal d11 = adouble[j4 * 4 + 0];
++               me.alphamode.mclong.math.BigDecimal d13 = adouble[j4 * 4 + 1];
++               me.alphamode.mclong.math.BigDecimal d15 = adouble[j4 * 4 + 2];
++               me.alphamode.mclong.math.BigInteger k4 = Mth.lfloor(d11.subtract(d9)).max(p_225181_);
++               me.alphamode.mclong.math.BigInteger l = Mth.lfloor(d13.subtract(d9)).max(p_225182_);
++               me.alphamode.mclong.math.BigInteger i1 = Mth.lfloor(d15.subtract(d9)).max(p_225183_);
++               me.alphamode.mclong.math.BigInteger j1 = Mth.lfloor(d11.add(d9)).max(k4);
++               me.alphamode.mclong.math.BigInteger k1 = Mth.lfloor(d13.add(d9)).max(l);
++               me.alphamode.mclong.math.BigInteger l1 = Mth.lfloor(d15.add(d9)).max(i1);
  
 -               for(int i2 = k4; i2 <= j1; ++i2) {
-+               for(long i2 = k4; i2 <= j1; ++i2) {
-                   double d5 = ((double)i2 + 0.5D - d11) / d9;
-                   if (d5 * d5 < 1.0D) {
+-                  double d5 = ((double)i2 + 0.5D - d11) / d9;
+-                  if (d5 * d5 < 1.0D) {
 -                     for(int j2 = l; j2 <= k1; ++j2) {
-+                     for(long j2 = l; j2 <= k1; ++j2) {
-                         double d6 = ((double)j2 + 0.5D - d13) / d9;
-                         if (d5 * d5 + d6 * d6 < 1.0D) {
+-                        double d6 = ((double)j2 + 0.5D - d13) / d9;
+-                        if (d5 * d5 + d6 * d6 < 1.0D) {
 -                           for(int k2 = i1; k2 <= l1; ++k2) {
-+                           for(long k2 = i1; k2 <= l1; ++k2) {
-                               double d7 = ((double)k2 + 0.5D - d15) / d9;
+-                              double d7 = ((double)k2 + 0.5D - d15) / d9;
 -                              if (d5 * d5 + d6 * d6 + d7 * d7 < 1.0D && !p_225172_.m_151562_(j2)) {
 -                                 int l2 = i2 - p_225181_ + (j2 - p_225182_) * p_225184_ + (k2 - p_225183_) * p_225184_ * p_225185_;
--                                 if (!bitset.get(l2)) {
--                                    bitset.set(l2);
++               for(me.alphamode.mclong.math.BigInteger i2 = k4; i2.compareTo(j1) <= 0; i2 = i2.add()) {
++                  me.alphamode.mclong.math.BigDecimal d5 = (i2.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).subtract(d11)).divide(d9);
++                  if (d5.multiply(d5).compareTo(me.alphamode.mclong.math.BigDecimal.ONE) < 0) {
++                     for(me.alphamode.mclong.math.BigInteger j2 = l; j2.compareTo(k1) <= 0; j2 = j2.add()) {
++                        me.alphamode.mclong.math.BigDecimal d6 = (j2.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).subtract(d13)).divide(d9);
++                        if (d5.multiply(d5).add(d6.multiply(d6)).compareTo(me.alphamode.mclong.math.BigDecimal.ONE) < 0) {
++                           for(me.alphamode.mclong.math.BigInteger k2 = i1; k2.compareTo(l1) <= 0; k2 = k2.add()) {
++                              me.alphamode.mclong.math.BigDecimal d7 = (k2.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).subtract(d15)).divide(d9);
++                              if (d5.multiply(d5).add(d6.multiply(d6)).add(d7.multiply(d7)).compareTo(me.alphamode.mclong.math.BigDecimal.ONE) < 0 && !p_225172_.isOutsideBuildHeight(j2.longValue())) {
++                                 int l2 = i2.subtract(p_225181_).add((j2.subtract(p_225182_))).multiply(p_225184_).add((k2.subtract(p_225183_)).multiply(p_225184_).multiply(p_225185_)).intValue();
+                                  if (!bitset.get(l2)) {
+                                     bitset.set(l2);
 -                                    blockpos$mutableblockpos.m_122178_(i2, j2, k2);
-+                              if (d5 * d5 + d6 * d6 + d7 * d7 < 1.0D && !p_225172_.isOutsideBuildHeight(j2)) {
-+                                 long l2 = i2 - p_225181_ + (j2 - p_225182_) * p_225184_ + (k2 - p_225183_) * p_225184_ * p_225185_;
-+                                 if (!bitset.get((int) l2)) {
-+                                    bitset.set((int) l2);
 +                                    blockpos$mutableblockpos.set(i2, j2, k2);
                                      if (p_225172_.m_180807_(blockpos$mutableblockpos)) {
                                         LevelChunkSection levelchunksection = bulksectionaccess.m_156104_(blockpos$mutableblockpos);
@@ -91,9 +151,9 @@
 -                                          int j3 = SectionPos.m_123207_(j2);
 -                                          int k3 = SectionPos.m_123207_(k2);
 -                                          BlockState blockstate = levelchunksection.m_62982_(i3, j3, k3);
-+                                          me.alphamode.mclong.math.BigInteger i3 = me.alphamode.mclong.math.BigInteger.valueOf(SectionPos.sectionRelative(i2));
-+                                          me.alphamode.mclong.math.BigInteger j3 = me.alphamode.mclong.math.BigInteger.valueOf(SectionPos.sectionRelative(j2));
-+                                          me.alphamode.mclong.math.BigInteger k3 = me.alphamode.mclong.math.BigInteger.valueOf(SectionPos.sectionRelative(k2));
++                                          me.alphamode.mclong.math.BigInteger i3 = SectionPos.sectionRelative(i2);
++                                          me.alphamode.mclong.math.BigInteger j3 = SectionPos.sectionRelative(j2);
++                                          me.alphamode.mclong.math.BigInteger k3 = SectionPos.sectionRelative(k2);
 +                                          BlockState blockstate = levelchunksection.getBlockState(i3, j3, k3);
  
                                            for(OreConfiguration.TargetBlockState oreconfiguration$targetblockstate : p_225174_.f_161005_) {

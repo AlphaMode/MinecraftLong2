@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/trunkplacers/DarkOakTrunkPlacer.java
 +++ b/net/minecraft/world/level/levelgen/feature/trunkplacers/DarkOakTrunkPlacer.java
-@@ -29,20 +_,20 @@
+@@ -29,35 +_,35 @@
  
     public List<FoliagePlacer.FoliageAttachment> m_213934_(LevelSimulatedReader p_226086_, BiConsumer<BlockPos, BlockState> p_226087_, RandomSource p_226088_, int p_226089_, BlockPos p_226090_, TreeConfiguration p_226091_) {
        List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
@@ -22,16 +22,19 @@
 -      int j1 = k;
 -      int k1 = i1;
 -      int l1 = l + p_226089_ - 1;
-+      long k = p_226090_.getX();
++      me.alphamode.mclong.math.BigInteger k = p_226090_.getBigX();
 +      long l = p_226090_.getY();
-+      long i1 = p_226090_.getZ();
-+      long j1 = k;
-+      long k1 = i1;
++      me.alphamode.mclong.math.BigInteger i1 = p_226090_.getBigZ();
++      me.alphamode.mclong.math.BigInteger j1 = k;
++      me.alphamode.mclong.math.BigInteger k1 = i1;
 +      long l1 = l + p_226089_ - 1;
  
        for(int i2 = 0; i2 < p_226089_; ++i2) {
           if (i2 >= i && j > 0) {
-@@ -51,13 +_,13 @@
+-            j1 += direction.m_122429_();
+-            k1 += direction.m_122431_();
++            j1 = j1.add(direction.m_122429_());
++            k1 = k1.add(direction.m_122431_());
              --j;
           }
  
@@ -49,3 +52,16 @@
           }
        }
  
+@@ -69,10 +_,10 @@
+                int j3 = p_226088_.m_188503_(3) + 2;
+ 
+                for(int k2 = 0; k2 < j3; ++k2) {
+-                  this.m_226187_(p_226086_, p_226087_, p_226088_, new BlockPos(k + l2, l1 - k2 - 1, i1 + i3), p_226091_);
++                  this.m_226187_(p_226086_, p_226087_, p_226088_, new BlockPos(k.add(l2), l1 - k2 - 1, i1.add(i3)), p_226091_);
+                }
+ 
+-               list.add(new FoliagePlacer.FoliageAttachment(new BlockPos(j1 + l2, l1, k1 + i3), 0, false));
++               list.add(new FoliagePlacer.FoliageAttachment(new BlockPos(j1.add(l2), l1, k1.add(i3)), 0, false));
+             }
+          }
+       }

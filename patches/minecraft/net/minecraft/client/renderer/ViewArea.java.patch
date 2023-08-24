@@ -58,16 +58,17 @@
 -      int i = Mth.m_14042_(p_110867_.m_123341_(), 16);
 -      int j = Mth.m_14042_(p_110867_.m_123342_() - this.f_110839_.m_141937_(), 16);
 -      int k = Mth.m_14042_(p_110867_.m_123343_(), 16);
-+      long i = Mth.floorDiv(p_110867_.getBigX(), 16).longValue();
-+      long j = Mth.floorDiv(p_110867_.getBigY().subtract(this.f_110839_.getMinBuildHeight()), 16).longValue();
-+      long k = Mth.floorDiv(p_110867_.getBigZ(), 16).longValue();
-       if (j >= 0 && j < this.f_110840_) {
+-      if (j >= 0 && j < this.f_110840_) {
 -         i = Mth.m_14100_(i, this.f_110841_);
 -         k = Mth.m_14100_(k, this.f_110842_);
 -         return this.f_110843_[this.m_110855_(i, j, k)];
++      me.alphamode.mclong.math.BigInteger i = Mth.floorDiv(p_110867_.getBigX(), 16);
++      me.alphamode.mclong.math.BigInteger j = Mth.floorDiv(p_110867_.getBigY().subtract(this.f_110839_.getMinBuildHeight()), 16);
++      me.alphamode.mclong.math.BigInteger k = Mth.floorDiv(p_110867_.getBigZ(), 16);
++      if (j.compareTo(me.alphamode.mclong.math.BigInteger.ZERO) >= 0 && j.compareTo(this.f_110840_) < 0) {
 +         i = Mth.positiveModulo(i, this.f_110841_);
 +         k = Mth.positiveModulo(k, this.f_110842_);
-+         return this.f_110843_[this.m_110855_((int) i, (int) j, (int) k)];
++         return this.f_110843_[this.m_110855_(i.intValue(), j.intValue(), k.intValue())];
        } else {
           return null;
        }

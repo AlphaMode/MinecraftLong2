@@ -1,38 +1,35 @@
 --- a/net/minecraft/world/level/levelgen/carver/WorldCarver.java
 +++ b/net/minecraft/world/level/levelgen/carver/WorldCarver.java
-@@ -57,40 +_,42 @@
+@@ -57,40 +_,40 @@
        return 4;
     }
  
 -   protected boolean m_190753_(CarvingContext p_190754_, C p_190755_, ChunkAccess p_190756_, Function<BlockPos, Holder<Biome>> p_190757_, Aquifer p_190758_, double p_190759_, double p_190760_, double p_190761_, double p_190762_, double p_190763_, CarvingMask p_190764_, WorldCarver.CarveSkipChecker p_190765_) {
-+   protected boolean carveEllipsoid(CarvingContext p_190754_, C p_190755_, ChunkAccess p_190756_, Function<BlockPos, Holder<Biome>> p_190757_, Aquifer p_190758_, me.alphamode.mclong.math.BigDecimal p_190759_, double p_190760_, me.alphamode.mclong.math.BigDecimal p_190761_, double p_190762_, double p_190763_, CarvingMask p_190764_, WorldCarver.CarveSkipChecker p_190765_) {
++   protected boolean m_190753_(CarvingContext p_190754_, C p_190755_, ChunkAccess p_190756_, Function<BlockPos, Holder<Biome>> p_190757_, Aquifer p_190758_, double p_190759_, double p_190760_, double p_190761_, double p_190762_, double p_190763_, CarvingMask p_190764_, CarveSkipChecker p_190765_) {
        ChunkPos chunkpos = p_190756_.m_7697_();
 -      double d0 = (double)chunkpos.m_151390_();
 -      double d1 = (double)chunkpos.m_151393_();
--      double d2 = 16.0D + p_190762_ * 2.0D;
--      if (!(Math.abs(p_190759_ - d0) > d2) && !(Math.abs(p_190761_ - d1) > d2)) {
++      double d0 = (double)chunkpos.getMiddleBlockX();
++      double d1 = (double)chunkpos.getMiddleBlockZ();
+       double d2 = 16.0D + p_190762_ * 2.0D;
+       if (!(Math.abs(p_190759_ - d0) > d2) && !(Math.abs(p_190761_ - d1) > d2)) {
 -         int i = chunkpos.m_45604_();
 -         int j = chunkpos.m_45605_();
 -         int k = Math.max(Mth.m_14107_(p_190759_ - p_190762_) - i - 1, 0);
 -         int l = Math.min(Mth.m_14107_(p_190759_ + p_190762_) - i, 15);
 -         int i1 = Math.max(Mth.m_14107_(p_190760_ - p_190763_) - 1, p_190754_.m_142201_() + 1);
-+      me.alphamode.mclong.math.BigDecimal d0 = chunkpos.getMiddleBigBlockX().toBigDecimal();
-+      me.alphamode.mclong.math.BigDecimal d1 = chunkpos.getMiddleBigBlockZ().toBigDecimal();
-+      me.alphamode.mclong.math.BigDecimal d2 = me.alphamode.mclong.math.BigDecimal.valueOf(16.0D + p_190762_ * 2.0D);
-+      if (!(p_190759_.subtract(d0).abs().compareTo(d2) > 0) && !(p_190761_.subtract(d1).abs().compareTo(d2) > 0)) {
 +         me.alphamode.mclong.math.BigInteger i = chunkpos.getMinBigBlockX();
 +         me.alphamode.mclong.math.BigInteger j = chunkpos.getMinBigBlockZ();
-+         var offset = me.alphamode.mclong.math.BigDecimal.valueOf(p_190762_);
-+         me.alphamode.mclong.math.BigInteger k = Mth.lfloor(p_190759_.subtract(offset)).subtract(i).subtract(me.alphamode.mclong.math.BigInteger.ONE).max(me.alphamode.mclong.math.BigInteger.ZERO);
-+         me.alphamode.mclong.math.BigInteger l = Mth.lfloor(p_190759_.add(offset)).subtract(i).min(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++         me.alphamode.mclong.math.BigInteger k = me.alphamode.mclong.math.BigInteger.valueOf(Mth.m_14134_(p_190759_ - p_190762_)).subtract(i).subtract().max(me.alphamode.mclong.math.BigInteger.ZERO);
++         me.alphamode.mclong.math.BigInteger l = me.alphamode.mclong.math.BigInteger.valueOf(Mth.m_14134_(p_190759_ + p_190762_)).subtract(i).min(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
 +         long i1 = Math.max(Mth.m_14134_(p_190760_ - p_190763_) - 1, p_190754_.getMinGenY() + 1);
           int j1 = p_190756_.m_187679_() ? 0 : 7;
 -         int k1 = Math.min(Mth.m_14107_(p_190760_ + p_190763_) + 1, p_190754_.m_142201_() + p_190754_.m_142208_() - 1 - j1);
 -         int l1 = Math.max(Mth.m_14107_(p_190761_ - p_190762_) - j - 1, 0);
 -         int i2 = Math.min(Mth.m_14107_(p_190761_ + p_190762_) - j, 15);
-+         long k1 = Math.min(Mth.m_14134_(p_190760_ + p_190763_) + 1, p_190754_.getMinGenY() + p_190754_.getGenDepth() - 1 - j1);
-+         me.alphamode.mclong.math.BigInteger l1 = Mth.lfloor(p_190761_.subtract(offset)).subtract(j).subtract(me.alphamode.mclong.math.BigInteger.ONE).max(me.alphamode.mclong.math.BigInteger.ZERO);
-+         me.alphamode.mclong.math.BigInteger i2 = Mth.lfloor(p_190761_.add(offset)).subtract(j).min(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++         long k1 = Math.min(Mth.m_14107_(p_190760_ + p_190763_) + 1, p_190754_.getMinGenY() + p_190754_.getGenDepth() - 1 - j1);
++         me.alphamode.mclong.math.BigInteger l1 = me.alphamode.mclong.math.BigInteger.valueOf(Mth.m_14134_(p_190761_ - p_190762_)).subtract(j).subtract().max(me.alphamode.mclong.math.BigInteger.ZERO);
++         me.alphamode.mclong.math.BigInteger i2 = me.alphamode.mclong.math.BigInteger.valueOf(Mth.m_14134_(p_190761_ + p_190762_)).subtract(j).min(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
           boolean flag = false;
           BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
           BlockPos.MutableBlockPos blockpos$mutableblockpos1 = new BlockPos.MutableBlockPos();
@@ -40,18 +37,17 @@
 -         for(int j2 = k; j2 <= l; ++j2) {
 -            int k2 = chunkpos.m_151382_(j2);
 -            double d3 = ((double)k2 + 0.5D - p_190759_) / p_190762_;
-+         for(me.alphamode.mclong.math.BigInteger j2 = k; j2.compareTo(l) <= 0; j2 = j2.add(me.alphamode.mclong.math.BigInteger.ONE)) {
++         for(me.alphamode.mclong.math.BigInteger j2 = k; j2.compareTo(l) <= 0; j2 = j2.add()) {
 +            me.alphamode.mclong.math.BigInteger k2 = chunkpos.getBlockBigX(j2);
-+            me.alphamode.mclong.math.BigDecimal d3 = (k2.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).subtract(p_190759_)).divide(offset, java.math.RoundingMode.HALF_UP);
++            double d3 = ((double)k2.doubleValue() + 0.5D - p_190759_) / p_190762_;
  
 -            for(int l2 = l1; l2 <= i2; ++l2) {
 -               int i3 = chunkpos.m_151391_(l2);
 -               double d4 = ((double)i3 + 0.5D - p_190761_) / p_190762_;
--               if (!(d3 * d3 + d4 * d4 >= 1.0D)) {
-+            for(me.alphamode.mclong.math.BigInteger l2 = l1; l2.compareTo(i2) <= 0; l2 = l2.add(me.alphamode.mclong.math.BigInteger.ONE)) {
++            for(me.alphamode.mclong.math.BigInteger l2 = l1; l2.compareTo(i2) <= 0; l2 = l2.add()) {
 +               me.alphamode.mclong.math.BigInteger i3 = chunkpos.getBlockBigZ(l2);
-+               me.alphamode.mclong.math.BigDecimal d4 = (i3.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).subtract(p_190761_)).divide(offset, java.math.RoundingMode.HALF_UP);
-+               if (!(d3.multiply(d3).add(d4.multiply(d4)).compareTo(me.alphamode.mclong.math.BigDecimal.ONE) >= 0)) {
++               double d4 = ((double)i3.doubleValue() + 0.5D - p_190761_) / p_190762_;
+                if (!(d3 * d3 + d4 * d4 >= 1.0D)) {
                    MutableBoolean mutableboolean = new MutableBoolean(false);
  
 -                  for(int j3 = k1; j3 > i1; --j3) {
@@ -60,10 +56,9 @@
 -                     if (!p_190765_.m_159425_(p_190754_, d3, d5, d4, j3) && (!p_190764_.m_187594_(j2, j3, l2) || m_159423_(p_190755_))) {
 -                        p_190764_.m_187585_(j2, j3, l2);
 -                        blockpos$mutableblockpos.m_122178_(k2, j3, i3);
-+                     var bigY = me.alphamode.mclong.math.BigInteger.valueOf(j3);
-+                     if (!p_190765_.shouldSkip(p_190754_, d3, d5, d4, j3) && (!p_190764_.get(j2, bigY, l2) || m_159423_(p_190755_))) {
-+                        p_190764_.set(j2, bigY, l2);
-+                        blockpos$mutableblockpos.set(k2, bigY, i3);
++                     if (!p_190765_.shouldSkip(p_190754_, d3, d5, d4, j3) && (!p_190764_.get(j2, me.alphamode.mclong.math.BigInteger.valueOf(j3), l2) || m_159423_(p_190755_))) {
++                        p_190764_.set(j2, me.alphamode.mclong.math.BigInteger.valueOf(j3), l2);
++                        blockpos$mutableblockpos.set(k2, me.alphamode.mclong.math.BigInteger.valueOf(j3), i3);
                          flag |= this.m_183633_(p_190754_, p_190755_, p_190756_, p_190757_, p_190764_, blockpos$mutableblockpos, blockpos$mutableblockpos1, p_190758_, mutableboolean);
                       }
                    }
@@ -89,34 +84,22 @@
           if (blockstate == null) {
              return m_159423_(p_159420_) ? p_159420_.f_159092_.m_159148_() : null;
           } else {
-@@ -173,14 +_,14 @@
-       return p_224912_.m_204341_(p_224911_.f_224830_);
+@@ -174,8 +_,8 @@
     }
  
--   protected static boolean m_159367_(ChunkPos p_159368_, double p_159369_, double p_159370_, int p_159371_, int p_159372_, float p_159373_) {
+    protected static boolean m_159367_(ChunkPos p_159368_, double p_159369_, double p_159370_, int p_159371_, int p_159372_, float p_159373_) {
 -      double d0 = (double)p_159368_.m_151390_();
 -      double d1 = (double)p_159368_.m_151393_();
--      double d2 = p_159369_ - d0;
--      double d3 = p_159370_ - d1;
--      double d4 = (double)(p_159372_ - p_159371_);
--      double d5 = (double)(p_159373_ + 2.0F + 16.0F);
--      return d2 * d2 + d3 * d3 - d4 * d4 <= d5 * d5;
-+   protected static boolean canReach(ChunkPos p_159368_, me.alphamode.mclong.math.BigDecimal p_159369_, me.alphamode.mclong.math.BigDecimal p_159370_, int p_159371_, long p_159372_, float p_159373_) {
-+      me.alphamode.mclong.math.BigDecimal d0 = p_159368_.getMiddleBigBlockX().toBigDecimal();
-+      me.alphamode.mclong.math.BigDecimal d1 = p_159368_.getMiddleBigBlockZ().toBigDecimal();
-+      me.alphamode.mclong.math.BigDecimal d2 = p_159369_.subtract(d0);
-+      me.alphamode.mclong.math.BigDecimal d3 = p_159370_.subtract(d1);
-+      me.alphamode.mclong.math.BigDecimal d4 = me.alphamode.mclong.math.BigDecimal.valueOf(p_159372_ - p_159371_);
-+      me.alphamode.mclong.math.BigDecimal d5 = me.alphamode.mclong.math.BigDecimal.valueOf(p_159373_ + 2.0F + 16.0F);
-+      return d2.multiply(d2).add(d3.multiply(d3)).subtract(d4.multiply(d4)).compareTo(d5.multiply(d5)) <= 0;
-    }
- 
-    private static boolean m_159423_(CarverConfiguration p_159424_) {
++      double d0 = (double)p_159368_.getMiddleBlockX();
++      double d1 = (double)p_159368_.getMiddleBlockZ();
+       double d2 = p_159369_ - d0;
+       double d3 = p_159370_ - d1;
+       double d4 = (double)(p_159372_ - p_159371_);
 @@ -188,6 +_,6 @@
     }
  
     public interface CarveSkipChecker {
 -      boolean m_159425_(CarvingContext p_159426_, double p_159427_, double p_159428_, double p_159429_, int p_159430_);
-+      boolean shouldSkip(CarvingContext p_159426_, me.alphamode.mclong.math.BigDecimal p_159427_, double p_159428_, me.alphamode.mclong.math.BigDecimal p_159429_, long p_159430_);
++      boolean shouldSkip(CarvingContext p_159426_, double p_159427_, double p_159428_, double p_159429_, long p_159430_);
     }
  }

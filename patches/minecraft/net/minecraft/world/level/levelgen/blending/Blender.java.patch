@@ -86,26 +86,17 @@
        if (d0 != Double.MAX_VALUE) {
           return new Blender.BlendingOutput(0.0D, m_190154_(d0));
        } else {
-@@ -109,14 +_,14 @@
+@@ -109,8 +_,8 @@
           MutableDouble mutabledouble1 = new MutableDouble(0.0D);
           MutableDouble mutabledouble2 = new MutableDouble(Double.POSITIVE_INFINITY);
           this.f_224696_.forEach((p_202249_, p_202250_) -> {
 -            p_202250_.m_190295_(QuartPos.m_175404_(ChunkPos.m_45592_(p_202249_)), QuartPos.m_175404_(ChunkPos.m_45602_(p_202249_)), (p_190199_, p_190200_, p_190201_) -> {
 -               double d3 = Mth.m_184645_((double)(i - p_190199_), (double)(j - p_190200_));
--               if (!(d3 > (double)f_190139_)) {
--                  if (d3 < mutabledouble2.doubleValue()) {
-+            p_202250_.iterateHeights(QuartPos.fromSection(p_202249_.x()), QuartPos.fromSection(p_202249_.z()), (p_190199_, p_190200_, p_190201_) -> {
-+               me.alphamode.mclong.math.BigDecimal d3 = Mth.length((i.subtract(p_190199_)).toBigDecimal(), (j.subtract(p_190200_)).toBigDecimal());
-+               if (!(d3.compareTo(f_190139_) > 0)) {
-+                  if (d3.compareTo(mutabledouble2.doubleValue()) < 0) {
++            p_202250_.iterateHeights(QuartPos.fromSection(p_202249_.getX()), QuartPos.fromSection(p_202249_.getZ()), (p_190199_, p_190200_, p_190201_) -> {
++               double d3 = Mth.m_184645_((double)(i.subtract(p_190199_).doubleValue()), (double)(j.subtract(p_190200_).doubleValue()));
+                if (!(d3 > (double)f_190139_)) {
+                   if (d3 < mutabledouble2.doubleValue()) {
                       mutabledouble2.setValue(d3);
-                   }
- 
--                  double d4 = 1.0D / (d3 * d3 * d3 * d3);
-+                  double d4 = me.alphamode.mclong.math.BigDecimal.ONE.divide((d3.multiply(d3).multiply(d3).multiply(d3))).doubleValue();
-                   mutabledouble1.add(p_190201_ * d4);
-                   mutabledouble.add(d4);
-                }
 @@ -141,10 +_,10 @@
     }
  
@@ -218,7 +209,7 @@
           return null;
        } else {
 -         double d0 = f_190138_.m_75380_((double)p_224707_, 0.0D, (double)p_224709_) * 12.0D;
-+         double d0 = f_190138_.getValue(p_224707_.toBigDecimal(), me.alphamode.mclong.math.BigDecimal.ZERO, p_224709_.toBigDecimal()) * 12.0D;
++         double d0 = f_190138_.m_75380_(p_224707_.doubleValue(), 0.0D, p_224709_.doubleValue()) * 12.0D;
           double d1 = Mth.m_14008_((mutabledouble.doubleValue() + d0) / (double)(f_190139_ + 1), 0.0D, 1.0D);
           return d1 > 0.5D ? null : mutableobject.getValue();
        }
@@ -227,7 +218,7 @@
        boolean flag = p_197033_.m_187675_();
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 -      BlockPos blockpos = new BlockPos(chunkpos.m_45604_(), 0, chunkpos.m_45605_());
-+      BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), 0, chunkpos.getMinBlockZ());
++      BlockPos blockpos = new BlockPos(chunkpos.getMinBigBlockX(), 0, chunkpos.getMinBigBlockZ());
        BlendingData blendingdata = p_197033_.m_183407_();
        if (blendingdata != null) {
 -         int i = blendingdata.m_224743_().m_141937_();
@@ -290,9 +281,9 @@
 -            double d1 = (double)p_202263_ + 0.5D + f_190138_.m_75380_((double)p_202263_, (double)p_202264_, (double)p_202262_) * 4.0D;
 -            double d2 = (double)p_202264_ + 0.5D + f_190138_.m_75380_((double)p_202264_, (double)p_202262_, (double)p_202263_) * 4.0D;
 -            return blender$distancegetter.m_197061_(d0, d1, d2) < 4.0D;
-+            me.alphamode.mclong.math.BigDecimal d0 = p_202262_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).add(f_190138_.getValue(p_202262_.toBigDecimal(), p_202263_.toBigDecimal(), p_202264_.toBigDecimal()) * 4.0D);
-+            me.alphamode.mclong.math.BigDecimal d1 = p_202263_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).add(f_190138_.getValue(p_202263_.toBigDecimal(), p_202264_.toBigDecimal(), p_202262_.toBigDecimal()) * 4.0D);
-+            me.alphamode.mclong.math.BigDecimal d2 = p_202264_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).add(f_190138_.getValue(p_202264_.toBigDecimal(), p_202262_.toBigDecimal(), p_202263_.toBigDecimal()) * 4.0D);
++            me.alphamode.mclong.math.BigDecimal d0 = p_202262_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).add(f_190138_.m_75380_(p_202262_.doubleValue(), p_202263_.doubleValue(), p_202264_.doubleValue()) * 4.0D);
++            me.alphamode.mclong.math.BigDecimal d1 = p_202263_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).add(f_190138_.m_75380_(p_202263_.doubleValue(), p_202264_.doubleValue(), p_202262_.doubleValue()) * 4.0D);
++            me.alphamode.mclong.math.BigDecimal d2 = p_202264_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).add(f_190138_.m_75380_(p_202264_.doubleValue(), p_202262_.doubleValue(), p_202263_.doubleValue()) * 4.0D);
 +            return blender$distancegetter.m_197061_(d0.doubleValue(), d1.doubleValue(), d2.doubleValue()) < 4.0D;
           };
           Stream.of(GenerationStep.Carving.values()).map(p_197036_::m_183613_).forEach((p_202259_) -> {

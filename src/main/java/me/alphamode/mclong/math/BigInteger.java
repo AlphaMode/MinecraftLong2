@@ -22,7 +22,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger(String backing) {
-        this.backing = new java.math.BigInteger(backing);
+        this.backing = backing.isEmpty() ? java.math.BigInteger.ZERO : new java.math.BigInteger(backing);
         this.longBacking = this.backing.longValue();
     }
 
@@ -195,6 +195,10 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         if (BigConstants.Ints.BIG_MODE)
             return new BigInteger(this.backing.max(val.backing));
         return new BigInteger(Math.max(this.longBacking, val.longBacking));
+    }
+
+    public BigInteger max(long val) {
+        return max(valueOf(val));
     }
 
     public BigInteger divide(BigInteger val) {

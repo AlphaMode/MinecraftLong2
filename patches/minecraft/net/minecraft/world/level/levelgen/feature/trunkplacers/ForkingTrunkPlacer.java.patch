@@ -14,16 +14,18 @@
 -      int k = p_226120_.m_123341_();
 -      int l = p_226120_.m_123343_();
 -      OptionalInt optionalint = OptionalInt.empty();
-+      long k = p_226120_.getX();
-+      long l = p_226120_.getZ();
++      me.alphamode.mclong.math.BigInteger k = p_226120_.getBigX();
++      me.alphamode.mclong.math.BigInteger l = p_226120_.getBigZ();
 +      java.util.OptionalLong optionalint = java.util.OptionalLong.empty();
  
        for(int i1 = 0; i1 < p_226119_; ++i1) {
 -         int j1 = p_226120_.m_123342_() + i1;
 +         long j1 = p_226120_.getY() + i1;
           if (i1 >= i && j > 0) {
-             k += direction.m_122429_();
-             l += direction.m_122431_();
+-            k += direction.m_122429_();
+-            l += direction.m_122431_();
++            k = k.add(direction.m_122429_());
++            l = l.add(direction.m_122431_());
              --j;
           }
  
@@ -41,8 +43,8 @@
  
 -      k = p_226120_.m_123341_();
 -      l = p_226120_.m_123343_();
-+      k = p_226120_.getX();
-+      l = p_226120_.getZ();
++      k = p_226120_.getBigX();
++      l = p_226120_.getBigZ();
        Direction direction1 = Direction.Plane.HORIZONTAL.m_235690_(p_226118_);
        if (direction1 != direction) {
           int j2 = i - p_226118_.m_188503_(2) - 1;
@@ -53,11 +55,13 @@
           for(int l1 = j2; l1 < p_226119_ && k1 > 0; --k1) {
              if (l1 >= 1) {
 -               int i2 = p_226120_.m_123342_() + l1;
-+               long i2 = p_226120_.getY() + l1;
-                k += direction1.m_122429_();
-                l += direction1.m_122431_();
+-               k += direction1.m_122429_();
+-               l += direction1.m_122431_();
 -               if (this.m_226187_(p_226116_, p_226117_, p_226118_, blockpos$mutableblockpos.m_122178_(k, i2, l), p_226121_)) {
 -                  optionalint = OptionalInt.of(i2 + 1);
++               long i2 = p_226120_.getY() + l1;
++               k = k.add(direction1.m_122429_());
++               l = l.add(direction1.m_122431_());
 +               if (this.m_226187_(p_226116_, p_226117_, p_226118_, blockpos$mutableblockpos.set(k, i2, l), p_226121_)) {
 +                  optionalint = java.util.OptionalLong.of(i2 + 1);
                 }

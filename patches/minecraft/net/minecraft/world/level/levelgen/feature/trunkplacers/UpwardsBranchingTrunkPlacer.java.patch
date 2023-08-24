@@ -6,19 +6,19 @@
        for(int i = 0; i < p_226228_; ++i) {
 -         int j = p_226229_.m_123342_() + i;
 -         if (this.m_226187_(p_226225_, p_226226_, p_226227_, blockpos$mutableblockpos.m_122178_(p_226229_.m_123341_(), j, p_226229_.m_123343_()), p_226230_) && i < p_226228_ - 1 && p_226227_.m_188501_() < this.f_226196_) {
-+         long j = p_226229_.getY() + i;
-+         if (this.m_226187_(p_226225_, p_226226_, p_226227_, blockpos$mutableblockpos.set(p_226229_.getX(), j, p_226229_.getZ()), p_226230_) && i < p_226228_ - 1 && p_226227_.m_188501_() < this.f_226196_) {
++         me.alphamode.mclong.math.BigInteger j = p_226229_.getBigY().add(i);
++         if (this.m_226187_(p_226225_, p_226226_, p_226227_, blockpos$mutableblockpos.set(p_226229_.getBigX(), j, p_226229_.getBigZ()), p_226230_) && i < p_226228_ - 1 && p_226227_.m_188501_() < this.f_226196_) {
              Direction direction = Direction.Plane.HORIZONTAL.m_235690_(p_226227_);
              int k = this.f_226197_.m_214085_(p_226227_);
              int l = Math.max(0, k - this.f_226197_.m_214085_(p_226227_) - 1);
              int i1 = this.f_226195_.m_214085_(p_226227_);
 -            this.m_226212_(p_226225_, p_226226_, p_226227_, p_226228_, p_226230_, list, blockpos$mutableblockpos, j, direction, l, i1);
-+            this.placeBranch(p_226225_, p_226226_, p_226227_, p_226228_, p_226230_, list, blockpos$mutableblockpos, j, direction, l, i1);
++            this.placeBranch(p_226225_, p_226226_, p_226227_, p_226228_, p_226230_, list, blockpos$mutableblockpos, j.longValue(), direction, l, i1);
           }
  
           if (i == p_226228_ - 1) {
 -            list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.m_122178_(p_226229_.m_123341_(), j + 1, p_226229_.m_123343_()), 0, false));
-+            list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.set(p_226229_.getX(), j + 1, p_226229_.getZ()), 0, false));
++            list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.set(p_226229_.getBigX(), j.add(), p_226229_.getBigZ()), 0, false));
           }
        }
  
@@ -31,15 +31,17 @@
 -      int k = p_226219_.m_123343_();
 +   private void placeBranch(LevelSimulatedReader p_226213_, BiConsumer<BlockPos, BlockState> p_226214_, RandomSource p_226215_, int p_226216_, TreeConfiguration p_226217_, List<FoliagePlacer.FoliageAttachment> p_226218_, BlockPos.MutableBlockPos p_226219_, long p_226220_, Direction p_226221_, int p_226222_, int p_226223_) {
 +      long i = p_226220_ + p_226222_;
-+      long j = p_226219_.getX();
-+      long k = p_226219_.getZ();
++      me.alphamode.mclong.math.BigInteger j = p_226219_.getBigX();
++      me.alphamode.mclong.math.BigInteger k = p_226219_.getBigZ();
  
        for(int l = p_226222_; l < p_226216_ && p_226223_ > 0; --p_226223_) {
           if (l >= 1) {
 -            int i1 = p_226220_ + l;
+-            j += p_226221_.m_122429_();
+-            k += p_226221_.m_122431_();
 +            long i1 = p_226220_ + l;
-             j += p_226221_.m_122429_();
-             k += p_226221_.m_122431_();
++            j = j.add(p_226221_.m_122429_());
++            k = k.add(p_226221_.m_122431_());
              i = i1;
 -            if (this.m_226187_(p_226213_, p_226214_, p_226215_, p_226219_.m_122178_(j, i1, k), p_226217_)) {
 +            if (this.m_226187_(p_226213_, p_226214_, p_226215_, p_226219_.set(j, i1, k), p_226217_)) {

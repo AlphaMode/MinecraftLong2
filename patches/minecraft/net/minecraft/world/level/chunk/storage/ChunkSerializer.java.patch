@@ -127,8 +127,8 @@
 +            net.minecraft.nbt.ListTag chunks = new net.minecraft.nbt.ListTag();
 +            entry1.getValue().forEach(chunkPos -> {
 +               CompoundTag chunk = new CompoundTag();
-+               chunk.m_128356_("x", chunkPos.x());
-+               chunk.m_128356_("z", chunkPos.z());
++               chunk.m_128359_("x", chunkPos.getX().toString());
++               chunk.m_128359_("z", chunkPos.getZ().toString());
 +               chunks.add(chunk);
 +            });
 +            compoundtag2.m_128365_(resourcelocation1.toString(), chunks);
@@ -159,7 +159,7 @@
 +            if (along.size() != 0) {
 +               it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> chunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
 +               along.forEach((p_208153_) -> {
-+                  ChunkPos chunkpos = new ChunkPos(((CompoundTag) p_208153_).m_128454_("x"), ((CompoundTag) p_208153_).m_128454_("z"));
++                  ChunkPos chunkpos = new ChunkPos(new me.alphamode.mclong.math.BigInteger(((CompoundTag) p_208153_).m_128461_("x")), new me.alphamode.mclong.math.BigInteger(((CompoundTag) p_208153_).m_128461_("z")));
 +                  if (chunkpos.getChessboardDistance(p_208156_) > 8) {
                       f_63449_.warn("Found invalid structure reference [ {} @ {} ] for chunk {}.", resourcelocation, chunkpos, p_208156_);
 -                     return false;

@@ -38,7 +38,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
 
     public BigDecimal(me.alphamode.mclong.math.BigInteger val) {
         this.backing = new java.math.BigDecimal(val.getBacking());
-        this.doubleBacking = this.backing.doubleValue();
+        this.doubleBacking = val.doubleValue();
     }
 
     public static BigDecimal valueOf(double val) {
@@ -269,6 +269,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     public BigInteger floor() {
-        return new BigInteger(this.backing.setScale(0, RoundingMode.FLOOR).toBigInteger(), Mth.lfloor(this.doubleBacking));
+        long val = Mth.lfloor(this.doubleBacking);
+        return new BigInteger(BigConstants.BIG_MODE ? this.backing.setScale(0, RoundingMode.FLOOR).toBigInteger() : java.math.BigInteger.valueOf(val), val);
     }
 }

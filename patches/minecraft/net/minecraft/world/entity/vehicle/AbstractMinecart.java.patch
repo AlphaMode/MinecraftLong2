@@ -13,19 +13,25 @@
     private double f_38074_;
     private double f_38075_;
     private double f_38076_;
-@@ -94,9 +_,9 @@
-    protected AbstractMinecart(EntityType<?> p_38090_, Level p_38091_, double p_38092_, double p_38093_, double p_38094_) {
-       this(p_38090_, p_38091_);
-       this.m_6034_(p_38092_, p_38093_, p_38094_);
--      this.f_19854_ = p_38092_;
--      this.f_19855_ = p_38093_;
--      this.f_19856_ = p_38094_;
-+      this.f_19854_ = me.alphamode.mclong.math.BigDecimal.valueOf(p_38092_);
-+      this.f_19855_ = me.alphamode.mclong.math.BigDecimal.valueOf(p_38093_);
-+      this.f_19856_ = me.alphamode.mclong.math.BigDecimal.valueOf(p_38094_);
+@@ -91,15 +_,15 @@
+       this.f_19850_ = true;
     }
  
-    public static AbstractMinecart m_38119_(Level p_38120_, double p_38121_, double p_38122_, double p_38123_, AbstractMinecart.Type p_38124_) {
+-   protected AbstractMinecart(EntityType<?> p_38090_, Level p_38091_, double p_38092_, double p_38093_, double p_38094_) {
++   protected AbstractMinecart(EntityType<?> p_38090_, Level p_38091_, me.alphamode.mclong.math.BigDecimal p_38092_, me.alphamode.mclong.math.BigDecimal p_38093_, me.alphamode.mclong.math.BigDecimal p_38094_) {
+       this(p_38090_, p_38091_);
+-      this.m_6034_(p_38092_, p_38093_, p_38094_);
++      this.setPos(p_38092_, p_38093_, p_38094_);
+       this.f_19854_ = p_38092_;
+       this.f_19855_ = p_38093_;
+       this.f_19856_ = p_38094_;
+    }
+ 
+-   public static AbstractMinecart m_38119_(Level p_38120_, double p_38121_, double p_38122_, double p_38123_, AbstractMinecart.Type p_38124_) {
++   public static AbstractMinecart createMinecart(Level p_38120_, me.alphamode.mclong.math.BigDecimal p_38121_, me.alphamode.mclong.math.BigDecimal p_38122_, me.alphamode.mclong.math.BigDecimal p_38123_, AbstractMinecart.Type p_38124_) {
+       if (p_38124_ == AbstractMinecart.Type.CHEST) {
+          return new MinecartChest(p_38120_, p_38121_, p_38122_, p_38123_);
+       } else if (p_38124_ == AbstractMinecart.Type.FURNACE) {
 @@ -160,13 +_,13 @@
  
              for(int i : f_38067_.get(pose)) {

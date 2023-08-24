@@ -285,12 +285,12 @@
     }
  
 -   protected void m_190295_(int p_190296_, int p_190297_, BlendingData.HeightConsumer p_190298_) {
-+   protected void iterateHeights(long p_190296_, long p_190297_, BlendingData.HeightConsumer p_190298_) {
++   protected void iterateHeights(me.alphamode.mclong.math.BigInteger p_190296_, me.alphamode.mclong.math.BigInteger p_190297_, BlendingData.HeightConsumer p_190298_) {
        for(int i = 0; i < this.f_190269_.length; ++i) {
           double d0 = this.f_190269_[i];
           if (d0 != Double.MAX_VALUE) {
 -            p_190298_.m_190366_(p_190296_ + m_190348_(i), p_190297_ + m_190354_(i), d0);
-+            p_190298_.consume(p_190296_ + getX(i), p_190297_ + getZ(i), d0);
++            p_190298_.consume(p_190296_.add(getX(i)), p_190297_.add(getZ(i)), d0);
           }
        }
  
@@ -416,6 +416,6 @@
  
     protected interface HeightConsumer {
 -      void m_190366_(int p_190367_, int p_190368_, double p_190369_);
-+      void consume(long p_190367_, long p_190368_, double p_190369_);
++      void consume(me.alphamode.mclong.math.BigInteger p_190367_, me.alphamode.mclong.math.BigInteger p_190368_, double p_190369_);
     }
  }

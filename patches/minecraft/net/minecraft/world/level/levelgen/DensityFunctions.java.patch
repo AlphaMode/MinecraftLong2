@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/DensityFunctions.java
 +++ b/net/minecraft/world/level/levelgen/DensityFunctions.java
-@@ -502,22 +_,22 @@
+@@ -502,20 +_,20 @@
           this.f_208627_ = new SimplexNoise(randomsource);
        }
  
@@ -13,26 +13,24 @@
 +      private static float getHeightValue(SimplexNoise p_224063_, me.alphamode.mclong.math.BigInteger p_224064_, me.alphamode.mclong.math.BigInteger p_224065_) {
 +         me.alphamode.mclong.math.BigInteger i = p_224064_.divide(me.alphamode.mclong.core.BigConstants.Ints.TWO);
 +         me.alphamode.mclong.math.BigInteger j = p_224065_.divide(me.alphamode.mclong.core.BigConstants.Ints.TWO);
-+         me.alphamode.mclong.math.BigInteger k = p_224064_.remainder(me.alphamode.mclong.core.BigConstants.Ints.TWO);
-+         me.alphamode.mclong.math.BigInteger l = p_224065_.remainder(me.alphamode.mclong.core.BigConstants.Ints.TWO);
-+         float f = 100.0F - (p_224064_.multiply(p_224064_).add(p_224065_.multiply(p_224065_))).toBigDecimal().sqrt().floatValue() * 8.0F;
++         int k = p_224064_.remainder(2).intValue();
++         int l = p_224065_.remainder(2).intValue();
++         float f = 100.0F - Mth.m_14116_((float)(p_224064_.multiply(p_224064_).add(p_224065_.multiply(p_224065_))).floatValue()) * 8.0F;
           f = Mth.m_14036_(f, -100.0F, 80.0F);
  
           for(int i1 = -12; i1 <= 12; ++i1) {
              for(int j1 = -12; j1 <= 12; ++j1) {
 -               long k1 = (long)(i + i1);
 -               long l1 = (long)(j + j1);
-+               long k1 = (long)(i.longValue() + i1);
-+               long l1 = (long)(j.longValue() + j1);
-                if (k1 * k1 + l1 * l1 > 4096L && p_224063_.m_75464_((double)k1, (double)l1) < (double)-0.9F) {
-                   float f1 = (Mth.m_14154_((float)k1) * 3439.0F + Mth.m_14154_((float)l1) * 147.0F) % 13.0F + 9.0F;
--                  float f2 = (float)(k - i1 * 2);
--                  float f3 = (float)(l - j1 * 2);
-+                  float f2 = (float)(k.longValue() - i1 * 2);
-+                  float f3 = (float)(l.longValue() - j1 * 2);
+-               if (k1 * k1 + l1 * l1 > 4096L && p_224063_.m_75464_((double)k1, (double)l1) < (double)-0.9F) {
+-                  float f1 = (Mth.m_14154_((float)k1) * 3439.0F + Mth.m_14154_((float)l1) * 147.0F) % 13.0F + 9.0F;
++               me.alphamode.mclong.math.BigInteger k1 = (i.add(i1));
++               me.alphamode.mclong.math.BigInteger l1 = (j.add(j1));
++               if (k1.multiply(k1).add(l1.multiply(l1)).compareTo(me.alphamode.mclong.core.BigConstants.Ints.WORLD_HEIGHT_LIMIT) > 0 && p_224063_.m_75464_(k1.doubleValue(), l1.doubleValue()) < (double)-0.9F) {
++                  float f1 = (Mth.m_14154_((float)k1.floatValue()) * 3439.0F + Mth.m_14154_((float)l1.floatValue()) * 147.0F) % 13.0F + 9.0F;
+                   float f2 = (float)(k - i1 * 2);
+                   float f3 = (float)(l - j1 * 2);
                    float f4 = 100.0F - Mth.m_14116_(f2 * f2 + f3 * f3) * f1;
-                   f4 = Mth.m_14036_(f4, -100.0F, 80.0F);
-                   f = Math.max(f, f4);
 @@ -529,7 +_,7 @@
        }
  
@@ -47,7 +45,7 @@
  
        public double m_207386_(DensityFunction.FunctionContext p_208800_) {
 -         return this.f_208787_.m_224006_((double)p_208800_.m_207115_() * this.f_208788_, (double)p_208800_.m_207114_() * this.f_208789_, (double)p_208800_.m_207113_() * this.f_208788_);
-+         return this.f_208787_.getValue(p_208800_.blockX().toBigDecimal().multiply(this.f_208788_), p_208800_.blockY().toBigDecimal().multiply(this.f_208789_), p_208800_.blockZ().toBigDecimal().multiply(this.f_208788_));
++         return this.f_208787_.m_224006_(p_208800_.blockX().doubleValue() * this.f_208788_, p_208800_.blockY().doubleValue() * this.f_208789_, p_208800_.blockZ().doubleValue() * this.f_208788_);
        }
  
        public void m_207362_(double[] p_224079_, DensityFunction.ContextProvider p_224080_) {
@@ -56,7 +54,7 @@
  
        public double m_207386_(DensityFunction.FunctionContext p_208864_) {
 -         return this.m_208917_((double)p_208864_.m_207115_(), (double)p_208864_.m_207114_(), (double)p_208864_.m_207113_());
-+         return this.compute(p_208864_.blockX().toBigDecimal(), p_208864_.blockY().toBigDecimal(), p_208864_.blockZ().toBigDecimal());
++         return this.m_208917_(p_208864_.blockX().doubleValue(), p_208864_.blockY().doubleValue(), p_208864_.blockZ().doubleValue());
        }
  
        public DensityFunction m_207456_(DensityFunction.Visitor p_224087_) {
@@ -65,7 +63,7 @@
  
        public double m_207386_(DensityFunction.FunctionContext p_208884_) {
 -         return this.m_208917_((double)p_208884_.m_207115_(), 0.0D, (double)p_208884_.m_207113_());
-+         return this.compute(p_208884_.blockX().toBigDecimal(), me.alphamode.mclong.math.BigDecimal.ZERO, p_208884_.blockZ().toBigDecimal());
++         return this.m_208917_(p_208884_.blockX().doubleValue(), 0.0D, p_208884_.blockZ().doubleValue());
        }
  
        public DensityFunction m_207456_(DensityFunction.Visitor p_224093_) {
@@ -74,42 +72,29 @@
  
        public double m_207386_(DensityFunction.FunctionContext p_208904_) {
 -         return this.m_208917_((double)p_208904_.m_207113_(), (double)p_208904_.m_207115_(), 0.0D);
-+         return this.compute(p_208904_.blockZ().toBigDecimal(), p_208904_.blockX().toBigDecimal(), me.alphamode.mclong.math.BigDecimal.ZERO);
++         return this.m_208917_(p_208904_.blockZ().doubleValue(), p_208904_.blockX().doubleValue(), 0.0D);
        }
  
        public DensityFunction m_207456_(DensityFunction.Visitor p_224099_) {
-@@ -947,8 +_,8 @@
-          return this.m_214040_().m_224005_() * 4.0D;
-       }
- 
--      default double m_208917_(double p_208918_, double p_208919_, double p_208920_) {
--         return this.m_214040_().m_224006_(p_208918_ * 0.25D, p_208919_ * 0.25D, p_208920_ * 0.25D) * 4.0D;
-+      default double compute(me.alphamode.mclong.math.BigDecimal p_208918_, me.alphamode.mclong.math.BigDecimal p_208919_, me.alphamode.mclong.math.BigDecimal p_208920_) {
-+         return this.m_214040_().getValue(p_208918_.multiply(me.alphamode.mclong.core.BigConstants.PARTICLES), p_208919_.multiply(me.alphamode.mclong.core.BigConstants.PARTICLES), p_208920_.multiply(me.alphamode.mclong.core.BigConstants.PARTICLES)) * 4.0D;
-       }
- 
-       default void m_207362_(double[] p_224103_, DensityFunction.ContextProvider p_224104_) {
-@@ -963,10 +_,10 @@
+@@ -963,9 +_,9 @@
        public static final KeyDispatchDataCodec<DensityFunctions.ShiftedNoise> f_208923_ = DensityFunctions.m_224028_(f_208931_);
  
        public double m_207386_(DensityFunction.FunctionContext p_208945_) {
 -         double d0 = (double)p_208945_.m_207115_() * this.f_208927_ + this.f_208924_.m_207386_(p_208945_);
 -         double d1 = (double)p_208945_.m_207114_() * this.f_208928_ + this.f_208925_.m_207386_(p_208945_);
 -         double d2 = (double)p_208945_.m_207113_() * this.f_208927_ + this.f_208926_.m_207386_(p_208945_);
--         return this.f_208930_.m_224006_(d0, d1, d2);
-+         me.alphamode.mclong.math.BigDecimal d0 = p_208945_.blockX().toBigDecimal().multiply(this.f_208927_).add(this.f_208924_.m_207386_(p_208945_));
-+         me.alphamode.mclong.math.BigDecimal d1 = p_208945_.blockY().toBigDecimal().multiply(this.f_208928_).add(this.f_208925_.m_207386_(p_208945_));
-+         me.alphamode.mclong.math.BigDecimal d2 = p_208945_.blockZ().toBigDecimal().multiply(this.f_208927_).add(this.f_208926_.m_207386_(p_208945_));
-+         return this.f_208930_.getValue(d0, d1, d2);
++         double d0 = p_208945_.blockX().doubleValue() * this.f_208927_ + this.f_208924_.m_207386_(p_208945_);
++         double d1 = p_208945_.blockY().doubleValue() * this.f_208928_ + this.f_208925_.m_207386_(p_208945_);
++         double d2 = p_208945_.blockZ().doubleValue() * this.f_208927_ + this.f_208926_.m_207386_(p_208945_);
+          return this.f_208930_.m_224006_(d0, d1, d2);
        }
  
-       public void m_207362_(double[] p_208956_, DensityFunction.ContextProvider p_208957_) {
 @@ -1195,7 +_,7 @@
  
        public double m_207219_(DensityFunction.FunctionContext p_208440_, double p_208441_) {
           double d0 = this.f_208428_.f_208463_.get(p_208441_);
 -         return d0 * Math.abs(this.f_208427_.m_224006_((double)p_208440_.m_207115_() / d0, (double)p_208440_.m_207114_() / d0, (double)p_208440_.m_207113_() / d0));
-+         return d0 * Math.abs(this.f_208427_.getValue(p_208440_.blockX().toBigDecimal().divide(d0), p_208440_.blockY().toBigDecimal().divide(d0), p_208440_.blockZ().toBigDecimal().divide(d0)));
++         return d0 * Math.abs(this.f_208427_.m_224006_(p_208440_.blockX().doubleValue() / d0, p_208440_.blockY().doubleValue() / d0, p_208440_.blockZ().doubleValue() / d0));
        }
  
        public DensityFunction m_207456_(DensityFunction.Visitor p_208443_) {

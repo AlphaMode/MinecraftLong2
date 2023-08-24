@@ -22,15 +22,15 @@
 -   private double f_109425_ = Double.MIN_VALUE;
 -   private double f_109426_ = Double.MIN_VALUE;
 -   private double f_109427_ = Double.MIN_VALUE;
-+   private me.alphamode.mclong.math.BigDecimal f_109419_ = me.alphamode.mclong.math.BigDecimal.ONE;
-+   private me.alphamode.mclong.math.BigDecimal f_109420_ = me.alphamode.mclong.math.BigDecimal.ONE;
-+   private me.alphamode.mclong.math.BigDecimal f_109421_ = me.alphamode.mclong.math.BigDecimal.ONE;
-+   private me.alphamode.mclong.math.BigInteger f_109422_ = me.alphamode.mclong.math.BigInteger.ONE;
-+   private me.alphamode.mclong.math.BigInteger f_109423_ = me.alphamode.mclong.math.BigInteger.ONE;
-+   private me.alphamode.mclong.math.BigInteger f_109424_ = me.alphamode.mclong.math.BigInteger.ONE;
-+   private me.alphamode.mclong.math.BigDecimal f_109425_ = me.alphamode.mclong.math.BigDecimal.ONE;
-+   private me.alphamode.mclong.math.BigDecimal f_109426_ = me.alphamode.mclong.math.BigDecimal.ONE;
-+   private me.alphamode.mclong.math.BigDecimal f_109427_ = me.alphamode.mclong.math.BigDecimal.ONE;
++   private me.alphamode.mclong.math.BigDecimal f_109419_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_109420_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_109421_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigInteger f_109422_ = me.alphamode.mclong.math.BigInteger.ZERO;
++   private me.alphamode.mclong.math.BigInteger f_109423_ = me.alphamode.mclong.math.BigInteger.ZERO;
++   private me.alphamode.mclong.math.BigInteger f_109424_ = me.alphamode.mclong.math.BigInteger.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_109425_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_109426_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_109427_ = me.alphamode.mclong.math.BigDecimal.ZERO;
     private double f_109428_ = Double.MIN_VALUE;
     private double f_109429_ = Double.MIN_VALUE;
 -   private int f_109430_ = Integer.MIN_VALUE;
@@ -264,14 +264,14 @@
 -         int l = Mth.m_14107_(vec3.f_82481_ / 16.0D) * 16;
 +         boolean flag = blockpos.getY() > this.f_109465_.getMinBuildHeight();
 +         long j = flag ? this.f_109465_.getMaxBuildHeight() - 8 : this.f_109465_.getMinBuildHeight() + 8;
-+         me.alphamode.mclong.math.BigDecimal k = vec3.getX().divide(me.alphamode.mclong.math.BigDecimal.valueOf(16.0D)).setScale(0, java.math.RoundingMode.FLOOR).multiply(me.alphamode.mclong.math.BigDecimal.valueOf(16));
-+         me.alphamode.mclong.math.BigDecimal l = vec3.getZ().divide(me.alphamode.mclong.math.BigDecimal.valueOf(16.0D)).setScale(0, java.math.RoundingMode.FLOOR).multiply(me.alphamode.mclong.math.BigDecimal.valueOf(16));
++         me.alphamode.mclong.math.BigInteger k = Mth.lfloor(vec3.getX().divide(me.alphamode.mclong.core.BigConstants.SIXTEEN)).multiply(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN);
++         me.alphamode.mclong.math.BigInteger l = Mth.lfloor(vec3.getZ().divide(me.alphamode.mclong.core.BigConstants.SIXTEEN)).multiply(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN);
           List<LevelRenderer.RenderChunkInfo> list = Lists.newArrayList();
  
           for(int i1 = -this.f_109438_; i1 <= this.f_109438_; ++i1) {
              for(int j1 = -this.f_109438_; j1 <= this.f_109438_; ++j1) {
 -               ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk1 = this.f_109469_.m_110866_(new BlockPos(k + SectionPos.m_175554_(i1, 8), j, l + SectionPos.m_175554_(j1, 8)));
-+               ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk1 = this.f_109469_.m_110866_(new BlockPos(k.add(me.alphamode.mclong.math.BigDecimal.valueOf(SectionPos.sectionToBlockCoord(i1, 8))), me.alphamode.mclong.math.BigDecimal.valueOf(j), l.add(me.alphamode.mclong.math.BigDecimal.valueOf(SectionPos.sectionToBlockCoord(j1, 8)))));
++               ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk1 = this.f_109469_.m_110866_(new BlockPos(k.add(SectionPos.sectionToBlockCoord(i1, 8)), j, l.add(SectionPos.sectionToBlockCoord(j1, 8))));
                 if (chunkrenderdispatcher$renderchunk1 != null) {
                    list.add(new LevelRenderer.RenderChunkInfo(chunkrenderdispatcher$renderchunk1, (Direction)null, 0));
                 }
@@ -299,7 +299,7 @@
           ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = levelrenderer$renderchunkinfo.f_109839_;
           p_194363_.add(levelrenderer$renderchunkinfo);
 -         boolean flag = Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().m_123341_() - blockpos.m_123341_()) > 60 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().m_123342_() - blockpos.m_123342_()) > 60 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().m_123343_() - blockpos.m_123343_()) > 60;
-+         boolean flag = chunkrenderdispatcher$renderchunk.m_112839_().getBigX().subtract(blockpos.getBigX()).abs().compareTo(60) > 0 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().getY() - blockpos.getY()) > 60 || chunkrenderdispatcher$renderchunk.m_112839_().getBigZ().subtract(blockpos.getBigZ()).abs().compareTo(60) > 0;
++         boolean flag = chunkrenderdispatcher$renderchunk.m_112839_().getBigX().subtract(blockpos.getBigX()).abs().compareTo(me.alphamode.mclong.core.BigConstants.Ints.SIXTY) > 0 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().getY() - blockpos.getY()) > 60 || Math.abs(chunkrenderdispatcher$renderchunk.m_112839_().getZ() - blockpos.getZ()) > 60;
  
           for(Direction direction : f_109434_) {
              ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk1 = this.m_109728_(blockpos, chunkrenderdispatcher$renderchunk, direction);
@@ -321,11 +321,11 @@
                       label117: {
                          if (direction.m_122434_() == Direction.Axis.Y) {
 -                           if (blockpos1.m_123342_() > blockpos2.m_123342_()) {
-+                           if (blockpos1.getY() > blockpos2.getY()) {
++                           if (blockpos1.getBigY().compareTo(blockpos2.getBigY()) > 0) {
                                break label117;
                             }
 -                        } else if (blockpos1.m_123342_() < blockpos2.m_123342_()) {
-+                        } else if (blockpos1.getY() < blockpos2.getY()) {
++                        } else if (blockpos1.getBigY().compareTo(blockpos2.getBigY()) < 0) {
                             break label117;
                          }
  
@@ -356,7 +356,7 @@
                    while(p_194365_.m_82546_(vec31).m_82556_() > 3600.0D) {
                       vec31 = vec31.m_82549_(vec3);
 -                     if (vec31.f_82480_ > (double)this.f_109465_.m_151558_() || vec31.f_82480_ < (double)this.f_109465_.m_141937_()) {
-+                     if (vec31.m_7098_() > (double)this.f_109465_.getMaxBuildHeight() || vec31.m_7098_() < (double)this.f_109465_.getMinBuildHeight()) {
++                     if (vec31.getY().compareTo(this.f_109465_.getMaxBuildHeight()) > 0 || vec31.getY().compareTo(this.f_109465_.getMinBuildHeight()) < 0) {
                          break;
                       }
  
@@ -1288,7 +1288,7 @@
           }
  
 -         if (blockdestructionprogress1 == null || blockdestructionprogress1.m_139985_().m_123341_() != p_109776_.m_123341_() || blockdestructionprogress1.m_139985_().m_123342_() != p_109776_.m_123342_() || blockdestructionprogress1.m_139985_().m_123343_() != p_109776_.m_123343_()) {
-+         if (blockdestructionprogress1 == null || blockdestructionprogress1.m_139985_().getX() != p_109776_.getX() || blockdestructionprogress1.m_139985_().getY() != p_109776_.getY() || blockdestructionprogress1.m_139985_().getZ() != p_109776_.getZ()) {
++         if (blockdestructionprogress1 == null || !blockdestructionprogress1.m_139985_().getBigX().equals(p_109776_.getBigX()) || !blockdestructionprogress1.m_139985_().getBigY().equals(p_109776_.getBigY()) || !blockdestructionprogress1.m_139985_().getBigZ().equals(p_109776_.getBigZ())) {
              blockdestructionprogress1 = new BlockDestructionProgress(p_109775_, p_109776_);
              this.f_109408_.put(p_109775_, blockdestructionprogress1);
           }

@@ -76,8 +76,8 @@
 +         me.alphamode.mclong.math.BigInteger i2 = me.alphamode.mclong.math.BigMath.floorMod(p_224243_, i1);
 +         me.alphamode.mclong.math.BigInteger j2 = j1.multiply(i1);
 +         me.alphamode.mclong.math.BigInteger k2 = k1.multiply(i1);
-+         me.alphamode.mclong.math.BigDecimal d0 = l1.toBigDecimal().divide((double)i1);
-+         me.alphamode.mclong.math.BigDecimal d1 = i2.toBigDecimal().divide((double)i1);
++         double d0 = l1.doubleValue() / (double)i1;
++         double d1 = i2.doubleValue() / (double)i1;
           NoiseChunk noisechunk = new NoiseChunk(1, p_224241_, j2, k2, noisesettings, DensityFunctions.BeardifierMarker.INSTANCE, this.f_64318_.m_203334_(), this.f_188607_.get(), Blender.m_190153_());
           noisechunk.m_188791_();
           noisechunk.m_188749_(0);
@@ -96,8 +96,8 @@
 -               noisechunk.m_209230_(p_224242_, d0);
 -               noisechunk.m_209241_(p_224243_, d1);
 +               noisechunk.updateForY(j3, d2);
-+               noisechunk.updateForX(p_224242_, d0.doubleValue());
-+               noisechunk.updateForZ(p_224243_, d1.doubleValue());
++               noisechunk.updateForX(p_224242_, d0);
++               noisechunk.updateForZ(p_224243_, d1);
                 BlockState blockstate = noisechunk.m_209247_();
                 BlockState blockstate1 = blockstate == null ? this.f_64318_.m_203334_().f_64440_() : blockstate;
                 if (ablockstate != null) {

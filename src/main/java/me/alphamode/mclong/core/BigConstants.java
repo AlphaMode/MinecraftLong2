@@ -19,7 +19,7 @@ public class BigConstants {
     public static final BigDecimal TEN = BigDecimal.valueOf(10.0D);
     public static final BigDecimal SIX = BigDecimal.valueOf(6.0D);
     public static final BigDecimal FIFTEEN = BigDecimal.valueOf(15.0D);
-    public static boolean BIG_MODE = false;
+    public static boolean BIG_MODE = true;
 
     public static final Logger LOGGER = LogUtils.getLogger();
 
@@ -45,14 +45,18 @@ public class BigConstants {
     public static final BigDecimal EPSILON_EQUAL = BigDecimal.valueOf(1.0E-5F);
 
     public static class Ints {
+        public static final BigInteger WORLD_HEIGHT_LIMIT = BigInteger.valueOf(4096L);
         public static final BigInteger TWO = BigInteger.valueOf(2);
         public static final BigInteger EIGHT = BigInteger.valueOf(8);
         public static final BigInteger THREE = BigInteger.valueOf(3);
         public static final BigInteger TWELVE = BigInteger.valueOf(12);
         public static final BigInteger TEN = BigInteger.valueOf(10);
         public static final BigInteger FOUR = BigInteger.valueOf(4);
-        public static final boolean BIG_MODE = true;
+        public static final BigInteger FIVE = BigInteger.valueOf(5);
+        public static boolean BIG_MODE = true;
         public static final BigInteger FIFTEEN = BigInteger.valueOf(15);
-        public static final BigInteger SIXTEEN = BigInteger.valueOf(15);
+        public static final BigInteger SIXTEEN = BigInteger.valueOf(16);
+        public static final BigInteger SIXTY = BigInteger.valueOf(60);
+        public static final BigInteger SEVEN = BigInteger.valueOf(7);
     }
 }

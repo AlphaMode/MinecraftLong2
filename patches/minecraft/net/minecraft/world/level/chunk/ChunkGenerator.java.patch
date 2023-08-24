@@ -105,23 +105,24 @@
              throw new ReportedException(crashreport);
           }
        }
-@@ -367,11 +_,11 @@
+@@ -367,19 +_,19 @@
  
     private static BoundingBox m_187717_(ChunkAccess p_187718_) {
        ChunkPos chunkpos = p_187718_.m_7697_();
 -      int i = chunkpos.m_45604_();
 -      int j = chunkpos.m_45605_();
-+      long i = chunkpos.getMinBlockX();
-+      long j = chunkpos.getMinBlockZ();
++      me.alphamode.mclong.math.BigInteger i = chunkpos.getMinBigBlockX();
++      me.alphamode.mclong.math.BigInteger j = chunkpos.getMinBigBlockZ();
        LevelHeightAccessor levelheightaccessor = p_187718_.m_183618_();
 -      int k = levelheightaccessor.m_141937_() + 1;
 -      int l = levelheightaccessor.m_151558_() - 1;
+-      return new BoundingBox(i, k, j, i + 15, l, j + 15);
 +      long k = levelheightaccessor.getMinBuildHeight() + 1;
 +      long l = levelheightaccessor.getMaxBuildHeight() - 1;
-       return new BoundingBox(i, k, j, i + 15, l, j + 15);
++      return new BoundingBox(i, me.alphamode.mclong.math.BigInteger.valueOf(k), j, i.add(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), me.alphamode.mclong.math.BigInteger.valueOf(l), j.add(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN));
     }
  
-@@ -379,7 +_,7 @@
+    public abstract void m_214194_(WorldGenRegion p_223050_, StructureManager p_223051_, RandomState p_223052_, ChunkAccess p_223053_);
  
     public abstract void m_6929_(WorldGenRegion p_62167_);
  

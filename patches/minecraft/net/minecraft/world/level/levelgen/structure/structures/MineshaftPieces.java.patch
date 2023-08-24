@@ -185,7 +185,7 @@
 -            this.m_73434_(p_227787_, blockstate, p_227790_, p_227791_, p_227792_, p_227788_);
 -            MinecartChest minecartchest = new MinecartChest(p_227787_.m_6018_(), (double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_() + 0.5D, (double)blockpos.m_123343_() + 0.5D);
 +            this.placeBlock(p_227787_, blockstate, p_227790_, p_227791_, p_227792_, p_227788_);
-+            MinecartChest minecartchest = new MinecartChest(p_227787_.m_6018_(), (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.5D, (double)blockpos.getZ() + 0.5D);
++            MinecartChest minecartchest = new MinecartChest(p_227787_.m_6018_(), blockpos.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), blockpos.getBigDecY().add(me.alphamode.mclong.core.BigConstants.AABB), blockpos.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB));
              minecartchest.m_38236_(p_227793_, p_227789_.m_188505_());
              p_227787_.m_7967_(minecartchest);
              return true;
@@ -565,13 +565,14 @@
 -         int l = Math.min(this.f_73383_.m_162399_() + 1, p_227883_.m_162399_());
 -         int i1 = Math.min(this.f_73383_.m_162400_() + 1, p_227883_.m_162400_());
 -         int j1 = Math.min(this.f_73383_.m_162401_() + 1, p_227883_.m_162401_());
-+         long i = Math.max(this.f_73383_.minX() - 1, p_227883_.minX());
-+         long j = Math.max(this.f_73383_.minY() - 1, p_227883_.minY());
-+         long k = Math.max(this.f_73383_.minZ() - 1, p_227883_.minZ());
-+         long l = Math.min(this.f_73383_.maxX() + 1, p_227883_.maxX());
-+         long i1 = Math.min(this.f_73383_.maxY() + 1, p_227883_.maxY());
-+         long j1 = Math.min(this.f_73383_.maxZ() + 1, p_227883_.maxZ());
-          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos((i + l) / 2, (j + i1) / 2, (k + j1) / 2);
+-         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos((i + l) / 2, (j + i1) / 2, (k + j1) / 2);
++         me.alphamode.mclong.math.BigInteger i = this.f_73383_.minBigX().subtract().max(p_227883_.minBigX());
++         me.alphamode.mclong.math.BigInteger j = this.f_73383_.minBigY().subtract().max(p_227883_.minBigY());
++         me.alphamode.mclong.math.BigInteger k = this.f_73383_.minBigZ().subtract().max(p_227883_.minBigZ());
++         me.alphamode.mclong.math.BigInteger l = this.f_73383_.maxBigX().add().min(p_227883_.maxBigX());
++         me.alphamode.mclong.math.BigInteger i1 = this.f_73383_.maxBigY().add().min(p_227883_.maxBigY());
++         me.alphamode.mclong.math.BigInteger j1 = this.f_73383_.maxBigZ().add().min(p_227883_.maxBigZ());
++         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos((i.add(l)).divide(me.alphamode.mclong.core.BigConstants.Ints.TWO), (j.add(i1)).divide(me.alphamode.mclong.core.BigConstants.Ints.TWO), (k.add(j1)).divide(me.alphamode.mclong.core.BigConstants.Ints.TWO));
           if (p_227882_.m_204166_(blockpos$mutableblockpos).m_203656_(BiomeTags.f_238171_)) {
              return true;
           } else {
@@ -606,8 +607,8 @@
 -                  }
 -
 -                  if (p_227882_.m_8055_(blockpos$mutableblockpos.m_122178_(l, l2, j2)).m_278721_()) {
-+            for(long k1 = i; k1 <= l; ++k1) {
-+               for(long l1 = k; l1 <= j1; ++l1) {
++            for(me.alphamode.mclong.math.BigInteger k1 = i; k1.compareTo(l) <= 0; k1 = k1.add()) {
++               for(me.alphamode.mclong.math.BigInteger l1 = k; l1.compareTo(j1) <= 0; l1 = l1.add()) {
 +                  if (p_227882_.m_8055_(blockpos$mutableblockpos.set(k1, j, l1)).m_278721_()) {
 +                     return true;
 +                  }
@@ -618,8 +619,8 @@
 +               }
 +            }
 +
-+            for(long i2 = i; i2 <= l; ++i2) {
-+               for(long k2 = j; k2 <= i1; ++k2) {
++            for(me.alphamode.mclong.math.BigInteger i2 = i; i2.compareTo(l) <= 0; i2 = i2.add()) {
++               for(me.alphamode.mclong.math.BigInteger k2 = j; k2.compareTo(i1) <= 0; k2 = k2.add()) {
 +                  if (p_227882_.m_8055_(blockpos$mutableblockpos.set(i2, k2, k)).m_278721_()) {
 +                     return true;
 +                  }
@@ -630,8 +631,8 @@
 +               }
 +            }
 +
-+            for(long j2 = k; j2 <= j1; ++j2) {
-+               for(long l2 = j; l2 <= i1; ++l2) {
++            for(me.alphamode.mclong.math.BigInteger j2 = k; j2.compareTo(j1) <= 0; j2 = j2.add()) {
++               for(me.alphamode.mclong.math.BigInteger l2 = j; l2.compareTo(i1) <= 0; l2 = l2.add()) {
 +                  if (p_227882_.m_8055_(blockpos$mutableblockpos.set(i, l2, j2)).m_278721_()) {
 +                     return true;
 +                  }

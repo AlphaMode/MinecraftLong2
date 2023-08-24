@@ -164,11 +164,11 @@
 -         int l = Mth.m_14045_(p_204348_, i, k);
 -         int j = this.m_151564_(QuartPos.m_175402_(l));
 -         return this.f_187612_[j].m_204433_(p_204347_ & 3, l & 3, p_204349_ & 3);
-+         me.alphamode.mclong.math.BigDecimal i = me.alphamode.mclong.math.BigDecimal.valueOf(QuartPos.fromBlock(this.getMinBuildHeight()));
-+         me.alphamode.mclong.math.BigDecimal k = i.add(QuartPos.fromBlock(this.getHeight())).subtract(me.alphamode.mclong.math.BigDecimal.ONE);
-+         me.alphamode.mclong.math.BigInteger l = Mth.clamp(p_204348_.toBigDecimal(), i, k).toBigInteger();
-+         int j = this.getSectionIndex(QuartPos.toBlock(l).longValue());
-+         return this.f_187612_[j].getNoiseBiome(p_204347_.and(me.alphamode.mclong.core.BigConstants.Ints.THREE), l.and(me.alphamode.mclong.core.BigConstants.Ints.THREE), p_204349_.and(me.alphamode.mclong.core.BigConstants.Ints.THREE));
++         long i = QuartPos.fromBlock(this.getMinBuildHeight());
++         long k = i + QuartPos.fromBlock(this.getHeight()) - 1;
++         long l = Mth.clamp(p_204348_.longValue(), i, k);
++         int j = this.getSectionIndex(QuartPos.toBlock(l));
++         return this.f_187612_[j].getNoiseBiome(p_204347_.and(me.alphamode.mclong.core.BigConstants.Ints.THREE), me.alphamode.mclong.math.BigInteger.valueOf(l & 3), p_204349_.and(me.alphamode.mclong.core.BigConstants.Ints.THREE));
        } catch (Throwable throwable) {
           CrashReport crashreport = CrashReport.m_127521_(throwable, "Getting biome");
           CrashReportCategory crashreportcategory = crashreport.m_127514_("Biome being got");

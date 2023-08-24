@@ -21,8 +21,9 @@
 +      long i = Math.min(this.f_77648_.getMaxBuildHeight(), this.f_77648_.getMinBuildHeight() + this.f_77648_.m_143344_()) - 1;
        BlockPos.MutableBlockPos blockpos$mutableblockpos = p_77667_.m_122032_();
  
-       for(BlockPos.MutableBlockPos blockpos$mutableblockpos1 : BlockPos.m_121935_(p_77667_, 16, Direction.EAST, Direction.SOUTH)) {
+-      for(BlockPos.MutableBlockPos blockpos$mutableblockpos1 : BlockPos.m_121935_(p_77667_, 16, Direction.EAST, Direction.SOUTH)) {
 -         int j = Math.min(i, this.f_77648_.m_6924_(Heightmap.Types.MOTION_BLOCKING, blockpos$mutableblockpos1.m_123341_(), blockpos$mutableblockpos1.m_123343_()));
++      for(BlockPos.MutableBlockPos blockpos$mutableblockpos1 : BlockPos.spiralAround(p_77667_, 16, Direction.EAST, Direction.SOUTH)) {
 +         long j = Math.min(i, this.f_77648_.getHeight(Heightmap.Types.MOTION_BLOCKING, blockpos$mutableblockpos1.getBigX(), blockpos$mutableblockpos1.getBigZ()));
           int k = 1;
 -         if (worldborder.m_61937_(blockpos$mutableblockpos1) && worldborder.m_61937_(blockpos$mutableblockpos1.m_122175_(direction, 1))) {
