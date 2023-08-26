@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ColumnPos.java
 +++ b/net/minecraft/server/level/ColumnPos.java
-@@ -3,20 +_,20 @@
+@@ -3,28 +_,12 @@
  import net.minecraft.core.SectionPos;
  import net.minecraft.world.level.ChunkPos;
  
@@ -11,21 +11,26 @@
  
     public ChunkPos m_143196_() {
 -      return new ChunkPos(SectionPos.m_123171_(this.f_140723_), SectionPos.m_123171_(this.f_140724_));
+-   }
+-
+-   public long m_143200_() {
+-      return m_143197_(this.f_140723_, this.f_140724_);
+-   }
+-
+-   public static long m_143197_(int p_143198_, int p_143199_) {
+-      return (long)p_143198_ & 4294967295L | ((long)p_143199_ & 4294967295L) << 32;
+-   }
+-
+-   public static int m_214969_(long p_214970_) {
+-      return (int)(p_214970_ & 4294967295L);
+-   }
+-
+-   public static int m_214971_(long p_214972_) {
+-      return (int)(p_214972_ >>> 32 & 4294967295L);
 +      return new ChunkPos(SectionPos.blockToSectionCoord(this.f_140723_), SectionPos.blockToSectionCoord(this.f_140724_));
     }
  
-    public long m_143200_() {
--      return m_143197_(this.f_140723_, this.f_140724_);
-+      return asLong(this.f_140723_, this.f_140724_);
-    }
- 
--   public static long m_143197_(int p_143198_, int p_143199_) {
--      return (long)p_143198_ & 4294967295L | ((long)p_143199_ & 4294967295L) << 32;
-+   public static long asLong(long p_143198_, long p_143199_) {
-+      return p_143198_ & 4294967295L | (p_143199_ & 4294967295L) << 32;
-    }
- 
-    public static int m_214969_(long p_214970_) {
+    public String toString() {
 @@ -32,6 +_,6 @@
     }
  

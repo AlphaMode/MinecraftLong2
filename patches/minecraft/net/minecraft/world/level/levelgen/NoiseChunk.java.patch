@@ -22,7 +22,7 @@
     final List<NoiseChunk.CacheAllInCell> f_209160_;
     private final Map<DensityFunction, DensityFunction> f_209161_ = new HashMap<>();
 -   private final Long2IntMap f_198238_ = new Long2IntOpenHashMap();
-+   private final it.unimi.dsi.fastutil.longs.Long2LongMap f_198238_ = new it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap();
++   private final it.unimi.dsi.fastutil.objects.Object2LongMap<ColumnPos> f_198238_ = new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>();
     private final Aquifer f_188728_;
     private final DensityFunction f_209162_;
     private final NoiseChunk.BlockStateFiller f_209163_;
@@ -148,14 +148,16 @@
 +   public long preliminarySurfaceLevel(long p_198257_, long p_198258_) {
 +      long i = QuartPos.toBlock(QuartPos.fromBlock(p_198257_));
 +      long j = QuartPos.toBlock(QuartPos.fromBlock(p_198258_));
-+      return this.f_198238_.computeIfAbsent(ColumnPos.asLong(i, j), this::computePreliminarySurfaceLevel);
++      return this.f_198238_.computeIfAbsent(new ColumnPos(i, j), this::computePreliminarySurfaceLevel);
     }
  
 -   private int m_198249_(long p_198250_) {
-+   private long computePreliminarySurfaceLevel(long p_198250_) {
-       int i = ColumnPos.m_214969_(p_198250_);
-       int j = ColumnPos.m_214971_(p_198250_);
+-      int i = ColumnPos.m_214969_(p_198250_);
+-      int j = ColumnPos.m_214971_(p_198250_);
 -      int k = this.f_188717_.f_158688_();
++   private long computePreliminarySurfaceLevel(ColumnPos p_198250_) {
++      long i = p_198250_.x();
++      long j = p_198250_.z();
 +      long k = this.f_188717_.minY();
  
 -      for(int l = k + this.f_188717_.f_64508_(); l >= k; l -= this.f_209171_) {
