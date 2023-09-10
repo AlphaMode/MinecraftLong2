@@ -1,20 +1,36 @@
 --- a/net/minecraft/client/particle/BubblePopParticle.java
 +++ b/net/minecraft/client/particle/BubblePopParticle.java
-@@ -9,7 +_,7 @@
+@@ -9,15 +_,15 @@
  public class BubblePopParticle extends TextureSheetParticle {
     private final SpriteSet f_105812_;
  
 -   BubblePopParticle(ClientLevel p_105814_, double p_105815_, double p_105816_, double p_105817_, double p_105818_, double p_105819_, double p_105820_, SpriteSet p_105821_) {
-+   BubblePopParticle(ClientLevel p_105814_, me.alphamode.mclong.math.BigDecimal p_105815_, me.alphamode.mclong.math.BigDecimal p_105816_, me.alphamode.mclong.math.BigDecimal p_105817_, double p_105818_, double p_105819_, double p_105820_, SpriteSet p_105821_) {
-       super(p_105814_, p_105815_, p_105816_, p_105817_);
-       this.f_105812_ = p_105821_;
+-      super(p_105814_, p_105815_, p_105816_, p_105817_);
+-      this.f_105812_ = p_105821_;
++   BubblePopParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, SpriteSet pSprites) {
++      super(pLevel, pX, pY, pZ);
++      this.f_105812_ = pSprites;
        this.f_107225_ = 4;
-@@ -45,7 +_,7 @@
+       this.f_107226_ = 0.008F;
+-      this.f_107215_ = p_105818_;
+-      this.f_107216_ = p_105819_;
+-      this.f_107217_ = p_105820_;
+-      this.m_108339_(p_105821_);
++      this.f_107215_ = pXSpeed;
++      this.f_107216_ = pYSpeed;
++      this.f_107217_ = pZSpeed;
++      this.m_108339_(pSprites);
+    }
+ 
+    public void m_5989_() {
+@@ -45,8 +_,8 @@
           this.f_105834_ = p_105836_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_105847_, ClientLevel p_105848_, double p_105849_, double p_105850_, double p_105851_, double p_105852_, double p_105853_, double p_105854_) {
-+      public Particle createParticle(SimpleParticleType p_105847_, ClientLevel p_105848_, me.alphamode.mclong.math.BigDecimal p_105849_, me.alphamode.mclong.math.BigDecimal p_105850_, me.alphamode.mclong.math.BigDecimal p_105851_, double p_105852_, double p_105853_, double p_105854_) {
-          return new BubblePopParticle(p_105848_, p_105849_, p_105850_, p_105851_, p_105852_, p_105853_, p_105854_, this.f_105834_);
+-         return new BubblePopParticle(p_105848_, p_105849_, p_105850_, p_105851_, p_105852_, p_105853_, p_105854_, this.f_105834_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         return new BubblePopParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, this.f_105834_);
        }
     }
+ }

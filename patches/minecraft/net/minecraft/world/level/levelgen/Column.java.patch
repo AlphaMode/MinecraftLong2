@@ -1,43 +1,49 @@
 --- a/net/minecraft/world/level/levelgen/Column.java
 +++ b/net/minecraft/world/level/levelgen/Column.java
-@@ -13,11 +_,11 @@
+@@ -13,20 +_,20 @@
        return new Column.Range(p_158165_ - 1, p_158166_ + 1);
     }
  
 -   public static Column.Range m_158188_(int p_158189_, int p_158190_) {
-+   public static Column.Range inside(long p_158189_, long p_158190_) {
-       return new Column.Range(p_158189_, p_158190_);
+-      return new Column.Range(p_158189_, p_158190_);
++   public static Column.Range inside(long pFloor, long pCeiling) {
++      return new Column.Range(pFloor, pCeiling);
     }
  
 -   public static Column m_158162_(int p_158163_) {
-+   public static Column below(long p_158163_) {
-       return new Column.Ray(p_158163_, false);
+-      return new Column.Ray(p_158163_, false);
++   public static Column below(long pCeiling) {
++      return new Column.Ray(pCeiling, false);
     }
  
-@@ -25,7 +_,7 @@
+    public static Column m_158186_(int p_158187_) {
        return new Column.Ray(p_158187_ + 1, false);
     }
  
 -   public static Column m_158193_(int p_158194_) {
-+   public static Column above(long p_158194_) {
-       return new Column.Ray(p_158194_, true);
+-      return new Column.Ray(p_158194_, true);
++   public static Column above(long pFloor) {
++      return new Column.Ray(pFloor, true);
     }
  
+    public static Column m_158195_(int p_158196_) {
 @@ -37,28 +_,28 @@
        return Column.Line.f_158197_;
     }
  
 -   public static Column m_158183_(OptionalInt p_158184_, OptionalInt p_158185_) {
-+   public static Column create(java.util.OptionalLong p_158184_, java.util.OptionalLong p_158185_) {
-       if (p_158184_.isPresent() && p_158185_.isPresent()) {
+-      if (p_158184_.isPresent() && p_158185_.isPresent()) {
 -         return m_158188_(p_158184_.getAsInt(), p_158185_.getAsInt());
-+         return inside(p_158184_.getAsLong(), p_158185_.getAsLong());
-       } else if (p_158184_.isPresent()) {
+-      } else if (p_158184_.isPresent()) {
 -         return m_158193_(p_158184_.getAsInt());
-+         return above(p_158184_.getAsLong());
++   public static Column create(java.util.OptionalLong pFloor, java.util.OptionalLong pCeiling) {
++      if (pFloor.isPresent() && pCeiling.isPresent()) {
++         return inside(pFloor.getAsLong(), pCeiling.getAsLong());
++      } else if (pFloor.isPresent()) {
++         return above(pFloor.getAsLong());
        } else {
 -         return p_158185_.isPresent() ? m_158162_(p_158185_.getAsInt()) : m_158161_();
-+         return p_158185_.isPresent() ? below(p_158185_.getAsLong()) : m_158161_();
++         return pCeiling.isPresent() ? below(pCeiling.getAsLong()) : m_158161_();
        }
     }
  
@@ -55,14 +61,14 @@
 +
 +   public abstract java.util.OptionalLong getHeight();
 +
-+   public Column withFloor(java.util.OptionalLong p_158182_) {
-+      return create(p_158182_, this.getCeiling());
++   public Column withFloor(java.util.OptionalLong pFloor) {
++      return create(pFloor, this.getCeiling());
     }
  
 -   public Column m_158191_(OptionalInt p_158192_) {
 -      return m_158183_(this.m_142009_(), p_158192_);
-+   public Column withCeiling(java.util.OptionalLong p_158192_) {
-+      return create(this.getFloor(), p_158192_);
++   public Column withCeiling(java.util.OptionalLong pCeiling) {
++      return create(this.getFloor(), pCeiling);
     }
  
     public static Optional<Column> m_158175_(LevelSimulatedReader p_158176_, BlockPos p_158177_, int p_158178_, Predicate<BlockState> p_158179_, Predicate<BlockState> p_158180_) {
@@ -83,15 +89,17 @@
  
 -   private static OptionalInt m_158167_(LevelSimulatedReader p_158168_, int p_158169_, Predicate<BlockState> p_158170_, Predicate<BlockState> p_158171_, BlockPos.MutableBlockPos p_158172_, int p_158173_, Direction p_158174_) {
 -      p_158172_.m_142448_(p_158173_);
-+   private static java.util.OptionalLong scanDirection(LevelSimulatedReader p_158168_, int p_158169_, Predicate<BlockState> p_158170_, Predicate<BlockState> p_158171_, BlockPos.MutableBlockPos p_158172_, long p_158173_, Direction p_158174_) {
-+      p_158172_.setY(p_158173_);
++   private static java.util.OptionalLong scanDirection(LevelSimulatedReader pLevel, int pMaxDistance, Predicate<BlockState> pColumnPredicate, Predicate<BlockState> pTipPredicate, BlockPos.MutableBlockPos pMutablePos, long pStartY, Direction pDirection) {
++      pMutablePos.setY(pStartY);
  
-       for(int i = 1; i < p_158169_ && p_158168_.m_7433_(p_158172_, p_158170_); ++i) {
-          p_158172_.m_122173_(p_158174_);
+-      for(int i = 1; i < p_158169_ && p_158168_.m_7433_(p_158172_, p_158170_); ++i) {
+-         p_158172_.m_122173_(p_158174_);
++      for(int i = 1; i < pMaxDistance && pLevel.m_7433_(pMutablePos, pColumnPredicate); ++i) {
++         pMutablePos.m_122173_(pDirection);
        }
  
 -      return p_158168_.m_7433_(p_158172_, p_158171_) ? OptionalInt.of(p_158172_.m_123342_()) : OptionalInt.empty();
-+      return p_158168_.m_7433_(p_158172_, p_158171_) ? java.util.OptionalLong.of(p_158172_.getY()) : java.util.OptionalLong.empty();
++      return pLevel.m_7433_(pMutablePos, pTipPredicate) ? java.util.OptionalLong.of(pMutablePos.getY()) : java.util.OptionalLong.empty();
     }
  
     public static final class Line extends Column {
@@ -132,10 +140,12 @@
 +      private final long f_158205_;
  
 -      protected Range(int p_158207_, int p_158208_) {
-+      protected Range(long p_158207_, long p_158208_) {
-          this.f_158204_ = p_158207_;
-          this.f_158205_ = p_158208_;
+-         this.f_158204_ = p_158207_;
+-         this.f_158205_ = p_158208_;
 -         if (this.m_158214_() < 0) {
++      protected Range(long pFloor, long pCeiling) {
++         this.f_158204_ = pFloor;
++         this.f_158205_ = pCeiling;
 +         if (this.height() < 0) {
              throw new IllegalArgumentException("Column of negative height: " + this);
           }
@@ -189,11 +199,10 @@
        private final boolean f_158217_;
  
 -      public Ray(int p_158219_, boolean p_158220_) {
-+      public Ray(long p_158219_, boolean p_158220_) {
-          this.f_158216_ = p_158219_;
-          this.f_158217_ = p_158220_;
-       }
- 
+-         this.f_158216_ = p_158219_;
+-         this.f_158217_ = p_158220_;
+-      }
+-
 -      public OptionalInt m_142011_() {
 -         return this.f_158217_ ? OptionalInt.empty() : OptionalInt.of(this.f_158216_);
 -      }
@@ -204,6 +213,11 @@
 -
 -      public OptionalInt m_142030_() {
 -         return OptionalInt.empty();
++      public Ray(long pEdge, boolean pPointingUp) {
++         this.f_158216_ = pEdge;
++         this.f_158217_ = pPointingUp;
++      }
++
 +      public java.util.OptionalLong getCeiling() {
 +         return this.f_158217_ ? java.util.OptionalLong.empty() : java.util.OptionalLong.of(this.f_158216_);
 +      }

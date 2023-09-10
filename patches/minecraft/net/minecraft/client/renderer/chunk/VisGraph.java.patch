@@ -9,7 +9,7 @@
                 }
              }
           }
-@@ -45,15 +_,15 @@
+@@ -45,16 +_,16 @@
     private int f_112955_ = 4096;
  
     public void m_112971_(BlockPos p_112972_) {
@@ -20,12 +20,14 @@
  
 -   private static int m_112975_(BlockPos p_112976_) {
 -      return m_112961_(p_112976_.m_123341_() & 15, p_112976_.m_123342_() & 15, p_112976_.m_123343_() & 15);
-+   private static long getIndex(BlockPos p_112976_) {
-+      return getIndex(p_112976_.getX() & 15, p_112976_.getY() & 15, p_112976_.getZ() & 15);
++   private static long getIndex(BlockPos pPos) {
++      return getIndex(pPos.getX() & 15, pPos.getY() & 15, pPos.getZ() & 15);
     }
  
 -   private static int m_112961_(int p_112962_, int p_112963_, int p_112964_) {
-+   private static long getIndex(long p_112962_, long p_112963_, long p_112964_) {
-       return p_112962_ << 0 | p_112963_ << 8 | p_112964_ << 4;
+-      return p_112962_ << 0 | p_112963_ << 8 | p_112964_ << 4;
++   private static long getIndex(long pX, long pY, long pZ) {
++      return pX << 0 | pY << 8 | pZ << 4;
     }
  
+    public VisibilitySet m_112958_() {

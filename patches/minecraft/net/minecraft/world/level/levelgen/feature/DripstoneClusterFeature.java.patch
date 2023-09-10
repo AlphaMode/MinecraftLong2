@@ -111,16 +111,25 @@
              }
  
           }
-@@ -130,7 +_,7 @@
+@@ -130,29 +_,29 @@
        return p_159586_.m_8055_(p_159587_).m_60713_(Blocks.f_49991_);
     }
  
 -   private int m_225008_(RandomSource p_225009_, int p_225010_, int p_225011_, float p_225012_, int p_225013_, DripstoneClusterConfiguration p_225014_) {
-+   private int getDripstoneHeight(RandomSource p_225009_, int p_225010_, int p_225011_, float p_225012_, long p_225013_, DripstoneClusterConfiguration p_225014_) {
-       if (p_225009_.m_188501_() > p_225012_) {
+-      if (p_225009_.m_188501_() > p_225012_) {
++   private int getDripstoneHeight(RandomSource pRandom, int pX, int pZ, float pChance, long pHeight, DripstoneClusterConfiguration pConfig) {
++      if (pRandom.m_188501_() > pChance) {
           return 0;
        } else {
-@@ -143,16 +_,16 @@
+-         int i = Math.abs(p_225010_) + Math.abs(p_225011_);
+-         float f = (float)Mth.m_144851_((double)i, 0.0D, (double)p_225014_.f_160769_, (double)p_225013_ / 2.0D, 0.0D);
+-         return (int)m_225002_(p_225009_, 0.0F, (float)p_225013_, f, (float)p_225014_.f_160763_);
++         int i = Math.abs(pX) + Math.abs(pZ);
++         float f = (float)Mth.m_144851_((double)i, 0.0D, (double)pConfig.f_160769_, (double)pHeight / 2.0D, 0.0D);
++         return (int)m_225002_(pRandom, 0.0F, (float)pHeight, f, (float)pConfig.f_160763_);
+       }
+    }
+ 
     private boolean m_159619_(WorldGenLevel p_159620_, BlockPos p_159621_) {
        BlockState blockstate = p_159620_.m_8055_(p_159621_);
        if (!blockstate.m_60713_(Blocks.f_49990_) && !blockstate.m_60713_(Blocks.f_152537_) && !blockstate.m_60713_(Blocks.f_152588_)) {

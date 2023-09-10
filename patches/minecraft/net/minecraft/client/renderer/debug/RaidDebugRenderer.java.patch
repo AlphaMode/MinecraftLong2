@@ -1,20 +1,21 @@
 --- a/net/minecraft/client/renderer/debug/RaidDebugRenderer.java
 +++ b/net/minecraft/client/renderer/debug/RaidDebugRenderer.java
-@@ -25,11 +_,11 @@
+@@ -25,27 +_,27 @@
        this.f_113648_ = p_113664_;
     }
  
 -   public void m_7790_(PoseStack p_113652_, MultiBufferSource p_113653_, double p_113654_, double p_113655_, double p_113656_) {
-+   public void render(PoseStack p_113652_, MultiBufferSource p_113653_, me.alphamode.mclong.math.BigDecimal p_113654_, me.alphamode.mclong.math.BigDecimal p_113655_, me.alphamode.mclong.math.BigDecimal p_113656_) {
++   public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
        BlockPos blockpos = this.m_113665_().m_90588_();
  
        for(BlockPos blockpos1 : this.f_113648_) {
 -         if (blockpos.m_123314_(blockpos1, 160.0D)) {
+-            m_269099_(p_113652_, p_113653_, blockpos1);
 +         if (blockpos.closerThan(blockpos1, 160.0D)) {
-             m_269099_(p_113652_, p_113653_, blockpos1);
++            m_269099_(pPoseStack, pBuffer, blockpos1);
           }
        }
-@@ -37,15 +_,15 @@
+ 
     }
  
     private static void m_269099_(PoseStack p_270914_, MultiBufferSource p_270517_, BlockPos p_270208_) {

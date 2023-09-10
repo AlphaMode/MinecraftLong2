@@ -8,10 +8,10 @@
 -         int i = QuartPos.m_175402_(p_186975_);
 -         int j = QuartPos.m_175402_(p_186976_);
 -         int k = QuartPos.m_175402_(p_186977_);
-+      public Climate.TargetPoint sample(me.alphamode.mclong.math.BigInteger p_186975_, me.alphamode.mclong.math.BigInteger p_186976_, me.alphamode.mclong.math.BigInteger p_186977_) {
-+         me.alphamode.mclong.math.BigInteger i = QuartPos.toBlock(p_186975_);
-+         me.alphamode.mclong.math.BigInteger j = QuartPos.toBlock(p_186976_);
-+         me.alphamode.mclong.math.BigInteger k = QuartPos.toBlock(p_186977_);
++      public Climate.TargetPoint sample(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++         me.alphamode.mclong.math.BigInteger i = QuartPos.toBlock(pX);
++         me.alphamode.mclong.math.BigInteger j = QuartPos.toBlock(pY);
++         me.alphamode.mclong.math.BigInteger k = QuartPos.toBlock(pZ);
           DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(i, j, k);
           return Climate.m_186781_((float)this.f_207845_.m_207386_(densityfunction$singlepointcontext), (float)this.f_207846_.m_207386_(densityfunction$singlepointcontext), (float)this.f_207847_.m_207386_(densityfunction$singlepointcontext), (float)this.f_207848_.m_207386_(densityfunction$singlepointcontext), (float)this.f_207849_.m_207386_(densityfunction$singlepointcontext), (float)this.f_207850_.m_207386_(densityfunction$singlepointcontext));
        }
@@ -37,27 +37,28 @@
              if (climate$spawnfinder$result.f_186993_() < this.f_186978_.f_186993_()) {
                 this.f_186978_ = climate$spawnfinder$result;
              }
-@@ -454,11 +_,11 @@
+@@ -454,19 +_,19 @@
  
        }
  
 -      private static Climate.SpawnFinder.Result m_207879_(List<Climate.ParameterPoint> p_207880_, Climate.Sampler p_207881_, int p_207882_, int p_207883_) {
-+      private static Climate.SpawnFinder.Result getSpawnPositionAndFitness(List<Climate.ParameterPoint> p_207880_, Climate.Sampler p_207881_, me.alphamode.mclong.math.BigInteger p_207882_, me.alphamode.mclong.math.BigInteger p_207883_) {
++      private static Climate.SpawnFinder.Result getSpawnPositionAndFitness(List<Climate.ParameterPoint> pPoints, Climate.Sampler pSampler, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
           double d0 = Mth.m_144952_(2500.0D);
           int i = 2;
 -         long j = (long)((double)Mth.m_14207_(10000.0F) * Math.pow((double)(Mth.m_184643_((long)p_207882_) + Mth.m_184643_((long)p_207883_)) / d0, 2.0D));
 -         Climate.TargetPoint climate$targetpoint = p_207881_.m_183445_(QuartPos.m_175400_(p_207882_), 0, QuartPos.m_175400_(p_207883_));
-+         long j = (long)(me.alphamode.mclong.math.BigDecimal.valueOf(Mth.m_14207_(10000.0F)).multiply((Mth.square(p_207882_).add(Mth.square(p_207883_)).toBigDecimal()).divide(d0).pow(2))).longValue();
-+         Climate.TargetPoint climate$targetpoint = p_207881_.sample(QuartPos.fromBlock(p_207882_), me.alphamode.mclong.math.BigInteger.ZERO, QuartPos.fromBlock(p_207883_));
++         long j = (long)(me.alphamode.mclong.math.BigDecimal.valueOf(Mth.m_14207_(10000.0F)).multiply((Mth.square(pX).add(Mth.square(pZ)).toBigDecimal()).divide(d0).pow(2))).longValue();
++         Climate.TargetPoint climate$targetpoint = pSampler.sample(QuartPos.fromBlock(pX), me.alphamode.mclong.math.BigInteger.ZERO, QuartPos.fromBlock(pZ));
           Climate.TargetPoint climate$targetpoint1 = new Climate.TargetPoint(climate$targetpoint.f_187003_(), climate$targetpoint.f_187004_(), climate$targetpoint.f_187005_(), climate$targetpoint.f_187006_(), 0L, climate$targetpoint.f_187008_());
           long k = Long.MAX_VALUE;
  
-@@ -466,7 +_,7 @@
+-         for(Climate.ParameterPoint climate$parameterpoint : p_207880_) {
++         for(Climate.ParameterPoint climate$parameterpoint : pPoints) {
              k = Math.min(k, climate$parameterpoint.m_186882_(climate$targetpoint1));
           }
  
 -         return new Climate.SpawnFinder.Result(new BlockPos(p_207882_, 0, p_207883_), j + k);
-+         return new Climate.SpawnFinder.Result(new BlockPos(p_207882_, me.alphamode.mclong.math.BigInteger.ZERO, p_207883_), j + k);
++         return new Climate.SpawnFinder.Result(new BlockPos(pX, me.alphamode.mclong.math.BigInteger.ZERO, pZ), j + k);
        }
  
        static record Result(BlockPos f_186992_, long f_186993_) {

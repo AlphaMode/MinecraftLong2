@@ -43,28 +43,38 @@
              boolean flag = pair == null || d1 < d0;
              if (flag) {
                 Pair<BlockPos, Holder<Structure>> pair1 = m_223198_(p_223182_, p_223183_, p_223184_, p_223186_, p_223187_, chunkpos);
-@@ -213,7 +_,7 @@
+@@ -213,19 +_,19 @@
     }
  
     @Nullable
 -   private static Pair<BlockPos, Holder<Structure>> m_223188_(Set<Holder<Structure>> p_223189_, LevelReader p_223190_, StructureManager p_223191_, int p_223192_, int p_223193_, int p_223194_, boolean p_223195_, long p_223196_, RandomSpreadStructurePlacement p_223197_) {
-+   private static Pair<BlockPos, Holder<Structure>> getNearestGeneratedStructure(Set<Holder<Structure>> p_223189_, LevelReader p_223190_, StructureManager p_223191_, me.alphamode.mclong.math.BigInteger p_223192_, me.alphamode.mclong.math.BigInteger p_223193_, int p_223194_, boolean p_223195_, long p_223196_, RandomSpreadStructurePlacement p_223197_) {
-       int i = p_223197_.m_205003_();
- 
-       for(int j = -p_223194_; j <= p_223194_; ++j) {
-@@ -222,9 +_,9 @@
-          for(int k = -p_223194_; k <= p_223194_; ++k) {
-             boolean flag1 = k == -p_223194_ || k == p_223194_;
+-      int i = p_223197_.m_205003_();
+-
+-      for(int j = -p_223194_; j <= p_223194_; ++j) {
+-         boolean flag = j == -p_223194_ || j == p_223194_;
+-
+-         for(int k = -p_223194_; k <= p_223194_; ++k) {
+-            boolean flag1 = k == -p_223194_ || k == p_223194_;
++   private static Pair<BlockPos, Holder<Structure>> getNearestGeneratedStructure(Set<Holder<Structure>> pStructureHoldersSet, LevelReader pLevel, StructureManager pStructureManager, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, int pZ, boolean pSkipKnownStructures, long pSeed, RandomSpreadStructurePlacement pSpreadPlacement) {
++      int i = pSpreadPlacement.m_205003_();
++
++      for(int j = -pZ; j <= pZ; ++j) {
++         boolean flag = j == -pZ || j == pZ;
++
++         for(int k = -pZ; k <= pZ; ++k) {
++            boolean flag1 = k == -pZ || k == pZ;
              if (flag || flag1) {
 -               int l = p_223192_ + i * j;
 -               int i1 = p_223193_ + i * k;
 -               ChunkPos chunkpos = p_223197_.m_227008_(p_223196_, l, i1);
-+               me.alphamode.mclong.math.BigInteger l = p_223192_.add(i * j);
-+               me.alphamode.mclong.math.BigInteger i1 = p_223193_.add(i * k);
-+               ChunkPos chunkpos = p_223197_.getPotentialStructureChunk(p_223196_, l, i1);
-                Pair<BlockPos, Holder<Structure>> pair = m_223198_(p_223189_, p_223190_, p_223191_, p_223195_, p_223197_, chunkpos);
+-               Pair<BlockPos, Holder<Structure>> pair = m_223198_(p_223189_, p_223190_, p_223191_, p_223195_, p_223197_, chunkpos);
++               me.alphamode.mclong.math.BigInteger l = pX.add(i * j);
++               me.alphamode.mclong.math.BigInteger i1 = pY.add(i * k);
++               ChunkPos chunkpos = pSpreadPlacement.getPotentialStructureChunk(pSeed, l, i1);
++               Pair<BlockPos, Holder<Structure>> pair = m_223198_(pStructureHoldersSet, pLevel, pStructureManager, pSkipKnownStructures, pSpreadPlacement, chunkpos);
                 if (pair != null) {
                    return pair;
+                }
 @@ -245,7 +_,7 @@
                 return Pair.of(p_223203_.m_227039_(p_223204_), holder);
              }
@@ -127,7 +137,7 @@
     public abstract void m_6929_(WorldGenRegion p_62167_);
  
 -   public int m_142051_(LevelHeightAccessor p_156157_) {
-+   public long getSpawnHeight(LevelHeightAccessor p_156157_) {
++   public long getSpawnHeight(LevelHeightAccessor pLevel) {
        return 64;
     }
  
@@ -225,18 +235,18 @@
 +
 +   public abstract long getMinY();
 +
-+   public abstract long getBaseHeight(me.alphamode.mclong.math.BigInteger p_223032_, me.alphamode.mclong.math.BigInteger p_223033_, Heightmap.Types p_223034_, LevelHeightAccessor p_223035_, RandomState p_223036_);
++   public abstract long getBaseHeight(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, Heightmap.Types pType, LevelHeightAccessor pLevel, RandomState pRandom);
 +
-+   public abstract NoiseColumn getBaseColumn(me.alphamode.mclong.math.BigInteger p_223028_, me.alphamode.mclong.math.BigInteger p_223029_, LevelHeightAccessor p_223030_, RandomState p_223031_);
++   public abstract NoiseColumn getBaseColumn(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, LevelHeightAccessor pHeight, RandomState pRandom);
 +
-+   public long getFirstFreeHeight(me.alphamode.mclong.math.BigInteger p_223222_, me.alphamode.mclong.math.BigInteger p_223223_, Heightmap.Types p_223224_, LevelHeightAccessor p_223225_, RandomState p_223226_) {
-+      return this.getBaseHeight(p_223222_, p_223223_, p_223224_, p_223225_, p_223226_);
++   public long getFirstFreeHeight(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, Heightmap.Types pType, LevelHeightAccessor pLevel, RandomState pRandom) {
++      return this.getBaseHeight(pX, pZ, pType, pLevel, pRandom);
     }
  
 -   public int m_223235_(int p_223236_, int p_223237_, Heightmap.Types p_223238_, LevelHeightAccessor p_223239_, RandomState p_223240_) {
 -      return this.m_214096_(p_223236_, p_223237_, p_223238_, p_223239_, p_223240_) - 1;
-+   public long getFirstOccupiedHeight(me.alphamode.mclong.math.BigInteger p_223236_, me.alphamode.mclong.math.BigInteger p_223237_, Heightmap.Types p_223238_, LevelHeightAccessor p_223239_, RandomState p_223240_) {
-+      return this.getBaseHeight(p_223236_, p_223237_, p_223238_, p_223239_, p_223240_) - 1;
++   public long getFirstOccupiedHeight(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, Heightmap.Types pTypes, LevelHeightAccessor pLevel, RandomState pRandom) {
++      return this.getBaseHeight(pX, pZ, pTypes, pLevel, pRandom) - 1;
     }
  
     public abstract void m_213600_(List<String> p_223175_, RandomState p_223176_, BlockPos p_223177_);

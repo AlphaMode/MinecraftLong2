@@ -85,10 +85,10 @@
 -      int i = Mth.m_14040_(p_70128_.m_123341_());
 -      int j = Mth.m_14040_(p_70128_.m_123342_());
 -      int k = Mth.m_14040_(p_70128_.m_123343_());
-+   private long getSteps(BlockPos p_70128_) {
-+      long i = Mth.abs(p_70128_.getX());
-+      long j = Mth.abs(p_70128_.getY());
-+      long k = Mth.abs(p_70128_.getZ());
++   private long getSteps(BlockPos pPos) {
++      long i = Mth.abs(pPos.getX());
++      long j = Mth.abs(pPos.getY());
++      long k = Mth.abs(pPos.getZ());
        return Math.max(i, Math.max(j, k));
     }
  
@@ -131,9 +131,11 @@
 +      private final long f_70138_;
  
 -      public FoliageCoords(BlockPos p_70140_, int p_70141_) {
-+      public FoliageCoords(BlockPos p_70140_, long p_70141_) {
-          this.f_70137_ = new FoliagePlacer.FoliageAttachment(p_70140_, 0, false);
-          this.f_70138_ = p_70141_;
+-         this.f_70137_ = new FoliagePlacer.FoliageAttachment(p_70140_, 0, false);
+-         this.f_70138_ = p_70141_;
++      public FoliageCoords(BlockPos pAttachmentPos, long pBranchBase) {
++         this.f_70137_ = new FoliagePlacer.FoliageAttachment(pAttachmentPos, 0, false);
++         this.f_70138_ = pBranchBase;
        }
  
 -      public int m_70142_() {

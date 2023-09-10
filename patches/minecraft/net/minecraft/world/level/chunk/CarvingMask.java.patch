@@ -12,10 +12,11 @@
     };
  
 -   public CarvingMask(int p_187579_, int p_187580_) {
-+   public CarvingMask(long p_187579_, long p_187580_) {
-       this.f_187576_ = p_187580_;
+-      this.f_187576_ = p_187580_;
 -      this.f_187577_ = new BitSet(256 * p_187579_);
-+      this.f_187577_ = new BitSet((int) (256 * p_187579_));
++   public CarvingMask(long pMask, long pMinY) {
++      this.f_187576_ = pMinY;
++      this.f_187577_ = new BitSet((int) (256 * pMask));
     }
  
     public void m_196710_(CarvingMask.Mask p_196711_) {
@@ -23,11 +24,10 @@
     }
  
 -   public CarvingMask(long[] p_187582_, int p_187583_) {
-+   public CarvingMask(long[] p_187582_, long p_187583_) {
-       this.f_187576_ = p_187583_;
-       this.f_187577_ = BitSet.valueOf(p_187582_);
-    }
- 
+-      this.f_187576_ = p_187583_;
+-      this.f_187577_ = BitSet.valueOf(p_187582_);
+-   }
+-
 -   private int m_187598_(int p_187599_, int p_187600_, int p_187601_) {
 -      return p_187599_ & 15 | (p_187601_ & 15) << 4 | p_187600_ - this.f_187576_ << 8;
 -   }
@@ -38,16 +38,21 @@
 -
 -   public boolean m_187594_(int p_187595_, int p_187596_, int p_187597_) {
 -      return this.f_196706_.m_196716_(p_187595_, p_187596_, p_187597_) || this.f_187577_.get(this.m_187598_(p_187595_, p_187596_, p_187597_));
-+   private int getIndex(me.alphamode.mclong.math.BigInteger p_187599_, me.alphamode.mclong.math.BigInteger p_187600_, me.alphamode.mclong.math.BigInteger p_187601_) {
-+      return (p_187599_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).or((p_187601_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN)).shiftLeft(4)).or(p_187600_.subtract(this.f_187576_).shiftLeft(8))).intValue();
++   public CarvingMask(long[] pMask, long pMinY) {
++      this.f_187576_ = pMinY;
++      this.f_187577_ = BitSet.valueOf(pMask);
 +   }
 +
-+   public void set(me.alphamode.mclong.math.BigInteger p_187586_, me.alphamode.mclong.math.BigInteger p_187587_, me.alphamode.mclong.math.BigInteger p_187588_) {
-+      this.f_187577_.set(this.getIndex(p_187586_, p_187587_, p_187588_));
++   private int getIndex(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return (pX.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).or((pZ.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN)).shiftLeft(4)).or(pY.subtract(this.f_187576_).shiftLeft(8))).intValue();
 +   }
 +
-+   public boolean get(me.alphamode.mclong.math.BigInteger p_187595_, me.alphamode.mclong.math.BigInteger p_187596_, me.alphamode.mclong.math.BigInteger p_187597_) {
-+      return this.f_196706_.test(p_187595_, p_187596_, p_187597_) || this.f_187577_.get(this.getIndex(p_187595_, p_187596_, p_187597_));
++   public void set(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      this.f_187577_.set(this.getIndex(pX, pY, pZ));
++   }
++
++   public boolean get(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.f_196706_.test(pX, pY, pZ) || this.f_187577_.get(this.getIndex(pX, pY, pZ));
     }
  
     public Stream<BlockPos> m_187589_(ChunkPos p_187590_) {
@@ -65,6 +70,6 @@
  
     public interface Mask {
 -      boolean m_196716_(int p_196717_, int p_196718_, int p_196719_);
-+      boolean test(me.alphamode.mclong.math.BigInteger p_196717_, me.alphamode.mclong.math.BigInteger p_196718_, me.alphamode.mclong.math.BigInteger p_196719_);
++      boolean test(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ);
     }
  }

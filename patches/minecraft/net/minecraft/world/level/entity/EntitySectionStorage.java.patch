@@ -12,9 +12,11 @@
 +   private final it.unimi.dsi.fastutil.objects.ObjectSortedSet<SectionPos> f_156853_ = new it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet<>();
  
 -   public EntitySectionStorage(Class<T> p_156855_, Long2ObjectFunction<Visibility> p_156856_) {
-+   public EntitySectionStorage(Class<T> p_156855_, it.unimi.dsi.fastutil.objects.Object2ObjectFunction<ChunkPos, Visibility> p_156856_) {
-       this.f_156850_ = p_156855_;
-       this.f_156851_ = p_156856_;
+-      this.f_156850_ = p_156855_;
+-      this.f_156851_ = p_156856_;
++   public EntitySectionStorage(Class<T> pEntityClass, it.unimi.dsi.fastutil.objects.Object2ObjectFunction<ChunkPos, Visibility> pInitialSectionVisibility) {
++      this.f_156850_ = pEntityClass;
++      this.f_156851_ = pInitialSectionVisibility;
     }
  
     public void m_188362_(AABB p_188363_, AbortableIterationConsumer<EntitySection<T>> p_261588_) {
@@ -59,9 +61,9 @@
 -      int i = ChunkPos.m_45592_(p_156862_);
 -      int j = ChunkPos.m_45602_(p_156862_);
 -      LongSortedSet longsortedset = this.m_156858_(i, j);
-+   public Stream<SectionPos> getExistingSectionPositionsInChunk(ChunkPos p_156862_) {
-+      me.alphamode.mclong.math.BigInteger i = p_156862_.getX();
-+      me.alphamode.mclong.math.BigInteger j = p_156862_.getZ();
++   public Stream<SectionPos> getExistingSectionPositionsInChunk(ChunkPos pPos) {
++      me.alphamode.mclong.math.BigInteger i = pPos.getX();
++      me.alphamode.mclong.math.BigInteger j = pPos.getZ();
 +      it.unimi.dsi.fastutil.objects.ObjectSortedSet<SectionPos> longsortedset = this.getChunkSections(i, j);
        if (longsortedset.isEmpty()) {
 -         return LongStream.empty();
@@ -90,28 +92,29 @@
 -
 -   public EntitySection<T> m_156893_(long p_156894_) {
 -      return this.f_156852_.computeIfAbsent(p_156894_, this::m_156901_);
-+   private it.unimi.dsi.fastutil.objects.ObjectSortedSet<SectionPos> getChunkSections(me.alphamode.mclong.math.BigInteger p_156859_, me.alphamode.mclong.math.BigInteger p_156860_) {
-+      SectionPos i = SectionPos.of(p_156859_, me.alphamode.mclong.math.BigInteger.ZERO, p_156860_);
-+      SectionPos j = SectionPos.of(p_156859_, me.alphamode.mclong.math.BigInteger.ONE.negate(), p_156860_);
++   private it.unimi.dsi.fastutil.objects.ObjectSortedSet<SectionPos> getChunkSections(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      SectionPos i = SectionPos.of(pX, me.alphamode.mclong.math.BigInteger.ZERO, pZ);
++      SectionPos j = SectionPos.of(pX, me.alphamode.mclong.math.BigInteger.ONE.negate(), pZ);
 +      return this.f_156853_.subSet(i, j.offset(1L));
 +   }
 +
-+   public Stream<EntitySection<T>> getExistingSectionsInChunk(ChunkPos p_156889_) {
-+      return this.getExistingSectionPositionsInChunk(p_156889_).map(this.f_156852_::get).filter(Objects::nonNull);
++   public Stream<EntitySection<T>> getExistingSectionsInChunk(ChunkPos pPos) {
++      return this.getExistingSectionPositionsInChunk(pPos).map(this.f_156852_::get).filter(Objects::nonNull);
 +   }
 +
-+   private static ChunkPos getChunkKeyFromSectionKey(SectionPos p_156900_) {
-+      return new ChunkPos(p_156900_.getBigX(), p_156900_.getBigZ());
++   private static ChunkPos getChunkKeyFromSectionKey(SectionPos pPos) {
++      return new ChunkPos(pPos.getBigX(), pPos.getBigZ());
 +   }
 +
-+   public EntitySection<T> getOrCreateSection(SectionPos p_156894_) {
-+      return this.f_156852_.computeIfAbsent(p_156894_, this::createSection);
++   public EntitySection<T> getOrCreateSection(SectionPos pSectionPos) {
++      return this.f_156852_.computeIfAbsent(pSectionPos, this::createSection);
     }
  
     @Nullable
 -   public EntitySection<T> m_156895_(long p_156896_) {
-+   public EntitySection<T> getSection(SectionPos p_156896_) {
-       return this.f_156852_.get(p_156896_);
+-      return this.f_156852_.get(p_156896_);
++   public EntitySection<T> getSection(SectionPos pSectionPos) {
++      return this.f_156852_.get(pSectionPos);
     }
  
 -   private EntitySection<T> m_156901_(long p_156902_) {
@@ -134,12 +137,16 @@
        });
        return longset;
     }
-@@ -123,7 +_,7 @@
+@@ -123,9 +_,9 @@
        });
     }
  
 -   public void m_156897_(long p_156898_) {
-+   public void remove(SectionPos p_156898_) {
-       this.f_156852_.remove(p_156898_);
-       this.f_156853_.remove(p_156898_);
+-      this.f_156852_.remove(p_156898_);
+-      this.f_156853_.remove(p_156898_);
++   public void remove(SectionPos pSectionId) {
++      this.f_156852_.remove(pSectionId);
++      this.f_156853_.remove(pSectionId);
     }
+ 
+    @VisibleForDebug

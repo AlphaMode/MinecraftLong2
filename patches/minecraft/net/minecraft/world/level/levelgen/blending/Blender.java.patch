@@ -70,18 +70,20 @@
     }
  
 -   Blender(Long2ObjectOpenHashMap<BlendingData> p_202197_, Long2ObjectOpenHashMap<BlendingData> p_202198_) {
-+   Blender(it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, BlendingData> p_202197_, it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, BlendingData> p_202198_) {
-       this.f_224696_ = p_202197_;
-       this.f_224697_ = p_202198_;
+-      this.f_224696_ = p_202197_;
+-      this.f_224697_ = p_202198_;
++   Blender(it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, BlendingData> pHeightAndBiomeBlendingData, it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, BlendingData> pDensityBlendingData) {
++      this.f_224696_ = pHeightAndBiomeBlendingData;
++      this.f_224697_ = pDensityBlendingData;
     }
  
 -   public Blender.BlendingOutput m_207242_(int p_209719_, int p_209720_) {
 -      int i = QuartPos.m_175400_(p_209719_);
 -      int j = QuartPos.m_175400_(p_209720_);
 -      double d0 = this.m_190174_(i, 0, j, BlendingData::m_190285_);
-+   public Blender.BlendingOutput blendOffsetAndFactor(me.alphamode.mclong.math.BigInteger p_209719_, me.alphamode.mclong.math.BigInteger p_209720_) {
-+      me.alphamode.mclong.math.BigInteger i = QuartPos.fromBlock(p_209719_);
-+      me.alphamode.mclong.math.BigInteger j = QuartPos.fromBlock(p_209720_);
++   public Blender.BlendingOutput blendOffsetAndFactor(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      me.alphamode.mclong.math.BigInteger i = QuartPos.fromBlock(pX);
++      me.alphamode.mclong.math.BigInteger j = QuartPos.fromBlock(pZ);
 +      double d0 = this.getBlendingDataValue(i, me.alphamode.mclong.math.BigInteger.ZERO, j, BlendingData::getHeight);
        if (d0 != Double.MAX_VALUE) {
           return new Blender.BlendingOutput(0.0D, m_190154_(d0));
@@ -142,27 +144,27 @@
 -      boolean flag = (p_190175_ & 3) == 0;
 -      boolean flag1 = (p_190177_ & 3) == 0;
 -      double d0 = this.m_190211_(p_190178_, i, j, p_190175_, p_190176_, p_190177_);
-+   private double getBlendingDataValue(me.alphamode.mclong.math.BigInteger p_190175_, me.alphamode.mclong.math.BigInteger p_190176_, me.alphamode.mclong.math.BigInteger p_190177_, Blender.CellValueGetter p_190178_) {
-+      me.alphamode.mclong.math.BigInteger i = QuartPos.toSection(p_190175_);
-+      me.alphamode.mclong.math.BigInteger j = QuartPos.toSection(p_190177_);
-+      boolean flag = (p_190175_.longValue() & 3) == 0;
-+      boolean flag1 = (p_190177_.longValue() & 3) == 0;
-+      double d0 = this.getBlendingDataValue(p_190178_, i, j, p_190175_, p_190176_, p_190177_);
++   private double getBlendingDataValue(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ, Blender.CellValueGetter pGetter) {
++      me.alphamode.mclong.math.BigInteger i = QuartPos.toSection(pX);
++      me.alphamode.mclong.math.BigInteger j = QuartPos.toSection(pZ);
++      boolean flag = (pX.longValue() & 3) == 0;
++      boolean flag1 = (pZ.longValue() & 3) == 0;
++      double d0 = this.getBlendingDataValue(pGetter, i, j, pX, pY, pZ);
        if (d0 == Double.MAX_VALUE) {
           if (flag && flag1) {
 -            d0 = this.m_190211_(p_190178_, i - 1, j - 1, p_190175_, p_190176_, p_190177_);
-+            d0 = this.getBlendingDataValue(p_190178_, i.subtract(me.alphamode.mclong.math.BigInteger.ONE), j.subtract(me.alphamode.mclong.math.BigInteger.ONE), p_190175_, p_190176_, p_190177_);
++            d0 = this.getBlendingDataValue(pGetter, i.subtract(me.alphamode.mclong.math.BigInteger.ONE), j.subtract(me.alphamode.mclong.math.BigInteger.ONE), pX, pY, pZ);
           }
  
           if (d0 == Double.MAX_VALUE) {
              if (flag) {
 -               d0 = this.m_190211_(p_190178_, i - 1, j, p_190175_, p_190176_, p_190177_);
-+               d0 = this.getBlendingDataValue(p_190178_, i.subtract(me.alphamode.mclong.math.BigInteger.ONE), j, p_190175_, p_190176_, p_190177_);
++               d0 = this.getBlendingDataValue(pGetter, i.subtract(me.alphamode.mclong.math.BigInteger.ONE), j, pX, pY, pZ);
              }
  
              if (d0 == Double.MAX_VALUE && flag1) {
 -               d0 = this.m_190211_(p_190178_, i, j - 1, p_190175_, p_190176_, p_190177_);
-+               d0 = this.getBlendingDataValue(p_190178_, i, j.subtract(me.alphamode.mclong.math.BigInteger.ONE), p_190175_, p_190176_, p_190177_);
++               d0 = this.getBlendingDataValue(pGetter, i, j.subtract(me.alphamode.mclong.math.BigInteger.ONE), pX, pY, pZ);
              }
           }
        }
@@ -173,9 +175,9 @@
 -   private double m_190211_(Blender.CellValueGetter p_190212_, int p_190213_, int p_190214_, int p_190215_, int p_190216_, int p_190217_) {
 -      BlendingData blendingdata = this.f_224696_.get(ChunkPos.m_45589_(p_190213_, p_190214_));
 -      return blendingdata != null ? p_190212_.m_190233_(blendingdata, p_190215_ - QuartPos.m_175404_(p_190213_), p_190216_, p_190217_ - QuartPos.m_175404_(p_190214_)) : Double.MAX_VALUE;
-+   private double getBlendingDataValue(Blender.CellValueGetter p_190212_, me.alphamode.mclong.math.BigInteger p_190213_, me.alphamode.mclong.math.BigInteger p_190214_, me.alphamode.mclong.math.BigInteger p_190215_, me.alphamode.mclong.math.BigInteger p_190216_, me.alphamode.mclong.math.BigInteger p_190217_) {
-+      BlendingData blendingdata = this.f_224696_.get(new ChunkPos(p_190213_, p_190214_));
-+      return blendingdata != null ? p_190212_.get(blendingdata, p_190215_.subtract(QuartPos.fromSection(p_190213_)).longValue(), p_190216_.longValue(), p_190217_.subtract(QuartPos.fromSection(p_190214_)).longValue()) : Double.MAX_VALUE;
++   private double getBlendingDataValue(Blender.CellValueGetter pGetter, me.alphamode.mclong.math.BigInteger pSectionX, me.alphamode.mclong.math.BigInteger pSectionZ, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      BlendingData blendingdata = this.f_224696_.get(new ChunkPos(pSectionX, pSectionZ));
++      return blendingdata != null ? pGetter.get(blendingdata, pX.subtract(QuartPos.fromSection(pSectionX)).longValue(), pY.longValue(), pZ.subtract(QuartPos.fromSection(pSectionZ)).longValue()) : Double.MAX_VALUE;
     }
  
     public BiomeResolver m_183383_(BiomeResolver p_190204_) {
@@ -189,7 +191,7 @@
  
     @Nullable
 -   private Holder<Biome> m_224706_(int p_224707_, int p_224708_, int p_224709_) {
-+   private Holder<Biome> blendBiome(me.alphamode.mclong.math.BigInteger p_224707_, me.alphamode.mclong.math.BigInteger p_224708_, me.alphamode.mclong.math.BigInteger p_224709_) {
++   private Holder<Biome> blendBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
        MutableDouble mutabledouble = new MutableDouble(Double.POSITIVE_INFINITY);
        MutableObject<Holder<Biome>> mutableobject = new MutableObject<>();
        this.f_224696_.forEach((p_224716_, p_224717_) -> {
@@ -197,8 +199,8 @@
 -            double d2 = Mth.m_184645_((double)(p_224707_ - p_224723_), (double)(p_224709_ - p_224724_));
 -            if (!(d2 > (double)f_190139_)) {
 -               if (d2 < mutabledouble.doubleValue()) {
-+         p_224717_.iterateBiomes(QuartPos.fromSection(p_224716_.x()), p_224708_.longValue(), QuartPos.fromSection(p_224716_.z()), (p_224723_, p_224724_, p_224725_) -> {
-+            me.alphamode.mclong.math.BigDecimal d2 = Mth.length((p_224707_.subtract(p_224723_)).toBigDecimal(), (p_224709_.subtract(p_224724_)).toBigDecimal());
++         p_224717_.iterateBiomes(QuartPos.fromSection(p_224716_.x()), pY.longValue(), QuartPos.fromSection(p_224716_.z()), (p_224723_, p_224724_, p_224725_) -> {
++            me.alphamode.mclong.math.BigDecimal d2 = Mth.length((pX.subtract(p_224723_)).toBigDecimal(), (pZ.subtract(p_224724_)).toBigDecimal());
 +            if (!(d2.compareTo(f_190139_) > 0)) {
 +               if (d2.compareTo(mutabledouble.doubleValue()) < 0) {
                    mutableobject.setValue(p_224725_);
@@ -209,7 +211,7 @@
           return null;
        } else {
 -         double d0 = f_190138_.m_75380_((double)p_224707_, 0.0D, (double)p_224709_) * 12.0D;
-+         double d0 = f_190138_.m_75380_(p_224707_.doubleValue(), 0.0D, p_224709_.doubleValue()) * 12.0D;
++         double d0 = f_190138_.m_75380_(pX.doubleValue(), 0.0D, pZ.doubleValue()) * 12.0D;
           double d1 = Mth.m_14008_((mutabledouble.doubleValue() + d0) / (double)(f_190139_ + 1), 0.0D, 1.0D);
           return d1 > 0.5D ? null : mutableobject.getValue();
        }

@@ -5,14 +5,15 @@
  public class PlayerRespawnLogic {
     @Nullable
 -   protected static BlockPos m_183928_(ServerLevel p_183929_, int p_183930_, int p_183931_) {
-+   protected static BlockPos getOverworldRespawnPos(ServerLevel p_183929_, long p_183930_, long p_183931_) {
-       boolean flag = p_183929_.m_6042_().f_63856_();
+-      boolean flag = p_183929_.m_6042_().f_63856_();
 -      LevelChunk levelchunk = p_183929_.m_6325_(SectionPos.m_123171_(p_183930_), SectionPos.m_123171_(p_183931_));
 -      int i = flag ? p_183929_.m_7726_().m_8481_().m_142051_(p_183929_) : levelchunk.m_5885_(Heightmap.Types.MOTION_BLOCKING, p_183930_ & 15, p_183931_ & 15);
 -      if (i < p_183929_.m_141937_()) {
-+      LevelChunk levelchunk = p_183929_.getChunk(me.alphamode.mclong.math.BigInteger.valueOf(SectionPos.blockToSectionCoord(p_183930_)), me.alphamode.mclong.math.BigInteger.valueOf(SectionPos.blockToSectionCoord(p_183931_)));
-+      long i = flag ? p_183929_.m_7726_().m_8481_().getSpawnHeight(p_183929_) : levelchunk.getHeight(Heightmap.Types.MOTION_BLOCKING, me.alphamode.mclong.math.BigInteger.valueOf(p_183930_ & 15), me.alphamode.mclong.math.BigInteger.valueOf(p_183931_ & 15));
-+      if (i < p_183929_.getMinBuildHeight()) {
++   protected static BlockPos getOverworldRespawnPos(ServerLevel pLevel, long p_183930_, long p_183931_) {
++      boolean flag = pLevel.m_6042_().f_63856_();
++      LevelChunk levelchunk = pLevel.getChunk(me.alphamode.mclong.math.BigInteger.valueOf(SectionPos.blockToSectionCoord(p_183930_)), me.alphamode.mclong.math.BigInteger.valueOf(SectionPos.blockToSectionCoord(p_183931_)));
++      long i = flag ? pLevel.m_7726_().m_8481_().getSpawnHeight(pLevel) : levelchunk.getHeight(Heightmap.Types.MOTION_BLOCKING, me.alphamode.mclong.math.BigInteger.valueOf(p_183930_ & 15), me.alphamode.mclong.math.BigInteger.valueOf(p_183931_ & 15));
++      if (i < pLevel.getMinBuildHeight()) {
           return null;
        } else {
 -         int j = levelchunk.m_5885_(Heightmap.Types.WORLD_SURFACE, p_183930_ & 15, p_183931_ & 15);
@@ -25,15 +26,17 @@
  
 -            for(int k = i + 1; k >= p_183929_.m_141937_(); --k) {
 -               blockpos$mutableblockpos.m_122178_(p_183930_, k, p_183931_);
-+            for(long k = i + 1; k >= p_183929_.getMinBuildHeight(); --k) {
+-               BlockState blockstate = p_183929_.m_8055_(blockpos$mutableblockpos);
++            for(long k = i + 1; k >= pLevel.getMinBuildHeight(); --k) {
 +               blockpos$mutableblockpos.set(p_183930_, k, p_183931_);
-                BlockState blockstate = p_183929_.m_8055_(blockpos$mutableblockpos);
++               BlockState blockstate = pLevel.m_8055_(blockpos$mutableblockpos);
                 if (!blockstate.m_60819_().m_76178_()) {
                    break;
                 }
  
-                if (Block.m_49918_(blockstate.m_60812_(p_183929_, blockpos$mutableblockpos), Direction.UP)) {
+-               if (Block.m_49918_(blockstate.m_60812_(p_183929_, blockpos$mutableblockpos), Direction.UP)) {
 -                  return blockpos$mutableblockpos.m_7494_().m_7949_();
++               if (Block.m_49918_(blockstate.m_60812_(pLevel, blockpos$mutableblockpos), Direction.UP)) {
 +                  return blockpos$mutableblockpos.above().m_7949_();
                 }
              }

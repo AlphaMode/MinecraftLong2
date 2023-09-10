@@ -18,20 +18,21 @@
           return BlockPos.m_121921_(aabb).filter((p_225310_) -> {
              return randomsource.m_188501_() < underwatermagmaconfiguration.f_161266_;
           }).filter((p_160584_) -> {
-@@ -44,7 +_,7 @@
+@@ -44,21 +_,21 @@
        }
     }
  
 -   private static OptionalInt m_160564_(WorldGenLevel p_160565_, BlockPos p_160566_, UnderwaterMagmaConfiguration p_160567_) {
-+   private static java.util.OptionalLong getFloorY(WorldGenLevel p_160565_, BlockPos p_160566_, UnderwaterMagmaConfiguration p_160567_) {
++   private static java.util.OptionalLong getFloorY(WorldGenLevel pLevel, BlockPos pPos, UnderwaterMagmaConfiguration pConfig) {
        Predicate<BlockState> predicate = (p_160586_) -> {
           return p_160586_.m_60713_(Blocks.f_49990_);
        };
-@@ -52,13 +_,13 @@
+       Predicate<BlockState> predicate1 = (p_160581_) -> {
           return !p_160581_.m_60713_(Blocks.f_49990_);
        };
-       Optional<Column> optional = Column.m_158175_(p_160565_, p_160566_, p_160567_.f_161264_, predicate, predicate1);
+-      Optional<Column> optional = Column.m_158175_(p_160565_, p_160566_, p_160567_.f_161264_, predicate, predicate1);
 -      return optional.map(Column::m_142009_).orElseGet(OptionalInt::empty);
++      Optional<Column> optional = Column.m_158175_(pLevel, pPos, pConfig.f_161264_, predicate, predicate1);
 +      return optional.map(Column::getFloor).orElseGet(java.util.OptionalLong::empty);
     }
  

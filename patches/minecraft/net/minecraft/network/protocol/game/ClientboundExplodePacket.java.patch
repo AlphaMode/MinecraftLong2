@@ -17,19 +17,25 @@
     private final float f_132112_;
  
 -   public ClientboundExplodePacket(double p_132115_, double p_132116_, double p_132117_, float p_132118_, List<BlockPos> p_132119_, @Nullable Vec3 p_132120_) {
-+   public ClientboundExplodePacket(me.alphamode.mclong.math.BigDecimal p_132115_, me.alphamode.mclong.math.BigDecimal p_132116_, me.alphamode.mclong.math.BigDecimal p_132117_, float p_132118_, List<BlockPos> p_132119_, @Nullable Vec3 p_132120_) {
-       this.f_132105_ = p_132115_;
-       this.f_132106_ = p_132116_;
-       this.f_132107_ = p_132117_;
-       this.f_132108_ = p_132118_;
-       this.f_132109_ = Lists.newArrayList(p_132119_);
-       if (p_132120_ != null) {
+-      this.f_132105_ = p_132115_;
+-      this.f_132106_ = p_132116_;
+-      this.f_132107_ = p_132117_;
+-      this.f_132108_ = p_132118_;
+-      this.f_132109_ = Lists.newArrayList(p_132119_);
+-      if (p_132120_ != null) {
 -         this.f_132110_ = (float)p_132120_.f_82479_;
 -         this.f_132111_ = (float)p_132120_.f_82480_;
 -         this.f_132112_ = (float)p_132120_.f_82481_;
-+         this.f_132110_ = (float)p_132120_.m_7096_();
-+         this.f_132111_ = (float)p_132120_.m_7098_();
-+         this.f_132112_ = (float)p_132120_.m_7094_();
++   public ClientboundExplodePacket(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pPower, List<BlockPos> pToBlow, @Nullable Vec3 pKnockback) {
++      this.f_132105_ = pX;
++      this.f_132106_ = pY;
++      this.f_132107_ = pZ;
++      this.f_132108_ = pPower;
++      this.f_132109_ = Lists.newArrayList(pToBlow);
++      if (pKnockback != null) {
++         this.f_132110_ = (float)pKnockback.m_7096_();
++         this.f_132111_ = (float)pKnockback.m_7098_();
++         this.f_132112_ = (float)pKnockback.m_7094_();
        } else {
           this.f_132110_ = 0.0F;
           this.f_132111_ = 0.0F;

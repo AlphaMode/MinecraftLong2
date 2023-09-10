@@ -47,14 +47,14 @@
     }
  
 -   public void m_92655_(int p_92656_, int p_92657_) {
-+   public void invalidateForChunk(me.alphamode.mclong.math.BigInteger p_92656_, me.alphamode.mclong.math.BigInteger p_92657_) {
++   public void invalidateForChunk(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
        try {
           this.f_92652_.writeLock().lock();
  
           for(int i = -1; i <= 1; ++i) {
              for(int j = -1; j <= 1; ++j) {
 -               long k = ChunkPos.m_45589_(p_92656_ + i, p_92657_ + j);
-+               ChunkPos k = new ChunkPos(p_92656_.add(i), p_92657_.add(j));
++               ChunkPos k = new ChunkPos(pChunkX.add(i), pChunkZ.add(j));
                 BlockTintCache.CacheData blocktintcache$cachedata = this.f_92651_.remove(k);
                 if (blocktintcache$cachedata != null) {
                    blocktintcache$cachedata.m_262378_();
@@ -64,12 +64,12 @@
  
 -   private BlockTintCache.CacheData m_193814_(int p_193815_, int p_193816_) {
 -      long i = ChunkPos.m_45589_(p_193815_, p_193816_);
-+   private BlockTintCache.CacheData findOrCreateChunkCache(me.alphamode.mclong.math.BigInteger p_193815_, me.alphamode.mclong.math.BigInteger p_193816_) {
-+      ChunkPos i = new ChunkPos(p_193815_, p_193816_);
++   private BlockTintCache.CacheData findOrCreateChunkCache(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
++      ChunkPos i = new ChunkPos(pChunkX, pChunkZ);
        this.f_92652_.readLock().lock();
  
        try {
-@@ -120,12 +_,12 @@
+@@ -120,16 +_,16 @@
  
     @OnlyIn(Dist.CLIENT)
     static class CacheData {
@@ -80,10 +80,24 @@
        private volatile boolean f_262289_;
  
 -      public int[] m_193823_(int p_193824_) {
-+      public int[] getLayer(long p_193824_) {
++      public int[] getLayer(long pHeight) {
           this.f_193818_.readLock().lock();
  
           try {
+-            int[] aint = this.f_193817_.get(p_193824_);
++            int[] aint = this.f_193817_.get(pHeight);
+             if (aint != null) {
+                return aint;
+             }
+@@ -141,7 +_,7 @@
+ 
+          int[] aint1;
+          try {
+-            aint1 = this.f_193817_.computeIfAbsent(p_193824_, (p_193826_) -> {
++            aint1 = this.f_193817_.computeIfAbsent(pHeight, (p_193826_) -> {
+                return this.m_193822_();
+             });
+          } finally {
 @@ -168,8 +_,8 @@
  
     @OnlyIn(Dist.CLIENT)

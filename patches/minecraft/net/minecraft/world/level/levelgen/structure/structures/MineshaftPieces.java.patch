@@ -1,46 +1,58 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/MineshaftPieces.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/MineshaftPieces.java
-@@ -48,20 +_,20 @@
+@@ -48,37 +_,37 @@
     private static final int f_227703_ = 8;
     public static final int f_227696_ = 50;
  
 -   private static MineshaftPieces.MineShaftPiece m_227715_(StructurePieceAccessor p_227716_, RandomSource p_227717_, int p_227718_, int p_227719_, int p_227720_, @Nullable Direction p_227721_, int p_227722_, MineshaftStructure.Type p_227723_) {
-+   private static MineshaftPieces.MineShaftPiece createRandomShaftPiece(StructurePieceAccessor p_227716_, RandomSource p_227717_, long p_227718_, long p_227719_, long p_227720_, @Nullable Direction p_227721_, int p_227722_, MineshaftStructure.Type p_227723_) {
-       int i = p_227717_.m_188503_(100);
+-      int i = p_227717_.m_188503_(100);
++   private static MineshaftPieces.MineShaftPiece createRandomShaftPiece(StructurePieceAccessor pPieces, RandomSource pRandom, long pX, long pY, long pZ, @Nullable Direction pOrientation, int pGenDepth, MineshaftStructure.Type pType) {
++      int i = pRandom.m_188503_(100);
        if (i >= 80) {
 -         BoundingBox boundingbox = MineshaftPieces.MineShaftCrossing.m_227854_(p_227716_, p_227717_, p_227718_, p_227719_, p_227720_, p_227721_);
-+         BoundingBox boundingbox = MineshaftPieces.MineShaftCrossing.findCrossing(p_227716_, p_227717_, p_227718_, p_227719_, p_227720_, p_227721_);
++         BoundingBox boundingbox = MineshaftPieces.MineShaftCrossing.findCrossing(pPieces, pRandom, pX, pY, pZ, pOrientation);
           if (boundingbox != null) {
-             return new MineshaftPieces.MineShaftCrossing(p_227722_, boundingbox, p_227721_, p_227723_);
+-            return new MineshaftPieces.MineShaftCrossing(p_227722_, boundingbox, p_227721_, p_227723_);
++            return new MineshaftPieces.MineShaftCrossing(pGenDepth, boundingbox, pOrientation, pType);
           }
        } else if (i >= 70) {
 -         BoundingBox boundingbox1 = MineshaftPieces.MineShaftStairs.m_227950_(p_227716_, p_227717_, p_227718_, p_227719_, p_227720_, p_227721_);
-+         BoundingBox boundingbox1 = MineshaftPieces.MineShaftStairs.findStairs(p_227716_, p_227717_, p_227718_, p_227719_, p_227720_, p_227721_);
++         BoundingBox boundingbox1 = MineshaftPieces.MineShaftStairs.findStairs(pPieces, pRandom, pX, pY, pZ, pOrientation);
           if (boundingbox1 != null) {
-             return new MineshaftPieces.MineShaftStairs(p_227722_, boundingbox1, p_227721_, p_227723_);
+-            return new MineshaftPieces.MineShaftStairs(p_227722_, boundingbox1, p_227721_, p_227723_);
++            return new MineshaftPieces.MineShaftStairs(pGenDepth, boundingbox1, pOrientation, pType);
           }
        } else {
 -         BoundingBox boundingbox2 = MineshaftPieces.MineShaftCorridor.m_227798_(p_227716_, p_227717_, p_227718_, p_227719_, p_227720_, p_227721_);
-+         BoundingBox boundingbox2 = MineshaftPieces.MineShaftCorridor.findCorridorSize(p_227716_, p_227717_, p_227718_, p_227719_, p_227720_, p_227721_);
++         BoundingBox boundingbox2 = MineshaftPieces.MineShaftCorridor.findCorridorSize(pPieces, pRandom, pX, pY, pZ, pOrientation);
           if (boundingbox2 != null) {
-             return new MineshaftPieces.MineShaftCorridor(p_227722_, p_227717_, boundingbox2, p_227721_, p_227723_);
+-            return new MineshaftPieces.MineShaftCorridor(p_227722_, p_227717_, boundingbox2, p_227721_, p_227723_);
++            return new MineshaftPieces.MineShaftCorridor(pGenDepth, pRandom, boundingbox2, pOrientation, pType);
           }
-@@ -70,12 +_,12 @@
+       }
+ 
        return null;
     }
  
 -   static MineshaftPieces.MineShaftPiece m_227706_(StructurePiece p_227707_, StructurePieceAccessor p_227708_, RandomSource p_227709_, int p_227710_, int p_227711_, int p_227712_, Direction p_227713_, int p_227714_) {
-+   static MineshaftPieces.MineShaftPiece generateAndAddPiece(StructurePiece p_227707_, StructurePieceAccessor p_227708_, RandomSource p_227709_, long p_227710_, long p_227711_, long p_227712_, Direction p_227713_, int p_227714_) {
-       if (p_227714_ > 8) {
+-      if (p_227714_ > 8) {
++   static MineshaftPieces.MineShaftPiece generateAndAddPiece(StructurePiece pPiece, StructurePieceAccessor pPieces, RandomSource pRandom, long pX, long pY, long pZ, Direction pDirection, int pGenDepth) {
++      if (pGenDepth > 8) {
           return null;
 -      } else if (Math.abs(p_227710_ - p_227707_.m_73547_().m_162395_()) <= 80 && Math.abs(p_227712_ - p_227707_.m_73547_().m_162398_()) <= 80) {
-+      } else if (Math.abs(p_227710_ - p_227707_.m_73547_().minX()) <= 80 && Math.abs(p_227712_ - p_227707_.m_73547_().minZ()) <= 80) {
-          MineshaftStructure.Type mineshaftstructure$type = ((MineshaftPieces.MineShaftPiece)p_227707_).f_227864_;
+-         MineshaftStructure.Type mineshaftstructure$type = ((MineshaftPieces.MineShaftPiece)p_227707_).f_227864_;
 -         MineshaftPieces.MineShaftPiece mineshaftpieces$mineshaftpiece = m_227715_(p_227708_, p_227709_, p_227710_, p_227711_, p_227712_, p_227713_, p_227714_ + 1, mineshaftstructure$type);
-+         MineshaftPieces.MineShaftPiece mineshaftpieces$mineshaftpiece = createRandomShaftPiece(p_227708_, p_227709_, p_227710_, p_227711_, p_227712_, p_227713_, p_227714_ + 1, mineshaftstructure$type);
++      } else if (Math.abs(pX - pPiece.m_73547_().minX()) <= 80 && Math.abs(pZ - pPiece.m_73547_().minZ()) <= 80) {
++         MineshaftStructure.Type mineshaftstructure$type = ((MineshaftPieces.MineShaftPiece)pPiece).f_227864_;
++         MineshaftPieces.MineShaftPiece mineshaftpieces$mineshaftpiece = createRandomShaftPiece(pPieces, pRandom, pX, pY, pZ, pDirection, pGenDepth + 1, mineshaftstructure$type);
           if (mineshaftpieces$mineshaftpiece != null) {
-             p_227708_.m_142679_(mineshaftpieces$mineshaftpiece);
-             mineshaftpieces$mineshaftpiece.m_214092_(p_227707_, p_227708_, p_227709_);
+-            p_227708_.m_142679_(mineshaftpieces$mineshaftpiece);
+-            mineshaftpieces$mineshaftpiece.m_214092_(p_227707_, p_227708_, p_227709_);
++            pPieces.m_142679_(mineshaftpieces$mineshaftpiece);
++            mineshaftpieces$mineshaftpiece.m_214092_(pPiece, pPieces, pRandom);
+          }
+ 
+          return mineshaftpieces$mineshaftpiece;
 @@ -91,14 +_,14 @@
        private final boolean f_227726_;
        private final boolean f_227727_;
@@ -67,7 +79,7 @@
        }
  
        public MineShaftCorridor(int p_227731_, RandomSource p_227732_, BoundingBox p_227733_, Direction p_227734_, MineshaftStructure.Type p_227735_) {
-@@ -115,15 +_,15 @@
+@@ -115,19 +_,19 @@
           this.f_227726_ = p_227732_.m_188503_(3) == 0;
           this.f_227727_ = !this.f_227726_ && p_227732_.m_188503_(23) == 0;
           if (this.m_73549_().m_122434_() == Direction.Axis.Z) {
@@ -82,19 +94,27 @@
  
        @Nullable
 -      public static BoundingBox m_227798_(StructurePieceAccessor p_227799_, RandomSource p_227800_, int p_227801_, int p_227802_, int p_227803_, Direction p_227804_) {
-+      public static BoundingBox findCorridorSize(StructurePieceAccessor p_227799_, RandomSource p_227800_, long p_227801_, long p_227802_, long p_227803_, Direction p_227804_) {
-          for(int i = p_227800_.m_188503_(3) + 2; i > 0; --i) {
+-         for(int i = p_227800_.m_188503_(3) + 2; i > 0; --i) {
++      public static BoundingBox findCorridorSize(StructurePieceAccessor pPieces, RandomSource pRandom, long pX, long pY, long pZ, Direction pDirection) {
++         for(int i = pRandom.m_188503_(3) + 2; i > 0; --i) {
              int j = i * 5;
              BoundingBox boundingbox;
-@@ -142,7 +_,7 @@
+-            switch (p_227804_) {
++            switch (pDirection) {
+                case NORTH:
+                default:
+                   boundingbox = new BoundingBox(0, 0, -(j - 1), 2, 2, 0);
+@@ -142,8 +_,8 @@
                    boundingbox = new BoundingBox(0, 0, 0, j - 1, 2, 2);
              }
  
 -            boundingbox.m_162367_(p_227801_, p_227802_, p_227803_);
-+            boundingbox.move(p_227801_, p_227802_, p_227803_);
-             if (p_227799_.m_141921_(boundingbox) == null) {
+-            if (p_227799_.m_141921_(boundingbox) == null) {
++            boundingbox.move(pX, pY, pZ);
++            if (pPieces.m_141921_(boundingbox) == null) {
                 return boundingbox;
              }
+          }
 @@ -160,59 +_,59 @@
                 case NORTH:
                 default:
@@ -254,19 +274,19 @@
        }
  
 -      private void m_227756_(WorldGenLevel p_227757_, BoundingBox p_227758_, int p_227759_, int p_227760_, int p_227761_) {
-+      private void placeDoubleLowerOrUpperSupport(WorldGenLevel p_227757_, BoundingBox p_227758_, long p_227759_, long p_227760_, long p_227761_) {
++      private void placeDoubleLowerOrUpperSupport(WorldGenLevel pLevel, BoundingBox pBox, long pX, long pY, long pZ) {
           BlockState blockstate = this.f_227864_.m_227992_();
           BlockState blockstate1 = this.f_227864_.m_227994_();
 -         if (this.m_73398_(p_227757_, p_227759_, p_227760_, p_227761_, p_227758_).m_60713_(blockstate1.m_60734_())) {
 -            this.m_227819_(p_227757_, blockstate, p_227759_, p_227760_, p_227761_, p_227758_);
-+         if (this.getBlock(p_227757_, p_227759_, p_227760_, p_227761_, p_227758_).m_60713_(blockstate1.m_60734_())) {
-+            this.fillPillarDownOrChainUp(p_227757_, blockstate, p_227759_, p_227760_, p_227761_, p_227758_);
++         if (this.getBlock(pLevel, pX, pY, pZ, pBox).m_60713_(blockstate1.m_60734_())) {
++            this.fillPillarDownOrChainUp(pLevel, blockstate, pX, pY, pZ, pBox);
           }
  
 -         if (this.m_73398_(p_227757_, p_227759_ + 2, p_227760_, p_227761_, p_227758_).m_60713_(blockstate1.m_60734_())) {
 -            this.m_227819_(p_227757_, blockstate, p_227759_ + 2, p_227760_, p_227761_, p_227758_);
-+         if (this.getBlock(p_227757_, p_227759_ + 2, p_227760_, p_227761_, p_227758_).m_60713_(blockstate1.m_60734_())) {
-+            this.fillPillarDownOrChainUp(p_227757_, blockstate, p_227759_ + 2, p_227760_, p_227761_, p_227758_);
++         if (this.getBlock(pLevel, pX + 2, pY, pZ, pBox).m_60713_(blockstate1.m_60734_())) {
++            this.fillPillarDownOrChainUp(pLevel, blockstate, pX + 2, pY, pZ, pBox);
           }
  
        }
@@ -298,9 +318,9 @@
 -         BlockPos.MutableBlockPos blockpos$mutableblockpos = this.m_163582_(p_227822_, p_227823_, p_227824_);
 -         if (p_227825_.m_71051_(blockpos$mutableblockpos)) {
 -            int i = blockpos$mutableblockpos.m_123342_();
-+      protected void fillPillarDownOrChainUp(WorldGenLevel p_227820_, BlockState p_227821_, long p_227822_, long p_227823_, long p_227824_, BoundingBox p_227825_) {
-+         BlockPos.MutableBlockPos blockpos$mutableblockpos = this.getWorldPos(p_227822_, p_227823_, p_227824_);
-+         if (p_227825_.isInside(blockpos$mutableblockpos)) {
++      protected void fillPillarDownOrChainUp(WorldGenLevel pLevel, BlockState pState, long pX, long pY, long pZ, BoundingBox pBox) {
++         BlockPos.MutableBlockPos blockpos$mutableblockpos = this.getWorldPos(pX, pY, pZ);
++         if (pBox.isInside(blockpos$mutableblockpos)) {
 +            long i = blockpos$mutableblockpos.getY();
              int j = 1;
              boolean flag = true;
@@ -308,34 +328,38 @@
              for(boolean flag1 = true; flag || flag1; ++j) {
                 if (flag) {
 -                  blockpos$mutableblockpos.m_142448_(i - j);
+-                  BlockState blockstate = p_227820_.m_8055_(blockpos$mutableblockpos);
 +                  blockpos$mutableblockpos.setY(i - j);
-                   BlockState blockstate = p_227820_.m_8055_(blockpos$mutableblockpos);
++                  BlockState blockstate = pLevel.m_8055_(blockpos$mutableblockpos);
                    boolean flag2 = this.m_163572_(blockstate) && !blockstate.m_60713_(Blocks.f_49991_);
-                   if (!flag2 && this.m_227738_(p_227820_, blockpos$mutableblockpos, blockstate)) {
+-                  if (!flag2 && this.m_227738_(p_227820_, blockpos$mutableblockpos, blockstate)) {
 -                     m_227750_(p_227820_, p_227821_, blockpos$mutableblockpos, i - j + 1, i);
-+                     fillColumnBetween(p_227820_, p_227821_, blockpos$mutableblockpos, i - j + 1, i);
++                  if (!flag2 && this.m_227738_(pLevel, blockpos$mutableblockpos, blockstate)) {
++                     fillColumnBetween(pLevel, pState, blockpos$mutableblockpos, i - j + 1, i);
                       return;
                    }
  
 -                  flag = j <= 20 && flag2 && blockpos$mutableblockpos.m_123342_() > p_227820_.m_141937_() + 1;
-+                  flag = j <= 20 && flag2 && blockpos$mutableblockpos.getY() > p_227820_.getMinBuildHeight() + 1;
++                  flag = j <= 20 && flag2 && blockpos$mutableblockpos.getY() > pLevel.getMinBuildHeight() + 1;
                 }
  
                 if (flag1) {
 -                  blockpos$mutableblockpos.m_142448_(i + j);
+-                  BlockState blockstate1 = p_227820_.m_8055_(blockpos$mutableblockpos);
 +                  blockpos$mutableblockpos.setY(i + j);
-                   BlockState blockstate1 = p_227820_.m_8055_(blockpos$mutableblockpos);
++                  BlockState blockstate1 = pLevel.m_8055_(blockpos$mutableblockpos);
                    boolean flag3 = this.m_163572_(blockstate1);
-                   if (!flag3 && this.m_227808_(p_227820_, blockpos$mutableblockpos, blockstate1)) {
+-                  if (!flag3 && this.m_227808_(p_227820_, blockpos$mutableblockpos, blockstate1)) {
 -                     p_227820_.m_7731_(blockpos$mutableblockpos.m_142448_(i + 1), this.f_227864_.m_227995_(), 2);
 -                     m_227750_(p_227820_, Blocks.f_50184_.m_49966_(), blockpos$mutableblockpos, i + 2, i + j);
-+                     p_227820_.m_7731_(blockpos$mutableblockpos.setY(i + 1), this.f_227864_.m_227995_(), 2);
-+                     fillColumnBetween(p_227820_, Blocks.f_50184_.m_49966_(), blockpos$mutableblockpos, i + 2, i + j);
++                  if (!flag3 && this.m_227808_(pLevel, blockpos$mutableblockpos, blockstate1)) {
++                     pLevel.m_7731_(blockpos$mutableblockpos.setY(i + 1), this.f_227864_.m_227995_(), 2);
++                     fillColumnBetween(pLevel, Blocks.f_50184_.m_49966_(), blockpos$mutableblockpos, i + 2, i + j);
                       return;
                    }
  
 -                  flag1 = j <= 50 && flag3 && blockpos$mutableblockpos.m_123342_() < p_227820_.m_151558_() - 1;
-+                  flag1 = j <= 50 && flag3 && blockpos$mutableblockpos.getY() < p_227820_.getMaxBuildHeight() - 1;
++                  flag1 = j <= 50 && flag3 && blockpos$mutableblockpos.getY() < pLevel.getMaxBuildHeight() - 1;
                 }
              }
  
@@ -345,9 +369,9 @@
 -      private static void m_227750_(WorldGenLevel p_227751_, BlockState p_227752_, BlockPos.MutableBlockPos p_227753_, int p_227754_, int p_227755_) {
 -         for(int i = p_227754_; i < p_227755_; ++i) {
 -            p_227751_.m_7731_(p_227753_.m_142448_(i), p_227752_, 2);
-+      private static void fillColumnBetween(WorldGenLevel p_227751_, BlockState p_227752_, BlockPos.MutableBlockPos p_227753_, long p_227754_, long p_227755_) {
-+         for(long i = p_227754_; i < p_227755_; ++i) {
-+            p_227751_.m_7731_(p_227753_.setY(i), p_227752_, 2);
++      private static void fillColumnBetween(WorldGenLevel pLevel, BlockState pState, BlockPos.MutableBlockPos pPos, long pMinY, long pMaxY) {
++         for(long i = pMinY; i < pMaxY; ++i) {
++            pLevel.m_7731_(pPos.setY(i), pState, 2);
           }
  
        }
@@ -394,7 +418,7 @@
                 ++i;
                 if (i >= p_227768_) {
                    return true;
-@@ -459,11 +_,11 @@
+@@ -459,20 +_,20 @@
        public MineShaftCrossing(int p_227829_, BoundingBox p_227830_, @Nullable Direction p_227831_, MineshaftStructure.Type p_227832_) {
           super(StructurePieceType.f_210126_, p_227829_, p_227832_, p_227830_);
           this.f_227826_ = p_227831_;
@@ -404,19 +428,32 @@
  
        @Nullable
 -      public static BoundingBox m_227854_(StructurePieceAccessor p_227855_, RandomSource p_227856_, int p_227857_, int p_227858_, int p_227859_, Direction p_227860_) {
-+      public static BoundingBox findCrossing(StructurePieceAccessor p_227855_, RandomSource p_227856_, long p_227857_, long p_227858_, long p_227859_, Direction p_227860_) {
++      public static BoundingBox findCrossing(StructurePieceAccessor pPieces, RandomSource pRandom, long pX, long pY, long pZ, Direction pDirection) {
           int i;
-          if (p_227856_.m_188503_(4) == 0) {
+-         if (p_227856_.m_188503_(4) == 0) {
++         if (pRandom.m_188503_(4) == 0) {
              i = 6;
-@@ -487,7 +_,7 @@
+          } else {
+             i = 2;
+          }
+ 
+          BoundingBox boundingbox;
+-         switch (p_227860_) {
++         switch (pDirection) {
+             case NORTH:
+             default:
+                boundingbox = new BoundingBox(-1, 0, -4, 3, i, 0);
+@@ -487,8 +_,8 @@
                 boundingbox = new BoundingBox(0, 0, -1, 4, i, 3);
           }
  
 -         boundingbox.m_162367_(p_227857_, p_227858_, p_227859_);
-+         boundingbox.move(p_227857_, p_227858_, p_227859_);
-          return p_227855_.m_141921_(boundingbox) != null ? null : boundingbox;
+-         return p_227855_.m_141921_(boundingbox) != null ? null : boundingbox;
++         boundingbox.move(pX, pY, pZ);
++         return pPieces.m_141921_(boundingbox) != null ? null : boundingbox;
        }
  
+       public void m_214092_(StructurePiece p_227851_, StructurePieceAccessor p_227852_, RandomSource p_227853_) {
 @@ -496,41 +_,41 @@
           switch (this.f_227826_) {
              case NORTH:
@@ -531,9 +568,9 @@
 -      private void m_227843_(WorldGenLevel p_227844_, BoundingBox p_227845_, int p_227846_, int p_227847_, int p_227848_, int p_227849_) {
 -         if (!this.m_73398_(p_227844_, p_227846_, p_227849_ + 1, p_227848_, p_227845_).m_60795_()) {
 -            this.m_73441_(p_227844_, p_227845_, p_227846_, p_227847_, p_227848_, p_227846_, p_227849_, p_227848_, this.f_227864_.m_227994_(), f_73382_, false);
-+      private void placeSupportPillar(WorldGenLevel p_227844_, BoundingBox p_227845_, long p_227846_, long p_227847_, long p_227848_, long p_227849_) {
-+         if (!this.getBlock(p_227844_, p_227846_, p_227849_ + 1, p_227848_, p_227845_).m_60795_()) {
-+            this.generateBox(p_227844_, p_227845_, p_227846_, p_227847_, p_227848_, p_227846_, p_227849_, p_227848_, this.f_227864_.m_227994_(), f_73382_, false);
++      private void placeSupportPillar(WorldGenLevel pLevel, BoundingBox pBox, long pX, long pY, long pZ, long pMaxY) {
++         if (!this.getBlock(pLevel, pX, pMaxY + 1, pZ, pBox).m_60795_()) {
++            this.generateBox(pLevel, pBox, pX, pY, pZ, pX, pMaxY, pZ, this.f_227864_.m_227994_(), f_73382_, false);
           }
  
        }
@@ -641,28 +678,38 @@
                       return true;
                    }
                 }
-@@ -656,9 +_,9 @@
+@@ -656,12 +_,12 @@
           }
        }
  
 -      protected void m_227890_(WorldGenLevel p_227891_, BoundingBox p_227892_, BlockState p_227893_, int p_227894_, int p_227895_, int p_227896_) {
 -         if (this.m_73414_(p_227891_, p_227894_, p_227895_, p_227896_, p_227892_)) {
 -            BlockPos blockpos = this.m_163582_(p_227894_, p_227895_, p_227896_);
-+      protected void setPlanksBlock(WorldGenLevel p_227891_, BoundingBox p_227892_, BlockState p_227893_, long p_227894_, long p_227895_, long p_227896_) {
-+         if (this.isInterior(p_227891_, p_227894_, p_227895_, p_227896_, p_227892_)) {
-+            BlockPos blockpos = this.getWorldPos(p_227894_, p_227895_, p_227896_);
-             BlockState blockstate = p_227891_.m_8055_(blockpos);
-             if (!blockstate.m_60783_(p_227891_, blockpos, Direction.UP)) {
-                p_227891_.m_7731_(blockpos, p_227893_, 2);
-@@ -671,7 +_,7 @@
+-            BlockState blockstate = p_227891_.m_8055_(blockpos);
+-            if (!blockstate.m_60783_(p_227891_, blockpos, Direction.UP)) {
+-               p_227891_.m_7731_(blockpos, p_227893_, 2);
++      protected void setPlanksBlock(WorldGenLevel pLevel, BoundingBox pBox, BlockState pPlankState, long pX, long pY, long pZ) {
++         if (this.isInterior(pLevel, pX, pY, pZ, pBox)) {
++            BlockPos blockpos = this.getWorldPos(pX, pY, pZ);
++            BlockState blockstate = pLevel.m_8055_(blockpos);
++            if (!blockstate.m_60783_(pLevel, blockpos, Direction.UP)) {
++               pLevel.m_7731_(blockpos, pPlankState, 2);
+             }
+ 
+          }
+@@ -671,9 +_,9 @@
     public static class MineShaftRoom extends MineshaftPieces.MineShaftPiece {
        private final List<BoundingBox> f_227900_ = Lists.newLinkedList();
  
 -      public MineShaftRoom(int p_227902_, RandomSource p_227903_, int p_227904_, int p_227905_, MineshaftStructure.Type p_227906_) {
-+      public MineShaftRoom(int p_227902_, RandomSource p_227903_, long p_227904_, long p_227905_, MineshaftStructure.Type p_227906_) {
-          super(StructurePieceType.f_210127_, p_227902_, p_227906_, new BoundingBox(p_227904_, 50, p_227905_, p_227904_ + 7 + p_227903_.m_188503_(6), 54 + p_227903_.m_188503_(6), p_227905_ + 7 + p_227903_.m_188503_(6)));
-          this.f_227864_ = p_227906_;
+-         super(StructurePieceType.f_210127_, p_227902_, p_227906_, new BoundingBox(p_227904_, 50, p_227905_, p_227904_ + 7 + p_227903_.m_188503_(6), 54 + p_227903_.m_188503_(6), p_227905_ + 7 + p_227903_.m_188503_(6)));
+-         this.f_227864_ = p_227906_;
++      public MineShaftRoom(int pGenDepth, RandomSource pRandom, long pX, long pZ, MineshaftStructure.Type pType) {
++         super(StructurePieceType.f_210127_, pGenDepth, pType, new BoundingBox(pX, 50, pZ, pX + 7 + pRandom.m_188503_(6), 54 + pRandom.m_188503_(6), pZ + 7 + pRandom.m_188503_(6)));
++         this.f_227864_ = pType;
        }
+ 
+       public MineShaftRoom(CompoundTag p_227908_) {
 @@ -683,61 +_,61 @@
  
        public void m_214092_(StructurePiece p_227922_, StructurePieceAccessor p_227923_, RandomSource p_227924_) {
@@ -773,24 +820,29 @@
           }
  
        }
-@@ -783,7 +_,7 @@
+@@ -783,9 +_,9 @@
        }
  
        @Nullable
 -      public static BoundingBox m_227950_(StructurePieceAccessor p_227951_, RandomSource p_227952_, int p_227953_, int p_227954_, int p_227955_, Direction p_227956_) {
-+      public static BoundingBox findStairs(StructurePieceAccessor p_227951_, RandomSource p_227952_, long p_227953_, long p_227954_, long p_227955_, Direction p_227956_) {
++      public static BoundingBox findStairs(StructurePieceAccessor pPieces, RandomSource pRandom, long pX, long pY, long pZ, Direction pDirection) {
           BoundingBox boundingbox;
-          switch (p_227956_) {
+-         switch (p_227956_) {
++         switch (pDirection) {
              case NORTH:
-@@ -800,7 +_,7 @@
+             default:
+                boundingbox = new BoundingBox(0, -5, -8, 2, 2, 0);
+@@ -800,8 +_,8 @@
                 boundingbox = new BoundingBox(0, -5, 0, 8, 2, 2);
           }
  
 -         boundingbox.m_162367_(p_227953_, p_227954_, p_227955_);
-+         boundingbox.move(p_227953_, p_227954_, p_227955_);
-          return p_227951_.m_141921_(boundingbox) != null ? null : boundingbox;
+-         return p_227951_.m_141921_(boundingbox) != null ? null : boundingbox;
++         boundingbox.move(pX, pY, pZ);
++         return pPieces.m_141921_(boundingbox) != null ? null : boundingbox;
        }
  
+       public void m_214092_(StructurePiece p_227947_, StructurePieceAccessor p_227948_, RandomSource p_227949_) {
 @@ -811,16 +_,16 @@
              switch (direction) {
                 case NORTH:

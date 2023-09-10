@@ -51,8 +51,9 @@
     }
  
 -   private boolean m_32543_(double p_32544_, double p_32545_, double p_32546_) {
-+   private boolean teleport(me.alphamode.mclong.math.BigDecimal p_32544_, me.alphamode.mclong.math.BigDecimal p_32545_, me.alphamode.mclong.math.BigDecimal p_32546_) {
-       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_32544_, p_32545_, p_32546_);
+-      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_32544_, p_32545_, p_32546_);
++   private boolean teleport(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(pX, pY, pZ);
  
 -      while(blockpos$mutableblockpos.m_123342_() > this.m_9236_().m_141937_() && !this.m_9236_().m_8055_(blockpos$mutableblockpos).m_280555_()) {
 +      while(blockpos$mutableblockpos.getY() > this.m_9236_().getMinBuildHeight() && !this.m_9236_().m_8055_(blockpos$mutableblockpos).m_280555_()) {
@@ -64,7 +65,7 @@
        if (flag && !flag1) {
           Vec3 vec3 = this.m_20182_();
 -         boolean flag2 = this.m_20984_(p_32544_, p_32545_, p_32546_, true);
-+         boolean flag2 = this.randomTeleport(p_32544_, p_32545_, p_32546_, true);
++         boolean flag2 = this.randomTeleport(pX, pY, pZ, true);
           if (flag2) {
              this.m_9236_().m_214171_(GameEvent.f_238175_, vec3, GameEvent.Context.m_223717_(this));
              if (!this.m_20067_()) {

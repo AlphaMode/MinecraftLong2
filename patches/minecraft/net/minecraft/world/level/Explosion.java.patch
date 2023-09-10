@@ -13,31 +13,61 @@
     @Nullable
     private final Entity f_46016_;
     private final float f_46017_;
-@@ -57,20 +_,20 @@
+@@ -57,30 +_,30 @@
     private final ObjectArrayList<BlockPos> f_46020_ = new ObjectArrayList<>();
     private final Map<Player, Vec3> f_46021_ = Maps.newHashMap();
  
 -   public Explosion(Level p_46024_, @Nullable Entity p_46025_, double p_46026_, double p_46027_, double p_46028_, float p_46029_, List<BlockPos> p_46030_) {
-+   public Explosion(Level p_46024_, @Nullable Entity p_46025_, me.alphamode.mclong.math.BigDecimal p_46026_, me.alphamode.mclong.math.BigDecimal p_46027_, me.alphamode.mclong.math.BigDecimal p_46028_, float p_46029_, List<BlockPos> p_46030_) {
-       this(p_46024_, p_46025_, p_46026_, p_46027_, p_46028_, p_46029_, false, Explosion.BlockInteraction.DESTROY_WITH_DECAY, p_46030_);
-    }
- 
+-      this(p_46024_, p_46025_, p_46026_, p_46027_, p_46028_, p_46029_, false, Explosion.BlockInteraction.DESTROY_WITH_DECAY, p_46030_);
+-   }
+-
 -   public Explosion(Level p_46041_, @Nullable Entity p_46042_, double p_46043_, double p_46044_, double p_46045_, float p_46046_, boolean p_46047_, Explosion.BlockInteraction p_46048_, List<BlockPos> p_46049_) {
-+   public Explosion(Level p_46041_, @Nullable Entity p_46042_, me.alphamode.mclong.math.BigDecimal p_46043_, me.alphamode.mclong.math.BigDecimal p_46044_, me.alphamode.mclong.math.BigDecimal p_46045_, float p_46046_, boolean p_46047_, Explosion.BlockInteraction p_46048_, List<BlockPos> p_46049_) {
-       this(p_46041_, p_46042_, p_46043_, p_46044_, p_46045_, p_46046_, p_46047_, p_46048_);
-       this.f_46020_.addAll(p_46049_);
-    }
- 
+-      this(p_46041_, p_46042_, p_46043_, p_46044_, p_46045_, p_46046_, p_46047_, p_46048_);
+-      this.f_46020_.addAll(p_46049_);
+-   }
+-
 -   public Explosion(Level p_46032_, @Nullable Entity p_46033_, double p_46034_, double p_46035_, double p_46036_, float p_46037_, boolean p_46038_, Explosion.BlockInteraction p_46039_) {
-+   public Explosion(Level p_46032_, @Nullable Entity p_46033_, me.alphamode.mclong.math.BigDecimal p_46034_, me.alphamode.mclong.math.BigDecimal p_46035_, me.alphamode.mclong.math.BigDecimal p_46036_, float p_46037_, boolean p_46038_, Explosion.BlockInteraction p_46039_) {
-       this(p_46032_, p_46033_, (DamageSource)null, (ExplosionDamageCalculator)null, p_46034_, p_46035_, p_46036_, p_46037_, p_46038_, p_46039_);
+-      this(p_46032_, p_46033_, (DamageSource)null, (ExplosionDamageCalculator)null, p_46034_, p_46035_, p_46036_, p_46037_, p_46038_, p_46039_);
+-   }
+-
+-   public Explosion(Level p_46051_, @Nullable Entity p_46052_, @Nullable DamageSource p_46053_, @Nullable ExplosionDamageCalculator p_46054_, double p_46055_, double p_46056_, double p_46057_, float p_46058_, boolean p_46059_, Explosion.BlockInteraction p_46060_) {
+-      this.f_46012_ = p_46051_;
+-      this.f_46016_ = p_46052_;
+-      this.f_46017_ = p_46058_;
+-      this.f_46013_ = p_46055_;
+-      this.f_46014_ = p_46056_;
+-      this.f_46015_ = p_46057_;
+-      this.f_46009_ = p_46059_;
+-      this.f_46010_ = p_46060_;
+-      this.f_46018_ = p_46053_ == null ? p_46051_.m_269111_().m_269093_(this) : p_46053_;
+-      this.f_46019_ = p_46054_ == null ? this.m_46062_(p_46052_) : p_46054_;
++   public Explosion(Level pLevel, @Nullable Entity pSource, me.alphamode.mclong.math.BigDecimal pToBlowX, me.alphamode.mclong.math.BigDecimal pToBlowY, me.alphamode.mclong.math.BigDecimal pToBlowZ, float pRadius, List<BlockPos> pPositions) {
++      this(pLevel, pSource, pToBlowX, pToBlowY, pToBlowZ, pRadius, false, Explosion.BlockInteraction.DESTROY_WITH_DECAY, pPositions);
++   }
++
++   public Explosion(Level pLevel, @Nullable Entity pSource, me.alphamode.mclong.math.BigDecimal pToBlowX, me.alphamode.mclong.math.BigDecimal pToBlowY, me.alphamode.mclong.math.BigDecimal pToBlowZ, float pRadius, boolean pFire, Explosion.BlockInteraction pBlockInteraction, List<BlockPos> pPositions) {
++      this(pLevel, pSource, pToBlowX, pToBlowY, pToBlowZ, pRadius, pFire, pBlockInteraction);
++      this.f_46020_.addAll(pPositions);
++   }
++
++   public Explosion(Level pLevel, @Nullable Entity pSource, me.alphamode.mclong.math.BigDecimal pToBlowX, me.alphamode.mclong.math.BigDecimal pToBlowY, me.alphamode.mclong.math.BigDecimal pToBlowZ, float pRadius, boolean pFire, Explosion.BlockInteraction pBlockInteraction) {
++      this(pLevel, pSource, (DamageSource)null, (ExplosionDamageCalculator)null, pToBlowX, pToBlowY, pToBlowZ, pRadius, pFire, pBlockInteraction);
++   }
++
++   public Explosion(Level pLevel, @Nullable Entity pSource, @Nullable DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, me.alphamode.mclong.math.BigDecimal pToBlowX, me.alphamode.mclong.math.BigDecimal pToBlowY, me.alphamode.mclong.math.BigDecimal pToBlowZ, float pRadius, boolean pFire, Explosion.BlockInteraction pBlockInteraction) {
++      this.f_46012_ = pLevel;
++      this.f_46016_ = pSource;
++      this.f_46017_ = pRadius;
++      this.f_46013_ = pToBlowX;
++      this.f_46014_ = pToBlowY;
++      this.f_46015_ = pToBlowZ;
++      this.f_46009_ = pFire;
++      this.f_46010_ = pBlockInteraction;
++      this.f_46018_ = pDamageSource == null ? pLevel.m_269111_().m_269093_(this) : pDamageSource;
++      this.f_46019_ = pDamageCalculator == null ? this.m_46062_(pSource) : pDamageCalculator;
     }
  
--   public Explosion(Level p_46051_, @Nullable Entity p_46052_, @Nullable DamageSource p_46053_, @Nullable ExplosionDamageCalculator p_46054_, double p_46055_, double p_46056_, double p_46057_, float p_46058_, boolean p_46059_, Explosion.BlockInteraction p_46060_) {
-+   public Explosion(Level p_46051_, @Nullable Entity p_46052_, @Nullable DamageSource p_46053_, @Nullable ExplosionDamageCalculator p_46054_, me.alphamode.mclong.math.BigDecimal p_46055_, me.alphamode.mclong.math.BigDecimal p_46056_, me.alphamode.mclong.math.BigDecimal p_46057_, float p_46058_, boolean p_46059_, Explosion.BlockInteraction p_46060_) {
-       this.f_46012_ = p_46051_;
-       this.f_46016_ = p_46052_;
-       this.f_46017_ = p_46058_;
+    private ExplosionDamageCalculator m_46062_(@Nullable Entity p_46063_) {
 @@ -89,9 +_,9 @@
  
     public static float m_46064_(Vec3 p_46065_, Entity p_46066_) {

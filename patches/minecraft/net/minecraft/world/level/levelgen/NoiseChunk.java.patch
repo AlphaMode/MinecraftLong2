@@ -56,7 +56,7 @@
     long f_209156_;
     long f_209157_;
     int f_209158_;
-@@ -80,37 +_,37 @@
+@@ -80,50 +_,50 @@
     public static NoiseChunk m_224352_(ChunkAccess p_224353_, RandomState p_224354_, DensityFunctions.BeardifierOrMarker p_224355_, NoiseGeneratorSettings p_224356_, Aquifer.FluidPicker p_224357_, Blender p_224358_) {
        NoiseSettings noisesettings = p_224356_.f_64439_().m_224530_(p_224353_);
        ChunkPos chunkpos = p_224353_.m_7697_();
@@ -67,19 +67,21 @@
     }
  
 -   public NoiseChunk(int p_224343_, RandomState p_224344_, int p_224345_, int p_224346_, NoiseSettings p_224347_, DensityFunctions.BeardifierOrMarker p_224348_, NoiseGeneratorSettings p_224349_, Aquifer.FluidPicker p_224350_, Blender p_224351_) {
-+   public NoiseChunk(long p_224343_, RandomState p_224344_, me.alphamode.mclong.math.BigInteger p_224345_, me.alphamode.mclong.math.BigInteger p_224346_, NoiseSettings p_224347_, DensityFunctions.BeardifierOrMarker p_224348_, NoiseGeneratorSettings p_224349_, Aquifer.FluidPicker p_224350_, Blender p_224351_) {
-       this.f_188717_ = p_224347_;
+-      this.f_188717_ = p_224347_;
 -      this.f_209170_ = p_224347_.m_189213_();
 -      this.f_209171_ = p_224347_.m_189212_();
-+      this.f_209170_ = p_224347_.getCellWidth();
-+      this.f_209171_ = p_224347_.getCellHeight();
-       this.f_188718_ = p_224343_;
+-      this.f_188718_ = p_224343_;
 -      this.f_188719_ = Mth.m_14042_(p_224347_.f_64508_(), this.f_209171_);
 -      this.f_188720_ = Mth.m_14042_(p_224347_.f_158688_(), this.f_209171_);
 -      this.f_188721_ = Math.floorDiv(p_224345_, this.f_209170_);
 -      this.f_188722_ = Math.floorDiv(p_224346_, this.f_209170_);
-+      this.f_188719_ = Mth.longFloorDiv(p_224347_.height(), this.f_209171_);
-+      this.f_188720_ = Mth.longFloorDiv(p_224347_.minY(), this.f_209171_);
++   public NoiseChunk(long pCellCountXZ, RandomState pRandom, me.alphamode.mclong.math.BigInteger p_224345_, me.alphamode.mclong.math.BigInteger p_224346_, NoiseSettings pNoiseSettings, DensityFunctions.BeardifierOrMarker pBeardifier, NoiseGeneratorSettings pNoiseGeneratorSettings, Aquifer.FluidPicker pFluidPicker, Blender pBlendifier) {
++      this.f_188717_ = pNoiseSettings;
++      this.f_209170_ = pNoiseSettings.getCellWidth();
++      this.f_209171_ = pNoiseSettings.getCellHeight();
++      this.f_188718_ = pCellCountXZ;
++      this.f_188719_ = Mth.longFloorDiv(pNoiseSettings.height(), this.f_209171_);
++      this.f_188720_ = Mth.longFloorDiv(pNoiseSettings.minY(), this.f_209171_);
 +      this.f_188721_ = me.alphamode.mclong.math.BigMath.floorDiv(p_224345_, this.f_209170_);
 +      this.f_188722_ = me.alphamode.mclong.math.BigMath.floorDiv(p_224346_, this.f_209170_);
        this.f_188725_ = Lists.newArrayList();
@@ -87,11 +89,13 @@
 -      this.f_188723_ = QuartPos.m_175400_(p_224345_);
 -      this.f_188724_ = QuartPos.m_175400_(p_224346_);
 -      this.f_209169_ = QuartPos.m_175400_(p_224343_ * this.f_209170_);
+-      this.f_188731_ = p_224351_;
+-      this.f_209166_ = p_224348_;
 +      this.f_188723_ = QuartPos.fromBlock(p_224345_);
 +      this.f_188724_ = QuartPos.fromBlock(p_224346_);
-+      this.f_209169_ = QuartPos.fromBlock(p_224343_ * this.f_209170_);
-       this.f_188731_ = p_224351_;
-       this.f_209166_ = p_224348_;
++      this.f_209169_ = QuartPos.fromBlock(pCellCountXZ * this.f_209170_);
++      this.f_188731_ = pBlendifier;
++      this.f_209166_ = pBeardifier;
        this.f_209164_ = new NoiseChunk.FlatCache(new NoiseChunk.BlendAlpha(), false);
        this.f_209165_ = new NoiseChunk.FlatCache(new NoiseChunk.BlendOffset(), false);
  
@@ -107,23 +111,40 @@
 -            Blender.BlendingOutput blender$blendingoutput = p_224351_.m_207242_(k, j1);
 +            me.alphamode.mclong.math.BigInteger i1 = this.f_188724_.add(l);
 +            me.alphamode.mclong.math.BigInteger j1 = QuartPos.toBlock(i1);
-+            Blender.BlendingOutput blender$blendingoutput = p_224351_.blendOffsetAndFactor(k, j1);
++            Blender.BlendingOutput blender$blendingoutput = pBlendifier.blendOffsetAndFactor(k, j1);
              this.f_209164_.f_209327_[i][l] = blender$blendingoutput.f_209729_();
              this.f_209165_.f_209327_[i][l] = blender$blendingoutput.f_209730_();
           }
-@@ -121,9 +_,9 @@
-       if (!p_224349_.m_158567_()) {
-          this.f_188728_ = Aquifer.m_188374_(p_224350_);
+       }
+ 
+-      NoiseRouter noiserouter = p_224344_.m_224578_();
++      NoiseRouter noiserouter = pRandom.m_224578_();
+       NoiseRouter noiserouter1 = noiserouter.m_224412_(this::m_209213_);
+-      if (!p_224349_.m_158567_()) {
+-         this.f_188728_ = Aquifer.m_188374_(p_224350_);
++      if (!pNoiseGeneratorSettings.m_158567_()) {
++         this.f_188728_ = Aquifer.m_188374_(pFluidPicker);
        } else {
 -         int k1 = SectionPos.m_123171_(p_224345_);
 -         int l1 = SectionPos.m_123171_(p_224346_);
 -         this.f_188728_ = Aquifer.m_223880_(this, new ChunkPos(k1, l1), noiserouter1, p_224344_.m_224581_(), p_224347_.f_158688_(), p_224347_.f_64508_(), p_224350_);
 +         me.alphamode.mclong.math.BigInteger k1 = SectionPos.blockToSectionCoord(p_224345_);
 +         me.alphamode.mclong.math.BigInteger l1 = SectionPos.blockToSectionCoord(p_224346_);
-+         this.f_188728_ = Aquifer.m_223880_(this, new ChunkPos(k1, l1), noiserouter1, p_224344_.m_224581_(), (int) p_224347_.minY(), (int) p_224347_.height(), p_224350_);
++         this.f_188728_ = Aquifer.m_223880_(this, new ChunkPos(k1, l1), noiserouter1, pRandom.m_224581_(), (int) pNoiseSettings.minY(), (int) pNoiseSettings.height(), pFluidPicker);
        }
  
        ImmutableList.Builder<NoiseChunk.BlockStateFiller> builder = ImmutableList.builder();
+@@ -131,8 +_,8 @@
+       builder.add((p_209217_) -> {
+          return this.f_188728_.m_207104_(p_209217_, densityfunction.m_207386_(p_209217_));
+       });
+-      if (p_224349_.m_209369_()) {
+-         builder.add(OreVeinifier.m_209667_(noiserouter1.f_209392_(), noiserouter1.f_209393_(), noiserouter1.f_209394_(), p_224344_.m_224582_()));
++      if (pNoiseGeneratorSettings.m_209369_()) {
++         builder.add(OreVeinifier.m_209667_(noiserouter1.f_209392_(), noiserouter1.f_209393_(), noiserouter1.f_209394_(), pRandom.m_224582_()));
+       }
+ 
+       this.f_209163_ = new MaterialRuleList(builder.build());
 @@ -148,31 +_,31 @@
        return this.f_209163_.m_207387_(this);
     }
@@ -165,9 +186,9 @@
 +      return this.f_209152_.add(this.f_209155_);
 +   }
 +
-+   public long preliminarySurfaceLevel(me.alphamode.mclong.math.BigInteger p_198257_, me.alphamode.mclong.math.BigInteger p_198258_) {
-+      me.alphamode.mclong.math.BigInteger i = QuartPos.toBlock(QuartPos.fromBlock(p_198257_));
-+      me.alphamode.mclong.math.BigInteger j = QuartPos.toBlock(QuartPos.fromBlock(p_198258_));
++   public long preliminarySurfaceLevel(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      me.alphamode.mclong.math.BigInteger i = QuartPos.toBlock(QuartPos.fromBlock(pX));
++      me.alphamode.mclong.math.BigInteger j = QuartPos.toBlock(QuartPos.fromBlock(pZ));
 +      return this.f_198238_.computeIfAbsent(new ColumnPos(i, j), this::computePreliminarySurfaceLevel);
 +   }
 +
@@ -181,15 +202,15 @@
              return l;
           }
        }
-@@ -184,14 +_,14 @@
+@@ -184,18 +_,18 @@
        return this.f_188731_;
     }
  
 -   private void m_209220_(boolean p_209221_, int p_209222_) {
 -      this.f_209150_ = p_209222_ * this.f_209170_;
 -      this.f_209153_ = 0;
-+   private void fillSlice(boolean p_209221_, me.alphamode.mclong.math.BigInteger p_209222_) {
-+      this.f_209150_ = p_209222_.multiply(this.f_209170_);
++   private void fillSlice(boolean pIsSlice0, me.alphamode.mclong.math.BigInteger pStart) {
++      this.f_209150_ = pStart.multiply(this.f_209170_);
 +      this.f_209153_ = me.alphamode.mclong.math.BigInteger.ZERO;
  
        for(int i = 0; i < this.f_188718_ + 1; ++i) {
@@ -202,6 +223,11 @@
           ++this.f_209157_;
  
           for(NoiseChunk.NoiseInterpolator noisechunk$noiseinterpolator : this.f_188725_) {
+-            double[] adouble = (p_209221_ ? noisechunk$noiseinterpolator.f_188828_ : noisechunk$noiseinterpolator.f_188829_)[i];
++            double[] adouble = (pIsSlice0 ? noisechunk$noiseinterpolator.f_188828_ : noisechunk$noiseinterpolator.f_188829_)[i];
+             noisechunk$noiseinterpolator.m_207362_(adouble, this.f_209159_);
+          }
+       }
 @@ -209,23 +_,23 @@
        } else {
           this.f_209172_ = true;
@@ -258,15 +284,16 @@
     }
  
 -   public void m_188810_(int p_188811_, int p_188812_) {
-+   public void selectCellYZ(long p_188811_, int p_188812_) {
++   public void selectCellYZ(long pY, int pZ) {
        this.f_188725_.forEach((p_209205_) -> {
 -         p_209205_.m_188863_(p_188811_, p_188812_);
-+         p_209205_.m_188863_((int) p_188811_, p_188812_);
++         p_209205_.m_188863_((int) pY, pZ);
        });
        this.f_209173_ = true;
-       this.f_209151_ = (p_188811_ + this.f_188720_) * this.f_209171_;
+-      this.f_209151_ = (p_188811_ + this.f_188720_) * this.f_209171_;
 -      this.f_209152_ = (this.f_188722_ + p_188812_) * this.f_209170_;
-+      this.f_209152_ = (this.f_188722_.add(p_188812_)).multiply(this.f_209170_);
++      this.f_209151_ = (pY + this.f_188720_) * this.f_209171_;
++      this.f_209152_ = (this.f_188722_.add(pZ)).multiply(this.f_209170_);
        ++this.f_209157_;
  
        for(NoiseChunk.CacheAllInCell noisechunk$cacheallincell : this.f_209160_) {
@@ -275,8 +302,9 @@
     }
  
 -   public void m_209191_(int p_209192_, double p_209193_) {
-+   public void updateForY(long p_209192_, double p_209193_) {
-       this.f_209154_ = p_209192_ - this.f_209151_;
+-      this.f_209154_ = p_209192_ - this.f_209151_;
++   public void updateForY(long pCellEndBlockY, double p_209193_) {
++      this.f_209154_ = pCellEndBlockY - this.f_209151_;
        this.f_188725_.forEach((p_209238_) -> {
           p_209238_.m_188850_(p_209193_);
        });
@@ -284,8 +312,8 @@
  
 -   public void m_209230_(int p_209231_, double p_209232_) {
 -      this.f_209153_ = p_209231_ - this.f_209150_;
-+   public void updateForX(me.alphamode.mclong.math.BigInteger p_209231_, double p_209232_) {
-+      this.f_209153_ = p_209231_.subtract(this.f_209150_);
++   public void updateForX(me.alphamode.mclong.math.BigInteger pCellEndBlockX, double p_209232_) {
++      this.f_209153_ = pCellEndBlockX.subtract(this.f_209150_);
        this.f_188725_.forEach((p_209229_) -> {
           p_209229_.m_188861_(p_209232_);
        });
@@ -293,8 +321,8 @@
  
 -   public void m_209241_(int p_209242_, double p_209243_) {
 -      this.f_209155_ = p_209242_ - this.f_209152_;
-+   public void updateForZ(me.alphamode.mclong.math.BigInteger p_209242_, double p_209243_) {
-+      this.f_209155_ = p_209242_.subtract(this.f_209152_);
++   public void updateForZ(me.alphamode.mclong.math.BigInteger pCellEndBlockZ, double p_209243_) {
++      this.f_209155_ = pCellEndBlockZ.subtract(this.f_209152_);
        ++this.f_209156_;
        this.f_188725_.forEach((p_209188_) -> {
           p_209188_.m_188866_(p_209243_);
@@ -315,14 +343,14 @@
 -   Blender.BlendingOutput m_209244_(int p_209245_, int p_209246_) {
 -      long i = ChunkPos.m_45589_(p_209245_, p_209246_);
 -      if (this.f_209167_ == i) {
-+   Blender.BlendingOutput getOrComputeBlendingOutput(me.alphamode.mclong.math.BigInteger p_209245_, me.alphamode.mclong.math.BigInteger p_209246_) {
-+      ChunkPos i = new ChunkPos(p_209245_, p_209246_);
++   Blender.BlendingOutput getOrComputeBlendingOutput(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
++      ChunkPos i = new ChunkPos(pChunkX, pChunkZ);
 +      if (this.f_209167_.equals(i)) {
           return this.f_209168_;
        } else {
           this.f_209167_ = i;
 -         Blender.BlendingOutput blender$blendingoutput = this.f_188731_.m_207242_(p_209245_, p_209246_);
-+         Blender.BlendingOutput blender$blendingoutput = this.f_188731_.blendOffsetAndFactor(p_209245_, p_209246_);
++         Blender.BlendingOutput blender$blendingoutput = this.f_188731_.blendOffsetAndFactor(pChunkX, pChunkZ);
           this.f_209168_ = blender$blendingoutput;
           return blender$blendingoutput;
        }

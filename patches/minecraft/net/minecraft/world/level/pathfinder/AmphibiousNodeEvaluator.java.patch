@@ -10,8 +10,8 @@
  
 -   public Target m_7568_(double p_164662_, double p_164663_, double p_164664_) {
 -      return this.m_230615_(this.m_5676_(Mth.m_14107_(p_164662_), Mth.m_14107_(p_164663_ + 0.5D), Mth.m_14107_(p_164664_)));
-+   public Target getGoal(me.alphamode.mclong.math.BigDecimal p_164662_, me.alphamode.mclong.math.BigDecimal p_164663_, me.alphamode.mclong.math.BigDecimal p_164664_) {
-+      return this.m_230615_(this.getNode(Mth.lfloor(p_164662_), Mth.lfloor(p_164663_.add(me.alphamode.mclong.core.BigConstants.AABB)), Mth.lfloor(p_164664_)));
++   public Target getGoal(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      return this.m_230615_(this.getNode(Mth.lfloor(pX), Mth.lfloor(pY.add(me.alphamode.mclong.core.BigConstants.AABB)), Mth.lfloor(pZ)));
     }
  
     public int m_6065_(Node[] p_164676_, Node p_164677_) {
@@ -48,14 +48,23 @@
     }
  
 -   public BlockPathTypes m_8086_(BlockGetter p_164666_, int p_164667_, int p_164668_, int p_164669_) {
-+   public BlockPathTypes getBlockPathType(BlockGetter p_164666_, me.alphamode.mclong.math.BigInteger p_164667_, me.alphamode.mclong.math.BigInteger p_164668_, me.alphamode.mclong.math.BigInteger p_164669_) {
++   public BlockPathTypes getBlockPathType(BlockGetter pLevel, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 -      BlockPathTypes blockpathtypes = m_77643_(p_164666_, blockpos$mutableblockpos.m_122178_(p_164667_, p_164668_, p_164669_));
-+      BlockPathTypes blockpathtypes = m_77643_(p_164666_, blockpos$mutableblockpos.set(p_164667_, p_164668_, p_164669_));
++      BlockPathTypes blockpathtypes = m_77643_(pLevel, blockpos$mutableblockpos.set(pX, pY, pZ));
        if (blockpathtypes == BlockPathTypes.WATER) {
           for(Direction direction : Direction.values()) {
 -            BlockPathTypes blockpathtypes1 = m_77643_(p_164666_, blockpos$mutableblockpos.m_122178_(p_164667_, p_164668_, p_164669_).m_122173_(direction));
-+            BlockPathTypes blockpathtypes1 = m_77643_(p_164666_, blockpos$mutableblockpos.set(p_164667_, p_164668_, p_164669_).m_122173_(direction));
++            BlockPathTypes blockpathtypes1 = m_77643_(pLevel, blockpos$mutableblockpos.set(pX, pY, pZ).m_122173_(direction));
              if (blockpathtypes1 == BlockPathTypes.BLOCKED) {
                 return BlockPathTypes.WATER_BORDER;
              }
+@@ -93,7 +_,7 @@
+ 
+          return BlockPathTypes.WATER;
+       } else {
+-         return m_77604_(p_164666_, blockpos$mutableblockpos);
++         return m_77604_(pLevel, blockpos$mutableblockpos);
+       }
+    }
+ }

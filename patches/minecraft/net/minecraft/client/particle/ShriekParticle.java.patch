@@ -1,14 +1,19 @@
 --- a/net/minecraft/client/particle/ShriekParticle.java
 +++ b/net/minecraft/client/particle/ShriekParticle.java
-@@ -19,7 +_,7 @@
+@@ -19,10 +_,10 @@
     private static final float f_233970_ = 1.0472F;
     private int f_233971_;
  
 -   ShriekParticle(ClientLevel p_233976_, double p_233977_, double p_233978_, double p_233979_, int p_233980_) {
-+   ShriekParticle(ClientLevel p_233976_, me.alphamode.mclong.math.BigDecimal p_233977_, me.alphamode.mclong.math.BigDecimal p_233978_, me.alphamode.mclong.math.BigDecimal p_233979_, int p_233980_) {
-       super(p_233976_, p_233977_, p_233978_, p_233979_, 0.0D, 0.0D, 0.0D);
+-      super(p_233976_, p_233977_, p_233978_, p_233979_, 0.0D, 0.0D, 0.0D);
++   ShriekParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, int pDelay) {
++      super(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D);
        this.f_107663_ = 0.85F;
-       this.f_233971_ = p_233980_;
+-      this.f_233971_ = p_233980_;
++      this.f_233971_ = pDelay;
+       this.f_107225_ = 30;
+       this.f_107226_ = 0.0F;
+       this.f_107215_ = 0.0D;
 @@ -48,9 +_,9 @@
  
     private void m_233988_(VertexConsumer p_233989_, Camera p_233990_, float p_233991_, Consumer<Quaternionf> p_233992_) {
@@ -22,12 +27,14 @@
        Quaternionf quaternionf = (new Quaternionf()).setAngleAxis(0.0F, f_233972_.x(), f_233972_.y(), f_233972_.z());
        p_233992_.accept(quaternionf);
        quaternionf.transform(f_233973_);
-@@ -99,7 +_,7 @@
+@@ -99,8 +_,8 @@
           this.f_234006_ = p_234008_;
        }
  
 -      public Particle m_6966_(ShriekParticleOption p_234019_, ClientLevel p_234020_, double p_234021_, double p_234022_, double p_234023_, double p_234024_, double p_234025_, double p_234026_) {
-+      public Particle createParticle(ShriekParticleOption p_234019_, ClientLevel p_234020_, me.alphamode.mclong.math.BigDecimal p_234021_, me.alphamode.mclong.math.BigDecimal p_234022_, me.alphamode.mclong.math.BigDecimal p_234023_, double p_234024_, double p_234025_, double p_234026_) {
-          ShriekParticle shriekparticle = new ShriekParticle(p_234020_, p_234021_, p_234022_, p_234023_, p_234019_.m_235958_());
+-         ShriekParticle shriekparticle = new ShriekParticle(p_234020_, p_234021_, p_234022_, p_234023_, p_234019_.m_235958_());
++      public Particle createParticle(ShriekParticleOption pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         ShriekParticle shriekparticle = new ShriekParticle(pLevel, pX, pY, pZ, pType.m_235958_());
           shriekparticle.m_108335_(this.f_234006_);
           shriekparticle.m_107271_(1.0F);
+          return shriekparticle;

@@ -36,19 +36,19 @@
 +      }
 +   }
 +
-+   public static VoxelShape box(me.alphamode.mclong.math.BigDecimal p_83049_, me.alphamode.mclong.math.BigDecimal p_83050_, me.alphamode.mclong.math.BigDecimal p_83051_, me.alphamode.mclong.math.BigDecimal p_83052_, me.alphamode.mclong.math.BigDecimal p_83053_, me.alphamode.mclong.math.BigDecimal p_83054_) {
-+      if (!(p_83049_.compareTo(p_83052_) > 0) && !(p_83050_.compareTo(p_83053_) > 0) && !(p_83051_.compareTo(p_83054_) > 0)) {
-+         return create(p_83049_, p_83050_, p_83051_, p_83052_, p_83053_, p_83054_);
++   public static VoxelShape box(me.alphamode.mclong.math.BigDecimal pMinX, me.alphamode.mclong.math.BigDecimal pMinY, me.alphamode.mclong.math.BigDecimal pMinZ, me.alphamode.mclong.math.BigDecimal pMaxX, me.alphamode.mclong.math.BigDecimal pMaxY, me.alphamode.mclong.math.BigDecimal pMaxZ) {
++      if (!(pMinX.compareTo(pMaxX) > 0) && !(pMinY.compareTo(pMaxY) > 0) && !(pMinZ.compareTo(pMaxZ) > 0)) {
++         return create(pMinX, pMinY, pMinZ, pMaxX, pMaxY, pMaxZ);
 +      } else {
 +         throw new IllegalArgumentException("The min values need to be smaller or equals to the max values");
 +      }
 +   }
 +
-+   public static VoxelShape create(me.alphamode.mclong.math.BigDecimal p_166050_, me.alphamode.mclong.math.BigDecimal p_166051_, me.alphamode.mclong.math.BigDecimal p_166052_, me.alphamode.mclong.math.BigDecimal p_166053_, me.alphamode.mclong.math.BigDecimal p_166054_, me.alphamode.mclong.math.BigDecimal p_166055_) {
-+      if (!(p_166053_.subtract(p_166050_).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) && !(p_166054_.subtract(p_166051_).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) && !(p_166055_.subtract(p_166052_).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0)) {
-+         int i = findBits(p_166050_, p_166053_);
-+         int j = findBits(p_166051_, p_166054_);
-+         int k = findBits(p_166052_, p_166055_);
++   public static VoxelShape create(me.alphamode.mclong.math.BigDecimal pMinX, me.alphamode.mclong.math.BigDecimal pMinY, me.alphamode.mclong.math.BigDecimal pMinZ, me.alphamode.mclong.math.BigDecimal pMaxX, me.alphamode.mclong.math.BigDecimal pMaxY, me.alphamode.mclong.math.BigDecimal pMaxZ) {
++      if (!(pMaxX.subtract(pMinX).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) && !(pMaxY.subtract(pMinY).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) && !(pMaxZ.subtract(pMinZ).compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0)) {
++         int i = findBits(pMinX, pMaxX);
++         int j = findBits(pMinY, pMaxY);
++         int k = findBits(pMinZ, pMaxZ);
           if (i >= 0 && j >= 0 && k >= 0) {
              if (i == 0 && j == 0 && k == 0) {
                 return m_83144_();
@@ -57,12 +57,12 @@
                 int i1 = 1 << j;
                 int j1 = 1 << k;
 -               BitSetDiscreteVoxelShape bitsetdiscretevoxelshape = BitSetDiscreteVoxelShape.m_165932_(l, i1, j1, (int)Math.round(p_166050_ * (double)l), (int)Math.round(p_166051_ * (double)i1), (int)Math.round(p_166052_ * (double)j1), (int)Math.round(p_166053_ * (double)l), (int)Math.round(p_166054_ * (double)i1), (int)Math.round(p_166055_ * (double)j1));
-+               BitSetDiscreteVoxelShape bitsetdiscretevoxelshape = BitSetDiscreteVoxelShape.m_165932_(l, i1, j1, (int)Math.round(p_166050_.doubleValue() * (double)l), (int)Math.round(p_166051_.doubleValue() * (double)i1), (int)Math.round(p_166052_.doubleValue() * (double)j1), (int)Math.round(p_166053_.doubleValue() * (double)l), (int)Math.round(p_166054_.doubleValue() * (double)i1), (int)Math.round(p_166055_.doubleValue() * (double)j1));
++               BitSetDiscreteVoxelShape bitsetdiscretevoxelshape = BitSetDiscreteVoxelShape.m_165932_(l, i1, j1, (int)Math.round(pMinX.doubleValue() * (double)l), (int)Math.round(pMinY.doubleValue() * (double)i1), (int)Math.round(pMinZ.doubleValue() * (double)j1), (int)Math.round(pMaxX.doubleValue() * (double)l), (int)Math.round(pMaxY.doubleValue() * (double)i1), (int)Math.round(pMaxZ.doubleValue() * (double)j1));
                 return new CubeVoxelShape(bitsetdiscretevoxelshape);
              }
           } else {
 -            return new ArrayVoxelShape(f_83037_.f_83211_, (DoubleList)DoubleArrayList.wrap(new double[]{p_166050_, p_166053_}), (DoubleList)DoubleArrayList.wrap(new double[]{p_166051_, p_166054_}), (DoubleList)DoubleArrayList.wrap(new double[]{p_166052_, p_166055_}));
-+            return new ArrayVoxelShape(f_83037_.f_83211_, it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new me.alphamode.mclong.math.BigDecimal[]{p_166050_, p_166053_}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new me.alphamode.mclong.math.BigDecimal[]{p_166051_, p_166054_}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new me.alphamode.mclong.math.BigDecimal[]{p_166052_, p_166055_}));
++            return new ArrayVoxelShape(f_83037_.f_83211_, it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new me.alphamode.mclong.math.BigDecimal[]{pMinX, pMaxX}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new me.alphamode.mclong.math.BigDecimal[]{pMinY, pMaxY}), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new me.alphamode.mclong.math.BigDecimal[]{pMinZ, pMaxZ}));
           }
        } else {
           return m_83040_();
@@ -77,8 +77,8 @@
     @VisibleForTesting
 -   protected static int m_83041_(double p_83042_, double p_83043_) {
 -      if (!(p_83042_ < -1.0E-7D) && !(p_83043_ > 1.0000001D)) {
-+   protected static int findBits(me.alphamode.mclong.math.BigDecimal p_83042_, me.alphamode.mclong.math.BigDecimal p_83043_) {
-+      if (!(p_83042_.compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.negate()) < 0) && !(p_83043_.compareTo(me.alphamode.mclong.core.BigConstants.FIND_BITS) > 0)) {
++   protected static int findBits(me.alphamode.mclong.math.BigDecimal pMinBits, me.alphamode.mclong.math.BigDecimal pMaxBits) {
++      if (!(pMinBits.compareTo(me.alphamode.mclong.core.BigConstants.NEG_EPSILON) < 0) && !(pMaxBits.compareTo(me.alphamode.mclong.core.BigConstants.FIND_BITS) > 0)) {
           for(int i = 0; i <= 3; ++i) {
 -            int j = 1 << i;
 -            double d0 = p_83042_ * (double)j;
@@ -86,8 +86,8 @@
 -            boolean flag = Math.abs(d0 - (double)Math.round(d0)) < 1.0E-7D * (double)j;
 -            boolean flag1 = Math.abs(d1 - (double)Math.round(d1)) < 1.0E-7D * (double)j;
 +            me.alphamode.mclong.math.BigDecimal j = me.alphamode.mclong.math.BigDecimal.valueOf(1 << i);
-+            me.alphamode.mclong.math.BigDecimal d0 = p_83042_.multiply(j);
-+            me.alphamode.mclong.math.BigDecimal d1 = p_83043_.multiply(j);
++            me.alphamode.mclong.math.BigDecimal d0 = pMinBits.multiply(j);
++            me.alphamode.mclong.math.BigDecimal d1 = pMaxBits.multiply(j);
 +            boolean flag = d0.subtract(d0.setScale(0, java.math.RoundingMode.HALF_UP)).abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.multiply(j)) < 0;
 +            boolean flag1 = d1.subtract(d1.setScale(0, java.math.RoundingMode.HALF_UP)).abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.multiply(j)) < 0;
              if (flag && flag1) {
@@ -122,52 +122,67 @@
                 return m_83103_(indexmerger, indexmerger1, indexmerger2, p_83158_.f_83211_, p_83159_.f_83211_, p_83160_);
              }
           } else {
-@@ -168,13 +_,13 @@
+@@ -168,16 +_,16 @@
        });
     }
  
 -   public static double m_193135_(Direction.Axis p_193136_, AABB p_193137_, Iterable<VoxelShape> p_193138_, double p_193139_) {
-+   public static me.alphamode.mclong.math.BigDecimal collide(Direction.Axis p_193136_, AABB p_193137_, Iterable<VoxelShape> p_193138_, me.alphamode.mclong.math.BigDecimal p_193139_) {
-       for(VoxelShape voxelshape : p_193138_) {
+-      for(VoxelShape voxelshape : p_193138_) {
 -         if (Math.abs(p_193139_) < 1.0E-7D) {
 -            return 0.0D;
-+         if (p_193139_.abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) {
++   public static me.alphamode.mclong.math.BigDecimal collide(Direction.Axis pMovementAxis, AABB pCollisionBox, Iterable<VoxelShape> pPossibleHits, me.alphamode.mclong.math.BigDecimal pDesiredOffset) {
++      for(VoxelShape voxelshape : pPossibleHits) {
++         if (pDesiredOffset.abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) {
 +            return me.alphamode.mclong.math.BigDecimal.ZERO;
           }
  
 -         p_193139_ = voxelshape.m_83259_(p_193136_, p_193137_, p_193139_);
-+         p_193139_ = voxelshape.collide(p_193136_, p_193137_, p_193139_);
++         pDesiredOffset = voxelshape.collide(pMovementAxis, pCollisionBox, pDesiredOffset);
        }
  
-       return p_193139_;
-@@ -247,7 +_,7 @@
+-      return p_193139_;
++      return pDesiredOffset;
+    }
+ 
+    public static boolean m_83117_(VoxelShape p_83118_, VoxelShape p_83119_, Direction p_83120_) {
+@@ -247,26 +_,30 @@
     }
  
     @VisibleForTesting
 -   protected static IndexMerger m_83058_(int p_83059_, DoubleList p_83060_, DoubleList p_83061_, boolean p_83062_, boolean p_83063_) {
-+   protected static IndexMerger createIndexMerger(int p_83059_, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> p_83060_, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> p_83061_, boolean p_83062_, boolean p_83063_) {
-       int i = p_83060_.size() - 1;
-       int j = p_83061_.size() - 1;
-       if (p_83060_ instanceof CubePointRange && p_83061_ instanceof CubePointRange) {
-@@ -257,9 +_,9 @@
+-      int i = p_83060_.size() - 1;
+-      int j = p_83061_.size() - 1;
+-      if (p_83060_ instanceof CubePointRange && p_83061_ instanceof CubePointRange) {
++   protected static IndexMerger createIndexMerger(int pSize, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> pList1, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> pList2, boolean pExcludeUpper, boolean pExcludeLower) {
++      int i = pList1.size() - 1;
++      int j = pList2.size() - 1;
++      if (pList1 instanceof CubePointRange && pList2 instanceof CubePointRange) {
+          long k = m_83055_(i, j);
+-         if ((long)p_83059_ * k <= 256L) {
++         if ((long)pSize * k <= 256L) {
+             return new DiscreteCubeMerger(i, j);
           }
        }
  
 -      if (p_83060_.getDouble(i) < p_83061_.getDouble(0) - 1.0E-7D) {
-+      if (p_83060_.get(i).compareTo(p_83061_.get(0).subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) < 0) {
-          return new NonOverlappingMerger(p_83060_, p_83061_, false);
+-         return new NonOverlappingMerger(p_83060_, p_83061_, false);
 -      } else if (p_83061_.getDouble(j) < p_83060_.getDouble(0) - 1.0E-7D) {
-+      } else if (p_83061_.get(j).compareTo(p_83060_.get(0).subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) < 0) {
-          return new NonOverlappingMerger(p_83061_, p_83060_, true);
+-         return new NonOverlappingMerger(p_83061_, p_83060_, true);
++      if (pList1.get(i).compareTo(pList2.get(0).subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) < 0) {
++         return new NonOverlappingMerger(pList1, pList2, false);
++      } else if (pList2.get(j).compareTo(pList1.get(0).subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) < 0) {
++         return new NonOverlappingMerger(pList2, pList1, true);
        } else {
-          return (IndexMerger)(i == j && Objects.equals(p_83060_, p_83061_) ? new IdenticalMerger(p_83060_) : new IndirectMerger(p_83060_, p_83061_, p_83062_, p_83063_));
-@@ -268,5 +_,9 @@
+-         return (IndexMerger)(i == j && Objects.equals(p_83060_, p_83061_) ? new IdenticalMerger(p_83060_) : new IndirectMerger(p_83060_, p_83061_, p_83062_, p_83063_));
++         return (IndexMerger)(i == j && Objects.equals(pList1, pList2) ? new IdenticalMerger(pList1) : new IndirectMerger(pList1, pList2, pExcludeUpper, pExcludeLower));
+       }
+    }
  
     public interface DoubleLineConsumer {
        void m_83161_(double p_83162_, double p_83163_, double p_83164_, double p_83165_, double p_83166_, double p_83167_);
 +   }
 +
 +   public interface BigLineConsumer {
-+      void consume(me.alphamode.mclong.math.BigDecimal p_83162_, me.alphamode.mclong.math.BigDecimal p_83163_, me.alphamode.mclong.math.BigDecimal p_83164_, me.alphamode.mclong.math.BigDecimal p_83165_, me.alphamode.mclong.math.BigDecimal p_83166_, me.alphamode.mclong.math.BigDecimal p_83167_);
++      void consume(me.alphamode.mclong.math.BigDecimal pMinX, me.alphamode.mclong.math.BigDecimal pMinY, me.alphamode.mclong.math.BigDecimal pMinZ, me.alphamode.mclong.math.BigDecimal pMaxX, me.alphamode.mclong.math.BigDecimal pMaxY, me.alphamode.mclong.math.BigDecimal pMaxZ);
     }
  }

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/DiskFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/DiskFeature.java
-@@ -18,29 +_,29 @@
+@@ -18,33 +_,33 @@
        WorldGenLevel worldgenlevel = p_224994_.m_159774_();
        RandomSource randomsource = p_224994_.m_225041_();
        boolean flag = false;
@@ -29,14 +29,22 @@
     }
  
 -   protected boolean m_224995_(DiskConfiguration p_224996_, WorldGenLevel p_224997_, RandomSource p_224998_, int p_224999_, int p_225000_, BlockPos.MutableBlockPos p_225001_) {
-+   protected boolean placeColumn(DiskConfiguration p_224996_, WorldGenLevel p_224997_, RandomSource p_224998_, long p_224999_, long p_225000_, BlockPos.MutableBlockPos p_225001_) {
++   protected boolean placeColumn(DiskConfiguration pConfig, WorldGenLevel pLevel, RandomSource pRandom, long pMaxY, long pMinY, BlockPos.MutableBlockPos pPos) {
        boolean flag = false;
        BlockState blockstate = null;
  
 -      for(int i = p_224999_; i > p_225000_; --i) {
 -         p_225001_.m_142448_(i);
-+      for(long i = p_224999_; i > p_225000_; --i) {
-+         p_225001_.setY(i);
-          if (p_224996_.f_225373_().test(p_224997_, p_225001_)) {
-             BlockState blockstate1 = p_224996_.f_225372_().m_225932_(p_224997_, p_224998_, p_225001_);
-             p_224997_.m_7731_(p_225001_, blockstate1, 2);
+-         if (p_224996_.f_225373_().test(p_224997_, p_225001_)) {
+-            BlockState blockstate1 = p_224996_.f_225372_().m_225932_(p_224997_, p_224998_, p_225001_);
+-            p_224997_.m_7731_(p_225001_, blockstate1, 2);
+-            this.m_159739_(p_224997_, p_225001_);
++      for(long i = pMaxY; i > pMinY; --i) {
++         pPos.setY(i);
++         if (pConfig.f_225373_().test(pLevel, pPos)) {
++            BlockState blockstate1 = pConfig.f_225372_().m_225932_(pLevel, pRandom, pPos);
++            pLevel.m_7731_(pPos, blockstate1, 2);
++            this.m_159739_(pLevel, pPos);
+             flag = true;
+          }
+       }

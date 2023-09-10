@@ -5,7 +5,7 @@
     }
  
 -   public void m_7790_(PoseStack p_286297_, MultiBufferSource p_286436_, double p_286291_, double p_286388_, double p_286330_) {
-+   public void render(PoseStack p_286297_, MultiBufferSource p_286436_, me.alphamode.mclong.math.BigDecimal p_286291_, me.alphamode.mclong.math.BigDecimal p_286388_, me.alphamode.mclong.math.BigDecimal p_286330_) {
++   public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
        double d0 = (double)Util.m_137569_();
        if (d0 - this.f_285602_ > 1.0E8D) {
           this.f_285602_ = d0;
@@ -14,7 +14,7 @@
        Player player = this.f_285628_.f_91074_;
        if (player != null && player.f_285638_.isPresent()) {
 -         this.m_286095_(p_286297_, p_286436_, p_286291_, p_286388_, p_286330_, player, () -> {
-+         this.drawHighlights(p_286297_, p_286436_, p_286291_, p_286388_, p_286330_, player, () -> {
++         this.drawHighlights(pPoseStack, pBuffer, pCamX, pCamY, pCamZ, player, () -> {
              return 0.0D;
           }, 1.0F, 0.0F, 0.0F);
        }
@@ -22,7 +22,7 @@
        for(Entity entity1 : this.f_285572_) {
           if (entity1 != player) {
 -            this.m_286095_(p_286297_, p_286436_, p_286291_, p_286388_, p_286330_, entity1, () -> {
-+            this.drawHighlights(p_286297_, p_286436_, p_286291_, p_286388_, p_286330_, entity1, () -> {
++            this.drawHighlights(pPoseStack, pBuffer, pCamX, pCamY, pCamZ, entity1, () -> {
                 return this.m_285734_(entity1);
              }, 0.0F, 1.0F, 0.0F);
           }
@@ -31,16 +31,20 @@
     }
  
 -   private void m_286095_(PoseStack p_286525_, MultiBufferSource p_286495_, double p_286696_, double p_286417_, double p_286386_, Entity p_286273_, DoubleSupplier p_286458_, float p_286487_, float p_286710_, float p_286793_) {
-+   private void drawHighlights(PoseStack p_286525_, MultiBufferSource p_286495_, me.alphamode.mclong.math.BigDecimal p_286696_, me.alphamode.mclong.math.BigDecimal p_286417_, me.alphamode.mclong.math.BigDecimal p_286386_, Entity p_286273_, DoubleSupplier p_286458_, float p_286487_, float p_286710_, float p_286793_) {
-       p_286273_.f_285638_.ifPresent((p_286428_) -> {
-          double d0 = p_286458_.getAsDouble();
-          BlockPos blockpos = p_286273_.m_20097_();
+-      p_286273_.f_285638_.ifPresent((p_286428_) -> {
+-         double d0 = p_286458_.getAsDouble();
+-         BlockPos blockpos = p_286273_.m_20097_();
 -         this.m_285847_(blockpos, p_286525_, p_286696_, p_286417_, p_286386_, p_286495_, 0.02D + d0, p_286487_, p_286710_, p_286793_);
-+         this.highlightPosition(blockpos, p_286525_, p_286696_, p_286417_, p_286386_, p_286495_, 0.02D + d0, p_286487_, p_286710_, p_286793_);
-          BlockPos blockpos1 = p_286273_.m_216999_();
+-         BlockPos blockpos1 = p_286273_.m_216999_();
++   private void drawHighlights(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ, Entity pEntity, DoubleSupplier pBiasGetter, float pRed, float pGreen, float pBlue) {
++      pEntity.f_285638_.ifPresent((p_286428_) -> {
++         double d0 = pBiasGetter.getAsDouble();
++         BlockPos blockpos = pEntity.m_20097_();
++         this.highlightPosition(blockpos, pPoseStack, pCamX, pCamY, pCamZ, pBuffer, 0.02D + d0, pRed, pGreen, pBlue);
++         BlockPos blockpos1 = pEntity.m_216999_();
           if (!blockpos1.equals(blockpos)) {
 -            this.m_285847_(blockpos1, p_286525_, p_286696_, p_286417_, p_286386_, p_286495_, 0.04D + d0, 0.0F, 1.0F, 1.0F);
-+            this.highlightPosition(blockpos1, p_286525_, p_286696_, p_286417_, p_286386_, p_286495_, 0.04D + d0, 0.0F, 1.0F, 1.0F);
++            this.highlightPosition(blockpos1, pPoseStack, pCamX, pCamY, pCamZ, pBuffer, 0.04D + d0, 0.0F, 1.0F, 1.0F);
           }
  
        });
@@ -52,15 +56,19 @@
 -      double d0 = (double)p_286268_.m_123341_() - p_286463_ - 2.0D * p_286880_;
 -      double d1 = (double)p_286268_.m_123342_() - p_286552_ - 2.0D * p_286880_;
 -      double d2 = (double)p_286268_.m_123343_() - p_286660_ - 2.0D * p_286880_;
-+   private void highlightPosition(BlockPos p_286268_, PoseStack p_286592_, me.alphamode.mclong.math.BigDecimal p_286463_, me.alphamode.mclong.math.BigDecimal p_286552_, me.alphamode.mclong.math.BigDecimal p_286660_, MultiBufferSource p_286314_, double p_286880_, float p_286918_, float p_286304_, float p_286672_) {
-+      double d0 = p_286268_.getBigX().toBigDecimal().subtract(p_286463_).doubleValue() - 2.0D * p_286880_;
-+      double d1 = p_286268_.getBigY().toBigDecimal().subtract(p_286552_).doubleValue() - 2.0D * p_286880_;
-+      double d2 = p_286268_.getBigZ().toBigDecimal().subtract(p_286660_).doubleValue() - 2.0D * p_286880_;
-       double d3 = d0 + 1.0D + 4.0D * p_286880_;
-       double d4 = d1 + 1.0D + 4.0D * p_286880_;
-       double d5 = d2 + 1.0D + 4.0D * p_286880_;
-       LevelRenderer.m_109608_(p_286592_, p_286314_.m_6299_(RenderType.m_110504_()), d0, d1, d2, d3, d4, d5, p_286918_, p_286304_, p_286672_, 0.4F);
+-      double d3 = d0 + 1.0D + 4.0D * p_286880_;
+-      double d4 = d1 + 1.0D + 4.0D * p_286880_;
+-      double d5 = d2 + 1.0D + 4.0D * p_286880_;
+-      LevelRenderer.m_109608_(p_286592_, p_286314_.m_6299_(RenderType.m_110504_()), d0, d1, d2, d3, d4, d5, p_286918_, p_286304_, p_286672_, 0.4F);
 -      LevelRenderer.m_285900_(p_286592_, p_286314_.m_6299_(RenderType.m_110504_()), this.f_285628_.f_91073_.m_8055_(p_286268_).m_60742_(this.f_285628_.f_91073_, p_286268_, CollisionContext.m_82749_()).m_83216_((double)p_286268_.m_123341_(), (double)p_286268_.m_123342_(), (double)p_286268_.m_123343_()), -p_286463_, -p_286552_, -p_286660_, p_286918_, p_286304_, p_286672_, 1.0F, false);
-+      LevelRenderer.renderVoxelShape(p_286592_, p_286314_.m_6299_(RenderType.m_110504_()), this.f_285628_.f_91073_.m_8055_(p_286268_).m_60742_(this.f_285628_.f_91073_, p_286268_, CollisionContext.m_82749_()).move(p_286268_.getBigDecX(), p_286268_.getBigDecY(), p_286268_.getBigDecZ()), p_286463_.negate(), p_286552_.negate(), p_286660_.negate(), p_286918_, p_286304_, p_286672_, 1.0F, false);
++   private void highlightPosition(BlockPos pPos, PoseStack pPoseStack, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ, MultiBufferSource pBuffer, double pBias, float pRed, float pGreen, float pBlue) {
++      double d0 = pPos.getBigX().toBigDecimal().subtract(pCamX).doubleValue() - 2.0D * pBias;
++      double d1 = pPos.getBigY().toBigDecimal().subtract(pCamY).doubleValue() - 2.0D * pBias;
++      double d2 = pPos.getBigZ().toBigDecimal().subtract(pCamZ).doubleValue() - 2.0D * pBias;
++      double d3 = d0 + 1.0D + 4.0D * pBias;
++      double d4 = d1 + 1.0D + 4.0D * pBias;
++      double d5 = d2 + 1.0D + 4.0D * pBias;
++      LevelRenderer.m_109608_(pPoseStack, pBuffer.m_6299_(RenderType.m_110504_()), d0, d1, d2, d3, d4, d5, pRed, pGreen, pBlue, 0.4F);
++      LevelRenderer.renderVoxelShape(pPoseStack, pBuffer.m_6299_(RenderType.m_110504_()), this.f_285628_.f_91073_.m_8055_(pPos).m_60742_(this.f_285628_.f_91073_, pPos, CollisionContext.m_82749_()).move(pPos.getBigDecX(), pPos.getBigDecY(), pPos.getBigDecZ()), pCamX.negate(), pCamY.negate(), pCamZ.negate(), pRed, pGreen, pBlue, 1.0F, false);
     }
  }

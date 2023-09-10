@@ -15,8 +15,12 @@
 -   }
 -
 -   protected void m_7900_(long p_140707_, int p_140708_, boolean p_140709_) {
-+   protected boolean isSource(net.minecraft.world.level.ChunkPos p_140705_) {
-+      return p_140705_.equals(ChunkPos.f_45577_);
+-      if (!p_140709_ || p_140708_ < this.f_75537_ - 2) {
+-         ChunkPos chunkpos = new ChunkPos(p_140707_);
+-         int i = chunkpos.f_45578_;
+-         int j = chunkpos.f_45579_;
++   protected boolean isSource(net.minecraft.world.level.ChunkPos pPos) {
++      return pPos.equals(ChunkPos.f_45577_);
 +   }
 +
 +   @Override
@@ -25,12 +29,9 @@
 +   }
 +
 +   @Override
-+   protected void checkNeighborsAfterUpdate(ChunkPos p_140707_, int p_140708_, boolean p_140709_) {
-       if (!p_140709_ || p_140708_ < this.f_75537_ - 2) {
--         ChunkPos chunkpos = new ChunkPos(p_140707_);
--         int i = chunkpos.f_45578_;
--         int j = chunkpos.f_45579_;
-+         ChunkPos chunkpos = p_140707_;
++   protected void checkNeighborsAfterUpdate(ChunkPos pPos, int pLevel, boolean pIsDecreasing) {
++      if (!pIsDecreasing || pLevel < this.f_75537_ - 2) {
++         ChunkPos chunkpos = pPos;
 +         me.alphamode.mclong.math.BigInteger i = chunkpos.getX();
 +         me.alphamode.mclong.math.BigInteger j = chunkpos.getZ();
  
@@ -41,7 +42,7 @@
 -                  this.m_75593_(p_140707_, i1, p_140708_, p_140709_);
 +               ChunkPos i1 = new ChunkPos(i.add(k), j.add(l));
 +               if (!i1.equals(chunkpos)) {
-+                  this.checkNeighbor(p_140707_, i1, p_140708_, p_140709_);
++                  this.checkNeighbor(pPos, i1, pLevel, pIsDecreasing);
                 }
              }
           }
@@ -50,12 +51,13 @@
     }
  
 -   protected int m_6357_(long p_140711_, long p_140712_, int p_140713_) {
-+   protected int getComputedLevel(ChunkPos p_140711_, ChunkPos p_140712_, int p_140713_) {
-       int i = p_140713_;
+-      int i = p_140713_;
 -      ChunkPos chunkpos = new ChunkPos(p_140711_);
 -      int j = chunkpos.f_45578_;
 -      int k = chunkpos.f_45579_;
-+      ChunkPos chunkpos = p_140711_;
++   protected int getComputedLevel(ChunkPos pPos, ChunkPos pExcludedSourcePos, int pLevel) {
++      int i = pLevel;
++      ChunkPos chunkpos = pPos;
 +      me.alphamode.mclong.math.BigInteger j = chunkpos.getX();
 +      me.alphamode.mclong.math.BigInteger k = chunkpos.getZ();
  
@@ -70,8 +72,8 @@
  
 -            if (j1 != p_140712_) {
 -               int k1 = this.m_6359_(j1, p_140711_, this.m_6172_(j1));
-+            if (!j1.equals(p_140712_)) {
-+               int k1 = this.computeLevelFromNeighbor(j1, p_140711_, this.getLevel(j1));
++            if (!j1.equals(pExcludedSourcePos)) {
++               int k1 = this.computeLevelFromNeighbor(j1, pPos, this.getLevel(j1));
                 if (i > k1) {
                    i = k1;
                 }
@@ -81,16 +83,16 @@
  
 -   protected int m_6359_(long p_140720_, long p_140721_, int p_140722_) {
 -      return p_140720_ == ChunkPos.f_45577_ ? this.m_7031_(p_140721_) : p_140722_ + 1;
-+   protected int computeLevelFromNeighbor(ChunkPos p_140720_, ChunkPos p_140721_, int p_140722_) {
-+      return p_140720_.equals(ChunkPos.f_45577_) ? this.getLevelFromSource(p_140721_) : p_140722_ + 1;
++   protected int computeLevelFromNeighbor(ChunkPos pStartPos, ChunkPos pEndPos, int pStartLevel) {
++      return pStartPos.equals(ChunkPos.f_45577_) ? this.getLevelFromSource(pEndPos) : pStartLevel + 1;
     }
  
 -   protected abstract int m_7031_(long p_140714_);
-+   protected abstract int getLevelFromSource(net.minecraft.world.level.ChunkPos p_140714_);
++   protected abstract int getLevelFromSource(net.minecraft.world.level.ChunkPos pPos);
  
 -   public void m_140715_(long p_140716_, int p_140717_, boolean p_140718_) {
 -      this.m_75576_(ChunkPos.f_45577_, p_140716_, p_140717_, p_140718_);
-+   public void update(net.minecraft.world.level.ChunkPos p_140716_, int p_140717_, boolean p_140718_) {
-+      this.checkEdge(ChunkPos.f_45577_, p_140716_, p_140717_, p_140718_);
++   public void update(net.minecraft.world.level.ChunkPos pPos, int pLevel, boolean pIsDecreasing) {
++      this.checkEdge(ChunkPos.f_45577_, pPos, pLevel, pIsDecreasing);
     }
  }

@@ -107,15 +107,15 @@
 -   protected int m_189927_(int p_189928_, int p_189929_) {
 -      double d0 = this.f_189918_.m_75380_((double)p_189928_, 0.0D, (double)p_189929_);
 -      return (int)(d0 * 2.75D + 3.0D + this.f_224635_.m_213715_(p_189928_, 0, p_189929_).m_188500_() * 0.25D);
-+   protected int getSurfaceDepth(me.alphamode.mclong.math.BigInteger p_189928_, me.alphamode.mclong.math.BigInteger p_189929_) {
-+      double d0 = this.f_189918_.m_75380_(p_189928_.doubleValue(), 0.0D, p_189929_.doubleValue());
-+      return (int)(d0 * 2.75D + 3.0D + this.f_224635_.at(p_189928_.longValue(), 0, p_189929_.longValue()).m_188500_() * 0.25D);
++   protected int getSurfaceDepth(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      double d0 = this.f_189918_.m_75380_(pX.doubleValue(), 0.0D, pZ.doubleValue());
++      return (int)(d0 * 2.75D + 3.0D + this.f_224635_.at(pX.longValue(), 0, pZ.longValue()).m_188500_() * 0.25D);
     }
  
 -   protected double m_202189_(int p_202190_, int p_202191_) {
 -      return this.f_189892_.m_75380_((double)p_202190_, 0.0D, (double)p_202191_);
-+   protected double getSurfaceSecondary(me.alphamode.mclong.math.BigInteger p_202190_, me.alphamode.mclong.math.BigInteger p_202191_) {
-+      return this.f_189892_.m_75380_(p_202190_.doubleValue(), 0.0D, p_202191_.doubleValue());
++   protected double getSurfaceSecondary(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.f_189892_.m_75380_(pX.doubleValue(), 0.0D, pZ.doubleValue());
     }
  
     private boolean m_189952_(BlockState p_189953_) {
@@ -139,22 +139,23 @@
     }
  
 -   private void m_189954_(BlockColumn p_189955_, int p_189956_, int p_189957_, int p_189958_, LevelHeightAccessor p_189959_) {
-+   private void erodedBadlandsExtension(BlockColumn p_189955_, me.alphamode.mclong.math.BigInteger p_189956_, me.alphamode.mclong.math.BigInteger p_189957_, long p_189958_, LevelHeightAccessor p_189959_) {
++   private void erodedBadlandsExtension(BlockColumn pBlockColumn, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, long pHeight, LevelHeightAccessor pLevel) {
        double d0 = 0.2D;
 -      double d1 = Math.min(Math.abs(this.f_189910_.m_75380_((double)p_189956_, 0.0D, (double)p_189957_) * 8.25D), this.f_189908_.m_75380_((double)p_189956_ * 0.2D, 0.0D, (double)p_189957_ * 0.2D) * 15.0D);
-+      double d1 = Math.min(Math.abs(this.f_189910_.m_75380_(p_189956_.doubleValue(), 0.0D, p_189957_.doubleValue()) * 8.25D), this.f_189908_.m_75380_(p_189956_.toBigDecimal().multiply(0.2D).doubleValue(), 0.0D, p_189957_.toBigDecimal().multiply(0.2D).doubleValue()) * 15.0D);
++      double d1 = Math.min(Math.abs(this.f_189910_.m_75380_(pX.doubleValue(), 0.0D, pZ.doubleValue()) * 8.25D), this.f_189908_.m_75380_(pX.toBigDecimal().multiply(0.2D).doubleValue(), 0.0D, pZ.toBigDecimal().multiply(0.2D).doubleValue()) * 15.0D);
        if (!(d1 <= 0.0D)) {
           double d2 = 0.75D;
           double d3 = 1.5D;
 -         double d4 = Math.abs(this.f_189909_.m_75380_((double)p_189956_ * 0.75D, 0.0D, (double)p_189957_ * 0.75D) * 1.5D);
-+         double d4 = Math.abs(this.f_189909_.m_75380_(p_189956_.toBigDecimal().multiply(0.75D).doubleValue(), 0.0D, p_189957_.toBigDecimal().multiply(0.75D).doubleValue()) * 1.5D);
++         double d4 = Math.abs(this.f_189909_.m_75380_(pX.toBigDecimal().multiply(0.75D).doubleValue(), 0.0D, pZ.toBigDecimal().multiply(0.75D).doubleValue()) * 1.5D);
           double d5 = 64.0D + Math.min(d1 * d1 * 2.5D, Math.ceil(d4 * 50.0D) + 24.0D);
           int i = Mth.m_14107_(d5);
-          if (p_189958_ <= i) {
+-         if (p_189958_ <= i) {
 -            for(int j = i; j >= p_189959_.m_141937_(); --j) {
 -               BlockState blockstate = p_189955_.m_183556_(j);
-+            for(int j = i; j >= p_189959_.getMinBuildHeight(); --j) {
-+               BlockState blockstate = p_189955_.getBlock(j);
++         if (pHeight <= i) {
++            for(int j = i; j >= pLevel.getMinBuildHeight(); --j) {
++               BlockState blockstate = pBlockColumn.getBlock(j);
                 if (blockstate.m_60713_(this.f_189904_.m_60734_())) {
                    break;
                 }
@@ -164,8 +165,8 @@
  
 -            for(int k = i; k >= p_189959_.m_141937_() && p_189955_.m_183556_(k).m_60795_(); --k) {
 -               p_189955_.m_183639_(k, this.f_189904_);
-+            for(int k = i; k >= p_189959_.getMinBuildHeight() && p_189955_.getBlock(k).m_60795_(); --k) {
-+               p_189955_.setBlock(k, this.f_189904_);
++            for(int k = i; k >= pLevel.getMinBuildHeight() && pBlockColumn.getBlock(k).m_60795_(); --k) {
++               pBlockColumn.setBlock(k, this.f_189904_);
              }
  
           }
@@ -173,18 +174,18 @@
     }
  
 -   private void m_189934_(int p_189935_, Biome p_189936_, BlockColumn p_189937_, BlockPos.MutableBlockPos p_189938_, int p_189939_, int p_189940_, int p_189941_) {
-+   private void frozenOceanExtension(int p_189935_, Biome p_189936_, BlockColumn p_189937_, BlockPos.MutableBlockPos p_189938_, me.alphamode.mclong.math.BigInteger p_189939_, me.alphamode.mclong.math.BigInteger p_189940_, long p_189941_) {
++   private void frozenOceanExtension(int pMinSurfaceLevel, Biome pBiome, BlockColumn pBlockColumn, BlockPos.MutableBlockPos p_189938_, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, long pHeight) {
        double d0 = 1.28D;
 -      double d1 = Math.min(Math.abs(this.f_189913_.m_75380_((double)p_189939_, 0.0D, (double)p_189940_) * 8.25D), this.f_189911_.m_75380_((double)p_189939_ * 1.28D, 0.0D, (double)p_189940_ * 1.28D) * 15.0D);
-+      double d1 = Math.min(Math.abs(this.f_189913_.m_75380_(p_189939_.doubleValue(), 0.0D, p_189940_.doubleValue()) * 8.25D), this.f_189911_.m_75380_(p_189939_.toBigDecimal().multiply(1.28D).doubleValue(), 0.0D, p_189940_.toBigDecimal().multiply(1.28D).doubleValue()) * 15.0D);
++      double d1 = Math.min(Math.abs(this.f_189913_.m_75380_(pX.doubleValue(), 0.0D, pZ.doubleValue()) * 8.25D), this.f_189911_.m_75380_(pX.toBigDecimal().multiply(1.28D).doubleValue(), 0.0D, pZ.toBigDecimal().multiply(1.28D).doubleValue()) * 15.0D);
        if (!(d1 <= 1.8D)) {
           double d3 = 1.17D;
           double d4 = 1.5D;
 -         double d5 = Math.abs(this.f_189912_.m_75380_((double)p_189939_ * 1.17D, 0.0D, (double)p_189940_ * 1.17D) * 1.5D);
-+         double d5 = Math.abs(this.f_189912_.m_75380_(p_189939_.toBigDecimal().multiply(1.17D).doubleValue(), 0.0D, p_189940_.toBigDecimal().multiply(1.17D).doubleValue()) * 1.5D);
++         double d5 = Math.abs(this.f_189912_.m_75380_(pX.toBigDecimal().multiply(1.17D).doubleValue(), 0.0D, pZ.toBigDecimal().multiply(1.17D).doubleValue()) * 1.5D);
           double d6 = Math.min(d1 * d1 * 1.2D, Math.ceil(d5 * 40.0D) + 14.0D);
 -         if (p_189936_.m_198908_(p_189938_.m_122178_(p_189939_, 63, p_189940_))) {
-+         if (p_189936_.m_198908_(p_189938_.set(p_189939_, me.alphamode.mclong.math.BigInteger.valueOf(63), p_189940_))) {
++         if (pBiome.m_198908_(p_189938_.set(pX, me.alphamode.mclong.math.BigInteger.valueOf(63), pZ))) {
              d6 -= 2.0D;
           }
  
@@ -193,22 +194,22 @@
  
           double d7 = d6;
 -         RandomSource randomsource = this.f_224635_.m_213715_(p_189939_, 0, p_189940_);
-+         RandomSource randomsource = this.f_224635_.at(p_189939_.longValue(), 0, p_189940_.longValue());
++         RandomSource randomsource = this.f_224635_.at(pX.longValue(), 0, pZ.longValue());
           int i = 2 + randomsource.m_188503_(4);
           int j = this.f_189905_ + 18 + randomsource.m_188503_(10);
           int k = 0;
  
 -         for(int l = Math.max(p_189941_, (int)d6 + 1); l >= p_189935_; --l) {
 -            if (p_189937_.m_183556_(l).m_60795_() && l < (int)d7 && randomsource.m_188500_() > 0.01D || p_189937_.m_183556_(l).m_60713_(Blocks.f_49990_) && l > (int)d2 && l < this.f_189905_ && d2 != 0.0D && randomsource.m_188500_() > 0.15D) {
-+         for(long l = Math.max(p_189941_, (int)d6 + 1); l >= p_189935_; --l) {
-+            if (p_189937_.getBlock(l).m_60795_() && l < (int)d7 && randomsource.m_188500_() > 0.01D || p_189937_.getBlock(l).m_60713_(Blocks.f_49990_) && l > (int)d2 && l < this.f_189905_ && d2 != 0.0D && randomsource.m_188500_() > 0.15D) {
++         for(long l = Math.max(pHeight, (int)d6 + 1); l >= pMinSurfaceLevel; --l) {
++            if (pBlockColumn.getBlock(l).m_60795_() && l < (int)d7 && randomsource.m_188500_() > 0.01D || pBlockColumn.getBlock(l).m_60713_(Blocks.f_49990_) && l > (int)d2 && l < this.f_189905_ && d2 != 0.0D && randomsource.m_188500_() > 0.15D) {
                 if (k <= i && l > j) {
 -                  p_189937_.m_183639_(l, f_189902_);
-+                  p_189937_.setBlock(l, f_189902_);
++                  pBlockColumn.setBlock(l, f_189902_);
                    ++k;
                 } else {
 -                  p_189937_.m_183639_(l, f_189901_);
-+                  p_189937_.setBlock(l, f_189901_);
++                  pBlockColumn.setBlock(l, f_189901_);
                 }
              }
           }
@@ -219,8 +220,8 @@
 -   protected BlockState m_189930_(int p_189931_, int p_189932_, int p_189933_) {
 -      int i = (int)Math.round(this.f_189907_.m_75380_((double)p_189931_, 0.0D, (double)p_189933_) * 4.0D);
 -      return this.f_189906_[(p_189932_ + i + this.f_189906_.length) % this.f_189906_.length];
-+   protected BlockState getBand(me.alphamode.mclong.math.BigInteger p_189931_, me.alphamode.mclong.math.BigInteger p_189932_, me.alphamode.mclong.math.BigInteger p_189933_) {
-+      int i = (int)Math.round(this.f_189907_.m_75380_(p_189931_.doubleValue(), 0.0D, p_189933_.doubleValue()) * 4.0D);
-+      return this.f_189906_[((p_189932_.add(i).add(this.f_189906_.length)).remainder(this.f_189906_.length)).intValue()];
++   protected BlockState getBand(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      int i = (int)Math.round(this.f_189907_.m_75380_(pX.doubleValue(), 0.0D, pZ.doubleValue()) * 4.0D);
++      return this.f_189906_[((pY.add(i).add(this.f_189906_.length)).remainder(this.f_189906_.length)).intValue()];
     }
  }

@@ -5,15 +5,15 @@
  public interface LevelReader extends BlockAndTintGetter, CollisionGetter, SignalGetter, BiomeManager.NoiseBiomeSource {
     @Nullable
 -   ChunkAccess m_6522_(int p_46823_, int p_46824_, ChunkStatus p_46825_, boolean p_46826_);
-+   ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger p_46823_, me.alphamode.mclong.math.BigInteger p_46824_, ChunkStatus p_46825_, boolean p_46826_);
++   ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, ChunkStatus pRequiredStatus, boolean pNonnull);
  
     /** @deprecated */
     @Deprecated
 -   boolean m_7232_(int p_46838_, int p_46839_);
-+   boolean hasChunk(me.alphamode.mclong.math.BigInteger p_46838_, me.alphamode.mclong.math.BigInteger p_46839_);
++   boolean hasChunk(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ);
  
 -   int m_6924_(Heightmap.Types p_46827_, int p_46828_, int p_46829_);
-+   long getHeight(Heightmap.Types p_46827_, me.alphamode.mclong.math.BigInteger p_46828_, me.alphamode.mclong.math.BigInteger p_46829_);
++   long getHeight(Heightmap.Types pHeightmapType, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ);
  
     int m_7445_();
  
@@ -50,12 +50,12 @@
 +      return p_46837_.m_130045_(this.m_204166_(p_46836_).m_203334_(), (double)p_46836_.getX(), (double)p_46836_.getZ());
 +   }
 +
-+   default Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger p_204163_, me.alphamode.mclong.math.BigInteger p_204164_, me.alphamode.mclong.math.BigInteger p_204165_) {
-+      ChunkAccess chunkaccess = this.getChunk(QuartPos.toSection(p_204163_), QuartPos.toSection(p_204165_), ChunkStatus.f_62317_, false);
-+      return chunkaccess != null ? chunkaccess.getNoiseBiome(p_204163_, p_204164_, p_204165_) : this.getUncachedNoiseBiome(p_204163_, p_204164_, p_204165_);
++   default Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      ChunkAccess chunkaccess = this.getChunk(QuartPos.toSection(pX), QuartPos.toSection(pZ), ChunkStatus.f_62317_, false);
++      return chunkaccess != null ? chunkaccess.getNoiseBiome(pX, pY, pZ) : this.getUncachedNoiseBiome(pX, pY, pZ);
 +   }
 +
-+   Holder<Biome> getUncachedNoiseBiome(me.alphamode.mclong.math.BigInteger p_204159_, me.alphamode.mclong.math.BigInteger p_204160_, me.alphamode.mclong.math.BigInteger p_204161_);
++   Holder<Biome> getUncachedNoiseBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ);
  
     boolean m_5776_();
  
@@ -115,19 +115,19 @@
 +      return this.getChunk(SectionPos.blockToSectionCoord(p_46866_.getBigX()), SectionPos.blockToSectionCoord(p_46866_.getBigZ()));
 +   }
 +
-+   default ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger p_46807_, me.alphamode.mclong.math.BigInteger p_46808_) {
-+      return this.getChunk(p_46807_, p_46808_, ChunkStatus.f_62326_, true);
++   default ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
++      return this.getChunk(pChunkX, pChunkZ, ChunkStatus.f_62326_, true);
 +   }
 +
-+   default ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger p_46820_, me.alphamode.mclong.math.BigInteger p_46821_, ChunkStatus p_46822_) {
-+      return this.getChunk(p_46820_, p_46821_, p_46822_, true);
++   default ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ, ChunkStatus pRequiredStatus) {
++      return this.getChunk(pChunkX, pChunkZ, pRequiredStatus, true);
     }
  
     @Nullable
 -   default BlockGetter m_7925_(int p_46845_, int p_46846_) {
 -      return this.m_6522_(p_46845_, p_46846_, ChunkStatus.f_62314_, false);
-+   default BlockGetter getChunkForCollisions(me.alphamode.mclong.math.BigInteger p_46845_, me.alphamode.mclong.math.BigInteger p_46846_) {
-+      return this.getChunk(p_46845_, p_46846_, ChunkStatus.f_62314_, false);
++   default BlockGetter getChunkForCollisions(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
++      return this.getChunk(pChunkX, pChunkZ, ChunkStatus.f_62314_, false);
     }
  
     default boolean m_46801_(BlockPos p_46802_) {
@@ -172,8 +172,8 @@
     @Deprecated
 -   default boolean m_151577_(int p_151578_, int p_151579_) {
 -      return this.m_7232_(SectionPos.m_123171_(p_151578_), SectionPos.m_123171_(p_151579_));
-+   default boolean hasChunkAt(me.alphamode.mclong.math.BigInteger p_151578_, me.alphamode.mclong.math.BigInteger p_151579_) {
-+      return this.hasChunk(SectionPos.blockToSectionCoord(p_151578_), SectionPos.blockToSectionCoord(p_151579_));
++   default boolean hasChunkAt(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.hasChunk(SectionPos.blockToSectionCoord(pX), SectionPos.blockToSectionCoord(pZ));
     }
  
     /** @deprecated */
@@ -211,17 +211,17 @@
 +
 +   /** @deprecated */
 +   @Deprecated
-+   default boolean hasChunksAt(me.alphamode.mclong.math.BigInteger p_46813_, me.alphamode.mclong.math.BigInteger p_46814_, me.alphamode.mclong.math.BigInteger p_46815_, me.alphamode.mclong.math.BigInteger p_46816_, me.alphamode.mclong.math.BigInteger p_46817_, me.alphamode.mclong.math.BigInteger p_46818_) {
-+      return p_46817_.compareTo(this.getMinBuildHeight()) >= 0 && p_46814_.compareTo(this.getMaxBuildHeight()) < 0 ? this.hasChunksAt(p_46813_, p_46815_, p_46816_, p_46818_) : false;
++   default boolean hasChunksAt(me.alphamode.mclong.math.BigInteger pFromX, me.alphamode.mclong.math.BigInteger pFromY, me.alphamode.mclong.math.BigInteger pFromZ, me.alphamode.mclong.math.BigInteger pToX, me.alphamode.mclong.math.BigInteger pToY, me.alphamode.mclong.math.BigInteger pToZ) {
++      return pToY.compareTo(this.getMinBuildHeight()) >= 0 && pFromY.compareTo(this.getMaxBuildHeight()) < 0 ? this.hasChunksAt(pFromX, pFromZ, pToX, pToZ) : false;
 +   }
 +
 +   /** @deprecated */
 +   @Deprecated
-+   default boolean hasChunksAt(me.alphamode.mclong.math.BigInteger p_151573_, me.alphamode.mclong.math.BigInteger p_151574_, me.alphamode.mclong.math.BigInteger p_151575_, me.alphamode.mclong.math.BigInteger p_151576_) {
-+      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(p_151573_);
-+      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(p_151575_);
-+      me.alphamode.mclong.math.BigInteger k = SectionPos.blockToSectionCoord(p_151574_);
-+      me.alphamode.mclong.math.BigInteger l = SectionPos.blockToSectionCoord(p_151576_);
++   default boolean hasChunksAt(me.alphamode.mclong.math.BigInteger pFromX, me.alphamode.mclong.math.BigInteger pFromZ, me.alphamode.mclong.math.BigInteger pToX, me.alphamode.mclong.math.BigInteger pToZ) {
++      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(pFromX);
++      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(pToX);
++      me.alphamode.mclong.math.BigInteger k = SectionPos.blockToSectionCoord(pFromZ);
++      me.alphamode.mclong.math.BigInteger l = SectionPos.blockToSectionCoord(pToZ);
 +
 +      for(me.alphamode.mclong.math.BigInteger i1 = i; i1.compareTo(j) <= 0; i1 = i1.add()) {
 +         for(me.alphamode.mclong.math.BigInteger j1 = k; j1.compareTo(l) <= 0; j1 = j1.add()) {

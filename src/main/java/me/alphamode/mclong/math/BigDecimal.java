@@ -9,12 +9,12 @@ import java.math.RoundingMode;
 
 public class BigDecimal extends Number implements Comparable<BigDecimal> {
     private static final MathContext PRECISION = MathContext.UNLIMITED;
-    public static final BigDecimal MAX_VALUE = new BigDecimal(Double.MAX_VALUE);
-    public static final BigDecimal ZERO = new BigDecimal(0);
-    public static final BigDecimal REAL_ZERO = new BigDecimal(0E-9);
-    public static final BigDecimal ONE = new BigDecimal(1);
+    public static final BigDecimal MAX_VALUE = BigDecimal.valueOf(Double.MAX_VALUE);
+    public static final BigDecimal ZERO = BigDecimal.valueOf(0);
+    public static final BigDecimal REAL_ZERO = BigDecimal.valueOf(0E-9);
+    public static final BigDecimal ONE = BigDecimal.valueOf(1);
 
-    private final java.math.BigDecimal backing;
+    private java.math.BigDecimal backing;
     private final double doubleBacking;
 
     public BigDecimal(java.math.BigDecimal val) {
@@ -107,8 +107,9 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     public BigDecimal subtract(BigDecimal val) {
         ensureValid();
         val.ensureValid();
-        if (BigConstants.BIG_MODE)
+        if (BigConstants.BIG_MODE) {
             return new BigDecimal(this.backing.subtract(val.backing, PRECISION));
+        }
         return new BigDecimal(this.doubleBacking - val.doubleBacking);
     }
 
@@ -161,9 +162,6 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
 
     @Override
     public double doubleValue() {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return this.backing.doubleValue();
         return this.doubleBacking;
     }
 
@@ -323,7 +321,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     public void ensureValid() {
-//        if (BigConstants.BIG_MODE && backing == null)
-//            this.backing = new java.math.BigDecimal(this.doubleBacking, PRECISION);
+        if (BigConstants.BIG_MODE && backing == null)
+            this.backing = new java.math.BigDecimal(this.doubleBacking, PRECISION);
     }
 }

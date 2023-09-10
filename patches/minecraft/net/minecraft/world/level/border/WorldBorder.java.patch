@@ -13,27 +13,27 @@
  
     public boolean m_61937_(BlockPos p_61938_) {
 -      return (double)(p_61938_.m_123341_() + 1) > this.m_61955_() && (double)p_61938_.m_123341_() < this.m_61957_() && (double)(p_61938_.m_123343_() + 1) > this.m_61956_() && (double)p_61938_.m_123343_() < this.m_61958_();
-+      return true;//(double)(p_61938_.getX() + 1) > this.getMinX() && (double)p_61938_.getX() < this.getMaxX() && (double)(p_61938_.getZ() + 1) > this.getMinZ() && (double)p_61938_.getZ() < this.getMaxZ();
++      return true;//(double)(pPos.getX() + 1) > this.getMinX() && (double)pPos.getX() < this.getMaxX() && (double)(pPos.getZ() + 1) > this.getMinZ() && (double)pPos.getZ() < this.getMaxZ();
     }
  
     public boolean m_61927_(ChunkPos p_61928_) {
 -      return (double)p_61928_.m_45608_() > this.m_61955_() && (double)p_61928_.m_45604_() < this.m_61957_() && (double)p_61928_.m_45609_() > this.m_61956_() && (double)p_61928_.m_45605_() < this.m_61958_();
-+      return true;//(double)p_61928_.getMaxBlockX() > this.getMinX() && (double)p_61928_.getMinBlockX() < this.getMaxX() && (double)p_61928_.getMaxBlockZ() > this.getMinZ() && (double)p_61928_.getMinBlockZ() < this.getMaxZ();
++      return true;//(double)pChunkPos.getMaxBlockX() > this.getMinX() && (double)pChunkPos.getMinBlockX() < this.getMaxX() && (double)pChunkPos.getMaxBlockZ() > this.getMinZ() && (double)pChunkPos.getMinBlockZ() < this.getMaxZ();
     }
  
     public boolean m_156093_(double p_156094_, double p_156095_) {
 -      return p_156094_ > this.m_61955_() && p_156094_ < this.m_61957_() && p_156095_ > this.m_61956_() && p_156095_ < this.m_61958_();
-+      return true;//p_156094_ > this.getMinX() && p_156094_ < this.getMaxX() && p_156095_ > this.getMinZ() && p_156095_ < this.getMaxZ();
++      return true;//pX > this.getMinX() && pX < this.getMaxX() && pZ > this.getMinZ() && pZ < this.getMaxZ();
     }
  
     public boolean m_187562_(double p_187563_, double p_187564_, double p_187565_) {
 -      return p_187563_ > this.m_61955_() - p_187565_ && p_187563_ < this.m_61957_() + p_187565_ && p_187564_ > this.m_61956_() - p_187565_ && p_187564_ < this.m_61958_() + p_187565_;
-+      return true;//p_187563_ > this.getMinX() - p_187565_ && p_187563_ < this.getMaxX() + p_187565_ && p_187564_ > this.getMinZ() - p_187565_ && p_187564_ < this.getMaxZ() + p_187565_;
++      return true;//pX > this.getMinX() - pOffset && pX < this.getMaxX() + pOffset && pZ > this.getMinZ() - pOffset && pZ < this.getMaxZ() + pOffset;
     }
  
     public boolean m_61935_(AABB p_61936_) {
 -      return p_61936_.f_82291_ > this.m_61955_() && p_61936_.f_82288_ < this.m_61957_() && p_61936_.f_82293_ > this.m_61956_() && p_61936_.f_82290_ < this.m_61958_();
-+      return true;//p_61936_.maxX > this.getMinX() && p_61936_.minX < this.getMaxX() && p_61936_.maxZ > this.getMinZ() && p_61936_.minZ < this.getMaxZ();
++      return true;//pBox.maxX > this.getMinX() && pBox.minX < this.getMaxX() && pBox.maxZ > this.getMinZ() && pBox.minZ < this.getMaxZ();
     }
  
     public BlockPos m_187569_(double p_187570_, double p_187571_, double p_187572_) {
@@ -42,7 +42,7 @@
  
     public double m_61925_(Entity p_61926_) {
 -      return this.m_61941_(p_61926_.m_20185_(), p_61926_.m_20189_());
-+      return java.lang.Double.MAX_VALUE;//this.getDistanceToBorder(p_61926_.getX(), p_61926_.getZ());
++      return java.lang.Double.MAX_VALUE;//this.getDistanceToBorder(pEntity.getX(), pEntity.getZ());
     }
  
     public VoxelShape m_61946_() {
@@ -51,7 +51,7 @@
     public boolean m_187566_(Entity p_187567_, AABB p_187568_) {
        double d0 = Math.max(Mth.m_14005_(p_187568_.m_82362_(), p_187568_.m_82385_()), 1.0D);
 -      return this.m_61925_(p_187567_) < d0 * 2.0D && this.m_187562_(p_187567_.m_20185_(), p_187567_.m_20189_(), d0);
-+      return false;//this.getDistanceToBorder(p_187567_) < d0 * 2.0D && this.isWithinBounds(p_187567_.getX(), p_187567_.getZ(), d0);
++      return false;//this.getDistanceToBorder(pEntity) < d0 * 2.0D && this.isWithinBounds(pEntity.getX(), pEntity.getZ(), d0);
     }
  
     public BorderStatus m_61954_() {
@@ -60,8 +60,9 @@
     }
  
 -   public void m_61923_(int p_61924_) {
-+   public void setAbsoluteMaxSize(long p_61924_) {
-       this.f_61913_ = p_61924_;
+-      this.f_61913_ = p_61924_;
++   public void setAbsoluteMaxSize(long pSize) {
++      this.f_61913_ = pSize;
        this.f_61914_.m_6623_();
     }
  

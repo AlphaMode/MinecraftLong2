@@ -29,12 +29,12 @@
     }
  
 -   public int m_214096_(int p_223964_, int p_223965_, Heightmap.Types p_223966_, LevelHeightAccessor p_223967_, RandomState p_223968_) {
-+   public long getBaseHeight(me.alphamode.mclong.math.BigInteger p_223964_, me.alphamode.mclong.math.BigInteger p_223965_, Heightmap.Types p_223966_, LevelHeightAccessor p_223967_, RandomState p_223968_) {
++   public long getBaseHeight(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, Heightmap.Types pType, LevelHeightAccessor pLevel, RandomState pRandom) {
        return 0;
     }
  
 -   public NoiseColumn m_214184_(int p_223959_, int p_223960_, LevelHeightAccessor p_223961_, RandomState p_223962_) {
-+   public NoiseColumn getBaseColumn(me.alphamode.mclong.math.BigInteger p_223959_, me.alphamode.mclong.math.BigInteger p_223960_, LevelHeightAccessor p_223961_, RandomState p_223962_) {
++   public NoiseColumn getBaseColumn(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, LevelHeightAccessor pHeight, RandomState pRandom) {
        return new NoiseColumn(0, new BlockState[0]);
     }
  
@@ -42,14 +42,18 @@
     }
  
 -   public static BlockState m_64148_(int p_64149_, int p_64150_) {
-+   public static BlockState getBlockStateFor(long p_64149_, long p_64150_) {
++   public static BlockState getBlockStateFor(long pChunkX, long pChunkZ) {
        BlockState blockstate = f_64112_;
-       if (p_64149_ > 0 && p_64150_ > 0 && p_64149_ % 2 != 0 && p_64150_ % 2 != 0) {
-          p_64149_ /= 2;
-          p_64150_ /= 2;
-          if (p_64149_ <= f_64115_ && p_64150_ <= f_64116_) {
+-      if (p_64149_ > 0 && p_64150_ > 0 && p_64149_ % 2 != 0 && p_64150_ % 2 != 0) {
+-         p_64149_ /= 2;
+-         p_64150_ /= 2;
+-         if (p_64149_ <= f_64115_ && p_64150_ <= f_64116_) {
 -            int i = Mth.m_14040_(p_64149_ * f_64115_ + p_64150_);
-+            int i = (int) Mth.abs(p_64149_ * f_64115_ + p_64150_);
++      if (pChunkX > 0 && pChunkZ > 0 && pChunkX % 2 != 0 && pChunkZ % 2 != 0) {
++         pChunkX /= 2;
++         pChunkZ /= 2;
++         if (pChunkX <= f_64115_ && pChunkZ <= f_64116_) {
++            int i = (int) Mth.abs(pChunkX * f_64115_ + pChunkZ);
              if (i < f_64114_.size()) {
                 blockstate = f_64114_.get(i);
              }

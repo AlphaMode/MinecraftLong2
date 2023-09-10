@@ -155,10 +155,10 @@
     }
  
 -   public void m_142098_(double p_143389_, double p_143390_, double p_143391_) {
-+   public void dismountTo(me.alphamode.mclong.math.BigDecimal p_143389_, me.alphamode.mclong.math.BigDecimal p_143390_, me.alphamode.mclong.math.BigDecimal p_143391_) {
++   public void dismountTo(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
        this.m_6038_();
 -      this.m_6034_(p_143389_, p_143390_, p_143391_);
-+      this.setPos(p_143389_, p_143390_, p_143391_);
++      this.setPos(pX, pY, pZ);
     }
  
     public boolean m_6673_(DamageSource p_9182_) {
@@ -167,12 +167,13 @@
     }
  
 -   public void m_289599_(double p_289676_, double p_289671_, double p_289665_, boolean p_289696_) {
-+   public void doCheckFallDamage(me.alphamode.mclong.math.BigDecimal p_289676_, me.alphamode.mclong.math.BigDecimal p_289671_, me.alphamode.mclong.math.BigDecimal p_289665_, boolean p_289696_) {
++   public void doCheckFallDamage(me.alphamode.mclong.math.BigDecimal pMovementX, me.alphamode.mclong.math.BigDecimal pMovementY, me.alphamode.mclong.math.BigDecimal pMovementZ, boolean pOnGround) {
        if (!this.m_146899_()) {
-          this.m_289600_(p_289696_, new Vec3(p_289676_, p_289671_, p_289665_));
+-         this.m_289600_(p_289696_, new Vec3(p_289676_, p_289671_, p_289665_));
++         this.m_289600_(pOnGround, new Vec3(pMovementX, pMovementY, pMovementZ));
           BlockPos blockpos = this.m_216999_();
 -         super.m_7840_(p_289671_, p_289696_, this.m_9236_().m_8055_(blockpos), blockpos);
-+         super.m_7840_(p_289671_.doubleValue(), p_289696_, this.m_9236_().m_8055_(blockpos), blockpos);
++         super.m_7840_(pMovementY.doubleValue(), pOnGround, this.m_9236_().m_8055_(blockpos), blockpos);
        }
     }
  
@@ -201,8 +202,8 @@
 +      this.f_8906_.teleport(x, y, z, this.m_146908_(), this.m_146909_(), RelativeMovement.f_263774_);
 +   }
 +
-+   public void teleportRelative(me.alphamode.mclong.math.BigDecimal p_251611_, me.alphamode.mclong.math.BigDecimal p_248861_, me.alphamode.mclong.math.BigDecimal p_252266_) {
-+      this.f_8906_.teleport(this.getBigX().add(p_251611_), this.getBigY().add(p_248861_), this.getBigZ().add(p_252266_), this.m_146908_(), this.m_146909_(), RelativeMovement.f_263752_);
++   public void teleportRelative(me.alphamode.mclong.math.BigDecimal pDx, me.alphamode.mclong.math.BigDecimal pDy, me.alphamode.mclong.math.BigDecimal pDz) {
++      this.f_8906_.teleport(this.getBigX().add(pDx), this.getBigY().add(pDy), this.getBigZ().add(pDz), this.m_146908_(), this.m_146909_(), RelativeMovement.f_263752_);
     }
  
     public boolean m_264318_(ServerLevel p_265564_, double p_265424_, double p_265680_, double p_265312_, Set<RelativeMovement> p_265192_, float p_265059_, float p_265266_) {
@@ -267,34 +268,42 @@
           }
  
           if (p_9214_ != null) {
-@@ -1400,11 +_,11 @@
+@@ -1400,25 +_,25 @@
        return this.f_8909_;
     }
  
 -   public void m_8999_(ServerLevel p_9000_, double p_9001_, double p_9002_, double p_9003_, float p_9004_, float p_9005_) {
-+   public void teleportTo(ServerLevel p_9000_, me.alphamode.mclong.math.BigDecimal p_9001_, me.alphamode.mclong.math.BigDecimal p_9002_, me.alphamode.mclong.math.BigDecimal p_9003_, float p_9004_, float p_9005_) {
++   public void teleportTo(ServerLevel pNewLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYaw, float pPitch) {
        this.m_9213_(this);
        this.m_8127_();
-       if (p_9000_ == this.m_9236_()) {
+-      if (p_9000_ == this.m_9236_()) {
 -         this.f_8906_.m_9774_(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
-+         this.f_8906_.teleport(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
++      if (pNewLevel == this.m_9236_()) {
++         this.f_8906_.teleport(pX, pY, pZ, pYaw, pPitch);
        } else {
           ServerLevel serverlevel = this.m_284548_();
-          LevelData leveldata = p_9000_.m_6106_();
-@@ -1413,11 +_,11 @@
+-         LevelData leveldata = p_9000_.m_6106_();
+-         this.f_8906_.m_9829_(new ClientboundRespawnPacket(p_9000_.m_220362_(), p_9000_.m_46472_(), BiomeManager.m_47877_(p_9000_.m_7328_()), this.f_8941_.m_9290_(), this.f_8941_.m_9293_(), p_9000_.m_46659_(), p_9000_.m_8584_(), (byte)3, this.m_219759_(), this.m_287157_()));
++         LevelData leveldata = pNewLevel.m_6106_();
++         this.f_8906_.m_9829_(new ClientboundRespawnPacket(pNewLevel.m_220362_(), pNewLevel.m_46472_(), BiomeManager.m_47877_(pNewLevel.m_7328_()), this.f_8941_.m_9290_(), this.f_8941_.m_9293_(), pNewLevel.m_46659_(), pNewLevel.m_8584_(), (byte)3, this.m_219759_(), this.m_287157_()));
+          this.f_8906_.m_9829_(new ClientboundChangeDifficultyPacket(leveldata.m_5472_(), leveldata.m_5474_()));
           this.f_8924_.m_6846_().m_11289_(this);
           serverlevel.m_143261_(this, Entity.RemovalReason.CHANGED_DIMENSION);
           this.m_146912_();
 -         this.m_7678_(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
-+         this.moveTo(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
-          this.m_284127_(p_9000_);
-          p_9000_.m_8622_(this);
+-         this.m_284127_(p_9000_);
+-         p_9000_.m_8622_(this);
++         this.moveTo(pX, pY, pZ, pYaw, pPitch);
++         this.m_284127_(pNewLevel);
++         pNewLevel.m_8622_(this);
           this.m_9209_(serverlevel);
 -         this.f_8906_.m_9774_(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
-+         this.f_8906_.teleport(p_9001_, p_9002_, p_9003_, p_9004_, p_9005_);
-          this.f_8924_.m_6846_().m_11229_(this, p_9000_);
+-         this.f_8924_.m_6846_().m_11229_(this, p_9000_);
++         this.f_8906_.teleport(pX, pY, pZ, pYaw, pPitch);
++         this.f_8924_.m_6846_().m_11229_(this, pNewLevel);
           this.f_8924_.m_6846_().m_11292_(this);
        }
+ 
 @@ -1467,7 +_,7 @@
  
     public void m_9088_(ChunkPos p_9089_) {

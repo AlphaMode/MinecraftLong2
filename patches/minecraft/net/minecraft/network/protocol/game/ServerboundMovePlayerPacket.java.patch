@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/protocol/game/ServerboundMovePlayerPacket.java
 +++ b/net/minecraft/network/protocol/game/ServerboundMovePlayerPacket.java
-@@ -4,16 +_,16 @@
+@@ -4,40 +_,40 @@
  import net.minecraft.network.protocol.Packet;
  
  public abstract class ServerboundMovePlayerPacket implements Packet<ServerGamePacketListener> {
@@ -17,36 +17,60 @@
     protected final boolean f_134125_;
  
 -   protected ServerboundMovePlayerPacket(double p_179675_, double p_179676_, double p_179677_, float p_179678_, float p_179679_, boolean p_179680_, boolean p_179681_, boolean p_179682_) {
-+   protected ServerboundMovePlayerPacket(me.alphamode.mclong.math.BigDecimal p_179675_, me.alphamode.mclong.math.BigDecimal p_179676_, me.alphamode.mclong.math.BigDecimal p_179677_, float p_179678_, float p_179679_, boolean p_179680_, boolean p_179681_, boolean p_179682_) {
-       this.f_134118_ = p_179675_;
-       this.f_134119_ = p_179676_;
-       this.f_134120_ = p_179677_;
-@@ -28,15 +_,15 @@
+-      this.f_134118_ = p_179675_;
+-      this.f_134119_ = p_179676_;
+-      this.f_134120_ = p_179677_;
+-      this.f_134121_ = p_179678_;
+-      this.f_134122_ = p_179679_;
+-      this.f_134123_ = p_179680_;
+-      this.f_134124_ = p_179681_;
+-      this.f_134125_ = p_179682_;
++   protected ServerboundMovePlayerPacket(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYRot, float pXRot, boolean pOnGround, boolean pHasPos, boolean pHasRot) {
++      this.f_134118_ = pX;
++      this.f_134119_ = pY;
++      this.f_134120_ = pZ;
++      this.f_134121_ = pYRot;
++      this.f_134122_ = pXRot;
++      this.f_134123_ = pOnGround;
++      this.f_134124_ = pHasPos;
++      this.f_134125_ = pHasRot;
+    }
+ 
+    public void m_5797_(ServerGamePacketListener p_134138_) {
        p_134138_.m_7185_(this);
     }
  
 -   public double m_134129_(double p_134130_) {
-+   public me.alphamode.mclong.math.BigDecimal getX(me.alphamode.mclong.math.BigDecimal p_134130_) {
-       return this.f_134124_ ? this.f_134118_ : p_134130_;
-    }
- 
+-      return this.f_134124_ ? this.f_134118_ : p_134130_;
+-   }
+-
 -   public double m_134140_(double p_134141_) {
-+   public me.alphamode.mclong.math.BigDecimal getY(me.alphamode.mclong.math.BigDecimal p_134141_) {
-       return this.f_134124_ ? this.f_134119_ : p_134141_;
-    }
- 
+-      return this.f_134124_ ? this.f_134119_ : p_134141_;
+-   }
+-
 -   public double m_134146_(double p_134147_) {
-+   public me.alphamode.mclong.math.BigDecimal getZ(me.alphamode.mclong.math.BigDecimal p_134147_) {
-       return this.f_134124_ ? this.f_134120_ : p_134147_;
+-      return this.f_134124_ ? this.f_134120_ : p_134147_;
++   public me.alphamode.mclong.math.BigDecimal getX(me.alphamode.mclong.math.BigDecimal pDefaultValue) {
++      return this.f_134124_ ? this.f_134118_ : pDefaultValue;
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getY(me.alphamode.mclong.math.BigDecimal pDefaultValue) {
++      return this.f_134124_ ? this.f_134119_ : pDefaultValue;
++   }
++
++   public me.alphamode.mclong.math.BigDecimal getZ(me.alphamode.mclong.math.BigDecimal pDefaultValue) {
++      return this.f_134124_ ? this.f_134120_ : pDefaultValue;
     }
  
+    public float m_134131_(float p_134132_) {
 @@ -61,35 +_,35 @@
     }
  
     public static class Pos extends ServerboundMovePlayerPacket {
 -      public Pos(double p_134150_, double p_134151_, double p_134152_, boolean p_134153_) {
-+      public Pos(me.alphamode.mclong.math.BigDecimal p_134150_, me.alphamode.mclong.math.BigDecimal p_134151_, me.alphamode.mclong.math.BigDecimal p_134152_, boolean p_134153_) {
-          super(p_134150_, p_134151_, p_134152_, 0.0F, 0.0F, p_134153_, true, false);
+-         super(p_134150_, p_134151_, p_134152_, 0.0F, 0.0F, p_134153_, true, false);
++      public Pos(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, boolean pOnGround) {
++         super(pX, pY, pZ, 0.0F, 0.0F, pOnGround, true, false);
        }
  
        public static ServerboundMovePlayerPacket.Pos m_179685_(FriendlyByteBuf p_179686_) {
@@ -73,8 +97,9 @@
  
     public static class PosRot extends ServerboundMovePlayerPacket {
 -      public PosRot(double p_134162_, double p_134163_, double p_134164_, float p_134165_, float p_134166_, boolean p_134167_) {
-+      public PosRot(me.alphamode.mclong.math.BigDecimal p_134162_, me.alphamode.mclong.math.BigDecimal p_134163_, me.alphamode.mclong.math.BigDecimal p_134164_, float p_134165_, float p_134166_, boolean p_134167_) {
-          super(p_134162_, p_134163_, p_134164_, p_134165_, p_134166_, p_134167_, true, true);
+-         super(p_134162_, p_134163_, p_134164_, p_134165_, p_134166_, p_134167_, true, true);
++      public PosRot(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYRot, float pXRot, boolean pOnGround) {
++         super(pX, pY, pZ, pYRot, pXRot, pOnGround, true, true);
        }
  
        public static ServerboundMovePlayerPacket.PosRot m_179687_(FriendlyByteBuf p_179688_) {

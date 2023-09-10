@@ -1,14 +1,16 @@
 --- a/net/minecraft/world/entity/vehicle/MinecartTNT.java
 +++ b/net/minecraft/world/entity/vehicle/MinecartTNT.java
-@@ -31,7 +_,7 @@
+@@ -31,8 +_,8 @@
        super(p_38649_, p_38650_);
     }
  
 -   public MinecartTNT(Level p_38652_, double p_38653_, double p_38654_, double p_38655_) {
-+   public MinecartTNT(Level p_38652_, me.alphamode.mclong.math.BigDecimal p_38653_, me.alphamode.mclong.math.BigDecimal p_38654_, me.alphamode.mclong.math.BigDecimal p_38655_) {
-       super(EntityType.f_20475_, p_38652_, p_38653_, p_38654_, p_38655_);
+-      super(EntityType.f_20475_, p_38652_, p_38653_, p_38654_, p_38655_);
++   public MinecartTNT(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      super(EntityType.f_20475_, pLevel, pX, pY, pZ);
     }
  
+    public AbstractMinecart.Type m_6064_() {
 @@ -47,7 +_,7 @@
        super.m_8119_();
        if (this.f_38647_ > 0) {
@@ -27,15 +29,17 @@
           this.m_146870_();
        }
  
-@@ -116,7 +_,7 @@
+@@ -116,8 +_,8 @@
        return super.m_142535_(p_150347_, p_150348_, p_150349_);
     }
  
 -   public void m_6025_(int p_38659_, int p_38660_, int p_38661_, boolean p_38662_) {
-+   public void activateMinecart(long p_38659_, long p_38660_, long p_38661_, boolean p_38662_) {
-       if (p_38662_ && this.f_38647_ < 0) {
+-      if (p_38662_ && this.f_38647_ < 0) {
++   public void activateMinecart(long pX, long pY, long pZ, boolean pReceivingPower) {
++      if (pReceivingPower && this.f_38647_ < 0) {
           this.m_38693_();
        }
+ 
 @@ -137,7 +_,7 @@
        if (!this.m_9236_().f_46443_) {
           this.m_9236_().m_7605_(this, (byte)10);

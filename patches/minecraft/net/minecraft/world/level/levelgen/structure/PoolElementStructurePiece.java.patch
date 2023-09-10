@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/PoolElementStructurePiece.java
 +++ b/net/minecraft/world/level/levelgen/structure/PoolElementStructurePiece.java
-@@ -29,12 +_,12 @@
+@@ -29,25 +_,25 @@
     private static final Logger f_72600_ = LogUtils.getLogger();
     protected final StructurePoolElement f_72597_;
     protected BlockPos f_72598_;
@@ -11,11 +11,21 @@
     private final StructureTemplateManager f_226493_;
  
 -   public PoolElementStructurePiece(StructureTemplateManager p_226495_, StructurePoolElement p_226496_, BlockPos p_226497_, int p_226498_, Rotation p_226499_, BoundingBox p_226500_) {
-+   public PoolElementStructurePiece(StructureTemplateManager p_226495_, StructurePoolElement p_226496_, BlockPos p_226497_, long p_226498_, Rotation p_226499_, BoundingBox p_226500_) {
-       super(StructurePieceType.f_210125_, 0, p_226500_);
-       this.f_226493_ = p_226495_;
-       this.f_72597_ = p_226496_;
-@@ -46,8 +_,8 @@
+-      super(StructurePieceType.f_210125_, 0, p_226500_);
+-      this.f_226493_ = p_226495_;
+-      this.f_72597_ = p_226496_;
+-      this.f_72598_ = p_226497_;
+-      this.f_72601_ = p_226498_;
+-      this.f_72599_ = p_226499_;
++   public PoolElementStructurePiece(StructureTemplateManager pStructureTemplateManager, StructurePoolElement pElement, BlockPos pPosition, long pGroundLevelDelta, Rotation pRotation, BoundingBox pBox) {
++      super(StructurePieceType.f_210125_, 0, pBox);
++      this.f_226493_ = pStructureTemplateManager;
++      this.f_72597_ = pElement;
++      this.f_72598_ = pPosition;
++      this.f_72601_ = pGroundLevelDelta;
++      this.f_72599_ = pRotation;
+    }
+ 
     public PoolElementStructurePiece(StructurePieceSerializationContext p_192406_, CompoundTag p_192407_) {
        super(StructurePieceType.f_210125_, p_192407_);
        this.f_226493_ = p_192406_.f_226956_();

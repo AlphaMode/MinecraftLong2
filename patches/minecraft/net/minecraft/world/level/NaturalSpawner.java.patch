@@ -196,39 +196,44 @@
                       }
                    }
                 }
-@@ -387,9 +_,9 @@
+@@ -387,22 +_,22 @@
        }
     }
  
 -   private static BlockPos m_47065_(LevelReader p_47066_, EntityType<?> p_47067_, int p_47068_, int p_47069_) {
 -      int i = p_47066_.m_6924_(SpawnPlacements.m_21765_(p_47067_), p_47068_, p_47069_);
 -      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_47068_, i, p_47069_);
-+   private static BlockPos getTopNonCollidingPos(LevelReader p_47066_, EntityType<?> p_47067_, me.alphamode.mclong.math.BigInteger p_47068_, me.alphamode.mclong.math.BigInteger p_47069_) {
-+      long i = p_47066_.getHeight(SpawnPlacements.m_21765_(p_47067_), p_47068_, p_47069_);
-+      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_47068_, me.alphamode.mclong.math.BigInteger.valueOf(i), p_47069_);
-       if (p_47066_.m_6042_().f_63856_()) {
+-      if (p_47066_.m_6042_().f_63856_()) {
++   private static BlockPos getTopNonCollidingPos(LevelReader pLevel, EntityType<?> pEntityType, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      long i = pLevel.getHeight(SpawnPlacements.m_21765_(pEntityType), pX, pZ);
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(pX, me.alphamode.mclong.math.BigInteger.valueOf(i), pZ);
++      if (pLevel.m_6042_().f_63856_()) {
           do {
              blockpos$mutableblockpos.m_122173_(Direction.DOWN);
-@@ -397,11 +_,11 @@
+-         } while(!p_47066_.m_8055_(blockpos$mutableblockpos).m_60795_());
++         } while(!pLevel.m_8055_(blockpos$mutableblockpos).m_60795_());
  
           do {
              blockpos$mutableblockpos.m_122173_(Direction.DOWN);
 -         } while(p_47066_.m_8055_(blockpos$mutableblockpos).m_60795_() && blockpos$mutableblockpos.m_123342_() > p_47066_.m_141937_());
-+         } while(p_47066_.m_8055_(blockpos$mutableblockpos).m_60795_() && blockpos$mutableblockpos.getY() > p_47066_.getMinBuildHeight());
++         } while(pLevel.m_8055_(blockpos$mutableblockpos).m_60795_() && blockpos$mutableblockpos.getY() > pLevel.getMinBuildHeight());
        }
  
-       if (SpawnPlacements.m_21752_(p_47067_) == SpawnPlacements.Type.ON_GROUND) {
+-      if (SpawnPlacements.m_21752_(p_47067_) == SpawnPlacements.Type.ON_GROUND) {
 -         BlockPos blockpos = blockpos$mutableblockpos.m_7495_();
+-         if (p_47066_.m_8055_(blockpos).m_60647_(p_47066_, blockpos, PathComputationType.LAND)) {
++      if (SpawnPlacements.m_21752_(pEntityType) == SpawnPlacements.Type.ON_GROUND) {
 +         BlockPos blockpos = blockpos$mutableblockpos.below();
-          if (p_47066_.m_8055_(blockpos).m_60647_(p_47066_, blockpos, PathComputationType.LAND)) {
++         if (pLevel.m_8055_(blockpos).m_60647_(pLevel, blockpos, PathComputationType.LAND)) {
              return blockpos;
           }
+       }
 @@ -417,7 +_,7 @@
  
     @FunctionalInterface
     public interface ChunkGetter {
 -      void m_47103_(long p_47104_, Consumer<LevelChunk> p_47105_);
-+      void query(ChunkPos p_47104_, Consumer<LevelChunk> p_47105_);
++      void query(ChunkPos pChunkPos, Consumer<LevelChunk> pChunkConsumer);
     }
  
     @FunctionalInterface

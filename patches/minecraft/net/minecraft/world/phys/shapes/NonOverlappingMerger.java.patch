@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/phys/shapes/NonOverlappingMerger.java
 +++ b/net/minecraft/world/phys/shapes/NonOverlappingMerger.java
-@@ -3,12 +_,12 @@
+@@ -3,15 +_,15 @@
  import it.unimi.dsi.fastutil.doubles.AbstractDoubleList;
  import it.unimi.dsi.fastutil.doubles.DoubleList;
  
@@ -13,18 +13,24 @@
     private final boolean f_83010_;
  
 -   protected NonOverlappingMerger(DoubleList p_83012_, DoubleList p_83013_, boolean p_83014_) {
-+   protected NonOverlappingMerger(it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> p_83012_, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> p_83013_, boolean p_83014_) {
-       this.f_83008_ = p_83012_;
-       this.f_83009_ = p_83013_;
-       this.f_83010_ = p_83014_;
+-      this.f_83008_ = p_83012_;
+-      this.f_83009_ = p_83013_;
+-      this.f_83010_ = p_83014_;
++   protected NonOverlappingMerger(it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> pLower, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> pUpper, boolean pSwap) {
++      this.f_83008_ = pLower;
++      this.f_83009_ = pUpper;
++      this.f_83010_ = pSwap;
+    }
+ 
+    public int size() {
 @@ -44,11 +_,11 @@
        return true;
     }
  
 -   public double getDouble(int p_83026_) {
 -      return p_83026_ < this.f_83008_.size() ? this.f_83008_.getDouble(p_83026_) : this.f_83009_.getDouble(p_83026_ - this.f_83008_.size());
-+   public me.alphamode.mclong.math.BigDecimal get(int p_83026_) {
-+      return p_83026_ < this.f_83008_.size() ? this.f_83008_.get(p_83026_) : this.f_83009_.get(p_83026_ - this.f_83008_.size());
++   public me.alphamode.mclong.math.BigDecimal get(int pIndex) {
++      return pIndex < this.f_83008_.size() ? this.f_83008_.get(pIndex) : this.f_83009_.get(pIndex - this.f_83008_.size());
     }
  
 -   public DoubleList m_6241_() {

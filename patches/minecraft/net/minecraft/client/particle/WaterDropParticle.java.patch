@@ -1,14 +1,16 @@
 --- a/net/minecraft/client/particle/WaterDropParticle.java
 +++ b/net/minecraft/client/particle/WaterDropParticle.java
-@@ -9,7 +_,7 @@
+@@ -9,8 +_,8 @@
  
  @OnlyIn(Dist.CLIENT)
  public class WaterDropParticle extends TextureSheetParticle {
 -   protected WaterDropParticle(ClientLevel p_108484_, double p_108485_, double p_108486_, double p_108487_) {
-+   protected WaterDropParticle(ClientLevel p_108484_, me.alphamode.mclong.math.BigDecimal p_108485_, me.alphamode.mclong.math.BigDecimal p_108486_, me.alphamode.mclong.math.BigDecimal p_108487_) {
-       super(p_108484_, p_108485_, p_108486_, p_108487_, 0.0D, 0.0D, 0.0D);
+-      super(p_108484_, p_108485_, p_108486_, p_108487_, 0.0D, 0.0D, 0.0D);
++   protected WaterDropParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      super(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D);
        this.f_107215_ *= (double)0.3F;
        this.f_107216_ = Math.random() * (double)0.2F + (double)0.1F;
+       this.f_107217_ *= (double)0.3F;
 @@ -44,9 +_,8 @@
              this.f_107217_ *= (double)0.7F;
           }
@@ -21,12 +23,14 @@
              this.m_107274_();
           }
  
-@@ -61,7 +_,7 @@
+@@ -61,8 +_,8 @@
           this.f_108490_ = p_108492_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_108503_, ClientLevel p_108504_, double p_108505_, double p_108506_, double p_108507_, double p_108508_, double p_108509_, double p_108510_) {
-+      public Particle createParticle(SimpleParticleType p_108503_, ClientLevel p_108504_, me.alphamode.mclong.math.BigDecimal p_108505_, me.alphamode.mclong.math.BigDecimal p_108506_, me.alphamode.mclong.math.BigDecimal p_108507_, double p_108508_, double p_108509_, double p_108510_) {
-          WaterDropParticle waterdropparticle = new WaterDropParticle(p_108504_, p_108505_, p_108506_, p_108507_);
+-         WaterDropParticle waterdropparticle = new WaterDropParticle(p_108504_, p_108505_, p_108506_, p_108507_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         WaterDropParticle waterdropparticle = new WaterDropParticle(pLevel, pX, pY, pZ);
           waterdropparticle.m_108335_(this.f_108490_);
           return waterdropparticle;
+       }

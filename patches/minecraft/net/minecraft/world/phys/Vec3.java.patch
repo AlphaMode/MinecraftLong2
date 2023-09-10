@@ -19,16 +19,16 @@
  
 -   public static Vec3 m_82528_(Vec3i p_82529_) {
 -      return new Vec3((double)p_82529_.m_123341_(), (double)p_82529_.m_123342_(), (double)p_82529_.m_123343_());
-+   public static Vec3 atLowerCornerOf(me.alphamode.mclong.core.Vec3l p_82529_) {
-+      return new Vec3(p_82529_.getBigDecX(), p_82529_.getBigDecY(), p_82529_.getBigDecZ());
++   public static Vec3 atLowerCornerOf(me.alphamode.mclong.core.Vec3l pToCopy) {
++      return new Vec3(pToCopy.getBigDecX(), pToCopy.getBigDecY(), pToCopy.getBigDecZ());
     }
  
     public static Vec3 m_272021_(Vec3i p_272866_, double p_273680_, double p_273668_, double p_273687_) {
        return new Vec3((double)p_272866_.m_123341_() + p_273680_, (double)p_272866_.m_123342_() + p_273668_, (double)p_272866_.m_123343_() + p_273687_);
     }
  
-+   public static Vec3 atLowerCornerWithOffset(me.alphamode.mclong.core.Vec3l p_272866_, double p_273680_, double p_273668_, double p_273687_) {
-+      return new Vec3(p_272866_.getBigDecX().add(p_273680_), p_272866_.getBigDecY().add(p_273668_), p_272866_.getBigDecZ().add(p_273687_));
++   public static Vec3 atLowerCornerWithOffset(me.alphamode.mclong.core.Vec3l pToCopy, double pOffsetX, double pOffsetY, double pOffsetZ) {
++      return new Vec3(pToCopy.getBigDecX().add(pOffsetX), pToCopy.getBigDecY().add(pOffsetY), pToCopy.getBigDecZ().add(pOffsetZ));
 +   }
 +
     public static Vec3 m_82512_(Vec3i p_82513_) {
@@ -41,16 +41,16 @@
 -
 -   public static Vec3 m_82514_(Vec3i p_82515_, double p_82516_) {
 -      return m_272021_(p_82515_, 0.5D, p_82516_, 0.5D);
-+   public static Vec3 atCenterOf(me.alphamode.mclong.core.Vec3l p_82513_) {
-+      return atLowerCornerWithOffset(p_82513_, 0.5D, 0.5D, 0.5D);
++   public static Vec3 atCenterOf(me.alphamode.mclong.core.Vec3l pToCopy) {
++      return atLowerCornerWithOffset(pToCopy, 0.5D, 0.5D, 0.5D);
 +   }
 +
-+   public static Vec3 atBottomCenterOf(me.alphamode.mclong.core.Vec3l p_82540_) {
-+      return atLowerCornerWithOffset(p_82540_, 0.5D, 0.0D, 0.5D);
++   public static Vec3 atBottomCenterOf(me.alphamode.mclong.core.Vec3l pToCopy) {
++      return atLowerCornerWithOffset(pToCopy, 0.5D, 0.0D, 0.5D);
 +   }
 +
-+   public static Vec3 upFromBottomCenterOf(me.alphamode.mclong.core.Vec3l p_82515_, double p_82516_) {
-+      return atLowerCornerWithOffset(p_82515_, 0.5D, p_82516_, 0.5D);
++   public static Vec3 upFromBottomCenterOf(me.alphamode.mclong.core.Vec3l pToCopy, double pVerticalOffset) {
++      return atLowerCornerWithOffset(pToCopy, 0.5D, pVerticalOffset, 0.5D);
 +   }
 +
 +   public Vec3(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {
@@ -110,8 +110,8 @@
 +      return this.add(p_82550_.f_82479_, p_82550_.f_82480_, p_82550_.f_82481_);
 +   }
 +
-+   public Vec3 add(me.alphamode.mclong.math.BigDecimal p_82521_, me.alphamode.mclong.math.BigDecimal p_82522_, me.alphamode.mclong.math.BigDecimal p_82523_) {
-+      return new Vec3(this.f_82479_.add(p_82521_), this.f_82480_.add(p_82522_), this.f_82481_.add(p_82523_));
++   public Vec3 add(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      return new Vec3(this.f_82479_.add(pX), this.f_82480_.add(pY), this.f_82481_.add(pZ));
     }
  
     public Vec3 m_82520_(double p_82521_, double p_82522_, double p_82523_) {
@@ -158,10 +158,10 @@
        return d0 * d0 + d1 * d1 + d2 * d2;
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal distanceToSqr(me.alphamode.mclong.math.BigDecimal p_82532_, me.alphamode.mclong.math.BigDecimal p_82533_, me.alphamode.mclong.math.BigDecimal p_82534_) {
-+      me.alphamode.mclong.math.BigDecimal d0 = p_82532_.subtract(this.getX());
-+      me.alphamode.mclong.math.BigDecimal d1 = p_82533_.subtract(this.getY());
-+      me.alphamode.mclong.math.BigDecimal d2 = p_82534_.subtract(this.getZ());
++   public me.alphamode.mclong.math.BigDecimal distanceToSqr(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      me.alphamode.mclong.math.BigDecimal d0 = pX.subtract(this.getX());
++      me.alphamode.mclong.math.BigDecimal d1 = pY.subtract(this.getY());
++      me.alphamode.mclong.math.BigDecimal d2 = pZ.subtract(this.getZ());
 +      return d0.multiply(d0).add(d1.multiply(d1)).add(d2.multiply(d2));
     }
  

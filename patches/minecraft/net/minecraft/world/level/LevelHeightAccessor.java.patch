@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/LevelHeightAccessor.java
 +++ b/net/minecraft/world/level/LevelHeightAccessor.java
-@@ -4,53 +_,58 @@
+@@ -4,54 +_,59 @@
  import net.minecraft.core.SectionPos;
  
  public interface LevelHeightAccessor {
@@ -65,31 +65,34 @@
 +      return p_151563_ < this.getMinBuildHeight() || p_151563_ >= this.getMaxBuildHeight();
 +   }
 +
-+   default boolean isOutsideBuildHeight(long p_151563_) {
-+      return p_151563_ < this.getMinBuildHeight() || p_151563_ >= this.getMaxBuildHeight();
++   default boolean isOutsideBuildHeight(long pY) {
++      return pY < this.getMinBuildHeight() || pY >= this.getMaxBuildHeight();
 +   }
 +
-+   default int getSectionIndex(long p_151565_) {
-+      return (int) this.getSectionIndexFromSectionY(SectionPos.blockToSectionCoord(p_151565_));
++   default int getSectionIndex(long pY) {
++      return (int) this.getSectionIndexFromSectionY(SectionPos.blockToSectionCoord(pY));
 +   }
 +
-+   default int getSectionIndexFromSectionY(long p_151567_) {
-+      return (int) (p_151567_ - this.getMinSection());
++   default int getSectionIndexFromSectionY(long pSectionIndex) {
++      return (int) (pSectionIndex - this.getMinSection());
 +   }
 +
-+   default long getSectionYFromSectionIndex(int p_151569_) {
-+      return p_151569_ + this.getMinSection();
++   default long getSectionYFromSectionIndex(int pSectionIndex) {
++      return pSectionIndex + this.getMinSection();
 +   }
 +
-+   static LevelHeightAccessor create(final long p_186488_, final long p_186489_) {
++   static LevelHeightAccessor create(final long pMinBuildHeight, final long pHeight) {
        return new LevelHeightAccessor() {
 -         public int m_141928_() {
+-            return p_186489_;
 +         public long getHeight() {
-             return p_186489_;
++            return pHeight;
           }
  
 -         public int m_141937_() {
+-            return p_186488_;
 +         public long getMinBuildHeight() {
-             return p_186488_;
++            return pMinBuildHeight;
           }
        };
+    }

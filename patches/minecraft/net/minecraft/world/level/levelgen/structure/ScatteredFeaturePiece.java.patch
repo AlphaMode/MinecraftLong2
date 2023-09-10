@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/ScatteredFeaturePiece.java
 +++ b/net/minecraft/world/level/levelgen/structure/ScatteredFeaturePiece.java
-@@ -12,10 +_,10 @@
+@@ -12,14 +_,14 @@
     protected final int f_72787_;
     protected final int f_72788_;
     protected final int f_72789_;
@@ -9,11 +9,19 @@
  
 -   protected ScatteredFeaturePiece(StructurePieceType p_209920_, int p_209921_, int p_209922_, int p_209923_, int p_209924_, int p_209925_, int p_209926_, Direction p_209927_) {
 -      super(p_209920_, 0, StructurePiece.m_163541_(p_209921_, p_209922_, p_209923_, p_209927_, p_209924_, p_209925_, p_209926_));
-+   protected ScatteredFeaturePiece(StructurePieceType p_209920_, long p_209921_, int p_209922_, long p_209923_, int p_209924_, int p_209925_, int p_209926_, Direction p_209927_) {
-+      super(p_209920_, 0, StructurePiece.makeBoundingBox((int) p_209921_, p_209922_, (int) p_209923_, p_209927_, p_209924_, p_209925_, p_209926_));
-       this.f_72787_ = p_209924_;
-       this.f_72788_ = p_209925_;
-       this.f_72789_ = p_209926_;
+-      this.f_72787_ = p_209924_;
+-      this.f_72788_ = p_209925_;
+-      this.f_72789_ = p_209926_;
+-      this.m_73519_(p_209927_);
++   protected ScatteredFeaturePiece(StructurePieceType pType, long pX, int pY, long pZ, int pWidth, int pHeight, int pDepth, Direction pOrientation) {
++      super(pType, 0, StructurePiece.makeBoundingBox((int) pX, pY, (int) pZ, pOrientation, pWidth, pHeight, pDepth));
++      this.f_72787_ = pWidth;
++      this.f_72788_ = pHeight;
++      this.f_72789_ = pDepth;
++      this.m_73519_(pOrientation);
+    }
+ 
+    protected ScatteredFeaturePiece(StructurePieceType p_209929_, CompoundTag p_209930_) {
 @@ -27,14 +_,14 @@
        this.f_72787_ = p_209930_.m_128451_("Width");
        this.f_72788_ = p_209930_.m_128451_("Height");

@@ -101,16 +101,16 @@
 -
 -   private static double m_143653_(double p_143654_) {
 -      return Mth.m_14008_(p_143654_, -2.0E7D, 2.0E7D);
-+   private static boolean containsInvalidValues(me.alphamode.mclong.math.BigDecimal p_143664_, me.alphamode.mclong.math.BigDecimal p_143665_, me.alphamode.mclong.math.BigDecimal p_143666_, float p_143667_, float p_143668_) {
-+      return !Floats.isFinite(p_143668_) || !Floats.isFinite(p_143667_);
++   private static boolean containsInvalidValues(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYRot, float pXRot) {
++      return !Floats.isFinite(pXRot) || !Floats.isFinite(pYRot);
 +   }
 +
-+   private static me.alphamode.mclong.math.BigDecimal clampHorizontal(me.alphamode.mclong.math.BigDecimal p_143610_) {
-+      return p_143610_;
++   private static me.alphamode.mclong.math.BigDecimal clampHorizontal(me.alphamode.mclong.math.BigDecimal pValue) {
++      return pValue;
 +   }
 +
-+   private static me.alphamode.mclong.math.BigDecimal clampVertical(me.alphamode.mclong.math.BigDecimal p_143654_) {
-+      return p_143654_;
++   private static me.alphamode.mclong.math.BigDecimal clampVertical(me.alphamode.mclong.math.BigDecimal pValue) {
++      return pValue;
     }
  
     public void m_5659_(ServerboundMoveVehiclePacket p_9876_) {
@@ -356,46 +356,54 @@
                       }
                    }
                 }
-@@ -940,8 +_,8 @@
+@@ -940,10 +_,10 @@
        }
     }
  
 -   private boolean m_288208_(LevelReader p_289008_, AABB p_288986_, double p_288990_, double p_288991_, double p_288967_) {
 -      AABB aabb = this.f_9743_.m_20191_().m_82386_(p_288990_ - this.f_9743_.m_20185_(), p_288991_ - this.f_9743_.m_20186_(), p_288967_ - this.f_9743_.m_20189_());
-+   private boolean isPlayerCollidingWithAnythingNew(LevelReader p_289008_, AABB p_288986_, me.alphamode.mclong.math.BigDecimal p_288990_, me.alphamode.mclong.math.BigDecimal p_288991_, me.alphamode.mclong.math.BigDecimal p_288967_) {
-+      AABB aabb = this.f_9743_.m_20191_().move(p_288990_.subtract(this.f_9743_.getBigX()), p_288991_.subtract(this.f_9743_.getBigY()), p_288967_.subtract(this.f_9743_.getBigZ()));
-       Iterable<VoxelShape> iterable = p_289008_.m_186431_(this.f_9743_, aabb.m_82406_((double)1.0E-5F));
-       VoxelShape voxelshape = Shapes.m_83064_(p_288986_.m_82406_((double)1.0E-5F));
+-      Iterable<VoxelShape> iterable = p_289008_.m_186431_(this.f_9743_, aabb.m_82406_((double)1.0E-5F));
+-      VoxelShape voxelshape = Shapes.m_83064_(p_288986_.m_82406_((double)1.0E-5F));
++   private boolean isPlayerCollidingWithAnythingNew(LevelReader pLevel, AABB pBox, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      AABB aabb = this.f_9743_.m_20191_().move(pX.subtract(this.f_9743_.getBigX()), pY.subtract(this.f_9743_.getBigY()), pZ.subtract(this.f_9743_.getBigZ()));
++      Iterable<VoxelShape> iterable = pLevel.m_186431_(this.f_9743_, aabb.m_82406_((double)1.0E-5F));
++      VoxelShape voxelshape = Shapes.m_83064_(pBox.m_82406_((double)1.0E-5F));
  
-@@ -954,14 +_,14 @@
+       for(VoxelShape voxelshape1 : iterable) {
+          if (!Shapes.m_83157_(voxelshape1, voxelshape, BooleanOp.f_82689_)) {
+@@ -954,24 +_,24 @@
        return false;
     }
  
 -   public void m_9774_(double p_9775_, double p_9776_, double p_9777_, float p_9778_, float p_9779_) {
 -      this.m_9780_(p_9775_, p_9776_, p_9777_, p_9778_, p_9779_, Collections.emptySet());
-+   public void teleport(me.alphamode.mclong.math.BigDecimal p_9775_, me.alphamode.mclong.math.BigDecimal p_9776_, me.alphamode.mclong.math.BigDecimal p_9777_, float p_9778_, float p_9779_) {
-+      this.teleport(p_9775_, p_9776_, p_9777_, p_9778_, p_9779_, Collections.emptySet());
++   public void teleport(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYaw, float pPitch) {
++      this.teleport(pX, pY, pZ, pYaw, pPitch, Collections.emptySet());
     }
  
 -   public void m_9780_(double p_9781_, double p_9782_, double p_9783_, float p_9784_, float p_9785_, Set<RelativeMovement> p_9786_) {
 -      double d0 = p_9786_.contains(RelativeMovement.X) ? this.f_9743_.m_20185_() : 0.0D;
 -      double d1 = p_9786_.contains(RelativeMovement.Y) ? this.f_9743_.m_20186_() : 0.0D;
 -      double d2 = p_9786_.contains(RelativeMovement.Z) ? this.f_9743_.m_20189_() : 0.0D;
-+   public void teleport(me.alphamode.mclong.math.BigDecimal p_9781_, me.alphamode.mclong.math.BigDecimal p_9782_, me.alphamode.mclong.math.BigDecimal p_9783_, float p_9784_, float p_9785_, Set<RelativeMovement> p_9786_) {
-+      me.alphamode.mclong.math.BigDecimal d0 = p_9786_.contains(RelativeMovement.X) ? this.f_9743_.getBigX() : me.alphamode.mclong.math.BigDecimal.ZERO;
-+      me.alphamode.mclong.math.BigDecimal d1 = p_9786_.contains(RelativeMovement.Y) ? this.f_9743_.getBigY() : me.alphamode.mclong.math.BigDecimal.ZERO;
-+      me.alphamode.mclong.math.BigDecimal d2 = p_9786_.contains(RelativeMovement.Z) ? this.f_9743_.getBigZ() : me.alphamode.mclong.math.BigDecimal.ZERO;
-       float f = p_9786_.contains(RelativeMovement.Y_ROT) ? this.f_9743_.m_146908_() : 0.0F;
-       float f1 = p_9786_.contains(RelativeMovement.X_ROT) ? this.f_9743_.m_146909_() : 0.0F;
-       this.f_9766_ = new Vec3(p_9781_, p_9782_, p_9783_);
-@@ -970,8 +_,8 @@
+-      float f = p_9786_.contains(RelativeMovement.Y_ROT) ? this.f_9743_.m_146908_() : 0.0F;
+-      float f1 = p_9786_.contains(RelativeMovement.X_ROT) ? this.f_9743_.m_146909_() : 0.0F;
+-      this.f_9766_ = new Vec3(p_9781_, p_9782_, p_9783_);
++   public void teleport(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYaw, float pPitch, Set<RelativeMovement> pRelativeSet) {
++      me.alphamode.mclong.math.BigDecimal d0 = pRelativeSet.contains(RelativeMovement.X) ? this.f_9743_.getBigX() : me.alphamode.mclong.math.BigDecimal.ZERO;
++      me.alphamode.mclong.math.BigDecimal d1 = pRelativeSet.contains(RelativeMovement.Y) ? this.f_9743_.getBigY() : me.alphamode.mclong.math.BigDecimal.ZERO;
++      me.alphamode.mclong.math.BigDecimal d2 = pRelativeSet.contains(RelativeMovement.Z) ? this.f_9743_.getBigZ() : me.alphamode.mclong.math.BigDecimal.ZERO;
++      float f = pRelativeSet.contains(RelativeMovement.Y_ROT) ? this.f_9743_.m_146908_() : 0.0F;
++      float f1 = pRelativeSet.contains(RelativeMovement.X_ROT) ? this.f_9743_.m_146909_() : 0.0F;
++      this.f_9766_ = new Vec3(pX, pY, pZ);
+       if (++this.f_9767_ == Integer.MAX_VALUE) {
+          this.f_9767_ = 0;
        }
  
        this.f_9735_ = this.f_9746_;
 -      this.f_9743_.m_19890_(p_9781_, p_9782_, p_9783_, p_9784_, p_9785_);
 -      this.f_9743_.f_8906_.m_9829_(new ClientboundPlayerPositionPacket(p_9781_ - d0, p_9782_ - d1, p_9783_ - d2, p_9784_ - f, p_9785_ - f1, p_9786_, this.f_9767_));
-+      this.f_9743_.absMoveTo(p_9781_, p_9782_, p_9783_, p_9784_, p_9785_);
-+      this.f_9743_.f_8906_.m_9829_(new ClientboundPlayerPositionPacket(p_9781_.subtract(d0), p_9782_.subtract(d1), p_9783_.subtract(d2), p_9784_ - f, p_9785_ - f1, p_9786_, this.f_9767_));
++      this.f_9743_.absMoveTo(pX, pY, pZ, pYaw, pPitch);
++      this.f_9743_.f_8906_.m_9829_(new ClientboundPlayerPositionPacket(pX.subtract(d0), pY.subtract(d1), pZ.subtract(d2), pYaw - f, pPitch - f1, pRelativeSet, this.f_9767_));
     }
  
     public void m_7502_(ServerboundPlayerActionPacket p_9889_) {

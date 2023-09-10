@@ -5,36 +5,42 @@
     }
  
 -   public long m_64690_(long p_64691_, int p_64692_, int p_64693_) {
-+   public long setDecorationSeed(long p_64691_, long p_64692_, long p_64693_) {
-       this.m_188584_(p_64691_);
+-      this.m_188584_(p_64691_);
++   public long setDecorationSeed(long pLevelSeed, long pMinChunkBlockX, long pMinChunkBlockZ) {
++      this.m_188584_(pLevelSeed);
        long i = this.m_188505_() | 1L;
        long j = this.m_188505_() | 1L;
 -      long k = (long)p_64692_ * i + (long)p_64693_ * j ^ p_64691_;
-+      long k = p_64692_ * i + p_64693_ * j ^ p_64691_;
++      long k = pMinChunkBlockX * i + pMinChunkBlockZ * j ^ pLevelSeed;
        this.m_188584_(k);
        return k;
     }
-@@ -54,7 +_,7 @@
+@@ -54,21 +_,21 @@
        this.m_188584_(i);
     }
  
 -   public void m_190068_(long p_190069_, int p_190070_, int p_190071_) {
-+   public void setLargeFeatureSeed(long p_190069_, long p_190070_, long p_190071_) {
-       this.m_188584_(p_190069_);
+-      this.m_188584_(p_190069_);
++   public void setLargeFeatureSeed(long pBaseSeed, long pChunkX, long pChunkZ) {
++      this.m_188584_(pBaseSeed);
        long i = this.m_188505_();
        long j = this.m_188505_();
-@@ -62,12 +_,12 @@
+-      long k = (long)p_190070_ * i ^ (long)p_190071_ * j ^ p_190069_;
++      long k = (long)pChunkX * i ^ (long)pChunkZ * j ^ pBaseSeed;
        this.m_188584_(k);
     }
  
 -   public void m_190058_(long p_190059_, int p_190060_, int p_190061_, int p_190062_) {
-+   public void setLargeFeatureWithSalt(long p_190059_, long p_190060_, long p_190061_, long p_190062_) {
-       long i = (long)p_190060_ * 341873128712L + (long)p_190061_ * 132897987541L + p_190059_ + (long)p_190062_;
+-      long i = (long)p_190060_ * 341873128712L + (long)p_190061_ * 132897987541L + p_190059_ + (long)p_190062_;
++   public void setLargeFeatureWithSalt(long pLevelSeed, long pRegionX, long pRegionZ, long pSalt) {
++      long i = (long)pRegionX * 341873128712L + (long)pRegionZ * 132897987541L + pLevelSeed + (long)pSalt;
        this.m_188584_(i);
     }
  
 -   public static RandomSource m_224681_(int p_224682_, int p_224683_, long p_224684_, long p_224685_) {
-+   public static RandomSource seedSlimeChunk(long p_224682_, long p_224683_, long p_224684_, long p_224685_) {
-       return RandomSource.m_216335_(p_224684_ + (long)(p_224682_ * p_224682_ * 4987142) + (long)(p_224682_ * 5947611) + (long)(p_224683_ * p_224683_) * 4392871L + (long)(p_224683_ * 389711) ^ p_224685_);
+-      return RandomSource.m_216335_(p_224684_ + (long)(p_224682_ * p_224682_ * 4987142) + (long)(p_224682_ * 5947611) + (long)(p_224683_ * p_224683_) * 4392871L + (long)(p_224683_ * 389711) ^ p_224685_);
++   public static RandomSource seedSlimeChunk(long pChunkX, long pChunkZ, long pLevelSeed, long pSalt) {
++      return RandomSource.m_216335_(pLevelSeed + (long)(pChunkX * pChunkX * 4987142) + (long)(pChunkX * 5947611) + (long)(pChunkZ * pChunkZ) * 4392871L + (long)(pChunkZ * 389711) ^ pSalt);
     }
  
+    public static enum Algorithm {

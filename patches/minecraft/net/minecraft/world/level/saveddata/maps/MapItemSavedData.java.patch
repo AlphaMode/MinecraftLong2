@@ -11,16 +11,28 @@
     public final ResourceKey<Level> f_77887_;
     private final boolean f_77888_;
     private final boolean f_77889_;
-@@ -50,7 +_,7 @@
+@@ -50,23 +_,23 @@
     private final Map<String, MapFrame> f_77898_ = Maps.newHashMap();
     private int f_181308_;
  
 -   private MapItemSavedData(int p_164768_, int p_164769_, byte p_164770_, boolean p_164771_, boolean p_164772_, boolean p_164773_, ResourceKey<Level> p_164774_) {
-+   private MapItemSavedData(long p_164768_, long p_164769_, byte p_164770_, boolean p_164771_, boolean p_164772_, boolean p_164773_, ResourceKey<Level> p_164774_) {
-       this.f_77890_ = p_164770_;
-       this.f_256718_ = p_164768_;
-       this.f_256789_ = p_164769_;
-@@ -63,10 +_,10 @@
+-      this.f_77890_ = p_164770_;
+-      this.f_256718_ = p_164768_;
+-      this.f_256789_ = p_164769_;
+-      this.f_77887_ = p_164774_;
+-      this.f_77888_ = p_164771_;
+-      this.f_77889_ = p_164772_;
+-      this.f_77892_ = p_164773_;
++   private MapItemSavedData(long pX, long pZ, byte pScale, boolean pTrackingPosition, boolean pUnlimitedTracking, boolean pLocked, ResourceKey<Level> pDimension) {
++      this.f_77890_ = pScale;
++      this.f_256718_ = pX;
++      this.f_256789_ = pZ;
++      this.f_77887_ = pDimension;
++      this.f_77888_ = pTrackingPosition;
++      this.f_77889_ = pUnlimitedTracking;
++      this.f_77892_ = pLocked;
+       this.m_77762_();
+    }
  
     public static MapItemSavedData m_164780_(double p_164781_, double p_164782_, byte p_164783_, boolean p_164784_, boolean p_164785_, ResourceKey<Level> p_164786_) {
        int i = 128 * (1 << p_164783_);
@@ -106,18 +118,20 @@
        int i = 1 << this.f_77890_;
        double d2 = (d0 - (double)this.f_256718_) / (double)i;
        double d3 = (d1 - (double)this.f_256789_) / (double)i;
-@@ -361,12 +_,12 @@
+@@ -361,13 +_,13 @@
        return false;
     }
  
 -   public void m_77930_(BlockGetter p_77931_, int p_77932_, int p_77933_) {
-+   public void checkBanners(BlockGetter p_77931_, long p_77932_, long p_77933_) {
++   public void checkBanners(BlockGetter pReader, long pX, long pZ) {
        Iterator<MapBanner> iterator = this.f_77897_.values().iterator();
  
        while(iterator.hasNext()) {
           MapBanner mapbanner = iterator.next();
 -         if (mapbanner.m_77773_().m_123341_() == p_77932_ && mapbanner.m_77773_().m_123343_() == p_77933_) {
-+         if (mapbanner.m_77773_().getX() == p_77932_ && mapbanner.m_77773_().getZ() == p_77933_) {
-             MapBanner mapbanner1 = MapBanner.m_77774_(p_77931_, mapbanner.m_77773_());
+-            MapBanner mapbanner1 = MapBanner.m_77774_(p_77931_, mapbanner.m_77773_());
++         if (mapbanner.m_77773_().getX() == pX && mapbanner.m_77773_().getZ() == pZ) {
++            MapBanner mapbanner1 = MapBanner.m_77774_(pReader, mapbanner.m_77773_());
              if (!mapbanner.equals(mapbanner1)) {
                 iterator.remove();
+                this.m_164799_(mapbanner.m_77787_());

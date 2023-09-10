@@ -58,12 +58,12 @@
     @Nullable
 -   public static BlendingData m_190304_(WorldGenRegion p_190305_, int p_190306_, int p_190307_) {
 -      ChunkAccess chunkaccess = p_190305_.m_6325_(p_190306_, p_190307_);
-+   public static BlendingData getOrUpdateBlendingData(WorldGenRegion p_190305_, me.alphamode.mclong.math.BigInteger p_190306_, me.alphamode.mclong.math.BigInteger p_190307_) {
-+      ChunkAccess chunkaccess = p_190305_.getChunk(p_190306_, p_190307_);
++   public static BlendingData getOrUpdateBlendingData(WorldGenRegion pRegion, me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
++      ChunkAccess chunkaccess = pRegion.getChunk(pChunkX, pChunkZ);
        BlendingData blendingdata = chunkaccess.m_183407_();
        if (blendingdata != null && chunkaccess.m_284331_().m_62427_(ChunkStatus.f_62317_)) {
 -         blendingdata.m_190317_(chunkaccess, m_197065_(p_190305_, p_190306_, p_190307_, false));
-+         blendingdata.m_190317_(chunkaccess, sideByGenerationAge(p_190305_, p_190306_, p_190307_, false));
++         blendingdata.m_190317_(chunkaccess, sideByGenerationAge(pRegion, pChunkX, pChunkZ, false));
           return blendingdata;
        } else {
           return null;
@@ -71,16 +71,16 @@
     }
  
 -   public static Set<Direction8> m_197065_(WorldGenLevel p_197066_, int p_197067_, int p_197068_, boolean p_197069_) {
-+   public static Set<Direction8> sideByGenerationAge(WorldGenLevel p_197066_, me.alphamode.mclong.math.BigInteger p_197067_, me.alphamode.mclong.math.BigInteger p_197068_, boolean p_197069_) {
++   public static Set<Direction8> sideByGenerationAge(WorldGenLevel pLevel, me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ, boolean p_197069_) {
        Set<Direction8> set = EnumSet.noneOf(Direction8.class);
  
        for(Direction8 direction8 : Direction8.values()) {
 -         int i = p_197067_ + direction8.m_235697_();
 -         int j = p_197068_ + direction8.m_235698_();
 -         if (p_197066_.m_6325_(i, j).m_187675_() == p_197069_) {
-+         me.alphamode.mclong.math.BigInteger i = p_197067_.add(direction8.m_235697_());
-+         me.alphamode.mclong.math.BigInteger j = p_197068_.add(direction8.m_235698_());
-+         if (p_197066_.getChunk(i, j).m_187675_() == p_197069_) {
++         me.alphamode.mclong.math.BigInteger i = pChunkX.add(direction8.m_235697_());
++         me.alphamode.mclong.math.BigInteger j = pChunkZ.add(direction8.m_235698_());
++         if (pLevel.getChunk(i, j).m_187675_() == p_197069_) {
              set.add(direction8);
           }
        }
@@ -137,24 +137,25 @@
 -   private void m_190299_(int p_190300_, ChunkAccess p_190301_, int p_190302_, int p_190303_) {
 -      if (this.f_190269_[p_190300_] == Double.MAX_VALUE) {
 -         this.f_190269_[p_190300_] = (double)this.m_190310_(p_190301_, p_190302_, p_190303_);
-+   private void addValuesForColumn(long p_190300_, ChunkAccess p_190301_, me.alphamode.mclong.math.BigInteger p_190302_, me.alphamode.mclong.math.BigInteger p_190303_) {
++   private void addValuesForColumn(long p_190300_, ChunkAccess pChunk, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
 +      if (this.f_190269_[(int) p_190300_] == Double.MAX_VALUE) {
-+         this.f_190269_[(int) p_190300_] = (double)this.getHeightAtXZ(p_190301_, p_190302_, p_190303_);
++         this.f_190269_[(int) p_190300_] = (double)this.getHeightAtXZ(pChunk, pX, pZ);
        }
  
 -      this.f_190270_[p_190300_] = this.m_198292_(p_190301_, p_190302_, p_190303_, Mth.m_14107_(this.f_190269_[p_190300_]));
 -      this.f_202276_.set(p_190300_, this.m_224757_(p_190301_, p_190302_, p_190303_));
-+      this.f_190270_[(int) p_190300_] = this.getDensityColumn(p_190301_, p_190302_, p_190303_, Mth.m_14107_(this.f_190269_[(int) p_190300_]));
-+      this.f_202276_.set((int) p_190300_, this.getBiomeColumn(p_190301_, p_190302_, p_190303_));
++      this.f_190270_[(int) p_190300_] = this.getDensityColumn(pChunk, pX, pZ, Mth.m_14107_(this.f_190269_[(int) p_190300_]));
++      this.f_202276_.set((int) p_190300_, this.getBiomeColumn(pChunk, pX, pZ));
     }
  
 -   private int m_190310_(ChunkAccess p_190311_, int p_190312_, int p_190313_) {
 -      int i;
-+   private long getHeightAtXZ(ChunkAccess p_190311_, me.alphamode.mclong.math.BigInteger p_190312_, me.alphamode.mclong.math.BigInteger p_190313_) {
-+      long i;
-       if (p_190311_.m_187658_(Heightmap.Types.WORLD_SURFACE_WG)) {
+-      if (p_190311_.m_187658_(Heightmap.Types.WORLD_SURFACE_WG)) {
 -         i = Math.min(p_190311_.m_5885_(Heightmap.Types.WORLD_SURFACE_WG, p_190312_, p_190313_) + 1, this.f_224738_.m_151558_());
-+         i = Math.min(p_190311_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, p_190312_, p_190313_) + 1, this.f_224738_.getMaxBuildHeight());
++   private long getHeightAtXZ(ChunkAccess pChunk, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      long i;
++      if (pChunk.m_187658_(Heightmap.Types.WORLD_SURFACE_WG)) {
++         i = Math.min(pChunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, pX, pZ) + 1, this.f_224738_.getMaxBuildHeight());
        } else {
 -         i = this.f_224738_.m_151558_();
 +         i = this.f_224738_.getMaxBuildHeight();
@@ -163,32 +164,38 @@
 -      int j = this.f_224738_.m_141937_();
 -      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_190312_, i, p_190313_);
 +      long j = this.f_224738_.getMinBuildHeight();
-+      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_190312_, me.alphamode.mclong.math.BigInteger.valueOf(i), p_190313_);
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(pX, me.alphamode.mclong.math.BigInteger.valueOf(i), pZ);
  
 -      while(blockpos$mutableblockpos.m_123342_() > j) {
 +      while(blockpos$mutableblockpos.getY() > j) {
           blockpos$mutableblockpos.m_122173_(Direction.DOWN);
-          if (f_190265_.contains(p_190311_.m_8055_(blockpos$mutableblockpos).m_60734_())) {
+-         if (f_190265_.contains(p_190311_.m_8055_(blockpos$mutableblockpos).m_60734_())) {
 -            return blockpos$mutableblockpos.m_123342_();
++         if (f_190265_.contains(pChunk.m_8055_(blockpos$mutableblockpos).m_60734_())) {
 +            return blockpos$mutableblockpos.getY();
           }
        }
  
-@@ -198,10 +_,10 @@
+@@ -198,38 +_,38 @@
        return d0;
     }
  
 -   private double[] m_198292_(ChunkAccess p_198293_, int p_198294_, int p_198295_, int p_198296_) {
 -      double[] adouble = new double[this.m_190327_()];
-+   private double[] getDensityColumn(ChunkAccess p_198293_, me.alphamode.mclong.math.BigInteger p_198294_, me.alphamode.mclong.math.BigInteger p_198295_, int p_198296_) {
++   private double[] getDensityColumn(ChunkAccess pChunk, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, int p_198296_) {
 +      double[] adouble = new double[(int) this.cellCountPerColumn()];
        Arrays.fill(adouble, -1.0D);
 -      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_198294_, this.f_224738_.m_151558_(), p_198295_);
-+      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_198294_, me.alphamode.mclong.math.BigInteger.valueOf(this.f_224738_.getMaxBuildHeight()), p_198295_);
-       double d0 = m_198300_(p_198293_, blockpos$mutableblockpos);
+-      double d0 = m_198300_(p_198293_, blockpos$mutableblockpos);
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(pX, me.alphamode.mclong.math.BigInteger.valueOf(this.f_224738_.getMaxBuildHeight()), pZ);
++      double d0 = m_198300_(pChunk, blockpos$mutableblockpos);
  
        for(int i = adouble.length - 2; i >= 0; --i) {
-@@ -211,25 +_,25 @@
+-         double d1 = m_198297_(p_198293_, blockpos$mutableblockpos);
+-         double d2 = m_198300_(p_198293_, blockpos$mutableblockpos);
++         double d1 = m_198297_(pChunk, blockpos$mutableblockpos);
++         double d2 = m_198300_(pChunk, blockpos$mutableblockpos);
+          adouble[i] = (d0 + d1 + d2) / 15.0D;
           d0 = d2;
        }
  
@@ -210,7 +217,7 @@
 -   private List<Holder<Biome>> m_224757_(ChunkAccess p_224758_, int p_224759_, int p_224760_) {
 -      ObjectArrayList<Holder<Biome>> objectarraylist = new ObjectArrayList<>(this.m_224763_());
 -      objectarraylist.size(this.m_224763_());
-+   private List<Holder<Biome>> getBiomeColumn(ChunkAccess p_224758_, me.alphamode.mclong.math.BigInteger p_224759_, me.alphamode.mclong.math.BigInteger p_224760_) {
++   private List<Holder<Biome>> getBiomeColumn(ChunkAccess pChunk, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
 +      ObjectArrayList<Holder<Biome>> objectarraylist = new ObjectArrayList<>((int) this.quartCountPerColumn());
 +      objectarraylist.size((int) this.quartCountPerColumn());
  
@@ -218,7 +225,7 @@
 -         int j = i + QuartPos.m_175400_(this.f_224738_.m_141937_());
 -         objectarraylist.set(i, p_224758_.m_203495_(QuartPos.m_175400_(p_224759_), j, QuartPos.m_175400_(p_224760_)));
 +         long j = i + QuartPos.fromBlock(this.f_224738_.getMinBuildHeight());
-+         objectarraylist.set(i, p_224758_.getNoiseBiome(QuartPos.fromBlock(p_224759_), me.alphamode.mclong.math.BigInteger.valueOf(j), QuartPos.fromBlock(p_224760_)));
++         objectarraylist.set(i, pChunk.getNoiseBiome(QuartPos.fromBlock(pX), me.alphamode.mclong.math.BigInteger.valueOf(j), QuartPos.fromBlock(pZ)));
        }
  
        return objectarraylist;
@@ -266,7 +273,7 @@
 -   protected void m_224748_(int p_224749_, int p_224750_, int p_224751_, BlendingData.BiomeConsumer p_224752_) {
 -      if (p_224750_ >= QuartPos.m_175400_(this.f_224738_.m_141937_()) && p_224750_ < QuartPos.m_175400_(this.f_224738_.m_151558_())) {
 -         int i = p_224750_ - QuartPos.m_175400_(this.f_224738_.m_141937_());
-+   protected void iterateBiomes(long p_224749_, long p_224750_, long p_224751_, BlendingData.BiomeConsumer p_224752_) {
++   protected void iterateBiomes(long p_224749_, long p_224750_, long p_224751_, BlendingData.BiomeConsumer pConsumer) {
 +      if (p_224750_ >= QuartPos.fromBlock(this.f_224738_.getMinBuildHeight()) && p_224750_ < QuartPos.fromBlock(this.f_224738_.getMaxBuildHeight())) {
 +         long i = p_224750_ - QuartPos.fromBlock(this.f_224738_.getMinBuildHeight());
  
@@ -276,21 +283,21 @@
 +               Holder<Biome> holder = this.f_202276_.get(j).get((int) i);
                 if (holder != null) {
 -                  p_224752_.m_204673_(p_224749_ + m_190348_(j), p_224751_ + m_190354_(j), holder);
-+                  p_224752_.consume(p_224749_ + getX(j), p_224751_ + getZ(j), holder);
++                  pConsumer.consume(p_224749_ + getX(j), p_224751_ + getZ(j), holder);
                 }
              }
           }
-@@ -293,82 +_,82 @@
+@@ -293,83 +_,83 @@
        }
     }
  
 -   protected void m_190295_(int p_190296_, int p_190297_, BlendingData.HeightConsumer p_190298_) {
-+   protected void iterateHeights(me.alphamode.mclong.math.BigInteger p_190296_, me.alphamode.mclong.math.BigInteger p_190297_, BlendingData.HeightConsumer p_190298_) {
++   protected void iterateHeights(me.alphamode.mclong.math.BigInteger p_190296_, me.alphamode.mclong.math.BigInteger p_190297_, BlendingData.HeightConsumer pConsumer) {
        for(int i = 0; i < this.f_190269_.length; ++i) {
           double d0 = this.f_190269_[i];
           if (d0 != Double.MAX_VALUE) {
 -            p_190298_.m_190366_(p_190296_ + m_190348_(i), p_190297_ + m_190354_(i), d0);
-+            p_190298_.consume(p_190296_.add(getX(i)), p_190297_.add(getZ(i)), d0);
++            pConsumer.consume(p_190296_.add(getX(i)), p_190297_.add(getZ(i)), d0);
           }
        }
  
@@ -300,7 +307,7 @@
 -      int i = this.m_190347_();
 -      int j = Math.max(0, p_190292_ - i);
 -      int k = Math.min(this.m_190327_(), p_190293_ - i);
-+   protected void iterateDensities(long p_190290_, long p_190291_, long p_190292_, long p_190293_, BlendingData.DensityConsumer p_190294_) {
++   protected void iterateDensities(long p_190290_, long p_190291_, long p_190292_, long p_190293_, BlendingData.DensityConsumer pConsumer) {
 +      long i = this.getColumnMinY();
 +      long j = Math.max(0, p_190292_ - i);
 +      long k = Math.min(this.cellCountPerColumn(), p_190293_ - i);
@@ -316,7 +323,7 @@
 -            for(int k1 = j; k1 < k; ++k1) {
 -               p_190294_.m_190361_(i1, k1 + i, j1, adouble[k1] * 0.1D);
 +            for(long k1 = j; k1 < k; ++k1) {
-+               p_190294_.consume(i1, k1 + i, j1, adouble[(int) k1] * 0.1D);
++               pConsumer.consume(i1, k1 + i, j1, adouble[(int) k1] * 0.1D);
              }
           }
        }
@@ -397,10 +404,12 @@
     }
  
 -   private static int m_190356_(int p_190357_) {
-+   private static long zeroIfNegative(long p_190357_) {
-       return p_190357_ & ~(p_190357_ >> 31);
+-      return p_190357_ & ~(p_190357_ >> 31);
++   private static long zeroIfNegative(long pValue) {
++      return pValue & ~(pValue >> 31);
     }
  
+    public LevelHeightAccessor m_224743_() {
 @@ -377,14 +_,14 @@
     }
  

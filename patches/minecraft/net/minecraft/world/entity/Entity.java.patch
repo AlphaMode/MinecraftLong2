@@ -35,15 +35,17 @@
        return Shapes.m_83157_(voxelshape1, Shapes.m_83064_(this.m_20191_()), BooleanOp.f_82689_);
     }
  
-@@ -283,7 +_,7 @@
+@@ -283,8 +_,8 @@
  
     }
  
 -   public void m_217006_(double p_217007_, double p_217008_, double p_217009_) {
-+   public void syncPacketPositionCodec(me.alphamode.mclong.math.BigDecimal p_217007_, me.alphamode.mclong.math.BigDecimal p_217008_, me.alphamode.mclong.math.BigDecimal p_217009_) {
-       this.f_216985_.m_238033_(new Vec3(p_217007_, p_217008_, p_217009_));
+-      this.f_216985_.m_238033_(new Vec3(p_217007_, p_217008_, p_217009_));
++   public void syncPacketPositionCodec(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      this.f_216985_.m_238033_(new Vec3(pX, pY, pZ));
     }
  
+    public VecDeltaCodec m_217001_() {
 @@ -366,9 +_,9 @@
     }
  
@@ -482,14 +484,15 @@
 -   public void m_20248_(double p_20249_, double p_20250_, double p_20251_) {
 -      double d0 = Mth.m_14008_(p_20249_, -3.0E7D, 3.0E7D);
 -      double d1 = Mth.m_14008_(p_20251_, -3.0E7D, 3.0E7D);
-+   public void absMoveTo(me.alphamode.mclong.math.BigDecimal p_20249_, me.alphamode.mclong.math.BigDecimal p_20250_, me.alphamode.mclong.math.BigDecimal p_20251_) {
-+      me.alphamode.mclong.math.BigDecimal d0 = p_20249_;
-+      me.alphamode.mclong.math.BigDecimal d1 = p_20251_;
++   public void absMoveTo(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      me.alphamode.mclong.math.BigDecimal d0 = pX;
++      me.alphamode.mclong.math.BigDecimal d1 = pZ;
        this.f_19854_ = d0;
-       this.f_19855_ = p_20250_;
+-      this.f_19855_ = p_20250_;
++      this.f_19855_ = pY;
        this.f_19856_ = d1;
 -      this.m_6034_(d0, p_20250_, d1);
-+      this.setPos(d0, p_20250_, d1);
++      this.setPos(d0, pY, d1);
     }
  
     public void m_20219_(Vec3 p_20220_) {
@@ -542,10 +545,10 @@
 -      double d1 = this.m_20186_() - p_20277_;
 -      double d2 = this.m_20189_() - p_20278_;
 -      return d0 * d0 + d1 * d1 + d2 * d2;
-+   public double distanceToSqr(me.alphamode.mclong.math.BigDecimal p_20276_, me.alphamode.mclong.math.BigDecimal p_20277_, me.alphamode.mclong.math.BigDecimal p_20278_) {
-+      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().subtract(p_20276_);
-+      me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().subtract(p_20277_);
-+      me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().subtract(p_20278_);
++   public double distanceToSqr(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().subtract(pX);
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().subtract(pY);
++      me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().subtract(pZ);
 +      return d0.multiply(d0).add(d1.multiply(d1)).add(d2.multiply(d2)).doubleValue();
     }
  
@@ -624,10 +627,10 @@
 -      double d0 = this.m_20185_() - p_20296_;
 -      double d1 = this.m_20186_() - p_20297_;
 -      double d2 = this.m_20189_() - p_20298_;
-+   public boolean shouldRender(me.alphamode.mclong.math.BigDecimal p_20296_, me.alphamode.mclong.math.BigDecimal p_20297_, me.alphamode.mclong.math.BigDecimal p_20298_) {
-+      double d0 = this.getBigX().subtract(p_20296_).doubleValue();
-+      double d1 = this.getBigY().subtract(p_20297_).doubleValue();
-+      double d2 = this.getBigZ().subtract(p_20298_).doubleValue();
++   public boolean shouldRender(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      double d0 = this.getBigX().subtract(pX).doubleValue();
++      double d1 = this.getBigY().subtract(pY).doubleValue();
++      double d2 = this.getBigZ().subtract(pZ).doubleValue();
        double d3 = d0 * d0 + d1 * d1 + d2 * d2;
        return this.m_6783_(d3);
     }
@@ -711,17 +714,19 @@
        }
     }
  
-@@ -1971,8 +_,8 @@
+@@ -1971,9 +_,9 @@
        return true;
     }
  
 -   public void m_6453_(double p_19896_, double p_19897_, double p_19898_, float p_19899_, float p_19900_, int p_19901_, boolean p_19902_) {
 -      this.m_6034_(p_19896_, p_19897_, p_19898_);
-+   public void lerpTo(me.alphamode.mclong.math.BigDecimal p_19896_, me.alphamode.mclong.math.BigDecimal p_19897_, me.alphamode.mclong.math.BigDecimal p_19898_, float p_19899_, float p_19900_, int p_19901_, boolean p_19902_) {
-+      this.setPos(p_19896_, p_19897_, p_19898_);
-       this.m_19915_(p_19899_, p_19900_);
+-      this.m_19915_(p_19899_, p_19900_);
++   public void lerpTo(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYRot, float pXRot, int pLerpSteps, boolean pTeleport) {
++      this.setPos(pX, pY, pZ);
++      this.m_19915_(pYRot, pXRot);
     }
  
+    public void m_6541_(float p_19918_, int p_19919_) {
 @@ -2265,24 +_,24 @@
        Vec3 vec3 = this.m_20184_();
        double d0;
@@ -760,9 +765,9 @@
 -   protected void m_20314_(double p_20315_, double p_20316_, double p_20317_) {
 -      BlockPos blockpos = BlockPos.m_274561_(p_20315_, p_20316_, p_20317_);
 -      Vec3 vec3 = new Vec3(p_20315_ - (double)blockpos.m_123341_(), p_20316_ - (double)blockpos.m_123342_(), p_20317_ - (double)blockpos.m_123343_());
-+   protected void moveTowardsClosestSpace(me.alphamode.mclong.math.BigDecimal p_20315_, me.alphamode.mclong.math.BigDecimal p_20316_, me.alphamode.mclong.math.BigDecimal p_20317_) {
-+      BlockPos blockpos = BlockPos.containing(p_20315_, p_20316_, p_20317_);
-+      Vec3 vec3 = new Vec3(p_20315_.subtract(blockpos.getBigDecX()), p_20316_.subtract(blockpos.getBigDecY()), p_20317_.subtract(blockpos.getBigDecZ()));
++   protected void moveTowardsClosestSpace(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      BlockPos blockpos = BlockPos.containing(pX, pY, pZ);
++      Vec3 vec3 = new Vec3(pX.subtract(blockpos.getBigDecX()), pY.subtract(blockpos.getBigDecY()), pZ.subtract(blockpos.getBigDecZ()));
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
        Direction direction = Direction.UP;
        double d0 = Double.MAX_VALUE;
@@ -840,15 +845,15 @@
     }
  
 -   public final void m_20324_(double p_20325_, double p_20326_, double p_20327_) {
-+   public final void teleportToWithTicket(me.alphamode.mclong.math.BigDecimal p_20325_, me.alphamode.mclong.math.BigDecimal p_20326_, me.alphamode.mclong.math.BigDecimal p_20327_) {
++   public final void teleportToWithTicket(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
        if (this.m_9236_() instanceof ServerLevel) {
 -         ChunkPos chunkpos = new ChunkPos(BlockPos.m_274561_(p_20325_, p_20326_, p_20327_));
-+         ChunkPos chunkpos = new ChunkPos(BlockPos.containing(p_20325_, p_20326_, p_20327_));
++         ChunkPos chunkpos = new ChunkPos(BlockPos.containing(pX, pY, pZ));
           ((ServerLevel)this.m_9236_()).m_7726_().m_8387_(TicketType.f_9448_, chunkpos, 0, this.m_19879_());
 -         this.m_9236_().m_6325_(chunkpos.f_45578_, chunkpos.f_45579_);
 -         this.m_6021_(p_20325_, p_20326_, p_20327_);
 +         this.f_19853_.getChunk(chunkpos.getX(), chunkpos.getZ());
-+         this.teleportTo(p_20325_, p_20326_, p_20327_);
++         this.teleportTo(pX, pY, pZ);
        }
     }
  
@@ -881,8 +886,8 @@
 +      return true;
 +   }
 +
-+   public void dismountTo(me.alphamode.mclong.math.BigDecimal p_146825_, me.alphamode.mclong.math.BigDecimal p_146826_, me.alphamode.mclong.math.BigDecimal p_146827_) {
-+      this.teleportTo(p_146825_, p_146826_, p_146827_);
++   public void dismountTo(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      this.teleportTo(pX, pY, pZ);
     }
  
     public void m_6021_(double p_19887_, double p_19888_, double p_19889_) {
@@ -909,8 +914,8 @@
  
 -   public void m_246847_(double p_249341_, double p_252229_, double p_252038_) {
 -      this.m_6021_(this.m_20185_() + p_249341_, this.m_20186_() + p_252229_, this.m_20189_() + p_252038_);
-+   public void teleportRelative(me.alphamode.mclong.math.BigDecimal p_249341_, me.alphamode.mclong.math.BigDecimal p_252229_, me.alphamode.mclong.math.BigDecimal p_252038_) {
-+      this.teleportTo(this.getBigX().add(p_249341_), this.getBigY().add(p_252229_), this.getBigZ().add(p_252038_));
++   public void teleportRelative(me.alphamode.mclong.math.BigDecimal pDx, me.alphamode.mclong.math.BigDecimal pDy, me.alphamode.mclong.math.BigDecimal pDz) {
++      this.teleportTo(this.getBigX().add(pDx), this.getBigY().add(pDy), this.getBigZ().add(pDz));
     }
  
     public boolean m_6052_() {
@@ -1059,16 +1064,16 @@
 +      return this.f_19825_.m_7096_() + (double)this.m_20205_() * p_20166_;
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal getBigX(double p_20166_) {
-+      return this.f_19825_.getX().add(this.m_20205_()).multiply(p_20166_);
++   public me.alphamode.mclong.math.BigDecimal getBigX(double pScale) {
++      return this.f_19825_.getX().add(this.m_20205_()).multiply(pScale);
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal getBigX(me.alphamode.mclong.math.BigDecimal p_20166_) {
-+      return this.f_19825_.getX().add(this.m_20205_()).multiply(p_20166_);
++   public me.alphamode.mclong.math.BigDecimal getBigX(me.alphamode.mclong.math.BigDecimal pScale) {
++      return this.f_19825_.getX().add(this.m_20205_()).multiply(pScale);
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal getRandomX(double p_20209_) {
-+      return this.getBigX((me.alphamode.mclong.core.BigConstants.TWO.multiply(this.f_19796_.m_188500_()).subtract(me.alphamode.mclong.math.BigDecimal.ONE)).multiply(p_20209_));
++   public me.alphamode.mclong.math.BigDecimal getRandomX(double pScale) {
++      return this.getBigX((me.alphamode.mclong.core.BigConstants.TWO.multiply(this.f_19796_.m_188500_()).subtract(me.alphamode.mclong.math.BigDecimal.ONE)).multiply(pScale));
 +   }
 +
 +   public final long getBlockY() {
@@ -1092,12 +1097,12 @@
 +      return this.f_19825_.getY();
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal getY(me.alphamode.mclong.math.BigDecimal p_20228_) {
-+      return this.f_19825_.getY().add(me.alphamode.mclong.math.BigDecimal.valueOf(this.m_20206_()).multiply(p_20228_));
++   public me.alphamode.mclong.math.BigDecimal getY(me.alphamode.mclong.math.BigDecimal pScale) {
++      return this.f_19825_.getY().add(me.alphamode.mclong.math.BigDecimal.valueOf(this.m_20206_()).multiply(pScale));
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal getBigY(double p_20228_) {
-+      return this.f_19825_.getY().add((double)this.m_20206_() * p_20228_);
++   public me.alphamode.mclong.math.BigDecimal getBigY(double pScale) {
++      return this.f_19825_.getY().add((double)this.m_20206_() * pScale);
     }
  
     public double m_20227_(double p_20228_) {
@@ -1149,12 +1154,12 @@
 +      return this.f_19825_.getZ();
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal getBigZ(double p_20247_) {
-+      return this.f_19825_.getZ().add(me.alphamode.mclong.math.BigDecimal.valueOf(this.m_20205_()).multiply(p_20247_));
++   public me.alphamode.mclong.math.BigDecimal getBigZ(double pScale) {
++      return this.f_19825_.getZ().add(me.alphamode.mclong.math.BigDecimal.valueOf(this.m_20205_()).multiply(pScale));
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal getRandomZ(double p_20263_) {
-+      return this.getBigZ((2.0D * this.f_19796_.m_188500_() - 1.0D) * p_20263_);
++   public me.alphamode.mclong.math.BigDecimal getRandomZ(double pScale) {
++      return this.getBigZ((2.0D * this.f_19796_.m_188500_() - 1.0D) * pScale);
     }
  
     public final void m_20343_(double p_20344_, double p_20345_, double p_20346_) {
@@ -1219,7 +1224,7 @@
     @FunctionalInterface
     public interface MoveFunction {
 -      void m_20372_(Entity p_20373_, double p_20374_, double p_20375_, double p_20376_);
-+      void accept(Entity p_20373_, me.alphamode.mclong.math.BigDecimal p_20374_, me.alphamode.mclong.math.BigDecimal p_20375_, me.alphamode.mclong.math.BigDecimal p_20376_);
++      void accept(Entity pEntity, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ);
     }
  
     public static enum MovementEmission {

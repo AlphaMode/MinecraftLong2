@@ -75,8 +75,8 @@
     @Nullable
 -   public Particle m_107370_(ParticleOptions p_107371_, double p_107372_, double p_107373_, double p_107374_, double p_107375_, double p_107376_, double p_107377_) {
 -      Particle particle = this.m_107395_(p_107371_, p_107372_, p_107373_, p_107374_, p_107375_, p_107376_, p_107377_);
-+   public Particle createParticle(ParticleOptions p_107371_, me.alphamode.mclong.math.BigDecimal p_107372_, me.alphamode.mclong.math.BigDecimal p_107373_, me.alphamode.mclong.math.BigDecimal p_107374_, double p_107375_, double p_107376_, double p_107377_) {
-+      Particle particle = this.makeParticle(p_107371_, p_107372_, p_107373_, p_107374_, p_107375_, p_107376_, p_107377_);
++   public Particle createParticle(ParticleOptions pParticleData, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      Particle particle = this.makeParticle(pParticleData, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
        if (particle != null) {
           this.m_107344_(particle);
           return particle;
@@ -85,10 +85,11 @@
  
     @Nullable
 -   private <T extends ParticleOptions> Particle m_107395_(T p_107396_, double p_107397_, double p_107398_, double p_107399_, double p_107400_, double p_107401_, double p_107402_) {
-+   private <T extends ParticleOptions> Particle makeParticle(T p_107396_, me.alphamode.mclong.math.BigDecimal p_107397_, me.alphamode.mclong.math.BigDecimal p_107398_, me.alphamode.mclong.math.BigDecimal p_107399_, double p_107400_, double p_107401_, double p_107402_) {
-       ParticleProvider<T> particleprovider = (ParticleProvider<T>)this.f_107293_.get(BuiltInRegistries.f_257034_.m_7447_(p_107396_.m_6012_()));
+-      ParticleProvider<T> particleprovider = (ParticleProvider<T>)this.f_107293_.get(BuiltInRegistries.f_257034_.m_7447_(p_107396_.m_6012_()));
 -      return particleprovider == null ? null : particleprovider.m_6966_(p_107396_, this.f_107287_, p_107397_, p_107398_, p_107399_, p_107400_, p_107401_, p_107402_);
-+      return particleprovider == null ? null : particleprovider.createParticle(p_107396_, this.f_107287_, p_107397_, p_107398_, p_107399_, p_107400_, p_107401_, p_107402_);
++   private <T extends ParticleOptions> Particle makeParticle(T pParticleData, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      ParticleProvider<T> particleprovider = (ParticleProvider<T>)this.f_107293_.get(BuiltInRegistries.f_257034_.m_7447_(pParticleData.m_6012_()));
++      return particleprovider == null ? null : particleprovider.createParticle(pParticleData, this.f_107287_, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
     }
  
     public void m_107344_(Particle p_107345_) {

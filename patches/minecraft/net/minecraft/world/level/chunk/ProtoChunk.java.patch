@@ -91,10 +91,10 @@
     }
  
 -   public Holder<Biome> m_203495_(int p_204450_, int p_204451_, int p_204452_) {
-+   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger p_204450_, me.alphamode.mclong.math.BigInteger p_204451_, me.alphamode.mclong.math.BigInteger p_204452_) {
++   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
        if (this.m_284331_().m_62427_(ChunkStatus.f_62317_)) {
 -         return super.m_203495_(p_204450_, p_204451_, p_204452_);
-+         return super.getNoiseBiome(p_204450_, p_204451_, p_204452_);
++         return super.getNoiseBiome(pX, pY, pZ);
        } else {
           throw new IllegalStateException("Asking for biomes before we have biomes");
        }
@@ -120,10 +120,10 @@
 -      int i = SectionPos.m_175554_(p_63230_.f_45578_, p_63228_ & 15);
 -      int j = SectionPos.m_175554_(p_63229_, p_63228_ >>> 4 & 15);
 -      int k = SectionPos.m_175554_(p_63230_.f_45579_, p_63228_ >>> 8 & 15);
-+   public static BlockPos unpackOffsetCoordinates(short p_63228_, long p_63229_, ChunkPos p_63230_) {
-+      me.alphamode.mclong.math.BigInteger i = SectionPos.sectionToBlockCoord(p_63230_.getX(), p_63228_ & 15);
-+      long j = SectionPos.sectionToBlockCoord(p_63229_, p_63228_ >>> 4 & 15);
-+      me.alphamode.mclong.math.BigInteger k = SectionPos.sectionToBlockCoord(p_63230_.getZ(), p_63228_ >>> 8 & 15);
++   public static BlockPos unpackOffsetCoordinates(short pPackedPos, long pYOffset, ChunkPos pChunkPos) {
++      me.alphamode.mclong.math.BigInteger i = SectionPos.sectionToBlockCoord(pChunkPos.getX(), pPackedPos & 15);
++      long j = SectionPos.sectionToBlockCoord(pYOffset, pPackedPos >>> 4 & 15);
++      me.alphamode.mclong.math.BigInteger k = SectionPos.sectionToBlockCoord(pChunkPos.getZ(), pPackedPos >>> 8 & 15);
        return new BlockPos(i, j, k);
     }
  

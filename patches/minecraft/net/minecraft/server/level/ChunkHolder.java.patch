@@ -28,7 +28,7 @@
     }
  
 -   public void m_140036_(LightLayer p_140037_, int p_140038_) {
-+   public void sectionLightChanged(LightLayer p_140037_, long p_140038_) {
++   public void sectionLightChanged(LightLayer pType, long pSectionY) {
        Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure> either = this.m_140080_(ChunkStatus.f_279614_).getNow((Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>)null);
        if (either != null) {
           ChunkAccess chunkaccess = either.left().orElse((ChunkAccess)null);
@@ -38,13 +38,15 @@
              if (levelchunk != null) {
 -               int i = this.f_140014_.m_164447_();
 -               int j = this.f_140014_.m_164448_();
+-               if (p_140038_ >= i && p_140038_ <= j) {
+-                  int k = p_140038_ - i;
+-                  if (p_140037_ == LightLayer.SKY) {
+-                     this.f_140013_.set(k);
 +               long i = this.f_140014_.getMinLightSection();
 +               long j = this.f_140014_.getMaxLightSection();
-                if (p_140038_ >= i && p_140038_ <= j) {
--                  int k = p_140038_ - i;
-+                  long k = p_140038_ - i;
-                   if (p_140037_ == LightLayer.SKY) {
--                     this.f_140013_.set(k);
++               if (pSectionY >= i && pSectionY <= j) {
++                  long k = pSectionY - i;
++                  if (pType == LightLayer.SKY) {
 +                     this.f_140013_.set((int) k);
                    } else {
 -                     this.f_140012_.set(k);

@@ -23,7 +23,7 @@
     }
  
 -   public GameEventListenerRegistry m_246686_(int p_251437_) {
-+   public GameEventListenerRegistry getListenerRegistry(long p_251437_) {
++   public GameEventListenerRegistry getListenerRegistry(long pSectionY) {
        return GameEventListenerRegistry.f_244154_;
     }
  
@@ -39,21 +39,28 @@
     }
  
     public Set<BlockPos> m_5928_() {
-@@ -174,7 +_,7 @@
+@@ -174,18 +_,18 @@
        return this.f_187608_.get(p_187659_) != null;
     }
  
 -   public int m_5885_(Heightmap.Types p_62080_, int p_62081_, int p_62082_) {
-+   public long getHeight(Heightmap.Types p_62080_, me.alphamode.mclong.math.BigInteger p_62081_, me.alphamode.mclong.math.BigInteger p_62082_) {
-       Heightmap heightmap = this.f_187608_.get(p_62080_);
+-      Heightmap heightmap = this.f_187608_.get(p_62080_);
++   public long getHeight(Heightmap.Types pType, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      Heightmap heightmap = this.f_187608_.get(pType);
        if (heightmap == null) {
           if (SharedConstants.f_136183_ && this instanceof LevelChunk) {
-@@ -185,7 +_,7 @@
-          heightmap = this.f_187608_.get(p_62080_);
+-            f_187613_.error("Unprimed heightmap: " + p_62080_ + " " + p_62081_ + " " + p_62082_);
++            f_187613_.error("Unprimed heightmap: " + pType + " " + pX + " " + pZ);
+          }
+ 
+-         Heightmap.m_64256_(this, EnumSet.of(p_62080_));
+-         heightmap = this.f_187608_.get(p_62080_);
++         Heightmap.m_64256_(this, EnumSet.of(pType));
++         heightmap = this.f_187608_.get(pType);
        }
  
 -      return heightmap.m_64242_(p_62081_ & 15, p_62082_ & 15) - 1;
-+      return heightmap.getFirstAvailable(p_62081_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).longValue(), p_62082_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).longValue()) - 1;
++      return heightmap.getFirstAvailable(pX.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).longValue(), pZ.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).longValue()) - 1;
     }
  
     public ChunkPos m_7697_() {
@@ -62,16 +69,19 @@
     }
  
 -   public LongSet m_213649_(Structure p_223017_) {
-+   public it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getReferencesForStructure(Structure p_223017_) {
-       return this.f_187618_.getOrDefault(p_223017_, f_207932_);
+-      return this.f_187618_.getOrDefault(p_223017_, f_207932_);
++   public it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getReferencesForStructure(Structure pStructure) {
++      return this.f_187618_.getOrDefault(pStructure, f_207932_);
     }
  
 -   public void m_213843_(Structure p_223007_, long p_223008_) {
-+   public void addReferenceForStructure(Structure p_223007_, ChunkPos p_223008_) {
-       this.f_187618_.computeIfAbsent(p_223007_, (p_223019_) -> {
+-      this.f_187618_.computeIfAbsent(p_223007_, (p_223019_) -> {
 -         return new LongOpenHashSet();
+-      }).add(p_223008_);
++   public void addReferenceForStructure(Structure pStructure, ChunkPos pReference) {
++      this.f_187618_.computeIfAbsent(pStructure, (p_223019_) -> {
 +         return new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
-       }).add(p_223008_);
++      }).add(pReference);
        this.f_187603_ = true;
     }
  
@@ -98,16 +108,16 @@
 -
 -      for(int i = p_62075_; i <= p_62076_; i += 16) {
 -         if (!this.m_183278_(this.m_151564_(i)).m_188008_()) {
-+   public boolean isYSpaceEmpty(long p_62075_, long p_62076_) {
-+      if (p_62075_ < this.getMinBuildHeight()) {
-+         p_62075_ = this.getMinBuildHeight();
++   public boolean isYSpaceEmpty(long pStartY, long pEndY) {
++      if (pStartY < this.getMinBuildHeight()) {
++         pStartY = this.getMinBuildHeight();
 +      }
 +
-+      if (p_62076_ >= this.getMaxBuildHeight()) {
-+         p_62076_ = this.getMaxBuildHeight() - 1;
++      if (pEndY >= this.getMaxBuildHeight()) {
++         pEndY = this.getMaxBuildHeight() - 1;
 +      }
 +
-+      for(long i = p_62075_; i <= p_62076_; i += 16) {
++      for(long i = pStartY; i <= pEndY; i += 16) {
 +         if (!this.m_183278_(this.getSectionIndex(i)).m_188008_()) {
              return false;
           }
@@ -157,7 +167,7 @@
     }
  
 -   public Holder<Biome> m_203495_(int p_204347_, int p_204348_, int p_204349_) {
-+   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger p_204347_, me.alphamode.mclong.math.BigInteger p_204348_, me.alphamode.mclong.math.BigInteger p_204349_) {
++   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
        try {
 -         int i = QuartPos.m_175400_(this.m_141937_());
 -         int k = i + QuartPos.m_175400_(this.m_141928_()) - 1;
@@ -166,15 +176,15 @@
 -         return this.f_187612_[j].m_204433_(p_204347_ & 3, l & 3, p_204349_ & 3);
 +         long i = QuartPos.fromBlock(this.getMinBuildHeight());
 +         long k = i + QuartPos.fromBlock(this.getHeight()) - 1;
-+         long l = Mth.clamp(p_204348_.longValue(), i, k);
++         long l = Mth.clamp(pY.longValue(), i, k);
 +         int j = this.getSectionIndex(QuartPos.toBlock(l));
-+         return this.f_187612_[j].getNoiseBiome(p_204347_.and(me.alphamode.mclong.core.BigConstants.Ints.THREE), me.alphamode.mclong.math.BigInteger.valueOf(l & 3), p_204349_.and(me.alphamode.mclong.core.BigConstants.Ints.THREE));
++         return this.f_187612_[j].getNoiseBiome(pX.and(me.alphamode.mclong.core.BigConstants.Ints.THREE), me.alphamode.mclong.math.BigInteger.valueOf(l & 3), pZ.and(me.alphamode.mclong.core.BigConstants.Ints.THREE));
        } catch (Throwable throwable) {
           CrashReport crashreport = CrashReport.m_127521_(throwable, "Getting biome");
           CrashReportCategory crashreportcategory = crashreport.m_127514_("Biome being got");
           crashreportcategory.m_128165_("Location", () -> {
 -            return CrashReportCategory.m_178942_(this, p_204347_, p_204348_, p_204349_);
-+            return CrashReportCategory.formatLocation(this, p_204347_, p_204348_, p_204349_);
++            return CrashReportCategory.formatLocation(this, pX, pY, pZ);
           });
           throw new ReportedException(crashreport);
        }

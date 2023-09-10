@@ -10,57 +10,60 @@
 -         BlockState blockstate = this.m_284512_(this.f_75489_.m_122188_(p_285169_));
 -         int j = this.m_284436_(p_285169_, blockstate);
 -         int k = this.f_283849_.m_75795_(p_285169_);
-+   protected void checkNode(BlockPos p_285169_) {
-+      SectionPos i = SectionPos.m_123199_(p_285169_);
++   protected void checkNode(BlockPos pPackedPos) {
++      SectionPos i = SectionPos.m_123199_(pPackedPos);
 +      if (this.f_283849_.storingLightForSection(i)) {
-+         BlockState blockstate = this.m_284512_(this.f_75489_.set(p_285169_));
-+         int j = this.getEmission(p_285169_, blockstate);
-+         int k = this.f_283849_.getStoredLevel(p_285169_);
++         BlockState blockstate = this.m_284512_(this.f_75489_.set(pPackedPos));
++         int j = this.getEmission(pPackedPos, blockstate);
++         int k = this.f_283849_.getStoredLevel(pPackedPos);
           if (j < k) {
 -            this.f_283849_.m_75772_(p_285169_, 0);
 -            this.m_284343_(p_285169_, LightEngine.QueueEntry.m_284290_(k));
-+            this.f_283849_.setStoredLevel(p_285169_, 0);
-+            this.enqueueDecrease(p_285169_, LightEngine.QueueEntry.m_284290_(k));
++            this.f_283849_.setStoredLevel(pPackedPos, 0);
++            this.enqueueDecrease(pPackedPos, LightEngine.QueueEntry.m_284290_(k));
           } else {
 -            this.m_284343_(p_285169_, f_283854_);
-+            this.enqueueDecrease(p_285169_, f_283854_);
++            this.enqueueDecrease(pPackedPos, f_283854_);
           }
  
           if (j > 0) {
 -            this.m_284218_(p_285169_, LightEngine.QueueEntry.m_284185_(j, m_284265_(blockstate)));
-+            this.enqueueIncrease(p_285169_, LightEngine.QueueEntry.m_284185_(j, m_284265_(blockstate)));
++            this.enqueueIncrease(pPackedPos, LightEngine.QueueEntry.m_284185_(j, m_284265_(blockstate)));
           }
  
        }
     }
  
 -   protected void m_284316_(long p_285500_, long p_285410_, int p_285492_) {
-+   protected void propagateIncrease(BlockPos p_285500_, long p_285410_, int p_285492_) {
++   protected void propagateIncrease(BlockPos pPackedPos, long pQueueEntry, int pLightLevel) {
        BlockState blockstate = null;
  
        for(Direction direction : f_283814_) {
-          if (LightEngine.QueueEntry.m_284416_(p_285410_, direction)) {
+-         if (LightEngine.QueueEntry.m_284416_(p_285410_, direction)) {
 -            long i = BlockPos.m_121915_(p_285500_, direction);
 -            if (this.f_283849_.m_75791_(SectionPos.m_123235_(i))) {
 -               int j = this.f_283849_.m_75795_(i);
-+            BlockPos i = p_285500_.relative(direction);
+-               int k = p_285492_ - 1;
++         if (LightEngine.QueueEntry.m_284416_(pQueueEntry, direction)) {
++            BlockPos i = pPackedPos.relative(direction);
 +            if (this.f_283849_.storingLightForSection(SectionPos.m_123199_(i))) {
 +               int j = this.f_283849_.getStoredLevel(i);
-                int k = p_285492_ - 1;
++               int k = pLightLevel - 1;
                 if (k > j) {
 -                  this.f_75489_.m_122188_(i);
 +                  this.f_75489_.set(i);
                    BlockState blockstate1 = this.m_284512_(this.f_75489_);
-                   int l = p_285492_ - this.m_284404_(blockstate1, this.f_75489_);
+-                  int l = p_285492_ - this.m_284404_(blockstate1, this.f_75489_);
++                  int l = pLightLevel - this.m_284404_(blockstate1, this.f_75489_);
                    if (l > j) {
                       if (blockstate == null) {
 -                        blockstate = LightEngine.QueueEntry.m_284390_(p_285410_) ? Blocks.f_50016_.m_49966_() : this.m_284512_(this.f_75489_.m_122188_(p_285500_));
-+                        blockstate = LightEngine.QueueEntry.m_284390_(p_285410_) ? Blocks.f_50016_.m_49966_() : this.m_284512_(this.f_75489_.set(p_285500_));
++                        blockstate = LightEngine.QueueEntry.m_284390_(pQueueEntry) ? Blocks.f_50016_.m_49966_() : this.m_284512_(this.f_75489_.set(pPackedPos));
                       }
  
 -                     if (!this.m_284187_(p_285500_, blockstate, i, blockstate1, direction)) {
 -                        this.f_283849_.m_75772_(i, l);
-+                     if (!this.shapeOccludes(p_285500_, blockstate, i, blockstate1, direction)) {
++                     if (!this.shapeOccludes(pPackedPos, blockstate, i, blockstate1, direction)) {
 +                        this.f_283849_.setStoredLevel(i, l);
                          if (l > 1) {
 -                           this.m_284218_(i, LightEngine.QueueEntry.m_284188_(l, m_284265_(blockstate1), direction.m_122424_()));
@@ -73,15 +76,17 @@
     }
  
 -   protected void m_284321_(long p_285435_, long p_285230_) {
-+   protected void propagateDecrease(BlockPos p_285435_, long p_285230_) {
-       int i = LightEngine.QueueEntry.m_284170_(p_285230_);
+-      int i = LightEngine.QueueEntry.m_284170_(p_285230_);
++   protected void propagateDecrease(BlockPos pPackedPos, long pLightLevel) {
++      int i = LightEngine.QueueEntry.m_284170_(pLightLevel);
  
        for(Direction direction : f_283814_) {
-          if (LightEngine.QueueEntry.m_284416_(p_285230_, direction)) {
+-         if (LightEngine.QueueEntry.m_284416_(p_285230_, direction)) {
 -            long j = BlockPos.m_121915_(p_285435_, direction);
 -            if (this.f_283849_.m_75791_(SectionPos.m_123235_(j))) {
 -               int k = this.f_283849_.m_75795_(j);
-+            BlockPos j = p_285435_.relative(direction);
++         if (LightEngine.QueueEntry.m_284416_(pLightLevel, direction)) {
++            BlockPos j = pPackedPos.relative(direction);
 +            if (this.f_283849_.storingLightForSection(SectionPos.m_123199_(j))) {
 +               int k = this.f_283849_.getStoredLevel(j);
                 if (k != 0) {
@@ -112,10 +117,11 @@
     }
  
 -   private int m_284436_(long p_285243_, BlockState p_284973_) {
-+   private int getEmission(BlockPos p_285243_, BlockState p_284973_) {
-       int i = p_284973_.m_60791_();
+-      int i = p_284973_.m_60791_();
 -      return i > 0 && this.f_283849_.m_284382_(SectionPos.m_123235_(p_285243_)) ? i : 0;
-+      return i > 0 && this.f_283849_.lightOnInSection(SectionPos.m_123199_(p_285243_)) ? i : 0;
++   private int getEmission(BlockPos pPackedPos, BlockState pState) {
++      int i = pState.m_60791_();
++      return i > 0 && this.f_283849_.lightOnInSection(SectionPos.m_123199_(pPackedPos)) ? i : 0;
     }
  
     public void m_142519_(ChunkPos p_285274_) {

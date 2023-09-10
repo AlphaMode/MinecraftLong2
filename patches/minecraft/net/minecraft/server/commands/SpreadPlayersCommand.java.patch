@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/SpreadPlayersCommand.java
 +++ b/net/minecraft/server/commands/SpreadPlayersCommand.java
-@@ -47,15 +_,15 @@
+@@ -47,28 +_,28 @@
        p_138697_.register(Commands.m_82127_("spreadplayers").requires((p_201852_) -> {
           return p_201852_.m_6761_(2);
        }).then(Commands.m_82129_("center", Vec2Argument.m_120822_()).then(Commands.m_82129_("spreadDistance", FloatArgumentType.floatArg(0.0F)).then(Commands.m_82129_("maxRange", FloatArgumentType.floatArg(1.0F)).then(Commands.m_82129_("respectTeams", BoolArgumentType.bool()).then(Commands.m_82129_("targets", EntityArgument.m_91460_()).executes((p_288627_) -> {
@@ -13,92 +13,191 @@
     }
  
 -   private static int m_138702_(CommandSourceStack p_138703_, Vec2 p_138704_, float p_138705_, float p_138706_, int p_138707_, boolean p_138708_, Collection<? extends Entity> p_138709_) throws CommandSyntaxException {
-+   private static int spreadPlayers(CommandSourceStack p_138703_, Vec2 p_138704_, float p_138705_, float p_138706_, long p_138707_, boolean p_138708_, Collection<? extends Entity> p_138709_) throws CommandSyntaxException {
-       ServerLevel serverlevel = p_138703_.m_81372_();
+-      ServerLevel serverlevel = p_138703_.m_81372_();
 -      int i = serverlevel.m_141937_();
+-      if (p_138707_ < i) {
+-         throw f_201848_.create(p_138707_, i);
++   private static int spreadPlayers(CommandSourceStack pSource, Vec2 pCenter, float pSpreadDistance, float pMaxRange, long pMaxHeight, boolean pRespectTeams, Collection<? extends Entity> pTargets) throws CommandSyntaxException {
++      ServerLevel serverlevel = pSource.m_81372_();
 +      long i = serverlevel.getMinBuildHeight();
-       if (p_138707_ < i) {
-          throw f_201848_.create(p_138707_, i);
++      if (pMaxHeight < i) {
++         throw f_201848_.create(pMaxHeight, i);
        } else {
-@@ -65,8 +_,8 @@
-          double d2 = (double)(p_138704_.f_82470_ + p_138706_);
-          double d3 = (double)(p_138704_.f_82471_ + p_138706_);
-          SpreadPlayersCommand.Position[] aspreadplayerscommand$position = m_214733_(randomsource, p_138708_ ? m_138727_(p_138709_) : p_138709_.size(), d0, d1, d2, d3);
+          RandomSource randomsource = RandomSource.m_216327_();
+-         double d0 = (double)(p_138704_.f_82470_ - p_138706_);
+-         double d1 = (double)(p_138704_.f_82471_ - p_138706_);
+-         double d2 = (double)(p_138704_.f_82470_ + p_138706_);
+-         double d3 = (double)(p_138704_.f_82471_ + p_138706_);
+-         SpreadPlayersCommand.Position[] aspreadplayerscommand$position = m_214733_(randomsource, p_138708_ ? m_138727_(p_138709_) : p_138709_.size(), d0, d1, d2, d3);
 -         m_214740_(p_138704_, (double)p_138705_, serverlevel, randomsource, d0, d1, d2, d3, p_138707_, aspreadplayerscommand$position, p_138708_);
 -         double d4 = m_138729_(p_138709_, serverlevel, aspreadplayerscommand$position, p_138707_, p_138708_);
-+         spreadPositions(p_138704_, (double)p_138705_, serverlevel, randomsource, d0, d1, d2, d3, p_138707_, aspreadplayerscommand$position, p_138708_);
-+         double d4 = setPlayerPositions(p_138709_, serverlevel, aspreadplayerscommand$position, p_138707_, p_138708_);
-          p_138703_.m_288197_(() -> {
-             return Component.m_237110_("commands.spreadplayers.success." + (p_138708_ ? "teams" : "entities"), aspreadplayerscommand$position.length, p_138704_.f_82470_, p_138704_.f_82471_, String.format(Locale.ROOT, "%.2f", d4));
+-         p_138703_.m_288197_(() -> {
+-            return Component.m_237110_("commands.spreadplayers.success." + (p_138708_ ? "teams" : "entities"), aspreadplayerscommand$position.length, p_138704_.f_82470_, p_138704_.f_82471_, String.format(Locale.ROOT, "%.2f", d4));
++         double d0 = (double)(pCenter.f_82470_ - pMaxRange);
++         double d1 = (double)(pCenter.f_82471_ - pMaxRange);
++         double d2 = (double)(pCenter.f_82470_ + pMaxRange);
++         double d3 = (double)(pCenter.f_82471_ + pMaxRange);
++         SpreadPlayersCommand.Position[] aspreadplayerscommand$position = m_214733_(randomsource, pRespectTeams ? m_138727_(pTargets) : pTargets.size(), d0, d1, d2, d3);
++         spreadPositions(pCenter, (double)pSpreadDistance, serverlevel, randomsource, d0, d1, d2, d3, pMaxHeight, aspreadplayerscommand$position, pRespectTeams);
++         double d4 = setPlayerPositions(pTargets, serverlevel, aspreadplayerscommand$position, pMaxHeight, pRespectTeams);
++         pSource.m_288197_(() -> {
++            return Component.m_237110_("commands.spreadplayers.success." + (pRespectTeams ? "teams" : "entities"), aspreadplayerscommand$position.length, pCenter.f_82470_, pCenter.f_82471_, String.format(Locale.ROOT, "%.2f", d4));
           }, true);
+          return aspreadplayerscommand$position.length;
+       }
 @@ -88,7 +_,7 @@
        return set.size();
     }
  
 -   private static void m_214740_(Vec2 p_214741_, double p_214742_, ServerLevel p_214743_, RandomSource p_214744_, double p_214745_, double p_214746_, double p_214747_, double p_214748_, int p_214749_, SpreadPlayersCommand.Position[] p_214750_, boolean p_214751_) throws CommandSyntaxException {
-+   private static void spreadPositions(Vec2 p_214741_, double p_214742_, ServerLevel p_214743_, RandomSource p_214744_, double p_214745_, double p_214746_, double p_214747_, double p_214748_, long p_214749_, SpreadPlayersCommand.Position[] p_214750_, boolean p_214751_) throws CommandSyntaxException {
++   private static void spreadPositions(Vec2 pCenter, double pSpreadDistance, ServerLevel pLevel, RandomSource pRandom, double pMinX, double pMinZ, double pMaxX, double pMaxZ, long pMaxHeight, SpreadPlayersCommand.Position[] pPositions, boolean pRespectTeams) throws CommandSyntaxException {
        boolean flag = true;
        double d0 = (double)Float.MAX_VALUE;
  
-@@ -136,7 +_,7 @@
+@@ -97,17 +_,17 @@
+          flag = false;
+          d0 = (double)Float.MAX_VALUE;
+ 
+-         for(int j = 0; j < p_214750_.length; ++j) {
+-            SpreadPlayersCommand.Position spreadplayerscommand$position = p_214750_[j];
++         for(int j = 0; j < pPositions.length; ++j) {
++            SpreadPlayersCommand.Position spreadplayerscommand$position = pPositions[j];
+             int k = 0;
+             SpreadPlayersCommand.Position spreadplayerscommand$position1 = new SpreadPlayersCommand.Position();
+ 
+-            for(int l = 0; l < p_214750_.length; ++l) {
++            for(int l = 0; l < pPositions.length; ++l) {
+                if (j != l) {
+-                  SpreadPlayersCommand.Position spreadplayerscommand$position2 = p_214750_[l];
++                  SpreadPlayersCommand.Position spreadplayerscommand$position2 = pPositions[l];
+                   double d1 = spreadplayerscommand$position.m_138767_(spreadplayerscommand$position2);
+                   d0 = Math.min(d1, d0);
+-                  if (d1 < p_214742_) {
++                  if (d1 < pSpreadDistance) {
+                      ++k;
+                      spreadplayerscommand$position1.f_138749_ += spreadplayerscommand$position2.f_138749_ - spreadplayerscommand$position.f_138749_;
+                      spreadplayerscommand$position1.f_138750_ += spreadplayerscommand$position2.f_138750_ - spreadplayerscommand$position.f_138750_;
+@@ -123,21 +_,21 @@
+                   spreadplayerscommand$position1.m_138752_();
+                   spreadplayerscommand$position.m_138776_(spreadplayerscommand$position1);
+                } else {
+-                  spreadplayerscommand$position.m_214752_(p_214744_, p_214745_, p_214746_, p_214747_, p_214748_);
++                  spreadplayerscommand$position.m_214752_(pRandom, pMinX, pMinZ, pMaxX, pMaxZ);
+                }
+ 
+                flag = true;
+             }
+ 
+-            if (spreadplayerscommand$position.m_138753_(p_214745_, p_214746_, p_214747_, p_214748_)) {
++            if (spreadplayerscommand$position.m_138753_(pMinX, pMinZ, pMaxX, pMaxZ)) {
+                flag = true;
+             }
+          }
  
           if (!flag) {
-             for(SpreadPlayersCommand.Position spreadplayerscommand$position3 : p_214750_) {
+-            for(SpreadPlayersCommand.Position spreadplayerscommand$position3 : p_214750_) {
 -               if (!spreadplayerscommand$position3.m_138773_(p_214743_, p_214749_)) {
-+               if (!spreadplayerscommand$position3.isSafe(p_214743_, p_214749_)) {
-                   spreadplayerscommand$position3.m_214752_(p_214744_, p_214745_, p_214746_, p_214747_, p_214748_);
+-                  spreadplayerscommand$position3.m_214752_(p_214744_, p_214745_, p_214746_, p_214747_, p_214748_);
++            for(SpreadPlayersCommand.Position spreadplayerscommand$position3 : pPositions) {
++               if (!spreadplayerscommand$position3.isSafe(pLevel, pMaxHeight)) {
++                  spreadplayerscommand$position3.m_214752_(pRandom, pMinX, pMinZ, pMaxX, pMaxZ);
                    flag = true;
                 }
-@@ -157,7 +_,7 @@
+             }
+@@ -149,36 +_,36 @@
+       }
+ 
+       if (i >= 10000) {
+-         if (p_214751_) {
+-            throw f_138693_.create(p_214750_.length, p_214741_.f_82470_, p_214741_.f_82471_, String.format(Locale.ROOT, "%.2f", d0));
++         if (pRespectTeams) {
++            throw f_138693_.create(pPositions.length, pCenter.f_82470_, pCenter.f_82471_, String.format(Locale.ROOT, "%.2f", d0));
+          } else {
+-            throw f_138694_.create(p_214750_.length, p_214741_.f_82470_, p_214741_.f_82471_, String.format(Locale.ROOT, "%.2f", d0));
++            throw f_138694_.create(pPositions.length, pCenter.f_82470_, pCenter.f_82471_, String.format(Locale.ROOT, "%.2f", d0));
+          }
        }
     }
  
 -   private static double m_138729_(Collection<? extends Entity> p_138730_, ServerLevel p_138731_, SpreadPlayersCommand.Position[] p_138732_, int p_138733_, boolean p_138734_) {
-+   private static double setPlayerPositions(Collection<? extends Entity> p_138730_, ServerLevel p_138731_, SpreadPlayersCommand.Position[] p_138732_, long p_138733_, boolean p_138734_) {
++   private static double setPlayerPositions(Collection<? extends Entity> pTargets, ServerLevel pLevel, SpreadPlayersCommand.Position[] pPositions, long pMaxHeight, boolean pRespectTeams) {
        double d0 = 0.0D;
        int i = 0;
        Map<Team, SpreadPlayersCommand.Position> map = Maps.newHashMap();
-@@ -175,7 +_,7 @@
-             spreadplayerscommand$position = p_138732_[i++];
+ 
+-      for(Entity entity : p_138730_) {
++      for(Entity entity : pTargets) {
+          SpreadPlayersCommand.Position spreadplayerscommand$position;
+-         if (p_138734_) {
++         if (pRespectTeams) {
+             Team team = entity instanceof Player ? entity.m_5647_() : null;
+             if (!map.containsKey(team)) {
+-               map.put(team, p_138732_[i++]);
++               map.put(team, pPositions[i++]);
+             }
+ 
+             spreadplayerscommand$position = map.get(team);
+          } else {
+-            spreadplayerscommand$position = p_138732_[i++];
++            spreadplayerscommand$position = pPositions[i++];
           }
  
 -         entity.m_264318_(p_138731_, (double)Mth.m_14107_(spreadplayerscommand$position.f_138749_) + 0.5D, (double)spreadplayerscommand$position.m_138758_(p_138731_, p_138733_), (double)Mth.m_14107_(spreadplayerscommand$position.f_138750_) + 0.5D, Set.of(), entity.m_146908_(), entity.m_146909_());
-+         entity.m_264318_(p_138731_, (double)Mth.m_14134_(spreadplayerscommand$position.f_138749_) + 0.5D, (double)spreadplayerscommand$position.getSpawnY(p_138731_, p_138733_), (double)Mth.m_14134_(spreadplayerscommand$position.f_138750_) + 0.5D, Set.of(), entity.m_146908_(), entity.m_146909_());
++         entity.m_264318_(pLevel, (double)Mth.m_14134_(spreadplayerscommand$position.f_138749_) + 0.5D, (double)spreadplayerscommand$position.getSpawnY(pLevel, pMaxHeight), (double)Mth.m_14134_(spreadplayerscommand$position.f_138750_) + 0.5D, Set.of(), entity.m_146908_(), entity.m_146909_());
           double d2 = Double.MAX_VALUE;
  
-          for(SpreadPlayersCommand.Position spreadplayerscommand$position1 : p_138732_) {
-@@ -249,17 +_,17 @@
+-         for(SpreadPlayersCommand.Position spreadplayerscommand$position1 : p_138732_) {
++         for(SpreadPlayersCommand.Position spreadplayerscommand$position1 : pPositions) {
+             if (spreadplayerscommand$position != spreadplayerscommand$position1) {
+                double d1 = spreadplayerscommand$position.m_138767_(spreadplayerscommand$position1);
+                d2 = Math.min(d1, d2);
+@@ -188,7 +_,7 @@
+          d0 += d2;
+       }
+ 
+-      return p_138730_.size() < 2 ? 0.0D : d0 / (double)p_138730_.size();
++      return pTargets.size() < 2 ? 0.0D : d0 / (double)pTargets.size();
+    }
+ 
+    private static SpreadPlayersCommand.Position[] m_214733_(RandomSource p_214734_, int p_214735_, double p_214736_, double p_214737_, double p_214738_, double p_214739_) {
+@@ -249,29 +_,29 @@
           return flag;
        }
  
 -      public int m_138758_(BlockGetter p_138759_, int p_138760_) {
-+      public long getSpawnY(BlockGetter p_138759_, long p_138760_) {
-          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(this.f_138749_, (double)(p_138760_ + 1), this.f_138750_);
-          boolean flag = p_138759_.m_8055_(blockpos$mutableblockpos).m_60795_();
+-         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(this.f_138749_, (double)(p_138760_ + 1), this.f_138750_);
+-         boolean flag = p_138759_.m_8055_(blockpos$mutableblockpos).m_60795_();
++      public long getSpawnY(BlockGetter pLevel, long pY) {
++         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(this.f_138749_, (double)(pY + 1), this.f_138750_);
++         boolean flag = pLevel.m_8055_(blockpos$mutableblockpos).m_60795_();
           blockpos$mutableblockpos.m_122173_(Direction.DOWN);
  
           boolean flag2;
 -         for(boolean flag1 = p_138759_.m_8055_(blockpos$mutableblockpos).m_60795_(); blockpos$mutableblockpos.m_123342_() > p_138759_.m_141937_(); flag1 = flag2) {
-+         for(boolean flag1 = p_138759_.m_8055_(blockpos$mutableblockpos).m_60795_(); blockpos$mutableblockpos.getY() > p_138759_.getMinBuildHeight(); flag1 = flag2) {
++         for(boolean flag1 = pLevel.m_8055_(blockpos$mutableblockpos).m_60795_(); blockpos$mutableblockpos.getY() > pLevel.getMinBuildHeight(); flag1 = flag2) {
              blockpos$mutableblockpos.m_122173_(Direction.DOWN);
-             flag2 = p_138759_.m_8055_(blockpos$mutableblockpos).m_60795_();
+-            flag2 = p_138759_.m_8055_(blockpos$mutableblockpos).m_60795_();
++            flag2 = pLevel.m_8055_(blockpos$mutableblockpos).m_60795_();
              if (!flag2 && flag1 && flag) {
 -               return blockpos$mutableblockpos.m_123342_() + 1;
 +               return blockpos$mutableblockpos.getY() + 1;
              }
  
              flag = flag1;
-@@ -268,10 +_,10 @@
-          return p_138760_ + 1;
+          }
+ 
+-         return p_138760_ + 1;
++         return pY + 1;
        }
  
 -      public boolean m_138773_(BlockGetter p_138774_, int p_138775_) {
 -         BlockPos blockpos = BlockPos.m_274561_(this.f_138749_, (double)(this.m_138758_(p_138774_, p_138775_) - 1), this.f_138750_);
-+      public boolean isSafe(BlockGetter p_138774_, long p_138775_) {
-+         BlockPos blockpos = BlockPos.m_274561_(this.f_138749_, (double)(this.getSpawnY(p_138774_, p_138775_) - 1), this.f_138750_);
-          BlockState blockstate = p_138774_.m_8055_(blockpos);
+-         BlockState blockstate = p_138774_.m_8055_(blockpos);
 -         return blockpos.m_123342_() < p_138775_ && !blockstate.m_278721_() && !blockstate.m_204336_(BlockTags.f_13076_);
-+         return blockpos.getY() < p_138775_ && !blockstate.m_278721_() && !blockstate.m_204336_(BlockTags.f_13076_);
++      public boolean isSafe(BlockGetter pLevel, long pY) {
++         BlockPos blockpos = BlockPos.m_274561_(this.f_138749_, (double)(this.getSpawnY(pLevel, pY) - 1), this.f_138750_);
++         BlockState blockstate = pLevel.m_8055_(blockpos);
++         return blockpos.getY() < pY && !blockstate.m_278721_() && !blockstate.m_204336_(BlockTags.f_13076_);
        }
  
        public void m_214752_(RandomSource p_214753_, double p_214754_, double p_214755_, double p_214756_, double p_214757_) {

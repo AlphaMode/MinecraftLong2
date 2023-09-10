@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/phys/shapes/ArrayVoxelShape.java
 +++ b/net/minecraft/world/phys/shapes/ArrayVoxelShape.java
-@@ -7,15 +_,15 @@
+@@ -7,30 +_,30 @@
  import net.minecraft.core.Direction;
  
  public class ArrayVoxelShape extends VoxelShape {
@@ -13,21 +13,37 @@
  
 -   protected ArrayVoxelShape(DiscreteVoxelShape p_82572_, double[] p_82573_, double[] p_82574_, double[] p_82575_) {
 -      this(p_82572_, (DoubleList)DoubleArrayList.wrap(Arrays.copyOf(p_82573_, p_82572_.m_82828_() + 1)), (DoubleList)DoubleArrayList.wrap(Arrays.copyOf(p_82574_, p_82572_.m_82845_() + 1)), (DoubleList)DoubleArrayList.wrap(Arrays.copyOf(p_82575_, p_82572_.m_82852_() + 1)));
-+   protected ArrayVoxelShape(DiscreteVoxelShape p_82572_, me.alphamode.mclong.math.BigDecimal[] p_82573_, me.alphamode.mclong.math.BigDecimal[] p_82574_, me.alphamode.mclong.math.BigDecimal[] p_82575_) {
-+      this(p_82572_, it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(Arrays.copyOf(p_82573_, p_82572_.m_82828_() + 1)), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(Arrays.copyOf(p_82574_, p_82572_.m_82845_() + 1)), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(Arrays.copyOf(p_82575_, p_82572_.m_82852_() + 1)));
++   protected ArrayVoxelShape(DiscreteVoxelShape pShape, me.alphamode.mclong.math.BigDecimal[] pXs, me.alphamode.mclong.math.BigDecimal[] pYs, me.alphamode.mclong.math.BigDecimal[] pZs) {
++      this(pShape, it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(Arrays.copyOf(pXs, pShape.m_82828_() + 1)), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(Arrays.copyOf(pYs, pShape.m_82845_() + 1)), it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(Arrays.copyOf(pZs, pShape.m_82852_() + 1)));
     }
  
 -   ArrayVoxelShape(DiscreteVoxelShape p_82567_, DoubleList p_82568_, DoubleList p_82569_, DoubleList p_82570_) {
-+   ArrayVoxelShape(DiscreteVoxelShape p_82567_, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> p_82568_, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> p_82569_, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> p_82570_) {
-       super(p_82567_);
-       int i = p_82567_.m_82828_() + 1;
-       int j = p_82567_.m_82845_() + 1;
-@@ -29,7 +_,7 @@
+-      super(p_82567_);
+-      int i = p_82567_.m_82828_() + 1;
+-      int j = p_82567_.m_82845_() + 1;
+-      int k = p_82567_.m_82852_() + 1;
+-      if (i == p_82568_.size() && j == p_82569_.size() && k == p_82570_.size()) {
+-         this.f_82563_ = p_82568_;
+-         this.f_82564_ = p_82569_;
+-         this.f_82565_ = p_82570_;
++   ArrayVoxelShape(DiscreteVoxelShape pShape, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> pXs, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> pYs, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> pZs) {
++      super(pShape);
++      int i = pShape.m_82828_() + 1;
++      int j = pShape.m_82845_() + 1;
++      int k = pShape.m_82852_() + 1;
++      if (i == pXs.size() && j == pYs.size() && k == pZs.size()) {
++         this.f_82563_ = pXs;
++         this.f_82564_ = pYs;
++         this.f_82565_ = pZs;
+       } else {
+          throw (IllegalArgumentException)Util.m_137570_(new IllegalArgumentException("Lengths of point arrays must be consistent with the size of the VoxelShape."));
        }
     }
  
 -   protected DoubleList m_7700_(Direction.Axis p_82577_) {
-+   protected it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> getCoords(Direction.Axis p_82577_) {
-       switch (p_82577_) {
+-      switch (p_82577_) {
++   protected it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> getCoords(Direction.Axis pAxis) {
++      switch (pAxis) {
           case X:
              return this.f_82563_;
+          case Y:

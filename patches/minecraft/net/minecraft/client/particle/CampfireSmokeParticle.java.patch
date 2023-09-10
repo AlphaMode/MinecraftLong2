@@ -1,29 +1,51 @@
 --- a/net/minecraft/client/particle/CampfireSmokeParticle.java
 +++ b/net/minecraft/client/particle/CampfireSmokeParticle.java
-@@ -7,7 +_,7 @@
+@@ -7,20 +_,20 @@
  
  @OnlyIn(Dist.CLIENT)
  public class CampfireSmokeParticle extends TextureSheetParticle {
 -   CampfireSmokeParticle(ClientLevel p_105856_, double p_105857_, double p_105858_, double p_105859_, double p_105860_, double p_105861_, double p_105862_, boolean p_105863_) {
-+   CampfireSmokeParticle(ClientLevel p_105856_, me.alphamode.mclong.math.BigDecimal p_105857_, me.alphamode.mclong.math.BigDecimal p_105858_, me.alphamode.mclong.math.BigDecimal p_105859_, double p_105860_, double p_105861_, double p_105862_, boolean p_105863_) {
-       super(p_105856_, p_105857_, p_105858_, p_105859_);
+-      super(p_105856_, p_105857_, p_105858_, p_105859_);
++   CampfireSmokeParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, boolean pSignal) {
++      super(pLevel, pX, pY, pZ);
        this.m_6569_(3.0F);
        this.m_107250_(0.25F, 0.25F);
-@@ -53,7 +_,7 @@
+-      if (p_105863_) {
++      if (pSignal) {
+          this.f_107225_ = this.f_107223_.m_188503_(50) + 280;
+       } else {
+          this.f_107225_ = this.f_107223_.m_188503_(50) + 80;
+       }
+ 
+       this.f_107226_ = 3.0E-6F;
+-      this.f_107215_ = p_105860_;
+-      this.f_107216_ = p_105861_ + (double)(this.f_107223_.m_188501_() / 500.0F);
+-      this.f_107217_ = p_105862_;
++      this.f_107215_ = pXSpeed;
++      this.f_107216_ = pYSpeed + (double)(this.f_107223_.m_188501_() / 500.0F);
++      this.f_107217_ = pZSpeed;
+    }
+ 
+    public void m_5989_() {
+@@ -53,8 +_,8 @@
           this.f_105876_ = p_105878_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_105889_, ClientLevel p_105890_, double p_105891_, double p_105892_, double p_105893_, double p_105894_, double p_105895_, double p_105896_) {
-+      public Particle createParticle(SimpleParticleType p_105889_, ClientLevel p_105890_, me.alphamode.mclong.math.BigDecimal p_105891_, me.alphamode.mclong.math.BigDecimal p_105892_, me.alphamode.mclong.math.BigDecimal p_105893_, double p_105894_, double p_105895_, double p_105896_) {
-          CampfireSmokeParticle campfiresmokeparticle = new CampfireSmokeParticle(p_105890_, p_105891_, p_105892_, p_105893_, p_105894_, p_105895_, p_105896_, false);
+-         CampfireSmokeParticle campfiresmokeparticle = new CampfireSmokeParticle(p_105890_, p_105891_, p_105892_, p_105893_, p_105894_, p_105895_, p_105896_, false);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         CampfireSmokeParticle campfiresmokeparticle = new CampfireSmokeParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, false);
           campfiresmokeparticle.m_107271_(0.9F);
           campfiresmokeparticle.m_108335_(this.f_105876_);
-@@ -69,7 +_,7 @@
+          return campfiresmokeparticle;
+@@ -69,8 +_,8 @@
           this.f_105897_ = p_105899_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_105910_, ClientLevel p_105911_, double p_105912_, double p_105913_, double p_105914_, double p_105915_, double p_105916_, double p_105917_) {
-+      public Particle createParticle(SimpleParticleType p_105910_, ClientLevel p_105911_, me.alphamode.mclong.math.BigDecimal p_105912_, me.alphamode.mclong.math.BigDecimal p_105913_, me.alphamode.mclong.math.BigDecimal p_105914_, double p_105915_, double p_105916_, double p_105917_) {
-          CampfireSmokeParticle campfiresmokeparticle = new CampfireSmokeParticle(p_105911_, p_105912_, p_105913_, p_105914_, p_105915_, p_105916_, p_105917_, true);
+-         CampfireSmokeParticle campfiresmokeparticle = new CampfireSmokeParticle(p_105911_, p_105912_, p_105913_, p_105914_, p_105915_, p_105916_, p_105917_, true);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         CampfireSmokeParticle campfiresmokeparticle = new CampfireSmokeParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, true);
           campfiresmokeparticle.m_107271_(0.95F);
           campfiresmokeparticle.m_108335_(this.f_105897_);
+          return campfiresmokeparticle;

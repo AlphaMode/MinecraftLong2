@@ -1,11 +1,11 @@
 --- a/net/minecraft/client/renderer/debug/LightSectionDebugRenderer.java
 +++ b/net/minecraft/client/renderer/debug/LightSectionDebugRenderer.java
-@@ -37,46 +_,46 @@
+@@ -37,104 +_,104 @@
        this.f_279558_ = p_283096_;
     }
  
 -   public void m_7790_(PoseStack p_281418_, MultiBufferSource p_282487_, double p_282164_, double p_282565_, double p_281615_) {
-+   public void render(PoseStack p_281418_, MultiBufferSource p_282487_, me.alphamode.mclong.math.BigDecimal p_282164_, me.alphamode.mclong.math.BigDecimal p_282565_, me.alphamode.mclong.math.BigDecimal p_281615_) {
++   public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
        Instant instant = Instant.now();
        if (this.f_279532_ == null || Duration.between(this.f_279524_, instant).compareTo(f_279526_) > 0) {
           this.f_279524_ = instant;
@@ -14,47 +14,51 @@
  
 -      m_280110_(p_281418_, this.f_279532_.f_279657_, this.f_279532_.f_279546_, p_282487_, p_282164_, p_282565_, p_281615_, f_279653_);
 -      m_280110_(p_281418_, this.f_279532_.f_279596_, this.f_279532_.f_279546_, p_282487_, p_282164_, p_282565_, p_281615_, f_279579_);
-+      renderEdges(p_281418_, this.f_279532_.f_279657_, this.f_279532_.f_279546_, p_282487_, p_282164_, p_282565_, p_281615_, f_279653_);
-+      renderEdges(p_281418_, this.f_279532_.f_279596_, this.f_279532_.f_279546_, p_282487_, p_282164_, p_282565_, p_281615_, f_279579_);
-       VertexConsumer vertexconsumer = p_282487_.m_6299_(RenderType.m_280070_());
+-      VertexConsumer vertexconsumer = p_282487_.m_6299_(RenderType.m_280070_());
 -      m_280198_(p_281418_, this.f_279532_.f_279657_, this.f_279532_.f_279546_, vertexconsumer, p_282164_, p_282565_, p_281615_, f_279653_);
 -      m_280198_(p_281418_, this.f_279532_.f_279596_, this.f_279532_.f_279546_, vertexconsumer, p_282164_, p_282565_, p_281615_, f_279579_);
-+      renderFaces(p_281418_, this.f_279532_.f_279657_, this.f_279532_.f_279546_, vertexconsumer, p_282164_, p_282565_, p_281615_, f_279653_);
-+      renderFaces(p_281418_, this.f_279532_.f_279596_, this.f_279532_.f_279546_, vertexconsumer, p_282164_, p_282565_, p_281615_, f_279579_);
++      renderEdges(pPoseStack, this.f_279532_.f_279657_, this.f_279532_.f_279546_, pBuffer, pCamX, pCamY, pCamZ, f_279653_);
++      renderEdges(pPoseStack, this.f_279532_.f_279596_, this.f_279532_.f_279546_, pBuffer, pCamX, pCamY, pCamZ, f_279579_);
++      VertexConsumer vertexconsumer = pBuffer.m_6299_(RenderType.m_280070_());
++      renderFaces(pPoseStack, this.f_279532_.f_279657_, this.f_279532_.f_279546_, vertexconsumer, pCamX, pCamY, pCamZ, f_279653_);
++      renderFaces(pPoseStack, this.f_279532_.f_279596_, this.f_279532_.f_279546_, vertexconsumer, pCamX, pCamY, pCamZ, f_279579_);
     }
  
 -   private static void m_280198_(PoseStack p_283088_, DiscreteVoxelShape p_281747_, SectionPos p_282941_, VertexConsumer p_283103_, double p_281419_, double p_282520_, double p_281976_, Vector4f p_282342_) {
-+   private static void renderFaces(PoseStack p_283088_, DiscreteVoxelShape p_281747_, SectionPos p_282941_, VertexConsumer p_283103_, me.alphamode.mclong.math.BigDecimal p_281419_, me.alphamode.mclong.math.BigDecimal p_282520_, me.alphamode.mclong.math.BigDecimal p_281976_, Vector4f p_282342_) {
-       p_281747_.m_82810_((p_282087_, p_283360_, p_282854_, p_282233_) -> {
+-      p_281747_.m_82810_((p_282087_, p_283360_, p_282854_, p_282233_) -> {
 -         int i = p_283360_ + p_282941_.m_123341_();
 -         int j = p_282854_ + p_282941_.m_123342_();
 -         int k = p_282233_ + p_282941_.m_123343_();
 -         m_280142_(p_283088_, p_283103_, p_282087_, p_281419_, p_282520_, p_281976_, i, j, k, p_282342_);
-+         long i = p_283360_ + p_282941_.getX();
-+         long j = p_282854_ + p_282941_.getY();
-+         long k = p_282233_ + p_282941_.getZ();
-+         renderFace(p_283088_, p_283103_, p_282087_, p_281419_.doubleValue(), p_282520_.doubleValue(), p_281976_.doubleValue(), i, j, k, p_282342_);
++   private static void renderFaces(PoseStack pPoseStack, DiscreteVoxelShape pShape, SectionPos pPos, VertexConsumer pVertexConsumer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ, Vector4f pColor) {
++      pShape.m_82810_((p_282087_, p_283360_, p_282854_, p_282233_) -> {
++         long i = p_283360_ + pPos.getX();
++         long j = p_282854_ + pPos.getY();
++         long k = p_282233_ + pPos.getZ();
++         renderFace(pPoseStack, pVertexConsumer, p_282087_, pCamX.doubleValue(), pCamY.doubleValue(), pCamZ.doubleValue(), i, j, k, pColor);
        });
     }
  
 -   private static void m_280110_(PoseStack p_282890_, DiscreteVoxelShape p_282950_, SectionPos p_281925_, MultiBufferSource p_281516_, double p_281554_, double p_283233_, double p_281690_, Vector4f p_282916_) {
-+   private static void renderEdges(PoseStack p_282890_, DiscreteVoxelShape p_282950_, SectionPos p_281925_, MultiBufferSource p_281516_, me.alphamode.mclong.math.BigDecimal p_281554_, me.alphamode.mclong.math.BigDecimal p_283233_, me.alphamode.mclong.math.BigDecimal p_281690_, Vector4f p_282916_) {
-       p_282950_.m_82819_((p_283441_, p_283631_, p_282083_, p_281900_, p_281481_, p_283547_) -> {
+-      p_282950_.m_82819_((p_283441_, p_283631_, p_282083_, p_281900_, p_281481_, p_283547_) -> {
 -         int i = p_283441_ + p_281925_.m_123341_();
 -         int j = p_283631_ + p_281925_.m_123342_();
 -         int k = p_282083_ + p_281925_.m_123343_();
 -         int l = p_281900_ + p_281925_.m_123341_();
 -         int i1 = p_281481_ + p_281925_.m_123342_();
 -         int j1 = p_283547_ + p_281925_.m_123343_();
-+         long i = p_283441_ + p_281925_.getX();
-+         long j = p_283631_ + p_281925_.getY();
-+         long k = p_282083_ + p_281925_.getZ();
-+         long l = p_281900_ + p_281925_.getX();
-+         long i1 = p_281481_ + p_281925_.getY();
-+         long j1 = p_283547_ + p_281925_.getZ();
-          VertexConsumer vertexconsumer = p_281516_.m_6299_(RenderType.m_269399_(1.0D));
+-         VertexConsumer vertexconsumer = p_281516_.m_6299_(RenderType.m_269399_(1.0D));
 -         m_280135_(p_282890_, vertexconsumer, p_281554_, p_283233_, p_281690_, i, j, k, l, i1, j1, p_282916_);
-+         renderEdge(p_282890_, vertexconsumer, p_281554_.doubleValue(), p_283233_.doubleValue(), p_281690_.doubleValue(), i, j, k, l, i1, j1, p_282916_);
++   private static void renderEdges(PoseStack pPoseStack, DiscreteVoxelShape pShape, SectionPos pPos, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ, Vector4f pColor) {
++      pShape.m_82819_((p_283441_, p_283631_, p_282083_, p_281900_, p_281481_, p_283547_) -> {
++         long i = p_283441_ + pPos.getX();
++         long j = p_283631_ + pPos.getY();
++         long k = p_282083_ + pPos.getZ();
++         long l = p_281900_ + pPos.getX();
++         long i1 = p_281481_ + pPos.getY();
++         long j1 = p_283547_ + pPos.getZ();
++         VertexConsumer vertexconsumer = pBuffer.m_6299_(RenderType.m_269399_(1.0D));
++         renderEdge(pPoseStack, vertexconsumer, pCamX.doubleValue(), pCamY.doubleValue(), pCamZ.doubleValue(), i, j, k, l, i1, j1, pColor);
        }, true);
     }
  
@@ -62,14 +66,85 @@
 -      float f = (float)((double)SectionPos.m_123223_(p_282751_) - p_281988_);
 -      float f1 = (float)((double)SectionPos.m_123223_(p_282270_) - p_282440_);
 -      float f2 = (float)((double)SectionPos.m_123223_(p_282159_) - p_282235_);
-+   private static void renderFace(PoseStack p_283612_, VertexConsumer p_281996_, Direction p_282340_, double p_281988_, double p_282440_, double p_282235_, long p_282751_, long p_282270_, long p_282159_, Vector4f p_283316_) {
-+      float f = (float)((double)SectionPos.sectionToBlockCoord(p_282751_) - p_281988_);
-+      float f1 = (float)((double)SectionPos.sectionToBlockCoord(p_282270_) - p_282440_);
-+      float f2 = (float)((double)SectionPos.sectionToBlockCoord(p_282159_) - p_282235_);
++   private static void renderFace(PoseStack pPoseStack, VertexConsumer pVertexConsumer, Direction pFace, double pCamX, double pCamY, double pCamZ, long pBlockX, long pBlockY, long pBlockZ, Vector4f pColor) {
++      float f = (float)((double)SectionPos.sectionToBlockCoord(pBlockX) - pCamX);
++      float f1 = (float)((double)SectionPos.sectionToBlockCoord(pBlockY) - pCamY);
++      float f2 = (float)((double)SectionPos.sectionToBlockCoord(pBlockZ) - pCamZ);
        float f3 = f + 16.0F;
        float f4 = f1 + 16.0F;
        float f5 = f2 + 16.0F;
-@@ -125,13 +_,13 @@
+-      float f6 = p_283316_.x();
+-      float f7 = p_283316_.y();
+-      float f8 = p_283316_.z();
+-      float f9 = p_283316_.w();
+-      Matrix4f matrix4f = p_283612_.m_85850_().m_252922_();
+-      switch (p_282340_) {
++      float f6 = pColor.x();
++      float f7 = pColor.y();
++      float f8 = pColor.z();
++      float f9 = pColor.w();
++      Matrix4f matrix4f = pPoseStack.m_85850_().m_252922_();
++      switch (pFace) {
+          case DOWN:
+-            p_281996_.m_252986_(matrix4f, f, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f3, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f3, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+             break;
+          case UP:
+-            p_281996_.m_252986_(matrix4f, f, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f3, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f3, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+             break;
+          case NORTH:
+-            p_281996_.m_252986_(matrix4f, f, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f3, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f3, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+             break;
+          case SOUTH:
+-            p_281996_.m_252986_(matrix4f, f, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f3, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f3, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+             break;
+          case WEST:
+-            p_281996_.m_252986_(matrix4f, f, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+             break;
+          case EAST:
+-            p_281996_.m_252986_(matrix4f, f3, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f3, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f3, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+-            p_281996_.m_252986_(matrix4f, f3, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f1, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f4, f2).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f4, f5).m_85950_(f6, f7, f8, f9).m_5752_();
++            pVertexConsumer.m_252986_(matrix4f, f3, f1, f5).m_85950_(f6, f7, f8, f9).m_5752_();
+       }
  
     }
  
@@ -80,16 +155,22 @@
 -      float f3 = (float)((double)SectionPos.m_123223_(p_282216_) - p_283424_);
 -      float f4 = (float)((double)SectionPos.m_123223_(p_281474_) - p_283677_);
 -      float f5 = (float)((double)SectionPos.m_123223_(p_281542_) - p_283390_);
-+   private static void renderEdge(PoseStack p_283045_, VertexConsumer p_282888_, double p_283424_, double p_283677_, double p_283390_, long p_281439_, long p_282106_, long p_282462_, long p_282216_, long p_281474_, long p_281542_, Vector4f p_283667_) {
-+      float f = (float)((double)SectionPos.sectionToBlockCoord(p_281439_) - p_283424_);
-+      float f1 = (float)((double)SectionPos.sectionToBlockCoord(p_282106_) - p_283677_);
-+      float f2 = (float)((double)SectionPos.sectionToBlockCoord(p_282462_) - p_283390_);
-+      float f3 = (float)((double)SectionPos.sectionToBlockCoord(p_282216_) - p_283424_);
-+      float f4 = (float)((double)SectionPos.sectionToBlockCoord(p_281474_) - p_283677_);
-+      float f5 = (float)((double)SectionPos.sectionToBlockCoord(p_281542_) - p_283390_);
-       Matrix4f matrix4f = p_283045_.m_85850_().m_252922_();
-       p_282888_.m_252986_(matrix4f, f, f1, f2).m_85950_(p_283667_.x(), p_283667_.y(), p_283667_.z(), 1.0F).m_5752_();
-       p_282888_.m_252986_(matrix4f, f3, f4, f5).m_85950_(p_283667_.x(), p_283667_.y(), p_283667_.z(), 1.0F).m_5752_();
+-      Matrix4f matrix4f = p_283045_.m_85850_().m_252922_();
+-      p_282888_.m_252986_(matrix4f, f, f1, f2).m_85950_(p_283667_.x(), p_283667_.y(), p_283667_.z(), 1.0F).m_5752_();
+-      p_282888_.m_252986_(matrix4f, f3, f4, f5).m_85950_(p_283667_.x(), p_283667_.y(), p_283667_.z(), 1.0F).m_5752_();
++   private static void renderEdge(PoseStack pPoseStack, VertexConsumer pVertexConsumer, double pCamX, double pCamY, double pCamZ, long pX1, long pY1, long pZ1, long pX2, long pY2, long pZ2, Vector4f pColor) {
++      float f = (float)((double)SectionPos.sectionToBlockCoord(pX1) - pCamX);
++      float f1 = (float)((double)SectionPos.sectionToBlockCoord(pY1) - pCamY);
++      float f2 = (float)((double)SectionPos.sectionToBlockCoord(pZ1) - pCamZ);
++      float f3 = (float)((double)SectionPos.sectionToBlockCoord(pX2) - pCamX);
++      float f4 = (float)((double)SectionPos.sectionToBlockCoord(pY2) - pCamY);
++      float f5 = (float)((double)SectionPos.sectionToBlockCoord(pZ2) - pCamZ);
++      Matrix4f matrix4f = pPoseStack.m_85850_().m_252922_();
++      pVertexConsumer.m_252986_(matrix4f, f, f1, f2).m_85950_(pColor.x(), pColor.y(), pColor.z(), 1.0F).m_5752_();
++      pVertexConsumer.m_252986_(matrix4f, f3, f4, f5).m_85950_(pColor.x(), pColor.y(), pColor.z(), 1.0F).m_5752_();
+    }
+ 
+    @OnlyIn(Dist.CLIENT)
 @@ -151,19 +_,19 @@
           for(int j = 0; j < i; ++j) {
              for(int k = 0; k < i; ++k) {

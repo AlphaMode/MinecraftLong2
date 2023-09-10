@@ -1,36 +1,40 @@
 --- a/net/minecraft/world/level/biome/FixedBiomeSource.java
 +++ b/net/minecraft/world/level/biome/FixedBiomeSource.java
-@@ -30,16 +_,16 @@
+@@ -30,29 +_,29 @@
        return f_48251_;
     }
  
 -   public Holder<Biome> m_203407_(int p_204265_, int p_204266_, int p_204267_, Climate.Sampler p_204268_) {
-+   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger p_204265_, me.alphamode.mclong.math.BigInteger p_204266_, me.alphamode.mclong.math.BigInteger p_204267_, Climate.Sampler p_204268_) {
++   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ, Climate.Sampler pSampler) {
        return this.f_48252_;
     }
  
 -   public Holder<Biome> m_203495_(int p_204261_, int p_204262_, int p_204263_) {
-+   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger p_204261_, me.alphamode.mclong.math.BigInteger p_204262_, me.alphamode.mclong.math.BigInteger p_204263_) {
++   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
        return this.f_48252_;
     }
  
     @Nullable
 -   public Pair<BlockPos, Holder<Biome>> m_213971_(int p_220640_, int p_220641_, int p_220642_, int p_220643_, int p_220644_, Predicate<Holder<Biome>> p_220645_, RandomSource p_220646_, boolean p_220647_, Climate.Sampler p_220648_) {
-+   public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(long p_220640_, long p_220641_, long p_220642_, int p_220643_, int p_220644_, Predicate<Holder<Biome>> p_220645_, RandomSource p_220646_, boolean p_220647_, Climate.Sampler p_220648_) {
-       if (p_220645_.test(this.f_48252_)) {
-          return p_220647_ ? Pair.of(new BlockPos(p_220640_, p_220641_, p_220642_), this.f_48252_) : Pair.of(new BlockPos(p_220640_ - p_220643_ + p_220646_.m_188503_(p_220643_ * 2 + 1), p_220641_, p_220642_ - p_220643_ + p_220646_.m_188503_(p_220643_ * 2 + 1)), this.f_48252_);
+-      if (p_220645_.test(this.f_48252_)) {
+-         return p_220647_ ? Pair.of(new BlockPos(p_220640_, p_220641_, p_220642_), this.f_48252_) : Pair.of(new BlockPos(p_220640_ - p_220643_ + p_220646_.m_188503_(p_220643_ * 2 + 1), p_220641_, p_220642_ - p_220643_ + p_220646_.m_188503_(p_220643_ * 2 + 1)), this.f_48252_);
++   public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(long pX, long pY, long pZ, int pRadius, int pIncrement, Predicate<Holder<Biome>> pBiomePredicate, RandomSource pRandom, boolean pFindClosest, Climate.Sampler pSampler) {
++      if (pBiomePredicate.test(this.f_48252_)) {
++         return pFindClosest ? Pair.of(new BlockPos(pX, pY, pZ), this.f_48252_) : Pair.of(new BlockPos(pX - pRadius + pRandom.m_188503_(pRadius * 2 + 1), pY, pZ - pRadius + pRandom.m_188503_(pRadius * 2 + 1)), this.f_48252_);
        } else {
-@@ -48,11 +_,11 @@
+          return null;
+       }
     }
  
     @Nullable
 -   public Pair<BlockPos, Holder<Biome>> m_214004_(BlockPos p_220650_, int p_220651_, int p_220652_, int p_220653_, Predicate<Holder<Biome>> p_220654_, Climate.Sampler p_220655_, LevelReader p_220656_) {
-+   public Pair<BlockPos, Holder<Biome>> findClosestBiome3d(BlockPos p_220650_, long p_220651_, long p_220652_, long p_220653_, Predicate<Holder<Biome>> p_220654_, Climate.Sampler p_220655_, LevelReader p_220656_) {
-       return p_220654_.test(this.f_48252_) ? Pair.of(p_220650_, this.f_48252_) : null;
+-      return p_220654_.test(this.f_48252_) ? Pair.of(p_220650_, this.f_48252_) : null;
++   public Pair<BlockPos, Holder<Biome>> findClosestBiome3d(BlockPos pPos, long p_220651_, long p_220652_, long p_220653_, Predicate<Holder<Biome>> pBiomePredicate, Climate.Sampler pSampler, LevelReader pLevel) {
++      return pBiomePredicate.test(this.f_48252_) ? Pair.of(pPos, this.f_48252_) : null;
     }
  
 -   public Set<Holder<Biome>> m_183399_(int p_187038_, int p_187039_, int p_187040_, int p_187041_, Climate.Sampler p_187042_) {
-+   public Set<Holder<Biome>> getBiomesWithin(long p_187038_, long p_187039_, long p_187040_, int p_187041_, Climate.Sampler p_187042_) {
++   public Set<Holder<Biome>> getBiomesWithin(long pX, long pY, long pZ, int pRadius, Climate.Sampler pSampler) {
        return Sets.newHashSet(Set.of(this.f_48252_));
     }
  }

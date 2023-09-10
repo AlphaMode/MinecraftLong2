@@ -5,13 +5,13 @@
     }
  
 -   public T m_63091_(int p_63092_, int p_63093_, int p_63094_, T p_63095_) {
-+   public T getAndSet(long p_63092_, long p_63093_, long p_63094_, T p_63095_) {
++   public T getAndSet(long pX, long pY, long pZ, T pState) {
        this.m_63084_();
  
        Object object;
        try {
 -         object = this.m_63096_(this.f_188033_.m_188145_(p_63092_, p_63093_, p_63094_), p_63095_);
-+         object = this.getAndSet(this.f_188033_.getIndex(p_63092_, p_63093_, p_63094_), p_63095_);
++         object = this.getAndSet(this.f_188033_.getIndex(pX, pY, pZ), pState);
        } finally {
           this.m_63120_();
        }
@@ -21,15 +21,16 @@
  
 -   public T m_63127_(int p_63128_, int p_63129_, int p_63130_, T p_63131_) {
 -      return this.m_63096_(this.f_188033_.m_188145_(p_63128_, p_63129_, p_63130_), p_63131_);
-+   public T getAndSetUnchecked(long p_63128_, long p_63129_, long p_63130_, T p_63131_) {
-+      return this.getAndSet(this.f_188033_.getIndex(p_63128_, p_63129_, p_63130_), p_63131_);
++   public T getAndSetUnchecked(long pX, long pY, long pZ, T pState) {
++      return this.getAndSet(this.f_188033_.getIndex(pX, pY, pZ), pState);
     }
  
 -   private T m_63096_(int p_63097_, T p_63098_) {
-+   private T getAndSet(long p_63097_, T p_63098_) {
-       int i = this.f_188032_.f_188102_.m_6796_(p_63098_);
+-      int i = this.f_188032_.f_188102_.m_6796_(p_63098_);
 -      int j = this.f_188032_.f_188101_.m_13516_(p_63097_, i);
-+      int j = this.f_188032_.f_188101_.m_13516_((int) p_63097_, i);
++   private T getAndSet(long pIndex, T pState) {
++      int i = this.f_188032_.f_188102_.m_6796_(pState);
++      int j = this.f_188032_.f_188101_.m_13516_((int) pIndex, i);
        return this.f_188032_.f_188102_.m_5795_(j);
     }
  
@@ -46,8 +47,7 @@
     }
  
 -   private void m_63132_(int p_63133_, T p_63134_) {
-+   private void set(long p_63133_, T p_63134_) {
-       int i = this.f_188032_.f_188102_.m_6796_(p_63134_);
+-      int i = this.f_188032_.f_188102_.m_6796_(p_63134_);
 -      this.f_188032_.f_188101_.m_13524_(p_63133_, i);
 -   }
 -
@@ -56,19 +56,21 @@
 -   }
 -
 -   protected T m_63085_(int p_63086_) {
-+      this.f_188032_.f_188101_.set((int) p_63133_, i);
++   private void set(long pIndex, T pState) {
++      int i = this.f_188032_.f_188102_.m_6796_(pState);
++      this.f_188032_.f_188101_.set((int) pIndex, i);
 +   }
 +
-+   public T get(me.alphamode.mclong.math.BigInteger p_63088_, me.alphamode.mclong.math.BigInteger p_63089_, me.alphamode.mclong.math.BigInteger p_63090_) {
-+      return this.get(this.f_188033_.getIndex(p_63088_, p_63089_, p_63090_));
++   public T get(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.get(this.f_188033_.getIndex(pX, pY, pZ));
 +   }
 +
-+   public T get(long p_63086_) {
-+      if (p_63086_ <= -1)
++   public T get(long pIndex) {
++      if (pIndex <= -1)
 +         return null;
        PalettedContainer.Data<T> data = this.f_188032_;
 -      return data.f_188102_.m_5795_(data.f_188101_.m_13514_(p_63086_));
-+      return data.f_188102_.m_5795_(data.f_188101_.get(p_63086_));
++      return data.f_188102_.m_5795_(data.f_188101_.get(pIndex));
     }
  
     public void m_196879_(Consumer<T> p_196880_) {
@@ -120,8 +122,9 @@
        }
  
 -      public int m_188145_(int p_188146_, int p_188147_, int p_188148_) {
-+      public long getIndex(long p_188146_, long p_188147_, long p_188148_) {
-          return (p_188147_ << this.f_188140_ | p_188148_) << this.f_188140_ | p_188146_;
+-         return (p_188147_ << this.f_188140_ | p_188148_) << this.f_188140_ | p_188146_;
++      public long getIndex(long pX, long pY, long pZ) {
++         return (pY << this.f_188140_ | pZ) << this.f_188140_ | pX;
 +      }
 +
 +      public long getIndex(me.alphamode.mclong.math.BigInteger x, me.alphamode.mclong.math.BigInteger y, me.alphamode.mclong.math.BigInteger z) {

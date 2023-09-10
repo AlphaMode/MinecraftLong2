@@ -63,14 +63,15 @@
 -      long k = (long)Math.max(0, Math.max(i, j) - 1);
 -      long l = (long)Math.min(i, j);
 -      long i1 = l * l + k * k;
-+   public static boolean isChunkInRange(me.alphamode.mclong.math.BigInteger p_200879_, me.alphamode.mclong.math.BigInteger p_200880_, me.alphamode.mclong.math.BigInteger p_200881_, me.alphamode.mclong.math.BigInteger p_200882_, int p_200883_) {
+-      int j1 = p_200883_ * p_200883_;
+-      return i1 < (long)j1;
++   public static boolean isChunkInRange(me.alphamode.mclong.math.BigInteger p_200879_, me.alphamode.mclong.math.BigInteger p_200880_, me.alphamode.mclong.math.BigInteger p_200881_, me.alphamode.mclong.math.BigInteger p_200882_, int pMaxDistance) {
 +      me.alphamode.mclong.math.BigInteger i = me.alphamode.mclong.math.BigInteger.ZERO.max(p_200879_.subtract(p_200881_).abs().subtract());
 +      me.alphamode.mclong.math.BigInteger j = me.alphamode.mclong.math.BigInteger.ZERO.max(p_200880_.subtract(p_200882_).abs().subtract());
 +      me.alphamode.mclong.math.BigInteger k = me.alphamode.mclong.math.BigInteger.ZERO.max(i.max(j).subtract());
 +      me.alphamode.mclong.math.BigInteger l = i.min(j);
 +      me.alphamode.mclong.math.BigInteger i1 = l.multiply(l).add(k.multiply(k));
-       int j1 = p_200883_ * p_200883_;
--      return i1 < (long)j1;
++      int j1 = pMaxDistance * pMaxDistance;
 +      return i1.compareTo(j1) < 0;
     }
  
@@ -144,24 +145,67 @@
                       }
                    });
                 }
-@@ -370,7 +_,7 @@
+@@ -370,35 +_,35 @@
     }
  
     @Nullable
 -   ChunkHolder m_140176_(long p_140177_, int p_140178_, @Nullable ChunkHolder p_140179_, int p_140180_) {
-+   ChunkHolder updateChunkScheduling(ChunkPos p_140177_, int p_140178_, @Nullable ChunkHolder p_140179_, int p_140180_) {
-       if (!ChunkLevel.m_287217_(p_140180_) && !ChunkLevel.m_287217_(p_140178_)) {
-          return p_140179_;
+-      if (!ChunkLevel.m_287217_(p_140180_) && !ChunkLevel.m_287217_(p_140178_)) {
+-         return p_140179_;
++   ChunkHolder updateChunkScheduling(ChunkPos pChunkPos, int pNewLevel, @Nullable ChunkHolder pHolder, int pOldLevel) {
++      if (!ChunkLevel.m_287217_(pOldLevel) && !ChunkLevel.m_287217_(pNewLevel)) {
++         return pHolder;
        } else {
-@@ -391,7 +_,7 @@
-             if (p_140179_ != null) {
-                p_140179_.m_140027_(p_140178_);
-             } else {
+-         if (p_140179_ != null) {
+-            p_140179_.m_140027_(p_140178_);
+-         }
+-
+-         if (p_140179_ != null) {
+-            if (!ChunkLevel.m_287217_(p_140178_)) {
+-               this.f_140139_.add(p_140177_);
+-            } else {
+-               this.f_140139_.remove(p_140177_);
+-            }
+-         }
+-
+-         if (ChunkLevel.m_287217_(p_140178_) && p_140179_ == null) {
+-            p_140179_ = this.f_140131_.remove(p_140177_);
+-            if (p_140179_ != null) {
+-               p_140179_.m_140027_(p_140178_);
+-            } else {
 -               p_140179_ = new ChunkHolder(new ChunkPos(p_140177_), p_140178_, this.f_140133_, this.f_140134_, this.f_140141_, this);
-+               p_140179_ = new ChunkHolder(p_140177_, p_140178_, this.f_140133_, this.f_140134_, this.f_140141_, this);
-             }
+-            }
+-
+-            this.f_140129_.put(p_140177_, p_140179_);
++         if (pHolder != null) {
++            pHolder.m_140027_(pNewLevel);
++         }
++
++         if (pHolder != null) {
++            if (!ChunkLevel.m_287217_(pNewLevel)) {
++               this.f_140139_.add(pChunkPos);
++            } else {
++               this.f_140139_.remove(pChunkPos);
++            }
++         }
++
++         if (ChunkLevel.m_287217_(pNewLevel) && pHolder == null) {
++            pHolder = this.f_140131_.remove(pChunkPos);
++            if (pHolder != null) {
++               pHolder.m_140027_(pNewLevel);
++            } else {
++               pHolder = new ChunkHolder(pChunkPos, pNewLevel, this.f_140133_, this.f_140134_, this.f_140141_, this);
++            }
++
++            this.f_140129_.put(pChunkPos, pHolder);
+             this.f_140140_ = true;
+          }
  
-             this.f_140129_.put(p_140177_, p_140179_);
+-         return p_140179_;
++         return pHolder;
+       }
+    }
+ 
 @@ -461,16 +_,16 @@
     }
  
@@ -182,22 +226,34 @@
           }
        }
  
-@@ -493,12 +_,12 @@
+@@ -493,20 +_,20 @@
  
     }
  
 -   private void m_140181_(long p_140182_, ChunkHolder p_140183_) {
-+   private void scheduleUnload(ChunkPos p_140182_, ChunkHolder p_140183_) {
-       CompletableFuture<ChunkAccess> completablefuture = p_140183_.m_140090_();
+-      CompletableFuture<ChunkAccess> completablefuture = p_140183_.m_140090_();
++   private void scheduleUnload(ChunkPos pChunkPos, ChunkHolder pChunkHolder) {
++      CompletableFuture<ChunkAccess> completablefuture = pChunkHolder.m_140090_();
        completablefuture.thenAcceptAsync((p_203002_) -> {
-          CompletableFuture<ChunkAccess> completablefuture1 = p_140183_.m_140090_();
+-         CompletableFuture<ChunkAccess> completablefuture1 = p_140183_.m_140090_();
++         CompletableFuture<ChunkAccess> completablefuture1 = pChunkHolder.m_140090_();
           if (completablefuture1 != completablefuture) {
 -            this.m_140181_(p_140182_, p_140183_);
-+            this.scheduleUnload(p_140182_, p_140183_);
++            this.scheduleUnload(pChunkPos, pChunkHolder);
           } else {
-             if (this.f_140131_.remove(p_140182_, p_140183_) && p_203002_ != null) {
+-            if (this.f_140131_.remove(p_140182_, p_140183_) && p_203002_ != null) {
++            if (this.f_140131_.remove(pChunkPos, pChunkHolder) && p_203002_ != null) {
                 if (p_203002_ instanceof LevelChunk) {
-@@ -514,7 +_,7 @@
+                   ((LevelChunk)p_203002_).m_62913_(false);
+                }
+ 
+                this.m_140258_(p_203002_);
+-               if (this.f_140132_.remove(p_140182_) && p_203002_ instanceof LevelChunk) {
++               if (this.f_140132_.remove(pChunkPos) && p_203002_ instanceof LevelChunk) {
+                   LevelChunk levelchunk = (LevelChunk)p_203002_;
+                   this.f_140133_.m_8712_(levelchunk);
+                }
+@@ -514,13 +_,13 @@
                 this.f_140134_.m_9330_(p_203002_.m_7697_());
                 this.f_140134_.m_9409_();
                 this.f_140144_.m_5511_(p_203002_.m_7697_(), (ChunkStatus)null);
@@ -206,6 +262,13 @@
              }
  
           }
+       }, this.f_140125_::add).whenComplete((p_202996_, p_202997_) -> {
+          if (p_202997_ != null) {
+-            f_140128_.error("Failed to save chunk {}", p_140183_.m_140092_(), p_202997_);
++            f_140128_.error("Failed to save chunk {}", pChunkHolder.m_140092_(), p_202997_);
+          }
+ 
+       });
 @@ -610,11 +_,11 @@
     }
  
@@ -507,22 +570,29 @@
        }
  
 -      protected boolean m_7009_(long p_140462_) {
-+      protected boolean isChunkToRemove(net.minecraft.world.level.ChunkPos p_140462_) {
-          return ChunkMap.this.f_140139_.contains(p_140462_);
-       }
- 
-       @Nullable
+-         return ChunkMap.this.f_140139_.contains(p_140462_);
+-      }
+-
+-      @Nullable
 -      protected ChunkHolder m_7316_(long p_140469_) {
 -         return ChunkMap.this.m_140174_(p_140469_);
-+      protected ChunkHolder getChunk(net.minecraft.world.level.ChunkPos p_140469_) {
-+         return ChunkMap.this.getUpdatingChunkIfPresent(p_140469_);
-       }
- 
-       @Nullable
+-      }
+-
+-      @Nullable
 -      protected ChunkHolder m_7288_(long p_140464_, int p_140465_, @Nullable ChunkHolder p_140466_, int p_140467_) {
 -         return ChunkMap.this.m_140176_(p_140464_, p_140465_, p_140466_, p_140467_);
-+      protected ChunkHolder updateChunkScheduling(net.minecraft.world.level.ChunkPos p_140464_, int p_140465_, @Nullable ChunkHolder p_140466_, int p_140467_) {
-+         return ChunkMap.this.updateChunkScheduling(p_140464_, p_140465_, p_140466_, p_140467_);
++      protected boolean isChunkToRemove(net.minecraft.world.level.ChunkPos pChunkPos) {
++         return ChunkMap.this.f_140139_.contains(pChunkPos);
++      }
++
++      @Nullable
++      protected ChunkHolder getChunk(net.minecraft.world.level.ChunkPos pChunkPos) {
++         return ChunkMap.this.getUpdatingChunkIfPresent(pChunkPos);
++      }
++
++      @Nullable
++      protected ChunkHolder updateChunkScheduling(net.minecraft.world.level.ChunkPos pChunkPos, int pNewLevel, @Nullable ChunkHolder pHolder, int pOldLevel) {
++         return ChunkMap.this.updateChunkScheduling(pChunkPos, pNewLevel, pHolder, pOldLevel);
        }
     }
  

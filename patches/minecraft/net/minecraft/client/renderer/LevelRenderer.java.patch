@@ -365,7 +365,7 @@
                       if (chunkrenderdispatcher$renderchunk2 == null || p_194364_.m_173035_(chunkrenderdispatcher$renderchunk2) == null) {
                          flag2 = false;
                          break;
-@@ -1058,25 +_,25 @@
+@@ -1058,32 +_,32 @@
     @Nullable
     private ChunkRenderDispatcher.RenderChunk m_109728_(BlockPos p_109729_, ChunkRenderDispatcher.RenderChunk p_109730_, Direction p_109731_) {
        BlockPos blockpos = p_109730_.m_112824_(p_109731_);
@@ -396,10 +396,23 @@
     }
  
 -   private void m_252964_(Matrix4f p_253756_, Matrix4f p_253787_, double p_254187_, double p_253833_, double p_254547_, Frustum p_253954_) {
-+   private void captureFrustum(Matrix4f p_253756_, Matrix4f p_253787_, me.alphamode.mclong.math.BigDecimal p_254187_, me.alphamode.mclong.math.BigDecimal p_253833_, me.alphamode.mclong.math.BigDecimal p_254547_, Frustum p_253954_) {
-       this.f_109442_ = p_253954_;
-       Matrix4f matrix4f = new Matrix4f(p_253787_);
-       matrix4f.mul(p_253756_);
+-      this.f_109442_ = p_253954_;
+-      Matrix4f matrix4f = new Matrix4f(p_253787_);
+-      matrix4f.mul(p_253756_);
++   private void captureFrustum(Matrix4f pViewMatrix, Matrix4f pProjectionMatrix, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ, Frustum pCapturedFrustrum) {
++      this.f_109442_ = pCapturedFrustrum;
++      Matrix4f matrix4f = new Matrix4f(pProjectionMatrix);
++      matrix4f.mul(pViewMatrix);
+       matrix4f.invert();
+-      this.f_109444_.x = p_254187_;
+-      this.f_109444_.y = p_253833_;
+-      this.f_109444_.z = p_254547_;
++      this.f_109444_.x = pCamX;
++      this.f_109444_.y = pCamY;
++      this.f_109444_.z = pCamZ;
+       this.f_109443_[0] = new Vector4f(-1.0F, -1.0F, -1.0F, 1.0F);
+       this.f_109443_[1] = new Vector4f(1.0F, -1.0F, -1.0F, 1.0F);
+       this.f_109443_[2] = new Vector4f(1.0F, 1.0F, -1.0F, 1.0F);
 @@ -1102,11 +_,11 @@
  
     public void m_253210_(PoseStack p_253986_, Vec3 p_253766_, Matrix4f p_254341_) {
@@ -602,7 +615,7 @@
 -         this.m_109703_(p_109606_, p_109601_, d0, d1, d2);
 -         this.m_173012_(p_109604_);
 +         this.m_109703_(p_109606_, p_109601_, d0.doubleValue(), d1.doubleValue(), d2.doubleValue());
-+//         this.renderWorldBorder(p_109604_);
++//         this.renderWorldBorder(pCamera);
           RenderStateShard.f_110127_.m_110188_();
           this.f_109418_.m_110023_(p_109601_);
           this.f_109461_.m_91385_().m_83947_(false);
@@ -612,7 +625,7 @@
 -         this.m_109703_(p_109606_, p_109601_, d0, d1, d2);
 -         this.m_173012_(p_109604_);
 +         this.m_109703_(p_109606_, p_109601_, d0.doubleValue(), d1.doubleValue(), d2.doubleValue());
-+//         this.renderWorldBorder(p_109604_);
++//         this.renderWorldBorder(pCamera);
           RenderSystem.depthMask(true);
        }
  
@@ -624,21 +637,24 @@
 -      double d0 = Mth.m_14139_((double)p_109522_, p_109518_.f_19790_, p_109518_.m_20185_());
 -      double d1 = Mth.m_14139_((double)p_109522_, p_109518_.f_19791_, p_109518_.m_20186_());
 -      double d2 = Mth.m_14139_((double)p_109522_, p_109518_.f_19792_, p_109518_.m_20189_());
-+   private void renderEntity(Entity p_109518_, me.alphamode.mclong.math.BigDecimal p_109519_, me.alphamode.mclong.math.BigDecimal p_109520_, me.alphamode.mclong.math.BigDecimal p_109521_, float p_109522_, PoseStack p_109523_, MultiBufferSource p_109524_) {
-+      var lerp = me.alphamode.mclong.math.BigDecimal.valueOf(p_109522_);
-+      me.alphamode.mclong.math.BigDecimal d0 = Mth.lerp(lerp, p_109518_.f_19790_, p_109518_.getBigX());
-+      me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp(lerp, p_109518_.f_19791_, p_109518_.getBigY());
-+      me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp(lerp, p_109518_.f_19792_, p_109518_.getBigZ());
-       float f = Mth.m_14179_(p_109522_, p_109518_.f_19859_, p_109518_.m_146908_());
+-      float f = Mth.m_14179_(p_109522_, p_109518_.f_19859_, p_109518_.m_146908_());
 -      this.f_109463_.m_114384_(p_109518_, d0 - p_109519_, d1 - p_109520_, d2 - p_109521_, f, p_109522_, p_109523_, p_109524_, this.f_109463_.m_114394_(p_109518_, p_109522_));
-+      this.f_109463_.m_114384_(p_109518_, d0.subtract(p_109519_).doubleValue(), d1.subtract(p_109520_).doubleValue(), d2.subtract(p_109521_).doubleValue(), f, p_109522_, p_109523_, p_109524_, this.f_109463_.m_114394_(p_109518_, p_109522_));
++   private void renderEntity(Entity pEntity, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource) {
++      var lerp = me.alphamode.mclong.math.BigDecimal.valueOf(pPartialTick);
++      me.alphamode.mclong.math.BigDecimal d0 = Mth.lerp(lerp, pEntity.f_19790_, pEntity.getBigX());
++      me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp(lerp, pEntity.f_19791_, pEntity.getBigY());
++      me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp(lerp, pEntity.f_19792_, pEntity.getBigZ());
++      float f = Mth.m_14179_(pPartialTick, pEntity.f_19859_, pEntity.m_146908_());
++      this.f_109463_.m_114384_(pEntity, d0.subtract(pCamX).doubleValue(), d1.subtract(pCamY).doubleValue(), d2.subtract(pCamZ).doubleValue(), f, pPartialTick, pPoseStack, pBufferSource, this.f_109463_.m_114394_(pEntity, pPartialTick));
     }
  
 -   private void m_172993_(RenderType p_172994_, PoseStack p_172995_, double p_172996_, double p_172997_, double p_172998_, Matrix4f p_254039_) {
-+   private void renderChunkLayer(RenderType p_172994_, PoseStack p_172995_, me.alphamode.mclong.math.BigDecimal p_172996_, me.alphamode.mclong.math.BigDecimal p_172997_, me.alphamode.mclong.math.BigDecimal p_172998_, Matrix4f p_254039_) {
++   private void renderChunkLayer(RenderType pRenderType, PoseStack pPoseStack, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ, Matrix4f pProjectionMatrix) {
        RenderSystem.assertOnRenderThread();
-       p_172994_.m_110185_();
-       if (p_172994_ == RenderType.m_110466_()) {
+-      p_172994_.m_110185_();
+-      if (p_172994_ == RenderType.m_110466_()) {
++      pRenderType.m_110185_();
++      if (pRenderType == RenderType.m_110466_()) {
           this.f_109461_.m_91307_().m_6180_("translucent_sort");
 -         double d0 = p_172996_ - this.f_109445_;
 -         double d1 = p_172997_ - this.f_109446_;
@@ -648,35 +664,76 @@
 -            int k = SectionPos.m_175552_(p_172997_);
 -            int l = SectionPos.m_175552_(p_172998_);
 -            boolean flag = j != SectionPos.m_175552_(this.f_109445_) || l != SectionPos.m_175552_(this.f_109447_) || k != SectionPos.m_175552_(this.f_109446_);
-+         me.alphamode.mclong.math.BigDecimal d0 = p_172996_.subtract(this.f_109445_);
-+         me.alphamode.mclong.math.BigDecimal d1 = p_172997_.subtract(this.f_109446_);
-+         me.alphamode.mclong.math.BigDecimal d2 = p_172998_.subtract(this.f_109447_);
+-            this.f_109445_ = p_172996_;
+-            this.f_109446_ = p_172997_;
+-            this.f_109447_ = p_172998_;
++         me.alphamode.mclong.math.BigDecimal d0 = pCamX.subtract(this.f_109445_);
++         me.alphamode.mclong.math.BigDecimal d1 = pCamY.subtract(this.f_109446_);
++         me.alphamode.mclong.math.BigDecimal d2 = pCamZ.subtract(this.f_109447_);
 +         if (d0.multiply(d0).add(d1.multiply(d1)).add(d2.multiply(d2)).compareTo(me.alphamode.mclong.math.BigDecimal.ONE) > 0) {
-+            me.alphamode.mclong.math.BigInteger j = SectionPos.posToSectionCoord(p_172996_);
-+            me.alphamode.mclong.math.BigInteger k = SectionPos.posToSectionCoord(p_172997_);
-+            me.alphamode.mclong.math.BigInteger l = SectionPos.posToSectionCoord(p_172998_);
++            me.alphamode.mclong.math.BigInteger j = SectionPos.posToSectionCoord(pCamX);
++            me.alphamode.mclong.math.BigInteger k = SectionPos.posToSectionCoord(pCamY);
++            me.alphamode.mclong.math.BigInteger l = SectionPos.posToSectionCoord(pCamZ);
 +            boolean flag = !j.equals(SectionPos.posToSectionCoord(this.f_109445_)) || !l.equals(SectionPos.posToSectionCoord(this.f_109447_)) || !k.equals(SectionPos.posToSectionCoord(this.f_109446_));
-             this.f_109445_ = p_172996_;
-             this.f_109446_ = p_172997_;
-             this.f_109447_ = p_172998_;
++            this.f_109445_ = pCamX;
++            this.f_109446_ = pCamY;
++            this.f_109447_ = pCamZ;
              int i1 = 0;
  
              for(LevelRenderer.RenderChunkInfo levelrenderer$renderchunkinfo : this.f_194297_) {
 -               if (i1 < 15 && (flag || levelrenderer$renderchunkinfo.m_274540_(j, k, l)) && levelrenderer$renderchunkinfo.f_109839_.m_112809_(p_172994_, this.f_109436_)) {
-+               if (i1 < 15 && (flag || levelrenderer$renderchunkinfo.isAxisAlignedWith(j, k, l)) && levelrenderer$renderchunkinfo.f_109839_.m_112809_(p_172994_, this.f_109436_)) {
++               if (i1 < 15 && (flag || levelrenderer$renderchunkinfo.isAxisAlignedWith(j, k, l)) && levelrenderer$renderchunkinfo.f_109839_.m_112809_(pRenderType, this.f_109436_)) {
                    ++i1;
                 }
              }
-@@ -1511,7 +_,7 @@
-             VertexBuffer vertexbuffer = chunkrenderdispatcher$renderchunk.m_112807_(p_172994_);
+@@ -1441,9 +_,9 @@
+ 
+       this.f_109461_.m_91307_().m_6180_("filterempty");
+       this.f_109461_.m_91307_().m_6523_(() -> {
+-         return "render_" + p_172994_;
++         return "render_" + pRenderType;
+       });
+-      boolean flag1 = p_172994_ != RenderType.m_110466_();
++      boolean flag1 = pRenderType != RenderType.m_110466_();
+       ObjectListIterator<LevelRenderer.RenderChunkInfo> objectlistiterator = this.f_194297_.listIterator(flag1 ? 0 : this.f_194297_.size());
+       ShaderInstance shaderinstance = RenderSystem.getShader();
+ 
+@@ -1453,11 +_,11 @@
+       }
+ 
+       if (shaderinstance.f_173308_ != null) {
+-         shaderinstance.f_173308_.m_5679_(p_172995_.m_85850_().m_252922_());
++         shaderinstance.f_173308_.m_5679_(pPoseStack.m_85850_().m_252922_());
+       }
+ 
+       if (shaderinstance.f_173309_ != null) {
+-         shaderinstance.f_173309_.m_5679_(p_254039_);
++         shaderinstance.f_173309_.m_5679_(pProjectionMatrix);
+       }
+ 
+       if (shaderinstance.f_173312_ != null) {
+@@ -1507,11 +_,11 @@
+ 
+          LevelRenderer.RenderChunkInfo levelrenderer$renderchunkinfo1 = flag1 ? objectlistiterator.next() : objectlistiterator.previous();
+          ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = levelrenderer$renderchunkinfo1.f_109839_;
+-         if (!chunkrenderdispatcher$renderchunk.m_112835_().m_112758_(p_172994_)) {
+-            VertexBuffer vertexbuffer = chunkrenderdispatcher$renderchunk.m_112807_(p_172994_);
++         if (!chunkrenderdispatcher$renderchunk.m_112835_().m_112758_(pRenderType)) {
++            VertexBuffer vertexbuffer = chunkrenderdispatcher$renderchunk.m_112807_(pRenderType);
              BlockPos blockpos = chunkrenderdispatcher$renderchunk.m_112839_();
              if (uniform != null) {
 -               uniform.m_5889_((float)((double)blockpos.m_123341_() - p_172996_), (float)((double)blockpos.m_123342_() - p_172997_), (float)((double)blockpos.m_123343_() - p_172998_));
-+               uniform.m_5889_(new me.alphamode.mclong.math.BigDecimal(blockpos.getBigX()).subtract(p_172996_).floatValue(), new me.alphamode.mclong.math.BigDecimal(blockpos.getBigY()).subtract(p_172997_).floatValue(), new me.alphamode.mclong.math.BigDecimal(blockpos.getBigZ()).subtract(p_172998_).floatValue());
++               uniform.m_5889_(new me.alphamode.mclong.math.BigDecimal(blockpos.getBigX()).subtract(pCamX).floatValue(), new me.alphamode.mclong.math.BigDecimal(blockpos.getBigY()).subtract(pCamY).floatValue(), new me.alphamode.mclong.math.BigDecimal(blockpos.getBigZ()).subtract(pCamZ).floatValue());
                 uniform.m_85633_();
              }
  
-@@ -1532,15 +_,15 @@
+@@ -1527,20 +_,20 @@
+       shaderinstance.m_173362_();
+       VertexBuffer.m_85931_();
+       this.f_109461_.m_91307_().m_7238_();
+-      p_172994_.m_110188_();
++      pRenderType.m_110188_();
+    }
  
     private void m_269240_(PoseStack p_271014_, MultiBufferSource p_270107_, Camera p_270483_) {
        if (this.f_109461_.f_90978_ || this.f_109461_.f_90979_) {
@@ -741,14 +798,15 @@
     }
  
 -   public void m_253054_(PoseStack p_254145_, Matrix4f p_254537_, float p_254364_, double p_253843_, double p_253663_, double p_253795_) {
-+   public void renderClouds(PoseStack p_254145_, Matrix4f p_254537_, float p_254364_, me.alphamode.mclong.math.BigDecimal p_253843_, me.alphamode.mclong.math.BigDecimal p_253663_, me.alphamode.mclong.math.BigDecimal p_253795_) {
++   public void renderClouds(PoseStack pPoseStack, Matrix4f pProjectionMatrix, float pPartialTick, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
        float f = this.f_109465_.m_104583_().m_108871_();
        if (!Float.isNaN(f)) {
           RenderSystem.disableCull();
-@@ -1873,19 +_,19 @@
+@@ -1872,20 +_,20 @@
+          float f1 = 12.0F;
           float f2 = 4.0F;
           double d0 = 2.0E-4D;
-          double d1 = (double)(((float)this.f_109477_ + p_254364_) * 0.03F);
+-         double d1 = (double)(((float)this.f_109477_ + p_254364_) * 0.03F);
 -         double d2 = (p_253843_ + d1) / 12.0D;
 -         double d3 = (double)(f - (float)p_253663_ + 0.33F);
 -         double d4 = p_253795_ / 12.0D + (double)0.33F;
@@ -757,19 +815,21 @@
 -         float f3 = (float)(d2 - (double)Mth.m_14107_(d2));
 -         float f4 = (float)(d3 / 4.0D - (double)Mth.m_14107_(d3 / 4.0D)) * 4.0F;
 -         float f5 = (float)(d4 - (double)Mth.m_14107_(d4));
-+         me.alphamode.mclong.math.BigDecimal d2 = (p_253843_.add(d1)).divide(me.alphamode.mclong.core.BigConstants.TWELVE, java.math.RoundingMode.HALF_UP);
-+         me.alphamode.mclong.math.BigDecimal d3 = (me.alphamode.mclong.math.BigDecimal.valueOf(f).subtract(p_253663_.add(0.33F)));
-+         me.alphamode.mclong.math.BigDecimal d4 = p_253795_.divide(me.alphamode.mclong.core.BigConstants.TWELVE, java.math.RoundingMode.HALF_UP).add(0.33F);
+-         Vec3 vec3 = this.f_109465_.m_104808_(p_254364_);
+-         int i = (int)Math.floor(d2);
+-         int j = (int)Math.floor(d3 / 4.0D);
+-         int k = (int)Math.floor(d4);
+-         if (i != this.f_109430_ || j != this.f_109431_ || k != this.f_109432_ || this.f_109461_.f_91066_.m_92174_() != this.f_109435_ || this.f_109433_.m_82557_(vec3) > 2.0E-4D) {
++         double d1 = (double)(((float)this.f_109477_ + pPartialTick) * 0.03F);
++         me.alphamode.mclong.math.BigDecimal d2 = (pCamX.add(d1)).divide(me.alphamode.mclong.core.BigConstants.TWELVE, java.math.RoundingMode.HALF_UP);
++         me.alphamode.mclong.math.BigDecimal d3 = (me.alphamode.mclong.math.BigDecimal.valueOf(f).subtract(pCamY.add(0.33F)));
++         me.alphamode.mclong.math.BigDecimal d4 = pCamZ.divide(me.alphamode.mclong.core.BigConstants.TWELVE, java.math.RoundingMode.HALF_UP).add(0.33F);
 +         d2 = d2.subtract((d2.divide(2048.0D).setScale(0, java.math.RoundingMode.FLOOR).multiply(2048)));
 +         d4 = d4.subtract((d4.divide(2048.0D).setScale(0, java.math.RoundingMode.FLOOR).multiply(2048)));
 +         float f3 = (float)(d2.subtract(Mth.lfloor(d2).toBigDecimal())).floatValue();
 +         float f4 = (float)(d3.divide(me.alphamode.mclong.core.BigConstants.FOUR).subtract(Mth.lfloor(d3.divide(me.alphamode.mclong.core.BigConstants.FOUR, java.math.RoundingMode.HALF_UP)).toBigDecimal())).multiply(me.alphamode.mclong.core.BigConstants.FOUR).floatValue();
 +         float f5 = (float)(d4.subtract(Mth.lfloor(d4).toBigDecimal())).floatValue();
-          Vec3 vec3 = this.f_109465_.m_104808_(p_254364_);
--         int i = (int)Math.floor(d2);
--         int j = (int)Math.floor(d3 / 4.0D);
--         int k = (int)Math.floor(d4);
--         if (i != this.f_109430_ || j != this.f_109431_ || k != this.f_109432_ || this.f_109461_.f_91066_.m_92174_() != this.f_109435_ || this.f_109433_.m_82557_(vec3) > 2.0E-4D) {
++         Vec3 vec3 = this.f_109465_.m_104808_(pPartialTick);
 +         me.alphamode.mclong.math.BigInteger i = d2.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
 +         me.alphamode.mclong.math.BigInteger j = d3.divide(me.alphamode.mclong.core.BigConstants.FOUR, java.math.RoundingMode.HALF_UP).setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
 +         me.alphamode.mclong.math.BigInteger k = d4.setScale(0, java.math.RoundingMode.FLOOR).toBigInteger();
@@ -786,6 +846,35 @@
              this.f_109475_.m_85921_();
              this.f_109475_.m_231221_(bufferbuilder$renderedbuffer);
              VertexBuffer.m_85931_();
+@@ -1911,9 +_,9 @@
+          RenderSystem.setShader(GameRenderer::m_172838_);
+          RenderSystem.setShaderTexture(0, f_109456_);
+          FogRenderer.m_109036_();
+-         p_254145_.m_85836_();
+-         p_254145_.m_85841_(12.0F, 1.0F, 12.0F);
+-         p_254145_.m_252880_(-f3, f4, -f5);
++         pPoseStack.m_85836_();
++         pPoseStack.m_85841_(12.0F, 1.0F, 12.0F);
++         pPoseStack.m_252880_(-f3, f4, -f5);
+          if (this.f_109475_ != null) {
+             this.f_109475_.m_85921_();
+             int l = this.f_109435_ == CloudStatus.FANCY ? 0 : 1;
+@@ -1926,13 +_,13 @@
+                }
+ 
+                ShaderInstance shaderinstance = RenderSystem.getShader();
+-               this.f_109475_.m_253207_(p_254145_.m_85850_().m_252922_(), p_254537_, shaderinstance);
++               this.f_109475_.m_253207_(pPoseStack.m_85850_().m_252922_(), pProjectionMatrix, shaderinstance);
+             }
+ 
+             VertexBuffer.m_85931_();
+          }
+ 
+-         p_254145_.m_85849_();
++         pPoseStack.m_85849_();
+          RenderSystem.enableCull();
+          RenderSystem.disableBlend();
+          RenderSystem.defaultBlendFunc();
 @@ -1947,9 +_,9 @@
        float f2 = 9.765625E-4F;
        float f3 = (float)Mth.m_14107_(p_234263_) * 0.00390625F;
@@ -859,8 +948,8 @@
  
 -   private void m_109637_(PoseStack p_109638_, VertexConsumer p_109639_, Entity p_109640_, double p_109641_, double p_109642_, double p_109643_, BlockPos p_109644_, BlockState p_109645_) {
 -      m_109782_(p_109638_, p_109639_, p_109645_.m_60651_(this.f_109465_, p_109644_, CollisionContext.m_82750_(p_109640_)), (double)p_109644_.m_123341_() - p_109641_, (double)p_109644_.m_123342_() - p_109642_, (double)p_109644_.m_123343_() - p_109643_, 0.0F, 0.0F, 0.0F, 0.4F);
-+   private void renderHitOutline(PoseStack p_109638_, VertexConsumer p_109639_, Entity p_109640_, me.alphamode.mclong.math.BigDecimal p_109641_, me.alphamode.mclong.math.BigDecimal p_109642_, me.alphamode.mclong.math.BigDecimal p_109643_, BlockPos p_109644_, BlockState p_109645_) {
-+      renderShape(p_109638_, p_109639_, p_109645_.m_60651_(this.f_109465_, p_109644_, CollisionContext.m_82750_(p_109640_)), new me.alphamode.mclong.math.BigDecimal(p_109644_.getBigX()).subtract(p_109641_), new me.alphamode.mclong.math.BigDecimal(p_109644_.getBigY()).subtract(p_109642_), new me.alphamode.mclong.math.BigDecimal(p_109644_.getBigZ()).subtract(p_109643_), 0.0F, 0.0F, 0.0F, 0.4F);
++   private void renderHitOutline(PoseStack pPoseStack, VertexConsumer pConsumer, Entity pEntity, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ, BlockPos pPos, BlockState pState) {
++      renderShape(pPoseStack, pConsumer, pState.m_60651_(this.f_109465_, pPos, CollisionContext.m_82750_(pEntity)), new me.alphamode.mclong.math.BigDecimal(pPos.getBigX()).subtract(pCamX), new me.alphamode.mclong.math.BigDecimal(pPos.getBigY()).subtract(pCamY), new me.alphamode.mclong.math.BigDecimal(pPos.getBigZ()).subtract(pCamZ), 0.0F, 0.0F, 0.0F, 0.4F);
     }
  
     private static Vec3 m_285956_(float p_286899_) {
@@ -875,32 +964,35 @@
     }
  
 -   public static void m_285900_(PoseStack p_286791_, VertexConsumer p_286416_, VoxelShape p_286863_, double p_286432_, double p_286836_, double p_286774_, float p_286612_, float p_286516_, float p_286787_, float p_286300_, boolean p_286443_) {
-+   public static void renderVoxelShape(PoseStack p_286791_, VertexConsumer p_286416_, VoxelShape p_286863_, me.alphamode.mclong.math.BigDecimal p_286432_, me.alphamode.mclong.math.BigDecimal p_286836_, me.alphamode.mclong.math.BigDecimal p_286774_, float p_286612_, float p_286516_, float p_286787_, float p_286300_, boolean p_286443_) {
-       List<AABB> list = p_286863_.m_83299_();
+-      List<AABB> list = p_286863_.m_83299_();
++   public static void renderVoxelShape(PoseStack pPoseStack, VertexConsumer pConsumer, VoxelShape pShape, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pRed, float pGreen, float pBlue, float pAlpha, boolean p_286443_) {
++      List<AABB> list = pShape.m_83299_();
        if (!list.isEmpty()) {
           int i = p_286443_ ? list.size() : list.size() * 8;
 -         m_109782_(p_286791_, p_286416_, Shapes.m_83064_(list.get(0)), p_286432_, p_286836_, p_286774_, p_286612_, p_286516_, p_286787_, p_286300_);
-+         renderShape(p_286791_, p_286416_, Shapes.m_83064_(list.get(0)), p_286432_, p_286836_, p_286774_, p_286612_, p_286516_, p_286787_, p_286300_);
++         renderShape(pPoseStack, pConsumer, Shapes.m_83064_(list.get(0)), pX, pY, pZ, pRed, pGreen, pBlue, pAlpha);
  
           for(int j = 1; j < list.size(); ++j) {
              AABB aabb = list.get(j);
              float f = (float)j / (float)i;
-             Vec3 vec3 = m_285739_(p_286612_, p_286516_, p_286787_, f);
+-            Vec3 vec3 = m_285739_(p_286612_, p_286516_, p_286787_, f);
 -            m_109782_(p_286791_, p_286416_, Shapes.m_83064_(aabb), p_286432_, p_286836_, p_286774_, (float)vec3.f_82479_, (float)vec3.f_82480_, (float)vec3.f_82481_, p_286300_);
-+            renderShape(p_286791_, p_286416_, Shapes.m_83064_(aabb), p_286432_, p_286836_, p_286774_, (float)vec3.m_7096_(), (float)vec3.m_7098_(), (float)vec3.m_7094_(), p_286300_);
++            Vec3 vec3 = m_285739_(pRed, pGreen, pBlue, f);
++            renderShape(pPoseStack, pConsumer, Shapes.m_83064_(aabb), pX, pY, pZ, (float)vec3.m_7096_(), (float)vec3.m_7098_(), (float)vec3.m_7094_(), pAlpha);
           }
  
        }
     }
  
 -   private static void m_109782_(PoseStack p_109783_, VertexConsumer p_109784_, VoxelShape p_109785_, double p_109786_, double p_109787_, double p_109788_, float p_109789_, float p_109790_, float p_109791_, float p_109792_) {
-+   private static void renderShape(PoseStack p_109783_, VertexConsumer p_109784_, VoxelShape p_109785_, me.alphamode.mclong.math.BigDecimal p_109786_, me.alphamode.mclong.math.BigDecimal p_109787_, me.alphamode.mclong.math.BigDecimal p_109788_, float p_109789_, float p_109790_, float p_109791_, float p_109792_) {
-       PoseStack.Pose posestack$pose = p_109783_.m_85850_();
+-      PoseStack.Pose posestack$pose = p_109783_.m_85850_();
 -      p_109785_.m_83224_((p_234280_, p_234281_, p_234282_, p_234283_, p_234284_, p_234285_) -> {
 -         float f = (float)(p_234283_ - p_234280_);
 -         float f1 = (float)(p_234284_ - p_234281_);
 -         float f2 = (float)(p_234285_ - p_234282_);
-+      p_109785_.forAllEdges((p_234280_, p_234281_, p_234282_, p_234283_, p_234284_, p_234285_) -> {
++   private static void renderShape(PoseStack pPoseStack, VertexConsumer pConsumer, VoxelShape pShape, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pRed, float pGreen, float pBlue, float pAlpha) {
++      PoseStack.Pose posestack$pose = pPoseStack.m_85850_();
++      pShape.forAllEdges((p_234280_, p_234281_, p_234282_, p_234283_, p_234284_, p_234285_) -> {
 +         float f = p_234283_.subtract(p_234280_).floatValue();
 +         float f1 = p_234284_.subtract(p_234281_).floatValue();
 +         float f2 = p_234285_.subtract(p_234282_).floatValue();
@@ -910,8 +1002,8 @@
           f2 /= f3;
 -         p_109784_.m_252986_(posestack$pose.m_252922_(), (float)(p_234280_ + p_109786_), (float)(p_234281_ + p_109787_), (float)(p_234282_ + p_109788_)).m_85950_(p_109789_, p_109790_, p_109791_, p_109792_).m_252939_(posestack$pose.m_252943_(), f, f1, f2).m_5752_();
 -         p_109784_.m_252986_(posestack$pose.m_252922_(), (float)(p_234283_ + p_109786_), (float)(p_234284_ + p_109787_), (float)(p_234285_ + p_109788_)).m_85950_(p_109789_, p_109790_, p_109791_, p_109792_).m_252939_(posestack$pose.m_252943_(), f, f1, f2).m_5752_();
-+         p_109784_.m_252986_(posestack$pose.m_252922_(), (float)(p_234280_.add(p_109786_).floatValue()), (float)(p_234281_.add(p_109787_).floatValue()), (float)(p_234282_.add(p_109788_).floatValue())).m_85950_(p_109789_, p_109790_, p_109791_, p_109792_).m_252939_(posestack$pose.m_252943_(), f, f1, f2).m_5752_();
-+         p_109784_.m_252986_(posestack$pose.m_252922_(), (float)(p_234283_.add(p_109786_).floatValue()), (float)(p_234284_.add(p_109787_).floatValue()), (float)(p_234285_.add(p_109788_).floatValue())).m_85950_(p_109789_, p_109790_, p_109791_, p_109792_).m_252939_(posestack$pose.m_252943_(), f, f1, f2).m_5752_();
++         pConsumer.m_252986_(posestack$pose.m_252922_(), (float)(p_234280_.add(pX).floatValue()), (float)(p_234281_.add(pY).floatValue()), (float)(p_234282_.add(pZ).floatValue())).m_85950_(pRed, pGreen, pBlue, pAlpha).m_252939_(posestack$pose.m_252943_(), f, f1, f2).m_5752_();
++         pConsumer.m_252986_(posestack$pose.m_252922_(), (float)(p_234283_.add(pX).floatValue()), (float)(p_234284_.add(pY).floatValue()), (float)(p_234285_.add(pZ).floatValue())).m_85950_(pRed, pGreen, pBlue, pAlpha).m_252939_(posestack$pose.m_252943_(), f, f1, f2).m_5752_();
        });
     }
  
@@ -947,10 +1039,10 @@
 -         for(int j = p_109495_ - 1; j <= p_109498_ + 1; ++j) {
 -            for(int k = p_109496_ - 1; k <= p_109499_ + 1; ++k) {
 -               this.m_109770_(SectionPos.m_123171_(j), SectionPos.m_123171_(k), SectionPos.m_123171_(i));
-+   public void setBlocksDirty(me.alphamode.mclong.math.BigInteger p_109495_, me.alphamode.mclong.math.BigInteger p_109496_, me.alphamode.mclong.math.BigInteger p_109497_, me.alphamode.mclong.math.BigInteger p_109498_, me.alphamode.mclong.math.BigInteger p_109499_, me.alphamode.mclong.math.BigInteger p_109500_) {
-+      for(me.alphamode.mclong.math.BigInteger i = p_109497_.subtract(); i.compareTo(p_109500_.add()) <= 0; i = i.add()) {
-+         for(me.alphamode.mclong.math.BigInteger j = p_109495_.subtract(); j.compareTo(p_109498_.add()) <= 0; j = j.add()) {
-+            for(me.alphamode.mclong.math.BigInteger k = p_109496_.subtract(); k.compareTo(p_109499_.add()) <= 0; k = k.add()) {
++   public void setBlocksDirty(me.alphamode.mclong.math.BigInteger pMinX, me.alphamode.mclong.math.BigInteger pMinY, me.alphamode.mclong.math.BigInteger pMinZ, me.alphamode.mclong.math.BigInteger pMaxX, me.alphamode.mclong.math.BigInteger pMaxY, me.alphamode.mclong.math.BigInteger pMaxZ) {
++      for(me.alphamode.mclong.math.BigInteger i = pMinZ.subtract(); i.compareTo(pMaxZ.add()) <= 0; i = i.add()) {
++         for(me.alphamode.mclong.math.BigInteger j = pMinX.subtract(); j.compareTo(pMaxX.add()) <= 0; j = j.add()) {
++            for(me.alphamode.mclong.math.BigInteger k = pMinY.subtract(); k.compareTo(pMaxY.add()) <= 0; k = k.add()) {
 +               this.setSectionDirty(SectionPos.blockToSectionCoord(j), SectionPos.blockToSectionCoord(k), SectionPos.blockToSectionCoord(i));
              }
           }
@@ -970,10 +1062,10 @@
 -         for(int j = p_109491_ - 1; j <= p_109491_ + 1; ++j) {
 -            for(int k = p_109492_ - 1; k <= p_109492_ + 1; ++k) {
 -               this.m_109770_(j, k, i);
-+   public void setSectionDirtyWithNeighbors(me.alphamode.mclong.math.BigInteger p_109491_, me.alphamode.mclong.math.BigInteger p_109492_, me.alphamode.mclong.math.BigInteger p_109493_) {
-+      for(me.alphamode.mclong.math.BigInteger i = p_109493_.subtract(); i.compareTo(p_109493_.add()) <= 0; i = i.add()) {
-+         for(me.alphamode.mclong.math.BigInteger j = p_109491_.subtract(); j.compareTo(p_109491_.add()) <= 0; j = j.add()) {
-+            for(me.alphamode.mclong.math.BigInteger k = p_109492_.subtract(); k.compareTo(p_109492_.add()) <= 0; k = k.add()) {
++   public void setSectionDirtyWithNeighbors(me.alphamode.mclong.math.BigInteger pSectionX, me.alphamode.mclong.math.BigInteger pSectionY, me.alphamode.mclong.math.BigInteger pSectionZ) {
++      for(me.alphamode.mclong.math.BigInteger i = pSectionZ.subtract(); i.compareTo(pSectionZ.add()) <= 0; i = i.add()) {
++         for(me.alphamode.mclong.math.BigInteger j = pSectionX.subtract(); j.compareTo(pSectionX.add()) <= 0; j = j.add()) {
++            for(me.alphamode.mclong.math.BigInteger k = pSectionY.subtract(); k.compareTo(pSectionY.add()) <= 0; k = k.add()) {
 +               this.setSectionDirty(j, k, i);
              }
           }
@@ -983,14 +1075,14 @@
  
 -   public void m_109770_(int p_109771_, int p_109772_, int p_109773_) {
 -      this.m_109501_(p_109771_, p_109772_, p_109773_, false);
-+   public void setSectionDirty(me.alphamode.mclong.math.BigInteger p_109771_, me.alphamode.mclong.math.BigInteger p_109772_, me.alphamode.mclong.math.BigInteger p_109773_) {
-+      this.setSectionDirty(p_109771_, p_109772_, p_109773_, false);
++   public void setSectionDirty(me.alphamode.mclong.math.BigInteger pSectionX, me.alphamode.mclong.math.BigInteger pSectionY, me.alphamode.mclong.math.BigInteger pSectionZ) {
++      this.setSectionDirty(pSectionX, pSectionY, pSectionZ, false);
     }
  
 -   private void m_109501_(int p_109502_, int p_109503_, int p_109504_, boolean p_109505_) {
 -      this.f_109469_.m_110859_(p_109502_, p_109503_, p_109504_, p_109505_);
-+   private void setSectionDirty(me.alphamode.mclong.math.BigInteger p_109502_, me.alphamode.mclong.math.BigInteger p_109503_, me.alphamode.mclong.math.BigInteger p_109504_, boolean p_109505_) {
-+      this.f_109469_.setDirty(p_109502_, p_109503_, p_109504_, p_109505_);
++   private void setSectionDirty(me.alphamode.mclong.math.BigInteger pSectionX, me.alphamode.mclong.math.BigInteger pSectionY, me.alphamode.mclong.math.BigInteger pSectionZ, boolean pReRenderOnMainThread) {
++      this.f_109469_.setDirty(pSectionX, pSectionY, pSectionZ, pReRenderOnMainThread);
     }
  
     public void m_109514_(@Nullable SoundEvent p_109515_, BlockPos p_109516_) {
@@ -1009,23 +1101,25 @@
  
 -   public void m_109743_(ParticleOptions p_109744_, boolean p_109745_, double p_109746_, double p_109747_, double p_109748_, double p_109749_, double p_109750_, double p_109751_) {
 -      this.m_109752_(p_109744_, p_109745_, false, p_109746_, p_109747_, p_109748_, p_109749_, p_109750_, p_109751_);
-+   public void addParticle(ParticleOptions p_109744_, boolean p_109745_, me.alphamode.mclong.math.BigDecimal p_109746_, me.alphamode.mclong.math.BigDecimal p_109747_, me.alphamode.mclong.math.BigDecimal p_109748_, double p_109749_, double p_109750_, double p_109751_) {
-+      this.addParticle(p_109744_, p_109745_, false, p_109746_, p_109747_, p_109748_, p_109749_, p_109750_, p_109751_);
++   public void addParticle(ParticleOptions pOptions, boolean pForce, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      this.addParticle(pOptions, pForce, false, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
     }
  
 -   public void m_109752_(ParticleOptions p_109753_, boolean p_109754_, boolean p_109755_, double p_109756_, double p_109757_, double p_109758_, double p_109759_, double p_109760_, double p_109761_) {
-+   public void addParticle(ParticleOptions p_109753_, boolean p_109754_, boolean p_109755_, me.alphamode.mclong.math.BigDecimal p_109756_, me.alphamode.mclong.math.BigDecimal p_109757_, me.alphamode.mclong.math.BigDecimal p_109758_, double p_109759_, double p_109760_, double p_109761_) {
++   public void addParticle(ParticleOptions pOptions, boolean pForce, boolean pDecreased, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
        try {
 -         this.m_109804_(p_109753_, p_109754_, p_109755_, p_109756_, p_109757_, p_109758_, p_109759_, p_109760_, p_109761_);
-+         this.addParticleInternal(p_109753_, p_109754_, p_109755_, p_109756_, p_109757_, p_109758_, p_109759_, p_109760_, p_109761_);
++         this.addParticleInternal(pOptions, pForce, pDecreased, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
        } catch (Throwable throwable) {
           CrashReport crashreport = CrashReport.m_127521_(throwable, "Exception while adding particle");
           CrashReportCategory crashreportcategory = crashreport.m_127514_("Particle being added");
-          crashreportcategory.m_128159_("ID", BuiltInRegistries.f_257034_.m_7981_(p_109753_.m_6012_()));
-          crashreportcategory.m_128159_("Parameters", p_109753_.m_5942_());
+-         crashreportcategory.m_128159_("ID", BuiltInRegistries.f_257034_.m_7981_(p_109753_.m_6012_()));
+-         crashreportcategory.m_128159_("Parameters", p_109753_.m_5942_());
++         crashreportcategory.m_128159_("ID", BuiltInRegistries.f_257034_.m_7981_(pOptions.m_6012_()));
++         crashreportcategory.m_128159_("Parameters", pOptions.m_5942_());
           crashreportcategory.m_128165_("Position", () -> {
 -            return CrashReportCategory.m_178937_(this.f_109465_, p_109756_, p_109757_, p_109758_);
-+            return CrashReportCategory.formatLocation(this.f_109465_, p_109756_, p_109757_, p_109758_);
++            return CrashReportCategory.formatLocation(this.f_109465_, pX, pY, pZ);
           });
           throw new ReportedException(crashreport);
        }
@@ -1042,28 +1136,30 @@
 -
 -   @Nullable
 -   private Particle m_109804_(ParticleOptions p_109805_, boolean p_109806_, boolean p_109807_, double p_109808_, double p_109809_, double p_109810_, double p_109811_, double p_109812_, double p_109813_) {
-+   private <T extends ParticleOptions> void addParticle(T p_109736_, me.alphamode.mclong.math.BigDecimal p_109737_, me.alphamode.mclong.math.BigDecimal p_109738_, me.alphamode.mclong.math.BigDecimal p_109739_, double p_109740_, double p_109741_, double p_109742_) {
-+      this.addParticle(p_109736_, p_109736_.m_6012_().m_123742_(), p_109737_, p_109738_, p_109739_, p_109740_, p_109741_, p_109742_);
++   private <T extends ParticleOptions> void addParticle(T pOptions, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      this.addParticle(pOptions, pOptions.m_6012_().m_123742_(), pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
 +   }
 +
 +   @Nullable
-+   private Particle addParticleInternal(ParticleOptions p_109796_, boolean p_109797_, me.alphamode.mclong.math.BigDecimal p_109798_, me.alphamode.mclong.math.BigDecimal p_109799_, me.alphamode.mclong.math.BigDecimal p_109800_, double p_109801_, double p_109802_, double p_109803_) {
-+      return this.addParticleInternal(p_109796_, p_109797_, false, p_109798_, p_109799_, p_109800_, p_109801_, p_109802_, p_109803_);
++   private Particle addParticleInternal(ParticleOptions pOptions, boolean pForce, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      return this.addParticleInternal(pOptions, pForce, false, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
 +   }
 +
 +   @Nullable
-+   private Particle addParticleInternal(ParticleOptions p_109805_, boolean p_109806_, boolean p_109807_, me.alphamode.mclong.math.BigDecimal p_109808_, me.alphamode.mclong.math.BigDecimal p_109809_, me.alphamode.mclong.math.BigDecimal p_109810_, double p_109811_, double p_109812_, double p_109813_) {
++   private Particle addParticleInternal(ParticleOptions pOptions, boolean pForce, boolean pDecreased, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
        Camera camera = this.f_109461_.f_91063_.m_109153_();
-       ParticleStatus particlestatus = this.m_109767_(p_109807_);
-       if (p_109806_) {
+-      ParticleStatus particlestatus = this.m_109767_(p_109807_);
+-      if (p_109806_) {
 -         return this.f_109461_.f_91061_.m_107370_(p_109805_, p_109808_, p_109809_, p_109810_, p_109811_, p_109812_, p_109813_);
 -      } else if (camera.m_90583_().m_82531_(p_109808_, p_109809_, p_109810_) > 1024.0D) {
-+         return this.f_109461_.f_91061_.createParticle(p_109805_, p_109808_, p_109809_, p_109810_, p_109811_, p_109812_, p_109813_);
-+      } else if (camera.m_90583_().distanceToSqr(p_109808_, p_109809_, p_109810_).compareTo(me.alphamode.mclong.math.BigDecimal.valueOf(1024.0D)) > 0) {
++      ParticleStatus particlestatus = this.m_109767_(pDecreased);
++      if (pForce) {
++         return this.f_109461_.f_91061_.createParticle(pOptions, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
++      } else if (camera.m_90583_().distanceToSqr(pX, pY, pZ).compareTo(me.alphamode.mclong.math.BigDecimal.valueOf(1024.0D)) > 0) {
           return null;
        } else {
 -         return particlestatus == ParticleStatus.MINIMAL ? null : this.f_109461_.f_91061_.m_107370_(p_109805_, p_109808_, p_109809_, p_109810_, p_109811_, p_109812_, p_109813_);
-+         return particlestatus == ParticleStatus.MINIMAL ? null : this.f_109461_.f_91061_.createParticle(p_109805_, p_109808_, p_109809_, p_109810_, p_109811_, p_109812_, p_109813_);
++         return particlestatus == ParticleStatus.MINIMAL ? null : this.f_109461_.f_91061_.createParticle(pOptions, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
        }
     }
  
@@ -1305,10 +1401,10 @@
        }
  
 -      public boolean m_274540_(int p_275489_, int p_275424_, int p_275596_) {
-+      public boolean isAxisAlignedWith(me.alphamode.mclong.math.BigInteger p_275489_, me.alphamode.mclong.math.BigInteger p_275424_, me.alphamode.mclong.math.BigInteger p_275596_) {
++      public boolean isAxisAlignedWith(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
           BlockPos blockpos = this.f_109839_.m_112839_();
 -         return p_275489_ == blockpos.m_123341_() / 16 || p_275596_ == blockpos.m_123343_() / 16 || p_275424_ == blockpos.m_123342_() / 16;
-+         return p_275489_.equals(blockpos.getBigX().divide(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN)) || p_275596_.equals(blockpos.getBigZ().divide(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN)) || p_275424_.equals(blockpos.getBigY().divide(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN));
++         return pX.equals(blockpos.getBigX().divide(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN)) || pZ.equals(blockpos.getBigZ().divide(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN)) || pY.equals(blockpos.getBigY().divide(me.alphamode.mclong.core.BigConstants.Ints.SIXTEEN));
        }
  
        public int hashCode() {

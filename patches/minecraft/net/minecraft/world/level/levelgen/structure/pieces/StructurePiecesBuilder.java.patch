@@ -5,10 +5,10 @@
     /** @deprecated */
     @Deprecated
 -   public void m_192781_(int p_192782_) {
-+   public void offsetPiecesVertically(long p_192782_) {
++   public void offsetPiecesVertically(long pOffset) {
        for(StructurePiece structurepiece : this.f_192778_) {
 -         structurepiece.m_6324_(0, p_192782_, 0);
-+         structurepiece.move(0, p_192782_, 0);
++         structurepiece.move(0, pOffset, 0);
        }
  
     }
@@ -17,14 +17,14 @@
     @Deprecated
 -   public int m_226965_(int p_226966_, int p_226967_, RandomSource p_226968_, int p_226969_) {
 -      int i = p_226966_ - p_226969_;
-+   public long moveBelowSeaLevel(long p_226966_, long p_226967_, RandomSource p_226968_, int p_226969_) {
++   public long moveBelowSeaLevel(long p_226966_, long p_226967_, RandomSource pRandom, int p_226969_) {
 +      long i = p_226966_ - p_226969_;
        BoundingBox boundingbox = this.m_192798_();
 -      int j = boundingbox.m_71057_() + p_226967_ + 1;
 +      long j = boundingbox.getYSpan() + p_226967_ + 1;
        if (j < i) {
 -         j += p_226968_.m_188503_(i - j);
-+         j += p_226968_.nextLong(i - j);
++         j += pRandom.nextLong(i - j);
        }
  
 -      int k = j - boundingbox.m_162400_();

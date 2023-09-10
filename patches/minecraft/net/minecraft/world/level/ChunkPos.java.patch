@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/ChunkPos.java
 +++ b/net/minecraft/world/level/ChunkPos.java
-@@ -8,57 +_,54 @@
+@@ -8,55 +_,52 @@
  import net.minecraft.core.BlockPos;
  import net.minecraft.core.SectionPos;
  
@@ -32,8 +32,8 @@
 +      this.f_45579_ = z;
 +   }
 +
-+   public ChunkPos(long p_45582_, long p_45583_) {
-+      this(me.alphamode.mclong.math.BigInteger.valueOf(p_45582_), me.alphamode.mclong.math.BigInteger.valueOf(p_45583_));
++   public ChunkPos(long pX, long pY) {
++      this(me.alphamode.mclong.math.BigInteger.valueOf(pX), me.alphamode.mclong.math.BigInteger.valueOf(pY));
 +   }
 +
 +   @Deprecated
@@ -66,6 +66,11 @@
 -   }
 -
 -   public static long m_45589_(int p_45590_, int p_45591_) {
+-      return (long)p_45590_ & 4294967295L | ((long)p_45591_ & 4294967295L) << 32;
+-   }
+-
+-   public static long m_151388_(BlockPos p_151389_) {
+-      return m_45589_(SectionPos.m_123171_(p_151389_.m_123341_()), SectionPos.m_123171_(p_151389_.m_123343_()));
 +      this.f_45578_ = SectionPos.blockToSectionCoord(p_45587_.getBigX());
 +      this.f_45579_ = SectionPos.blockToSectionCoord(p_45587_.getBigZ());
 +   }
@@ -78,17 +83,11 @@
 +      return new ChunkPos((p_220341_.shiftLeft(5)).add(f_220336_), (p_220342_.shiftLeft(5)).add(f_220336_));
 +   }
 +
-+   public static long asLong(long p_45590_, long p_45591_) {
-       return (long)p_45590_ & 4294967295L | ((long)p_45591_ & 4294967295L) << 32;
++   public static long asLong(long pX, long pZ) {
++      return (long)pX & 4294967295L | ((long)pZ & 4294967295L) << 32;
     }
  
--   public static long m_151388_(BlockPos p_151389_) {
--      return m_45589_(SectionPos.m_123171_(p_151389_.m_123341_()), SectionPos.m_123171_(p_151389_.m_123343_()));
--   }
--
     public static int m_45592_(long p_45593_) {
-       return (int)(p_45593_ & 4294967295L);
-    }
 @@ -68,7 +_,7 @@
     }
  
@@ -239,36 +238,36 @@
 +      return this.f_45579_.and(f_151378_);
 +   }
 +
-+   public BlockPos getBlockAt(long p_151385_, long p_151386_, long p_151387_) {
-+      return new BlockPos(this.getBlockX(p_151385_), p_151386_, this.getBlockZ(p_151387_));
++   public BlockPos getBlockAt(long pXSection, long pY, long pZSection) {
++      return new BlockPos(this.getBlockX(pXSection), pY, this.getBlockZ(pZSection));
 +   }
 +
-+   public long getBlockX(long p_151383_) {
-+      return SectionPos.sectionToBlockCoord(this.f_45578_, p_151383_).longValue();
++   public long getBlockX(long pX) {
++      return SectionPos.sectionToBlockCoord(this.f_45578_, pX).longValue();
 +   }
 +
-+   public me.alphamode.mclong.math.BigInteger getBlockBigX(long p_151383_) {
-+      return SectionPos.sectionToBlockCoord(this.f_45578_, p_151383_);
++   public me.alphamode.mclong.math.BigInteger getBlockBigX(long pX) {
++      return SectionPos.sectionToBlockCoord(this.f_45578_, pX);
 +   }
 +
-+   public me.alphamode.mclong.math.BigInteger getBlockBigX(me.alphamode.mclong.math.BigInteger p_151383_) {
-+      return SectionPos.sectionToBlockCoord(this.f_45578_, p_151383_);
++   public me.alphamode.mclong.math.BigInteger getBlockBigX(me.alphamode.mclong.math.BigInteger pX) {
++      return SectionPos.sectionToBlockCoord(this.f_45578_, pX);
 +   }
 +
-+   public long getBlockZ(long p_151392_) {
-+      return SectionPos.sectionToBlockCoord(this.f_45579_, p_151392_).longValue();
++   public long getBlockZ(long pZ) {
++      return SectionPos.sectionToBlockCoord(this.f_45579_, pZ).longValue();
 +   }
 +
-+   public me.alphamode.mclong.math.BigInteger getBlockBigZ(long p_151392_) {
-+      return SectionPos.sectionToBlockCoord(this.f_45579_, p_151392_);
++   public me.alphamode.mclong.math.BigInteger getBlockBigZ(long pZ) {
++      return SectionPos.sectionToBlockCoord(this.f_45579_, pZ);
 +   }
 +
-+   public me.alphamode.mclong.math.BigInteger getBlockBigZ(me.alphamode.mclong.math.BigInteger p_151392_) {
-+      return SectionPos.sectionToBlockCoord(this.f_45579_, p_151392_);
++   public me.alphamode.mclong.math.BigInteger getBlockBigZ(me.alphamode.mclong.math.BigInteger pZ) {
++      return SectionPos.sectionToBlockCoord(this.f_45579_, pZ);
 +   }
 +
-+   public BlockPos getMiddleBlockPosition(long p_151395_) {
-+      return new BlockPos(this.getMiddleBlockX(), p_151395_, this.getMiddleBlockZ());
++   public BlockPos getMiddleBlockPosition(long pY) {
++      return new BlockPos(this.getMiddleBlockX(), pY, this.getMiddleBlockZ());
     }
  
     public String toString() {
@@ -282,8 +281,8 @@
  
 -   public int m_45594_(ChunkPos p_45595_) {
 -      return Math.max(Math.abs(this.f_45578_ - p_45595_.f_45578_), Math.abs(this.f_45579_ - p_45595_.f_45579_));
-+   public long getChessboardDistance(ChunkPos p_45595_) {
-+      return this.f_45578_.subtract(p_45595_.f_45578_).abs().max(this.f_45579_.subtract(p_45595_.f_45579_).abs()).longValue();
++   public long getChessboardDistance(ChunkPos pChunkPos) {
++      return this.f_45578_.subtract(pChunkPos.f_45578_).abs().max(this.f_45579_.subtract(pChunkPos.f_45579_).abs()).longValue();
     }
  
     public static Stream<ChunkPos> m_45596_(ChunkPos p_45597_, int p_45598_) {

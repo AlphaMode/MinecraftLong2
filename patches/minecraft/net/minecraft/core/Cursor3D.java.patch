@@ -27,16 +27,19 @@
 +   private me.alphamode.mclong.math.BigInteger f_122296_;
  
 -   public Cursor3D(int p_122298_, int p_122299_, int p_122300_, int p_122301_, int p_122302_, int p_122303_) {
-+   public Cursor3D(me.alphamode.mclong.math.BigInteger p_122298_, me.alphamode.mclong.math.BigInteger p_122299_, me.alphamode.mclong.math.BigInteger p_122300_, me.alphamode.mclong.math.BigInteger p_122301_, me.alphamode.mclong.math.BigInteger p_122302_, me.alphamode.mclong.math.BigInteger p_122303_) {
-       this.f_122286_ = p_122298_;
-       this.f_122287_ = p_122299_;
-       this.f_122288_ = p_122300_;
+-      this.f_122286_ = p_122298_;
+-      this.f_122287_ = p_122299_;
+-      this.f_122288_ = p_122300_;
 -      this.f_122289_ = p_122301_ - p_122298_ + 1;
 -      this.f_122290_ = p_122302_ - p_122299_ + 1;
 -      this.f_122291_ = p_122303_ - p_122300_ + 1;
-+      this.f_122289_ = p_122301_.subtract(p_122298_).longValue() + 1;
-+      this.f_122290_ = p_122302_.subtract(p_122299_).longValue() + 1;
-+      this.f_122291_ = p_122303_.subtract(p_122300_).longValue() + 1;
++   public Cursor3D(me.alphamode.mclong.math.BigInteger pOriginX, me.alphamode.mclong.math.BigInteger pOriginY, me.alphamode.mclong.math.BigInteger pOriginZ, me.alphamode.mclong.math.BigInteger pEndX, me.alphamode.mclong.math.BigInteger pEndY, me.alphamode.mclong.math.BigInteger pEndZ) {
++      this.f_122286_ = pOriginX;
++      this.f_122287_ = pOriginY;
++      this.f_122288_ = pOriginZ;
++      this.f_122289_ = pEndX.subtract(pOriginX).longValue() + 1;
++      this.f_122290_ = pEndY.subtract(pOriginY).longValue() + 1;
++      this.f_122291_ = pEndZ.subtract(pOriginZ).longValue() + 1;
        this.f_122292_ = this.f_122289_ * this.f_122290_ * this.f_122291_;
     }
  

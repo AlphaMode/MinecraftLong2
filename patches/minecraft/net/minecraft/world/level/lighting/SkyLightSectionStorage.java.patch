@@ -14,25 +14,26 @@
 -   protected int m_164457_(long p_164458_, boolean p_164459_) {
 -      long i = SectionPos.m_123235_(p_164458_);
 -      int j = SectionPos.m_123225_(i);
+-      SkyLightSectionStorage.SkyDataLayerStorageMap skylightsectionstorage$skydatalayerstoragemap = p_164459_ ? this.f_75732_ : this.f_75731_;
+-      int k = skylightsectionstorage$skydatalayerstoragemap.f_75901_.get(SectionPos.m_123240_(i));
 +      super(LightLayer.SKY, p_75868_, new SkyLightSectionStorage.SkyDataLayerStorageMap(new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>(), new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>(), Integer.MAX_VALUE));
 +   }
 +
-+   protected int getLightValue(BlockPos p_75880_) {
-+      return this.getLightValue(p_75880_, false);
++   protected int getLightValue(BlockPos pLevelPos) {
++      return this.getLightValue(pLevelPos, false);
 +   }
 +
-+   protected int getLightValue(BlockPos p_164458_, boolean p_164459_) {
-+      SectionPos i = SectionPos.m_123199_(p_164458_);
++   protected int getLightValue(BlockPos pPackedPos, boolean pUpdateAll) {
++      SectionPos i = SectionPos.m_123199_(pPackedPos);
 +      long j = i.y();
-       SkyLightSectionStorage.SkyDataLayerStorageMap skylightsectionstorage$skydatalayerstoragemap = p_164459_ ? this.f_75732_ : this.f_75731_;
--      int k = skylightsectionstorage$skydatalayerstoragemap.f_75901_.get(SectionPos.m_123240_(i));
++      SkyLightSectionStorage.SkyDataLayerStorageMap skylightsectionstorage$skydatalayerstoragemap = pUpdateAll ? this.f_75732_ : this.f_75731_;
 +      long k = skylightsectionstorage$skydatalayerstoragemap.f_75901_.getLong(SectionPos.getZeroNode(i.getBigX(), i.getBigZ()));
        if (k != skylightsectionstorage$skydatalayerstoragemap.f_75900_ && j < k) {
 -         DataLayer datalayer = this.m_75761_(skylightsectionstorage$skydatalayerstoragemap, i);
 +         DataLayer datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i);
           if (datalayer == null) {
 -            for(p_164458_ = BlockPos.m_122027_(p_164458_); datalayer == null; datalayer = this.m_75761_(skylightsectionstorage$skydatalayerstoragemap, i)) {
-+            for(p_164458_ = new BlockPos(p_164458_.getBigX(), me.alphamode.mclong.math.BigInteger.ZERO, p_164458_.getBigZ()); datalayer == null; datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i)) {
++            for(pPackedPos = new BlockPos(pPackedPos.getBigX(), me.alphamode.mclong.math.BigInteger.ZERO, pPackedPos.getBigZ()); datalayer == null; datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i)) {
                 ++j;
                 if (j >= k) {
                    return 15;
@@ -44,17 +45,17 @@
           }
  
 -         return datalayer.m_62560_(SectionPos.m_123207_(BlockPos.m_121983_(p_164458_)), SectionPos.m_123207_(BlockPos.m_122008_(p_164458_)), SectionPos.m_123207_(BlockPos.m_122015_(p_164458_)));
-+         return datalayer.get(SectionPos.sectionRelative(p_164458_.getBigX()), SectionPos.sectionRelative(p_164458_.getBigY()), SectionPos.sectionRelative(p_164458_.getBigZ()));
++         return datalayer.get(SectionPos.sectionRelative(pPackedPos.getBigX()), SectionPos.sectionRelative(pPackedPos.getBigY()), SectionPos.sectionRelative(pPackedPos.getBigZ()));
        } else {
 -         return p_164459_ && !this.m_284382_(i) ? 0 : 15;
-+         return p_164459_ && !this.lightOnInSection(i) ? 0 : 15;
++         return pUpdateAll && !this.lightOnInSection(i) ? 0 : 15;
        }
     }
  
 -   protected void m_6177_(long p_75885_) {
 -      int i = SectionPos.m_123225_(p_75885_);
-+   protected void onNodeAdded(SectionPos p_75885_) {
-+      long i = p_75885_.y();
++   protected void onNodeAdded(SectionPos pSectionPos) {
++      long i = pSectionPos.y();
        if ((this.f_75732_).f_75900_ > i) {
           (this.f_75732_).f_75900_ = i;
           (this.f_75732_).f_75901_.defaultReturnValue((this.f_75732_).f_75900_);
@@ -62,7 +63,7 @@
  
 -      long j = SectionPos.m_123240_(p_75885_);
 -      int k = (this.f_75732_).f_75901_.get(j);
-+      SectionPos j = SectionPos.getZeroNode(p_75885_.getBigX(), p_75885_.getBigZ());
++      SectionPos j = SectionPos.getZeroNode(pSectionPos.getBigX(), pSectionPos.getBigZ());
 +      long k = (this.f_75732_).f_75901_.getLong(j);
        if (k < i + 1) {
           (this.f_75732_).f_75901_.put(j, i + 1);
@@ -76,12 +77,12 @@
 -      if ((this.f_75732_).f_75901_.get(i) == j + 1) {
 -         long k;
 -         for(k = p_75887_; !this.m_75791_(k) && this.m_75870_(j); k = SectionPos.m_123191_(k, Direction.DOWN)) {
-+   protected void onNodeRemoved(SectionPos p_75887_) {
-+      SectionPos i = SectionPos.getZeroNode(p_75887_.getBigX(), p_75887_.getBigZ());
-+      long j = p_75887_.y();
++   protected void onNodeRemoved(SectionPos pSectionPos) {
++      SectionPos i = SectionPos.getZeroNode(pSectionPos.getBigX(), pSectionPos.getBigZ());
++      long j = pSectionPos.y();
 +      if ((this.f_75732_).f_75901_.getLong(i) == j + 1) {
 +         SectionPos k;
-+         for(k = p_75887_; !this.storingLightForSection(k) && this.hasLightDataAtOrBelow(j); k = k.relative(Direction.DOWN)) {
++         for(k = pSectionPos; !this.storingLightForSection(k) && this.hasLightDataAtOrBelow(j); k = k.relative(Direction.DOWN)) {
              --j;
           }
  
@@ -97,36 +98,36 @@
     }
  
 -   protected DataLayer m_7667_(long p_75883_) {
-+   protected DataLayer createDataLayer(SectionPos p_75883_) {
-       DataLayer datalayer = this.f_75735_.get(p_75883_);
+-      DataLayer datalayer = this.f_75735_.get(p_75883_);
++   protected DataLayer createDataLayer(SectionPos pSectionPos) {
++      DataLayer datalayer = this.f_75735_.get(pSectionPos);
        if (datalayer != null) {
           return datalayer;
        } else {
 -         int i = (this.f_75732_).f_75901_.get(SectionPos.m_123240_(p_75883_));
 -         if (i != (this.f_75732_).f_75900_ && SectionPos.m_123225_(p_75883_) < i) {
-+         long i = (this.f_75732_).f_75901_.getLong(SectionPos.getZeroNode(p_75883_.getBigX(), p_75883_.getBigZ()));
-+         if (i != (this.f_75732_).f_75900_ && p_75883_.y() < i) {
++         long i = (this.f_75732_).f_75901_.getLong(SectionPos.getZeroNode(pSectionPos.getBigX(), pSectionPos.getBigZ()));
++         if (i != (this.f_75732_).f_75900_ && pSectionPos.y() < i) {
              DataLayer datalayer1;
 -            for(long j = SectionPos.m_123191_(p_75883_, Direction.UP); (datalayer1 = this.m_75758_(j, true)) == null; j = SectionPos.m_123191_(j, Direction.UP)) {
-+            for(SectionPos j = p_75883_.relative(Direction.UP); (datalayer1 = this.getDataLayer(j, true)) == null; j = j.relative(Direction.UP)) {
++            for(SectionPos j = pSectionPos.relative(Direction.UP); (datalayer1 = this.getDataLayer(j, true)) == null; j = j.relative(Direction.UP)) {
              }
  
              return m_182512_(datalayer1);
           } else {
 -            return this.m_284382_(p_75883_) ? new DataLayer(15) : new DataLayer();
-+            return this.lightOnInSection(p_75883_) ? new DataLayer(15) : new DataLayer();
++            return this.lightOnInSection(pSectionPos) ? new DataLayer(15) : new DataLayer();
           }
        }
     }
-@@ -108,29 +_,29 @@
+@@ -108,33 +_,33 @@
        }
     }
  
 -   protected boolean m_75870_(int p_278270_) {
-+   protected boolean hasLightDataAtOrBelow(long p_278270_) {
-       return p_278270_ >= (this.f_75732_).f_75900_;
-    }
- 
+-      return p_278270_ >= (this.f_75732_).f_75900_;
+-   }
+-
 -   protected boolean m_75890_(long p_75891_) {
 -      long i = SectionPos.m_123240_(p_75891_);
 -      int j = (this.f_75732_).f_75901_.get(i);
@@ -138,14 +139,18 @@
 -   }
 -
 -   protected int m_284293_() {
-+   protected boolean isAboveData(SectionPos p_75891_) {
-+      SectionPos i = SectionPos.getZeroNode(p_75891_.getBigX(), p_75891_.getBigZ());
-+      long j = (this.f_75732_).f_75901_.getLong(i);
-+      return j == (this.f_75732_).f_75900_ || p_75891_.y() >= j;
++   protected boolean hasLightDataAtOrBelow(long pY) {
++      return pY >= (this.f_75732_).f_75900_;
 +   }
 +
-+   protected long getTopSectionY(SectionPos p_285094_) {
-+      return (this.f_75732_).f_75901_.getLong(p_285094_);
++   protected boolean isAboveData(SectionPos pSectionPos) {
++      SectionPos i = SectionPos.getZeroNode(pSectionPos.getBigX(), pSectionPos.getBigZ());
++      long j = (this.f_75732_).f_75901_.getLong(i);
++      return j == (this.f_75732_).f_75900_ || pSectionPos.y() >= j;
++   }
++
++   protected long getTopSectionY(SectionPos pSectionPos) {
++      return (this.f_75732_).f_75901_.getLong(pSectionPos);
 +   }
 +
 +   protected long getBottomSectionY() {
@@ -159,7 +164,15 @@
 +      final it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<SectionPos> f_75901_;
  
 -      public SkyDataLayerStorageMap(Long2ObjectOpenHashMap<DataLayer> p_75903_, Long2IntOpenHashMap p_75904_, int p_75905_) {
-+      public SkyDataLayerStorageMap(it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<SectionPos, DataLayer> p_75903_, it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<SectionPos> p_75904_, long p_75905_) {
-          super(p_75903_);
-          this.f_75901_ = p_75904_;
-          p_75904_.defaultReturnValue(p_75905_);
+-         super(p_75903_);
+-         this.f_75901_ = p_75904_;
+-         p_75904_.defaultReturnValue(p_75905_);
+-         this.f_75900_ = p_75905_;
++      public SkyDataLayerStorageMap(it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<SectionPos, DataLayer> pMap, it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<SectionPos> pTopSections, long pCurrentLowestY) {
++         super(pMap);
++         this.f_75901_ = pTopSections;
++         pTopSections.defaultReturnValue(pCurrentLowestY);
++         this.f_75900_ = pCurrentLowestY;
+       }
+ 
+       public SkyLightSectionStorage.SkyDataLayerStorageMap m_5972_() {

@@ -1,56 +1,126 @@
 --- a/net/minecraft/client/particle/GlowParticle.java
 +++ b/net/minecraft/client/particle/GlowParticle.java
-@@ -12,7 +_,7 @@
+@@ -12,14 +_,14 @@
     static final RandomSource f_172132_ = RandomSource.m_216327_();
     private final SpriteSet f_172133_;
  
 -   GlowParticle(ClientLevel p_172136_, double p_172137_, double p_172138_, double p_172139_, double p_172140_, double p_172141_, double p_172142_, SpriteSet p_172143_) {
-+   GlowParticle(ClientLevel p_172136_, me.alphamode.mclong.math.BigDecimal p_172137_, me.alphamode.mclong.math.BigDecimal p_172138_, me.alphamode.mclong.math.BigDecimal p_172139_, double p_172140_, double p_172141_, double p_172142_, SpriteSet p_172143_) {
-       super(p_172136_, p_172137_, p_172138_, p_172139_, p_172140_, p_172141_, p_172142_);
+-      super(p_172136_, p_172137_, p_172138_, p_172139_, p_172140_, p_172141_, p_172142_);
++   GlowParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, SpriteSet pSprites) {
++      super(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
        this.f_172258_ = 0.96F;
        this.f_172259_ = true;
-@@ -54,7 +_,7 @@
+-      this.f_172133_ = p_172143_;
++      this.f_172133_ = pSprites;
+       this.f_107663_ *= 0.75F;
+       this.f_107219_ = false;
+-      this.m_108339_(p_172143_);
++      this.m_108339_(pSprites);
+    }
+ 
+    public ParticleRenderType m_7556_() {
+@@ -54,13 +_,13 @@
           this.f_172149_ = p_172151_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_172162_, ClientLevel p_172163_, double p_172164_, double p_172165_, double p_172166_, double p_172167_, double p_172168_, double p_172169_) {
-+      public Particle createParticle(SimpleParticleType p_172162_, ClientLevel p_172163_, me.alphamode.mclong.math.BigDecimal p_172164_, me.alphamode.mclong.math.BigDecimal p_172165_, me.alphamode.mclong.math.BigDecimal p_172166_, double p_172167_, double p_172168_, double p_172169_) {
-          GlowParticle glowparticle = new GlowParticle(p_172163_, p_172164_, p_172165_, p_172166_, 0.0D, 0.0D, 0.0D, this.f_172149_);
+-         GlowParticle glowparticle = new GlowParticle(p_172163_, p_172164_, p_172165_, p_172166_, 0.0D, 0.0D, 0.0D, this.f_172149_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         GlowParticle glowparticle = new GlowParticle(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D, this.f_172149_);
           glowparticle.m_107253_(1.0F, 0.9F, 1.0F);
-          glowparticle.m_172260_(p_172167_ * 0.25D, p_172168_ * 0.25D, p_172169_ * 0.25D);
-@@ -73,7 +_,7 @@
+-         glowparticle.m_172260_(p_172167_ * 0.25D, p_172168_ * 0.25D, p_172169_ * 0.25D);
++         glowparticle.m_172260_(pXSpeed * 0.25D, pYSpeed * 0.25D, pZSpeed * 0.25D);
+          int i = 2;
+          int j = 4;
+-         glowparticle.m_107257_(p_172163_.f_46441_.m_188503_(2) + 2);
++         glowparticle.m_107257_(pLevel.f_46441_.m_188503_(2) + 2);
+          return glowparticle;
+       }
+    }
+@@ -73,21 +_,21 @@
           this.f_172170_ = p_172172_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_172183_, ClientLevel p_172184_, double p_172185_, double p_172186_, double p_172187_, double p_172188_, double p_172189_, double p_172190_) {
-+      public Particle createParticle(SimpleParticleType p_172183_, ClientLevel p_172184_, me.alphamode.mclong.math.BigDecimal p_172185_, me.alphamode.mclong.math.BigDecimal p_172186_, me.alphamode.mclong.math.BigDecimal p_172187_, double p_172188_, double p_172189_, double p_172190_) {
-          GlowParticle glowparticle = new GlowParticle(p_172184_, p_172185_, p_172186_, p_172187_, 0.5D - GlowParticle.f_172132_.m_188500_(), p_172189_, 0.5D - GlowParticle.f_172132_.m_188500_(), this.f_172170_);
-          if (p_172184_.f_46441_.m_188499_()) {
+-         GlowParticle glowparticle = new GlowParticle(p_172184_, p_172185_, p_172186_, p_172187_, 0.5D - GlowParticle.f_172132_.m_188500_(), p_172189_, 0.5D - GlowParticle.f_172132_.m_188500_(), this.f_172170_);
+-         if (p_172184_.f_46441_.m_188499_()) {
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         GlowParticle glowparticle = new GlowParticle(pLevel, pX, pY, pZ, 0.5D - GlowParticle.f_172132_.m_188500_(), pYSpeed, 0.5D - GlowParticle.f_172132_.m_188500_(), this.f_172170_);
++         if (pLevel.f_46441_.m_188499_()) {
              glowparticle.m_107253_(0.6F, 1.0F, 0.8F);
-@@ -101,7 +_,7 @@
+          } else {
+             glowparticle.m_107253_(0.08F, 0.4F, 0.4F);
+          }
+ 
+          glowparticle.f_107216_ *= (double)0.2F;
+-         if (p_172188_ == 0.0D && p_172190_ == 0.0D) {
++         if (pXSpeed == 0.0D && pZSpeed == 0.0D) {
+             glowparticle.f_107215_ *= (double)0.1F;
+             glowparticle.f_107217_ *= (double)0.1F;
+          }
+ 
+-         glowparticle.m_107257_((int)(8.0D / (p_172184_.f_46441_.m_188500_() * 0.8D + 0.2D)));
++         glowparticle.m_107257_((int)(8.0D / (pLevel.f_46441_.m_188500_() * 0.8D + 0.2D)));
+          return glowparticle;
+       }
+    }
+@@ -101,18 +_,18 @@
           this.f_172192_ = p_172194_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_172205_, ClientLevel p_172206_, double p_172207_, double p_172208_, double p_172209_, double p_172210_, double p_172211_, double p_172212_) {
-+      public Particle createParticle(SimpleParticleType p_172205_, ClientLevel p_172206_, me.alphamode.mclong.math.BigDecimal p_172207_, me.alphamode.mclong.math.BigDecimal p_172208_, me.alphamode.mclong.math.BigDecimal p_172209_, double p_172210_, double p_172211_, double p_172212_) {
-          GlowParticle glowparticle = new GlowParticle(p_172206_, p_172207_, p_172208_, p_172209_, 0.0D, 0.0D, 0.0D, this.f_172192_);
-          if (p_172206_.f_46441_.m_188499_()) {
+-         GlowParticle glowparticle = new GlowParticle(p_172206_, p_172207_, p_172208_, p_172209_, 0.0D, 0.0D, 0.0D, this.f_172192_);
+-         if (p_172206_.f_46441_.m_188499_()) {
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         GlowParticle glowparticle = new GlowParticle(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D, this.f_172192_);
++         if (pLevel.f_46441_.m_188499_()) {
              glowparticle.m_107253_(0.29F, 0.58F, 0.51F);
-@@ -126,7 +_,7 @@
+          } else {
+             glowparticle.m_107253_(0.43F, 0.77F, 0.62F);
+          }
+ 
+-         glowparticle.m_172260_(p_172210_ * 0.01D, p_172211_ * 0.01D, p_172212_ * 0.01D);
++         glowparticle.m_172260_(pXSpeed * 0.01D, pYSpeed * 0.01D, pZSpeed * 0.01D);
+          int i = 10;
+          int j = 40;
+-         glowparticle.m_107257_(p_172206_.f_46441_.m_188503_(30) + 10);
++         glowparticle.m_107257_(pLevel.f_46441_.m_188503_(30) + 10);
+          return glowparticle;
+       }
+    }
+@@ -126,13 +_,13 @@
           this.f_172214_ = p_172216_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_172227_, ClientLevel p_172228_, double p_172229_, double p_172230_, double p_172231_, double p_172232_, double p_172233_, double p_172234_) {
-+      public Particle createParticle(SimpleParticleType p_172227_, ClientLevel p_172228_, me.alphamode.mclong.math.BigDecimal p_172229_, me.alphamode.mclong.math.BigDecimal p_172230_, me.alphamode.mclong.math.BigDecimal p_172231_, double p_172232_, double p_172233_, double p_172234_) {
-          GlowParticle glowparticle = new GlowParticle(p_172228_, p_172229_, p_172230_, p_172231_, 0.0D, 0.0D, 0.0D, this.f_172214_);
+-         GlowParticle glowparticle = new GlowParticle(p_172228_, p_172229_, p_172230_, p_172231_, 0.0D, 0.0D, 0.0D, this.f_172214_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         GlowParticle glowparticle = new GlowParticle(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D, this.f_172214_);
           glowparticle.m_107253_(1.0F, 0.9F, 1.0F);
-          glowparticle.m_172260_(p_172232_ * 0.01D / 2.0D, p_172233_ * 0.01D, p_172234_ * 0.01D / 2.0D);
-@@ -146,7 +_,7 @@
+-         glowparticle.m_172260_(p_172232_ * 0.01D / 2.0D, p_172233_ * 0.01D, p_172234_ * 0.01D / 2.0D);
++         glowparticle.m_172260_(pXSpeed * 0.01D / 2.0D, pYSpeed * 0.01D, pZSpeed * 0.01D / 2.0D);
+          int i = 10;
+          int j = 40;
+-         glowparticle.m_107257_(p_172228_.f_46441_.m_188503_(30) + 10);
++         glowparticle.m_107257_(pLevel.f_46441_.m_188503_(30) + 10);
+          return glowparticle;
+       }
+    }
+@@ -146,13 +_,13 @@
           this.f_172236_ = p_172238_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_172249_, ClientLevel p_172250_, double p_172251_, double p_172252_, double p_172253_, double p_172254_, double p_172255_, double p_172256_) {
-+      public Particle createParticle(SimpleParticleType p_172249_, ClientLevel p_172250_, me.alphamode.mclong.math.BigDecimal p_172251_, me.alphamode.mclong.math.BigDecimal p_172252_, me.alphamode.mclong.math.BigDecimal p_172253_, double p_172254_, double p_172255_, double p_172256_) {
-          GlowParticle glowparticle = new GlowParticle(p_172250_, p_172251_, p_172252_, p_172253_, 0.0D, 0.0D, 0.0D, this.f_172236_);
+-         GlowParticle glowparticle = new GlowParticle(p_172250_, p_172251_, p_172252_, p_172253_, 0.0D, 0.0D, 0.0D, this.f_172236_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         GlowParticle glowparticle = new GlowParticle(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D, this.f_172236_);
           glowparticle.m_107253_(0.91F, 0.55F, 0.08F);
-          glowparticle.m_172260_(p_172254_ * 0.01D / 2.0D, p_172255_ * 0.01D, p_172256_ * 0.01D / 2.0D);
+-         glowparticle.m_172260_(p_172254_ * 0.01D / 2.0D, p_172255_ * 0.01D, p_172256_ * 0.01D / 2.0D);
++         glowparticle.m_172260_(pXSpeed * 0.01D / 2.0D, pYSpeed * 0.01D, pZSpeed * 0.01D / 2.0D);
+          int i = 10;
+          int j = 40;
+-         glowparticle.m_107257_(p_172250_.f_46441_.m_188503_(30) + 10);
++         glowparticle.m_107257_(pLevel.f_46441_.m_188503_(30) + 10);
+          return glowparticle;
+       }
+    }

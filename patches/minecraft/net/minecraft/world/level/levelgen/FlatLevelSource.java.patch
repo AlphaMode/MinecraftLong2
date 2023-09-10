@@ -6,8 +6,8 @@
  
 -   public int m_142051_(LevelHeightAccessor p_158279_) {
 -      return p_158279_.m_141937_() + Math.min(p_158279_.m_141928_(), this.f_64165_.m_161917_().size());
-+   public long getSpawnHeight(LevelHeightAccessor p_158279_) {
-+      return p_158279_.getMinBuildHeight() + Math.min(p_158279_.getHeight(), this.f_64165_.m_161917_().size());
++   public long getSpawnHeight(LevelHeightAccessor pLevel) {
++      return pLevel.getMinBuildHeight() + Math.min(pLevel.getHeight(), this.f_64165_.m_161917_().size());
     }
  
     public CompletableFuture<ChunkAccess> m_213974_(Executor p_224183_, Blender p_224184_, RandomState p_224185_, StructureManager p_224186_, ChunkAccess p_224187_) {
@@ -41,27 +41,28 @@
     }
  
 -   public int m_214096_(int p_224160_, int p_224161_, Heightmap.Types p_224162_, LevelHeightAccessor p_224163_, RandomState p_224164_) {
-+   public long getBaseHeight(me.alphamode.mclong.math.BigInteger p_224160_, me.alphamode.mclong.math.BigInteger p_224161_, Heightmap.Types p_224162_, LevelHeightAccessor p_224163_, RandomState p_224164_) {
++   public long getBaseHeight(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, Heightmap.Types pType, LevelHeightAccessor pLevel, RandomState pRandom) {
        List<BlockState> list = this.f_64165_.m_161917_();
  
 -      for(int i = Math.min(list.size(), p_224163_.m_151558_()) - 1; i >= 0; --i) {
 -         BlockState blockstate = list.get(i);
-+      for(long i = Math.min(list.size(), p_224163_.getMaxBuildHeight()) - 1; i >= 0; --i) {
-+         BlockState blockstate = list.get((int) i);
-          if (blockstate != null && p_224162_.m_64299_().test(blockstate)) {
+-         if (blockstate != null && p_224162_.m_64299_().test(blockstate)) {
 -            return p_224163_.m_141937_() + i + 1;
-+            return p_224163_.getMinBuildHeight() + i + 1;
++      for(long i = Math.min(list.size(), pLevel.getMaxBuildHeight()) - 1; i >= 0; --i) {
++         BlockState blockstate = list.get((int) i);
++         if (blockstate != null && pType.m_64299_().test(blockstate)) {
++            return pLevel.getMinBuildHeight() + i + 1;
           }
        }
  
 -      return p_224163_.m_141937_();
-+      return p_224163_.getMinBuildHeight();
++      return pLevel.getMinBuildHeight();
     }
  
 -   public NoiseColumn m_214184_(int p_224155_, int p_224156_, LevelHeightAccessor p_224157_, RandomState p_224158_) {
 -      return new NoiseColumn(p_224157_.m_141937_(), this.f_64165_.m_161917_().stream().limit((long)p_224157_.m_141928_()).map((p_204549_) -> {
-+   public NoiseColumn getBaseColumn(me.alphamode.mclong.math.BigInteger p_224155_, me.alphamode.mclong.math.BigInteger p_224156_, LevelHeightAccessor p_224157_, RandomState p_224158_) {
-+      return new NoiseColumn(p_224157_.getMinBuildHeight(), this.f_64165_.m_161917_().stream().limit((long)p_224157_.getHeight()).map((p_204549_) -> {
++   public NoiseColumn getBaseColumn(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, LevelHeightAccessor pHeight, RandomState pRandom) {
++      return new NoiseColumn(pHeight.getMinBuildHeight(), this.f_64165_.m_161917_().stream().limit((long)pHeight.getHeight()).map((p_204549_) -> {
           return p_204549_ == null ? Blocks.f_50016_.m_49966_() : p_204549_;
        }).toArray((p_204543_) -> {
           return new BlockState[p_204543_];

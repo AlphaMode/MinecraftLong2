@@ -8,14 +8,14 @@
 +      return i >= this.f_83211_.m_82850_(p_83289_) ? Double.POSITIVE_INFINITY : this.get(p_83289_, i).doubleValue();
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal minB(Direction.Axis p_83289_) {
-+      int i = this.f_83211_.m_6538_(p_83289_);
-+      return i >= this.f_83211_.m_82850_(p_83289_) ? me.alphamode.mclong.math.BigDecimal.ONE.negate() : this.get(p_83289_, i);
++   public me.alphamode.mclong.math.BigDecimal minB(Direction.Axis pAxis) {
++      int i = this.f_83211_.m_6538_(pAxis);
++      return i >= this.f_83211_.m_82850_(pAxis) ? me.alphamode.mclong.math.BigDecimal.ONE.negate() : this.get(pAxis, i);
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal maxB(Direction.Axis p_83298_) {
-+      int i = this.f_83211_.m_6536_(p_83298_);
-+      return i <= 0 ? me.alphamode.mclong.math.BigDecimal.ONE : this.get(p_83298_, i);
++   public me.alphamode.mclong.math.BigDecimal maxB(Direction.Axis pAxis) {
++      int i = this.f_83211_.m_6536_(pAxis);
++      return i <= 0 ? me.alphamode.mclong.math.BigDecimal.ONE : this.get(pAxis, i);
     }
  
     public double m_83297_(Direction.Axis p_83298_) {
@@ -31,12 +31,12 @@
  
 -   protected double m_83256_(Direction.Axis p_83257_, int p_83258_) {
 -      return this.m_7700_(p_83257_).getDouble(p_83258_);
-+   protected me.alphamode.mclong.math.BigDecimal get(Direction.Axis p_83257_, int p_83258_) {
-+      return this.getCoords(p_83257_).get(p_83258_);
++   protected me.alphamode.mclong.math.BigDecimal get(Direction.Axis pAxis, int pIndex) {
++      return this.getCoords(pAxis).get(pIndex);
     }
  
 -   protected abstract DoubleList m_7700_(Direction.Axis p_83249_);
-+   protected abstract it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> getCoords(Direction.Axis p_83249_);
++   protected abstract it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> getCoords(Direction.Axis pAxis);
  
     public boolean m_83281_() {
        return this.f_83211_.m_6224_();
@@ -62,10 +62,10 @@
     }
  
 -   public void m_83224_(Shapes.DoubleLineConsumer p_83225_) {
-+   public void forAllEdges(Shapes.BigLineConsumer p_83225_) {
++   public void forAllEdges(Shapes.BigLineConsumer pAction) {
        this.f_83211_.m_82819_((p_83228_, p_83229_, p_83230_, p_83231_, p_83232_, p_83233_) -> {
 -         p_83225_.m_83161_(this.m_83256_(Direction.Axis.X, p_83228_), this.m_83256_(Direction.Axis.Y, p_83229_), this.m_83256_(Direction.Axis.Z, p_83230_), this.m_83256_(Direction.Axis.X, p_83231_), this.m_83256_(Direction.Axis.Y, p_83232_), this.m_83256_(Direction.Axis.Z, p_83233_));
-+         p_83225_.consume(this.get(Direction.Axis.X, p_83228_), this.get(Direction.Axis.Y, p_83229_), this.get(Direction.Axis.Z, p_83230_), this.get(Direction.Axis.X, p_83231_), this.get(Direction.Axis.Y, p_83232_), this.get(Direction.Axis.Z, p_83233_));
++         pAction.consume(this.get(Direction.Axis.X, p_83228_), this.get(Direction.Axis.Y, p_83229_), this.get(Direction.Axis.Z, p_83230_), this.get(Direction.Axis.X, p_83231_), this.get(Direction.Axis.Y, p_83232_), this.get(Direction.Axis.Z, p_83233_));
        }, true);
     }
  
@@ -73,13 +73,13 @@
 -      DoubleList doublelist = this.m_7700_(Direction.Axis.X);
 -      DoubleList doublelist1 = this.m_7700_(Direction.Axis.Y);
 -      DoubleList doublelist2 = this.m_7700_(Direction.Axis.Z);
-+   public void forAllBoxes(Shapes.BigLineConsumer p_83287_) {
++   public void forAllBoxes(Shapes.BigLineConsumer pAction) {
 +      it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> doublelist = this.getCoords(Direction.Axis.X);
 +      it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> doublelist1 = this.getCoords(Direction.Axis.Y);
 +      it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> doublelist2 = this.getCoords(Direction.Axis.Z);
        this.f_83211_.m_82832_((p_83239_, p_83240_, p_83241_, p_83242_, p_83243_, p_83244_) -> {
 -         p_83287_.m_83161_(doublelist.getDouble(p_83239_), doublelist1.getDouble(p_83240_), doublelist2.getDouble(p_83241_), doublelist.getDouble(p_83242_), doublelist1.getDouble(p_83243_), doublelist2.getDouble(p_83244_));
-+         p_83287_.consume(doublelist.get(p_83239_), doublelist1.get(p_83240_), doublelist2.get(p_83241_), doublelist.get(p_83242_), doublelist1.get(p_83243_), doublelist2.get(p_83244_));
++         pAction.consume(doublelist.get(p_83239_), doublelist1.get(p_83240_), doublelist2.get(p_83241_), doublelist.get(p_83242_), doublelist1.get(p_83243_), doublelist2.get(p_83244_));
        }, true);
     }
  
@@ -93,14 +93,11 @@
     }
  
 -   public double m_166078_(Direction.Axis p_166079_, double p_166080_, double p_166081_) {
-+   public me.alphamode.mclong.math.BigDecimal min(Direction.Axis p_166079_, double p_166080_, double p_166081_) {
-       Direction.Axis direction$axis = AxisCycle.FORWARD.m_7314_(p_166079_);
-       Direction.Axis direction$axis1 = AxisCycle.BACKWARD.m_7314_(p_166079_);
+-      Direction.Axis direction$axis = AxisCycle.FORWARD.m_7314_(p_166079_);
+-      Direction.Axis direction$axis1 = AxisCycle.BACKWARD.m_7314_(p_166079_);
 -      int i = this.m_6595_(direction$axis, p_166080_);
 -      int j = this.m_6595_(direction$axis1, p_166081_);
-+      int i = this.findIndex(direction$axis, me.alphamode.mclong.math.BigDecimal.valueOf(p_166080_));
-+      int j = this.findIndex(direction$axis1, me.alphamode.mclong.math.BigDecimal.valueOf(p_166081_));
-       int k = this.f_83211_.m_165994_(p_166079_, i, j);
+-      int k = this.f_83211_.m_165994_(p_166079_, i, j);
 -      return k >= this.f_83211_.m_82850_(p_166079_) ? Double.POSITIVE_INFINITY : this.m_83256_(p_166079_, k);
 -   }
 -
@@ -114,31 +111,38 @@
 -   }
 -
 -   protected int m_6595_(Direction.Axis p_83250_, double p_83251_) {
-+      return k >= this.f_83211_.m_82850_(p_166079_) ? me.alphamode.mclong.core.BigConstants.POSITIVE_INFINITY : this.get(p_166079_, k);
+-      return Mth.m_14049_(0, this.f_83211_.m_82850_(p_83250_) + 1, (p_166066_) -> {
+-         return p_83251_ < this.m_83256_(p_83250_, p_166066_);
++   public me.alphamode.mclong.math.BigDecimal min(Direction.Axis pAxis, double pPrimaryPosition, double pSecondaryPosition) {
++      Direction.Axis direction$axis = AxisCycle.FORWARD.m_7314_(pAxis);
++      Direction.Axis direction$axis1 = AxisCycle.BACKWARD.m_7314_(pAxis);
++      int i = this.findIndex(direction$axis, me.alphamode.mclong.math.BigDecimal.valueOf(pPrimaryPosition));
++      int j = this.findIndex(direction$axis1, me.alphamode.mclong.math.BigDecimal.valueOf(pSecondaryPosition));
++      int k = this.f_83211_.m_165994_(pAxis, i, j);
++      return k >= this.f_83211_.m_82850_(pAxis) ? me.alphamode.mclong.core.BigConstants.POSITIVE_INFINITY : this.get(pAxis, k);
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal max(Direction.Axis p_83291_, double p_83292_, double p_83293_) {
-+      Direction.Axis direction$axis = AxisCycle.FORWARD.m_7314_(p_83291_);
-+      Direction.Axis direction$axis1 = AxisCycle.BACKWARD.m_7314_(p_83291_);
-+      int i = this.findIndex(direction$axis, me.alphamode.mclong.math.BigDecimal.valueOf(p_83292_));
-+      int j = this.findIndex(direction$axis1, me.alphamode.mclong.math.BigDecimal.valueOf(p_83293_));
-+      int k = this.f_83211_.m_82841_(p_83291_, i, j);
-+      return k <= 0 ? me.alphamode.mclong.core.BigConstants.NEGATIVE_INFINITY : this.get(p_83291_, k);
++   public me.alphamode.mclong.math.BigDecimal max(Direction.Axis pAxis, double pPrimaryPosition, double pSecondaryPosition) {
++      Direction.Axis direction$axis = AxisCycle.FORWARD.m_7314_(pAxis);
++      Direction.Axis direction$axis1 = AxisCycle.BACKWARD.m_7314_(pAxis);
++      int i = this.findIndex(direction$axis, me.alphamode.mclong.math.BigDecimal.valueOf(pPrimaryPosition));
++      int j = this.findIndex(direction$axis1, me.alphamode.mclong.math.BigDecimal.valueOf(pSecondaryPosition));
++      int k = this.f_83211_.m_82841_(pAxis, i, j);
++      return k <= 0 ? me.alphamode.mclong.core.BigConstants.NEGATIVE_INFINITY : this.get(pAxis, k);
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal max(Direction.Axis p_83291_, me.alphamode.mclong.math.BigDecimal a, me.alphamode.mclong.math.BigDecimal b) {
-+      Direction.Axis direction$axis = AxisCycle.FORWARD.m_7314_(p_83291_);
-+      Direction.Axis direction$axis1 = AxisCycle.BACKWARD.m_7314_(p_83291_);
++   public me.alphamode.mclong.math.BigDecimal max(Direction.Axis pAxis, me.alphamode.mclong.math.BigDecimal a, me.alphamode.mclong.math.BigDecimal b) {
++      Direction.Axis direction$axis = AxisCycle.FORWARD.m_7314_(pAxis);
++      Direction.Axis direction$axis1 = AxisCycle.BACKWARD.m_7314_(pAxis);
 +      int i = this.findIndex(direction$axis, a);
 +      int j = this.findIndex(direction$axis1, b);
-+      int k = this.f_83211_.m_82841_(p_83291_, i, j);
-+      return k <= 0 ? me.alphamode.mclong.core.BigConstants.NEGATIVE_INFINITY : this.get(p_83291_, k);
++      int k = this.f_83211_.m_82841_(pAxis, i, j);
++      return k <= 0 ? me.alphamode.mclong.core.BigConstants.NEGATIVE_INFINITY : this.get(pAxis, k);
 +   }
 +
-+   protected int findIndex(Direction.Axis p_83250_, me.alphamode.mclong.math.BigDecimal p_83251_) {
-       return Mth.m_14049_(0, this.f_83211_.m_82850_(p_83250_) + 1, (p_166066_) -> {
--         return p_83251_ < this.m_83256_(p_83250_, p_166066_);
-+         return p_83251_.compareTo(this.get(p_83250_, p_166066_)) < 0;
++   protected int findIndex(Direction.Axis pAxis, me.alphamode.mclong.math.BigDecimal pPosition) {
++      return Mth.m_14049_(0, this.f_83211_.m_82850_(pAxis) + 1, (p_166066_) -> {
++         return pPosition.compareTo(this.get(pAxis, p_166066_)) < 0;
        }) - 1;
     }
  
@@ -168,7 +172,7 @@
                 avec3[0] = new Vec3(d0, d1, d2);
              }
  
-@@ -165,47 +_,47 @@
+@@ -165,72 +_,72 @@
  
     private VoxelShape m_83294_(Direction p_83295_) {
        Direction.Axis direction$axis = p_83295_.m_122434_();
@@ -187,20 +191,22 @@
  
 -   public double m_83259_(Direction.Axis p_83260_, AABB p_83261_, double p_83262_) {
 -      return this.m_83245_(AxisCycle.m_121799_(p_83260_, Direction.Axis.X), p_83261_, p_83262_);
-+   public me.alphamode.mclong.math.BigDecimal collide(Direction.Axis p_83260_, AABB p_83261_, me.alphamode.mclong.math.BigDecimal p_83262_) {
-+      return this.collideX(AxisCycle.m_121799_(p_83260_, Direction.Axis.X), p_83261_, p_83262_);
++   public me.alphamode.mclong.math.BigDecimal collide(Direction.Axis pMovementAxis, AABB pCollisionBox, me.alphamode.mclong.math.BigDecimal pDesiredOffset) {
++      return this.collideX(AxisCycle.m_121799_(pMovementAxis, Direction.Axis.X), pCollisionBox, pDesiredOffset);
     }
  
 -   protected double m_83245_(AxisCycle p_83246_, AABB p_83247_, double p_83248_) {
-+   protected me.alphamode.mclong.math.BigDecimal collideX(AxisCycle p_83246_, AABB p_83247_, me.alphamode.mclong.math.BigDecimal p_83248_) {
++   protected me.alphamode.mclong.math.BigDecimal collideX(AxisCycle pMovementAxis, AABB pCollisionBox, me.alphamode.mclong.math.BigDecimal pDesiredOffset) {
        if (this.m_83281_()) {
-          return p_83248_;
+-         return p_83248_;
 -      } else if (Math.abs(p_83248_) < 1.0E-7D) {
 -         return 0.0D;
-+      } else if (p_83248_.abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) {
++         return pDesiredOffset;
++      } else if (pDesiredOffset.abs().compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) < 0) {
 +         return me.alphamode.mclong.math.BigDecimal.ZERO;
        } else {
-          AxisCycle axiscycle = p_83246_.m_7634_();
+-         AxisCycle axiscycle = p_83246_.m_7634_();
++         AxisCycle axiscycle = pMovementAxis.m_7634_();
           Direction.Axis direction$axis = axiscycle.m_7314_(Direction.Axis.X);
           Direction.Axis direction$axis1 = axiscycle.m_7314_(Direction.Axis.Y);
           Direction.Axis direction$axis2 = axiscycle.m_7314_(Direction.Axis.Z);
@@ -212,17 +218,17 @@
 -         int l = Math.min(this.f_83211_.m_82850_(direction$axis1), this.m_6595_(direction$axis1, p_83247_.m_82374_(direction$axis1) - 1.0E-7D) + 1);
 -         int i1 = Math.max(0, this.m_6595_(direction$axis2, p_83247_.m_82340_(direction$axis2) + 1.0E-7D));
 -         int j1 = Math.min(this.f_83211_.m_82850_(direction$axis2), this.m_6595_(direction$axis2, p_83247_.m_82374_(direction$axis2) - 1.0E-7D) + 1);
-+         me.alphamode.mclong.math.BigDecimal d0 = p_83247_.max(direction$axis);
-+         me.alphamode.mclong.math.BigDecimal d1 = p_83247_.min(direction$axis);
++         me.alphamode.mclong.math.BigDecimal d0 = pCollisionBox.max(direction$axis);
++         me.alphamode.mclong.math.BigDecimal d1 = pCollisionBox.min(direction$axis);
 +         int i = this.findIndex(direction$axis, d1.add(me.alphamode.mclong.core.BigConstants.EPSILON));
 +         int j = this.findIndex(direction$axis, d0.subtract(me.alphamode.mclong.core.BigConstants.EPSILON));
-+         int k = Math.max(0, this.findIndex(direction$axis1, p_83247_.min(direction$axis1).add(me.alphamode.mclong.core.BigConstants.EPSILON)));
-+         int l = Math.min(this.f_83211_.m_82850_(direction$axis1), this.findIndex(direction$axis1, p_83247_.max(direction$axis1).subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) + 1);
-+         int i1 = Math.max(0, this.findIndex(direction$axis2, p_83247_.min(direction$axis2).add(me.alphamode.mclong.core.BigConstants.EPSILON)));
-+         int j1 = Math.min(this.f_83211_.m_82850_(direction$axis2), this.findIndex(direction$axis2, p_83247_.max(direction$axis2).subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) + 1);
++         int k = Math.max(0, this.findIndex(direction$axis1, pCollisionBox.min(direction$axis1).add(me.alphamode.mclong.core.BigConstants.EPSILON)));
++         int l = Math.min(this.f_83211_.m_82850_(direction$axis1), this.findIndex(direction$axis1, pCollisionBox.max(direction$axis1).subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) + 1);
++         int i1 = Math.max(0, this.findIndex(direction$axis2, pCollisionBox.min(direction$axis2).add(me.alphamode.mclong.core.BigConstants.EPSILON)));
++         int j1 = Math.min(this.f_83211_.m_82850_(direction$axis2), this.findIndex(direction$axis2, pCollisionBox.max(direction$axis2).subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) + 1);
           int k1 = this.f_83211_.m_82850_(direction$axis);
 -         if (p_83248_ > 0.0D) {
-+         if (p_83248_.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) > 0) {
++         if (pDesiredOffset.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) > 0) {
              for(int l1 = j + 1; l1 < k1; ++l1) {
                 for(int i2 = k; i2 < l; ++i2) {
                    for(int j2 = i1; j2 < j1; ++j2) {
@@ -231,17 +237,18 @@
 -                        if (d2 >= -1.0E-7D) {
 -                           p_83248_ = Math.min(p_83248_, d2);
 +                        me.alphamode.mclong.math.BigDecimal d2 = this.get(direction$axis, l1).subtract(d0);
-+                        if (d2.compareTo(me.alphamode.mclong.core.BigConstants.EPSILON.negate()) >= 0) {
-+                           p_83248_ = p_83248_.min(d2);
++                        if (d2.compareTo(me.alphamode.mclong.core.BigConstants.NEG_EPSILON) >= 0) {
++                           pDesiredOffset = pDesiredOffset.min(d2);
                          }
  
-                         return p_83248_;
-@@ -213,14 +_,14 @@
+-                        return p_83248_;
++                        return pDesiredOffset;
+                      }
                    }
                 }
              }
 -         } else if (p_83248_ < 0.0D) {
-+         } else if (p_83248_.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0) {
++         } else if (pDesiredOffset.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0) {
              for(int k2 = i - 1; k2 >= 0; --k2) {
                 for(int l2 = k; l2 < l; ++l2) {
                    for(int i3 = i1; i3 < j1; ++i3) {
@@ -251,7 +258,19 @@
 -                           p_83248_ = Math.max(p_83248_, d3);
 +                        me.alphamode.mclong.math.BigDecimal d3 = this.get(direction$axis, k2 + 1).subtract(d1);
 +                        if (d3.compareTo(me.alphamode.mclong.core.BigConstants.EPSILON) <= 0) {
-+                           p_83248_ = p_83248_.max(d3);
++                           pDesiredOffset = pDesiredOffset.max(d3);
                          }
  
-                         return p_83248_;
+-                        return p_83248_;
++                        return pDesiredOffset;
+                      }
+                   }
+                }
+             }
+          }
+ 
+-         return p_83248_;
++         return pDesiredOffset;
+       }
+    }
+ 

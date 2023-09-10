@@ -16,9 +16,9 @@
 -   public boolean m_223471_(ChunkPos p_223472_, int p_223473_) {
 -      ChunkPos chunkpos = new ChunkPos(p_223472_.f_45578_ - p_223473_, p_223472_.f_45579_ - p_223473_);
 -      ChunkPos chunkpos1 = new ChunkPos(p_223472_.f_45578_ + p_223473_, p_223472_.f_45579_ + p_223473_);
-+   public boolean isOldChunkAround(ChunkPos p_223472_, me.alphamode.mclong.math.BigInteger p_223473_) {
-+      ChunkPos chunkpos = new ChunkPos(p_223472_.getX().subtract(p_223473_), p_223472_.getZ().subtract(p_223473_));
-+      ChunkPos chunkpos1 = new ChunkPos(p_223472_.getX().add(p_223473_), p_223472_.getZ().add(p_223473_));
++   public boolean isOldChunkAround(ChunkPos pChunkPos, me.alphamode.mclong.math.BigInteger pRadius) {
++      ChunkPos chunkpos = new ChunkPos(pChunkPos.getX().subtract(pRadius), pChunkPos.getZ().subtract(pRadius));
++      ChunkPos chunkpos1 = new ChunkPos(pChunkPos.getX().add(pRadius), pChunkPos.getZ().add(pRadius));
  
 -      for(int i = chunkpos.m_45610_(); i <= chunkpos1.m_45610_(); ++i) {
 -         for(int j = chunkpos.m_45612_(); j <= chunkpos1.m_45612_(); ++j) {
@@ -55,13 +55,13 @@
  
 -   private CompletableFuture<BitSet> m_223463_(int p_223464_, int p_223465_) {
 -      long i = ChunkPos.m_45589_(p_223464_, p_223465_);
-+   private CompletableFuture<BitSet> getOrCreateOldDataForRegion(me.alphamode.mclong.math.BigInteger p_223464_, me.alphamode.mclong.math.BigInteger p_223465_) {
-+      ChunkPos i = new ChunkPos(p_223464_, p_223465_);
++   private CompletableFuture<BitSet> getOrCreateOldDataForRegion(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
++      ChunkPos i = new ChunkPos(pChunkX, pChunkZ);
        synchronized(this.f_223459_) {
           CompletableFuture<BitSet> completablefuture = this.f_223459_.getAndMoveToFirst(i);
           if (completablefuture == null) {
 -            completablefuture = this.m_223489_(p_223464_, p_223465_);
-+            completablefuture = this.createOldDataForRegion(p_223464_, p_223465_);
++            completablefuture = this.createOldDataForRegion(pChunkX, pChunkZ);
              this.f_223459_.putAndMoveToFirst(i, completablefuture);
              if (this.f_223459_.size() > 1024) {
                 this.f_223459_.removeLast();
@@ -70,12 +70,12 @@
     }
  
 -   private CompletableFuture<BitSet> m_223489_(int p_223490_, int p_223491_) {
-+   private CompletableFuture<BitSet> createOldDataForRegion(me.alphamode.mclong.math.BigInteger p_223490_, me.alphamode.mclong.math.BigInteger p_223491_) {
++   private CompletableFuture<BitSet> createOldDataForRegion(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
        return CompletableFuture.supplyAsync(() -> {
 -         ChunkPos chunkpos = ChunkPos.m_220337_(p_223490_, p_223491_);
 -         ChunkPos chunkpos1 = ChunkPos.m_220340_(p_223490_, p_223491_);
-+         ChunkPos chunkpos = ChunkPos.minFromRegion(p_223490_, p_223491_);
-+         ChunkPos chunkpos1 = ChunkPos.maxFromRegion(p_223490_, p_223491_);
++         ChunkPos chunkpos = ChunkPos.minFromRegion(pChunkX, pChunkZ);
++         ChunkPos chunkpos1 = ChunkPos.maxFromRegion(pChunkX, pChunkZ);
           BitSet bitset = new BitSet();
           ChunkPos.m_45599_(chunkpos, chunkpos1).forEach((p_223480_) -> {
              CollectFields collectfields = new CollectFields(new FieldSelector(IntTag.f_128670_, "DataVersion"), new FieldSelector(CompoundTag.f_128326_, "blending_data"));

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/ai/control/LookControl.java
 +++ b/net/minecraft/world/entity/ai/control/LookControl.java
-@@ -12,31 +_,31 @@
+@@ -12,36 +_,36 @@
     protected float f_24938_;
     protected float f_24939_;
     protected int f_186068_;
@@ -34,17 +34,27 @@
 -   }
 -
 -   public void m_24950_(double p_24951_, double p_24952_, double p_24953_, float p_24954_, float p_24955_) {
+-      this.f_24941_ = p_24951_;
+-      this.f_24942_ = p_24952_;
+-      this.f_24943_ = p_24953_;
+-      this.f_24938_ = p_24954_;
+-      this.f_24939_ = p_24955_;
 +      this.setLookAt(p_24961_.getBigX(), getWantedY(p_24961_), p_24961_.getBigZ(), p_24962_, p_24963_);
 +   }
 +
-+   public void setLookAt(me.alphamode.mclong.math.BigDecimal p_24947_, me.alphamode.mclong.math.BigDecimal p_24948_, me.alphamode.mclong.math.BigDecimal p_24949_) {
-+      this.setLookAt(p_24947_, p_24948_, p_24949_, (float)this.f_24937_.m_21529_(), (float)this.f_24937_.m_8132_());
++   public void setLookAt(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      this.setLookAt(pX, pY, pZ, (float)this.f_24937_.m_21529_(), (float)this.f_24937_.m_8132_());
 +   }
 +
-+   public void setLookAt(me.alphamode.mclong.math.BigDecimal p_24951_, me.alphamode.mclong.math.BigDecimal p_24952_, me.alphamode.mclong.math.BigDecimal p_24953_, float p_24954_, float p_24955_) {
-       this.f_24941_ = p_24951_;
-       this.f_24942_ = p_24952_;
-       this.f_24943_ = p_24953_;
++   public void setLookAt(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pDeltaYaw, float pDeltaPitch) {
++      this.f_24941_ = pX;
++      this.f_24942_ = pY;
++      this.f_24943_ = pZ;
++      this.f_24938_ = pDeltaYaw;
++      this.f_24939_ = pDeltaPitch;
+       this.f_186068_ = 2;
+    }
+ 
 @@ -80,29 +_,29 @@
        return this.f_186068_ > 0;
     }
@@ -89,7 +99,7 @@
  
 -   private static double m_24966_(Entity p_24967_) {
 -      return p_24967_ instanceof LivingEntity ? p_24967_.m_20188_() : (p_24967_.m_20191_().f_82289_ + p_24967_.m_20191_().f_82292_) / 2.0D;
-+   private static me.alphamode.mclong.math.BigDecimal getWantedY(Entity p_24967_) {
-+      return p_24967_ instanceof LivingEntity ? p_24967_.getEyeBigY() : (p_24967_.m_20191_().f_82289_.add(p_24967_.m_20191_().f_82292_)).divide(me.alphamode.mclong.core.BigConstants.TWO);
++   private static me.alphamode.mclong.math.BigDecimal getWantedY(Entity pEntity) {
++      return pEntity instanceof LivingEntity ? pEntity.getEyeBigY() : (pEntity.m_20191_().f_82289_.add(pEntity.m_20191_().f_82292_)).divide(me.alphamode.mclong.core.BigConstants.TWO);
     }
  }

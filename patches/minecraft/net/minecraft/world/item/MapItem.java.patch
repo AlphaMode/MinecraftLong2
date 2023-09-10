@@ -5,33 +5,41 @@
     }
  
 -   public static ItemStack m_42886_(Level p_42887_, int p_42888_, int p_42889_, byte p_42890_, boolean p_42891_, boolean p_42892_) {
-+   public static ItemStack create(Level p_42887_, long p_42888_, long p_42889_, byte p_42890_, boolean p_42891_, boolean p_42892_) {
++   public static ItemStack create(Level pLevel, long pLevelX, long pLevelZ, byte pScale, boolean pTrackingPosition, boolean pUnlimitedTracking) {
        ItemStack itemstack = new ItemStack(Items.f_42573_);
 -      m_151111_(itemstack, p_42887_, p_42888_, p_42889_, p_42890_, p_42891_, p_42892_, p_42887_.m_46472_());
-+      createAndStoreSavedData(itemstack, p_42887_, p_42888_, p_42889_, p_42890_, p_42891_, p_42892_, p_42887_.m_46472_());
++      createAndStoreSavedData(itemstack, pLevel, pLevelX, pLevelZ, pScale, pTrackingPosition, pUnlimitedTracking, pLevel.m_46472_());
        return itemstack;
     }
  
-@@ -68,7 +_,7 @@
+@@ -68,10 +_,10 @@
        return compoundtag != null && compoundtag.m_128425_("map", 99) ? compoundtag.m_128451_("map") : null;
     }
  
 -   private static int m_151120_(Level p_151121_, int p_151122_, int p_151123_, int p_151124_, boolean p_151125_, boolean p_151126_, ResourceKey<Level> p_151127_) {
-+   private static int createNewSavedData(Level p_151121_, long p_151122_, long p_151123_, int p_151124_, boolean p_151125_, boolean p_151126_, ResourceKey<Level> p_151127_) {
-       MapItemSavedData mapitemsaveddata = MapItemSavedData.m_164780_((double)p_151122_, (double)p_151123_, (byte)p_151124_, p_151125_, p_151126_, p_151127_);
-       int i = p_151121_.m_7354_();
-       p_151121_.m_142325_(m_42848_(i), mapitemsaveddata);
-@@ -79,8 +_,8 @@
+-      MapItemSavedData mapitemsaveddata = MapItemSavedData.m_164780_((double)p_151122_, (double)p_151123_, (byte)p_151124_, p_151125_, p_151126_, p_151127_);
+-      int i = p_151121_.m_7354_();
+-      p_151121_.m_142325_(m_42848_(i), mapitemsaveddata);
++   private static int createNewSavedData(Level pLevel, long pX, long pZ, int pScale, boolean pTrackingPosition, boolean pUnlimitedTracking, ResourceKey<Level> pDimension) {
++      MapItemSavedData mapitemsaveddata = MapItemSavedData.m_164780_((double)pX, (double)pZ, (byte)pScale, pTrackingPosition, pUnlimitedTracking, pDimension);
++      int i = pLevel.m_7354_();
++      pLevel.m_142325_(m_42848_(i), mapitemsaveddata);
+       return i;
+    }
+ 
+@@ -79,9 +_,9 @@
        p_151109_.m_41784_().m_128405_("map", p_151110_);
     }
  
 -   private static void m_151111_(ItemStack p_151112_, Level p_151113_, int p_151114_, int p_151115_, int p_151116_, boolean p_151117_, boolean p_151118_, ResourceKey<Level> p_151119_) {
 -      int i = m_151120_(p_151113_, p_151114_, p_151115_, p_151116_, p_151117_, p_151118_, p_151119_);
-+   private static void createAndStoreSavedData(ItemStack p_151112_, Level p_151113_, long p_151114_, long p_151115_, int p_151116_, boolean p_151117_, boolean p_151118_, ResourceKey<Level> p_151119_) {
-+      int i = createNewSavedData(p_151113_, p_151114_, p_151115_, p_151116_, p_151117_, p_151118_, p_151119_);
-       m_151108_(p_151112_, i);
+-      m_151108_(p_151112_, i);
++   private static void createAndStoreSavedData(ItemStack pStack, Level pLevel, long pX, long pZ, int pScale, boolean pTrackingPosition, boolean pUnlimitedTracking, ResourceKey<Level> pDimension) {
++      int i = createNewSavedData(pLevel, pX, pZ, pScale, pTrackingPosition, pUnlimitedTracking, pDimension);
++      m_151108_(pStack, i);
     }
  
+    public static String m_42848_(int p_42849_) {
 @@ -91,8 +_,8 @@
     public void m_42893_(Level p_42894_, Entity p_42895_, MapItemSavedData p_42896_) {
        if (p_42894_.m_46472_() == p_42896_.f_77887_ && p_42895_ instanceof Player) {

@@ -35,23 +35,32 @@
        if (longlinkedopenhashset.isEmpty()) {
           this.m_278149_(this.f_278119_);
        }
-@@ -39,8 +_,8 @@
+@@ -39,19 +_,19 @@
        return this.f_278122_ >= this.f_278119_;
     }
  
 -   public void m_278203_(long p_278232_, int p_278338_, int p_278345_) {
 -      LongLinkedOpenHashSet longlinkedopenhashset = this.f_278115_[p_278338_];
-+   public void dequeue(Pos p_278232_, int p_278338_, int p_278345_) {
-+      it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<Pos> longlinkedopenhashset = this.f_278115_[p_278338_];
-       longlinkedopenhashset.remove(p_278232_);
-       if (longlinkedopenhashset.isEmpty() && this.f_278122_ == p_278338_) {
-          this.m_278149_(p_278345_);
-@@ -48,7 +_,7 @@
+-      longlinkedopenhashset.remove(p_278232_);
+-      if (longlinkedopenhashset.isEmpty() && this.f_278122_ == p_278338_) {
+-         this.m_278149_(p_278345_);
++   public void dequeue(Pos pValue, int pLevelIndex, int pEndIndex) {
++      it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<Pos> longlinkedopenhashset = this.f_278115_[pLevelIndex];
++      longlinkedopenhashset.remove(pValue);
++      if (longlinkedopenhashset.isEmpty() && this.f_278122_ == pLevelIndex) {
++         this.m_278149_(pEndIndex);
+       }
  
     }
  
 -   public void m_278202_(long p_278311_, int p_278335_) {
-+   public void enqueue(Pos p_278311_, int p_278335_) {
-       this.f_278115_[p_278335_].add(p_278311_);
-       if (this.f_278122_ > p_278335_) {
-          this.f_278122_ = p_278335_;
+-      this.f_278115_[p_278335_].add(p_278311_);
+-      if (this.f_278122_ > p_278335_) {
+-         this.f_278122_ = p_278335_;
++   public void enqueue(Pos pValue, int pLevelIndex) {
++      this.f_278115_[pLevelIndex].add(pValue);
++      if (this.f_278122_ > pLevelIndex) {
++         this.f_278122_ = pLevelIndex;
+       }
+ 
+    }

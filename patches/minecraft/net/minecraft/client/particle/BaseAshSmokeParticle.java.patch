@@ -1,11 +1,45 @@
 --- a/net/minecraft/client/particle/BaseAshSmokeParticle.java
 +++ b/net/minecraft/client/particle/BaseAshSmokeParticle.java
-@@ -9,7 +_,7 @@
+@@ -9,27 +_,27 @@
  public class BaseAshSmokeParticle extends TextureSheetParticle {
     private final SpriteSet f_105620_;
  
 -   protected BaseAshSmokeParticle(ClientLevel p_171904_, double p_171905_, double p_171906_, double p_171907_, float p_171908_, float p_171909_, float p_171910_, double p_171911_, double p_171912_, double p_171913_, float p_171914_, SpriteSet p_171915_, float p_171916_, int p_171917_, float p_171918_, boolean p_171919_) {
-+   protected BaseAshSmokeParticle(ClientLevel p_171904_, me.alphamode.mclong.math.BigDecimal p_171905_, me.alphamode.mclong.math.BigDecimal p_171906_, me.alphamode.mclong.math.BigDecimal p_171907_, float p_171908_, float p_171909_, float p_171910_, double p_171911_, double p_171912_, double p_171913_, float p_171914_, SpriteSet p_171915_, float p_171916_, int p_171917_, float p_171918_, boolean p_171919_) {
-       super(p_171904_, p_171905_, p_171906_, p_171907_, 0.0D, 0.0D, 0.0D);
+-      super(p_171904_, p_171905_, p_171906_, p_171907_, 0.0D, 0.0D, 0.0D);
++   protected BaseAshSmokeParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pXSeedMultiplier, float pYSpeedMultiplier, float pZSpeedMultiplier, double pXSpeed, double pYSpeed, double pZSpeed, float pQuadSizeMultiplier, SpriteSet pSprites, float pRColMultiplier, int pLifetime, float pGravity, boolean pHasPhysics) {
++      super(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D);
        this.f_172258_ = 0.96F;
-       this.f_107226_ = p_171918_;
+-      this.f_107226_ = p_171918_;
++      this.f_107226_ = pGravity;
+       this.f_172259_ = true;
+-      this.f_105620_ = p_171915_;
+-      this.f_107215_ *= (double)p_171908_;
+-      this.f_107216_ *= (double)p_171909_;
+-      this.f_107217_ *= (double)p_171910_;
+-      this.f_107215_ += p_171911_;
+-      this.f_107216_ += p_171912_;
+-      this.f_107217_ += p_171913_;
+-      float f = p_171904_.f_46441_.m_188501_() * p_171916_;
++      this.f_105620_ = pSprites;
++      this.f_107215_ *= (double)pXSeedMultiplier;
++      this.f_107216_ *= (double)pYSpeedMultiplier;
++      this.f_107217_ *= (double)pZSpeedMultiplier;
++      this.f_107215_ += pXSpeed;
++      this.f_107216_ += pYSpeed;
++      this.f_107217_ += pZSpeed;
++      float f = pLevel.f_46441_.m_188501_() * pRColMultiplier;
+       this.f_107227_ = f;
+       this.f_107228_ = f;
+       this.f_107229_ = f;
+-      this.f_107663_ *= 0.75F * p_171914_;
+-      this.f_107225_ = (int)((double)p_171917_ / ((double)p_171904_.f_46441_.m_188501_() * 0.8D + 0.2D) * (double)p_171914_);
++      this.f_107663_ *= 0.75F * pQuadSizeMultiplier;
++      this.f_107225_ = (int)((double)pLifetime / ((double)pLevel.f_46441_.m_188501_() * 0.8D + 0.2D) * (double)pQuadSizeMultiplier);
+       this.f_107225_ = Math.max(this.f_107225_, 1);
+-      this.m_108339_(p_171915_);
+-      this.f_107219_ = p_171919_;
++      this.m_108339_(pSprites);
++      this.f_107219_ = pHasPhysics;
+    }
+ 
+    public ParticleRenderType m_7556_() {

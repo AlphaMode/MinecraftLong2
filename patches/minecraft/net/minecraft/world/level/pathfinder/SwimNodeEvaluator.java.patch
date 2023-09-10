@@ -19,8 +19,8 @@
  
 -   public Target m_7568_(double p_77459_, double p_77460_, double p_77461_) {
 -      return this.m_230615_(this.m_5676_(Mth.m_14107_(p_77459_), Mth.m_14107_(p_77460_), Mth.m_14107_(p_77461_)));
-+   public Target getGoal(me.alphamode.mclong.math.BigDecimal p_77459_, me.alphamode.mclong.math.BigDecimal p_77460_, me.alphamode.mclong.math.BigDecimal p_77461_) {
-+      return this.m_230615_(this.getNode(Mth.lfloor(p_77459_), Mth.lfloor(p_77460_), Mth.lfloor(p_77461_)));
++   public Target getGoal(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      return this.m_230615_(this.getNode(Mth.lfloor(pX), Mth.lfloor(pY), Mth.lfloor(pZ)));
     }
  
     public int m_6065_(Node[] p_77483_, Node p_77484_) {
@@ -42,23 +42,27 @@
           if (this.m_192963_(node1, map.get(direction1), map.get(direction2))) {
              p_77483_[i++] = node1;
           }
-@@ -73,13 +_,13 @@
+@@ -73,16 +_,16 @@
     }
  
     @Nullable
 -   protected Node m_262844_(int p_263032_, int p_263066_, int p_263105_) {
-+   protected Node findAcceptedNode(me.alphamode.mclong.math.BigInteger p_263032_, me.alphamode.mclong.math.BigInteger p_263066_, me.alphamode.mclong.math.BigInteger p_263105_) {
++   protected Node findAcceptedNode(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
        Node node = null;
 -      BlockPathTypes blockpathtypes = this.m_192967_(p_263032_, p_263066_, p_263105_);
-+      BlockPathTypes blockpathtypes = this.getCachedBlockType(p_263032_, p_263066_, p_263105_);
++      BlockPathTypes blockpathtypes = this.getCachedBlockType(pX, pY, pZ);
        if (this.f_77455_ && blockpathtypes == BlockPathTypes.BREACH || blockpathtypes == BlockPathTypes.WATER) {
           float f = this.f_77313_.m_21439_(blockpathtypes);
           if (f >= 0.0F) {
 -            node = this.m_5676_(p_263032_, p_263066_, p_263105_);
-+            node = this.getNode(p_263032_, p_263066_, p_263105_);
++            node = this.getNode(pX, pY, pZ);
              node.f_77282_ = blockpathtypes;
              node.f_77281_ = Math.max(node.f_77281_, f);
-             if (this.f_77312_.m_6425_(new BlockPos(p_263032_, p_263066_, p_263105_)).m_76178_()) {
+-            if (this.f_77312_.m_6425_(new BlockPos(p_263032_, p_263066_, p_263105_)).m_76178_()) {
++            if (this.f_77312_.m_6425_(new BlockPos(pX, pY, pZ)).m_76178_()) {
+                node.f_77281_ += 8.0F;
+             }
+          }
 @@ -91,25 +_,25 @@
        return node;
     }
@@ -66,20 +70,20 @@
 -   protected BlockPathTypes m_192967_(int p_192968_, int p_192969_, int p_192970_) {
 -      return this.f_192951_.computeIfAbsent(BlockPos.m_121882_(p_192968_, p_192969_, p_192970_), (p_192957_) -> {
 -         return this.m_8086_(this.f_77312_, p_192968_, p_192969_, p_192970_);
-+   protected BlockPathTypes getCachedBlockType(me.alphamode.mclong.math.BigInteger p_192968_, me.alphamode.mclong.math.BigInteger p_192969_, me.alphamode.mclong.math.BigInteger p_192970_) {
-+      return this.f_192951_.computeIfAbsent(new BlockPos(p_192968_, p_192969_, p_192970_), (p_192957_) -> {
-+         return this.getBlockPathType(this.f_77312_, p_192968_, p_192969_, p_192970_);
++   protected BlockPathTypes getCachedBlockType(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.f_192951_.computeIfAbsent(new BlockPos(pX, pY, pZ), (p_192957_) -> {
++         return this.getBlockPathType(this.f_77312_, pX, pY, pZ);
        });
     }
  
 -   public BlockPathTypes m_8086_(BlockGetter p_77467_, int p_77468_, int p_77469_, int p_77470_) {
 -      return this.m_7209_(p_77467_, p_77468_, p_77469_, p_77470_, this.f_77313_);
-+   public BlockPathTypes getBlockPathType(BlockGetter p_77467_, me.alphamode.mclong.math.BigInteger p_77468_, me.alphamode.mclong.math.BigInteger p_77469_, me.alphamode.mclong.math.BigInteger p_77470_) {
-+      return this.getBlockPathType(p_77467_, p_77468_, p_77469_, p_77470_, this.f_77313_);
++   public BlockPathTypes getBlockPathType(BlockGetter pLevel, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.getBlockPathType(pLevel, pX, pY, pZ, this.f_77313_);
     }
  
 -   public BlockPathTypes m_7209_(BlockGetter p_77472_, int p_77473_, int p_77474_, int p_77475_, Mob p_77476_) {
-+   public BlockPathTypes getBlockPathType(BlockGetter p_77472_, me.alphamode.mclong.math.BigInteger p_77473_, me.alphamode.mclong.math.BigInteger p_77474_, me.alphamode.mclong.math.BigInteger p_77475_, Mob p_77476_) {
++   public BlockPathTypes getBlockPathType(BlockGetter pLevel, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ, Mob pMob) {
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
 -      for(int i = p_77473_; i < p_77473_ + this.f_77315_; ++i) {
@@ -88,12 +92,22 @@
 -               FluidState fluidstate = p_77472_.m_6425_(blockpos$mutableblockpos.m_122178_(i, j, k));
 -               BlockState blockstate = p_77472_.m_8055_(blockpos$mutableblockpos.m_122178_(i, j, k));
 -               if (fluidstate.m_76178_() && blockstate.m_60647_(p_77472_, blockpos$mutableblockpos.m_7495_(), PathComputationType.WATER) && blockstate.m_60795_()) {
-+      for(me.alphamode.mclong.math.BigInteger i = p_77473_; i.compareTo(p_77473_.add(this.f_77315_)) < 0; i = i.add()) {
-+         for(me.alphamode.mclong.math.BigInteger j = p_77474_; j.compareTo(p_77474_.add(this.f_77316_)) < 0; j = j.add()) {
-+            for(me.alphamode.mclong.math.BigInteger k = p_77475_; k.compareTo(p_77475_.add(this.f_77317_)) < 0; k = k.add()) {
-+               FluidState fluidstate = p_77472_.m_6425_(blockpos$mutableblockpos.set(i, j, k));
-+               BlockState blockstate = p_77472_.m_8055_(blockpos$mutableblockpos.set(i, j, k));
-+               if (fluidstate.m_76178_() && blockstate.m_60647_(p_77472_, blockpos$mutableblockpos.below(), PathComputationType.WATER) && blockstate.m_60795_()) {
++      for(me.alphamode.mclong.math.BigInteger i = pX; i.compareTo(pX.add(this.f_77315_)) < 0; i = i.add()) {
++         for(me.alphamode.mclong.math.BigInteger j = pY; j.compareTo(pY.add(this.f_77316_)) < 0; j = j.add()) {
++            for(me.alphamode.mclong.math.BigInteger k = pZ; k.compareTo(pZ.add(this.f_77317_)) < 0; k = k.add()) {
++               FluidState fluidstate = pLevel.m_6425_(blockpos$mutableblockpos.set(i, j, k));
++               BlockState blockstate = pLevel.m_8055_(blockpos$mutableblockpos.set(i, j, k));
++               if (fluidstate.m_76178_() && blockstate.m_60647_(pLevel, blockpos$mutableblockpos.below(), PathComputationType.WATER) && blockstate.m_60795_()) {
                    return BlockPathTypes.BREACH;
                 }
  
+@@ -120,7 +_,7 @@
+          }
+       }
+ 
+-      BlockState blockstate1 = p_77472_.m_8055_(blockpos$mutableblockpos);
+-      return blockstate1.m_60647_(p_77472_, blockpos$mutableblockpos, PathComputationType.WATER) ? BlockPathTypes.WATER : BlockPathTypes.BLOCKED;
++      BlockState blockstate1 = pLevel.m_8055_(blockpos$mutableblockpos);
++      return blockstate1.m_60647_(pLevel, blockpos$mutableblockpos, PathComputationType.WATER) ? BlockPathTypes.WATER : BlockPathTypes.BLOCKED;
+    }
+ }

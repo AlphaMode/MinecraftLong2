@@ -5,15 +5,18 @@
     }
  
 -   public static double m_38463_(BlockPos p_38464_, int p_38465_, Function<BlockPos, VoxelShape> p_38466_) {
-+   public static double findCeilingFrom(BlockPos p_38464_, long p_38465_, Function<BlockPos, VoxelShape> p_38466_) {
-       BlockPos.MutableBlockPos blockpos$mutableblockpos = p_38464_.m_122032_();
+-      BlockPos.MutableBlockPos blockpos$mutableblockpos = p_38464_.m_122032_();
++   public static double findCeilingFrom(BlockPos pPos, long pCeiling, Function<BlockPos, VoxelShape> pShapeForPos) {
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = pPos.m_122032_();
        int i = 0;
  
-       while(i < p_38465_) {
-          VoxelShape voxelshape = p_38466_.apply(blockpos$mutableblockpos);
+-      while(i < p_38465_) {
+-         VoxelShape voxelshape = p_38466_.apply(blockpos$mutableblockpos);
++      while(i < pCeiling) {
++         VoxelShape voxelshape = pShapeForPos.apply(blockpos$mutableblockpos);
           if (!voxelshape.m_83281_()) {
 -            return (double)(p_38464_.m_123342_() + i) + voxelshape.m_83288_(Direction.Axis.Y);
-+            return (double)(p_38464_.getY() + i) + voxelshape.m_83288_(Direction.Axis.Y);
++            return (double)(pPos.getY() + i) + voxelshape.m_83288_(Direction.Axis.Y);
           }
  
           ++i;

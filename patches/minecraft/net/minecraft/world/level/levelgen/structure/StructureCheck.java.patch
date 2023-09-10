@@ -34,24 +34,43 @@
                 return this.m_226755_(p_226730_, p_226731_);
              });
              return !flag ? StructureCheckResult.START_NOT_PRESENT : StructureCheckResult.CHUNK_LOAD_NEEDED;
-@@ -93,7 +_,7 @@
+@@ -93,13 +_,13 @@
     }
  
     @Nullable
 -   private StructureCheckResult m_226733_(ChunkPos p_226734_, Structure p_226735_, boolean p_226736_, long p_226737_) {
-+   private StructureCheckResult tryLoadFromStorage(ChunkPos p_226734_, Structure p_226735_, boolean p_226736_, ChunkPos p_226737_) {
++   private StructureCheckResult tryLoadFromStorage(ChunkPos pChunkPos, Structure pStructure, boolean p_226736_, ChunkPos p_226737_) {
        CollectFields collectfields = new CollectFields(new FieldSelector(IntTag.f_128670_, "DataVersion"), new FieldSelector("Level", "Structures", CompoundTag.f_128326_, "Starts"), new FieldSelector("structures", CompoundTag.f_128326_, "starts"));
  
        try {
-@@ -125,7 +_,7 @@
+-         this.f_197237_.m_196358_(p_226734_, collectfields).join();
++         this.f_197237_.m_196358_(pChunkPos, collectfields).join();
+       } catch (Exception exception1) {
+-         f_197235_.warn("Failed to read chunk {}", p_226734_, exception1);
++         f_197235_.warn("Failed to read chunk {}", pChunkPos, exception1);
+          return StructureCheckResult.CHUNK_LOAD_NEEDED;
+       }
+ 
+@@ -117,7 +_,7 @@
+             try {
+                compoundtag1 = DataFixTypes.CHUNK.m_264218_(this.f_197246_, compoundtag, i);
+             } catch (Exception exception) {
+-               f_197235_.warn("Failed to partially datafix chunk {}", p_226734_, exception);
++               f_197235_.warn("Failed to partially datafix chunk {}", pChunkPos, exception);
+                return StructureCheckResult.CHUNK_LOAD_NEEDED;
+             }
+ 
+@@ -125,8 +_,8 @@
              if (object2intmap == null) {
                 return null;
              } else {
 -               this.m_197263_(p_226737_, object2intmap);
+-               return this.m_226751_(object2intmap, p_226735_, p_226736_);
 +               this.storeFullResults(p_226737_, object2intmap);
-                return this.m_226751_(object2intmap, p_226735_, p_226736_);
++               return this.m_226751_(object2intmap, pStructure, p_226736_);
              }
           }
+       }
 @@ -181,7 +_,6 @@
     }
  

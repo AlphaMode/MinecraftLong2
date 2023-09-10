@@ -1,14 +1,16 @@
 --- a/net/minecraft/client/particle/WaterCurrentDownParticle.java
 +++ b/net/minecraft/client/particle/WaterCurrentDownParticle.java
-@@ -12,7 +_,7 @@
+@@ -12,8 +_,8 @@
  public class WaterCurrentDownParticle extends TextureSheetParticle {
     private float f_108448_;
  
 -   WaterCurrentDownParticle(ClientLevel p_108450_, double p_108451_, double p_108452_, double p_108453_) {
-+   WaterCurrentDownParticle(ClientLevel p_108450_, me.alphamode.mclong.math.BigDecimal p_108451_, me.alphamode.mclong.math.BigDecimal p_108452_, me.alphamode.mclong.math.BigDecimal p_108453_) {
-       super(p_108450_, p_108451_, p_108452_, p_108453_);
+-      super(p_108450_, p_108451_, p_108452_, p_108453_);
++   WaterCurrentDownParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      super(pLevel, pX, pY, pZ);
        this.f_107225_ = (int)(Math.random() * 60.0D) + 30;
        this.f_107219_ = false;
+       this.f_107215_ = 0.0D;
 @@ -41,7 +_,7 @@
           this.f_107215_ *= 0.07D;
           this.f_107217_ *= 0.07D;
@@ -18,12 +20,14 @@
              this.m_107274_();
           }
  
-@@ -57,7 +_,7 @@
+@@ -57,8 +_,8 @@
           this.f_108462_ = p_108464_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_108475_, ClientLevel p_108476_, double p_108477_, double p_108478_, double p_108479_, double p_108480_, double p_108481_, double p_108482_) {
-+      public Particle createParticle(SimpleParticleType p_108475_, ClientLevel p_108476_, me.alphamode.mclong.math.BigDecimal p_108477_, me.alphamode.mclong.math.BigDecimal p_108478_, me.alphamode.mclong.math.BigDecimal p_108479_, double p_108480_, double p_108481_, double p_108482_) {
-          WaterCurrentDownParticle watercurrentdownparticle = new WaterCurrentDownParticle(p_108476_, p_108477_, p_108478_, p_108479_);
+-         WaterCurrentDownParticle watercurrentdownparticle = new WaterCurrentDownParticle(p_108476_, p_108477_, p_108478_, p_108479_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         WaterCurrentDownParticle watercurrentdownparticle = new WaterCurrentDownParticle(pLevel, pX, pY, pZ);
           watercurrentdownparticle.m_108335_(this.f_108462_);
           return watercurrentdownparticle;
+       }

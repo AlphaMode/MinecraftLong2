@@ -1,20 +1,38 @@
 --- a/net/minecraft/client/particle/SnowflakeParticle.java
 +++ b/net/minecraft/client/particle/SnowflakeParticle.java
-@@ -9,7 +_,7 @@
+@@ -9,17 +_,17 @@
  public class SnowflakeParticle extends TextureSheetParticle {
     private final SpriteSet f_172290_;
  
 -   protected SnowflakeParticle(ClientLevel p_172292_, double p_172293_, double p_172294_, double p_172295_, double p_172296_, double p_172297_, double p_172298_, SpriteSet p_172299_) {
-+   protected SnowflakeParticle(ClientLevel p_172292_, me.alphamode.mclong.math.BigDecimal p_172293_, me.alphamode.mclong.math.BigDecimal p_172294_, me.alphamode.mclong.math.BigDecimal p_172295_, double p_172296_, double p_172297_, double p_172298_, SpriteSet p_172299_) {
-       super(p_172292_, p_172293_, p_172294_, p_172295_);
+-      super(p_172292_, p_172293_, p_172294_, p_172295_);
++   protected SnowflakeParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, SpriteSet pSprites) {
++      super(pLevel, pX, pY, pZ);
        this.f_107226_ = 0.225F;
        this.f_172258_ = 1.0F;
-@@ -42,7 +_,7 @@
+-      this.f_172290_ = p_172299_;
+-      this.f_107215_ = p_172296_ + (Math.random() * 2.0D - 1.0D) * (double)0.05F;
+-      this.f_107216_ = p_172297_ + (Math.random() * 2.0D - 1.0D) * (double)0.05F;
+-      this.f_107217_ = p_172298_ + (Math.random() * 2.0D - 1.0D) * (double)0.05F;
++      this.f_172290_ = pSprites;
++      this.f_107215_ = pXSpeed + (Math.random() * 2.0D - 1.0D) * (double)0.05F;
++      this.f_107216_ = pYSpeed + (Math.random() * 2.0D - 1.0D) * (double)0.05F;
++      this.f_107217_ = pZSpeed + (Math.random() * 2.0D - 1.0D) * (double)0.05F;
+       this.f_107663_ = 0.1F * (this.f_107223_.m_188501_() * this.f_107223_.m_188501_() * 1.0F + 1.0F);
+       this.f_107225_ = (int)(16.0D / ((double)this.f_107223_.m_188501_() * 0.8D + 0.2D)) + 2;
+-      this.m_108339_(p_172299_);
++      this.m_108339_(pSprites);
+    }
+ 
+    public ParticleRenderType m_7556_() {
+@@ -42,8 +_,8 @@
           this.f_172302_ = p_172304_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_172315_, ClientLevel p_172316_, double p_172317_, double p_172318_, double p_172319_, double p_172320_, double p_172321_, double p_172322_) {
-+      public Particle createParticle(SimpleParticleType p_172315_, ClientLevel p_172316_, me.alphamode.mclong.math.BigDecimal p_172317_, me.alphamode.mclong.math.BigDecimal p_172318_, me.alphamode.mclong.math.BigDecimal p_172319_, double p_172320_, double p_172321_, double p_172322_) {
-          SnowflakeParticle snowflakeparticle = new SnowflakeParticle(p_172316_, p_172317_, p_172318_, p_172319_, p_172320_, p_172321_, p_172322_, this.f_172302_);
+-         SnowflakeParticle snowflakeparticle = new SnowflakeParticle(p_172316_, p_172317_, p_172318_, p_172319_, p_172320_, p_172321_, p_172322_, this.f_172302_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         SnowflakeParticle snowflakeparticle = new SnowflakeParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, this.f_172302_);
           snowflakeparticle.m_107253_(0.923F, 0.964F, 0.999F);
           return snowflakeparticle;
+       }

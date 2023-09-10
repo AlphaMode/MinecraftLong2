@@ -1,22 +1,25 @@
 --- a/net/minecraft/client/renderer/entity/GuardianRenderer.java
 +++ b/net/minecraft/client/renderer/entity/GuardianRenderer.java
-@@ -35,8 +_,8 @@
+@@ -35,16 +_,16 @@
        super(p_174161_, new GuardianModel(p_174161_.m_174023_(p_174163_)), p_174162_);
     }
  
 -   public boolean m_5523_(Guardian p_114836_, Frustum p_114837_, double p_114838_, double p_114839_, double p_114840_) {
 -      if (super.m_5523_(p_114836_, p_114837_, p_114838_, p_114839_, p_114840_)) {
-+   public boolean shouldRender(Guardian p_114836_, Frustum p_114837_, me.alphamode.mclong.math.BigDecimal p_114838_, me.alphamode.mclong.math.BigDecimal p_114839_, me.alphamode.mclong.math.BigDecimal p_114840_) {
-+      if (super.shouldRender(p_114836_, p_114837_, p_114838_, p_114839_, p_114840_)) {
++   public boolean shouldRender(Guardian pLivingEntity, Frustum pCamera, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
++      if (super.shouldRender(pLivingEntity, pCamera, pCamX, pCamY, pCamZ)) {
           return true;
        } else {
-          if (p_114836_.m_32855_()) {
-@@ -44,7 +_,7 @@
+-         if (p_114836_.m_32855_()) {
+-            LivingEntity livingentity = p_114836_.m_32856_();
++         if (pLivingEntity.m_32855_()) {
++            LivingEntity livingentity = pLivingEntity.m_32856_();
              if (livingentity != null) {
                 Vec3 vec3 = this.m_114802_(livingentity, (double)livingentity.m_20206_() * 0.5D, 1.0F);
-                Vec3 vec31 = this.m_114802_(p_114836_, (double)p_114836_.m_20192_(), 1.0F);
+-               Vec3 vec31 = this.m_114802_(p_114836_, (double)p_114836_.m_20192_(), 1.0F);
 -               return p_114837_.m_113029_(new AABB(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_));
-+               return p_114837_.m_113029_(new AABB(vec31.getX(), vec31.getY(), vec31.getZ(), vec3.getX(), vec3.getY(), vec3.getZ()));
++               Vec3 vec31 = this.m_114802_(pLivingEntity, (double)pLivingEntity.m_20192_(), 1.0F);
++               return pCamera.m_113029_(new AABB(vec31.getX(), vec31.getY(), vec31.getZ(), vec3.getX(), vec3.getY(), vec3.getZ()));
              }
           }
  

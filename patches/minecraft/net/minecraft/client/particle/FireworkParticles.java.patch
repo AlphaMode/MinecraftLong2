@@ -1,50 +1,85 @@
 --- a/net/minecraft/client/particle/FireworkParticles.java
 +++ b/net/minecraft/client/particle/FireworkParticles.java
-@@ -29,7 +_,7 @@
+@@ -29,8 +_,8 @@
           this.f_106655_ = p_106657_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_106668_, ClientLevel p_106669_, double p_106670_, double p_106671_, double p_106672_, double p_106673_, double p_106674_, double p_106675_) {
-+      public Particle createParticle(SimpleParticleType p_106668_, ClientLevel p_106669_, me.alphamode.mclong.math.BigDecimal p_106670_, me.alphamode.mclong.math.BigDecimal p_106671_, me.alphamode.mclong.math.BigDecimal p_106672_, double p_106673_, double p_106674_, double p_106675_) {
-          FireworkParticles.OverlayParticle fireworkparticles$overlayparticle = new FireworkParticles.OverlayParticle(p_106669_, p_106670_, p_106671_, p_106672_);
+-         FireworkParticles.OverlayParticle fireworkparticles$overlayparticle = new FireworkParticles.OverlayParticle(p_106669_, p_106670_, p_106671_, p_106672_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         FireworkParticles.OverlayParticle fireworkparticles$overlayparticle = new FireworkParticles.OverlayParticle(pLevel, pX, pY, pZ);
           fireworkparticles$overlayparticle.m_108335_(this.f_106655_);
           return fireworkparticles$overlayparticle;
-@@ -38,7 +_,7 @@
+       }
+@@ -38,8 +_,8 @@
  
     @OnlyIn(Dist.CLIENT)
     public static class OverlayParticle extends TextureSheetParticle {
 -      OverlayParticle(ClientLevel p_106677_, double p_106678_, double p_106679_, double p_106680_) {
-+      OverlayParticle(ClientLevel p_106677_, me.alphamode.mclong.math.BigDecimal p_106678_, me.alphamode.mclong.math.BigDecimal p_106679_, me.alphamode.mclong.math.BigDecimal p_106680_) {
-          super(p_106677_, p_106678_, p_106679_, p_106680_);
+-         super(p_106677_, p_106678_, p_106679_, p_106680_);
++      OverlayParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++         super(pLevel, pX, pY, pZ);
           this.f_107225_ = 4;
        }
-@@ -67,7 +_,7 @@
+ 
+@@ -67,15 +_,15 @@
        private float f_106698_;
        private boolean f_106699_;
  
 -      SparkParticle(ClientLevel p_106702_, double p_106703_, double p_106704_, double p_106705_, double p_106706_, double p_106707_, double p_106708_, ParticleEngine p_106709_, SpriteSet p_106710_) {
-+      SparkParticle(ClientLevel p_106702_, me.alphamode.mclong.math.BigDecimal p_106703_, me.alphamode.mclong.math.BigDecimal p_106704_, me.alphamode.mclong.math.BigDecimal p_106705_, double p_106706_, double p_106707_, double p_106708_, ParticleEngine p_106709_, SpriteSet p_106710_) {
-          super(p_106702_, p_106703_, p_106704_, p_106705_, p_106710_, 0.1F);
-          this.f_107215_ = p_106706_;
-          this.f_107216_ = p_106707_;
-@@ -122,7 +_,7 @@
+-         super(p_106702_, p_106703_, p_106704_, p_106705_, p_106710_, 0.1F);
+-         this.f_107215_ = p_106706_;
+-         this.f_107216_ = p_106707_;
+-         this.f_107217_ = p_106708_;
+-         this.f_106695_ = p_106709_;
++      SparkParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, ParticleEngine pEngine, SpriteSet pSprites) {
++         super(pLevel, pX, pY, pZ, pSprites, 0.1F);
++         this.f_107215_ = pXSpeed;
++         this.f_107216_ = pYSpeed;
++         this.f_107217_ = pZSpeed;
++         this.f_106695_ = pEngine;
+          this.f_107663_ *= 0.75F;
+          this.f_107225_ = 48 + this.f_107223_.m_188503_(12);
+-         this.m_108339_(p_106710_);
++         this.m_108339_(pSprites);
+       }
+ 
+       public void m_106727_(boolean p_106728_) {
+@@ -122,8 +_,8 @@
           this.f_106731_ = p_106733_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_106744_, ClientLevel p_106745_, double p_106746_, double p_106747_, double p_106748_, double p_106749_, double p_106750_, double p_106751_) {
-+      public Particle createParticle(SimpleParticleType p_106744_, ClientLevel p_106745_, me.alphamode.mclong.math.BigDecimal p_106746_, me.alphamode.mclong.math.BigDecimal p_106747_, me.alphamode.mclong.math.BigDecimal p_106748_, double p_106749_, double p_106750_, double p_106751_) {
-          FireworkParticles.SparkParticle fireworkparticles$sparkparticle = new FireworkParticles.SparkParticle(p_106745_, p_106746_, p_106747_, p_106748_, p_106749_, p_106750_, p_106751_, Minecraft.m_91087_().f_91061_, this.f_106731_);
+-         FireworkParticles.SparkParticle fireworkparticles$sparkparticle = new FireworkParticles.SparkParticle(p_106745_, p_106746_, p_106747_, p_106748_, p_106749_, p_106750_, p_106751_, Minecraft.m_91087_().f_91061_, this.f_106731_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         FireworkParticles.SparkParticle fireworkparticles$sparkparticle = new FireworkParticles.SparkParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, Minecraft.m_91087_().f_91061_, this.f_106731_);
           fireworkparticles$sparkparticle.m_107271_(0.99F);
           return fireworkparticles$sparkparticle;
-@@ -136,7 +_,7 @@
+       }
+@@ -136,15 +_,15 @@
        private ListTag f_106752_;
        private boolean f_106753_;
  
 -      public Starter(ClientLevel p_106757_, double p_106758_, double p_106759_, double p_106760_, double p_106761_, double p_106762_, double p_106763_, ParticleEngine p_106764_, @Nullable CompoundTag p_106765_) {
-+      public Starter(ClientLevel p_106757_, me.alphamode.mclong.math.BigDecimal p_106758_, me.alphamode.mclong.math.BigDecimal p_106759_, me.alphamode.mclong.math.BigDecimal p_106760_, double p_106761_, double p_106762_, double p_106763_, ParticleEngine p_106764_, @Nullable CompoundTag p_106765_) {
-          super(p_106757_, p_106758_, p_106759_, p_106760_);
-          this.f_107215_ = p_106761_;
-          this.f_107216_ = p_106762_;
+-         super(p_106757_, p_106758_, p_106759_, p_106760_);
+-         this.f_107215_ = p_106761_;
+-         this.f_107216_ = p_106762_;
+-         this.f_107217_ = p_106763_;
+-         this.f_106755_ = p_106764_;
++      public Starter(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, ParticleEngine pEngine, @Nullable CompoundTag pTag) {
++         super(pLevel, pX, pY, pZ);
++         this.f_107215_ = pXSpeed;
++         this.f_107216_ = pYSpeed;
++         this.f_107217_ = pZSpeed;
++         this.f_106755_ = pEngine;
+          this.f_107225_ = 8;
+-         if (p_106765_ != null) {
+-            this.f_106752_ = p_106765_.m_128437_("Explosions", 10);
++         if (pTag != null) {
++            this.f_106752_ = pTag.m_128437_("Explosions", 10);
+             if (this.f_106752_.isEmpty()) {
+                this.f_106752_ = null;
+             } else {
 @@ -186,7 +_,7 @@
                 soundevent1 = flag ? SoundEvents.f_11929_ : SoundEvents.f_11928_;
              }
@@ -72,7 +107,7 @@
              }
  
              this.m_107274_();
-@@ -242,11 +_,11 @@
+@@ -242,26 +_,26 @@
  
        private boolean m_106798_() {
           Minecraft minecraft = Minecraft.m_91087_();
@@ -82,12 +117,23 @@
  
 -      private void m_106767_(double p_106768_, double p_106769_, double p_106770_, double p_106771_, double p_106772_, double p_106773_, int[] p_106774_, int[] p_106775_, boolean p_106776_, boolean p_106777_) {
 -         FireworkParticles.SparkParticle fireworkparticles$sparkparticle = (FireworkParticles.SparkParticle)this.f_106755_.m_107370_(ParticleTypes.f_123815_, p_106768_, p_106769_, p_106770_, p_106771_, p_106772_, p_106773_);
-+      private void createParticle(me.alphamode.mclong.math.BigDecimal p_106768_, me.alphamode.mclong.math.BigDecimal p_106769_, me.alphamode.mclong.math.BigDecimal p_106770_, double p_106771_, double p_106772_, double p_106773_, int[] p_106774_, int[] p_106775_, boolean p_106776_, boolean p_106777_) {
-+         FireworkParticles.SparkParticle fireworkparticles$sparkparticle = (FireworkParticles.SparkParticle)this.f_106755_.createParticle(ParticleTypes.f_123815_, p_106768_, p_106769_, p_106770_, p_106771_, p_106772_, p_106773_);
-          fireworkparticles$sparkparticle.m_106727_(p_106776_);
-          fireworkparticles$sparkparticle.m_106729_(p_106777_);
+-         fireworkparticles$sparkparticle.m_106727_(p_106776_);
+-         fireworkparticles$sparkparticle.m_106729_(p_106777_);
++      private void createParticle(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pMotionX, double pMotionY, double pMotionZ, int[] pSparkColors, int[] pSparkColorFades, boolean pHasTrail, boolean pHasTwinkle) {
++         FireworkParticles.SparkParticle fireworkparticles$sparkparticle = (FireworkParticles.SparkParticle)this.f_106755_.createParticle(ParticleTypes.f_123815_, pX, pY, pZ, pMotionX, pMotionY, pMotionZ);
++         fireworkparticles$sparkparticle.m_106727_(pHasTrail);
++         fireworkparticles$sparkparticle.m_106729_(pHasTwinkle);
           fireworkparticles$sparkparticle.m_107271_(0.99F);
-@@ -259,9 +_,9 @@
+-         int i = this.f_107223_.m_188503_(p_106774_.length);
+-         fireworkparticles$sparkparticle.m_107657_(p_106774_[i]);
+-         if (p_106775_.length > 0) {
+-            fireworkparticles$sparkparticle.m_107659_(Util.m_214667_(p_106775_, this.f_107223_));
++         int i = this.f_107223_.m_188503_(pSparkColors.length);
++         fireworkparticles$sparkparticle.m_107657_(pSparkColors[i]);
++         if (pSparkColorFades.length > 0) {
++            fireworkparticles$sparkparticle.m_107659_(Util.m_214667_(pSparkColorFades, this.f_107223_));
+          }
+ 
        }
  
        private void m_106778_(double p_106779_, int p_106780_, int[] p_106781_, int[] p_106782_, boolean p_106783_, boolean p_106784_) {

@@ -1,17 +1,34 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentPieces.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentPieces.java
-@@ -141,8 +_,8 @@
+@@ -141,13 +_,13 @@
        private OceanMonumentPieces.RoomDefinition f_228644_;
        private final List<OceanMonumentPieces.OceanMonumentPiece> f_228645_ = Lists.newArrayList();
  
 -      public MonumentBuilding(RandomSource p_228648_, int p_228649_, int p_228650_, Direction p_228651_) {
 -         super(StructurePieceType.f_210107_, p_228651_, 0, m_163541_(p_228649_, 39, p_228650_, p_228651_, 58, 23, 58));
-+      public MonumentBuilding(RandomSource p_228648_, long p_228649_, long p_228650_, Direction p_228651_) {
-+         super(StructurePieceType.f_210107_, p_228651_, 0, makeBoundingBox((int) p_228649_, 39, (int) p_228650_, p_228651_, 58, 23, 58));
-          this.m_73519_(p_228651_);
-          List<OceanMonumentPieces.RoomDefinition> list = this.m_228672_(p_228648_);
+-         this.m_73519_(p_228651_);
+-         List<OceanMonumentPieces.RoomDefinition> list = this.m_228672_(p_228648_);
++      public MonumentBuilding(RandomSource pRandom, long pX, long pZ, Direction pOrientation) {
++         super(StructurePieceType.f_210107_, pOrientation, 0, makeBoundingBox((int) pX, 39, (int) pZ, pOrientation, 58, 23, 58));
++         this.m_73519_(pOrientation);
++         List<OceanMonumentPieces.RoomDefinition> list = this.m_228672_(pRandom);
           this.f_228643_.f_228939_ = true;
-@@ -168,15 +_,15 @@
+-         this.f_228645_.add(new OceanMonumentPieces.OceanMonumentEntryRoom(p_228651_, this.f_228643_));
+-         this.f_228645_.add(new OceanMonumentPieces.OceanMonumentCoreRoom(p_228651_, this.f_228644_));
++         this.f_228645_.add(new OceanMonumentPieces.OceanMonumentEntryRoom(pOrientation, this.f_228643_));
++         this.f_228645_.add(new OceanMonumentPieces.OceanMonumentCoreRoom(pOrientation, this.f_228644_));
+          List<OceanMonumentPieces.MonumentRoomFitter> list1 = Lists.newArrayList();
+          list1.add(new OceanMonumentPieces.FitDoubleXYRoom());
+          list1.add(new OceanMonumentPieces.FitDoubleYZRoom());
+@@ -161,26 +_,26 @@
+             if (!oceanmonumentpieces$roomdefinition.f_228939_ && !oceanmonumentpieces$roomdefinition.m_228950_()) {
+                for(OceanMonumentPieces.MonumentRoomFitter oceanmonumentpieces$monumentroomfitter : list1) {
+                   if (oceanmonumentpieces$monumentroomfitter.m_213925_(oceanmonumentpieces$roomdefinition)) {
+-                     this.f_228645_.add(oceanmonumentpieces$monumentroomfitter.m_214153_(p_228651_, oceanmonumentpieces$roomdefinition, p_228648_));
++                     this.f_228645_.add(oceanmonumentpieces$monumentroomfitter.m_214153_(pOrientation, oceanmonumentpieces$roomdefinition, pRandom));
+                      break;
+                   }
+                }
              }
           }
  
@@ -26,12 +43,20 @@
 -         BoundingBox boundingbox = BoundingBox.m_162375_(this.m_163582_(1, 1, 1), this.m_163582_(23, 8, 21));
 -         BoundingBox boundingbox1 = BoundingBox.m_162375_(this.m_163582_(34, 1, 1), this.m_163582_(56, 8, 21));
 -         BoundingBox boundingbox2 = BoundingBox.m_162375_(this.m_163582_(22, 13, 22), this.m_163582_(35, 17, 35));
+-         int i = p_228648_.m_188502_();
+-         this.f_228645_.add(new OceanMonumentPieces.OceanMonumentWingRoom(p_228651_, boundingbox, i++));
+-         this.f_228645_.add(new OceanMonumentPieces.OceanMonumentWingRoom(p_228651_, boundingbox1, i++));
+-         this.f_228645_.add(new OceanMonumentPieces.OceanMonumentPenthouse(p_228651_, boundingbox2));
 +         BoundingBox boundingbox = BoundingBox.fromCorners(this.getWorldPos(1, 1, 1), this.getWorldPos(23, 8, 21));
 +         BoundingBox boundingbox1 = BoundingBox.fromCorners(this.getWorldPos(34, 1, 1), this.getWorldPos(56, 8, 21));
 +         BoundingBox boundingbox2 = BoundingBox.fromCorners(this.getWorldPos(22, 13, 22), this.getWorldPos(35, 17, 35));
-          int i = p_228648_.m_188502_();
-          this.f_228645_.add(new OceanMonumentPieces.OceanMonumentWingRoom(p_228651_, boundingbox, i++));
-          this.f_228645_.add(new OceanMonumentPieces.OceanMonumentWingRoom(p_228651_, boundingbox1, i++));
++         int i = pRandom.m_188502_();
++         this.f_228645_.add(new OceanMonumentPieces.OceanMonumentWingRoom(pOrientation, boundingbox, i++));
++         this.f_228645_.add(new OceanMonumentPieces.OceanMonumentWingRoom(pOrientation, boundingbox1, i++));
++         this.f_228645_.add(new OceanMonumentPieces.OceanMonumentPenthouse(pOrientation, boundingbox2));
+       }
+ 
+       public MonumentBuilding(CompoundTag p_228653_) {
 @@ -301,8 +_,8 @@
        }
  
@@ -1306,20 +1331,23 @@
        }
  
 -      protected void m_228880_(WorldGenLevel p_228881_, BoundingBox p_228882_, int p_228883_, int p_228884_, int p_228885_, int p_228886_, int p_228887_, int p_228888_) {
-+      protected void generateWaterBox(WorldGenLevel p_228881_, BoundingBox p_228882_, int p_228883_, int p_228884_, int p_228885_, int p_228886_, long p_228887_, int p_228888_) {
-          for(int i = p_228884_; i <= p_228887_; ++i) {
-             for(int j = p_228883_; j <= p_228886_; ++j) {
-                for(int k = p_228885_; k <= p_228888_; ++k) {
+-         for(int i = p_228884_; i <= p_228887_; ++i) {
+-            for(int j = p_228883_; j <= p_228886_; ++j) {
+-               for(int k = p_228885_; k <= p_228888_; ++k) {
 -                  BlockState blockstate = this.m_73398_(p_228881_, j, i, k, p_228882_);
-+                  BlockState blockstate = this.getBlock(p_228881_, j, i, k, p_228882_);
++      protected void generateWaterBox(WorldGenLevel pLevel, BoundingBox pBoundingBox, int pX1, int pY1, int pZ1, int pX2, long pY2, int pZ2) {
++         for(int i = pY1; i <= pY2; ++i) {
++            for(int j = pX1; j <= pX2; ++j) {
++               for(int k = pZ1; k <= pZ2; ++k) {
++                  BlockState blockstate = this.getBlock(pLevel, j, i, k, pBoundingBox);
                    if (!f_228811_.contains(blockstate.m_60734_())) {
 -                     if (this.m_73544_(i) >= p_228881_.m_5736_() && blockstate != f_228810_) {
 -                        this.m_73434_(p_228881_, Blocks.f_50016_.m_49966_(), j, i, k, p_228882_);
-+                     if (this.getWorldY(i).longValue() >= p_228881_.m_5736_() && blockstate != f_228810_) {
-+                        this.placeBlock(p_228881_, Blocks.f_50016_.m_49966_(), j, i, k, p_228882_);
++                     if (this.getWorldY(i).longValue() >= pLevel.m_5736_() && blockstate != f_228810_) {
++                        this.placeBlock(pLevel, Blocks.f_50016_.m_49966_(), j, i, k, pBoundingBox);
                       } else {
 -                        this.m_73434_(p_228881_, f_228810_, j, i, k, p_228882_);
-+                        this.placeBlock(p_228881_, f_228810_, j, i, k, p_228882_);
++                        this.placeBlock(pLevel, f_228810_, j, i, k, pBoundingBox);
                       }
                    }
                 }

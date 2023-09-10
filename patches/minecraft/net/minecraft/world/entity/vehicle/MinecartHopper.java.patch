@@ -1,20 +1,24 @@
 --- a/net/minecraft/world/entity/vehicle/MinecartHopper.java
 +++ b/net/minecraft/world/entity/vehicle/MinecartHopper.java
-@@ -22,7 +_,7 @@
+@@ -22,8 +_,8 @@
        super(p_38584_, p_38585_);
     }
  
 -   public MinecartHopper(Level p_38587_, double p_38588_, double p_38589_, double p_38590_) {
-+   public MinecartHopper(Level p_38587_, me.alphamode.mclong.math.BigDecimal p_38588_, me.alphamode.mclong.math.BigDecimal p_38589_, me.alphamode.mclong.math.BigDecimal p_38590_) {
-       super(EntityType.f_20473_, p_38588_, p_38589_, p_38590_, p_38587_);
+-      super(EntityType.f_20473_, p_38588_, p_38589_, p_38590_, p_38587_);
++   public MinecartHopper(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      super(EntityType.f_20473_, pX, pY, pZ, pLevel);
     }
  
-@@ -42,7 +_,7 @@
+    public AbstractMinecart.Type m_6064_() {
+@@ -42,8 +_,8 @@
        return 5;
     }
  
 -   public void m_6025_(int p_38596_, int p_38597_, int p_38598_, boolean p_38599_) {
-+   public void activateMinecart(long p_38596_, long p_38597_, long p_38598_, boolean p_38599_) {
-       boolean flag = !p_38599_;
+-      boolean flag = !p_38599_;
++   public void activateMinecart(long pX, long pY, long pZ, boolean pReceivingPower) {
++      boolean flag = !pReceivingPower;
        if (flag != this.m_38617_()) {
           this.m_38613_(flag);
+       }

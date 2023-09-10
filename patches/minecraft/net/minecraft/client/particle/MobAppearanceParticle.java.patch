@@ -1,20 +1,24 @@
 --- a/net/minecraft/client/particle/MobAppearanceParticle.java
 +++ b/net/minecraft/client/particle/MobAppearanceParticle.java
-@@ -23,7 +_,7 @@
+@@ -23,8 +_,8 @@
     private final Model f_107111_;
     private final RenderType f_107112_ = RenderType.m_110473_(ElderGuardianRenderer.f_114116_);
  
 -   MobAppearanceParticle(ClientLevel p_107114_, double p_107115_, double p_107116_, double p_107117_) {
-+   MobAppearanceParticle(ClientLevel p_107114_, me.alphamode.mclong.math.BigDecimal p_107115_, me.alphamode.mclong.math.BigDecimal p_107116_, me.alphamode.mclong.math.BigDecimal p_107117_) {
-       super(p_107114_, p_107115_, p_107116_, p_107117_);
+-      super(p_107114_, p_107115_, p_107116_, p_107117_);
++   MobAppearanceParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      super(pLevel, pX, pY, pZ);
        this.f_107111_ = new GuardianModel(Minecraft.m_91087_().m_167973_().m_171103_(ModelLayers.f_171140_));
        this.f_107226_ = 0.0F;
-@@ -50,7 +_,7 @@
+       this.f_107225_ = 30;
+@@ -50,8 +_,8 @@
  
     @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
 -      public Particle m_6966_(SimpleParticleType p_107140_, ClientLevel p_107141_, double p_107142_, double p_107143_, double p_107144_, double p_107145_, double p_107146_, double p_107147_) {
-+      public Particle createParticle(SimpleParticleType p_107140_, ClientLevel p_107141_, me.alphamode.mclong.math.BigDecimal p_107142_, me.alphamode.mclong.math.BigDecimal p_107143_, me.alphamode.mclong.math.BigDecimal p_107144_, double p_107145_, double p_107146_, double p_107147_) {
-          return new MobAppearanceParticle(p_107141_, p_107142_, p_107143_, p_107144_);
+-         return new MobAppearanceParticle(p_107141_, p_107142_, p_107143_, p_107144_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         return new MobAppearanceParticle(pLevel, pX, pY, pZ);
        }
     }
+ }

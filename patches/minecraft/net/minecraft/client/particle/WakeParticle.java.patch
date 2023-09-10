@@ -1,20 +1,40 @@
 --- a/net/minecraft/client/particle/WakeParticle.java
 +++ b/net/minecraft/client/particle/WakeParticle.java
-@@ -9,7 +_,7 @@
+@@ -9,19 +_,19 @@
  public class WakeParticle extends TextureSheetParticle {
     private final SpriteSet f_108405_;
  
 -   WakeParticle(ClientLevel p_108407_, double p_108408_, double p_108409_, double p_108410_, double p_108411_, double p_108412_, double p_108413_, SpriteSet p_108414_) {
-+   WakeParticle(ClientLevel p_108407_, me.alphamode.mclong.math.BigDecimal p_108408_, me.alphamode.mclong.math.BigDecimal p_108409_, me.alphamode.mclong.math.BigDecimal p_108410_, double p_108411_, double p_108412_, double p_108413_, SpriteSet p_108414_) {
-       super(p_108407_, p_108408_, p_108409_, p_108410_, 0.0D, 0.0D, 0.0D);
-       this.f_108405_ = p_108414_;
+-      super(p_108407_, p_108408_, p_108409_, p_108410_, 0.0D, 0.0D, 0.0D);
+-      this.f_108405_ = p_108414_;
++   WakeParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, SpriteSet pSprites) {
++      super(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D);
++      this.f_108405_ = pSprites;
        this.f_107215_ *= (double)0.3F;
-@@ -55,7 +_,7 @@
+       this.f_107216_ = Math.random() * (double)0.2F + (double)0.1F;
+       this.f_107217_ *= (double)0.3F;
+       this.m_107250_(0.01F, 0.01F);
+       this.f_107225_ = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
+-      this.m_108339_(p_108414_);
++      this.m_108339_(pSprites);
+       this.f_107226_ = 0.0F;
+-      this.f_107215_ = p_108411_;
+-      this.f_107216_ = p_108412_;
+-      this.f_107217_ = p_108413_;
++      this.f_107215_ = pXSpeed;
++      this.f_107216_ = pYSpeed;
++      this.f_107217_ = pZSpeed;
+    }
+ 
+    public ParticleRenderType m_7556_() {
+@@ -55,8 +_,8 @@
           this.f_108427_ = p_108429_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_108440_, ClientLevel p_108441_, double p_108442_, double p_108443_, double p_108444_, double p_108445_, double p_108446_, double p_108447_) {
-+      public Particle createParticle(SimpleParticleType p_108440_, ClientLevel p_108441_, me.alphamode.mclong.math.BigDecimal p_108442_, me.alphamode.mclong.math.BigDecimal p_108443_, me.alphamode.mclong.math.BigDecimal p_108444_, double p_108445_, double p_108446_, double p_108447_) {
-          return new WakeParticle(p_108441_, p_108442_, p_108443_, p_108444_, p_108445_, p_108446_, p_108447_, this.f_108427_);
+-         return new WakeParticle(p_108441_, p_108442_, p_108443_, p_108444_, p_108445_, p_108446_, p_108447_, this.f_108427_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         return new WakeParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, this.f_108427_);
        }
     }
+ }

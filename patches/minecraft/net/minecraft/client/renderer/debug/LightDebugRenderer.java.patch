@@ -5,11 +5,11 @@
     }
  
 -   public void m_7790_(PoseStack p_113587_, MultiBufferSource p_113588_, double p_113589_, double p_113590_, double p_113591_) {
-+   public void render(PoseStack p_113587_, MultiBufferSource p_113588_, me.alphamode.mclong.math.BigDecimal p_113589_, me.alphamode.mclong.math.BigDecimal p_113590_, me.alphamode.mclong.math.BigDecimal p_113591_) {
++   public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
        Level level = this.f_113583_.f_91073_;
 -      BlockPos blockpos = BlockPos.m_274561_(p_113589_, p_113590_, p_113591_);
 -      LongSet longset = new LongOpenHashSet();
-+      BlockPos blockpos = BlockPos.containing(p_113589_, p_113590_, p_113591_);
++      BlockPos blockpos = BlockPos.containing(pCamX, pCamY, pCamZ);
 +      it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> longset = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
  
 -      for(BlockPos blockpos1 : BlockPos.m_121940_(blockpos.m_7918_(-10, -10, -10), blockpos.m_7918_(10, 10, 10))) {
@@ -21,12 +21,12 @@
 +         SectionPos k = SectionPos.m_123199_(blockpos1);
           if (longset.add(k)) {
 -            DebugRenderer.m_269569_(p_113587_, p_113588_, level.m_7726_().m_7827_().m_75816_(LightLayer.SKY, SectionPos.m_123184_(k)), (double)SectionPos.m_175554_(SectionPos.m_123213_(k), 8), (double)SectionPos.m_175554_(SectionPos.m_123225_(k), 8), (double)SectionPos.m_175554_(SectionPos.m_123230_(k), 8), 16711680, 0.3F);
-+            DebugRenderer.m_269569_(p_113587_, p_113588_, level.m_7726_().m_7827_().m_75816_(LightLayer.SKY, k), (double)SectionPos.sectionToBlockCoord(k.x(), 8), (double)SectionPos.sectionToBlockCoord(k.y(), 8), (double)SectionPos.sectionToBlockCoord(k.z(), 8), 16711680, 0.3F);
++            DebugRenderer.m_269569_(pPoseStack, pBuffer, level.m_7726_().m_7827_().m_75816_(LightLayer.SKY, k), (double)SectionPos.sectionToBlockCoord(k.x(), 8), (double)SectionPos.sectionToBlockCoord(k.y(), 8), (double)SectionPos.sectionToBlockCoord(k.z(), 8), 16711680, 0.3F);
           }
  
           if (i != 15) {
 -            DebugRenderer.m_269271_(p_113587_, p_113588_, String.valueOf(i), (double)blockpos1.m_123341_() + 0.5D, (double)blockpos1.m_123342_() + 0.25D, (double)blockpos1.m_123343_() + 0.5D, j);
-+            DebugRenderer.m_269271_(p_113587_, p_113588_, String.valueOf(i), (double)blockpos1.getX() + 0.5D, (double)blockpos1.getY() + 0.25D, (double)blockpos1.getZ() + 0.5D, j);
++            DebugRenderer.m_269271_(pPoseStack, pBuffer, String.valueOf(i), (double)blockpos1.getX() + 0.5D, (double)blockpos1.getY() + 0.25D, (double)blockpos1.getZ() + 0.5D, j);
           }
        }
  

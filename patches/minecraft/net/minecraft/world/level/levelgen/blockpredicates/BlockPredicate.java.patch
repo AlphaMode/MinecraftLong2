@@ -1,14 +1,15 @@
 --- a/net/minecraft/world/level/levelgen/blockpredicates/BlockPredicate.java
 +++ b/net/minecraft/world/level/levelgen/blockpredicates/BlockPredicate.java
-@@ -48,54 +_,66 @@
+@@ -48,55 +_,67 @@
     }
  
     static BlockPredicate m_224771_(Vec3i p_224772_, List<Block> p_224773_) {
+-      return new MatchingBlocksPredicate(p_224772_, HolderSet.m_205803_(Block::m_204297_, p_224773_));
 +      return new MatchingBlocksPredicate(new me.alphamode.mclong.core.Vec3l(p_224772_), HolderSet.m_205803_(Block::m_204297_, p_224773_));
 +   }
 +
-+   static BlockPredicate matchesBlocks(me.alphamode.mclong.core.Vec3l p_224772_, List<Block> p_224773_) {
-       return new MatchingBlocksPredicate(p_224772_, HolderSet.m_205803_(Block::m_204297_, p_224773_));
++   static BlockPredicate matchesBlocks(me.alphamode.mclong.core.Vec3l pOffset, List<Block> pBlocks) {
++      return new MatchingBlocksPredicate(pOffset, HolderSet.m_205803_(Block::m_204297_, pBlocks));
     }
  
     static BlockPredicate m_198311_(List<Block> p_198312_) {
@@ -16,8 +17,8 @@
 +      return matchesBlocks(me.alphamode.mclong.core.Vec3l.ZERO, p_198312_);
 +   }
 +
-+   static BlockPredicate matchesBlocks(me.alphamode.mclong.core.Vec3l p_224775_, Block... p_224776_) {
-+      return matchesBlocks(p_224775_, List.of(p_224776_));
++   static BlockPredicate matchesBlocks(me.alphamode.mclong.core.Vec3l pOffset, Block... pBlocks) {
++      return matchesBlocks(pOffset, List.of(pBlocks));
     }
  
     static BlockPredicate m_224774_(Vec3i p_224775_, Block... p_224776_) {
@@ -40,8 +41,9 @@
     }
  
 -   static BlockPredicate m_224784_(Vec3i p_224785_, List<Fluid> p_224786_) {
-+   static BlockPredicate matchesFluids(me.alphamode.mclong.core.Vec3l p_224785_, List<Fluid> p_224786_) {
-       return new MatchingFluidsPredicate(p_224785_, HolderSet.m_205803_(Fluid::m_205069_, p_224786_));
+-      return new MatchingFluidsPredicate(p_224785_, HolderSet.m_205803_(Fluid::m_205069_, p_224786_));
++   static BlockPredicate matchesFluids(me.alphamode.mclong.core.Vec3l pOffset, List<Fluid> pFluids) {
++      return new MatchingFluidsPredicate(pOffset, HolderSet.m_205803_(Fluid::m_205069_, pFluids));
     }
  
     static BlockPredicate m_224777_(Vec3i p_224778_, Fluid... p_224779_) {
@@ -49,8 +51,8 @@
 +      return matchesFluids(new me.alphamode.mclong.core.Vec3l(p_224778_), List.of(p_224779_));
 +   }
 +
-+   static BlockPredicate matchesFluids(me.alphamode.mclong.core.Vec3l p_224778_, Fluid... p_224779_) {
-+      return matchesFluids(p_224778_, List.of(p_224779_));
++   static BlockPredicate matchesFluids(me.alphamode.mclong.core.Vec3l pOffset, Fluid... pFluids) {
++      return matchesFluids(pOffset, List.of(pFluids));
     }
  
     static BlockPredicate m_224782_(Fluid... p_224783_) {
@@ -63,8 +65,9 @@
     }
  
 -   static BlockPredicate m_190410_(Vec3i p_190411_) {
-+   static BlockPredicate replaceable(me.alphamode.mclong.core.Vec3l p_190411_) {
-       return new ReplaceablePredicate(p_190411_);
+-      return new ReplaceablePredicate(p_190411_);
++   static BlockPredicate replaceable(me.alphamode.mclong.core.Vec3l pOffset) {
++      return new ReplaceablePredicate(pOffset);
     }
  
     static BlockPredicate m_190419_() {
@@ -73,23 +76,25 @@
     }
  
 -   static BlockPredicate m_190399_(BlockState p_190400_, Vec3i p_190401_) {
-+   static BlockPredicate wouldSurvive(BlockState p_190400_, me.alphamode.mclong.core.Vec3l p_190401_) {
-       return new WouldSurvivePredicate(p_190401_, p_190400_);
+-      return new WouldSurvivePredicate(p_190401_, p_190400_);
++   static BlockPredicate wouldSurvive(BlockState pState, me.alphamode.mclong.core.Vec3l pOffset) {
++      return new WouldSurvivePredicate(pOffset, pState);
     }
  
-@@ -107,23 +_,27 @@
+    static BlockPredicate m_198308_(Vec3i p_198309_, Direction p_198310_) {
+@@ -107,24 +_,28 @@
        return m_198308_(Vec3i.f_123288_, p_198914_);
     }
  
--   static BlockPredicate m_190423_(Vec3i p_190424_) {
-+   static BlockPredicate solid(me.alphamode.mclong.core.Vec3l p_190424_) {
-       return new SolidPredicate(p_190424_);
-    }
- 
-+   static BlockPredicate m_190423_(Vec3i p_190424_) {
-+      return new SolidPredicate(new me.alphamode.mclong.core.Vec3l(p_190424_));
++   static BlockPredicate solid(me.alphamode.mclong.core.Vec3l pOffset) {
++      return new SolidPredicate(pOffset);
 +   }
 +
+    static BlockPredicate m_190423_(Vec3i p_190424_) {
+-      return new SolidPredicate(p_190424_);
++      return new SolidPredicate(new me.alphamode.mclong.core.Vec3l(p_190424_));
+    }
+ 
     static BlockPredicate m_190432_() {
 -      return m_190423_(Vec3i.f_123288_);
 +      return solid(me.alphamode.mclong.core.Vec3l.ZERO);
@@ -104,14 +109,16 @@
 -   }
 -
 -   static BlockPredicate m_190433_(Vec3i p_190434_) {
+-      return new InsideWorldBoundsPredicate(p_190434_);
 +      return noFluid(me.alphamode.mclong.core.Vec3l.ZERO);
 +   }
 +
-+   static BlockPredicate noFluid(me.alphamode.mclong.core.Vec3l p_249383_) {
-+      return matchesFluids(p_249383_, Fluids.f_76191_);
++   static BlockPredicate noFluid(me.alphamode.mclong.core.Vec3l pOffset) {
++      return matchesFluids(pOffset, Fluids.f_76191_);
 +   }
 +
-+   static BlockPredicate insideWorld(me.alphamode.mclong.core.Vec3l p_190434_) {
-       return new InsideWorldBoundsPredicate(p_190434_);
++   static BlockPredicate insideWorld(me.alphamode.mclong.core.Vec3l pOffset) {
++      return new InsideWorldBoundsPredicate(pOffset);
     }
  
+    static BlockPredicate m_190435_() {

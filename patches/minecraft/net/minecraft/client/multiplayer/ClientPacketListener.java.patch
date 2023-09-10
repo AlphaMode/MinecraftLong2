@@ -197,15 +197,17 @@
  
 -   private void m_194198_(int p_194199_, int p_194200_, ClientboundLevelChunkPacketData p_194201_) {
 -      this.f_104889_.m_7726_().m_194116_(p_194199_, p_194200_, p_194201_.m_195656_(), p_194201_.m_195678_(), p_194201_.m_195657_(p_194199_, p_194200_));
-+   private void updateLevelChunk(me.alphamode.mclong.math.BigInteger p_194199_, me.alphamode.mclong.math.BigInteger p_194200_, ClientboundLevelChunkPacketData p_194201_) {
-+      this.f_104889_.m_7726_().replaceWithPacketData(p_194199_, p_194200_, p_194201_.m_195656_(), p_194201_.m_195678_(), p_194201_.getBlockEntitiesTagsConsumer(p_194199_, p_194200_));
++   private void updateLevelChunk(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, ClientboundLevelChunkPacketData pData) {
++      this.f_104889_.m_7726_().replaceWithPacketData(pX, pZ, pData.m_195656_(), pData.m_195678_(), pData.getBlockEntitiesTagsConsumer(pX, pZ));
     }
  
 -   private void m_194212_(LevelChunk p_194213_, int p_194214_, int p_194215_) {
-+   private void enableChunkLight(LevelChunk p_194213_, me.alphamode.mclong.math.BigInteger p_194214_, me.alphamode.mclong.math.BigInteger p_194215_) {
++   private void enableChunkLight(LevelChunk pChunk, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
        LevelLightEngine levellightengine = this.f_104889_.m_7726_().m_7827_();
-       LevelChunkSection[] alevelchunksection = p_194213_.m_7103_();
-       ChunkPos chunkpos = p_194213_.m_7697_();
+-      LevelChunkSection[] alevelchunksection = p_194213_.m_7103_();
+-      ChunkPos chunkpos = p_194213_.m_7697_();
++      LevelChunkSection[] alevelchunksection = pChunk.m_7103_();
++      ChunkPos chunkpos = pChunk.m_7697_();
  
        for(int i = 0; i < alevelchunksection.length; ++i) {
           LevelChunkSection levelchunksection = alevelchunksection[i];
@@ -214,7 +216,7 @@
 -         this.f_104889_.m_104793_(p_194214_, j, p_194215_);
 +         long j = this.f_104889_.getSectionYFromSectionIndex(i);
 +         levellightengine.m_6191_(SectionPos.of(chunkpos, j), levelchunksection.m_188008_());
-+         this.f_104889_.setSectionDirtyWithNeighbors(p_194214_, me.alphamode.mclong.math.BigInteger.valueOf(j), p_194215_);
++         this.f_104889_.setSectionDirtyWithNeighbors(pX, me.alphamode.mclong.math.BigInteger.valueOf(j), pZ);
        }
  
     }
@@ -350,7 +352,7 @@
              } catch (Throwable throwable) {
                 f_104883_.warn("Could not spawn particle effect {}", (Object)p_105026_.m_132322_());
                 return;
-@@ -2235,24 +_,24 @@
+@@ -2235,25 +_,25 @@
  
     public void m_183514_(ClientboundLightUpdatePacket p_194243_) {
        PacketUtils.m_131363_(p_194243_, this, this.f_104888_);
@@ -366,21 +368,29 @@
     }
  
 -   private void m_194248_(int p_194249_, int p_194250_, ClientboundLightUpdatePacketData p_194251_) {
-+   private void applyLightData(me.alphamode.mclong.math.BigInteger p_194249_, me.alphamode.mclong.math.BigInteger p_194250_, ClientboundLightUpdatePacketData p_194251_) {
++   private void applyLightData(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, ClientboundLightUpdatePacketData pData) {
        LevelLightEngine levellightengine = this.f_104889_.m_7726_().m_7827_();
-       BitSet bitset = p_194251_.m_195740_();
-       BitSet bitset1 = p_194251_.m_195751_();
-       Iterator<byte[]> iterator = p_194251_.m_195754_().iterator();
+-      BitSet bitset = p_194251_.m_195740_();
+-      BitSet bitset1 = p_194251_.m_195751_();
+-      Iterator<byte[]> iterator = p_194251_.m_195754_().iterator();
 -      this.m_171734_(p_194249_, p_194250_, levellightengine, LightLayer.SKY, bitset, bitset1, iterator);
-+      this.readSectionList(p_194249_, p_194250_, levellightengine, LightLayer.SKY, bitset, bitset1, iterator);
-       BitSet bitset2 = p_194251_.m_195757_();
-       BitSet bitset3 = p_194251_.m_195758_();
-       Iterator<byte[]> iterator1 = p_194251_.m_195759_().iterator();
+-      BitSet bitset2 = p_194251_.m_195757_();
+-      BitSet bitset3 = p_194251_.m_195758_();
+-      Iterator<byte[]> iterator1 = p_194251_.m_195759_().iterator();
 -      this.m_171734_(p_194249_, p_194250_, levellightengine, LightLayer.BLOCK, bitset2, bitset3, iterator1);
-+      this.readSectionList(p_194249_, p_194250_, levellightengine, LightLayer.BLOCK, bitset2, bitset3, iterator1);
-       levellightengine.m_9335_(new ChunkPos(p_194249_, p_194250_), true);
+-      levellightengine.m_9335_(new ChunkPos(p_194249_, p_194250_), true);
++      BitSet bitset = pData.m_195740_();
++      BitSet bitset1 = pData.m_195751_();
++      Iterator<byte[]> iterator = pData.m_195754_().iterator();
++      this.readSectionList(pX, pZ, levellightengine, LightLayer.SKY, bitset, bitset1, iterator);
++      BitSet bitset2 = pData.m_195757_();
++      BitSet bitset3 = pData.m_195758_();
++      Iterator<byte[]> iterator1 = pData.m_195759_().iterator();
++      this.readSectionList(pX, pZ, levellightengine, LightLayer.BLOCK, bitset2, bitset3, iterator1);
++      levellightengine.m_9335_(new ChunkPos(pX, pZ), true);
     }
  
+    public void m_7330_(ClientboundMerchantOffersPacket p_105034_) {
 @@ -2284,7 +_,7 @@
  
     public void m_8065_(ClientboundSetChunkCacheCenterPacket p_105080_) {
@@ -397,16 +407,16 @@
 -   private void m_171734_(int p_171735_, int p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_) {
 -      for(int i = 0; i < p_171737_.m_164446_(); ++i) {
 -         int j = p_171737_.m_164447_() + i;
-+   private void readSectionList(me.alphamode.mclong.math.BigInteger p_171735_, me.alphamode.mclong.math.BigInteger p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_) {
-+      for(int i = 0; i < p_171737_.getLightSectionCount(); ++i) {
-+         long j = p_171737_.getMinLightSection() + i;
++   private void readSectionList(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, LevelLightEngine pLightEngine, LightLayer pLightLayer, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_) {
++      for(int i = 0; i < pLightEngine.getLightSectionCount(); ++i) {
++         long j = pLightEngine.getMinLightSection() + i;
           boolean flag = p_171739_.get(i);
           boolean flag1 = p_171740_.get(i);
           if (flag || flag1) {
 -            p_171737_.m_284126_(p_171738_, SectionPos.m_123173_(p_171735_, j, p_171736_), flag ? new DataLayer((byte[])p_171741_.next().clone()) : new DataLayer());
 -            this.f_104889_.m_104793_(p_171735_, j, p_171736_);
-+            p_171737_.m_284126_(p_171738_, SectionPos.of(p_171735_, me.alphamode.mclong.math.BigInteger.valueOf(j), p_171736_), flag ? new DataLayer((byte[])p_171741_.next().clone()) : new DataLayer());
-+            this.f_104889_.setSectionDirtyWithNeighbors(p_171735_, me.alphamode.mclong.math.BigInteger.valueOf(j), p_171736_);
++            pLightEngine.m_284126_(pLightLayer, SectionPos.of(pX, me.alphamode.mclong.math.BigInteger.valueOf(j), pZ), flag ? new DataLayer((byte[])p_171741_.next().clone()) : new DataLayer());
++            this.f_104889_.setSectionDirtyWithNeighbors(pX, me.alphamode.mclong.math.BigInteger.valueOf(j), pZ);
           }
        }
  

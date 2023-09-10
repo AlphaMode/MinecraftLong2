@@ -9,7 +9,7 @@
     private final ChunkStatus[] f_8338_ = new ChunkStatus[4];
     private final ChunkAccess[] f_8339_ = new ChunkAccess[4];
     @Nullable
-@@ -86,15 +_,15 @@
+@@ -86,70 +_,70 @@
     }
  
     @Nullable
@@ -24,57 +24,75 @@
     }
  
 -   private void m_8366_(long p_8367_, ChunkAccess p_8368_, ChunkStatus p_8369_) {
-+   private void storeInCache(ChunkPos p_8367_, ChunkAccess p_8368_, ChunkStatus p_8369_) {
++   private void storeInCache(ChunkPos pChunkPos, ChunkAccess pChunk, ChunkStatus pChunkStatus) {
        for(int i = 3; i > 0; --i) {
           this.f_8337_[i] = this.f_8337_[i - 1];
           this.f_8338_[i] = this.f_8338_[i - 1];
-@@ -107,15 +_,15 @@
+          this.f_8339_[i] = this.f_8339_[i - 1];
+       }
+ 
+-      this.f_8337_[0] = p_8367_;
+-      this.f_8338_[0] = p_8369_;
+-      this.f_8339_[0] = p_8368_;
++      this.f_8337_[0] = pChunkPos;
++      this.f_8338_[0] = pChunkStatus;
++      this.f_8339_[0] = pChunk;
     }
  
     @Nullable
 -   public ChunkAccess m_7587_(int p_8360_, int p_8361_, ChunkStatus p_8362_, boolean p_8363_) {
-+   public ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger p_8360_, me.alphamode.mclong.math.BigInteger p_8361_, ChunkStatus p_8362_, boolean p_8363_) {
++   public ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ, ChunkStatus pRequiredStatus, boolean pLoad) {
        if (Thread.currentThread() != this.f_8330_) {
           return CompletableFuture.supplyAsync(() -> {
 -            return this.m_7587_(p_8360_, p_8361_, p_8362_, p_8363_);
-+            return this.getChunk(p_8360_, p_8361_, p_8362_, p_8363_);
++            return this.getChunk(pChunkX, pChunkZ, pRequiredStatus, pLoad);
           }, this.f_8332_).join();
        } else {
           ProfilerFiller profilerfiller = this.f_8329_.m_46473_();
           profilerfiller.m_6174_("getChunk");
 -         long i = ChunkPos.m_45589_(p_8360_, p_8361_);
-+         ChunkPos i = new ChunkPos(p_8360_, p_8361_);
++         ChunkPos i = new ChunkPos(pChunkX, pChunkZ);
  
           for(int j = 0; j < 4; ++j) {
-             if (i == this.f_8337_[j] && p_8362_ == this.f_8338_[j]) {
-@@ -127,7 +_,7 @@
+-            if (i == this.f_8337_[j] && p_8362_ == this.f_8338_[j]) {
++            if (i == this.f_8337_[j] && pRequiredStatus == this.f_8338_[j]) {
+                ChunkAccess chunkaccess = this.f_8339_[j];
+-               if (chunkaccess != null || !p_8363_) {
++               if (chunkaccess != null || !pLoad) {
+                   return chunkaccess;
+                }
+             }
           }
  
           profilerfiller.m_6174_("getChunkCacheMiss");
 -         CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.m_8456_(p_8360_, p_8361_, p_8362_, p_8363_);
-+         CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.getChunkFutureMainThread(p_8360_, p_8361_, p_8362_, p_8363_);
++         CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.getChunkFutureMainThread(pChunkX, pChunkZ, pRequiredStatus, pLoad);
           this.f_8332_.m_18701_(completablefuture::isDone);
           ChunkAccess chunkaccess1 = completablefuture.join().map((p_8406_) -> {
              return p_8406_;
-@@ -138,18 +_,18 @@
+          }, (p_8423_) -> {
+-            if (p_8363_) {
++            if (pLoad) {
+                throw (IllegalStateException)Util.m_137570_(new IllegalStateException("Chunk not there when requested: " + p_8423_));
+             } else {
                 return null;
              }
           });
 -         this.m_8366_(i, chunkaccess1, p_8362_);
-+         this.storeInCache(i, chunkaccess1, p_8362_);
++         this.storeInCache(i, chunkaccess1, pRequiredStatus);
           return chunkaccess1;
        }
     }
  
     @Nullable
 -   public LevelChunk m_7131_(int p_8357_, int p_8358_) {
-+   public LevelChunk getChunkNow(me.alphamode.mclong.math.BigInteger p_8357_, me.alphamode.mclong.math.BigInteger p_8358_) {
++   public LevelChunk getChunkNow(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
        if (Thread.currentThread() != this.f_8330_) {
           return null;
        } else {
           this.f_8329_.m_46473_().m_6174_("getChunkNow");
 -         long i = ChunkPos.m_45589_(p_8357_, p_8358_);
-+         ChunkPos i = new ChunkPos(p_8357_, p_8358_);
++         ChunkPos i = new ChunkPos(pChunkX, pChunkZ);
  
           for(int j = 0; j < 4; ++j) {
              if (i == this.f_8337_[j] && this.f_8338_[j] == ChunkStatus.f_62326_) {
@@ -101,17 +119,17 @@
     }
  
 -   public CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_8431_(int p_8432_, int p_8433_, ChunkStatus p_8434_, boolean p_8435_) {
-+   public CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFuture(me.alphamode.mclong.math.BigInteger p_8432_, me.alphamode.mclong.math.BigInteger p_8433_, ChunkStatus p_8434_, boolean p_8435_) {
++   public CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFuture(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, ChunkStatus p_8434_, boolean p_8435_) {
        boolean flag = Thread.currentThread() == this.f_8330_;
        CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture;
        if (flag) {
 -         completablefuture = this.m_8456_(p_8432_, p_8433_, p_8434_, p_8435_);
-+         completablefuture = this.getChunkFutureMainThread(p_8432_, p_8433_, p_8434_, p_8435_);
++         completablefuture = this.getChunkFutureMainThread(pX, pY, p_8434_, p_8435_);
           this.f_8332_.m_18701_(completablefuture::isDone);
        } else {
           completablefuture = CompletableFuture.supplyAsync(() -> {
 -            return this.m_8456_(p_8432_, p_8433_, p_8434_, p_8435_);
-+            return this.getChunkFutureMainThread(p_8432_, p_8433_, p_8434_, p_8435_);
++            return this.getChunkFutureMainThread(pX, pY, p_8434_, p_8435_);
           }, this.f_8332_).thenCompose((p_8413_) -> {
              return p_8413_;
           });
@@ -120,9 +138,10 @@
     }
  
 -   private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> m_8456_(int p_8457_, int p_8458_, ChunkStatus p_8459_, boolean p_8460_) {
-+   private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFutureMainThread(me.alphamode.mclong.math.BigInteger p_8457_, me.alphamode.mclong.math.BigInteger p_8458_, ChunkStatus p_8459_, boolean p_8460_) {
-       ChunkPos chunkpos = new ChunkPos(p_8457_, p_8458_);
+-      ChunkPos chunkpos = new ChunkPos(p_8457_, p_8458_);
 -      long i = chunkpos.m_45588_();
++   private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFutureMainThread(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, ChunkStatus p_8459_, boolean p_8460_) {
++      ChunkPos chunkpos = new ChunkPos(pX, pY);
        int j = ChunkLevel.m_287141_(p_8459_);
 -      ChunkHolder chunkholder = this.m_8364_(i);
 +      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(chunkpos);
@@ -143,8 +162,8 @@
  
 -   public boolean m_5563_(int p_8429_, int p_8430_) {
 -      ChunkHolder chunkholder = this.m_8364_((new ChunkPos(p_8429_, p_8430_)).m_45588_());
-+   public boolean hasChunk(me.alphamode.mclong.math.BigInteger p_8429_, me.alphamode.mclong.math.BigInteger p_8430_) {
-+      ChunkHolder chunkholder = this.getVisibleChunkIfPresent((new ChunkPos(p_8429_, p_8430_)));
++   public boolean hasChunk(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      ChunkHolder chunkholder = this.getVisibleChunkIfPresent((new ChunkPos(pX, pZ)));
        int i = ChunkLevel.m_287141_(ChunkStatus.f_62326_);
        return !this.m_8416_(chunkholder, i);
     }
@@ -153,8 +172,8 @@
 -   public LightChunk m_6196_(int p_8454_, int p_8455_) {
 -      long i = ChunkPos.m_45589_(p_8454_, p_8455_);
 -      ChunkHolder chunkholder = this.m_8364_(i);
-+   public LightChunk getChunkForLighting(me.alphamode.mclong.math.BigInteger p_8454_, me.alphamode.mclong.math.BigInteger p_8455_) {
-+      ChunkPos i = new ChunkPos(p_8454_, p_8455_);
++   public LightChunk getChunkForLighting(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
++      ChunkPos i = new ChunkPos(pChunkX, pChunkZ);
 +      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(i);
        if (chunkholder == null) {
           return null;
@@ -165,12 +184,12 @@
  
 -   public boolean m_143239_(long p_143240_) {
 -      ChunkHolder chunkholder = this.m_8364_(p_143240_);
-+   public boolean isPositionTicking(ChunkPos p_143240_) {
-+      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(p_143240_);
++   public boolean isPositionTicking(ChunkPos pChunkPos) {
++      ChunkHolder chunkholder = this.getVisibleChunkIfPresent(pChunkPos);
        if (chunkholder == null) {
           return false;
 -      } else if (!this.f_8329_.m_183438_(p_143240_)) {
-+      } else if (!this.f_8329_.shouldTickBlocksAt(p_143240_)) {
++      } else if (!this.f_8329_.shouldTickBlocksAt(pChunkPos)) {
           return false;
        } else {
           Either<LevelChunk, ChunkHolder.ChunkLoadingFailure> either = chunkholder.m_140026_().getNow((Either<LevelChunk, ChunkHolder.ChunkLoadingFailure>)null);

@@ -1,14 +1,38 @@
 --- a/net/minecraft/client/particle/PlayerCloudParticle.java
 +++ b/net/minecraft/client/particle/PlayerCloudParticle.java
-@@ -11,7 +_,7 @@
+@@ -11,17 +_,17 @@
  public class PlayerCloudParticle extends TextureSheetParticle {
     private final SpriteSet f_107481_;
  
 -   PlayerCloudParticle(ClientLevel p_107483_, double p_107484_, double p_107485_, double p_107486_, double p_107487_, double p_107488_, double p_107489_, SpriteSet p_107490_) {
-+   PlayerCloudParticle(ClientLevel p_107483_, me.alphamode.mclong.math.BigDecimal p_107484_, me.alphamode.mclong.math.BigDecimal p_107485_, me.alphamode.mclong.math.BigDecimal p_107486_, double p_107487_, double p_107488_, double p_107489_, SpriteSet p_107490_) {
-       super(p_107483_, p_107484_, p_107485_, p_107486_, 0.0D, 0.0D, 0.0D);
+-      super(p_107483_, p_107484_, p_107485_, p_107486_, 0.0D, 0.0D, 0.0D);
++   PlayerCloudParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, SpriteSet pSprites) {
++      super(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D);
        this.f_172258_ = 0.96F;
-       this.f_107481_ = p_107490_;
+-      this.f_107481_ = p_107490_;
++      this.f_107481_ = pSprites;
+       float f = 2.5F;
+       this.f_107215_ *= (double)0.1F;
+       this.f_107216_ *= (double)0.1F;
+       this.f_107217_ *= (double)0.1F;
+-      this.f_107215_ += p_107487_;
+-      this.f_107216_ += p_107488_;
+-      this.f_107217_ += p_107489_;
++      this.f_107215_ += pXSpeed;
++      this.f_107216_ += pYSpeed;
++      this.f_107217_ += pZSpeed;
+       float f1 = 1.0F - (float)(Math.random() * (double)0.3F);
+       this.f_107227_ = f1;
+       this.f_107228_ = f1;
+@@ -30,7 +_,7 @@
+       int i = (int)(8.0D / (Math.random() * 0.8D + 0.3D));
+       this.f_107225_ = (int)Math.max((float)i * 2.5F, 1.0F);
+       this.f_107219_ = false;
+-      this.m_108339_(p_107490_);
++      this.m_108339_(pSprites);
+    }
+ 
+    public ParticleRenderType m_7556_() {
 @@ -45,13 +_,13 @@
        super.m_5989_();
        if (!this.f_107220_) {
@@ -29,21 +53,25 @@
              }
           }
        }
-@@ -66,7 +_,7 @@
+@@ -66,8 +_,8 @@
           this.f_107505_ = p_107507_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_107518_, ClientLevel p_107519_, double p_107520_, double p_107521_, double p_107522_, double p_107523_, double p_107524_, double p_107525_) {
-+      public Particle createParticle(SimpleParticleType p_107518_, ClientLevel p_107519_, me.alphamode.mclong.math.BigDecimal p_107520_, me.alphamode.mclong.math.BigDecimal p_107521_, me.alphamode.mclong.math.BigDecimal p_107522_, double p_107523_, double p_107524_, double p_107525_) {
-          return new PlayerCloudParticle(p_107519_, p_107520_, p_107521_, p_107522_, p_107523_, p_107524_, p_107525_, this.f_107505_);
+-         return new PlayerCloudParticle(p_107519_, p_107520_, p_107521_, p_107522_, p_107523_, p_107524_, p_107525_, this.f_107505_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         return new PlayerCloudParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, this.f_107505_);
        }
     }
-@@ -79,7 +_,7 @@
+ 
+@@ -79,8 +_,8 @@
           this.f_107526_ = p_107528_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_107539_, ClientLevel p_107540_, double p_107541_, double p_107542_, double p_107543_, double p_107544_, double p_107545_, double p_107546_) {
-+      public Particle createParticle(SimpleParticleType p_107539_, ClientLevel p_107540_, me.alphamode.mclong.math.BigDecimal p_107541_, me.alphamode.mclong.math.BigDecimal p_107542_, me.alphamode.mclong.math.BigDecimal p_107543_, double p_107544_, double p_107545_, double p_107546_) {
-          Particle particle = new PlayerCloudParticle(p_107540_, p_107541_, p_107542_, p_107543_, p_107544_, p_107545_, p_107546_, this.f_107526_);
+-         Particle particle = new PlayerCloudParticle(p_107540_, p_107541_, p_107542_, p_107543_, p_107544_, p_107545_, p_107546_, this.f_107526_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         Particle particle = new PlayerCloudParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, this.f_107526_);
           particle.m_107253_(200.0F, 50.0F, 120.0F);
           particle.m_107271_(0.4F);
+          return particle;

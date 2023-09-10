@@ -13,7 +13,7 @@
     private final int f_131461_;
     private final int f_131462_;
     private final int f_131463_;
-@@ -32,14 +_,14 @@
+@@ -32,36 +_,36 @@
     }
  
     public ClientboundAddEntityPacket(Entity p_131483_, int p_131484_) {
@@ -27,20 +27,33 @@
     }
  
 -   public ClientboundAddEntityPacket(int p_237546_, UUID p_237547_, double p_237548_, double p_237549_, double p_237550_, float p_237551_, float p_237552_, EntityType<?> p_237553_, int p_237554_, Vec3 p_237555_, double p_237556_) {
-+   public ClientboundAddEntityPacket(int p_237546_, UUID p_237547_, me.alphamode.mclong.math.BigDecimal p_237548_, me.alphamode.mclong.math.BigDecimal p_237549_, me.alphamode.mclong.math.BigDecimal p_237550_, float p_237551_, float p_237552_, EntityType<?> p_237553_, int p_237554_, Vec3 p_237555_, double p_237556_) {
-       this.f_131456_ = p_237546_;
-       this.f_131457_ = p_237547_;
-       this.f_131458_ = p_237548_;
-@@ -50,18 +_,18 @@
-       this.f_237544_ = (byte)Mth.m_14107_(p_237556_ * 256.0D / 360.0D);
-       this.f_131466_ = p_237553_;
-       this.f_131467_ = p_237554_;
+-      this.f_131456_ = p_237546_;
+-      this.f_131457_ = p_237547_;
+-      this.f_131458_ = p_237548_;
+-      this.f_131459_ = p_237549_;
+-      this.f_131460_ = p_237550_;
+-      this.f_131464_ = (byte)Mth.m_14143_(p_237551_ * 256.0F / 360.0F);
+-      this.f_131465_ = (byte)Mth.m_14143_(p_237552_ * 256.0F / 360.0F);
+-      this.f_237544_ = (byte)Mth.m_14107_(p_237556_ * 256.0D / 360.0D);
+-      this.f_131466_ = p_237553_;
+-      this.f_131467_ = p_237554_;
 -      this.f_131461_ = (int)(Mth.m_14008_(p_237555_.f_82479_, -3.9D, 3.9D) * 8000.0D);
 -      this.f_131462_ = (int)(Mth.m_14008_(p_237555_.f_82480_, -3.9D, 3.9D) * 8000.0D);
 -      this.f_131463_ = (int)(Mth.m_14008_(p_237555_.f_82481_, -3.9D, 3.9D) * 8000.0D);
-+      this.f_131461_ = (int)(Mth.m_14008_(p_237555_.m_7096_(), -3.9D, 3.9D) * 8000.0D);
-+      this.f_131462_ = (int)(Mth.m_14008_(p_237555_.m_7098_(), -3.9D, 3.9D) * 8000.0D);
-+      this.f_131463_ = (int)(Mth.m_14008_(p_237555_.m_7094_(), -3.9D, 3.9D) * 8000.0D);
++   public ClientboundAddEntityPacket(int pId, UUID pUuid, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pXRot, float pYRot, EntityType<?> pType, int pData, Vec3 pDeltaMovement, double pYHeadRot) {
++      this.f_131456_ = pId;
++      this.f_131457_ = pUuid;
++      this.f_131458_ = pX;
++      this.f_131459_ = pY;
++      this.f_131460_ = pZ;
++      this.f_131464_ = (byte)Mth.m_14143_(pXRot * 256.0F / 360.0F);
++      this.f_131465_ = (byte)Mth.m_14143_(pYRot * 256.0F / 360.0F);
++      this.f_237544_ = (byte)Mth.m_14107_(pYHeadRot * 256.0D / 360.0D);
++      this.f_131466_ = pType;
++      this.f_131467_ = pData;
++      this.f_131461_ = (int)(Mth.m_14008_(pDeltaMovement.m_7096_(), -3.9D, 3.9D) * 8000.0D);
++      this.f_131462_ = (int)(Mth.m_14008_(pDeltaMovement.m_7098_(), -3.9D, 3.9D) * 8000.0D);
++      this.f_131463_ = (int)(Mth.m_14008_(pDeltaMovement.m_7094_(), -3.9D, 3.9D) * 8000.0D);
     }
  
     public ClientboundAddEntityPacket(FriendlyByteBuf p_178562_) {

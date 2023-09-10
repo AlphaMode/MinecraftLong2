@@ -36,27 +36,48 @@
                 return Lists.newArrayList();
              }).addAll(list);
              this.f_140510_ = Math.min(this.f_140510_, p_140524_);
-@@ -49,15 +_,15 @@
+@@ -49,18 +_,18 @@
        }
     }
  
 -   protected void m_140535_(Optional<T> p_140536_, long p_140537_, int p_140538_) {
-+   protected void submit(Optional<T> p_140536_, ChunkPos p_140537_, int p_140538_) {
-       this.f_140509_.get(p_140538_).computeIfAbsent(p_140537_, (p_140545_) -> {
+-      this.f_140509_.get(p_140538_).computeIfAbsent(p_140537_, (p_140545_) -> {
++   protected void submit(Optional<T> pTask, ChunkPos pChunkPos, int pChunkLevel) {
++      this.f_140509_.get(pChunkLevel).computeIfAbsent(pChunkPos, (p_140545_) -> {
           return Lists.newArrayList();
-       }).add(p_140536_);
-       this.f_140510_ = Math.min(this.f_140510_, p_140538_);
+-      }).add(p_140536_);
+-      this.f_140510_ = Math.min(this.f_140510_, p_140538_);
++      }).add(pTask);
++      this.f_140510_ = Math.min(this.f_140510_, pChunkLevel);
     }
  
 -   protected void m_140530_(long p_140531_, boolean p_140532_) {
 -      for(Long2ObjectLinkedOpenHashMap<List<Optional<T>>> long2objectlinkedopenhashmap : this.f_140509_) {
-+   protected void release(ChunkPos p_140531_, boolean p_140532_) {
+-         List<Optional<T>> list = long2objectlinkedopenhashmap.get(p_140531_);
++   protected void release(ChunkPos pChunkPos, boolean pFullClear) {
 +      for(it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, List<Optional<T>>> long2objectlinkedopenhashmap : this.f_140509_) {
-          List<Optional<T>> list = long2objectlinkedopenhashmap.get(p_140531_);
++         List<Optional<T>> list = long2objectlinkedopenhashmap.get(pChunkPos);
           if (list != null) {
-             if (p_140532_) {
-@@ -81,7 +_,7 @@
-       this.f_140512_.remove(p_140531_);
+-            if (p_140532_) {
++            if (pFullClear) {
+                list.clear();
+             } else {
+                list.removeIf((p_140534_) -> {
+@@ -69,7 +_,7 @@
+             }
+ 
+             if (list.isEmpty()) {
+-               long2objectlinkedopenhashmap.remove(p_140531_);
++               long2objectlinkedopenhashmap.remove(pChunkPos);
+             }
+          }
+       }
+@@ -78,10 +_,10 @@
+          ++this.f_140510_;
+       }
+ 
+-      this.f_140512_.remove(p_140531_);
++      this.f_140512_.remove(pChunkPos);
     }
  
 -   private Runnable m_140525_(long p_140526_) {

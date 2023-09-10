@@ -25,57 +25,61 @@
  
     @Nullable
 -   protected Optional<R> m_63818_(long p_63819_) {
-+   protected Optional<R> get(SectionPos p_63819_) {
-       return this.f_63774_.get(p_63819_);
+-      return this.f_63774_.get(p_63819_);
++   protected Optional<R> get(SectionPos pSectionKey) {
++      return this.f_63774_.get(pSectionKey);
     }
  
 -   protected Optional<R> m_63823_(long p_63824_) {
 -      if (this.m_156630_(p_63824_)) {
-+   protected Optional<R> getOrLoad(SectionPos p_63824_) {
-+      if (this.outsideStoredRange(p_63824_)) {
++   protected Optional<R> getOrLoad(SectionPos pSectionKey) {
++      if (this.outsideStoredRange(pSectionKey)) {
           return Optional.empty();
        } else {
 -         Optional<R> optional = this.m_63818_(p_63824_);
-+         Optional<R> optional = this.get(p_63824_);
++         Optional<R> optional = this.get(pSectionKey);
           if (optional != null) {
              return optional;
           } else {
 -            this.m_63814_(SectionPos.m_123184_(p_63824_).m_123251_());
 -            optional = this.m_63818_(p_63824_);
-+            this.m_63814_(p_63824_.m_123251_());
-+            optional = this.get(p_63824_);
++            this.m_63814_(pSectionKey.m_123251_());
++            optional = this.get(pSectionKey);
              if (optional == null) {
                 throw (IllegalStateException)Util.m_137570_(new IllegalStateException());
              } else {
-@@ -93,21 +_,21 @@
+@@ -93,23 +_,23 @@
        }
     }
  
 -   protected boolean m_156630_(long p_156631_) {
 -      int i = SectionPos.m_123223_(SectionPos.m_123225_(p_156631_));
 -      return this.f_156618_.m_151562_(i);
-+   protected boolean outsideStoredRange(SectionPos p_156631_) {
-+      long i = SectionPos.sectionToBlockCoord(p_156631_.y());
++   protected boolean outsideStoredRange(SectionPos pSectionKey) {
++      long i = SectionPos.sectionToBlockCoord(pSectionKey.y());
 +      return this.f_156618_.isOutsideBuildHeight(i);
     }
  
 -   protected R m_63827_(long p_63828_) {
 -      if (this.m_156630_(p_63828_)) {
-+   protected R getOrCreate(SectionPos p_63828_) {
-+      if (this.outsideStoredRange(p_63828_)) {
++   protected R getOrCreate(SectionPos pSectionKey) {
++      if (this.outsideStoredRange(pSectionKey)) {
           throw (IllegalArgumentException)Util.m_137570_(new IllegalArgumentException("sectionPos out of bounds"));
        } else {
 -         Optional<R> optional = this.m_63823_(p_63828_);
-+         Optional<R> optional = this.getOrLoad(p_63828_);
++         Optional<R> optional = this.getOrLoad(pSectionKey);
           if (optional.isPresent()) {
              return optional.get();
           } else {
              R r = this.f_63777_.apply(() -> {
 -               this.m_5838_(p_63828_);
-+               this.setDirty(p_63828_);
++               this.setDirty(pSectionKey);
              });
-             this.f_63774_.put(p_63828_, Optional.of(r));
+-            this.f_63774_.put(p_63828_, Optional.of(r));
++            this.f_63774_.put(pSectionKey, Optional.of(r));
              return r;
+          }
+       }
 @@ -134,8 +_,8 @@
  
     private <T> void m_63801_(ChunkPos p_63802_, DynamicOps<T> p_63803_, @Nullable T p_63804_) {
@@ -144,20 +148,22 @@
 -   }
 -
 -   protected void m_5838_(long p_63788_) {
-+   private static SectionPos getKey(ChunkPos p_156628_, long p_156629_) {
-+      return SectionPos.of(p_156628_.getX(), p_156629_, p_156628_.getZ());
+-      Optional<R> optional = this.f_63774_.get(p_63788_);
++   private static SectionPos getKey(ChunkPos pChunkPos, long pSectionY) {
++      return SectionPos.of(pChunkPos.getX(), pSectionY, pChunkPos.getZ());
 +   }
 +
-+   protected void onSectionLoad(SectionPos p_63813_) {
++   protected void onSectionLoad(SectionPos pSectionKey) {
 +   }
 +
-+   protected void setDirty(SectionPos p_63788_) {
-       Optional<R> optional = this.f_63774_.get(p_63788_);
++   protected void setDirty(SectionPos pSectionPos) {
++      Optional<R> optional = this.f_63774_.get(pSectionPos);
        if (optional != null && optional.isPresent()) {
-          this.f_63775_.add(p_63788_);
+-         this.f_63775_.add(p_63788_);
++         this.f_63775_.add(pSectionPos);
        } else {
 -         f_63772_.warn("No data for position: {}", (Object)SectionPos.m_123184_(p_63788_));
-+         f_63772_.warn("No data for position: {}", p_63788_);
++         f_63772_.warn("No data for position: {}", pSectionPos);
        }
     }
  

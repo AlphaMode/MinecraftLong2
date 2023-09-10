@@ -8,15 +8,17 @@
 +   private final me.alphamode.mclong.math.BigDecimal f_120861_;
  
 -   public WorldCoordinate(boolean p_120864_, double p_120865_) {
-+   public WorldCoordinate(boolean p_120864_, me.alphamode.mclong.math.BigDecimal p_120865_) {
-       this.f_120860_ = p_120864_;
-       this.f_120861_ = p_120865_;
+-      this.f_120860_ = p_120864_;
+-      this.f_120861_ = p_120865_;
++   public WorldCoordinate(boolean pRelative, me.alphamode.mclong.math.BigDecimal pValue) {
++      this.f_120860_ = pRelative;
++      this.f_120861_ = pValue;
     }
  
 -   public double m_120867_(double p_120868_) {
 -      return this.f_120860_ ? this.f_120861_ + p_120868_ : this.f_120861_;
-+   public me.alphamode.mclong.math.BigDecimal get(me.alphamode.mclong.math.BigDecimal p_120868_) {
-+      return this.f_120860_ ? this.f_120861_.add(p_120868_) : this.f_120861_;
++   public me.alphamode.mclong.math.BigDecimal get(me.alphamode.mclong.math.BigDecimal pCoord) {
++      return this.f_120860_ ? this.f_120861_.add(pCoord) : this.f_120861_;
     }
  
     public static WorldCoordinate m_120871_(StringReader p_120872_, boolean p_120873_) throws CommandSyntaxException {

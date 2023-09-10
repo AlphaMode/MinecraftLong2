@@ -26,25 +26,29 @@
     }
  
 -   public void m_13524_(int p_184742_, int p_184743_) {
-+   public void set(long p_184742_, int p_184743_) {
-       Validate.inclusiveBetween(0L, (long)(this.f_184710_ - 1), (long)p_184742_);
-       Validate.inclusiveBetween(0L, this.f_184709_, (long)p_184743_);
+-      Validate.inclusiveBetween(0L, (long)(this.f_184710_ - 1), (long)p_184742_);
+-      Validate.inclusiveBetween(0L, this.f_184709_, (long)p_184743_);
 -      int i = this.m_184739_(p_184742_);
-+      int i = this.cellIndex(p_184742_);
++   public void set(long pIndex, int pValue) {
++      Validate.inclusiveBetween(0L, (long)(this.f_184710_ - 1), (long)pIndex);
++      Validate.inclusiveBetween(0L, this.f_184709_, (long)pValue);
++      int i = this.cellIndex(pIndex);
        long j = this.f_184707_[i];
 -      int k = (p_184742_ - i * this.f_184711_) * this.f_184708_;
-+      long k = (p_184742_ - i * this.f_184711_) * this.f_184708_;
-       this.f_184707_[i] = j & ~(this.f_184709_ << k) | ((long)p_184743_ & this.f_184709_) << k;
+-      this.f_184707_[i] = j & ~(this.f_184709_ << k) | ((long)p_184743_ & this.f_184709_) << k;
++      long k = (pIndex - i * this.f_184711_) * this.f_184708_;
++      this.f_184707_[i] = j & ~(this.f_184709_ << k) | ((long)pValue & this.f_184709_) << k;
     }
  
 -   public int m_13514_(int p_184729_) {
-+   public int get(long p_184729_) {
-       Validate.inclusiveBetween(0L, (long)(this.f_184710_ - 1), (long)p_184729_);
+-      Validate.inclusiveBetween(0L, (long)(this.f_184710_ - 1), (long)p_184729_);
 -      int i = this.m_184739_(p_184729_);
-+      int i = this.cellIndex(p_184729_);
++   public int get(long pIndex) {
++      Validate.inclusiveBetween(0L, (long)(this.f_184710_ - 1), (long)pIndex);
++      int i = this.cellIndex(pIndex);
        long j = this.f_184707_[i];
 -      int k = (p_184729_ - i * this.f_184711_) * this.f_184708_;
-+      int k = (int) ((p_184729_ - i * this.f_184711_) * this.f_184708_);
++      int k = (int) ((pIndex - i * this.f_184711_) * this.f_184708_);
        return (int)(j >> k & this.f_184709_);
     }
  

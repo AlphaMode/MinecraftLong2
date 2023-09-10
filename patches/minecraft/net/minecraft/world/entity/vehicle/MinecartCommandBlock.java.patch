@@ -1,20 +1,24 @@
 --- a/net/minecraft/world/entity/vehicle/MinecartCommandBlock.java
 +++ b/net/minecraft/world/entity/vehicle/MinecartCommandBlock.java
-@@ -31,7 +_,7 @@
+@@ -31,8 +_,8 @@
        super(p_38509_, p_38510_);
     }
  
 -   public MinecartCommandBlock(Level p_38512_, double p_38513_, double p_38514_, double p_38515_) {
-+   public MinecartCommandBlock(Level p_38512_, me.alphamode.mclong.math.BigDecimal p_38513_, me.alphamode.mclong.math.BigDecimal p_38514_, me.alphamode.mclong.math.BigDecimal p_38515_) {
-       super(EntityType.f_20471_, p_38512_, p_38513_, p_38514_, p_38515_);
+-      super(EntityType.f_20471_, p_38512_, p_38513_, p_38514_, p_38515_);
++   public MinecartCommandBlock(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      super(EntityType.f_20471_, pLevel, pX, pY, pZ);
     }
  
-@@ -69,7 +_,7 @@
+    protected Item m_213728_() {
+@@ -69,8 +_,8 @@
        return this.f_38505_;
     }
  
 -   public void m_6025_(int p_38517_, int p_38518_, int p_38519_, boolean p_38520_) {
-+   public void activateMinecart(long p_38517_, long p_38518_, long p_38519_, boolean p_38520_) {
-       if (p_38520_ && this.f_19797_ - this.f_38506_ >= 4) {
+-      if (p_38520_ && this.f_19797_ - this.f_38506_ >= 4) {
++   public void activateMinecart(long pX, long pY, long pZ, boolean pReceivingPower) {
++      if (pReceivingPower && this.f_19797_ - this.f_38506_ >= 4) {
           this.m_38534_().m_45414_(this.m_9236_());
           this.f_38506_ = this.f_19797_;
+       }

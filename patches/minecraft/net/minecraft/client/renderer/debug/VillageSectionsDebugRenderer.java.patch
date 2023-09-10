@@ -1,19 +1,21 @@
 --- a/net/minecraft/client/renderer/debug/VillageSectionsDebugRenderer.java
 +++ b/net/minecraft/client/renderer/debug/VillageSectionsDebugRenderer.java
-@@ -29,10 +_,10 @@
+@@ -29,11 +_,11 @@
        this.f_113693_.remove(p_113712_);
     }
  
 -   public void m_7790_(PoseStack p_113701_, MultiBufferSource p_113702_, double p_113703_, double p_113704_, double p_113705_) {
 -      BlockPos blockpos = BlockPos.m_274561_(p_113703_, p_113704_, p_113705_);
-+   public void render(PoseStack p_113701_, MultiBufferSource p_113702_, me.alphamode.mclong.math.BigDecimal p_113703_, me.alphamode.mclong.math.BigDecimal p_113704_, me.alphamode.mclong.math.BigDecimal p_113705_) {
-+      BlockPos blockpos = BlockPos.containing(p_113703_, p_113704_, p_113705_);
++   public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
++      BlockPos blockpos = BlockPos.containing(pCamX, pCamY, pCamZ);
        this.f_113693_.forEach((p_269747_) -> {
 -         if (blockpos.m_123314_(p_269747_.m_123250_(), 60.0D)) {
+-            m_269445_(p_113701_, p_113702_, p_269747_);
 +         if (blockpos.closerThan(p_269747_.m_123250_(), 60.0D)) {
-             m_269445_(p_113701_, p_113702_, p_269747_);
++            m_269445_(pPoseStack, pBuffer, p_269747_);
           }
  
+       });
 @@ -42,8 +_,8 @@
     private static void m_269445_(PoseStack p_270832_, MultiBufferSource p_270443_, SectionPos p_271021_) {
        int i = 1;

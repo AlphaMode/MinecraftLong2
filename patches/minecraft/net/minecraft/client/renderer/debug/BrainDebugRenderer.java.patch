@@ -5,73 +5,183 @@
     }
  
 -   public void m_7790_(PoseStack p_113214_, MultiBufferSource p_113215_, double p_113216_, double p_113217_, double p_113218_) {
-+   public void render(PoseStack p_113214_, MultiBufferSource p_113215_, me.alphamode.mclong.math.BigDecimal p_113216_, me.alphamode.mclong.math.BigDecimal p_113217_, me.alphamode.mclong.math.BigDecimal p_113218_) {
++   public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
        this.m_113264_();
 -      this.m_269077_(p_113214_, p_113215_, p_113216_, p_113217_, p_113218_);
-+      this.doRender(p_113214_, p_113215_, p_113216_, p_113217_, p_113218_);
++      this.doRender(pPoseStack, pBuffer, pCamX, pCamY, pCamZ);
        if (!this.f_113194_.f_91074_.m_5833_()) {
           this.m_113286_();
        }
-@@ -123,29 +_,29 @@
+@@ -123,30 +_,30 @@
        });
     }
  
 -   private void m_269077_(PoseStack p_270747_, MultiBufferSource p_270289_, double p_270303_, double p_270416_, double p_270542_) {
 -      BlockPos blockpos = BlockPos.m_274561_(p_270303_, p_270416_, p_270542_);
-+   private void doRender(PoseStack p_270747_, MultiBufferSource p_270289_, me.alphamode.mclong.math.BigDecimal p_270303_, me.alphamode.mclong.math.BigDecimal p_270416_, me.alphamode.mclong.math.BigDecimal p_270542_) {
-+      BlockPos blockpos = BlockPos.containing(p_270303_, p_270416_, p_270542_);
++   private void doRender(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      BlockPos blockpos = BlockPos.containing(pX, pY, pZ);
        this.f_113196_.values().forEach((p_269714_) -> {
           if (this.m_113280_(p_269714_)) {
 -            this.m_269312_(p_270747_, p_270289_, p_269714_, p_270303_, p_270416_, p_270542_);
-+            this.renderBrainInfo(p_270747_, p_270289_, p_269714_, p_270303_, p_270416_, p_270542_);
++            this.renderBrainInfo(pPoseStack, pBuffer, p_269714_, pX, pY, pZ);
           }
  
        });
  
        for(BlockPos blockpos1 : this.f_113195_.keySet()) {
 -         if (blockpos.m_123314_(blockpos1, 30.0D)) {
+-            m_269464_(p_270747_, p_270289_, blockpos1);
 +         if (blockpos.closerThan(blockpos1, 30.0D)) {
-             m_269464_(p_270747_, p_270289_, blockpos1);
++            m_269464_(pPoseStack, pBuffer, blockpos1);
           }
        }
  
        this.f_113195_.values().forEach((p_269718_) -> {
 -         if (blockpos.m_123314_(p_269718_.f_113333_, 30.0D)) {
+-            this.m_269122_(p_270747_, p_270289_, p_269718_);
 +         if (blockpos.closerThan(p_269718_.f_113333_, 30.0D)) {
-             this.m_269122_(p_270747_, p_270289_, p_269718_);
++            this.m_269122_(pPoseStack, pBuffer, p_269718_);
           }
  
        });
        this.m_113279_().forEach((p_269707_, p_269708_) -> {
 -         if (blockpos.m_123314_(p_269707_, 30.0D)) {
+-            this.m_269509_(p_270747_, p_270289_, p_269707_, p_269708_);
 +         if (blockpos.closerThan(p_269707_, 30.0D)) {
-             this.m_269509_(p_270747_, p_270289_, p_269707_, p_269708_);
++            this.m_269509_(pPoseStack, pBuffer, p_269707_, p_269708_);
           }
  
-@@ -187,14 +_,14 @@
+       });
+@@ -187,64 +_,64 @@
        m_269588_(p_270999_, p_270627_, p_270986_.f_113334_, p_270986_, i, -1);
     }
  
 -   private void m_269424_(PoseStack p_270435_, MultiBufferSource p_270439_, BrainDebugRenderer.BrainDump p_270979_, double p_270109_, double p_270342_, double p_270834_) {
-+   private void renderPath(PoseStack p_270435_, MultiBufferSource p_270439_, BrainDebugRenderer.BrainDump p_270979_, me.alphamode.mclong.math.BigDecimal p_270109_, me.alphamode.mclong.math.BigDecimal p_270342_, me.alphamode.mclong.math.BigDecimal p_270834_) {
-       if (p_270979_.f_113302_ != null) {
+-      if (p_270979_.f_113302_ != null) {
 -         PathfindingRenderer.m_269027_(p_270435_, p_270439_, p_270979_.f_113302_, 0.5F, false, false, p_270109_, p_270342_, p_270834_);
-+         PathfindingRenderer.renderPath(p_270435_, p_270439_, p_270979_.f_113302_, 0.5F, false, false, p_270109_, p_270342_, p_270834_);
++   private void renderPath(PoseStack pPoseStack, MultiBufferSource pBuffer, BrainDebugRenderer.BrainDump pBrainDump, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      if (pBrainDump.f_113302_ != null) {
++         PathfindingRenderer.renderPath(pPoseStack, pBuffer, pBrainDump.f_113302_, 0.5F, false, false, pX, pY, pZ);
        }
  
     }
  
 -   private void m_269312_(PoseStack p_270145_, MultiBufferSource p_270489_, BrainDebugRenderer.BrainDump p_270259_, double p_270922_, double p_270468_, double p_270838_) {
-+   private void renderBrainInfo(PoseStack p_270145_, MultiBufferSource p_270489_, BrainDebugRenderer.BrainDump p_270259_, me.alphamode.mclong.math.BigDecimal p_270922_, me.alphamode.mclong.math.BigDecimal p_270468_, me.alphamode.mclong.math.BigDecimal p_270838_) {
-       boolean flag = this.m_113265_(p_270259_);
+-      boolean flag = this.m_113265_(p_270259_);
++   private void renderBrainInfo(PoseStack pPoseStack, MultiBufferSource pBuffer, BrainDebugRenderer.BrainDump pBrainDump, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      boolean flag = this.m_113265_(pBrainDump);
        int i = 0;
-       m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, p_270259_.f_113295_, -1, 0.03F);
-@@ -259,7 +_,7 @@
+-      m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, p_270259_.f_113295_, -1, 0.03F);
++      m_269502_(pPoseStack, pBuffer, pBrainDump.f_113300_, i, pBrainDump.f_113295_, -1, 0.03F);
+       ++i;
+       if (flag) {
+-         m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, p_270259_.f_113296_ + " " + p_270259_.f_113297_ + " xp", -1, 0.02F);
+-         ++i;
+-      }
+-
+-      if (flag) {
+-         int j = p_270259_.f_113298_ < p_270259_.f_113299_ ? -23296 : -1;
+-         m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, "health: " + String.format(Locale.ROOT, "%.1f", p_270259_.f_113298_) + " / " + String.format(Locale.ROOT, "%.1f", p_270259_.f_113299_), j, 0.02F);
+-         ++i;
+-      }
+-
+-      if (flag && !p_270259_.f_113301_.equals("")) {
+-         m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, p_270259_.f_113301_, -98404, 0.02F);
+-         ++i;
+-      }
+-
+-      if (flag) {
+-         for(String s : p_270259_.f_113305_) {
+-            m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, s, -16711681, 0.02F);
+-            ++i;
+-         }
+-      }
+-
+-      if (flag) {
+-         for(String s1 : p_270259_.f_113304_) {
+-            m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, s1, -16711936, 0.02F);
+-            ++i;
+-         }
+-      }
+-
+-      if (p_270259_.f_113303_) {
+-         m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, "Wants Golem", -23296, 0.02F);
+-         ++i;
+-      }
+-
+-      if (flag && p_270259_.f_234495_ != -1) {
+-         m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, "Anger Level: " + p_270259_.f_234495_, -98404, 0.02F);
+-         ++i;
+-      }
+-
+-      if (flag) {
+-         for(String s2 : p_270259_.f_113307_) {
+-            if (s2.startsWith(p_270259_.f_113295_)) {
+-               m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, s2, -1, 0.02F);
++         m_269502_(pPoseStack, pBuffer, pBrainDump.f_113300_, i, pBrainDump.f_113296_ + " " + pBrainDump.f_113297_ + " xp", -1, 0.02F);
++         ++i;
++      }
++
++      if (flag) {
++         int j = pBrainDump.f_113298_ < pBrainDump.f_113299_ ? -23296 : -1;
++         m_269502_(pPoseStack, pBuffer, pBrainDump.f_113300_, i, "health: " + String.format(Locale.ROOT, "%.1f", pBrainDump.f_113298_) + " / " + String.format(Locale.ROOT, "%.1f", pBrainDump.f_113299_), j, 0.02F);
++         ++i;
++      }
++
++      if (flag && !pBrainDump.f_113301_.equals("")) {
++         m_269502_(pPoseStack, pBuffer, pBrainDump.f_113300_, i, pBrainDump.f_113301_, -98404, 0.02F);
++         ++i;
++      }
++
++      if (flag) {
++         for(String s : pBrainDump.f_113305_) {
++            m_269502_(pPoseStack, pBuffer, pBrainDump.f_113300_, i, s, -16711681, 0.02F);
++            ++i;
++         }
++      }
++
++      if (flag) {
++         for(String s1 : pBrainDump.f_113304_) {
++            m_269502_(pPoseStack, pBuffer, pBrainDump.f_113300_, i, s1, -16711936, 0.02F);
++            ++i;
++         }
++      }
++
++      if (pBrainDump.f_113303_) {
++         m_269502_(pPoseStack, pBuffer, pBrainDump.f_113300_, i, "Wants Golem", -23296, 0.02F);
++         ++i;
++      }
++
++      if (flag && pBrainDump.f_234495_ != -1) {
++         m_269502_(pPoseStack, pBuffer, pBrainDump.f_113300_, i, "Anger Level: " + pBrainDump.f_234495_, -98404, 0.02F);
++         ++i;
++      }
++
++      if (flag) {
++         for(String s2 : pBrainDump.f_113307_) {
++            if (s2.startsWith(pBrainDump.f_113295_)) {
++               m_269502_(pPoseStack, pBuffer, pBrainDump.f_113300_, i, s2, -1, 0.02F);
+             } else {
+-               m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, s2, -23296, 0.02F);
++               m_269502_(pPoseStack, pBuffer, pBrainDump.f_113300_, i, s2, -23296, 0.02F);
+             }
+ 
+             ++i;
+@@ -252,14 +_,14 @@
+       }
+ 
+       if (flag) {
+-         for(String s3 : Lists.reverse(p_270259_.f_113306_)) {
+-            m_269502_(p_270145_, p_270489_, p_270259_.f_113300_, i, s3, -3355444, 0.02F);
++         for(String s3 : Lists.reverse(pBrainDump.f_113306_)) {
++            m_269502_(pPoseStack, pBuffer, pBrainDump.f_113300_, i, s3, -3355444, 0.02F);
+             ++i;
+          }
        }
  
        if (flag) {
 -         this.m_269424_(p_270145_, p_270489_, p_270259_, p_270922_, p_270468_, p_270838_);
-+         this.renderPath(p_270145_, p_270489_, p_270259_, p_270922_, p_270468_, p_270838_);
++         this.renderPath(pPoseStack, pBuffer, pBrainDump, pX, pY, pZ);
        }
  
     }

@@ -1,14 +1,24 @@
 --- a/net/minecraft/client/particle/BubbleParticle.java
 +++ b/net/minecraft/client/particle/BubbleParticle.java
-@@ -9,7 +_,7 @@
+@@ -9,13 +_,13 @@
  
  @OnlyIn(Dist.CLIENT)
  public class BubbleParticle extends TextureSheetParticle {
 -   BubbleParticle(ClientLevel p_105773_, double p_105774_, double p_105775_, double p_105776_, double p_105777_, double p_105778_, double p_105779_) {
-+   BubbleParticle(ClientLevel p_105773_, me.alphamode.mclong.math.BigDecimal p_105774_, me.alphamode.mclong.math.BigDecimal p_105775_, me.alphamode.mclong.math.BigDecimal p_105776_, double p_105777_, double p_105778_, double p_105779_) {
-       super(p_105773_, p_105774_, p_105775_, p_105776_);
+-      super(p_105773_, p_105774_, p_105775_, p_105776_);
++   BubbleParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      super(pLevel, pX, pY, pZ);
        this.m_107250_(0.02F, 0.02F);
        this.f_107663_ *= this.f_107223_.m_188501_() * 0.6F + 0.2F;
+-      this.f_107215_ = p_105777_ * (double)0.2F + (Math.random() * 2.0D - 1.0D) * (double)0.02F;
+-      this.f_107216_ = p_105778_ * (double)0.2F + (Math.random() * 2.0D - 1.0D) * (double)0.02F;
+-      this.f_107217_ = p_105779_ * (double)0.2F + (Math.random() * 2.0D - 1.0D) * (double)0.02F;
++      this.f_107215_ = pXSpeed * (double)0.2F + (Math.random() * 2.0D - 1.0D) * (double)0.02F;
++      this.f_107216_ = pYSpeed * (double)0.2F + (Math.random() * 2.0D - 1.0D) * (double)0.02F;
++      this.f_107217_ = pZSpeed * (double)0.2F + (Math.random() * 2.0D - 1.0D) * (double)0.02F;
+       this.f_107225_ = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
+    }
+ 
 @@ -31,7 +_,7 @@
           this.f_107215_ *= (double)0.85F;
           this.f_107216_ *= (double)0.85F;
@@ -18,12 +28,14 @@
              this.m_107274_();
           }
  
-@@ -50,7 +_,7 @@
+@@ -50,8 +_,8 @@
           this.f_105791_ = p_105793_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_105804_, ClientLevel p_105805_, double p_105806_, double p_105807_, double p_105808_, double p_105809_, double p_105810_, double p_105811_) {
-+      public Particle createParticle(SimpleParticleType p_105804_, ClientLevel p_105805_, me.alphamode.mclong.math.BigDecimal p_105806_, me.alphamode.mclong.math.BigDecimal p_105807_, me.alphamode.mclong.math.BigDecimal p_105808_, double p_105809_, double p_105810_, double p_105811_) {
-          BubbleParticle bubbleparticle = new BubbleParticle(p_105805_, p_105806_, p_105807_, p_105808_, p_105809_, p_105810_, p_105811_);
+-         BubbleParticle bubbleparticle = new BubbleParticle(p_105805_, p_105806_, p_105807_, p_105808_, p_105809_, p_105810_, p_105811_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         BubbleParticle bubbleparticle = new BubbleParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
           bubbleparticle.m_108335_(this.f_105791_);
           return bubbleparticle;
+       }

@@ -57,11 +57,11 @@
 -      int j = SectionPos.m_123171_(p_200471_.m_123343_());
 -      int k = SectionPos.m_123171_(p_200472_.m_123341_());
 -      int l = SectionPos.m_123171_(p_200472_.m_123343_());
-+   private static boolean isAllEmpty(BlockPos p_200471_, BlockPos p_200472_, me.alphamode.mclong.math.BigInteger p_200473_, me.alphamode.mclong.math.BigInteger p_200474_, RenderRegionCache.ChunkInfo[][] p_200475_) {
-+      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(p_200471_.getBigX());
-+      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(p_200471_.getBigZ());
-+      me.alphamode.mclong.math.BigInteger k = SectionPos.blockToSectionCoord(p_200472_.getBigX());
-+      me.alphamode.mclong.math.BigInteger l = SectionPos.blockToSectionCoord(p_200472_.getBigZ());
++   private static boolean isAllEmpty(BlockPos pStart, BlockPos pEnd, me.alphamode.mclong.math.BigInteger pStartX, me.alphamode.mclong.math.BigInteger pStartZ, RenderRegionCache.ChunkInfo[][] pInfos) {
++      me.alphamode.mclong.math.BigInteger i = SectionPos.blockToSectionCoord(pStart.getBigX());
++      me.alphamode.mclong.math.BigInteger j = SectionPos.blockToSectionCoord(pStart.getBigZ());
++      me.alphamode.mclong.math.BigInteger k = SectionPos.blockToSectionCoord(pEnd.getBigX());
++      me.alphamode.mclong.math.BigInteger l = SectionPos.blockToSectionCoord(pEnd.getBigZ());
  
 -      for(int i1 = i; i1 <= k; ++i1) {
 -         for(int j1 = j; j1 <= l; ++j1) {
@@ -69,8 +69,8 @@
 -            if (!levelchunk.m_5566_(p_200471_.m_123342_(), p_200472_.m_123342_())) {
 +      for(me.alphamode.mclong.math.BigInteger x = i; x.compareTo(k) <= 0; x = x.add(me.alphamode.mclong.math.BigInteger.ONE)) {
 +         for(me.alphamode.mclong.math.BigInteger z = j; z.compareTo(l) <= 0; z = z.add(me.alphamode.mclong.math.BigInteger.ONE)) {
-+            LevelChunk levelchunk = p_200475_[x.subtract(p_200473_).intValue()][z.subtract(p_200474_).intValue()].m_200480_();
-+            if (!levelchunk.isYSpaceEmpty(p_200471_.getY(), p_200472_.getY())) {
++            LevelChunk levelchunk = pInfos[x.subtract(pStartX).intValue()][z.subtract(pStartZ).intValue()].m_200480_();
++            if (!levelchunk.isYSpaceEmpty(pStart.getY(), pEnd.getY())) {
                 return false;
              }
           }

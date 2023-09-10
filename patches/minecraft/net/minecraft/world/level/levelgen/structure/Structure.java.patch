@@ -24,29 +24,37 @@
     }
  
 -   private static int[] m_226613_(Structure.GenerationContext p_226614_, int p_226615_, int p_226616_, int p_226617_, int p_226618_) {
-+   private static long[] getCornerHeights(Structure.GenerationContext p_226614_, me.alphamode.mclong.math.BigInteger p_226615_, long p_226616_, me.alphamode.mclong.math.BigInteger p_226617_, int p_226618_) {
-       ChunkGenerator chunkgenerator = p_226614_.f_226622_();
-       LevelHeightAccessor levelheightaccessor = p_226614_.f_226629_();
-       RandomState randomstate = p_226614_.f_226624_();
+-      ChunkGenerator chunkgenerator = p_226614_.f_226622_();
+-      LevelHeightAccessor levelheightaccessor = p_226614_.f_226629_();
+-      RandomState randomstate = p_226614_.f_226624_();
 -      return new int[]{chunkgenerator.m_223235_(p_226615_, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.m_223235_(p_226615_, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.m_223235_(p_226615_ + p_226616_, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.m_223235_(p_226615_ + p_226616_, p_226617_ + p_226618_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate)};
-+      return new long[]{chunkgenerator.getFirstOccupiedHeight(p_226615_, p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_, p_226617_.add(p_226618_), Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_.add(p_226616_), p_226617_, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(p_226615_.add(p_226616_), p_226617_.add(p_226618_), Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate)};
-    }
- 
+-   }
+-
 -   protected static int m_226572_(Structure.GenerationContext p_226573_, int p_226574_, int p_226575_) {
-+   protected static long getLowestY(Structure.GenerationContext p_226573_, int p_226574_, int p_226575_) {
-       ChunkPos chunkpos = p_226573_.f_226628_();
+-      ChunkPos chunkpos = p_226573_.f_226628_();
 -      int i = chunkpos.m_45604_();
 -      int j = chunkpos.m_45605_();
 -      return m_226576_(p_226573_, i, j, p_226574_, p_226575_);
-+      me.alphamode.mclong.math.BigInteger i = chunkpos.getMinBigBlockX();
-+      me.alphamode.mclong.math.BigInteger j = chunkpos.getMinBigBlockZ();
-+      return getLowestY(p_226573_, i, j, p_226574_, p_226575_);
-    }
- 
+-   }
+-
 -   protected static int m_226576_(Structure.GenerationContext p_226577_, int p_226578_, int p_226579_, int p_226580_, int p_226581_) {
 -      int[] aint = m_226613_(p_226577_, p_226578_, p_226580_, p_226579_, p_226581_);
-+   protected static long getLowestY(Structure.GenerationContext p_226577_, me.alphamode.mclong.math.BigInteger p_226578_, me.alphamode.mclong.math.BigInteger p_226579_, int p_226580_, int p_226581_) {
-+      long[] aint = getCornerHeights(p_226577_, p_226578_, p_226580_, p_226579_, p_226581_);
++   private static long[] getCornerHeights(Structure.GenerationContext pContext, me.alphamode.mclong.math.BigInteger pMinX, long pMaxX, me.alphamode.mclong.math.BigInteger pMinZ, int pMaxZ) {
++      ChunkGenerator chunkgenerator = pContext.f_226622_();
++      LevelHeightAccessor levelheightaccessor = pContext.f_226629_();
++      RandomState randomstate = pContext.f_226624_();
++      return new long[]{chunkgenerator.getFirstOccupiedHeight(pMinX, pMinZ, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(pMinX, pMinZ.add(pMaxZ), Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(pMinX.add(pMaxX), pMinZ, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate), chunkgenerator.getFirstOccupiedHeight(pMinX.add(pMaxX), pMinZ.add(pMaxZ), Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor, randomstate)};
++   }
++
++   protected static long getLowestY(Structure.GenerationContext pContext, int pMaxX, int pMaxZ) {
++      ChunkPos chunkpos = pContext.f_226628_();
++      me.alphamode.mclong.math.BigInteger i = chunkpos.getMinBigBlockX();
++      me.alphamode.mclong.math.BigInteger j = chunkpos.getMinBigBlockZ();
++      return getLowestY(pContext, i, j, pMaxX, pMaxZ);
++   }
++
++   protected static long getLowestY(Structure.GenerationContext pContext, me.alphamode.mclong.math.BigInteger pMinX, me.alphamode.mclong.math.BigInteger pMinZ, int pMaxX, int pMaxZ) {
++      long[] aint = getCornerHeights(pContext, pMinX, pMaxX, pMinZ, pMaxZ);
        return Math.min(Math.min(aint[0], aint[1]), Math.min(aint[2], aint[3]));
     }
  

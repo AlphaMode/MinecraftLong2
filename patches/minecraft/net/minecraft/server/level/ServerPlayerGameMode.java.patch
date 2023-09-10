@@ -1,16 +1,126 @@
 --- a/net/minecraft/server/level/ServerPlayerGameMode.java
 +++ b/net/minecraft/server/level/ServerPlayerGameMode.java
-@@ -123,10 +_,10 @@
+@@ -123,87 +_,87 @@
     private void m_215125_(BlockPos p_215126_, boolean p_215127_, int p_215128_, String p_215129_) {
     }
  
 -   public void m_214168_(BlockPos p_215120_, ServerboundPlayerActionPacket.Action p_215121_, Direction p_215122_, int p_215123_, int p_215124_) {
 -      if (this.f_9245_.m_146892_().m_82557_(Vec3.m_82512_(p_215120_)) > ServerGamePacketListenerImpl.f_215198_) {
-+   public void handleBlockBreakAction(BlockPos p_215120_, ServerboundPlayerActionPacket.Action p_215121_, Direction p_215122_, long p_215123_, int p_215124_) {
-+      if (this.f_9245_.m_146892_().m_82557_(Vec3.atCenterOf(p_215120_)) > ServerGamePacketListenerImpl.f_215198_) {
-          this.m_215125_(p_215120_, false, p_215124_, "too far");
+-         this.m_215125_(p_215120_, false, p_215124_, "too far");
 -      } else if (p_215120_.m_123342_() >= p_215123_) {
-+      } else if (p_215120_.getY() >= p_215123_) {
-          this.f_9245_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(p_215120_, this.f_9244_.m_8055_(p_215120_)));
-          this.m_215125_(p_215120_, false, p_215124_, "too high");
+-         this.f_9245_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(p_215120_, this.f_9244_.m_8055_(p_215120_)));
+-         this.m_215125_(p_215120_, false, p_215124_, "too high");
++   public void handleBlockBreakAction(BlockPos pPos, ServerboundPlayerActionPacket.Action pAction, Direction pFace, long pMaxBuildHeight, int pSequence) {
++      if (this.f_9245_.m_146892_().m_82557_(Vec3.atCenterOf(pPos)) > ServerGamePacketListenerImpl.f_215198_) {
++         this.m_215125_(pPos, false, pSequence, "too far");
++      } else if (pPos.getY() >= pMaxBuildHeight) {
++         this.f_9245_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(pPos, this.f_9244_.m_8055_(pPos)));
++         this.m_215125_(pPos, false, pSequence, "too high");
        } else {
+-         if (p_215121_ == ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK) {
+-            if (!this.f_9244_.m_7966_(this.f_9245_, p_215120_)) {
+-               this.f_9245_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(p_215120_, this.f_9244_.m_8055_(p_215120_)));
+-               this.m_215125_(p_215120_, false, p_215124_, "may not interact");
++         if (pAction == ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK) {
++            if (!this.f_9244_.m_7966_(this.f_9245_, pPos)) {
++               this.f_9245_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(pPos, this.f_9244_.m_8055_(pPos)));
++               this.m_215125_(pPos, false, pSequence, "may not interact");
+                return;
+             }
+ 
+             if (this.m_9295_()) {
+-               this.m_215116_(p_215120_, p_215124_, "creative destroy");
++               this.m_215116_(pPos, pSequence, "creative destroy");
+                return;
+             }
+ 
+-            if (this.f_9245_.m_36187_(this.f_9244_, p_215120_, this.f_9247_)) {
+-               this.f_9245_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(p_215120_, this.f_9244_.m_8055_(p_215120_)));
+-               this.m_215125_(p_215120_, false, p_215124_, "block action restricted");
++            if (this.f_9245_.m_36187_(this.f_9244_, pPos, this.f_9247_)) {
++               this.f_9245_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(pPos, this.f_9244_.m_8055_(pPos)));
++               this.m_215125_(pPos, false, pSequence, "block action restricted");
+                return;
+             }
+ 
+             this.f_9250_ = this.f_9252_;
+             float f = 1.0F;
+-            BlockState blockstate = this.f_9244_.m_8055_(p_215120_);
++            BlockState blockstate = this.f_9244_.m_8055_(pPos);
+             if (!blockstate.m_60795_()) {
+-               blockstate.m_60686_(this.f_9244_, p_215120_, this.f_9245_);
+-               f = blockstate.m_60625_(this.f_9245_, this.f_9245_.m_9236_(), p_215120_);
++               blockstate.m_60686_(this.f_9244_, pPos, this.f_9245_);
++               f = blockstate.m_60625_(this.f_9245_, this.f_9245_.m_9236_(), pPos);
+             }
+ 
+             if (!blockstate.m_60795_() && f >= 1.0F) {
+-               this.m_215116_(p_215120_, p_215124_, "insta mine");
++               this.m_215116_(pPos, pSequence, "insta mine");
+             } else {
+                if (this.f_9249_) {
+                   this.f_9245_.f_8906_.m_9829_(new ClientboundBlockUpdatePacket(this.f_9251_, this.f_9244_.m_8055_(this.f_9251_)));
+-                  this.m_215125_(p_215120_, false, p_215124_, "abort destroying since another started (client insta mine, server disagreed)");
++                  this.m_215125_(pPos, false, pSequence, "abort destroying since another started (client insta mine, server disagreed)");
+                }
+ 
+                this.f_9249_ = true;
+-               this.f_9251_ = p_215120_.m_7949_();
++               this.f_9251_ = pPos.m_7949_();
+                int i = (int)(f * 10.0F);
+-               this.f_9244_.m_6801_(this.f_9245_.m_19879_(), p_215120_, i);
+-               this.m_215125_(p_215120_, true, p_215124_, "actual start of destroying");
++               this.f_9244_.m_6801_(this.f_9245_.m_19879_(), pPos, i);
++               this.m_215125_(pPos, true, pSequence, "actual start of destroying");
+                this.f_9256_ = i;
+             }
+-         } else if (p_215121_ == ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK) {
+-            if (p_215120_.equals(this.f_9251_)) {
++         } else if (pAction == ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK) {
++            if (pPos.equals(this.f_9251_)) {
+                int j = this.f_9252_ - this.f_9250_;
+-               BlockState blockstate1 = this.f_9244_.m_8055_(p_215120_);
++               BlockState blockstate1 = this.f_9244_.m_8055_(pPos);
+                if (!blockstate1.m_60795_()) {
+-                  float f1 = blockstate1.m_60625_(this.f_9245_, this.f_9245_.m_9236_(), p_215120_) * (float)(j + 1);
++                  float f1 = blockstate1.m_60625_(this.f_9245_, this.f_9245_.m_9236_(), pPos) * (float)(j + 1);
+                   if (f1 >= 0.7F) {
+                      this.f_9249_ = false;
+-                     this.f_9244_.m_6801_(this.f_9245_.m_19879_(), p_215120_, -1);
+-                     this.m_215116_(p_215120_, p_215124_, "destroyed");
++                     this.f_9244_.m_6801_(this.f_9245_.m_19879_(), pPos, -1);
++                     this.m_215116_(pPos, pSequence, "destroyed");
+                      return;
+                   }
+ 
+                   if (!this.f_9253_) {
+                      this.f_9249_ = false;
+                      this.f_9253_ = true;
+-                     this.f_9254_ = p_215120_;
++                     this.f_9254_ = pPos;
+                      this.f_9255_ = this.f_9250_;
+                   }
+                }
+             }
+ 
+-            this.m_215125_(p_215120_, true, p_215124_, "stopped destroying");
+-         } else if (p_215121_ == ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK) {
++            this.m_215125_(pPos, true, pSequence, "stopped destroying");
++         } else if (pAction == ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK) {
+             this.f_9249_ = false;
+-            if (!Objects.equals(this.f_9251_, p_215120_)) {
+-               f_9246_.warn("Mismatch in destroy block pos: {} {}", this.f_9251_, p_215120_);
++            if (!Objects.equals(this.f_9251_, pPos)) {
++               f_9246_.warn("Mismatch in destroy block pos: {} {}", this.f_9251_, pPos);
+                this.f_9244_.m_6801_(this.f_9245_.m_19879_(), this.f_9251_, -1);
+-               this.m_215125_(p_215120_, true, p_215124_, "aborted mismatched destroying");
++               this.m_215125_(pPos, true, pSequence, "aborted mismatched destroying");
+             }
+ 
+-            this.f_9244_.m_6801_(this.f_9245_.m_19879_(), p_215120_, -1);
+-            this.m_215125_(p_215120_, true, p_215124_, "aborted destroying");
++            this.f_9244_.m_6801_(this.f_9245_.m_19879_(), pPos, -1);
++            this.m_215125_(pPos, true, pSequence, "aborted destroying");
+          }
+ 
+       }

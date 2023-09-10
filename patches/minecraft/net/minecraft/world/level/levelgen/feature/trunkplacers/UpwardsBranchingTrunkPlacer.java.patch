@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/trunkplacers/UpwardsBranchingTrunkPlacer.java
 +++ b/net/minecraft/world/level/levelgen/feature/trunkplacers/UpwardsBranchingTrunkPlacer.java
-@@ -52,35 +_,35 @@
+@@ -52,39 +_,39 @@
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
        for(int i = 0; i < p_226228_; ++i) {
@@ -29,31 +29,39 @@
 -      int i = p_226220_ + p_226222_;
 -      int j = p_226219_.m_123341_();
 -      int k = p_226219_.m_123343_();
-+   private void placeBranch(LevelSimulatedReader p_226213_, BiConsumer<BlockPos, BlockState> p_226214_, RandomSource p_226215_, int p_226216_, TreeConfiguration p_226217_, List<FoliagePlacer.FoliageAttachment> p_226218_, BlockPos.MutableBlockPos p_226219_, long p_226220_, Direction p_226221_, int p_226222_, int p_226223_) {
++   private void placeBranch(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, TreeConfiguration pTreeConfig, List<FoliagePlacer.FoliageAttachment> pFoliageAttachments, BlockPos.MutableBlockPos pPos, long p_226220_, Direction pDirection, int p_226222_, int pExtraBranchSteps) {
 +      long i = p_226220_ + p_226222_;
-+      me.alphamode.mclong.math.BigInteger j = p_226219_.getBigX();
-+      me.alphamode.mclong.math.BigInteger k = p_226219_.getBigZ();
++      me.alphamode.mclong.math.BigInteger j = pPos.getBigX();
++      me.alphamode.mclong.math.BigInteger k = pPos.getBigZ();
  
-       for(int l = p_226222_; l < p_226216_ && p_226223_ > 0; --p_226223_) {
+-      for(int l = p_226222_; l < p_226216_ && p_226223_ > 0; --p_226223_) {
++      for(int l = p_226222_; l < pFreeTreeHeight && pExtraBranchSteps > 0; --pExtraBranchSteps) {
           if (l >= 1) {
 -            int i1 = p_226220_ + l;
 -            j += p_226221_.m_122429_();
 -            k += p_226221_.m_122431_();
 +            long i1 = p_226220_ + l;
-+            j = j.add(p_226221_.m_122429_());
-+            k = k.add(p_226221_.m_122431_());
++            j = j.add(pDirection.m_122429_());
++            k = k.add(pDirection.m_122431_());
              i = i1;
 -            if (this.m_226187_(p_226213_, p_226214_, p_226215_, p_226219_.m_122178_(j, i1, k), p_226217_)) {
-+            if (this.m_226187_(p_226213_, p_226214_, p_226215_, p_226219_.set(j, i1, k), p_226217_)) {
++            if (this.m_226187_(pLevel, pBlockSetter, pRandom, pPos.set(j, i1, k), pTreeConfig)) {
                 i = i1 + 1;
              }
  
-@@ -93,7 +_,7 @@
+-            p_226218_.add(new FoliagePlacer.FoliageAttachment(p_226219_.m_7949_(), 0, false));
++            pFoliageAttachments.add(new FoliagePlacer.FoliageAttachment(pPos.m_7949_(), 0, false));
+          }
+ 
+          ++l;
+@@ -92,8 +_,8 @@
+ 
        if (i - p_226220_ > 1) {
           BlockPos blockpos = new BlockPos(j, i, k);
-          p_226218_.add(new FoliagePlacer.FoliageAttachment(blockpos, 0, false));
+-         p_226218_.add(new FoliagePlacer.FoliageAttachment(blockpos, 0, false));
 -         p_226218_.add(new FoliagePlacer.FoliageAttachment(blockpos.m_6625_(2), 0, false));
-+         p_226218_.add(new FoliagePlacer.FoliageAttachment(blockpos.below(2), 0, false));
++         pFoliageAttachments.add(new FoliagePlacer.FoliageAttachment(blockpos, 0, false));
++         pFoliageAttachments.add(new FoliagePlacer.FoliageAttachment(blockpos.below(2), 0, false));
        }
  
     }

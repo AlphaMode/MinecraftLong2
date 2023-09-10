@@ -64,19 +64,19 @@
           boolean flag = j1 > 0;
           p_155111_.f_58648_ = p_155111_.f_58649_;
           if (!p_155108_.f_46443_) {
-@@ -183,19 +_,19 @@
+@@ -183,20 +_,20 @@
  
     }
  
 -   private static int m_155092_(Level p_155093_, int p_155094_, int p_155095_, int p_155096_) {
-+   private static int updateBase(Level p_155093_, long p_155094_, long p_155095_, long p_155096_) {
++   private static int updateBase(Level pLevel, long pX, long pY, long pZ) {
        int i = 0;
  
        for(int j = 1; j <= 4; i = j++) {
 -         int k = p_155095_ - j;
 -         if (k < p_155093_.m_141937_()) {
-+         long k = p_155095_ - j;
-+         if (k < p_155093_.getMinBuildHeight()) {
++         long k = pY - j;
++         if (k < pLevel.getMinBuildHeight()) {
              break;
           }
  
@@ -84,11 +84,13 @@
  
 -         for(int l = p_155094_ - j; l <= p_155094_ + j && flag; ++l) {
 -            for(int i1 = p_155096_ - j; i1 <= p_155096_ + j; ++i1) {
-+         for(long l = p_155094_ - j; l <= p_155094_ + j && flag; ++l) {
-+            for(long i1 = p_155096_ - j; i1 <= p_155096_ + j; ++i1) {
-                if (!p_155093_.m_8055_(new BlockPos(l, k, i1)).m_204336_(BlockTags.f_13079_)) {
+-               if (!p_155093_.m_8055_(new BlockPos(l, k, i1)).m_204336_(BlockTags.f_13079_)) {
++         for(long l = pX - j; l <= pX + j && flag; ++l) {
++            for(long i1 = pZ - j; i1 <= pZ + j; ++i1) {
++               if (!pLevel.m_8055_(new BlockPos(l, k, i1)).m_204336_(BlockTags.f_13079_)) {
                    flag = false;
                    break;
+                }
 @@ -225,7 +_,7 @@
           }
  

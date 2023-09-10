@@ -5,41 +5,49 @@
  
     @VisibleForTesting
 -   public static BlockPos m_148545_(BlockPos p_148546_, int p_148547_, Predicate<BlockPos> p_148548_) {
-+   public static BlockPos moveUpOutOfSolid(BlockPos p_148546_, long p_148547_, Predicate<BlockPos> p_148548_) {
-       if (!p_148548_.test(p_148546_)) {
-          return p_148546_;
+-      if (!p_148548_.test(p_148546_)) {
+-         return p_148546_;
++   public static BlockPos moveUpOutOfSolid(BlockPos pPos, long pMaxY, Predicate<BlockPos> pPosPredicate) {
++      if (!pPosPredicate.test(pPos)) {
++         return pPos;
        } else {
           BlockPos blockpos;
 -         for(blockpos = p_148546_.m_7494_(); blockpos.m_123342_() < p_148547_ && p_148548_.test(blockpos); blockpos = blockpos.m_7494_()) {
-+         for(blockpos = p_148546_.above(); blockpos.getY() < p_148547_ && p_148548_.test(blockpos); blockpos = blockpos.above()) {
++         for(blockpos = pPos.above(); blockpos.getY() < pMaxY && pPosPredicate.test(blockpos); blockpos = blockpos.above()) {
           }
  
           return blockpos;
-@@ -50,20 +_,20 @@
+@@ -50,21 +_,21 @@
     }
  
     @VisibleForTesting
 -   public static BlockPos m_26947_(BlockPos p_26948_, int p_26949_, int p_26950_, Predicate<BlockPos> p_26951_) {
-+   public static BlockPos moveUpToAboveSolid(BlockPos p_26948_, int p_26949_, long p_26950_, Predicate<BlockPos> p_26951_) {
-       if (p_26949_ < 0) {
-          throw new IllegalArgumentException("aboveSolidAmount was " + p_26949_ + ", expected >= 0");
-       } else if (!p_26951_.test(p_26948_)) {
-          return p_26948_;
+-      if (p_26949_ < 0) {
+-         throw new IllegalArgumentException("aboveSolidAmount was " + p_26949_ + ", expected >= 0");
+-      } else if (!p_26951_.test(p_26948_)) {
+-         return p_26948_;
++   public static BlockPos moveUpToAboveSolid(BlockPos pPos, int pAboveSolidAmount, long pMaxY, Predicate<BlockPos> pPosPredicate) {
++      if (pAboveSolidAmount < 0) {
++         throw new IllegalArgumentException("aboveSolidAmount was " + pAboveSolidAmount + ", expected >= 0");
++      } else if (!pPosPredicate.test(pPos)) {
++         return pPos;
        } else {
           BlockPos blockpos;
 -         for(blockpos = p_26948_.m_7494_(); blockpos.m_123342_() < p_26950_ && p_26951_.test(blockpos); blockpos = blockpos.m_7494_()) {
-+         for(blockpos = p_26948_.above(); blockpos.getY() < p_26950_ && p_26951_.test(blockpos); blockpos = blockpos.above()) {
++         for(blockpos = pPos.above(); blockpos.getY() < pMaxY && pPosPredicate.test(blockpos); blockpos = blockpos.above()) {
           }
  
           BlockPos blockpos1;
           BlockPos blockpos2;
 -         for(blockpos1 = blockpos; blockpos1.m_123342_() < p_26950_ && blockpos1.m_123342_() - blockpos.m_123342_() < p_26949_; blockpos1 = blockpos2) {
 -            blockpos2 = blockpos1.m_7494_();
-+         for(blockpos1 = blockpos; blockpos1.getY() < p_26950_ && blockpos1.getY() - blockpos.getY() < p_26949_; blockpos1 = blockpos2) {
+-            if (p_26951_.test(blockpos2)) {
++         for(blockpos1 = blockpos; blockpos1.getY() < pMaxY && blockpos1.getY() - blockpos.getY() < pAboveSolidAmount; blockpos1 = blockpos2) {
 +            blockpos2 = blockpos1.above();
-             if (p_26951_.test(blockpos2)) {
++            if (pPosPredicate.test(blockpos2)) {
                 break;
              }
+          }
 @@ -94,27 +_,27 @@
           }
        }

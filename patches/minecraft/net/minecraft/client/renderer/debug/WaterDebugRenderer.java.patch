@@ -5,7 +5,7 @@
     }
  
 -   public void m_7790_(PoseStack p_113719_, MultiBufferSource p_113720_, double p_113721_, double p_113722_, double p_113723_) {
-+   public void render(PoseStack p_113719_, MultiBufferSource p_113720_, me.alphamode.mclong.math.BigDecimal p_113721_, me.alphamode.mclong.math.BigDecimal p_113722_, me.alphamode.mclong.math.BigDecimal p_113723_) {
++   public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
        BlockPos blockpos = this.f_113715_.f_91074_.m_20183_();
        LevelReader levelreader = this.f_113715_.f_91074_.m_9236_();
  
@@ -16,7 +16,7 @@
 -            double d0 = (double)((float)blockpos1.m_123342_() + fluidstate.m_76155_(levelreader, blockpos1));
 -            DebugRenderer.m_269311_(p_113719_, p_113720_, (new AABB((double)((float)blockpos1.m_123341_() + 0.01F), (double)((float)blockpos1.m_123342_() + 0.01F), (double)((float)blockpos1.m_123343_() + 0.01F), (double)((float)blockpos1.m_123341_() + 0.99F), d0, (double)((float)blockpos1.m_123343_() + 0.99F))).m_82386_(-p_113721_, -p_113722_, -p_113723_), 0.0F, 1.0F, 0.0F, 0.15F);
 +            double d0 = (double)((float)blockpos1.getY() + fluidstate.m_76155_(levelreader, blockpos1));
-+            DebugRenderer.m_269311_(p_113719_, p_113720_, (new AABB((double)((float)blockpos1.getX() + 0.01F), (double)((float)blockpos1.getY() + 0.01F), (double)((float)blockpos1.getZ() + 0.01F), (double)((float)blockpos1.getX() + 0.99F), d0, (double)((float)blockpos1.getZ() + 0.99F))).move(p_113721_.negate(), p_113722_.negate(), p_113723_.negate()), 0.0F, 1.0F, 0.0F, 0.15F);
++            DebugRenderer.m_269311_(pPoseStack, pBuffer, (new AABB((double)((float)blockpos1.getX() + 0.01F), (double)((float)blockpos1.getY() + 0.01F), (double)((float)blockpos1.getZ() + 0.01F), (double)((float)blockpos1.getX() + 0.99F), d0, (double)((float)blockpos1.getZ() + 0.99F))).move(pCamX.negate(), pCamY.negate(), pCamZ.negate()), 0.0F, 1.0F, 0.0F, 0.15F);
           }
        }
  
@@ -25,7 +25,7 @@
           FluidState fluidstate1 = levelreader.m_6425_(blockpos2);
           if (fluidstate1.m_205070_(FluidTags.f_13131_)) {
 -            DebugRenderer.m_269271_(p_113719_, p_113720_, String.valueOf(fluidstate1.m_76186_()), (double)blockpos2.m_123341_() + 0.5D, (double)((float)blockpos2.m_123342_() + fluidstate1.m_76155_(levelreader, blockpos2)), (double)blockpos2.m_123343_() + 0.5D, -16777216);
-+            DebugRenderer.m_269271_(p_113719_, p_113720_, String.valueOf(fluidstate1.m_76186_()), (double)blockpos2.getX() + 0.5D, (double)((float)blockpos2.getY() + fluidstate1.m_76155_(levelreader, blockpos2)), (double)blockpos2.getZ() + 0.5D, -16777216);
++            DebugRenderer.m_269271_(pPoseStack, pBuffer, String.valueOf(fluidstate1.m_76186_()), (double)blockpos2.getX() + 0.5D, (double)((float)blockpos2.getY() + fluidstate1.m_76155_(levelreader, blockpos2)), (double)blockpos2.getZ() + 0.5D, -16777216);
           }
        }
  

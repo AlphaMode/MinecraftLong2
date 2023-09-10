@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/biome/TheEndBiomeSource.java
 +++ b/net/minecraft/world/level/biome/TheEndBiomeSource.java
-@@ -40,17 +_,17 @@
+@@ -40,18 +_,18 @@
        return f_48617_;
     }
  
@@ -11,10 +11,10 @@
 -      int l = SectionPos.m_123171_(i);
 -      int i1 = SectionPos.m_123171_(k);
 -      if ((long)l * (long)l + (long)i1 * (long)i1 <= 4096L) {
-+   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger p_204292_, me.alphamode.mclong.math.BigInteger p_204293_, me.alphamode.mclong.math.BigInteger p_204294_, Climate.Sampler p_204295_) {
-+      me.alphamode.mclong.math.BigInteger i = QuartPos.toBlock(p_204292_);
-+      me.alphamode.mclong.math.BigInteger j = QuartPos.toBlock(p_204293_);
-+      me.alphamode.mclong.math.BigInteger k = QuartPos.toBlock(p_204294_);
++   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ, Climate.Sampler pSampler) {
++      me.alphamode.mclong.math.BigInteger i = QuartPos.toBlock(pX);
++      me.alphamode.mclong.math.BigInteger j = QuartPos.toBlock(pY);
++      me.alphamode.mclong.math.BigInteger k = QuartPos.toBlock(pZ);
 +      me.alphamode.mclong.math.BigInteger l = SectionPos.blockToSectionCoord(i);
 +      me.alphamode.mclong.math.BigInteger i1 = SectionPos.blockToSectionCoord(k);
 +      if (l.multiply(l).compareTo(i1.multiply(i1)) <= 4096L) {
@@ -22,8 +22,10 @@
        } else {
 -         int j1 = (SectionPos.m_123171_(i) * 2 + 1) * 8;
 -         int k1 = (SectionPos.m_123171_(k) * 2 + 1) * 8;
+-         double d0 = p_204295_.f_207848_().m_207386_(new DensityFunction.SinglePointContext(j1, j, k1));
 +         me.alphamode.mclong.math.BigInteger j1 = (SectionPos.blockToSectionCoord(i).multiply(me.alphamode.mclong.core.BigConstants.Ints.TWO).add()).multiply(me.alphamode.mclong.core.BigConstants.Ints.EIGHT);
 +         me.alphamode.mclong.math.BigInteger k1 = (SectionPos.blockToSectionCoord(k).multiply(me.alphamode.mclong.core.BigConstants.Ints.TWO).add()).multiply(me.alphamode.mclong.core.BigConstants.Ints.EIGHT);
-          double d0 = p_204295_.f_207848_().m_207386_(new DensityFunction.SinglePointContext(j1, j, k1));
++         double d0 = pSampler.f_207848_().m_207386_(new DensityFunction.SinglePointContext(j1, j, k1));
           if (d0 > 0.25D) {
              return this.f_48622_;
+          } else if (d0 >= -0.0625D) {

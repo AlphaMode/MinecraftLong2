@@ -34,13 +34,13 @@
 +      this.f_82293_ = me.alphamode.mclong.math.BigDecimal.valueOf(Math.max(p_82297_, p_82300_));
 +   }
 +
-+   public AABB(me.alphamode.mclong.math.BigDecimal p_82295_, me.alphamode.mclong.math.BigDecimal p_82296_, me.alphamode.mclong.math.BigDecimal p_82297_, me.alphamode.mclong.math.BigDecimal p_82298_, me.alphamode.mclong.math.BigDecimal p_82299_, me.alphamode.mclong.math.BigDecimal p_82300_) {
-+      this.f_82288_ = p_82295_.min(p_82298_);
-+      this.f_82289_ = p_82296_.min(p_82299_);
-+      this.f_82290_ = p_82297_.min(p_82300_);
-+      this.f_82291_ = p_82295_.max(p_82298_);
-+      this.f_82292_ = p_82296_.max(p_82299_);
-+      this.f_82293_ = p_82297_.max(p_82300_);
++   public AABB(me.alphamode.mclong.math.BigDecimal pX1, me.alphamode.mclong.math.BigDecimal pY1, me.alphamode.mclong.math.BigDecimal pZ1, me.alphamode.mclong.math.BigDecimal pX2, me.alphamode.mclong.math.BigDecimal pY2, me.alphamode.mclong.math.BigDecimal pZ2) {
++      this.f_82288_ = pX1.min(pX2);
++      this.f_82289_ = pY1.min(pY2);
++      this.f_82290_ = pZ1.min(pZ2);
++      this.f_82291_ = pX1.max(pX2);
++      this.f_82292_ = pY1.max(pY2);
++      this.f_82293_ = pZ1.max(pZ2);
     }
  
     public AABB(BlockPos p_82305_) {
@@ -106,16 +106,16 @@
 +      return new AABB(this.f_82288_, this.f_82289_, this.f_82290_, this.f_82291_, this.f_82292_, me.alphamode.mclong.math.BigDecimal.valueOf(p_165896_));
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal min(Direction.Axis p_82341_) {
-+      return p_82341_.choose(this.f_82288_, this.f_82289_, this.f_82290_);
++   public me.alphamode.mclong.math.BigDecimal min(Direction.Axis pAxis) {
++      return pAxis.choose(this.f_82288_, this.f_82289_, this.f_82290_);
 +   }
 +
-+   public me.alphamode.mclong.math.BigDecimal max(Direction.Axis p_82375_) {
-+      return p_82375_.choose(this.f_82291_, this.f_82292_, this.f_82293_);
++   public me.alphamode.mclong.math.BigDecimal max(Direction.Axis pAxis) {
++      return pAxis.choose(this.f_82291_, this.f_82292_, this.f_82293_);
     }
  
     public boolean equals(Object p_82398_) {
-@@ -84,104 +_,132 @@
+@@ -84,104 +_,142 @@
           return false;
        } else {
           AABB aabb = (AABB)p_82398_;
@@ -255,29 +255,29 @@
 +      return new AABB(d0, d1, d2, d3, d4, d5);
 +   }
 +
-+   public AABB expandTowards(me.alphamode.mclong.math.BigDecimal p_82364_, me.alphamode.mclong.math.BigDecimal p_82365_, me.alphamode.mclong.math.BigDecimal p_82366_) {
++   public AABB expandTowards(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
 +      me.alphamode.mclong.math.BigDecimal d0 = this.f_82288_;
 +      me.alphamode.mclong.math.BigDecimal d1 = this.f_82289_;
 +      me.alphamode.mclong.math.BigDecimal d2 = this.f_82290_;
 +      me.alphamode.mclong.math.BigDecimal d3 = this.f_82291_;
 +      me.alphamode.mclong.math.BigDecimal d4 = this.f_82292_;
 +      me.alphamode.mclong.math.BigDecimal d5 = this.f_82293_;
-+      if (p_82364_.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0) {
-+         d0 = d0.add(p_82364_);
-+      } else if (p_82364_.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) > 0) {
-+         d3 = d3.add(p_82364_);
++      if (pX.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0) {
++         d0 = d0.add(pX);
++      } else if (pX.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) > 0) {
++         d3 = d3.add(pX);
 +      }
 +
-+      if (p_82365_.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0) {
-+         d1 = d1.add(p_82365_);
-+      } else if (p_82365_.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) > 0) {
-+         d4 = d4.add(p_82365_);
++      if (pY.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0) {
++         d1 = d1.add(pY);
++      } else if (pY.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) > 0) {
++         d4 = d4.add(pY);
 +      }
 +
-+      if (p_82366_.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0) {
-+         d2 = d2.add(p_82366_);
-+      } else if (p_82366_.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) > 0) {
-+         d5 = d5.add(p_82366_);
++      if (pZ.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0) {
++         d2 = d2.add(pZ);
++      } else if (pZ.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) > 0) {
++         d5 = d5.add(pZ);
        }
  
        return new AABB(d0, d1, d2, d3, d4, d5);
@@ -296,12 +296,27 @@
 +      me.alphamode.mclong.math.BigDecimal d3 = this.f_82291_.add(me.alphamode.mclong.math.BigDecimal.valueOf(p_82378_));
 +      me.alphamode.mclong.math.BigDecimal d4 = this.f_82292_.add(me.alphamode.mclong.math.BigDecimal.valueOf(p_82379_));
 +      me.alphamode.mclong.math.BigDecimal d5 = this.f_82293_.add(me.alphamode.mclong.math.BigDecimal.valueOf(p_82380_));
++      return new AABB(d0, d1, d2, d3, d4, d5);
++   }
++
++   public AABB inflate(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      me.alphamode.mclong.math.BigDecimal d0 = this.f_82288_.subtract(pX);
++      me.alphamode.mclong.math.BigDecimal d1 = this.f_82289_.subtract(pY);
++      me.alphamode.mclong.math.BigDecimal d2 = this.f_82290_.subtract(pZ);
++      me.alphamode.mclong.math.BigDecimal d3 = this.f_82291_.add(pX);
++      me.alphamode.mclong.math.BigDecimal d4 = this.f_82292_.add(pY);
++      me.alphamode.mclong.math.BigDecimal d5 = this.f_82293_.add(pZ);
        return new AABB(d0, d1, d2, d3, d4, d5);
     }
  
-@@ -190,55 +_,64 @@
+@@ -189,56 +_,69 @@
+       return this.m_82377_(p_82401_, p_82401_, p_82401_);
     }
  
++   public AABB inflate(me.alphamode.mclong.math.BigDecimal pValue) {
++      return this.inflate(pValue, pValue, pValue);
++   }
++
     public AABB m_82323_(AABB p_82324_) {
 -      double d0 = Math.max(this.f_82288_, p_82324_.f_82288_);
 -      double d1 = Math.max(this.f_82289_, p_82324_.f_82289_);
@@ -360,8 +375,8 @@
  
 -   public boolean m_82314_(double p_82315_, double p_82316_, double p_82317_, double p_82318_, double p_82319_, double p_82320_) {
 -      return this.f_82288_ < p_82318_ && this.f_82291_ > p_82315_ && this.f_82289_ < p_82319_ && this.f_82292_ > p_82316_ && this.f_82290_ < p_82320_ && this.f_82293_ > p_82317_;
-+   public boolean intersects(me.alphamode.mclong.math.BigDecimal p_82315_, me.alphamode.mclong.math.BigDecimal p_82316_, me.alphamode.mclong.math.BigDecimal p_82317_, me.alphamode.mclong.math.BigDecimal p_82318_, me.alphamode.mclong.math.BigDecimal p_82319_, me.alphamode.mclong.math.BigDecimal p_82320_) {
-+      return this.f_82288_.compareTo(p_82318_) < 0 && this.f_82291_.compareTo(p_82315_) > 0 && this.f_82289_.compareTo(p_82319_) < 0 && this.f_82292_.compareTo(p_82316_) > 0 && this.f_82290_.compareTo(p_82320_) < 0 && this.f_82293_.compareTo(p_82317_) > 0;
++   public boolean intersects(me.alphamode.mclong.math.BigDecimal pX1, me.alphamode.mclong.math.BigDecimal pY1, me.alphamode.mclong.math.BigDecimal pZ1, me.alphamode.mclong.math.BigDecimal pX2, me.alphamode.mclong.math.BigDecimal pY2, me.alphamode.mclong.math.BigDecimal pZ2) {
++      return this.f_82288_.compareTo(pX2) < 0 && this.f_82291_.compareTo(pX1) > 0 && this.f_82289_.compareTo(pY2) < 0 && this.f_82292_.compareTo(pY1) > 0 && this.f_82290_.compareTo(pZ2) < 0 && this.f_82293_.compareTo(pZ1) > 0;
     }
  
     public boolean m_82335_(Vec3 p_82336_, Vec3 p_82337_) {
@@ -404,7 +419,7 @@
     }
  
     public AABB m_165897_(double p_165898_, double p_165899_, double p_165900_) {
-@@ -269,68 +_,68 @@
+@@ -269,80 +_,80 @@
     }
  
     public Optional<Vec3> m_82371_(Vec3 p_82372_, Vec3 p_82373_) {
@@ -450,12 +465,10 @@
        } else {
 -         double d3 = adouble[0];
 -         return new BlockHitResult(p_82344_.m_82520_(d3 * d0, d3 * d1, d3 * d2), direction, p_82346_, false);
-+         me.alphamode.mclong.math.BigDecimal d3 = adouble[0];
-+         return new BlockHitResult(p_82344_.add(d3.multiply(d0), d3.multiply(d1), d3.multiply(d2)), direction, p_82346_, false);
-       }
-    }
- 
-    @Nullable
+-      }
+-   }
+-
+-   @Nullable
 -   private static Direction m_82325_(AABB p_82326_, Vec3 p_82327_, double[] p_82328_, @Nullable Direction p_82329_, double p_82330_, double p_82331_, double p_82332_) {
 -      if (p_82330_ > 1.0E-7D) {
 -         p_82329_ = m_82347_(p_82328_, p_82329_, p_82330_, p_82331_, p_82332_, p_82326_.f_82288_, p_82326_.f_82289_, p_82326_.f_82292_, p_82326_.f_82290_, p_82326_.f_82293_, Direction.WEST, p_82327_.f_82479_, p_82327_.f_82480_, p_82327_.f_82481_);
@@ -473,43 +486,59 @@
 -         p_82329_ = m_82347_(p_82328_, p_82329_, p_82332_, p_82330_, p_82331_, p_82326_.f_82290_, p_82326_.f_82288_, p_82326_.f_82291_, p_82326_.f_82289_, p_82326_.f_82292_, Direction.NORTH, p_82327_.f_82481_, p_82327_.f_82479_, p_82327_.f_82480_);
 -      } else if (p_82332_ < -1.0E-7D) {
 -         p_82329_ = m_82347_(p_82328_, p_82329_, p_82332_, p_82330_, p_82331_, p_82326_.f_82293_, p_82326_.f_82288_, p_82326_.f_82291_, p_82326_.f_82289_, p_82326_.f_82292_, Direction.SOUTH, p_82327_.f_82481_, p_82327_.f_82479_, p_82327_.f_82480_);
-+   private static Direction getDirection(AABB p_82326_, Vec3 p_82327_, me.alphamode.mclong.math.BigDecimal[] p_82328_, @Nullable Direction p_82329_, me.alphamode.mclong.math.BigDecimal p_82330_, me.alphamode.mclong.math.BigDecimal p_82331_, me.alphamode.mclong.math.BigDecimal p_82332_) {
-+      if (p_82330_.compareTo(f_165879_) > 0) {
-+         p_82329_ = clipPoint(p_82328_, p_82329_, p_82330_, p_82331_, p_82332_, p_82326_.f_82288_, p_82326_.f_82289_, p_82326_.f_82292_, p_82326_.f_82290_, p_82326_.f_82293_, Direction.WEST, p_82327_.getX(), p_82327_.getY(), p_82327_.getZ());
-+      } else if (p_82330_.compareTo(f_165879_.negate()) < 0) {
-+         p_82329_ = clipPoint(p_82328_, p_82329_, p_82330_, p_82331_, p_82332_, p_82326_.f_82291_, p_82326_.f_82289_, p_82326_.f_82292_, p_82326_.f_82290_, p_82326_.f_82293_, Direction.EAST, p_82327_.getX(), p_82327_.getY(), p_82327_.getZ());
-+      }
-+
-+      if (p_82331_.compareTo(f_165879_) > 0) {
-+         p_82329_ = clipPoint(p_82328_, p_82329_, p_82331_, p_82332_, p_82330_, p_82326_.f_82289_, p_82326_.f_82290_, p_82326_.f_82293_, p_82326_.f_82288_, p_82326_.f_82291_, Direction.DOWN, p_82327_.getY(), p_82327_.getZ(), p_82327_.getX());
-+      } else if (p_82331_.compareTo(f_165879_.negate()) < 0) {
-+         p_82329_ = clipPoint(p_82328_, p_82329_, p_82331_, p_82332_, p_82330_, p_82326_.f_82292_, p_82326_.f_82290_, p_82326_.f_82293_, p_82326_.f_82288_, p_82326_.f_82291_, Direction.UP, p_82327_.getY(), p_82327_.getZ(), p_82327_.getX());
-+      }
-+
-+      if (p_82332_.compareTo(f_165879_) > 0) {
-+         p_82329_ = clipPoint(p_82328_, p_82329_, p_82332_, p_82330_, p_82331_, p_82326_.f_82290_, p_82326_.f_82288_, p_82326_.f_82291_, p_82326_.f_82289_, p_82326_.f_82292_, Direction.NORTH, p_82327_.getZ(), p_82327_.getX(), p_82327_.getY());
-+      } else if (p_82332_.compareTo(f_165879_.negate()) < 0) {
-+         p_82329_ = clipPoint(p_82328_, p_82329_, p_82332_, p_82330_, p_82331_, p_82326_.f_82293_, p_82326_.f_82288_, p_82326_.f_82291_, p_82326_.f_82289_, p_82326_.f_82292_, Direction.SOUTH, p_82327_.getZ(), p_82327_.getX(), p_82327_.getY());
-       }
- 
-       return p_82329_;
-    }
- 
-    @Nullable
+-      }
+-
+-      return p_82329_;
+-   }
+-
+-   @Nullable
 -   private static Direction m_82347_(double[] p_82348_, @Nullable Direction p_82349_, double p_82350_, double p_82351_, double p_82352_, double p_82353_, double p_82354_, double p_82355_, double p_82356_, double p_82357_, Direction p_82358_, double p_82359_, double p_82360_, double p_82361_) {
 -      double d0 = (p_82353_ - p_82359_) / p_82350_;
 -      double d1 = p_82360_ + d0 * p_82351_;
 -      double d2 = p_82361_ + d0 * p_82352_;
 -      if (0.0D < d0 && d0 < p_82348_[0] && p_82354_ - 1.0E-7D < d1 && d1 < p_82355_ + 1.0E-7D && p_82356_ - 1.0E-7D < d2 && d2 < p_82357_ + 1.0E-7D) {
-+   private static Direction clipPoint(me.alphamode.mclong.math.BigDecimal[] p_82348_, @Nullable Direction p_82349_, me.alphamode.mclong.math.BigDecimal p_82350_, me.alphamode.mclong.math.BigDecimal p_82351_, me.alphamode.mclong.math.BigDecimal p_82352_, me.alphamode.mclong.math.BigDecimal p_82353_, me.alphamode.mclong.math.BigDecimal p_82354_, me.alphamode.mclong.math.BigDecimal p_82355_, me.alphamode.mclong.math.BigDecimal p_82356_, me.alphamode.mclong.math.BigDecimal p_82357_, Direction p_82358_, me.alphamode.mclong.math.BigDecimal p_82359_, me.alphamode.mclong.math.BigDecimal p_82360_, me.alphamode.mclong.math.BigDecimal p_82361_) {
-+      me.alphamode.mclong.math.BigDecimal d0 = (p_82353_.subtract(p_82359_)).divide(p_82350_, java.math.RoundingMode.HALF_UP);
-+      me.alphamode.mclong.math.BigDecimal d1 = p_82360_.add(d0.multiply(p_82351_));
-+      me.alphamode.mclong.math.BigDecimal d2 = p_82361_.add(d0.multiply(p_82352_));
-+      if (me.alphamode.mclong.math.BigDecimal.ZERO.compareTo(d0) < 0 && d0.compareTo(p_82348_[0]) < 0 && p_82354_.subtract(f_165879_).compareTo(d1) < 0 && d1.compareTo(p_82355_.add(f_165879_)) < 0 && p_82356_.subtract(f_165879_).compareTo(d2) < 0 && d2.compareTo(p_82357_.add(f_165879_)) < 0) {
-          p_82348_[0] = d0;
-          return p_82358_;
+-         p_82348_[0] = d0;
+-         return p_82358_;
++         me.alphamode.mclong.math.BigDecimal d3 = adouble[0];
++         return new BlockHitResult(p_82344_.add(d3.multiply(d0), d3.multiply(d1), d3.multiply(d2)), direction, p_82346_, false);
++      }
++   }
++
++   @Nullable
++   private static Direction getDirection(AABB pAabb, Vec3 pStart, me.alphamode.mclong.math.BigDecimal[] pMinDistance, @Nullable Direction pFacing, me.alphamode.mclong.math.BigDecimal pDeltaX, me.alphamode.mclong.math.BigDecimal pDeltaY, me.alphamode.mclong.math.BigDecimal pDeltaZ) {
++      if (pDeltaX.compareTo(f_165879_) > 0) {
++         pFacing = clipPoint(pMinDistance, pFacing, pDeltaX, pDeltaY, pDeltaZ, pAabb.f_82288_, pAabb.f_82289_, pAabb.f_82292_, pAabb.f_82290_, pAabb.f_82293_, Direction.WEST, pStart.getX(), pStart.getY(), pStart.getZ());
++      } else if (pDeltaX.compareTo(f_165879_.negate()) < 0) {
++         pFacing = clipPoint(pMinDistance, pFacing, pDeltaX, pDeltaY, pDeltaZ, pAabb.f_82291_, pAabb.f_82289_, pAabb.f_82292_, pAabb.f_82290_, pAabb.f_82293_, Direction.EAST, pStart.getX(), pStart.getY(), pStart.getZ());
++      }
++
++      if (pDeltaY.compareTo(f_165879_) > 0) {
++         pFacing = clipPoint(pMinDistance, pFacing, pDeltaY, pDeltaZ, pDeltaX, pAabb.f_82289_, pAabb.f_82290_, pAabb.f_82293_, pAabb.f_82288_, pAabb.f_82291_, Direction.DOWN, pStart.getY(), pStart.getZ(), pStart.getX());
++      } else if (pDeltaY.compareTo(f_165879_.negate()) < 0) {
++         pFacing = clipPoint(pMinDistance, pFacing, pDeltaY, pDeltaZ, pDeltaX, pAabb.f_82292_, pAabb.f_82290_, pAabb.f_82293_, pAabb.f_82288_, pAabb.f_82291_, Direction.UP, pStart.getY(), pStart.getZ(), pStart.getX());
++      }
++
++      if (pDeltaZ.compareTo(f_165879_) > 0) {
++         pFacing = clipPoint(pMinDistance, pFacing, pDeltaZ, pDeltaX, pDeltaY, pAabb.f_82290_, pAabb.f_82288_, pAabb.f_82291_, pAabb.f_82289_, pAabb.f_82292_, Direction.NORTH, pStart.getZ(), pStart.getX(), pStart.getY());
++      } else if (pDeltaZ.compareTo(f_165879_.negate()) < 0) {
++         pFacing = clipPoint(pMinDistance, pFacing, pDeltaZ, pDeltaX, pDeltaY, pAabb.f_82293_, pAabb.f_82288_, pAabb.f_82291_, pAabb.f_82289_, pAabb.f_82292_, Direction.SOUTH, pStart.getZ(), pStart.getX(), pStart.getY());
++      }
++
++      return pFacing;
++   }
++
++   @Nullable
++   private static Direction clipPoint(me.alphamode.mclong.math.BigDecimal[] pMinDistance, @Nullable Direction pPrevDirection, me.alphamode.mclong.math.BigDecimal pDistanceSide, me.alphamode.mclong.math.BigDecimal pDistanceOtherA, me.alphamode.mclong.math.BigDecimal pDistanceOtherB, me.alphamode.mclong.math.BigDecimal pMinSide, me.alphamode.mclong.math.BigDecimal pMinOtherA, me.alphamode.mclong.math.BigDecimal pMaxOtherA, me.alphamode.mclong.math.BigDecimal pMinOtherB, me.alphamode.mclong.math.BigDecimal pMaxOtherB, Direction pHitSide, me.alphamode.mclong.math.BigDecimal pStartSide, me.alphamode.mclong.math.BigDecimal pStartOtherA, me.alphamode.mclong.math.BigDecimal pStartOtherB) {
++      me.alphamode.mclong.math.BigDecimal d0 = (pMinSide.subtract(pStartSide)).divide(pDistanceSide, java.math.RoundingMode.HALF_UP);
++      me.alphamode.mclong.math.BigDecimal d1 = pStartOtherA.add(d0.multiply(pDistanceOtherA));
++      me.alphamode.mclong.math.BigDecimal d2 = pStartOtherB.add(d0.multiply(pDistanceOtherB));
++      if (me.alphamode.mclong.math.BigDecimal.ZERO.compareTo(d0) < 0 && d0.compareTo(pMinDistance[0]) < 0 && pMinOtherA.subtract(f_165879_).compareTo(d1) < 0 && d1.compareTo(pMaxOtherA.add(f_165879_)) < 0 && pMinOtherB.subtract(f_165879_).compareTo(d2) < 0 && d2.compareTo(pMaxOtherB.add(f_165879_)) < 0) {
++         pMinDistance[0] = d0;
++         return pHitSide;
        } else {
-@@ -339,10 +_,10 @@
+-         return p_82349_;
++         return pPrevDirection;
+       }
     }
  
     public double m_272282_(Vec3 p_273572_) {

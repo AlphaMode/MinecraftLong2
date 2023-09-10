@@ -13,37 +13,46 @@
        return this.f_74484_;
     }
  
-@@ -81,18 +_,18 @@
+@@ -81,21 +_,21 @@
        return this.f_74485_;
     }
  
 -   public void m_163802_(Level p_163803_, BlockPos p_163804_, Vec3i p_163805_, boolean p_163806_, @Nullable Block p_163807_) {
 -      if (p_163805_.m_123341_() >= 1 && p_163805_.m_123342_() >= 1 && p_163805_.m_123343_() >= 1) {
 -         BlockPos blockpos = p_163804_.m_121955_(p_163805_).m_7918_(-1, -1, -1);
-+   public void fillFromWorld(Level p_163803_, BlockPos p_163804_, me.alphamode.mclong.core.Vec3l p_163805_, boolean p_163806_, @Nullable Block p_163807_) {
-+      if (p_163805_.getBigX().compareTo(me.alphamode.mclong.math.BigInteger.ONE) >= 0 && p_163805_.getBigY().compareTo(me.alphamode.mclong.math.BigInteger.ONE) >= 0 && p_163805_.getBigZ().compareTo(me.alphamode.mclong.math.BigInteger.ONE) >= 0) {
-+         BlockPos blockpos = p_163804_.offset(p_163805_).offset(-1, -1, -1);
++   public void fillFromWorld(Level pLevel, BlockPos pPos, me.alphamode.mclong.core.Vec3l pSize, boolean pWithEntities, @Nullable Block pToIgnore) {
++      if (pSize.getBigX().compareTo(me.alphamode.mclong.math.BigInteger.ONE) >= 0 && pSize.getBigY().compareTo(me.alphamode.mclong.math.BigInteger.ONE) >= 0 && pSize.getBigZ().compareTo(me.alphamode.mclong.math.BigInteger.ONE) >= 0) {
++         BlockPos blockpos = pPos.offset(pSize).offset(-1, -1, -1);
           List<StructureTemplate.StructureBlockInfo> list = Lists.newArrayList();
           List<StructureTemplate.StructureBlockInfo> list1 = Lists.newArrayList();
           List<StructureTemplate.StructureBlockInfo> list2 = Lists.newArrayList();
 -         BlockPos blockpos1 = new BlockPos(Math.min(p_163804_.m_123341_(), blockpos.m_123341_()), Math.min(p_163804_.m_123342_(), blockpos.m_123342_()), Math.min(p_163804_.m_123343_(), blockpos.m_123343_()));
 -         BlockPos blockpos2 = new BlockPos(Math.max(p_163804_.m_123341_(), blockpos.m_123341_()), Math.max(p_163804_.m_123342_(), blockpos.m_123342_()), Math.max(p_163804_.m_123343_(), blockpos.m_123343_()));
-+         BlockPos blockpos1 = new BlockPos(p_163804_.getBigX().min(blockpos.getBigX()), p_163804_.getBigY().min(blockpos.getBigY()), p_163804_.getBigZ().min(blockpos.getBigZ()));
-+         BlockPos blockpos2 = new BlockPos(p_163804_.getBigX().max(blockpos.getBigX()), p_163804_.getBigY().max(blockpos.getBigY()), p_163804_.getBigZ().max(blockpos.getBigZ()));
-          this.f_74484_ = p_163805_;
+-         this.f_74484_ = p_163805_;
++         BlockPos blockpos1 = new BlockPos(pPos.getBigX().min(blockpos.getBigX()), pPos.getBigY().min(blockpos.getBigY()), pPos.getBigZ().min(blockpos.getBigZ()));
++         BlockPos blockpos2 = new BlockPos(pPos.getBigX().max(blockpos.getBigX()), pPos.getBigY().max(blockpos.getBigY()), pPos.getBigZ().max(blockpos.getBigZ()));
++         this.f_74484_ = pSize;
  
           for(BlockPos blockpos3 : BlockPos.m_121940_(blockpos1, blockpos2)) {
 -            BlockPos blockpos4 = blockpos3.m_121996_(blockpos1);
+-            BlockState blockstate = p_163803_.m_8055_(blockpos3);
+-            if (p_163807_ == null || !blockstate.m_60713_(p_163807_)) {
+-               BlockEntity blockentity = p_163803_.m_7702_(blockpos3);
 +            BlockPos blockpos4 = blockpos3.subtract(blockpos1);
-             BlockState blockstate = p_163803_.m_8055_(blockpos3);
-             if (p_163807_ == null || !blockstate.m_60713_(p_163807_)) {
-                BlockEntity blockentity = p_163803_.m_7702_(blockpos3);
-@@ -111,7 +_,7 @@
++            BlockState blockstate = pLevel.m_8055_(blockpos3);
++            if (pToIgnore == null || !blockstate.m_60713_(pToIgnore)) {
++               BlockEntity blockentity = pLevel.m_7702_(blockpos3);
+                StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo;
+                if (blockentity != null) {
+                   structuretemplate$structureblockinfo = new StructureTemplate.StructureBlockInfo(blockpos4, blockstate, blockentity.m_187481_());
+@@ -110,8 +_,8 @@
+          List<StructureTemplate.StructureBlockInfo> list3 = m_74614_(list, list1, list2);
           this.f_74482_.clear();
           this.f_74482_.add(new StructureTemplate.Palette(list3));
-          if (p_163806_) {
+-         if (p_163806_) {
 -            this.m_74500_(p_163803_, blockpos1, blockpos2.m_7918_(1, 1, 1));
-+            this.m_74500_(p_163803_, blockpos1, blockpos2.offset(1, 1, 1));
++         if (pWithEntities) {
++            this.m_74500_(pLevel, blockpos1, blockpos2.offset(1, 1, 1));
           } else {
              this.f_74483_.clear();
           }
@@ -189,20 +198,37 @@
                 }
  
                 for(Pair<BlockPos, CompoundTag> pair : list3) {
-@@ -340,10 +_,10 @@
+@@ -340,20 +_,20 @@
        }
     }
  
 -   public static void m_74510_(LevelAccessor p_74511_, int p_74512_, DiscreteVoxelShape p_74513_, int p_74514_, int p_74515_, int p_74516_) {
-+   public static void updateShapeAtEdge(LevelAccessor p_74511_, int p_74512_, DiscreteVoxelShape p_74513_, me.alphamode.mclong.math.BigInteger p_74514_, me.alphamode.mclong.math.BigInteger p_74515_, me.alphamode.mclong.math.BigInteger p_74516_) {
-       p_74513_.m_82810_((p_74494_, p_74495_, p_74496_, p_74497_) -> {
+-      p_74513_.m_82810_((p_74494_, p_74495_, p_74496_, p_74497_) -> {
 -         BlockPos blockpos = new BlockPos(p_74514_ + p_74495_, p_74515_ + p_74496_, p_74516_ + p_74497_);
 -         BlockPos blockpos1 = blockpos.m_121945_(p_74494_);
-+         BlockPos blockpos = new BlockPos(p_74514_.add(p_74495_), p_74515_.add(p_74496_), p_74516_.add(p_74497_));
+-         BlockState blockstate = p_74511_.m_8055_(blockpos);
+-         BlockState blockstate1 = p_74511_.m_8055_(blockpos1);
+-         BlockState blockstate2 = blockstate.m_60728_(p_74494_, blockstate1, p_74511_, blockpos, blockpos1);
++   public static void updateShapeAtEdge(LevelAccessor pLevel, int pFlags, DiscreteVoxelShape pShape, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      pShape.m_82810_((p_74494_, p_74495_, p_74496_, p_74497_) -> {
++         BlockPos blockpos = new BlockPos(pX.add(p_74495_), pY.add(p_74496_), pZ.add(p_74497_));
 +         BlockPos blockpos1 = blockpos.relative(p_74494_);
-          BlockState blockstate = p_74511_.m_8055_(blockpos);
-          BlockState blockstate1 = p_74511_.m_8055_(blockpos1);
-          BlockState blockstate2 = blockstate.m_60728_(p_74494_, blockstate1, p_74511_, blockpos, blockpos1);
++         BlockState blockstate = pLevel.m_8055_(blockpos);
++         BlockState blockstate1 = pLevel.m_8055_(blockpos1);
++         BlockState blockstate2 = blockstate.m_60728_(p_74494_, blockstate1, pLevel, blockpos, blockpos1);
+          if (blockstate != blockstate2) {
+-            p_74511_.m_7731_(blockpos, blockstate2, p_74512_ & -2);
++            pLevel.m_7731_(blockpos, blockstate2, pFlags & -2);
+          }
+ 
+-         BlockState blockstate3 = blockstate1.m_60728_(p_74494_.m_122424_(), blockstate2, p_74511_, blockpos1, blockpos);
++         BlockState blockstate3 = blockstate1.m_60728_(p_74494_.m_122424_(), blockstate2, pLevel, blockpos1, blockpos);
+          if (blockstate1 != blockstate3) {
+-            p_74511_.m_7731_(blockpos1, blockstate3, p_74512_ & -2);
++            pLevel.m_7731_(blockpos1, blockstate3, pFlags & -2);
+          }
+ 
+       });
 @@ -364,7 +_,7 @@
        List<StructureTemplate.StructureBlockInfo> list1 = new ArrayList<>();
  
@@ -249,8 +275,9 @@
     }
  
 -   public Vec3i m_163808_(Rotation p_163809_) {
-+   public me.alphamode.mclong.core.Vec3l getSize(Rotation p_163809_) {
-       switch (p_163809_) {
+-      switch (p_163809_) {
++   public me.alphamode.mclong.core.Vec3l getSize(Rotation pRotation) {
++      switch (pRotation) {
           case COUNTERCLOCKWISE_90:
           case CLOCKWISE_90:
 -            return new Vec3i(this.f_74484_.m_123343_(), this.f_74484_.m_123342_(), this.f_74484_.m_123341_());
@@ -350,28 +377,30 @@
 -      --p_74592_;
 -      int i = p_74589_ == Mirror.FRONT_BACK ? p_74591_ : 0;
 -      int j = p_74589_ == Mirror.LEFT_RIGHT ? p_74592_ : 0;
-+   public static BlockPos getZeroPositionWithTransform(BlockPos p_74588_, Mirror p_74589_, Rotation p_74590_, me.alphamode.mclong.math.BigInteger p_74591_, me.alphamode.mclong.math.BigInteger p_74592_) {
-+      p_74591_ = p_74591_.subtract();
-+      p_74592_ = p_74592_.subtract();
-+      me.alphamode.mclong.math.BigInteger i = p_74589_ == Mirror.FRONT_BACK ? p_74591_ : me.alphamode.mclong.math.BigInteger.ZERO;
-+      me.alphamode.mclong.math.BigInteger j = p_74589_ == Mirror.LEFT_RIGHT ? p_74592_ : me.alphamode.mclong.math.BigInteger.ZERO;
-       BlockPos blockpos = p_74588_;
-       switch (p_74590_) {
+-      BlockPos blockpos = p_74588_;
+-      switch (p_74590_) {
++   public static BlockPos getZeroPositionWithTransform(BlockPos pPos, Mirror pMirror, Rotation pRotation, me.alphamode.mclong.math.BigInteger pSizeX, me.alphamode.mclong.math.BigInteger pSizeZ) {
++      pSizeX = pSizeX.subtract();
++      pSizeZ = pSizeZ.subtract();
++      me.alphamode.mclong.math.BigInteger i = pMirror == Mirror.FRONT_BACK ? pSizeX : me.alphamode.mclong.math.BigInteger.ZERO;
++      me.alphamode.mclong.math.BigInteger j = pMirror == Mirror.LEFT_RIGHT ? pSizeZ : me.alphamode.mclong.math.BigInteger.ZERO;
++      BlockPos blockpos = pPos;
++      switch (pRotation) {
           case COUNTERCLOCKWISE_90:
 -            blockpos = p_74588_.m_7918_(j, 0, p_74591_ - i);
-+            blockpos = p_74588_.offset(j, me.alphamode.mclong.math.BigInteger.ZERO, p_74591_.subtract(i));
++            blockpos = pPos.offset(j, me.alphamode.mclong.math.BigInteger.ZERO, pSizeX.subtract(i));
              break;
           case CLOCKWISE_90:
 -            blockpos = p_74588_.m_7918_(p_74592_ - j, 0, i);
-+            blockpos = p_74588_.offset(p_74592_.subtract(j), me.alphamode.mclong.math.BigInteger.ZERO, i);
++            blockpos = pPos.offset(pSizeZ.subtract(j), me.alphamode.mclong.math.BigInteger.ZERO, i);
              break;
           case CLOCKWISE_180:
 -            blockpos = p_74588_.m_7918_(p_74591_ - i, 0, p_74592_ - j);
-+            blockpos = p_74588_.offset(p_74591_.subtract(i), me.alphamode.mclong.math.BigInteger.ZERO, p_74592_.subtract(j));
++            blockpos = pPos.offset(pSizeX.subtract(i), me.alphamode.mclong.math.BigInteger.ZERO, pSizeZ.subtract(j));
              break;
           case NONE:
 -            blockpos = p_74588_.m_7918_(i, 0, j);
-+            blockpos = p_74588_.offset(i, me.alphamode.mclong.math.BigInteger.ZERO, j);
++            blockpos = pPos.offset(i, me.alphamode.mclong.math.BigInteger.ZERO, j);
        }
  
        return blockpos;
@@ -386,13 +415,14 @@
     @VisibleForTesting
 -   protected static BoundingBox m_163810_(BlockPos p_163811_, Rotation p_163812_, BlockPos p_163813_, Mirror p_163814_, Vec3i p_163815_) {
 -      Vec3i vec3i = p_163815_.m_7918_(-1, -1, -1);
-+   protected static BoundingBox getBoundingBox(BlockPos p_163811_, Rotation p_163812_, BlockPos p_163813_, Mirror p_163814_, me.alphamode.mclong.core.Vec3l p_163815_) {
-+      me.alphamode.mclong.core.Vec3l vec3i = p_163815_.offset(-1, -1, -1);
-       BlockPos blockpos = m_74593_(BlockPos.f_121853_, p_163814_, p_163812_, p_163813_);
+-      BlockPos blockpos = m_74593_(BlockPos.f_121853_, p_163814_, p_163812_, p_163813_);
 -      BlockPos blockpos1 = m_74593_(BlockPos.f_121853_.m_121955_(vec3i), p_163814_, p_163812_, p_163813_);
 -      return BoundingBox.m_162375_(blockpos, blockpos1).m_162373_(p_163811_);
-+      BlockPos blockpos1 = m_74593_(BlockPos.f_121853_.offset(vec3i), p_163814_, p_163812_, p_163813_);
-+      return BoundingBox.fromCorners(blockpos, blockpos1).move(p_163811_);
++   protected static BoundingBox getBoundingBox(BlockPos pStartPos, Rotation pRotation, BlockPos pPivotPos, Mirror pMirror, me.alphamode.mclong.core.Vec3l pSize) {
++      me.alphamode.mclong.core.Vec3l vec3i = pSize.offset(-1, -1, -1);
++      BlockPos blockpos = m_74593_(BlockPos.f_121853_, pMirror, pRotation, pPivotPos);
++      BlockPos blockpos1 = m_74593_(BlockPos.f_121853_.offset(vec3i), pMirror, pRotation, pPivotPos);
++      return BoundingBox.fromCorners(blockpos, blockpos1).move(pStartPos);
     }
  
     public CompoundTag m_74618_(CompoundTag p_74619_) {

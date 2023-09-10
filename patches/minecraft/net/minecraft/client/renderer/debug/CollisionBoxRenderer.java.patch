@@ -5,16 +5,20 @@
     }
  
 -   public void m_7790_(PoseStack p_113408_, MultiBufferSource p_113409_, double p_113410_, double p_113411_, double p_113412_) {
-+   public void render(PoseStack p_113408_, MultiBufferSource p_113409_, me.alphamode.mclong.math.BigDecimal p_113410_, me.alphamode.mclong.math.BigDecimal p_113411_, me.alphamode.mclong.math.BigDecimal p_113412_) {
++   public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
        double d0 = (double)Util.m_137569_();
        if (d0 - this.f_113401_ > 1.0E8D) {
           this.f_113401_ = d0;
-@@ -36,7 +_,7 @@
-       VertexConsumer vertexconsumer = p_113409_.m_6299_(RenderType.m_110504_());
+@@ -33,10 +_,10 @@
+          this.f_113402_ = ImmutableList.copyOf(entity.m_9236_().m_186431_(entity, entity.m_20191_().m_82400_(6.0D)));
+       }
+ 
+-      VertexConsumer vertexconsumer = p_113409_.m_6299_(RenderType.m_110504_());
++      VertexConsumer vertexconsumer = pBuffer.m_6299_(RenderType.m_110504_());
  
        for(VoxelShape voxelshape : this.f_113402_) {
 -         LevelRenderer.m_285900_(p_113408_, vertexconsumer, voxelshape, -p_113410_, -p_113411_, -p_113412_, 1.0F, 1.0F, 1.0F, 1.0F, true);
-+         LevelRenderer.renderVoxelShape(p_113408_, vertexconsumer, voxelshape, p_113410_.negate(), p_113411_.negate(), p_113412_.negate(), 1.0F, 1.0F, 1.0F, 1.0F, true);
++         LevelRenderer.renderVoxelShape(pPoseStack, vertexconsumer, voxelshape, pCamX.negate(), pCamY.negate(), pCamZ.negate(), 1.0F, 1.0F, 1.0F, 1.0F, true);
        }
  
     }

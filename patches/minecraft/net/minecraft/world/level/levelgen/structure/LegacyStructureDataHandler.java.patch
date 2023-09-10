@@ -14,13 +14,13 @@
     }
  
 -   public void m_71318_(long p_71319_) {
-+   public void removeIndex(ChunkPos p_71319_) {
++   public void removeIndex(ChunkPos pPackedChunkPos) {
        for(String s : this.f_71304_) {
           StructureFeatureIndexSavedData structurefeatureindexsaveddata = this.f_71303_.get(s);
 -         if (structurefeatureindexsaveddata != null && structurefeatureindexsaveddata.m_73373_(p_71319_)) {
 -            structurefeatureindexsaveddata.m_73375_(p_71319_);
-+         if (structurefeatureindexsaveddata != null && structurefeatureindexsaveddata.hasUnhandledIndex(p_71319_)) {
-+            structurefeatureindexsaveddata.removeIndex(p_71319_);
++         if (structurefeatureindexsaveddata != null && structurefeatureindexsaveddata.hasUnhandledIndex(pPackedChunkPos)) {
++            structurefeatureindexsaveddata.removeIndex(pPackedChunkPos);
              structurefeatureindexsaveddata.m_77762_();
           }
        }
@@ -53,23 +53,23 @@
     }
  
 -   private boolean m_71314_(int p_71315_, int p_71316_, String p_71317_) {
-+   private boolean hasLegacyStart(long p_71315_, long p_71316_, String p_71317_) {
++   private boolean hasLegacyStart(long pChunkX, long pChunkZ, String pKey) {
        if (!this.f_71301_) {
           return false;
        } else {
 -         return this.f_71302_.get(p_71317_) != null && this.f_71303_.get(f_71299_.get(p_71317_)).m_73369_(ChunkPos.m_45589_(p_71315_, p_71316_));
-+         return this.f_71302_.get(p_71317_) != null && this.f_71303_.get(f_71299_.get(p_71317_)).hasStartIndex(new ChunkPos(p_71315_, p_71316_));
++         return this.f_71302_.get(pKey) != null && this.f_71303_.get(f_71299_.get(pKey)).hasStartIndex(new ChunkPos(pChunkX, pChunkZ));
        }
     }
  
 -   private boolean m_71311_(int p_71312_, int p_71313_) {
-+   private boolean isUnhandledStructureStart(long p_71312_, long p_71313_) {
++   private boolean isUnhandledStructureStart(long pChunkX, long pChunkZ) {
        if (!this.f_71301_) {
           return false;
        } else {
           for(String s : this.f_71305_) {
 -            if (this.f_71302_.get(s) != null && this.f_71303_.get(f_71299_.get(s)).m_73373_(ChunkPos.m_45589_(p_71312_, p_71313_))) {
-+            if (this.f_71302_.get(s) != null && this.f_71303_.get(f_71299_.get(s)).hasUnhandledIndex(new ChunkPos(p_71312_, p_71313_))) {
++            if (this.f_71302_.get(s) != null && this.f_71303_.get(f_71299_.get(s)).hasUnhandledIndex(new ChunkPos(pChunkX, pChunkZ))) {
                 return true;
              }
           }

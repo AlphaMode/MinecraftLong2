@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/protocol/game/ClientboundSoundPacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundSoundPacket.java
-@@ -11,19 +_,19 @@
+@@ -11,30 +_,30 @@
     public static final float f_179420_ = 8.0F;
     private final Holder<SoundEvent> f_133433_;
     private final SoundSource f_133434_;
@@ -15,19 +15,25 @@
     private final long f_237838_;
  
 -   public ClientboundSoundPacket(Holder<SoundEvent> p_263366_, SoundSource p_263375_, double p_263378_, double p_263367_, double p_263394_, float p_263415_, float p_263399_, long p_263409_) {
-+   public ClientboundSoundPacket(Holder<SoundEvent> p_263366_, SoundSource p_263375_, me.alphamode.mclong.math.BigDecimal p_263378_, me.alphamode.mclong.math.BigDecimal p_263367_, me.alphamode.mclong.math.BigDecimal p_263394_, float p_263415_, float p_263399_, long p_263409_) {
-       this.f_133433_ = p_263366_;
-       this.f_133434_ = p_263375_;
+-      this.f_133433_ = p_263366_;
+-      this.f_133434_ = p_263375_;
 -      this.f_133435_ = (int)(p_263378_ * 8.0D);
 -      this.f_133436_ = (int)(p_263367_ * 8.0D);
 -      this.f_133437_ = (int)(p_263394_ * 8.0D);
-+      this.f_133435_ = p_263378_.multiply(me.alphamode.mclong.core.BigConstants.EIGHT).toBigInteger();
-+      this.f_133436_ = p_263367_.multiply(me.alphamode.mclong.core.BigConstants.EIGHT).toBigInteger();
-+      this.f_133437_ = p_263394_.multiply(me.alphamode.mclong.core.BigConstants.EIGHT).toBigInteger();
-       this.f_133438_ = p_263415_;
-       this.f_133439_ = p_263399_;
-       this.f_237838_ = p_263409_;
-@@ -32,9 +_,9 @@
+-      this.f_133438_ = p_263415_;
+-      this.f_133439_ = p_263399_;
+-      this.f_237838_ = p_263409_;
++   public ClientboundSoundPacket(Holder<SoundEvent> pSound, SoundSource pSource, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pVolume, float pPitch, long pSeed) {
++      this.f_133433_ = pSound;
++      this.f_133434_ = pSource;
++      this.f_133435_ = pX.multiply(me.alphamode.mclong.core.BigConstants.EIGHT).toBigInteger();
++      this.f_133436_ = pY.multiply(me.alphamode.mclong.core.BigConstants.EIGHT).toBigInteger();
++      this.f_133437_ = pZ.multiply(me.alphamode.mclong.core.BigConstants.EIGHT).toBigInteger();
++      this.f_133438_ = pVolume;
++      this.f_133439_ = pPitch;
++      this.f_237838_ = pSeed;
+    }
+ 
     public ClientboundSoundPacket(FriendlyByteBuf p_179422_) {
        this.f_133433_ = p_179422_.m_263187_(BuiltInRegistries.f_256894_.m_206115_(), SoundEvent::m_263214_);
        this.f_133434_ = p_179422_.m_130066_(SoundSource.class);

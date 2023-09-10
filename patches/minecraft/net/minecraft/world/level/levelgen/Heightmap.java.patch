@@ -44,35 +44,36 @@
 -   public boolean m_64249_(int p_64250_, int p_64251_, int p_64252_, BlockState p_64253_) {
 -      int i = this.m_64242_(p_64250_, p_64252_);
 -      if (p_64251_ <= i - 2) {
-+   public boolean update(me.alphamode.mclong.math.BigInteger p_64250_, me.alphamode.mclong.math.BigInteger p_64251_, me.alphamode.mclong.math.BigInteger p_64252_, BlockState p_64253_) {
-+      long i = this.getFirstAvailable(p_64250_.longValue(), p_64252_.longValue());
-+      if (p_64251_.compareTo(i - 2) <= 0) {
++   public boolean update(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ, BlockState pState) {
++      long i = this.getFirstAvailable(pX.longValue(), pZ.longValue());
++      if (pY.compareTo(i - 2) <= 0) {
           return false;
        } else {
-          if (this.f_64233_.test(p_64253_)) {
+-         if (this.f_64233_.test(p_64253_)) {
 -            if (p_64251_ >= i) {
 -               this.m_64245_(p_64250_, p_64252_, p_64251_ + 1);
-+            if (p_64251_.compareTo(i) >= 0) {
-+               this.setHeight(p_64250_.longValue(), p_64252_.longValue(), p_64251_.longValue() + 1);
++         if (this.f_64233_.test(pState)) {
++            if (pY.compareTo(i) >= 0) {
++               this.setHeight(pX.longValue(), pZ.longValue(), pY.longValue() + 1);
                 return true;
              }
 -         } else if (i - 1 == p_64251_) {
-+         } else if (i - 1 == p_64251_.longValue()) {
++         } else if (i - 1 == pY.longValue()) {
              BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
 -            for(int j = p_64251_ - 1; j >= this.f_64234_.m_141937_(); --j) {
 -               blockpos$mutableblockpos.m_122178_(p_64250_, j, p_64252_);
-+            for(me.alphamode.mclong.math.BigInteger j = p_64251_.subtract(me.alphamode.mclong.math.BigInteger.ONE); j.compareTo(this.f_64234_.getMinBuildHeight()) >= 0; j = j.subtract(me.alphamode.mclong.math.BigInteger.ONE)) {
-+               blockpos$mutableblockpos.set(p_64250_, j, p_64252_);
++            for(me.alphamode.mclong.math.BigInteger j = pY.subtract(me.alphamode.mclong.math.BigInteger.ONE); j.compareTo(this.f_64234_.getMinBuildHeight()) >= 0; j = j.subtract(me.alphamode.mclong.math.BigInteger.ONE)) {
++               blockpos$mutableblockpos.set(pX, j, pZ);
                 if (this.f_64233_.test(this.f_64234_.m_8055_(blockpos$mutableblockpos))) {
 -                  this.m_64245_(p_64250_, p_64252_, j + 1);
-+                  this.setHeight(p_64250_.longValue(), p_64252_.longValue(), j.add().longValue());
++                  this.setHeight(pX.longValue(), pZ.longValue(), j.add().longValue());
                    return true;
                 }
              }
  
 -            this.m_64245_(p_64250_, p_64252_, this.f_64234_.m_141937_());
-+            this.setHeight(p_64250_.longValue(), p_64252_.longValue(), this.f_64234_.getMinBuildHeight());
++            this.setHeight(pX.longValue(), pZ.longValue(), this.f_64234_.getMinBuildHeight());
              return true;
           }
  
@@ -94,29 +95,31 @@
 -
 -   private void m_64245_(int p_64246_, int p_64247_, int p_64248_) {
 -      this.f_64232_.m_13524_(m_64265_(p_64246_, p_64247_), p_64248_ - this.f_64234_.m_141937_());
-+   public long getFirstAvailable(long p_64243_, long p_64244_) {
-+      return this.getFirstAvailable(getIndex(p_64243_, p_64244_));
++   public long getFirstAvailable(long pX, long pZ) {
++      return this.getFirstAvailable(getIndex(pX, pZ));
 +   }
 +
-+   public long getHighestTaken(int p_158369_, int p_158370_) {
-+      return this.getFirstAvailable(getIndex(p_158369_, p_158370_)) - 1;
++   public long getHighestTaken(int pX, int pZ) {
++      return this.getFirstAvailable(getIndex(pX, pZ)) - 1;
 +   }
 +
-+   private long getFirstAvailable(long p_64241_) {
-+      return this.f_64232_.get(p_64241_) + this.f_64234_.getMinBuildHeight();
++   private long getFirstAvailable(long pIndex) {
++      return this.f_64232_.get(pIndex) + this.f_64234_.getMinBuildHeight();
 +   }
 +
-+   private void setHeight(long p_64246_, long p_64247_, long p_64248_) {
-+      this.f_64232_.set(getIndex(p_64246_, p_64247_), (int) (p_64248_ - this.f_64234_.getMinBuildHeight()));
++   private void setHeight(long pX, long pZ, long pValue) {
++      this.f_64232_.set(getIndex(pX, pZ), (int) (pValue - this.f_64234_.getMinBuildHeight()));
     }
  
     public void m_158364_(ChunkAccess p_158365_, Heightmap.Types p_158366_, long[] p_158367_) {
-@@ -133,7 +_,7 @@
+@@ -133,8 +_,8 @@
        return this.f_64232_.m_13513_();
     }
  
 -   private static int m_64265_(int p_64266_, int p_64267_) {
-+   private static long getIndex(long p_64266_, long p_64267_) {
-       return p_64266_ + p_64267_ * 16;
+-      return p_64266_ + p_64267_ * 16;
++   private static long getIndex(long pX, long pZ) {
++      return pX + pZ * 16;
     }
  
+    public static enum Types implements StringRepresentable {

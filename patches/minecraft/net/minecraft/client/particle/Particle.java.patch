@@ -19,27 +19,39 @@
     protected double f_107215_;
     protected double f_107216_;
     protected double f_107217_;
-@@ -50,17 +_,17 @@
+@@ -50,21 +_,21 @@
     protected float f_172258_ = 0.98F;
     protected boolean f_172259_ = false;
  
 -   protected Particle(ClientLevel p_107234_, double p_107235_, double p_107236_, double p_107237_) {
-+   protected Particle(ClientLevel p_107234_, me.alphamode.mclong.math.BigDecimal p_107235_, me.alphamode.mclong.math.BigDecimal p_107236_, me.alphamode.mclong.math.BigDecimal p_107237_) {
-       this.f_107208_ = p_107234_;
+-      this.f_107208_ = p_107234_;
++   protected Particle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      this.f_107208_ = pLevel;
        this.m_107250_(0.2F, 0.2F);
 -      this.m_107264_(p_107235_, p_107236_, p_107237_);
-+      this.setPos(p_107235_, p_107236_, p_107237_);
-       this.f_107209_ = p_107235_;
-       this.f_107210_ = p_107236_;
-       this.f_107211_ = p_107237_;
+-      this.f_107209_ = p_107235_;
+-      this.f_107210_ = p_107236_;
+-      this.f_107211_ = p_107237_;
++      this.setPos(pX, pY, pZ);
++      this.f_107209_ = pX;
++      this.f_107210_ = pY;
++      this.f_107211_ = pZ;
        this.f_107225_ = (int)(4.0F / (this.f_107223_.m_188501_() * 0.9F + 0.1F));
     }
  
 -   public Particle(ClientLevel p_107239_, double p_107240_, double p_107241_, double p_107242_, double p_107243_, double p_107244_, double p_107245_) {
-+   public Particle(ClientLevel p_107239_, me.alphamode.mclong.math.BigDecimal p_107240_, me.alphamode.mclong.math.BigDecimal p_107241_, me.alphamode.mclong.math.BigDecimal p_107242_, double p_107243_, double p_107244_, double p_107245_) {
-       this(p_107239_, p_107240_, p_107241_, p_107242_);
-       this.f_107215_ = p_107243_ + (Math.random() * 2.0D - 1.0D) * (double)0.4F;
-       this.f_107216_ = p_107244_ + (Math.random() * 2.0D - 1.0D) * (double)0.4F;
+-      this(p_107239_, p_107240_, p_107241_, p_107242_);
+-      this.f_107215_ = p_107243_ + (Math.random() * 2.0D - 1.0D) * (double)0.4F;
+-      this.f_107216_ = p_107244_ + (Math.random() * 2.0D - 1.0D) * (double)0.4F;
+-      this.f_107217_ = p_107245_ + (Math.random() * 2.0D - 1.0D) * (double)0.4F;
++   public Particle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      this(pLevel, pX, pY, pZ);
++      this.f_107215_ = pXSpeed + (Math.random() * 2.0D - 1.0D) * (double)0.4F;
++      this.f_107216_ = pYSpeed + (Math.random() * 2.0D - 1.0D) * (double)0.4F;
++      this.f_107217_ = pZSpeed + (Math.random() * 2.0D - 1.0D) * (double)0.4F;
+       double d0 = (Math.random() + Math.random() + 1.0D) * (double)0.15F;
+       double d1 = Math.sqrt(this.f_107215_ * this.f_107215_ + this.f_107216_ * this.f_107216_ + this.f_107217_ * this.f_107217_);
+       this.f_107215_ = this.f_107215_ / d1 * d0 * (double)0.4F;
 @@ -150,20 +_,22 @@
           this.f_107221_ = p_107251_;
           this.f_107222_ = p_107252_;
@@ -57,14 +69,17 @@
     }
  
 -   public void m_107264_(double p_107265_, double p_107266_, double p_107267_) {
-+   public void setPos(me.alphamode.mclong.math.BigDecimal p_107265_, me.alphamode.mclong.math.BigDecimal p_107266_, me.alphamode.mclong.math.BigDecimal p_107267_) {
-       this.f_107212_ = p_107265_;
-       this.f_107213_ = p_107266_;
-       this.f_107214_ = p_107267_;
+-      this.f_107212_ = p_107265_;
+-      this.f_107213_ = p_107266_;
+-      this.f_107214_ = p_107267_;
++   public void setPos(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      this.f_107212_ = pX;
++      this.f_107213_ = pY;
++      this.f_107214_ = pZ;
        float f = this.f_107221_ / 2.0F;
        float f1 = this.f_107222_;
 -      this.m_107259_(new AABB(p_107265_ - (double)f, p_107266_, p_107267_ - (double)f, p_107265_ + (double)f, p_107266_ + (double)f1, p_107267_ + (double)f));
-+      this.m_107259_(new AABB(p_107265_.subtract(f), p_107266_, p_107267_.subtract(f), p_107265_.add(f), p_107266_.add(f1), p_107267_.add(f)));
++      this.m_107259_(new AABB(pX.subtract(f), pY, pZ.subtract(f), pX.add(f), pY.add(f1), pZ.add(f)));
     }
  
     public void m_6257_(double p_107246_, double p_107247_, double p_107248_) {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java
-@@ -6,15 +_,15 @@
+@@ -6,28 +_,28 @@
  import net.minecraft.world.entity.RelativeMovement;
  
  public class ClientboundPlayerPositionPacket implements Packet<ClientGamePacketListener> {
@@ -16,11 +16,21 @@
     private final int f_132802_;
  
 -   public ClientboundPlayerPositionPacket(double p_275438_, double p_275354_, double p_275276_, float p_275280_, float p_275203_, Set<RelativeMovement> p_275228_, int p_275614_) {
-+   public ClientboundPlayerPositionPacket(me.alphamode.mclong.math.BigDecimal p_275438_, me.alphamode.mclong.math.BigDecimal p_275354_, me.alphamode.mclong.math.BigDecimal p_275276_, float p_275280_, float p_275203_, Set<RelativeMovement> p_275228_, int p_275614_) {
-       this.f_132796_ = p_275438_;
-       this.f_132797_ = p_275354_;
-       this.f_132798_ = p_275276_;
-@@ -25,9 +_,9 @@
+-      this.f_132796_ = p_275438_;
+-      this.f_132797_ = p_275354_;
+-      this.f_132798_ = p_275276_;
+-      this.f_132799_ = p_275280_;
+-      this.f_132800_ = p_275203_;
+-      this.f_132801_ = p_275228_;
+-      this.f_132802_ = p_275614_;
++   public ClientboundPlayerPositionPacket(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYRot, float pXRot, Set<RelativeMovement> pRelativeArguments, int pId) {
++      this.f_132796_ = pX;
++      this.f_132797_ = pY;
++      this.f_132798_ = pZ;
++      this.f_132799_ = pYRot;
++      this.f_132800_ = pXRot;
++      this.f_132801_ = pRelativeArguments;
++      this.f_132802_ = pId;
     }
  
     public ClientboundPlayerPositionPacket(FriendlyByteBuf p_179158_) {

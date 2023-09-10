@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/BoundingBox.java
 +++ b/net/minecraft/world/level/levelgen/structure/BoundingBox.java
-@@ -17,57 +_,84 @@
+@@ -17,80 +_,118 @@
  
  public class BoundingBox {
     private static final Logger f_162355_ = LogUtils.getLogger();
@@ -28,8 +28,8 @@
 +   private me.alphamode.mclong.math.BigInteger f_162360_;
 +   private me.alphamode.mclong.math.BigInteger f_162361_;
 +
-+   public BoundingBox(me.alphamode.mclong.core.Vec3l p_162364_) {
-+      this(p_162364_.getBigX(), p_162364_.getBigY(), p_162364_.getBigZ(), p_162364_.getBigX(), p_162364_.getBigY(), p_162364_.getBigZ());
++   public BoundingBox(me.alphamode.mclong.core.Vec3l pPos) {
++      this(pPos.getBigX(), pPos.getBigY(), pPos.getBigZ(), pPos.getBigX(), pPos.getBigY(), pPos.getBigZ());
 +   }
  
     public BoundingBox(BlockPos p_162364_) {
@@ -37,67 +37,83 @@
 -   }
 -
 -   public BoundingBox(int p_71001_, int p_71002_, int p_71003_, int p_71004_, int p_71005_, int p_71006_) {
-+      this(p_162364_.getBigX(), p_162364_.getBigY(), p_162364_.getBigZ(), p_162364_.getBigX(), p_162364_.getBigY(), p_162364_.getBigZ());
-+   }
-+
-+   public BoundingBox(long p_71001_, long p_71002_, long p_71003_, long p_71004_, long p_71005_, long p_71006_) {
-+      this.f_162356_ = me.alphamode.mclong.math.BigInteger.valueOf(p_71001_);
-+      this.f_162357_ = me.alphamode.mclong.math.BigInteger.valueOf(p_71002_);
-+      this.f_162358_ = me.alphamode.mclong.math.BigInteger.valueOf(p_71003_);
-+      this.f_162359_ = me.alphamode.mclong.math.BigInteger.valueOf(p_71004_);
-+      this.f_162360_ = me.alphamode.mclong.math.BigInteger.valueOf(p_71005_);
-+      this.f_162361_ = me.alphamode.mclong.math.BigInteger.valueOf(p_71006_);
-+      if (p_71004_ < p_71001_ || p_71005_ < p_71002_ || p_71006_ < p_71003_) {
-+         String s = "Invalid bounding box data, inverted bounds for: " + this;
-+         if (SharedConstants.f_136183_) {
-+            throw new IllegalStateException(s);
-+         }
-+
-+         f_162355_.error(s);
-+         this.f_162356_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.min(p_71001_, p_71004_));
-+         this.f_162357_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.min(p_71002_, p_71005_));
-+         this.f_162358_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.min(p_71003_, p_71006_));
-+         this.f_162359_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.max(p_71001_, p_71004_));
-+         this.f_162360_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.max(p_71002_, p_71005_));
-+         this.f_162361_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.max(p_71003_, p_71006_));
-+      }
-+   }
-+
-+   public BoundingBox(me.alphamode.mclong.math.BigInteger p_71001_, me.alphamode.mclong.math.BigInteger p_71002_, me.alphamode.mclong.math.BigInteger p_71003_, me.alphamode.mclong.math.BigInteger p_71004_, me.alphamode.mclong.math.BigInteger p_71005_, me.alphamode.mclong.math.BigInteger p_71006_) {
-       this.f_162356_ = p_71001_;
-       this.f_162357_ = p_71002_;
-       this.f_162358_ = p_71003_;
-       this.f_162359_ = p_71004_;
-       this.f_162360_ = p_71005_;
-       this.f_162361_ = p_71006_;
+-      this.f_162356_ = p_71001_;
+-      this.f_162357_ = p_71002_;
+-      this.f_162358_ = p_71003_;
+-      this.f_162359_ = p_71004_;
+-      this.f_162360_ = p_71005_;
+-      this.f_162361_ = p_71006_;
 -      if (p_71004_ < p_71001_ || p_71005_ < p_71002_ || p_71006_ < p_71003_) {
-+      if (p_71004_.compareTo(p_71001_) < 0 || p_71005_.compareTo(p_71002_) < 0 || p_71006_.compareTo(p_71003_) < 0) {
-          String s = "Invalid bounding box data, inverted bounds for: " + this;
-          if (SharedConstants.f_136183_) {
-             throw new IllegalStateException(s);
-          }
- 
-          f_162355_.error(s);
+-         String s = "Invalid bounding box data, inverted bounds for: " + this;
+-         if (SharedConstants.f_136183_) {
+-            throw new IllegalStateException(s);
+-         }
+-
+-         f_162355_.error(s);
 -         this.f_162356_ = Math.min(p_71001_, p_71004_);
 -         this.f_162357_ = Math.min(p_71002_, p_71005_);
 -         this.f_162358_ = Math.min(p_71003_, p_71006_);
 -         this.f_162359_ = Math.max(p_71001_, p_71004_);
 -         this.f_162360_ = Math.max(p_71002_, p_71005_);
 -         this.f_162361_ = Math.max(p_71003_, p_71006_);
-+         this.f_162356_ = p_71001_.min(p_71004_);
-+         this.f_162357_ = p_71002_.min(p_71005_);
-+         this.f_162358_ = p_71003_.min(p_71006_);
-+         this.f_162359_ = p_71001_.max(p_71004_);
-+         this.f_162360_ = p_71002_.max(p_71005_);
-+         this.f_162361_ = p_71003_.max(p_71006_);
-       }
- 
-    }
- 
+-      }
+-
+-   }
+-
 -   public static BoundingBox m_162375_(Vec3i p_162376_, Vec3i p_162377_) {
 -      return new BoundingBox(Math.min(p_162376_.m_123341_(), p_162377_.m_123341_()), Math.min(p_162376_.m_123342_(), p_162377_.m_123342_()), Math.min(p_162376_.m_123343_(), p_162377_.m_123343_()), Math.max(p_162376_.m_123341_(), p_162377_.m_123341_()), Math.max(p_162376_.m_123342_(), p_162377_.m_123342_()), Math.max(p_162376_.m_123343_(), p_162377_.m_123343_()));
-+   public static BoundingBox fromCorners(me.alphamode.mclong.core.Vec3l p_162376_, me.alphamode.mclong.core.Vec3l p_162377_) {
-+      return new BoundingBox(p_162376_.getBigX().min(p_162377_.getBigX()), p_162376_.getBigY().min(p_162377_.getBigY()), p_162376_.getBigZ().min(p_162377_.getBigZ()), p_162376_.getBigX().max(p_162377_.getBigX()), p_162376_.getBigY().max(p_162377_.getBigY()), p_162376_.getBigZ().max(p_162377_.getBigZ()));
++      this(p_162364_.getBigX(), p_162364_.getBigY(), p_162364_.getBigZ(), p_162364_.getBigX(), p_162364_.getBigY(), p_162364_.getBigZ());
++   }
++
++   public BoundingBox(long pMinX, long pMinY, long pMinZ, long pMaxX, long pMaxY, long pMaxZ) {
++      this.f_162356_ = me.alphamode.mclong.math.BigInteger.valueOf(pMinX);
++      this.f_162357_ = me.alphamode.mclong.math.BigInteger.valueOf(pMinY);
++      this.f_162358_ = me.alphamode.mclong.math.BigInteger.valueOf(pMinZ);
++      this.f_162359_ = me.alphamode.mclong.math.BigInteger.valueOf(pMaxX);
++      this.f_162360_ = me.alphamode.mclong.math.BigInteger.valueOf(pMaxY);
++      this.f_162361_ = me.alphamode.mclong.math.BigInteger.valueOf(pMaxZ);
++      if (pMaxX < pMinX || pMaxY < pMinY || pMaxZ < pMinZ) {
++         String s = "Invalid bounding box data, inverted bounds for: " + this;
++         if (SharedConstants.f_136183_) {
++            throw new IllegalStateException(s);
++         }
++
++         f_162355_.error(s);
++         this.f_162356_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.min(pMinX, pMaxX));
++         this.f_162357_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.min(pMinY, pMaxY));
++         this.f_162358_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.min(pMinZ, pMaxZ));
++         this.f_162359_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.max(pMinX, pMaxX));
++         this.f_162360_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.max(pMinY, pMaxY));
++         this.f_162361_ = me.alphamode.mclong.math.BigInteger.valueOf(Math.max(pMinZ, pMaxZ));
++      }
++   }
++
++   public BoundingBox(me.alphamode.mclong.math.BigInteger pMinX, me.alphamode.mclong.math.BigInteger pMinY, me.alphamode.mclong.math.BigInteger pMinZ, me.alphamode.mclong.math.BigInteger pMaxX, me.alphamode.mclong.math.BigInteger pMaxY, me.alphamode.mclong.math.BigInteger pMaxZ) {
++      this.f_162356_ = pMinX;
++      this.f_162357_ = pMinY;
++      this.f_162358_ = pMinZ;
++      this.f_162359_ = pMaxX;
++      this.f_162360_ = pMaxY;
++      this.f_162361_ = pMaxZ;
++      if (pMaxX.compareTo(pMinX) < 0 || pMaxY.compareTo(pMinY) < 0 || pMaxZ.compareTo(pMinZ) < 0) {
++         String s = "Invalid bounding box data, inverted bounds for: " + this;
++         if (SharedConstants.f_136183_) {
++            throw new IllegalStateException(s);
++         }
++
++         f_162355_.error(s);
++         this.f_162356_ = pMinX.min(pMaxX);
++         this.f_162357_ = pMinY.min(pMaxY);
++         this.f_162358_ = pMinZ.min(pMaxZ);
++         this.f_162359_ = pMinX.max(pMaxX);
++         this.f_162360_ = pMinY.max(pMaxY);
++         this.f_162361_ = pMinZ.max(pMaxZ);
++      }
++
++   }
++
++   public static BoundingBox fromCorners(me.alphamode.mclong.core.Vec3l pFirst, me.alphamode.mclong.core.Vec3l pSecond) {
++      return new BoundingBox(pFirst.getBigX().min(pSecond.getBigX()), pFirst.getBigY().min(pSecond.getBigY()), pFirst.getBigZ().min(pSecond.getBigZ()), pFirst.getBigX().max(pSecond.getBigX()), pFirst.getBigY().max(pSecond.getBigY()), pFirst.getBigZ().max(pSecond.getBigZ()));
     }
  
     public static BoundingBox m_71044_() {
@@ -105,11 +121,23 @@
     }
  
 -   public static BoundingBox m_71031_(int p_71032_, int p_71033_, int p_71034_, int p_71035_, int p_71036_, int p_71037_, int p_71038_, int p_71039_, int p_71040_, Direction p_71041_) {
-+   public static BoundingBox orientBox(long p_71032_, long p_71033_, long p_71034_, int p_71035_, int p_71036_, int p_71037_, int p_71038_, int p_71039_, int p_71040_, Direction p_71041_) {
-       switch (p_71041_) {
+-      switch (p_71041_) {
++   public static BoundingBox orientBox(long pStructureMinX, long pStructureMinY, long pStructureMinZ, int pXMin, int pYMin, int pZMin, int pXMax, int pYMax, int pZMax, Direction pFacing) {
++      switch (pFacing) {
           case SOUTH:
           default:
-@@ -82,14 +_,25 @@
+-            return new BoundingBox(p_71032_ + p_71035_, p_71033_ + p_71036_, p_71034_ + p_71037_, p_71032_ + p_71038_ - 1 + p_71035_, p_71033_ + p_71039_ - 1 + p_71036_, p_71034_ + p_71040_ - 1 + p_71037_);
++            return new BoundingBox(pStructureMinX + pXMin, pStructureMinY + pYMin, pStructureMinZ + pZMin, pStructureMinX + pXMax - 1 + pXMin, pStructureMinY + pYMax - 1 + pYMin, pStructureMinZ + pZMax - 1 + pZMin);
+          case NORTH:
+-            return new BoundingBox(p_71032_ + p_71035_, p_71033_ + p_71036_, p_71034_ - p_71040_ + 1 + p_71037_, p_71032_ + p_71038_ - 1 + p_71035_, p_71033_ + p_71039_ - 1 + p_71036_, p_71034_ + p_71037_);
++            return new BoundingBox(pStructureMinX + pXMin, pStructureMinY + pYMin, pStructureMinZ - pZMax + 1 + pZMin, pStructureMinX + pXMax - 1 + pXMin, pStructureMinY + pYMax - 1 + pYMin, pStructureMinZ + pZMin);
+          case WEST:
+-            return new BoundingBox(p_71032_ - p_71040_ + 1 + p_71037_, p_71033_ + p_71036_, p_71034_ + p_71035_, p_71032_ + p_71037_, p_71033_ + p_71039_ - 1 + p_71036_, p_71034_ + p_71038_ - 1 + p_71035_);
++            return new BoundingBox(pStructureMinX - pZMax + 1 + pZMin, pStructureMinY + pYMin, pStructureMinZ + pXMin, pStructureMinX + pZMin, pStructureMinY + pYMax - 1 + pYMin, pStructureMinZ + pXMax - 1 + pXMin);
+          case EAST:
+-            return new BoundingBox(p_71032_ + p_71037_, p_71033_ + p_71036_, p_71034_ + p_71035_, p_71032_ + p_71040_ - 1 + p_71037_, p_71033_ + p_71039_ - 1 + p_71036_, p_71034_ + p_71038_ - 1 + p_71035_);
++            return new BoundingBox(pStructureMinX + pZMin, pStructureMinY + pYMin, pStructureMinZ + pXMin, pStructureMinX + pZMax - 1 + pZMin, pStructureMinY + pYMax - 1 + pYMin, pStructureMinZ + pXMax - 1 + pXMin);
+       }
     }
  
     public boolean m_71049_(BoundingBox p_71050_) {
@@ -121,11 +149,12 @@
 -   }
 -
 -   public static Optional<BoundingBox> m_162378_(Iterable<BlockPos> p_162379_) {
+-      Iterator<BlockPos> iterator = p_162379_.iterator();
 +      return this.f_162359_.compareTo(p_71050_.f_162356_) >= 0 && this.f_162356_.compareTo(p_71050_.f_162359_) <= 0 && this.f_162361_.compareTo(p_71050_.f_162358_) >= 0 && this.f_162358_.compareTo(p_71050_.f_162361_) <= 0 && this.f_162360_.compareTo(p_71050_.f_162357_) >= 0 && this.f_162357_.compareTo(p_71050_.f_162360_) <= 0;
 +   }
 +
-+   public boolean intersects(me.alphamode.mclong.math.BigInteger p_71020_, me.alphamode.mclong.math.BigInteger p_71021_, me.alphamode.mclong.math.BigInteger p_71022_, me.alphamode.mclong.math.BigInteger p_71023_) {
-+      return this.f_162359_.compareTo(p_71020_) >= 0 && this.f_162356_.compareTo(p_71022_) <= 0 && this.f_162361_.compareTo(p_71021_) >= 0 && this.f_162358_.compareTo(p_71023_) <= 0;
++   public boolean intersects(me.alphamode.mclong.math.BigInteger pMinX, me.alphamode.mclong.math.BigInteger pMinZ, me.alphamode.mclong.math.BigInteger pMaxX, me.alphamode.mclong.math.BigInteger pMaxZ) {
++      return this.f_162359_.compareTo(pMinX) >= 0 && this.f_162356_.compareTo(pMaxX) <= 0 && this.f_162361_.compareTo(pMinZ) >= 0 && this.f_162358_.compareTo(pMaxZ) <= 0;
 +   }
 +
 +   public static Optional<BoundingBox> m_162378_(Iterable<me.alphamode.mclong.core.Vec3l> p_162379_) {
@@ -139,10 +168,11 @@
 +      }
 +   }
 +
-+   public static Optional<BoundingBox> unsafeEncapsulatingPositions(Iterable<BlockPos> p_162379_) {
-       Iterator<BlockPos> iterator = p_162379_.iterator();
++   public static Optional<BoundingBox> unsafeEncapsulatingPositions(Iterable<BlockPos> pPositions) {
++      Iterator<BlockPos> iterator = pPositions.iterator();
        if (!iterator.hasNext()) {
           return Optional.empty();
+       } else {
 @@ -115,91 +_,117 @@
     /** @deprecated */
     @Deprecated
@@ -217,13 +247,13 @@
 +
 +   /** @deprecated */
 +   @Deprecated
-+   public BoundingBox move(long p_162368_, long p_162369_, long p_162370_) {
-+      this.f_162356_ = this.f_162356_.add(p_162368_);
-+      this.f_162357_ = this.f_162357_.add(p_162369_);
-+      this.f_162358_ = this.f_162358_.add(p_162370_);
-+      this.f_162359_ = this.f_162359_.add(p_162368_);
-+      this.f_162360_ = this.f_162360_.add(p_162369_);
-+      this.f_162361_ = this.f_162361_.add(p_162370_);
++   public BoundingBox move(long pX, long pY, long pZ) {
++      this.f_162356_ = this.f_162356_.add(pX);
++      this.f_162357_ = this.f_162357_.add(pY);
++      this.f_162358_ = this.f_162358_.add(pZ);
++      this.f_162359_ = this.f_162359_.add(pX);
++      this.f_162360_ = this.f_162360_.add(pY);
++      this.f_162361_ = this.f_162361_.add(pZ);
 +      return this;
 +   }
 +
@@ -239,12 +269,12 @@
 +
 +   /** @deprecated */
 +   @Deprecated
-+   public BoundingBox move(me.alphamode.mclong.core.Vec3l p_162374_) {
-+      return this.move(p_162374_.getBigX(), p_162374_.getBigY(), p_162374_.getBigZ());
++   public BoundingBox move(me.alphamode.mclong.core.Vec3l pVector) {
++      return this.move(pVector.getBigX(), pVector.getBigY(), pVector.getBigZ());
 +   }
 +
-+   public BoundingBox moved(long p_71046_, long p_71047_, long p_71048_) {
-+      return new BoundingBox(this.f_162356_.add(p_71046_), this.f_162357_.add(p_71047_), this.f_162358_.add(p_71048_), this.f_162359_.add(p_71046_), this.f_162360_.add(p_71047_), this.f_162361_.add(p_71048_));
++   public BoundingBox moved(long pX, long pY, long pZ) {
++      return new BoundingBox(this.f_162356_.add(pX), this.f_162357_.add(pY), this.f_162358_.add(pZ), this.f_162359_.add(pX), this.f_162360_.add(pY), this.f_162361_.add(pZ));
     }
  
     public BoundingBox m_191961_(int p_191962_) {
@@ -276,16 +306,16 @@
 +      return new BoundingBox(this.minBigX().subtract(p_191962_), this.minBigY().subtract(p_191962_), this.minBigZ().subtract(p_191962_), this.maxBigX().add(p_191962_), this.maxBigY().add(p_191962_), this.maxBigZ().add(p_191962_));
 +   }
 +
-+   public boolean isInside(me.alphamode.mclong.core.Vec3l p_71052_) {
-+      return this.isInside(p_71052_.getBigX(), p_71052_.getBigY(), p_71052_.getBigZ());
++   public boolean isInside(me.alphamode.mclong.core.Vec3l pVector) {
++      return this.isInside(pVector.getBigX(), pVector.getBigY(), pVector.getBigZ());
 +   }
 +
 +   public boolean isInside(me.alphamode.mclong.math.BigInteger x, me.alphamode.mclong.math.BigInteger y, me.alphamode.mclong.math.BigInteger z) {
 +      return x.compareTo(this.f_162356_) >= 0 && x.compareTo(this.f_162359_) <= 0 && z.compareTo(this.f_162358_) >= 0 && z.compareTo(this.f_162361_) <= 0 && y.compareTo(this.f_162357_) >= 0 && y.compareTo(this.f_162360_) <= 0;
 +   }
 +
-+   public boolean isInside(long p_261671_, long p_261537_, long p_261678_) {
-+      return isInside(me.alphamode.mclong.math.BigInteger.valueOf(p_261671_), me.alphamode.mclong.math.BigInteger.valueOf(p_261537_), me.alphamode.mclong.math.BigInteger.valueOf(p_261678_));
++   public boolean isInside(long pX, long pY, long pZ) {
++      return isInside(me.alphamode.mclong.math.BigInteger.valueOf(pX), me.alphamode.mclong.math.BigInteger.valueOf(pY), me.alphamode.mclong.math.BigInteger.valueOf(pZ));
 +   }
 +
 +   public me.alphamode.mclong.core.Vec3l getLength() {

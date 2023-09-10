@@ -9,26 +9,55 @@
                 return false;
              }
           }
-@@ -55,7 +_,7 @@
+@@ -55,35 +_,35 @@
        return p_159660_.m_7433_(p_159661_, DripstoneUtils::m_159666_);
     }
  
 -   protected static void m_159651_(Direction p_159652_, int p_159653_, boolean p_159654_, Consumer<BlockState> p_159655_) {
-+   protected static void buildBaseToTipColumn(Direction p_159652_, long p_159653_, boolean p_159654_, Consumer<BlockState> p_159655_) {
-       if (p_159653_ >= 3) {
-          p_159655_.accept(m_159656_(p_159652_, DripstoneThickness.BASE));
+-      if (p_159653_ >= 3) {
+-         p_159655_.accept(m_159656_(p_159652_, DripstoneThickness.BASE));
++   protected static void buildBaseToTipColumn(Direction pDirection, long pHeight, boolean pMergeTip, Consumer<BlockState> pBlockSetter) {
++      if (pHeight >= 3) {
++         pBlockSetter.accept(m_159656_(pDirection, DripstoneThickness.BASE));
  
-@@ -74,10 +_,10 @@
+-         for(int i = 0; i < p_159653_ - 3; ++i) {
+-            p_159655_.accept(m_159656_(p_159652_, DripstoneThickness.MIDDLE));
++         for(int i = 0; i < pHeight - 3; ++i) {
++            pBlockSetter.accept(m_159656_(pDirection, DripstoneThickness.MIDDLE));
+          }
+       }
+ 
+-      if (p_159653_ >= 2) {
+-         p_159655_.accept(m_159656_(p_159652_, DripstoneThickness.FRUSTUM));
++      if (pHeight >= 2) {
++         pBlockSetter.accept(m_159656_(pDirection, DripstoneThickness.FRUSTUM));
+       }
+ 
+-      if (p_159653_ >= 1) {
+-         p_159655_.accept(m_159656_(p_159652_, p_159654_ ? DripstoneThickness.TIP_MERGE : DripstoneThickness.TIP));
++      if (pHeight >= 1) {
++         pBlockSetter.accept(m_159656_(pDirection, pMergeTip ? DripstoneThickness.TIP_MERGE : DripstoneThickness.TIP));
+       }
  
     }
  
 -   protected static void m_190847_(LevelAccessor p_190848_, BlockPos p_190849_, Direction p_190850_, int p_190851_, boolean p_190852_) {
 -      if (m_159662_(p_190848_.m_8055_(p_190849_.m_121945_(p_190850_.m_122424_())))) {
-+   protected static void growPointedDripstone(LevelAccessor p_190848_, BlockPos p_190849_, Direction p_190850_, long p_190851_, boolean p_190852_) {
-+      if (m_159662_(p_190848_.m_8055_(p_190849_.relative(p_190850_.m_122424_())))) {
-          BlockPos.MutableBlockPos blockpos$mutableblockpos = p_190849_.m_122032_();
+-         BlockPos.MutableBlockPos blockpos$mutableblockpos = p_190849_.m_122032_();
 -         m_159651_(p_190850_, p_190851_, p_190852_, (p_277326_) -> {
-+         buildBaseToTipColumn(p_190850_, p_190851_, p_190852_, (p_277326_) -> {
++   protected static void growPointedDripstone(LevelAccessor pLevel, BlockPos pPos, Direction pDirection, long pHeight, boolean pMergeTip) {
++      if (m_159662_(pLevel.m_8055_(pPos.relative(pDirection.m_122424_())))) {
++         BlockPos.MutableBlockPos blockpos$mutableblockpos = pPos.m_122032_();
++         buildBaseToTipColumn(pDirection, pHeight, pMergeTip, (p_277326_) -> {
              if (p_277326_.m_60713_(Blocks.f_152588_)) {
-                p_277326_ = p_277326_.m_61124_(PointedDripstoneBlock.f_154011_, Boolean.valueOf(p_190848_.m_46801_(blockpos$mutableblockpos)));
+-               p_277326_ = p_277326_.m_61124_(PointedDripstoneBlock.f_154011_, Boolean.valueOf(p_190848_.m_46801_(blockpos$mutableblockpos)));
++               p_277326_ = p_277326_.m_61124_(PointedDripstoneBlock.f_154011_, Boolean.valueOf(pLevel.m_46801_(blockpos$mutableblockpos)));
              }
+ 
+-            p_190848_.m_7731_(blockpos$mutableblockpos, p_277326_, 2);
+-            blockpos$mutableblockpos.m_122173_(p_190850_);
++            pLevel.m_7731_(blockpos$mutableblockpos, p_277326_, 2);
++            blockpos$mutableblockpos.m_122173_(pDirection);
+          });
+       }
+    }

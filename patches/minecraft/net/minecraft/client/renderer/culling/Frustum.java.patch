@@ -13,7 +13,7 @@
  
     public Frustum(Matrix4f p_254207_, Matrix4f p_254535_) {
        this.m_253155_(p_254207_, p_254535_);
-@@ -32,21 +_,30 @@
+@@ -32,24 +_,33 @@
     }
  
     public Frustum m_194441_(int p_194442_) {
@@ -41,6 +41,9 @@
     }
  
 -   public void m_113002_(double p_113003_, double p_113004_, double p_113005_) {
+-      this.f_112996_ = p_113003_;
+-      this.f_112997_ = p_113004_;
+-      this.f_112998_ = p_113005_;
 +   public static me.alphamode.mclong.math.BigDecimal floor(me.alphamode.mclong.math.BigDecimal val) {
 +      return val.setScale(0, java.math.RoundingMode.FLOOR);
 +   }
@@ -49,10 +52,13 @@
 +      return val.setScale(0, java.math.RoundingMode.CEILING);
 +   }
 +
-+   public void prepare(me.alphamode.mclong.math.BigDecimal p_113003_, me.alphamode.mclong.math.BigDecimal p_113004_, me.alphamode.mclong.math.BigDecimal p_113005_) {
-       this.f_112996_ = p_113003_;
-       this.f_112997_ = p_113004_;
-       this.f_112998_ = p_113005_;
++   public void prepare(me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
++      this.f_112996_ = pCamX;
++      this.f_112997_ = pCamY;
++      this.f_112998_ = pCamZ;
+    }
+ 
+    private void m_253155_(Matrix4f p_253909_, Matrix4f p_254521_) {
 @@ -59,16 +_,16 @@
     }
  
@@ -68,13 +74,13 @@
 -      float f3 = (float)(p_113010_ - this.f_112996_);
 -      float f4 = (float)(p_113011_ - this.f_112997_);
 -      float f5 = (float)(p_113012_ - this.f_112998_);
-+   private boolean cubeInFrustum(me.alphamode.mclong.math.BigDecimal p_113007_, me.alphamode.mclong.math.BigDecimal p_113008_, me.alphamode.mclong.math.BigDecimal p_113009_, me.alphamode.mclong.math.BigDecimal p_113010_, me.alphamode.mclong.math.BigDecimal p_113011_, me.alphamode.mclong.math.BigDecimal p_113012_) {
-+      float f = p_113007_.subtract(this.f_112996_).floatValue();
-+      float f1 = p_113008_.subtract(this.f_112997_).floatValue();
-+      float f2 = p_113009_.subtract(this.f_112998_).floatValue();
-+      float f3 = p_113010_.subtract(this.f_112996_).floatValue();
-+      float f4 = p_113011_.subtract(this.f_112997_).floatValue();
-+      float f5 = p_113012_.subtract(this.f_112998_).floatValue();
++   private boolean cubeInFrustum(me.alphamode.mclong.math.BigDecimal pMinX, me.alphamode.mclong.math.BigDecimal pMinY, me.alphamode.mclong.math.BigDecimal pMinZ, me.alphamode.mclong.math.BigDecimal pMaxX, me.alphamode.mclong.math.BigDecimal pMaxY, me.alphamode.mclong.math.BigDecimal pMaxZ) {
++      float f = pMinX.subtract(this.f_112996_).floatValue();
++      float f1 = pMinY.subtract(this.f_112997_).floatValue();
++      float f2 = pMinZ.subtract(this.f_112998_).floatValue();
++      float f3 = pMaxX.subtract(this.f_112996_).floatValue();
++      float f4 = pMaxY.subtract(this.f_112997_).floatValue();
++      float f5 = pMaxZ.subtract(this.f_112998_).floatValue();
        return this.f_252531_.testAab(f, f1, f2, f3, f4, f5);
     }
  }

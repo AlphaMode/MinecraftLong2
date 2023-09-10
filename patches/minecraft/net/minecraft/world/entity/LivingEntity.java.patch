@@ -425,15 +425,27 @@
           d5 = 0.0D;
        }
  
-@@ -2699,7 +_,7 @@
+@@ -2699,13 +_,13 @@
        this.m_183634_();
     }
  
 -   public void m_6453_(double p_20977_, double p_20978_, double p_20979_, float p_20980_, float p_20981_, int p_20982_, boolean p_20983_) {
-+   public void lerpTo(me.alphamode.mclong.math.BigDecimal p_20977_, me.alphamode.mclong.math.BigDecimal p_20978_, me.alphamode.mclong.math.BigDecimal p_20979_, float p_20980_, float p_20981_, int p_20982_, boolean p_20983_) {
-       this.f_20904_ = p_20977_;
-       this.f_20905_ = p_20978_;
-       this.f_20906_ = p_20979_;
+-      this.f_20904_ = p_20977_;
+-      this.f_20905_ = p_20978_;
+-      this.f_20906_ = p_20979_;
+-      this.f_20907_ = (double)p_20980_;
+-      this.f_20908_ = (double)p_20981_;
+-      this.f_20903_ = p_20982_;
++   public void lerpTo(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYaw, float pPitch, int pPosRotationIncrements, boolean pTeleport) {
++      this.f_20904_ = pX;
++      this.f_20905_ = pY;
++      this.f_20906_ = pZ;
++      this.f_20907_ = (double)pYaw;
++      this.f_20908_ = (double)pPitch;
++      this.f_20903_ = pPosRotationIncrements;
+    }
+ 
+    public void m_6541_(float p_21005_, int p_21006_) {
 @@ -2784,7 +_,7 @@
     }
  
@@ -461,14 +473,14 @@
 -      double d1 = this.m_20186_();
 -      double d2 = this.m_20189_();
 -      double d3 = p_20986_;
-+   public boolean randomTeleport(me.alphamode.mclong.math.BigDecimal p_20985_, me.alphamode.mclong.math.BigDecimal p_20986_, me.alphamode.mclong.math.BigDecimal p_20987_, boolean p_20988_) {
++   public boolean randomTeleport(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, boolean pBroadcastTeleport) {
 +      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX();
 +      me.alphamode.mclong.math.BigDecimal d1 = this.getBigY();
 +      me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ();
-+      me.alphamode.mclong.math.BigDecimal d3 = p_20986_;
++      me.alphamode.mclong.math.BigDecimal d3 = pY;
        boolean flag = false;
 -      BlockPos blockpos = BlockPos.m_274561_(p_20985_, p_20986_, p_20987_);
-+      BlockPos blockpos = BlockPos.containing(p_20985_, p_20986_, p_20987_);
++      BlockPos blockpos = BlockPos.containing(pX, pY, pZ);
        Level level = this.m_9236_();
        if (level.m_46805_(blockpos)) {
           boolean flag1 = false;
@@ -489,11 +501,11 @@
  
           if (flag1) {
 -            this.m_6021_(p_20985_, d3, p_20987_);
-+            this.teleportTo(p_20985_, d3, p_20987_);
++            this.teleportTo(pX, d3, pZ);
              if (level.m_45786_(this) && !level.m_46855_(this.m_20191_())) {
                 flag = true;
              }
-@@ -3058,7 +_,7 @@
+@@ -3058,10 +_,10 @@
        }
  
        if (!flag) {
@@ -501,7 +513,11 @@
 +         this.teleportTo(d0, d1, d2);
           return false;
        } else {
-          if (p_20988_) {
+-         if (p_20988_) {
++         if (pBroadcastTeleport) {
+             level.m_7605_(this, (byte)46);
+          }
+ 
 @@ -3139,7 +_,7 @@
     }
  

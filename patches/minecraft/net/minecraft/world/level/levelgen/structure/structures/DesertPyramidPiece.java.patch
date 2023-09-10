@@ -4,8 +4,8 @@
     private final List<BlockPos> f_271477_ = new ArrayList<>();
     private BlockPos f_278492_ = BlockPos.f_121853_;
  
-+   public DesertPyramidPiece(RandomSource p_227399_, long p_227400_, long p_227401_) {
-+      super(StructurePieceType.f_210106_, p_227400_, 64, p_227401_, 21, 15, 21, m_226760_(p_227399_));
++   public DesertPyramidPiece(RandomSource pRandom, long pX, long pZ) {
++      super(StructurePieceType.f_210106_, pX, 64, pZ, 21, 15, 21, m_226760_(pRandom));
 +   }
 +
     public DesertPyramidPiece(RandomSource p_227399_, int p_227400_, int p_227401_) {
@@ -506,15 +506,16 @@
     }
  
 -   private void m_271881_(WorldGenLevel p_272965_, int p_272618_, int p_273415_, int p_273110_, BoundingBox p_272645_) {
-+   private void placeCollapsedRoofPiece(WorldGenLevel p_272965_, long p_272618_, long p_273415_, long p_273110_, BoundingBox p_272645_) {
-       if (p_272965_.m_213780_().m_188501_() < 0.33F) {
+-      if (p_272965_.m_213780_().m_188501_() < 0.33F) {
++   private void placeCollapsedRoofPiece(WorldGenLevel pLevel, long pX, long pY, long pZ, BoundingBox pBox) {
++      if (pLevel.m_213780_().m_188501_() < 0.33F) {
           BlockState blockstate = Blocks.f_50062_.m_49966_();
 -         this.m_73434_(p_272965_, blockstate, p_272618_, p_273415_, p_273110_, p_272645_);
-+         this.placeBlock(p_272965_, blockstate, p_272618_, p_273415_, p_273110_, p_272645_);
++         this.placeBlock(pLevel, blockstate, pX, pY, pZ, pBox);
        } else {
           BlockState blockstate1 = Blocks.f_49992_.m_49966_();
 -         this.m_73434_(p_272965_, blockstate1, p_272618_, p_273415_, p_273110_, p_272645_);
-+         this.placeBlock(p_272965_, blockstate1, p_272618_, p_273415_, p_273110_, p_272645_);
++         this.placeBlock(pLevel, blockstate1, pX, pY, pZ, pBox);
        }
  
     }
@@ -523,10 +524,10 @@
 -      for(int i = p_272638_; i <= p_272750_; ++i) {
 -         for(int j = p_273026_; j <= p_272639_; ++j) {
 -            this.m_271881_(p_273438_, i, p_272826_, j, p_273058_);
-+   private void placeCollapsedRoof(WorldGenLevel p_273438_, BoundingBox p_273058_, long p_272638_, long p_272826_, long p_273026_, long p_272750_, long p_272639_) {
-+      for(long i = p_272638_; i <= p_272750_; ++i) {
-+         for(long j = p_273026_; j <= p_272639_; ++j) {
-+            this.placeCollapsedRoofPiece(p_273438_, i, p_272826_, j, p_273058_);
++   private void placeCollapsedRoof(WorldGenLevel pLevel, BoundingBox pBox, long pMinX, long pY, long pMinZ, long pMaxX, long pMaxZ) {
++      for(long i = pMinX; i <= pMaxX; ++i) {
++         for(long j = pMinZ; j <= pMaxZ; ++j) {
++            this.placeCollapsedRoofPiece(pLevel, i, pY, j, pBox);
           }
        }
  
@@ -534,10 +535,10 @@
 -      int l = randomsource.m_216332_(p_272638_, p_272750_);
 -      int k = randomsource.m_216332_(p_273026_, p_272639_);
 -      this.f_278492_ = new BlockPos(this.m_73392_(l, k), this.m_73544_(p_272826_), this.m_73525_(l, k));
-+      RandomSource randomsource = RandomSource.m_216335_(p_273438_.m_7328_()).m_188582_().m_224542_(this.getWorldPos(p_272638_, p_272826_, p_273026_));
-+      long l = randomsource.nextLongBetweenInclusive(p_272638_, p_272750_);
-+      long k = randomsource.nextLongBetweenInclusive(p_273026_, p_272639_);
-+      this.f_278492_ = new BlockPos(this.getWorldX(l, k), this.getWorldY(p_272826_), this.getWorldZ(l, k));
++      RandomSource randomsource = RandomSource.m_216335_(pLevel.m_7328_()).m_188582_().m_224542_(this.getWorldPos(pMinX, pY, pMinZ));
++      long l = randomsource.nextLongBetweenInclusive(pMinX, pMaxX);
++      long k = randomsource.nextLongBetweenInclusive(pMinZ, pMaxZ);
++      this.f_278492_ = new BlockPos(this.getWorldX(l, k), this.getWorldY(pY), this.getWorldZ(l, k));
     }
  
     public List<BlockPos> m_271942_() {

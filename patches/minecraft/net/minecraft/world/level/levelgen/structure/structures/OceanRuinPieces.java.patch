@@ -58,7 +58,7 @@
                    p_229048_.m_7731_(p_229047_, Blocks.f_50016_.m_49966_(), 2);
                 } else {
                    p_229048_.m_7731_(p_229047_, Blocks.f_49990_.m_49966_(), 2);
-@@ -207,29 +_,29 @@
+@@ -207,30 +_,30 @@
        }
  
        public void m_213694_(WorldGenLevel p_229029_, StructureManager p_229030_, ChunkGenerator p_229031_, RandomSource p_229032_, BoundingBox p_229033_, ChunkPos p_229034_, BlockPos p_229035_) {
@@ -77,36 +77,40 @@
 -         int i = p_229042_.m_123342_();
 -         int j = 512;
 -         int k = i - 1;
-+      private long getHeight(BlockPos p_229042_, BlockGetter p_229043_, BlockPos p_229044_) {
-+         long i = p_229042_.getY();
++      private long getHeight(BlockPos pTemplatePos, BlockGetter pLevel, BlockPos pPos) {
++         long i = pTemplatePos.getY();
 +         long j = 512;
 +         long k = i - 1;
           int l = 0;
  
-          for(BlockPos blockpos : BlockPos.m_121940_(p_229042_, p_229044_)) {
+-         for(BlockPos blockpos : BlockPos.m_121940_(p_229042_, p_229044_)) {
 -            int i1 = blockpos.m_123341_();
 -            int j1 = blockpos.m_123343_();
 -            int k1 = p_229042_.m_123342_() - 1;
++         for(BlockPos blockpos : BlockPos.m_121940_(pTemplatePos, pPos)) {
 +            long i1 = blockpos.getX();
 +            long j1 = blockpos.getZ();
-+            long k1 = p_229042_.getY() - 1;
++            long k1 = pTemplatePos.getY() - 1;
              BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(i1, k1, j1);
-             BlockState blockstate = p_229043_.m_8055_(blockpos$mutableblockpos);
+-            BlockState blockstate = p_229043_.m_8055_(blockpos$mutableblockpos);
++            BlockState blockstate = pLevel.m_8055_(blockpos$mutableblockpos);
  
 -            for(FluidState fluidstate = p_229043_.m_6425_(blockpos$mutableblockpos); (blockstate.m_60795_() || fluidstate.m_205070_(FluidTags.f_13131_) || blockstate.m_204336_(BlockTags.f_13047_)) && k1 > p_229043_.m_141937_() + 1; fluidstate = p_229043_.m_6425_(blockpos$mutableblockpos)) {
-+            for(FluidState fluidstate = p_229043_.m_6425_(blockpos$mutableblockpos); (blockstate.m_60795_() || fluidstate.m_205070_(FluidTags.f_13131_) || blockstate.m_204336_(BlockTags.f_13047_)) && k1 > p_229043_.getMinBuildHeight() + 1; fluidstate = p_229043_.m_6425_(blockpos$mutableblockpos)) {
++            for(FluidState fluidstate = pLevel.m_6425_(blockpos$mutableblockpos); (blockstate.m_60795_() || fluidstate.m_205070_(FluidTags.f_13131_) || blockstate.m_204336_(BlockTags.f_13047_)) && k1 > pLevel.getMinBuildHeight() + 1; fluidstate = pLevel.m_6425_(blockpos$mutableblockpos)) {
                 --k1;
 -               blockpos$mutableblockpos.m_122178_(i1, k1, j1);
+-               blockstate = p_229043_.m_8055_(blockpos$mutableblockpos);
 +               blockpos$mutableblockpos.set(i1, k1, j1);
-                blockstate = p_229043_.m_8055_(blockpos$mutableblockpos);
++               blockstate = pLevel.m_8055_(blockpos$mutableblockpos);
              }
  
+             j = Math.min(j, k1);
 @@ -239,7 +_,7 @@
              }
           }
  
 -         int l1 = Math.abs(p_229042_.m_123341_() - p_229044_.m_123341_());
-+         long l1 = Math.abs(p_229042_.getX() - p_229044_.getX());
++         long l1 = Math.abs(pTemplatePos.getX() - pPos.getX());
           if (k - j > 2 && l > l1 - 2) {
              i = j + 1;
           }

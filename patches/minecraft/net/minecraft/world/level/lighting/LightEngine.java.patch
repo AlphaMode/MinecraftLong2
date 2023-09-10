@@ -37,23 +37,23 @@
 -   protected boolean m_284187_(long p_285115_, BlockState p_285154_, long p_284957_, BlockState p_285155_, Direction p_285327_) {
 -      VoxelShape voxelshape = this.m_284428_(p_285154_, p_285115_, p_285327_);
 -      VoxelShape voxelshape1 = this.m_284428_(p_285155_, p_284957_, p_285327_.m_122424_());
-+   protected boolean shapeOccludes(BlockPos p_285115_, BlockState p_285154_, BlockPos p_284957_, BlockState p_285155_, Direction p_285327_) {
-+      VoxelShape voxelshape = this.getOcclusionShape(p_285154_, p_285115_, p_285327_);
-+      VoxelShape voxelshape1 = this.getOcclusionShape(p_285155_, p_284957_, p_285327_.m_122424_());
++   protected boolean shapeOccludes(BlockPos pPackedPos1, BlockState pState1, BlockPos pPackedPos2, BlockState pState2, Direction pDirection) {
++      VoxelShape voxelshape = this.getOcclusionShape(pState1, pPackedPos1, pDirection);
++      VoxelShape voxelshape1 = this.getOcclusionShape(pState2, pPackedPos2, pDirection.m_122424_());
        return Shapes.m_83145_(voxelshape, voxelshape1);
     }
  
 -   protected VoxelShape m_284428_(BlockState p_285136_, long p_285517_, Direction p_285376_) {
 -      return m_284189_(this.f_283884_.m_7653_(), this.f_283920_.m_122188_(p_285517_), p_285136_, p_285376_);
-+   protected VoxelShape getOcclusionShape(BlockState p_285136_, BlockPos p_285517_, Direction p_285376_) {
-+      return m_284189_(this.f_283884_.m_7653_(), this.f_283920_.set(p_285517_), p_285136_, p_285376_);
++   protected VoxelShape getOcclusionShape(BlockState pState, BlockPos pPos, Direction pDirection) {
++      return m_284189_(this.f_283884_.m_7653_(), this.f_283920_.set(pPos), pState, pDirection);
     }
  
     @Nullable
 -   protected LightChunk m_284303_(int p_284967_, int p_285447_) {
 -      long i = ChunkPos.m_45589_(p_284967_, p_285447_);
-+   protected LightChunk getChunk(me.alphamode.mclong.math.BigInteger p_284967_, me.alphamode.mclong.math.BigInteger p_285447_) {
-+      ChunkPos i = new ChunkPos(p_284967_, p_285447_);
++   protected LightChunk getChunk(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      ChunkPos i = new ChunkPos(pX, pZ);
  
        for(int j = 0; j < 2; ++j) {
 -         if (i == this.f_283833_[j]) {
@@ -63,7 +63,7 @@
        }
  
 -      LightChunk lightchunk = this.f_283884_.m_6196_(p_284967_, p_285447_);
-+      LightChunk lightchunk = this.f_283884_.getChunkForLighting(p_284967_, p_285447_);
++      LightChunk lightchunk = this.f_283884_.getChunkForLighting(pX, pZ);
  
        for(int k = 1; k > 0; --k) {
           this.f_283833_[k] = this.f_283833_[k - 1];
@@ -77,8 +77,8 @@
  
 -   public void m_284203_(long p_285221_, @Nullable DataLayer p_285427_) {
 -      this.f_283849_.m_284542_(p_285221_, p_285427_);
-+   public void queueSectionData(SectionPos p_285221_, @Nullable DataLayer p_285427_) {
-+      this.f_283849_.queueSectionData(p_285221_, p_285427_);
++   public void queueSectionData(SectionPos pSectionPos, @Nullable DataLayer pData) {
++      this.f_283849_.queueSectionData(pSectionPos, pData);
     }
  
     public void m_284245_(ChunkPos p_285314_, boolean p_284937_) {
@@ -147,15 +147,15 @@
 -   protected void m_284343_(long p_285228_, long p_285464_) {
 -      this.f_283823_.enqueue(p_285228_);
 -      this.f_283823_.enqueue(p_285464_);
-+   protected void enqueueDecrease(BlockPos p_285228_, long p_285464_) {
-+      this.f_283823_.enqueue(new me.alphamode.mclong.lighting.LightingData(p_285228_, p_285464_));
++   protected void enqueueDecrease(BlockPos pPackedPos1, long pPackedPos2) {
++      this.f_283823_.enqueue(new me.alphamode.mclong.lighting.LightingData(pPackedPos1, pPackedPos2));
     }
  
 -   protected void m_284218_(long p_285223_, long p_285022_) {
 -      this.f_283934_.enqueue(p_285223_);
 -      this.f_283934_.enqueue(p_285022_);
-+   protected void enqueueIncrease(BlockPos p_285223_, long p_285022_) {
-+      this.f_283934_.enqueue(new me.alphamode.mclong.lighting.LightingData(p_285223_, p_285022_));
++   protected void enqueueIncrease(BlockPos pPackedPos1, long pPackedPos2) {
++      this.f_283934_.enqueue(new me.alphamode.mclong.lighting.LightingData(pPackedPos1, pPackedPos2));
     }
  
     public boolean m_75808_() {
@@ -187,19 +187,19 @@
 +      return this.f_283849_.getLightValue(p_285149_);
 +   }
 +
-+   public String getDebugData(SectionPos p_285363_) {
-+      return this.getDebugSectionType(p_285363_).m_284377_();
++   public String getDebugData(SectionPos pSectionPos) {
++      return this.getDebugSectionType(pSectionPos).m_284377_();
 +   }
 +
-+   public LayerLightSectionStorage.SectionType getDebugSectionType(SectionPos p_285320_) {
-+      return this.f_283849_.getDebugSectionType(p_285320_);
++   public LayerLightSectionStorage.SectionType getDebugSectionType(SectionPos pSectionPos) {
++      return this.f_283849_.getDebugSectionType(pSectionPos);
 +   }
 +
-+   protected abstract void checkNode(BlockPos p_285507_);
++   protected abstract void checkNode(BlockPos pPackedPos);
 +
-+   protected abstract void propagateIncrease(BlockPos p_285325_, long p_285026_, int p_285197_);
++   protected abstract void propagateIncrease(BlockPos pPackedPos, long pQueueEntry, int pLightLevel);
 +
-+   protected abstract void propagateDecrease(BlockPos p_284941_, long p_285213_);
++   protected abstract void propagateDecrease(BlockPos pPackedPos, long pLightLevel);
  
     public static class QueueEntry {
        private static final int f_283813_ = 4;

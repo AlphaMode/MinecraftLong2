@@ -48,7 +48,7 @@
                 this.f_47161_ = false;
                 return;
              }
-@@ -64,12 +_,12 @@
+@@ -64,17 +_,17 @@
     }
  
     private ChunkAccess m_47185_(BlockPos p_47186_) {
@@ -59,20 +59,27 @@
 -   private ChunkAccess m_47167_(int p_47168_, int p_47169_) {
 -      int i = p_47168_ - this.f_47158_;
 -      int j = p_47169_ - this.f_47159_;
-+   private ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger p_47168_, me.alphamode.mclong.math.BigInteger p_47169_) {
-+      int i = p_47168_.subtract(this.f_47158_).intValue();
-+      int j = p_47169_.subtract(this.f_47159_).intValue();
++   private ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      int i = pX.subtract(this.f_47158_).intValue();
++      int j = pZ.subtract(this.f_47159_).intValue();
        if (i >= 0 && i < this.f_47160_.length && j >= 0 && j < this.f_47160_[i].length) {
           ChunkAccess chunkaccess = this.f_47160_[i][j];
-          return (ChunkAccess)(chunkaccess != null ? chunkaccess : new EmptyLevelChunk(this.f_47162_, new ChunkPos(p_47168_, p_47169_), this.f_204180_.get()));
+-         return (ChunkAccess)(chunkaccess != null ? chunkaccess : new EmptyLevelChunk(this.f_47162_, new ChunkPos(p_47168_, p_47169_), this.f_204180_.get()));
++         return (ChunkAccess)(chunkaccess != null ? chunkaccess : new EmptyLevelChunk(this.f_47162_, new ChunkPos(pX, pZ), this.f_204180_.get()));
+       } else {
+-         return new EmptyLevelChunk(this.f_47162_, new ChunkPos(p_47168_, p_47169_), this.f_204180_.get());
++         return new EmptyLevelChunk(this.f_47162_, new ChunkPos(pX, pZ), this.f_204180_.get());
+       }
+    }
+ 
 @@ -82,8 +_,8 @@
        return this.f_47162_.m_6857_();
     }
  
 -   public BlockGetter m_7925_(int p_47173_, int p_47174_) {
 -      return this.m_47167_(p_47173_, p_47174_);
-+   public BlockGetter getChunkForCollisions(me.alphamode.mclong.math.BigInteger p_47173_, me.alphamode.mclong.math.BigInteger p_47174_) {
-+      return this.getChunk(p_47173_, p_47174_);
++   public BlockGetter getChunkForCollisions(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
++      return this.getChunk(pChunkX, pChunkZ);
     }
  
     public List<VoxelShape> m_183134_(@Nullable Entity p_186557_, AABB p_186558_) {

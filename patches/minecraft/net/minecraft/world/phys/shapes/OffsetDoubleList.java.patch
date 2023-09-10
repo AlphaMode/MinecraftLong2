@@ -12,15 +12,17 @@
 +   private final me.alphamode.mclong.math.BigDecimal f_83029_;
  
 -   public OffsetDoubleList(DoubleList p_83031_, double p_83032_) {
-+   public OffsetDoubleList(it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> p_83031_, me.alphamode.mclong.math.BigDecimal p_83032_) {
-       this.f_83028_ = p_83031_;
-       this.f_83029_ = p_83032_;
+-      this.f_83028_ = p_83031_;
+-      this.f_83029_ = p_83032_;
++   public OffsetDoubleList(it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> pDelegate, me.alphamode.mclong.math.BigDecimal pOffset) {
++      this.f_83028_ = pDelegate;
++      this.f_83029_ = pOffset;
     }
  
 -   public double getDouble(int p_83034_) {
 -      return this.f_83028_.getDouble(p_83034_) + this.f_83029_;
-+   public me.alphamode.mclong.math.BigDecimal get(int p_83034_) {
-+      return this.f_83028_.get(p_83034_).add(this.f_83029_);
++   public me.alphamode.mclong.math.BigDecimal get(int pValue) {
++      return this.f_83028_.get(pValue).add(this.f_83029_);
     }
  
     public int size() {

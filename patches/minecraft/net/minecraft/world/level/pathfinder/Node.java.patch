@@ -15,24 +15,29 @@
     public int f_77274_ = -1;
     public float f_77275_;
     public float f_77276_;
-@@ -22,14 +_,14 @@
+@@ -22,15 +_,15 @@
     public float f_77281_;
     public BlockPathTypes f_77282_ = BlockPathTypes.BLOCKED;
  
 -   public Node(int p_77285_, int p_77286_, int p_77287_) {
-+   public Node(me.alphamode.mclong.math.BigInteger p_77285_, me.alphamode.mclong.math.BigInteger p_77286_, me.alphamode.mclong.math.BigInteger p_77287_) {
-       this.f_77271_ = p_77285_;
-       this.f_77272_ = p_77286_;
-       this.f_77273_ = p_77287_;
+-      this.f_77271_ = p_77285_;
+-      this.f_77272_ = p_77286_;
+-      this.f_77273_ = p_77287_;
 -      this.f_77283_ = m_77295_(p_77285_, p_77286_, p_77287_);
-+      this.f_77283_ = createHash(p_77285_.longValue(), p_77286_.longValue(), p_77287_.longValue());
++   public Node(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      this.f_77271_ = pX;
++      this.f_77272_ = pY;
++      this.f_77273_ = pZ;
++      this.f_77283_ = createHash(pX.longValue(), pY.longValue(), pZ.longValue());
     }
  
 -   public Node m_77289_(int p_77290_, int p_77291_, int p_77292_) {
-+   public Node cloneAndMove(me.alphamode.mclong.math.BigInteger p_77290_, me.alphamode.mclong.math.BigInteger p_77291_, me.alphamode.mclong.math.BigInteger p_77292_) {
-       Node node = new Node(p_77290_, p_77291_, p_77292_);
+-      Node node = new Node(p_77290_, p_77291_, p_77292_);
++   public Node cloneAndMove(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      Node node = new Node(pX, pY, pZ);
        node.f_77274_ = this.f_77274_;
        node.f_77275_ = this.f_77275_;
+       node.f_77276_ = this.f_77276_;
 @@ -43,55 +_,60 @@
        return node;
     }
@@ -42,8 +47,8 @@
        return p_77297_ & 255 | (p_77296_ & 32767) << 8 | (p_77298_ & 32767) << 24 | (p_77296_ < 0 ? Integer.MIN_VALUE : 0) | (p_77298_ < 0 ? '\u8000' : 0);
     }
  
-+   public static long createHash(long p_77296_, long p_77297_, long p_77298_) {
-+      return p_77297_ & 255 | (p_77296_ & 32767) << 8 | (p_77298_ & 32767) << 24 | (p_77296_ < 0 ? Integer.MIN_VALUE : 0) | (p_77298_ < 0 ? '\u8000' : 0);
++   public static long createHash(long pX, long pY, long pZ) {
++      return pY & 255 | (pX & 32767) << 8 | (pZ & 32767) << 24 | (pX < 0 ? Integer.MIN_VALUE : 0) | (pZ < 0 ? '\u8000' : 0);
 +   }
 +
     public float m_77293_(Node p_77294_) {

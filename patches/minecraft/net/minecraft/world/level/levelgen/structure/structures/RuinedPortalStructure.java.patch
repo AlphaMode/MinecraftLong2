@@ -25,45 +25,59 @@
              }
  
              p_229297_.m_142679_(new RuinedPortalPiece(p_229285_.f_226625_(), blockpos3, ruinedportalstructure$setup3.f_229307_(), ruinedportalpiece$properties, resourcelocation, structuretemplate, rotation, mirror, blockpos));
-@@ -127,9 +_,9 @@
+@@ -127,41 +_,41 @@
        return p_229302_.m_203334_().m_198904_(p_229301_);
     }
  
 -   private static int m_229266_(RandomSource p_229267_, ChunkGenerator p_229268_, RuinedPortalPiece.VerticalPlacement p_229269_, boolean p_229270_, int p_229271_, int p_229272_, BoundingBox p_229273_, LevelHeightAccessor p_229274_, RandomState p_229275_) {
 -      int j = p_229274_.m_141937_() + 15;
 -      int i;
-+   private static long findSuitableY(RandomSource p_229267_, ChunkGenerator p_229268_, RuinedPortalPiece.VerticalPlacement p_229269_, boolean p_229270_, long p_229271_, long p_229272_, BoundingBox p_229273_, LevelHeightAccessor p_229274_, RandomState p_229275_) {
+-      if (p_229269_ == RuinedPortalPiece.VerticalPlacement.IN_NETHER) {
+-         if (p_229270_) {
+-            i = Mth.m_216287_(p_229267_, 32, 100);
+-         } else if (p_229267_.m_188501_() < 0.5F) {
+-            i = Mth.m_216287_(p_229267_, 27, 29);
++   private static long findSuitableY(RandomSource pRandom, ChunkGenerator pChunkGenerator, RuinedPortalPiece.VerticalPlacement pVerticalPlacement, boolean pAirPocket, long pHeight, long pBlockCountY, BoundingBox pBox, LevelHeightAccessor p_229274_, RandomState p_229275_) {
 +      long j = p_229274_.getMinBuildHeight() + 15;
 +      long i;
-       if (p_229269_ == RuinedPortalPiece.VerticalPlacement.IN_NETHER) {
-          if (p_229270_) {
-             i = Mth.m_216287_(p_229267_, 32, 100);
-@@ -139,29 +_,29 @@
-             i = Mth.m_216287_(p_229267_, 29, 100);
++      if (pVerticalPlacement == RuinedPortalPiece.VerticalPlacement.IN_NETHER) {
++         if (pAirPocket) {
++            i = Mth.m_216287_(pRandom, 32, 100);
++         } else if (pRandom.m_188501_() < 0.5F) {
++            i = Mth.m_216287_(pRandom, 27, 29);
+          } else {
+-            i = Mth.m_216287_(p_229267_, 29, 100);
++            i = Mth.m_216287_(pRandom, 29, 100);
           }
-       } else if (p_229269_ == RuinedPortalPiece.VerticalPlacement.IN_MOUNTAIN) {
+-      } else if (p_229269_ == RuinedPortalPiece.VerticalPlacement.IN_MOUNTAIN) {
 -         int k = p_229271_ - p_229272_;
 -         i = m_229262_(p_229267_, 70, k);
-+         long k = p_229271_ - p_229272_;
-+         i = getRandomWithinInterval(p_229267_, 70, k);
-       } else if (p_229269_ == RuinedPortalPiece.VerticalPlacement.UNDERGROUND) {
+-      } else if (p_229269_ == RuinedPortalPiece.VerticalPlacement.UNDERGROUND) {
 -         int j1 = p_229271_ - p_229272_;
 -         i = m_229262_(p_229267_, j, j1);
-+         long j1 = p_229271_ - p_229272_;
-+         i = getRandomWithinInterval(p_229267_, j, j1);
-       } else if (p_229269_ == RuinedPortalPiece.VerticalPlacement.PARTLY_BURIED) {
-          i = p_229271_ - p_229272_ + Mth.m_216287_(p_229267_, 2, 8);
+-      } else if (p_229269_ == RuinedPortalPiece.VerticalPlacement.PARTLY_BURIED) {
+-         i = p_229271_ - p_229272_ + Mth.m_216287_(p_229267_, 2, 8);
++      } else if (pVerticalPlacement == RuinedPortalPiece.VerticalPlacement.IN_MOUNTAIN) {
++         long k = pHeight - pBlockCountY;
++         i = getRandomWithinInterval(pRandom, 70, k);
++      } else if (pVerticalPlacement == RuinedPortalPiece.VerticalPlacement.UNDERGROUND) {
++         long j1 = pHeight - pBlockCountY;
++         i = getRandomWithinInterval(pRandom, j, j1);
++      } else if (pVerticalPlacement == RuinedPortalPiece.VerticalPlacement.PARTLY_BURIED) {
++         i = pHeight - pBlockCountY + Mth.m_216287_(pRandom, 2, 8);
        } else {
-          i = p_229271_;
+-         i = p_229271_;
++         i = pHeight;
        }
  
 -      List<BlockPos> list1 = ImmutableList.of(new BlockPos(p_229273_.m_162395_(), 0, p_229273_.m_162398_()), new BlockPos(p_229273_.m_162399_(), 0, p_229273_.m_162398_()), new BlockPos(p_229273_.m_162395_(), 0, p_229273_.m_162401_()), new BlockPos(p_229273_.m_162399_(), 0, p_229273_.m_162401_()));
-+      List<BlockPos> list1 = ImmutableList.of(new BlockPos(p_229273_.minBigX(), me.alphamode.mclong.math.BigInteger.ZERO, p_229273_.minBigZ()), new BlockPos(p_229273_.maxBigX(), me.alphamode.mclong.math.BigInteger.ZERO, p_229273_.minBigZ()), new BlockPos(p_229273_.minBigX(), me.alphamode.mclong.math.BigInteger.ZERO, p_229273_.maxBigZ()), new BlockPos(p_229273_.maxBigX(), me.alphamode.mclong.math.BigInteger.ZERO, p_229273_.maxBigZ()));
++      List<BlockPos> list1 = ImmutableList.of(new BlockPos(pBox.minBigX(), me.alphamode.mclong.math.BigInteger.ZERO, pBox.minBigZ()), new BlockPos(pBox.maxBigX(), me.alphamode.mclong.math.BigInteger.ZERO, pBox.minBigZ()), new BlockPos(pBox.minBigX(), me.alphamode.mclong.math.BigInteger.ZERO, pBox.maxBigZ()), new BlockPos(pBox.maxBigX(), me.alphamode.mclong.math.BigInteger.ZERO, pBox.maxBigZ()));
        List<NoiseColumn> list = list1.stream().map((p_229280_) -> {
 -         return p_229268_.m_214184_(p_229280_.m_123341_(), p_229280_.m_123343_(), p_229274_, p_229275_);
-+         return p_229268_.getBaseColumn(p_229280_.getBigX(), p_229280_.getBigZ(), p_229274_, p_229275_);
++         return pChunkGenerator.getBaseColumn(p_229280_.getBigX(), p_229280_.getBigZ(), p_229274_, p_229275_);
        }).collect(Collectors.toList());
-       Heightmap.Types heightmap$types = p_229269_ == RuinedPortalPiece.VerticalPlacement.ON_OCEAN_FLOOR ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
+-      Heightmap.Types heightmap$types = p_229269_ == RuinedPortalPiece.VerticalPlacement.ON_OCEAN_FLOOR ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
++      Heightmap.Types heightmap$types = pVerticalPlacement == RuinedPortalPiece.VerticalPlacement.ON_OCEAN_FLOOR ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
  
 -      int l;
 +      long l;
@@ -82,8 +96,8 @@
  
 -   private static int m_229262_(RandomSource p_229263_, int p_229264_, int p_229265_) {
 -      return p_229264_ < p_229265_ ? Mth.m_216287_(p_229263_, p_229264_, p_229265_) : p_229265_;
-+   private static long getRandomWithinInterval(RandomSource p_229263_, long p_229264_, long p_229265_) {
-+      return p_229264_ < p_229265_ ? Mth.randomBetweenInclusive(p_229263_, p_229264_, p_229265_) : p_229265_;
++   private static long getRandomWithinInterval(RandomSource pRandom, long pMin, long pMax) {
++      return pMin < pMax ? Mth.randomBetweenInclusive(pRandom, pMin, pMax) : pMax;
     }
  
     public StructureType<?> m_213658_() {

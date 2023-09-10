@@ -10,53 +10,71 @@
 -
 -   public FluidState m_63007_(int p_63008_, int p_63009_, int p_63010_) {
 -      return this.f_62972_.m_63087_(p_63008_, p_63009_, p_63010_).m_60819_();
-+   public BlockState getBlockState(me.alphamode.mclong.math.BigInteger p_62983_, me.alphamode.mclong.math.BigInteger p_62984_, me.alphamode.mclong.math.BigInteger p_62985_) {
-+      return this.f_62972_.get(p_62983_, p_62984_, p_62985_);
++   public BlockState getBlockState(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.f_62972_.get(pX, pY, pZ);
 +   }
 +
-+   public BlockState getBlockState(long p_62983_, long p_62984_, long p_62985_) {
-+       return this.f_62972_.get(me.alphamode.mclong.math.BigInteger.valueOf(p_62983_), me.alphamode.mclong.math.BigInteger.valueOf(p_62984_), me.alphamode.mclong.math.BigInteger.valueOf(p_62985_));
++   public BlockState getBlockState(long pX, long pY, long pZ) {
++       return this.f_62972_.get(me.alphamode.mclong.math.BigInteger.valueOf(pX), me.alphamode.mclong.math.BigInteger.valueOf(pY), me.alphamode.mclong.math.BigInteger.valueOf(pZ));
 +   }
 +
-+   public FluidState getFluidState(me.alphamode.mclong.math.BigInteger p_63008_, me.alphamode.mclong.math.BigInteger p_63009_, me.alphamode.mclong.math.BigInteger p_63010_) {
-+      return this.f_62972_.get(p_63008_, p_63009_, p_63010_).m_60819_();
++   public FluidState getFluidState(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.f_62972_.get(pX, pY, pZ).m_60819_();
     }
  
     public void m_62981_() {
-@@ -51,16 +_,16 @@
+@@ -51,20 +_,20 @@
        this.f_62972_.m_63120_();
     }
  
 -   public BlockState m_62986_(int p_62987_, int p_62988_, int p_62989_, BlockState p_62990_) {
 -      return this.m_62991_(p_62987_, p_62988_, p_62989_, p_62990_, true);
-+   public BlockState setBlockState(me.alphamode.mclong.math.BigInteger p_62987_, me.alphamode.mclong.math.BigInteger p_62988_, me.alphamode.mclong.math.BigInteger p_62989_, BlockState p_62990_) {
-+      return this.setBlockState(p_62987_, p_62988_, p_62989_, p_62990_, true);
++   public BlockState setBlockState(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ, BlockState pState) {
++      return this.setBlockState(pX, pY, pZ, pState, true);
     }
  
 -   public BlockState m_62991_(int p_62992_, int p_62993_, int p_62994_, BlockState p_62995_, boolean p_62996_) {
-+   public BlockState setBlockState(me.alphamode.mclong.math.BigInteger p_62992_, me.alphamode.mclong.math.BigInteger p_62993_, me.alphamode.mclong.math.BigInteger p_62994_, BlockState p_62995_, boolean p_62996_) {
++   public BlockState setBlockState(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ, BlockState pState, boolean pUseLocks) {
        BlockState blockstate;
-       if (p_62996_) {
+-      if (p_62996_) {
 -         blockstate = this.f_62972_.m_63091_(p_62992_, p_62993_, p_62994_, p_62995_);
-+         blockstate = this.f_62972_.getAndSet(p_62992_.longValue(), p_62993_.longValue(), p_62994_.longValue(), p_62995_);
++      if (pUseLocks) {
++         blockstate = this.f_62972_.getAndSet(pX.longValue(), pY.longValue(), pZ.longValue(), pState);
        } else {
 -         blockstate = this.f_62972_.m_63127_(p_62992_, p_62993_, p_62994_, p_62995_);
-+         blockstate = this.f_62972_.getAndSetUnchecked(p_62992_.longValue(), p_62993_.longValue(), p_62994_.longValue(), p_62995_);
++         blockstate = this.f_62972_.getAndSetUnchecked(pX.longValue(), pY.longValue(), pZ.longValue(), pState);
        }
  
        FluidState fluidstate = blockstate.m_60819_();
+-      FluidState fluidstate1 = p_62995_.m_60819_();
++      FluidState fluidstate1 = pState.m_60819_();
+       if (!blockstate.m_60795_()) {
+          --this.f_62969_;
+          if (blockstate.m_60823_()) {
+@@ -76,9 +_,9 @@
+          --this.f_62971_;
+       }
+ 
+-      if (!p_62995_.m_60795_()) {
++      if (!pState.m_60795_()) {
+          ++this.f_62969_;
+-         if (p_62995_.m_60823_()) {
++         if (pState.m_60823_()) {
+             ++this.f_62970_;
+          }
+       }
 @@ -174,18 +_,18 @@
        return this.f_62972_.m_63109_(p_63003_);
     }
  
 -   public Holder<Biome> m_204433_(int p_204434_, int p_204435_, int p_204436_) {
 -      return this.f_187995_.m_63087_(p_204434_, p_204435_, p_204436_);
-+   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger p_204434_, me.alphamode.mclong.math.BigInteger p_204435_, me.alphamode.mclong.math.BigInteger p_204436_) {
-+      return this.f_187995_.get(p_204434_, p_204435_, p_204436_);
++   public Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.f_187995_.get(pX, pY, pZ);
     }
  
 -   public void m_280631_(BiomeResolver p_282075_, Climate.Sampler p_283084_, int p_282310_, int p_281510_, int p_283057_) {
-+   public void fillBiomesFromNoise(BiomeResolver p_282075_, Climate.Sampler p_283084_, me.alphamode.mclong.math.BigInteger p_282310_, me.alphamode.mclong.math.BigInteger p_281510_, me.alphamode.mclong.math.BigInteger p_283057_) {
++   public void fillBiomesFromNoise(BiomeResolver pBiomeResolver, Climate.Sampler pClimateSampler, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
        PalettedContainer<Holder<Biome>> palettedcontainer = this.f_187995_.m_238334_();
        int i = 4;
  
@@ -64,7 +82,7 @@
           for(int k = 0; k < 4; ++k) {
              for(int l = 0; l < 4; ++l) {
 -               palettedcontainer.m_63127_(j, k, l, p_282075_.m_203407_(p_282310_ + j, p_281510_ + k, p_283057_ + l, p_283084_));
-+               palettedcontainer.getAndSetUnchecked(j, k, l, p_282075_.getNoiseBiome(p_282310_.add(j), p_281510_.add(k), p_283057_.add(l), p_283084_));
++               palettedcontainer.getAndSetUnchecked(j, k, l, pBiomeResolver.getNoiseBiome(pX.add(j), pY.add(k), pZ.add(l), pClimateSampler));
              }
           }
        }

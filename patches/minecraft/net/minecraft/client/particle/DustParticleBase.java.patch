@@ -1,11 +1,34 @@
 --- a/net/minecraft/client/particle/DustParticleBase.java
 +++ b/net/minecraft/client/particle/DustParticleBase.java
-@@ -10,7 +_,7 @@
+@@ -10,22 +_,22 @@
  public class DustParticleBase<T extends DustParticleOptionsBase> extends TextureSheetParticle {
     private final SpriteSet f_172092_;
  
 -   protected DustParticleBase(ClientLevel p_172094_, double p_172095_, double p_172096_, double p_172097_, double p_172098_, double p_172099_, double p_172100_, T p_172101_, SpriteSet p_172102_) {
-+   protected DustParticleBase(ClientLevel p_172094_, me.alphamode.mclong.math.BigDecimal p_172095_, me.alphamode.mclong.math.BigDecimal p_172096_, me.alphamode.mclong.math.BigDecimal p_172097_, double p_172098_, double p_172099_, double p_172100_, T p_172101_, SpriteSet p_172102_) {
-       super(p_172094_, p_172095_, p_172096_, p_172097_, p_172098_, p_172099_, p_172100_);
+-      super(p_172094_, p_172095_, p_172096_, p_172097_, p_172098_, p_172099_, p_172100_);
++   protected DustParticleBase(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, T pOptions, SpriteSet pSprites) {
++      super(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
        this.f_172258_ = 0.96F;
        this.f_172259_ = true;
+-      this.f_172092_ = p_172102_;
++      this.f_172092_ = pSprites;
+       this.f_107215_ *= (double)0.1F;
+       this.f_107216_ *= (double)0.1F;
+       this.f_107217_ *= (double)0.1F;
+       float f = this.f_107223_.m_188501_() * 0.4F + 0.6F;
+-      this.f_107227_ = this.m_172104_(p_172101_.m_252837_().x(), f);
+-      this.f_107228_ = this.m_172104_(p_172101_.m_252837_().y(), f);
+-      this.f_107229_ = this.m_172104_(p_172101_.m_252837_().z(), f);
+-      this.f_107663_ *= 0.75F * p_172101_.m_175813_();
++      this.f_107227_ = this.m_172104_(pOptions.m_252837_().x(), f);
++      this.f_107228_ = this.m_172104_(pOptions.m_252837_().y(), f);
++      this.f_107229_ = this.m_172104_(pOptions.m_252837_().z(), f);
++      this.f_107663_ *= 0.75F * pOptions.m_175813_();
+       int i = (int)(8.0D / (this.f_107223_.m_188500_() * 0.8D + 0.2D));
+-      this.f_107225_ = (int)Math.max((float)i * p_172101_.m_175813_(), 1.0F);
+-      this.m_108339_(p_172102_);
++      this.f_107225_ = (int)Math.max((float)i * pOptions.m_175813_(), 1.0F);
++      this.m_108339_(pSprites);
+    }
+ 
+    protected float m_172104_(float p_172105_, float p_172106_) {

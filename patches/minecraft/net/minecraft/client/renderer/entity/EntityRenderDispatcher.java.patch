@@ -5,10 +5,11 @@
     }
  
 -   public <E extends Entity> boolean m_114397_(E p_114398_, Frustum p_114399_, double p_114400_, double p_114401_, double p_114402_) {
-+   public <E extends Entity> boolean shouldRender(E p_114398_, Frustum p_114399_, me.alphamode.mclong.math.BigDecimal p_114400_, me.alphamode.mclong.math.BigDecimal p_114401_, me.alphamode.mclong.math.BigDecimal p_114402_) {
-       EntityRenderer<? super E> entityrenderer = this.m_114382_(p_114398_);
+-      EntityRenderer<? super E> entityrenderer = this.m_114382_(p_114398_);
 -      return entityrenderer.m_5523_(p_114398_, p_114399_, p_114400_, p_114401_, p_114402_);
-+      return entityrenderer.shouldRender(p_114398_, p_114399_, p_114400_, p_114401_, p_114402_);
++   public <E extends Entity> boolean shouldRender(E pEntity, Frustum pFrustum, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
++      EntityRenderer<? super E> entityrenderer = this.m_114382_(pEntity);
++      return entityrenderer.shouldRender(pEntity, pFrustum, pCamX, pCamY, pCamZ);
     }
  
     public <E extends Entity> void m_114384_(E p_114385_, double p_114386_, double p_114387_, double p_114388_, float p_114389_, float p_114390_, PoseStack p_114391_, MultiBufferSource p_114392_, int p_114393_) {
@@ -149,8 +150,8 @@
  
 -   public double m_114378_(double p_114379_, double p_114380_, double p_114381_) {
 -      return this.f_114358_.m_90583_().m_82531_(p_114379_, p_114380_, p_114381_);
-+   public me.alphamode.mclong.math.BigDecimal distanceToSqr(me.alphamode.mclong.math.BigDecimal p_114379_, me.alphamode.mclong.math.BigDecimal p_114380_, me.alphamode.mclong.math.BigDecimal p_114381_) {
-+      return this.f_114358_.m_90583_().distanceToSqr(p_114379_, p_114380_, p_114381_);
++   public me.alphamode.mclong.math.BigDecimal distanceToSqr(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      return this.f_114358_.m_90583_().distanceToSqr(pX, pY, pZ);
     }
  
     public Quaternionf m_253208_() {

@@ -1,16 +1,22 @@
 --- a/net/minecraft/client/renderer/entity/MobRenderer.java
 +++ b/net/minecraft/client/renderer/entity/MobRenderer.java
-@@ -29,8 +_,8 @@
+@@ -29,12 +_,12 @@
        return super.m_6512_(p_115506_) && (p_115506_.m_6052_() || p_115506_.m_8077_() && p_115506_ == this.f_114476_.f_114359_);
     }
  
 -   public boolean m_5523_(T p_115468_, Frustum p_115469_, double p_115470_, double p_115471_, double p_115472_) {
 -      if (super.m_5523_(p_115468_, p_115469_, p_115470_, p_115471_, p_115472_)) {
-+   public boolean shouldRender(T p_115468_, Frustum p_115469_, me.alphamode.mclong.math.BigDecimal p_115470_, me.alphamode.mclong.math.BigDecimal p_115471_, me.alphamode.mclong.math.BigDecimal p_115472_) {
-+      if (super.shouldRender(p_115468_, p_115469_, p_115470_, p_115471_, p_115472_)) {
++   public boolean shouldRender(T pLivingEntity, Frustum pCamera, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
++      if (super.shouldRender(pLivingEntity, pCamera, pCamX, pCamY, pCamZ)) {
           return true;
        } else {
-          Entity entity = p_115468_.m_21524_();
+-         Entity entity = p_115468_.m_21524_();
+-         return entity != null ? p_115469_.m_113029_(entity.m_6921_()) : false;
++         Entity entity = pLivingEntity.m_21524_();
++         return entity != null ? pCamera.m_113029_(entity.m_6921_()) : false;
+       }
+    }
+ 
 @@ -51,23 +_,24 @@
        Vec3 vec3 = p_115466_.m_7398_(p_115463_);
        double d0 = (double)(Mth.m_14179_(p_115463_, p_115462_.f_20884_, p_115462_.f_20883_) * ((float)Math.PI / 180F)) + (Math.PI / 2D);

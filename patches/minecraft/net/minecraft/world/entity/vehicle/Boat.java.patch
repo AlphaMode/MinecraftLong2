@@ -13,18 +13,25 @@
     private double f_38271_;
     private double f_38272_;
     private boolean f_38273_;
-@@ -94,9 +_,9 @@
+@@ -94,12 +_,12 @@
        this.f_19850_ = true;
     }
  
 -   public Boat(Level p_38293_, double p_38294_, double p_38295_, double p_38296_) {
-+   public Boat(Level p_38293_, me.alphamode.mclong.math.BigDecimal p_38294_, me.alphamode.mclong.math.BigDecimal p_38295_, me.alphamode.mclong.math.BigDecimal p_38296_) {
-       this(EntityType.f_20552_, p_38293_);
+-      this(EntityType.f_20552_, p_38293_);
 -      this.m_6034_(p_38294_, p_38295_, p_38296_);
-+      this.setPos(p_38294_, p_38295_, p_38296_);
-       this.f_19854_ = p_38294_;
-       this.f_19855_ = p_38295_;
-       this.f_19856_ = p_38296_;
+-      this.f_19854_ = p_38294_;
+-      this.f_19855_ = p_38295_;
+-      this.f_19856_ = p_38296_;
++   public Boat(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      this(EntityType.f_20552_, pLevel);
++      this.setPos(pX, pY, pZ);
++      this.f_19854_ = pX;
++      this.f_19855_ = pY;
++      this.f_19856_ = pZ;
+    }
+ 
+    protected float m_6380_(Pose p_38327_, EntityDimensions p_38328_) {
 @@ -181,9 +_,9 @@
           }
        }
@@ -50,15 +57,25 @@
           super.m_7334_(p_38373_);
        }
  
-@@ -244,7 +_,7 @@
+@@ -244,12 +_,12 @@
        return !this.m_213877_();
     }
  
 -   public void m_6453_(double p_38299_, double p_38300_, double p_38301_, float p_38302_, float p_38303_, int p_38304_, boolean p_38305_) {
-+   public void lerpTo(me.alphamode.mclong.math.BigDecimal p_38299_, me.alphamode.mclong.math.BigDecimal p_38300_, me.alphamode.mclong.math.BigDecimal p_38301_, float p_38302_, float p_38303_, int p_38304_, boolean p_38305_) {
-       this.f_38268_ = p_38299_;
-       this.f_38269_ = p_38300_;
-       this.f_38270_ = p_38301_;
+-      this.f_38268_ = p_38299_;
+-      this.f_38269_ = p_38300_;
+-      this.f_38270_ = p_38301_;
+-      this.f_38271_ = (double)p_38302_;
+-      this.f_38272_ = (double)p_38303_;
++   public void lerpTo(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYaw, float pPitch, int pPosRotationIncrements, boolean pTeleport) {
++      this.f_38268_ = pX;
++      this.f_38269_ = pY;
++      this.f_38270_ = pZ;
++      this.f_38271_ = (double)pYaw;
++      this.f_38272_ = (double)pPitch;
+       this.f_38267_ = 10;
+    }
+ 
 @@ -304,9 +_,9 @@
                 SoundEvent soundevent = this.m_38370_();
                 if (soundevent != null) {

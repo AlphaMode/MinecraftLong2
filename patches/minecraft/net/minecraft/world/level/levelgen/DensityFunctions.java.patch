@@ -10,12 +10,12 @@
 -         int k = p_224064_ % 2;
 -         int l = p_224065_ % 2;
 -         float f = 100.0F - Mth.m_14116_((float)(p_224064_ * p_224064_ + p_224065_ * p_224065_)) * 8.0F;
-+      private static float getHeightValue(SimplexNoise p_224063_, me.alphamode.mclong.math.BigInteger p_224064_, me.alphamode.mclong.math.BigInteger p_224065_) {
-+         me.alphamode.mclong.math.BigInteger i = p_224064_.divide(me.alphamode.mclong.core.BigConstants.Ints.TWO);
-+         me.alphamode.mclong.math.BigInteger j = p_224065_.divide(me.alphamode.mclong.core.BigConstants.Ints.TWO);
-+         int k = p_224064_.remainder(2).intValue();
-+         int l = p_224065_.remainder(2).intValue();
-+         float f = 100.0F - Mth.m_14116_((float)(p_224064_.multiply(p_224064_).add(p_224065_.multiply(p_224065_))).floatValue()) * 8.0F;
++      private static float getHeightValue(SimplexNoise pNoise, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++         me.alphamode.mclong.math.BigInteger i = pX.divide(me.alphamode.mclong.core.BigConstants.Ints.TWO);
++         me.alphamode.mclong.math.BigInteger j = pZ.divide(me.alphamode.mclong.core.BigConstants.Ints.TWO);
++         int k = pX.remainder(2).intValue();
++         int l = pZ.remainder(2).intValue();
++         float f = 100.0F - Mth.m_14116_((float)(pX.multiply(pX).add(pZ.multiply(pZ))).floatValue()) * 8.0F;
           f = Mth.m_14036_(f, -100.0F, 80.0F);
  
           for(int i1 = -12; i1 <= 12; ++i1) {
@@ -26,7 +26,7 @@
 -                  float f1 = (Mth.m_14154_((float)k1) * 3439.0F + Mth.m_14154_((float)l1) * 147.0F) % 13.0F + 9.0F;
 +               me.alphamode.mclong.math.BigInteger k1 = (i.add(i1));
 +               me.alphamode.mclong.math.BigInteger l1 = (j.add(j1));
-+               if (k1.multiply(k1).add(l1.multiply(l1)).compareTo(me.alphamode.mclong.core.BigConstants.Ints.WORLD_HEIGHT_LIMIT) > 0 && p_224063_.m_75464_(k1.doubleValue(), l1.doubleValue()) < (double)-0.9F) {
++               if (k1.multiply(k1).add(l1.multiply(l1)).compareTo(me.alphamode.mclong.core.BigConstants.Ints.WORLD_HEIGHT_LIMIT) > 0 && pNoise.m_75464_(k1.doubleValue(), l1.doubleValue()) < (double)-0.9F) {
 +                  float f1 = (Mth.m_14154_((float)k1.floatValue()) * 3439.0F + Mth.m_14154_((float)l1.floatValue()) * 147.0F) % 13.0F + 9.0F;
                    float f2 = (float)(k - i1 * 2);
                    float f3 = (float)(l - j1 * 2);

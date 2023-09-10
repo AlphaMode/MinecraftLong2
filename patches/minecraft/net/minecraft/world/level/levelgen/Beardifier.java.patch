@@ -106,8 +106,9 @@
     }
  
 -   protected static double m_158083_(int p_158084_, int p_158085_, int p_158086_) {
-+   protected static double getBuryContribution(long p_158084_, long p_158085_, long p_158086_) {
-       double d0 = Mth.m_184648_((double)p_158084_, (double)p_158085_ / 2.0D, (double)p_158086_);
+-      double d0 = Mth.m_184648_((double)p_158084_, (double)p_158085_ / 2.0D, (double)p_158086_);
++   protected static double getBuryContribution(long pX, long pY, long pZ) {
++      double d0 = Mth.m_184648_((double)pX, (double)pY / 2.0D, (double)pZ);
        return Mth.m_144851_(d0, 0.0D, 6.0D, 1.0D, 0.0D);
     }
  
@@ -116,13 +117,14 @@
 -      int j = p_223927_ + 12;
 -      int k = p_223928_ + 12;
 -      if (m_223919_(i) && m_223919_(j) && m_223919_(k)) {
-+   protected static double getBeardContribution(long p_223926_, long p_223927_, long p_223928_, long p_223929_) {
-+      long i = p_223926_ + 12;
-+      long j = p_223927_ + 12;
-+      long k = p_223928_ + 12;
++   protected static double getBeardContribution(long pX, long pY, long pZ, long p_223929_) {
++      long i = pX + 12;
++      long j = pY + 12;
++      long k = pZ + 12;
 +      if (isInKernelRange(i) && isInKernelRange(j) && isInKernelRange(k)) {
           double d0 = (double)p_223929_ + 0.5D;
-          double d1 = Mth.m_211592_((double)p_223926_, d0, (double)p_223928_);
+-         double d1 = Mth.m_211592_((double)p_223926_, d0, (double)p_223928_);
++         double d1 = Mth.m_211592_((double)pX, d0, (double)pZ);
           double d2 = -d0 * Mth.m_14193_(d1 / 2.0D) / 2.0D;
 -         return d2 * (double)f_158062_[k * 24 * 24 + i * 24 + j];
 +         return d2 * (double)f_158062_[(int) (k * 24 * 24 + i * 24 + j)];

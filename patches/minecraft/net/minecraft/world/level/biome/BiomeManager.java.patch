@@ -75,10 +75,10 @@
 -      int j = QuartPos.m_175400_(Mth.m_14107_(p_204208_));
 -      int k = QuartPos.m_175400_(Mth.m_14107_(p_204209_));
 -      return this.m_204210_(i, j, k);
-+   public Holder<Biome> getNoiseBiomeAtPosition(me.alphamode.mclong.math.BigDecimal p_204207_, me.alphamode.mclong.math.BigDecimal p_204208_, me.alphamode.mclong.math.BigDecimal p_204209_) {
-+      me.alphamode.mclong.math.BigInteger i = QuartPos.fromBlock(Mth.lfloor(p_204207_));
-+      me.alphamode.mclong.math.BigInteger j = QuartPos.fromBlock(Mth.lfloor(p_204208_));
-+      me.alphamode.mclong.math.BigInteger k = QuartPos.fromBlock(Mth.lfloor(p_204209_));
++   public Holder<Biome> getNoiseBiomeAtPosition(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      me.alphamode.mclong.math.BigInteger i = QuartPos.fromBlock(Mth.lfloor(pX));
++      me.alphamode.mclong.math.BigInteger j = QuartPos.fromBlock(Mth.lfloor(pY));
++      me.alphamode.mclong.math.BigInteger k = QuartPos.fromBlock(Mth.lfloor(pZ));
 +      return this.getNoiseBiomeAtQuart(i, j, k);
     }
  
@@ -106,24 +106,26 @@
 +      return this.getNoiseBiomeAtQuart(i, j, k);
 +   }
 +
-+   public Holder<Biome> getNoiseBiomeAtQuart(me.alphamode.mclong.math.BigInteger p_204211_, me.alphamode.mclong.math.BigInteger p_204212_, me.alphamode.mclong.math.BigInteger p_204213_) {
-+      return this.f_47862_.getNoiseBiome(p_204211_, p_204212_, p_204213_);
++   public Holder<Biome> getNoiseBiomeAtQuart(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.f_47862_.getNoiseBiome(pX, pY, pZ);
 +   }
 +
-+   private static me.alphamode.mclong.math.BigDecimal getFiddledDistance(long p_186680_, long p_186681_, long p_186682_, long p_186683_, me.alphamode.mclong.math.BigDecimal p_186684_, me.alphamode.mclong.math.BigDecimal p_186685_, me.alphamode.mclong.math.BigDecimal p_186686_) {
-+      long $$7 = LinearCongruentialGenerator.m_13972_(p_186680_, p_186681_);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186682_);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186683_);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186681_);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186682_);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186683_);
++   private static me.alphamode.mclong.math.BigDecimal getFiddledDistance(long pSeed, long pX, long pY, long pZ, me.alphamode.mclong.math.BigDecimal pXNoise, me.alphamode.mclong.math.BigDecimal pYNoise, me.alphamode.mclong.math.BigDecimal pZNoise) {
++      long $$7 = LinearCongruentialGenerator.m_13972_(pSeed, pX);
++      $$7 = LinearCongruentialGenerator.m_13972_($$7, pY);
++      $$7 = LinearCongruentialGenerator.m_13972_($$7, pZ);
++      $$7 = LinearCongruentialGenerator.m_13972_($$7, pX);
++      $$7 = LinearCongruentialGenerator.m_13972_($$7, pY);
++      $$7 = LinearCongruentialGenerator.m_13972_($$7, pZ);
        double d0 = m_186689_($$7);
-       $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186680_);
+-      $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186680_);
++      $$7 = LinearCongruentialGenerator.m_13972_($$7, pSeed);
        double d1 = m_186689_($$7);
-       $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186680_);
+-      $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186680_);
++      $$7 = LinearCongruentialGenerator.m_13972_($$7, pSeed);
        double d2 = m_186689_($$7);
 -      return Mth.m_144952_(p_186686_ + d2) + Mth.m_144952_(p_186685_ + d1) + Mth.m_144952_(p_186684_ + d0);
-+      return Mth.square(p_186686_.add(d2)).add(Mth.square(p_186685_.add(d1))).add(Mth.square(p_186684_.add(d0)));
++      return Mth.square(pZNoise.add(d2)).add(Mth.square(pYNoise.add(d1))).add(Mth.square(pXNoise.add(d0)));
     }
  
     private static double m_186689_(long p_186690_) {
@@ -132,6 +134,6 @@
  
     public interface NoiseBiomeSource {
 -      Holder<Biome> m_203495_(int p_204218_, int p_204219_, int p_204220_);
-+      Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger p_204218_, me.alphamode.mclong.math.BigInteger p_204219_, me.alphamode.mclong.math.BigInteger p_204220_);
++      Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ);
     }
  }

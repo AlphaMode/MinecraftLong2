@@ -1,27 +1,29 @@
 --- a/net/minecraft/CrashReportCategory.java
 +++ b/net/minecraft/CrashReportCategory.java
-@@ -22,11 +_,15 @@
+@@ -22,54 +_,110 @@
        return String.format(Locale.ROOT, "%.2f,%.2f,%.2f - %s", p_178939_, p_178940_, p_178941_, m_178947_(p_178938_, BlockPos.m_274561_(p_178939_, p_178940_, p_178941_)));
     }
  
-+   public static String formatLocation(LevelHeightAccessor p_178938_, me.alphamode.mclong.math.BigDecimal p_178939_, me.alphamode.mclong.math.BigDecimal p_178940_, me.alphamode.mclong.math.BigDecimal p_178941_) {
-+      return String.format(Locale.ROOT, "%.2f,%.2f,%.2f - %s", p_178939_.getBacking(), p_178940_.getBacking(), p_178941_.getBacking(), m_178947_(p_178938_, BlockPos.containing(p_178939_, p_178940_, p_178941_)));
++   public static String formatLocation(LevelHeightAccessor pLevelHeightAccess, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      return String.format(Locale.ROOT, "%.2f,%.2f,%.2f - %s", pX.getBacking(), pY.getBacking(), pZ.getBacking(), m_178947_(pLevelHeightAccess, BlockPos.containing(pX, pY, pZ)));
 +   }
 +
     public static String m_178947_(LevelHeightAccessor p_178948_, BlockPos p_178949_) {
 -      return m_178942_(p_178948_, p_178949_.m_123341_(), p_178949_.m_123342_(), p_178949_.m_123343_());
-+      return formatLocation(p_178948_, p_178949_.getX(), p_178949_.getY(), p_178949_.getZ());
-    }
- 
+-   }
+-
 -   public static String m_178942_(LevelHeightAccessor p_178943_, int p_178944_, int p_178945_, int p_178946_) {
-+   public static String formatLocation(LevelHeightAccessor p_178943_, long p_178944_, long p_178945_, long p_178946_) {
-       StringBuilder stringbuilder = new StringBuilder();
- 
-       try {
-@@ -38,38 +_,90 @@
-       stringbuilder.append(", ");
- 
-       try {
+-      StringBuilder stringbuilder = new StringBuilder();
+-
+-      try {
+-         stringbuilder.append(String.format(Locale.ROOT, "World: (%d,%d,%d)", p_178944_, p_178945_, p_178946_));
+-      } catch (Throwable throwable2) {
+-         stringbuilder.append("(Error finding world loc)");
+-      }
+-
+-      stringbuilder.append(", ");
+-
+-      try {
 -         int i = SectionPos.m_123171_(p_178944_);
 -         int j = SectionPos.m_123171_(p_178945_);
 -         int k = SectionPos.m_123171_(p_178946_);
@@ -54,17 +56,32 @@
 -         int j5 = (i3 + 1 << 9) - 1;
 -         int k5 = p_178943_.m_151558_() - 1;
 -         int l5 = (j3 + 1 << 9) - 1;
-+         long i = SectionPos.blockToSectionCoord(p_178944_);
-+         long j = SectionPos.blockToSectionCoord(p_178945_);
-+         long k = SectionPos.blockToSectionCoord(p_178946_);
-+         long l = p_178944_ & 15;
-+         long i1 = p_178945_ & 15;
-+         long j1 = p_178946_ & 15;
++      return formatLocation(p_178948_, p_178949_.getX(), p_178949_.getY(), p_178949_.getZ());
++   }
++
++   public static String formatLocation(LevelHeightAccessor pLevelHeightAccess, long pX, long pY, long pZ) {
++      StringBuilder stringbuilder = new StringBuilder();
++
++      try {
++         stringbuilder.append(String.format(Locale.ROOT, "World: (%d,%d,%d)", pX, pY, pZ));
++      } catch (Throwable throwable2) {
++         stringbuilder.append("(Error finding world loc)");
++      }
++
++      stringbuilder.append(", ");
++
++      try {
++         long i = SectionPos.blockToSectionCoord(pX);
++         long j = SectionPos.blockToSectionCoord(pY);
++         long k = SectionPos.blockToSectionCoord(pZ);
++         long l = pX & 15;
++         long i1 = pY & 15;
++         long j1 = pZ & 15;
 +         long k1 = SectionPos.sectionToBlockCoord(i);
-+         long l1 = p_178943_.getMinBuildHeight();
++         long l1 = pLevelHeightAccess.getMinBuildHeight();
 +         long i2 = SectionPos.sectionToBlockCoord(k);
 +         long j2 = SectionPos.sectionToBlockCoord(i + 1) - 1;
-+         long k2 = p_178943_.getMaxBuildHeight() - 1;
++         long k2 = pLevelHeightAccess.getMaxBuildHeight() - 1;
 +         long l2 = SectionPos.sectionToBlockCoord(k + 1) - 1;
 +         stringbuilder.append(String.format(Locale.ROOT, "Section: (at %d,%d,%d in %d,%d,%d; chunk contains blocks %d,%d,%d to %d,%d,%d)", l, i1, j1, i, j, k, k1, l1, i2, j2, k2, l2));
 +      } catch (Throwable throwable1) {
@@ -74,17 +91,17 @@
 +      stringbuilder.append(", ");
 +
 +      try {
-+         long i3 = p_178944_ >> 9;
-+         long j3 = p_178946_ >> 9;
++         long i3 = pX >> 9;
++         long j3 = pZ >> 9;
 +         long k3 = i3 << 5;
 +         long l3 = j3 << 5;
 +         long i4 = (i3 + 1 << 5) - 1;
 +         long j4 = (j3 + 1 << 5) - 1;
 +         long k4 = i3 << 9;
-+         long l4 = p_178943_.getMinBuildHeight();
++         long l4 = pLevelHeightAccess.getMinBuildHeight();
 +         long i5 = j3 << 9;
 +         long j5 = (i3 + 1 << 9) - 1;
-+         long k5 = p_178943_.getMaxBuildHeight() - 1;
++         long k5 = pLevelHeightAccess.getMaxBuildHeight() - 1;
 +         long l5 = (j3 + 1 << 9) - 1;
 +         stringbuilder.append(String.format(Locale.ROOT, "Region: (%d,%d; contains chunks %d,%d to %d,%d, blocks %d,%d,%d to %d,%d,%d)", i3, j3, k3, l3, i4, j4, k4, l4, i5, j5, k5, l5));
 +      } catch (Throwable throwable) {

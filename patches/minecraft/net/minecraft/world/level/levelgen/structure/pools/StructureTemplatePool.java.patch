@@ -15,14 +15,14 @@
  
 -   public int m_227357_(StructureTemplateManager p_227358_) {
 -      if (this.f_210562_ == Integer.MIN_VALUE) {
-+   public long getMaxSize(StructureTemplateManager p_227358_) {
++   public long getMaxSize(StructureTemplateManager pStructureTemplateManager) {
 +      if (this.f_210562_ == java.lang.Long.MIN_VALUE) {
           this.f_210562_ = this.f_210560_.stream().filter((p_210577_) -> {
              return p_210577_ != EmptyPoolElement.f_210175_;
 -         }).mapToInt((p_227361_) -> {
 -            return p_227361_.m_214015_(p_227358_, BlockPos.f_121853_, Rotation.NONE).m_71057_();
 +         }).mapToLong((p_227361_) -> {
-+            return p_227361_.m_214015_(p_227358_, BlockPos.f_121853_, Rotation.NONE).getYSpan();
++            return p_227361_.m_214015_(pStructureTemplateManager, BlockPos.f_121853_, Rotation.NONE).getYSpan();
           }).max().orElse(0);
        }
  

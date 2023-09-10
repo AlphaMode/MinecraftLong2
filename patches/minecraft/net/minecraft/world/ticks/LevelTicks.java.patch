@@ -19,9 +19,11 @@
     };
  
 -   public LevelTicks(LongPredicate p_193211_, Supplier<ProfilerFiller> p_193212_) {
-+   public LevelTicks(java.util.function.Predicate<ChunkPos> p_193211_, Supplier<ProfilerFiller> p_193212_) {
-       this.f_193200_ = p_193211_;
-       this.f_193201_ = p_193212_;
+-      this.f_193200_ = p_193211_;
+-      this.f_193201_ = p_193212_;
++   public LevelTicks(java.util.function.Predicate<ChunkPos> pTickCheck, Supplier<ProfilerFiller> pProfiler) {
++      this.f_193200_ = pTickCheck;
++      this.f_193201_ = pProfiler;
     }
  
     public void m_193231_(ChunkPos p_193232_, LevelChunkTicks<T> p_193233_) {
@@ -132,26 +134,32 @@
              }
           }
  
-@@ -261,14 +_,14 @@
+@@ -261,25 +_,25 @@
        this.f_193205_.removeIf(predicate);
     }
  
 -   public void m_193242_(BoundingBox p_193243_, Vec3i p_193244_) {
 -      this.m_264560_(this, p_193243_, p_193244_);
-+   public void copyArea(BoundingBox p_193243_, me.alphamode.mclong.core.Vec3l p_193244_) {
-+      this.copyAreaFrom(this, p_193243_, p_193244_);
++   public void copyArea(BoundingBox pArea, me.alphamode.mclong.core.Vec3l p_193244_) {
++      this.copyAreaFrom(this, pArea, p_193244_);
     }
  
 -   public void m_264560_(LevelTicks<T> p_265554_, BoundingBox p_265172_, Vec3i p_265318_) {
-+   public void copyAreaFrom(LevelTicks<T> p_265554_, BoundingBox p_265172_, me.alphamode.mclong.core.Vec3l p_265318_) {
++   public void copyAreaFrom(LevelTicks<T> pLevelTicks, BoundingBox pArea, me.alphamode.mclong.core.Vec3l p_265318_) {
        List<ScheduledTick<T>> list = new ArrayList<>();
        Predicate<ScheduledTick<T>> predicate = (p_200922_) -> {
 -         return p_265172_.m_71051_(p_200922_.f_193377_());
-+         return p_265172_.isInside(p_200922_.f_193377_());
++         return pArea.isInside(p_200922_.f_193377_());
        };
-       p_265554_.f_193206_.stream().filter(predicate).forEach(list::add);
-       p_265554_.f_193205_.stream().filter(predicate).forEach(list::add);
-@@ -279,7 +_,7 @@
+-      p_265554_.f_193206_.stream().filter(predicate).forEach(list::add);
+-      p_265554_.f_193205_.stream().filter(predicate).forEach(list::add);
+-      p_265554_.m_193236_(p_265172_, (p_200931_, p_200932_) -> {
++      pLevelTicks.f_193206_.stream().filter(predicate).forEach(list::add);
++      pLevelTicks.f_193205_.stream().filter(predicate).forEach(list::add);
++      pLevelTicks.m_193236_(pArea, (p_200931_, p_200932_) -> {
+          p_200932_.m_193196_().filter(predicate).forEach(list::add);
+       });
+       LongSummaryStatistics longsummarystatistics = list.stream().mapToLong(ScheduledTick::f_193380_).summaryStatistics();
        long i = longsummarystatistics.getMin();
        long j = longsummarystatistics.getMax();
        list.forEach((p_193260_) -> {

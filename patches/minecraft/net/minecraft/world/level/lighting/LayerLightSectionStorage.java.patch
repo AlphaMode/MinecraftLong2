@@ -44,40 +44,40 @@
 -   @Nullable
 -   protected DataLayer m_284157_(long p_285278_) {
 -      DataLayer datalayer = this.f_75732_.m_75532_(p_285278_);
-+   protected boolean storingLightForSection(SectionPos p_75792_) {
-+      return this.getDataLayer(p_75792_, true) != null;
++   protected boolean storingLightForSection(SectionPos pSectionPos) {
++      return this.getDataLayer(pSectionPos, true) != null;
 +   }
 +
 +   @Nullable
-+   protected DataLayer getDataLayer(SectionPos p_75759_, boolean p_75760_) {
-+      return this.getDataLayer((M)(p_75760_ ? this.f_75732_ : this.f_75731_), p_75759_);
++   protected DataLayer getDataLayer(SectionPos pSectionPos, boolean pCached) {
++      return this.getDataLayer((M)(pCached ? this.f_75732_ : this.f_75731_), pSectionPos);
 +   }
 +
 +   @Nullable
-+   protected DataLayer getDataLayer(M p_75762_, SectionPos p_75763_) {
-+      return p_75762_.getLayer(p_75763_);
++   protected DataLayer getDataLayer(M pMap, SectionPos pSectionPos) {
++      return pMap.getLayer(pSectionPos);
 +   }
 +
 +   @Nullable
-+   protected DataLayer getDataLayerToWrite(SectionPos p_285278_) {
-+      DataLayer datalayer = this.f_75732_.getLayer(p_285278_);
++   protected DataLayer getDataLayerToWrite(SectionPos pSectionPos) {
++      DataLayer datalayer = this.f_75732_.getLayer(pSectionPos);
        if (datalayer == null) {
           return null;
        } else {
-          if (this.f_75733_.add(p_285278_)) {
+-         if (this.f_75733_.add(p_285278_)) {
++         if (this.f_75733_.add(pSectionPos)) {
              datalayer = datalayer.m_62569_();
 -            this.f_75732_.m_75526_(p_285278_, datalayer);
-+            this.f_75732_.setLayer(p_285278_, datalayer);
++            this.f_75732_.setLayer(pSectionPos, datalayer);
              this.f_75732_.m_75531_();
           }
  
-@@ -70,48 +_,48 @@
+@@ -70,49 +_,49 @@
     }
  
     @Nullable
 -   public DataLayer m_75793_(long p_75794_) {
-+   public DataLayer getDataLayerData(SectionPos p_75794_) {
-       DataLayer datalayer = this.f_75735_.get(p_75794_);
+-      DataLayer datalayer = this.f_75735_.get(p_75794_);
 -      return datalayer != null ? datalayer : this.m_75758_(p_75794_, false);
 -   }
 -
@@ -91,19 +91,21 @@
 -
 -   protected void m_75772_(long p_75773_, int p_75774_) {
 -      long i = SectionPos.m_123235_(p_75773_);
-+      return datalayer != null ? datalayer : this.getDataLayer(p_75794_, false);
++   public DataLayer getDataLayerData(SectionPos pSectionPos) {
++      DataLayer datalayer = this.f_75735_.get(pSectionPos);
++      return datalayer != null ? datalayer : this.getDataLayer(pSectionPos, false);
 +   }
 +
-+   protected abstract int getLightValue(BlockPos p_75786_);
++   protected abstract int getLightValue(BlockPos pLevelPos);
 +
-+   protected int getStoredLevel(BlockPos p_75796_) {
-+      SectionPos i = SectionPos.m_123199_(p_75796_);
++   protected int getStoredLevel(BlockPos pLevelPos) {
++      SectionPos i = SectionPos.m_123199_(pLevelPos);
 +      DataLayer datalayer = this.getDataLayer(i, true);
-+      return datalayer.get(SectionPos.sectionRelative(p_75796_.getBigX()), SectionPos.sectionRelative(p_75796_.getBigY()), SectionPos.sectionRelative(p_75796_.getBigZ()));
++      return datalayer.get(SectionPos.sectionRelative(pLevelPos.getBigX()), SectionPos.sectionRelative(pLevelPos.getBigY()), SectionPos.sectionRelative(pLevelPos.getBigZ()));
 +   }
 +
-+   protected void setStoredLevel(BlockPos p_75773_, int p_75774_) {
-+      SectionPos i = SectionPos.m_123199_(p_75773_);
++   protected void setStoredLevel(BlockPos pLevelPos, int pLightLevel) {
++      SectionPos i = SectionPos.m_123199_(pLevelPos);
        DataLayer datalayer;
        if (this.f_75733_.add(i)) {
 -         datalayer = this.f_75732_.m_75524_(i);
@@ -115,18 +117,18 @@
  
 -      datalayer.m_62564_(SectionPos.m_123207_(BlockPos.m_121983_(p_75773_)), SectionPos.m_123207_(BlockPos.m_122008_(p_75773_)), SectionPos.m_123207_(BlockPos.m_122015_(p_75773_)), p_75774_);
 -      SectionPos.m_194639_(p_75773_, this.f_75734_::add);
-+      datalayer.set(SectionPos.sectionRelative(p_75773_.getBigX()), SectionPos.sectionRelative(p_75773_.getBigY()), SectionPos.sectionRelative(p_75773_.getBigZ()), p_75774_);
-+      SectionPos.aroundAndAtBlockPos(p_75773_, this.f_75734_::add);
++      datalayer.set(SectionPos.sectionRelative(pLevelPos.getBigX()), SectionPos.sectionRelative(pLevelPos.getBigY()), SectionPos.sectionRelative(pLevelPos.getBigZ()), pLightLevel);
++      SectionPos.aroundAndAtBlockPos(pLevelPos, this.f_75734_::add);
     }
  
 -   protected void m_280483_(long p_281610_) {
 -      int i = SectionPos.m_123213_(p_281610_);
 -      int j = SectionPos.m_123225_(p_281610_);
 -      int k = SectionPos.m_123230_(p_281610_);
-+   protected void markSectionAndNeighborsAsAffected(SectionPos p_281610_) {
-+      me.alphamode.mclong.math.BigInteger i = p_281610_.getBigX();
-+      me.alphamode.mclong.math.BigInteger j = p_281610_.getBigY();
-+      me.alphamode.mclong.math.BigInteger k = p_281610_.getBigZ();
++   protected void markSectionAndNeighborsAsAffected(SectionPos pSectionPos) {
++      me.alphamode.mclong.math.BigInteger i = pSectionPos.getBigX();
++      me.alphamode.mclong.math.BigInteger j = pSectionPos.getBigY();
++      me.alphamode.mclong.math.BigInteger k = pSectionPos.getBigZ();
  
        for(int l = -1; l <= 1; ++l) {
           for(int i1 = -1; i1 <= 1; ++i1) {
@@ -140,10 +142,12 @@
     }
  
 -   protected DataLayer m_7667_(long p_75797_) {
-+   protected DataLayer createDataLayer(SectionPos p_75797_) {
-       DataLayer datalayer = this.f_75735_.get(p_75797_);
+-      DataLayer datalayer = this.f_75735_.get(p_75797_);
++   protected DataLayer createDataLayer(SectionPos pSectionPos) {
++      DataLayer datalayer = this.f_75735_.get(pSectionPos);
        return datalayer != null ? datalayer : new DataLayer();
     }
+ 
 @@ -124,10 +_,10 @@
        if (this.f_283847_) {
           this.f_283847_ = false;
@@ -188,7 +192,7 @@
                    this.f_75733_.add(j);
                 }
  
-@@ -164,13 +_,13 @@
+@@ -164,59 +_,59 @@
        }
     }
  
@@ -199,54 +203,69 @@
 -   }
 -
 -   protected void m_284259_(long p_285065_, boolean p_284938_) {
-+   protected void onNodeAdded(SectionPos p_75798_) {
+-      if (p_284938_) {
+-         this.f_283775_.add(p_285065_);
++   protected void onNodeAdded(SectionPos pSectionPos) {
 +   }
 +
-+   protected void onNodeRemoved(SectionPos p_75799_) {
++   protected void onNodeRemoved(SectionPos pSectionPos) {
 +   }
 +
-+   protected void setLightEnabled(SectionPos p_285065_, boolean p_284938_) {
-       if (p_284938_) {
-          this.f_283775_.add(p_285065_);
++   protected void setLightEnabled(SectionPos pSectionPos, boolean pLightEnabled) {
++      if (pLightEnabled) {
++         this.f_283775_.add(pSectionPos);
        } else {
-@@ -179,12 +_,12 @@
+-         this.f_283775_.remove(p_285065_);
++         this.f_283775_.remove(pSectionPos);
+       }
  
     }
  
 -   protected boolean m_284382_(long p_285433_) {
 -      long i = SectionPos.m_123240_(p_285433_);
-+   protected boolean lightOnInSection(SectionPos p_285433_) {
-+      SectionPos i = SectionPos.getZeroNode(p_285433_.getBigX(), p_285433_.getBigZ());
++   protected boolean lightOnInSection(SectionPos pSectionPos) {
++      SectionPos i = SectionPos.getZeroNode(pSectionPos.getBigX(), pSectionPos.getBigZ());
        return this.f_283775_.contains(i);
     }
  
 -   public void m_75782_(long p_75783_, boolean p_75784_) {
-+   public void retainData(SectionPos p_75783_, boolean p_75784_) {
-       if (p_75784_) {
-          this.f_75741_.add(p_75783_);
+-      if (p_75784_) {
+-         this.f_75741_.add(p_75783_);
++   public void retainData(SectionPos pSectionColumnPos, boolean pRetain) {
++      if (pRetain) {
++         this.f_75741_.add(pSectionColumnPos);
        } else {
-@@ -193,7 +_,7 @@
+-         this.f_75741_.remove(p_75783_);
++         this.f_75741_.remove(pSectionColumnPos);
+       }
  
     }
  
 -   protected void m_284542_(long p_285403_, @Nullable DataLayer p_285498_) {
-+   protected void queueSectionData(SectionPos p_285403_, @Nullable DataLayer p_285498_) {
-       if (p_285498_ != null) {
-          this.f_75735_.put(p_285403_, p_285498_);
+-      if (p_285498_ != null) {
+-         this.f_75735_.put(p_285403_, p_285498_);
++   protected void queueSectionData(SectionPos pSectionPos, @Nullable DataLayer pData) {
++      if (pData != null) {
++         this.f_75735_.put(pSectionPos, pData);
           this.f_283847_ = true;
-@@ -203,20 +_,20 @@
+       } else {
+-         this.f_75735_.remove(p_285403_);
++         this.f_75735_.remove(pSectionPos);
+       }
  
     }
  
 -   protected void m_75787_(long p_75788_, boolean p_75789_) {
 -      byte b0 = this.f_283872_.get(p_75788_);
-+   protected void updateSectionStatus(SectionPos p_75788_, boolean p_75789_) {
-+      byte b0 = this.f_283872_.getByte(p_75788_);
-       byte b1 = LayerLightSectionStorage.SectionState.m_284365_(b0, !p_75789_);
+-      byte b1 = LayerLightSectionStorage.SectionState.m_284365_(b0, !p_75789_);
++   protected void updateSectionStatus(SectionPos pSectionPos, boolean pIsEmpty) {
++      byte b0 = this.f_283872_.getByte(pSectionPos);
++      byte b1 = LayerLightSectionStorage.SectionState.m_284365_(b0, !pIsEmpty);
        if (b0 != b1) {
 -         this.m_284336_(p_75788_, b1);
-+         this.putSectionState(p_75788_, b1);
-          int i = p_75789_ ? -1 : 1;
+-         int i = p_75789_ ? -1 : 1;
++         this.putSectionState(pSectionPos, b1);
++         int i = pIsEmpty ? -1 : 1;
  
           for(int j = -1; j <= 1; ++j) {
              for(int k = -1; k <= 1; ++k) {
@@ -255,51 +274,57 @@
 -                     long i1 = SectionPos.m_123186_(p_75788_, j, k, l);
 -                     byte b2 = this.f_283872_.get(i1);
 -                     this.m_284336_(i1, LayerLightSectionStorage.SectionState.m_284236_(b2, LayerLightSectionStorage.SectionState.m_284522_(b2) + i));
-+                     SectionPos i1 = p_75788_.offset(j, k, l);
++                     SectionPos i1 = pSectionPos.offset(j, k, l);
 +                     byte b2 = this.f_283872_.getByte(i1);
 +                     this.putSectionState(i1, LayerLightSectionStorage.SectionState.m_284236_(b2, LayerLightSectionStorage.SectionState.m_284522_(b2) + i));
                    }
                 }
              }
-@@ -225,29 +_,29 @@
+@@ -225,30 +_,30 @@
        }
     }
  
 -   protected void m_284336_(long p_285451_, byte p_285078_) {
-+   protected void putSectionState(SectionPos p_285451_, byte p_285078_) {
-       if (p_285078_ != 0) {
-          if (this.f_283872_.put(p_285451_, p_285078_) == 0) {
+-      if (p_285078_ != 0) {
+-         if (this.f_283872_.put(p_285451_, p_285078_) == 0) {
 -            this.m_284497_(p_285451_);
-+            this.initializeSection(p_285451_);
++   protected void putSectionState(SectionPos pSectionPos, byte pSectionState) {
++      if (pSectionState != 0) {
++         if (this.f_283872_.put(pSectionPos, pSectionState) == 0) {
++            this.initializeSection(pSectionPos);
           }
 -      } else if (this.f_283872_.remove(p_285451_) != 0) {
 -         this.m_284475_(p_285451_);
-+      } else if (this.f_283872_.removeByte(p_285451_) != 0) {
-+         this.removeSection(p_285451_);
++      } else if (this.f_283872_.removeByte(pSectionPos) != 0) {
++         this.removeSection(pSectionPos);
        }
  
     }
  
 -   private void m_284497_(long p_285124_) {
-+   private void initializeSection(SectionPos p_285124_) {
-       if (!this.f_75742_.remove(p_285124_)) {
+-      if (!this.f_75742_.remove(p_285124_)) {
 -         this.f_75732_.m_75526_(p_285124_, this.m_7667_(p_285124_));
-+         this.f_75732_.setLayer(p_285124_, this.createDataLayer(p_285124_));
-          this.f_75733_.add(p_285124_);
+-         this.f_75733_.add(p_285124_);
 -         this.m_6177_(p_285124_);
 -         this.m_280483_(p_285124_);
-+         this.onNodeAdded(p_285124_);
-+         this.markSectionAndNeighborsAsAffected(p_285124_);
++   private void initializeSection(SectionPos pSectionPos) {
++      if (!this.f_75742_.remove(pSectionPos)) {
++         this.f_75732_.setLayer(pSectionPos, this.createDataLayer(pSectionPos));
++         this.f_75733_.add(pSectionPos);
++         this.onNodeAdded(pSectionPos);
++         this.markSectionAndNeighborsAsAffected(pSectionPos);
           this.f_283847_ = true;
        }
  
     }
  
 -   private void m_284475_(long p_285477_) {
-+   private void removeSection(SectionPos p_285477_) {
-       this.f_75742_.add(p_285477_);
+-      this.f_75742_.add(p_285477_);
++   private void removeSection(SectionPos pSectionPos) {
++      this.f_75742_.add(pSectionPos);
        this.f_283847_ = true;
     }
+ 
 @@ -261,11 +_,11 @@
        }
  
@@ -321,8 +346,8 @@
  
 -   public LayerLightSectionStorage.SectionType m_284291_(long p_285114_) {
 -      return LayerLightSectionStorage.SectionState.m_284376_(this.f_283872_.get(p_285114_));
-+   public LayerLightSectionStorage.SectionType getDebugSectionType(SectionPos p_285114_) {
-+      return LayerLightSectionStorage.SectionState.m_284376_(this.f_283872_.getByte(p_285114_));
++   public LayerLightSectionStorage.SectionType getDebugSectionType(SectionPos pSectionPos) {
++      return LayerLightSectionStorage.SectionState.m_284376_(this.f_283872_.getByte(pSectionPos));
     }
  
     protected static class SectionState {

@@ -126,12 +126,14 @@
     }
  
 -   private double m_31514_(int p_31515_) {
-+   private me.alphamode.mclong.math.BigDecimal getHeadX(int p_31515_) {
-       if (p_31515_ <= 0) {
+-      if (p_31515_ <= 0) {
 -         return this.m_20185_();
++   private me.alphamode.mclong.math.BigDecimal getHeadX(int pHead) {
++      if (pHead <= 0) {
 +         return this.getBigX();
        } else {
-          float f = (this.f_20883_ + (float)(180 * (p_31515_ - 1))) * ((float)Math.PI / 180F);
+-         float f = (this.f_20883_ + (float)(180 * (p_31515_ - 1))) * ((float)Math.PI / 180F);
++         float f = (this.f_20883_ + (float)(180 * (pHead - 1))) * ((float)Math.PI / 180F);
           float f1 = Mth.m_14089_(f);
 -         return this.m_20185_() + (double)f1 * 1.3D;
 +         return this.getBigX().add((double)f1 * 1.3D);
@@ -140,17 +142,19 @@
  
 -   private double m_31516_(int p_31517_) {
 -      return p_31517_ <= 0 ? this.m_20186_() + 3.0D : this.m_20186_() + 2.2D;
-+   private me.alphamode.mclong.math.BigDecimal getHeadY(int p_31517_) {
-+      return p_31517_ <= 0 ? this.getBigY().add(3.0D) : this.getBigY().add(2.2D);
++   private me.alphamode.mclong.math.BigDecimal getHeadY(int pHead) {
++      return pHead <= 0 ? this.getBigY().add(3.0D) : this.getBigY().add(2.2D);
     }
  
 -   private double m_31518_(int p_31519_) {
-+   private me.alphamode.mclong.math.BigDecimal getHeadZ(int p_31519_) {
-       if (p_31519_ <= 0) {
+-      if (p_31519_ <= 0) {
 -         return this.m_20189_();
++   private me.alphamode.mclong.math.BigDecimal getHeadZ(int pHead) {
++      if (pHead <= 0) {
 +         return this.getBigZ();
        } else {
-          float f = (this.f_20883_ + (float)(180 * (p_31519_ - 1))) * ((float)Math.PI / 180F);
+-         float f = (this.f_20883_ + (float)(180 * (p_31519_ - 1))) * ((float)Math.PI / 180F);
++         float f = (this.f_20883_ + (float)(180 * (pHead - 1))) * ((float)Math.PI / 180F);
           float f1 = Mth.m_14031_(f);
 -         return this.m_20189_() + (double)f1 * 1.3D;
 +         return this.getBigZ().add((double)f1 * 1.3D);
@@ -166,7 +170,7 @@
     }
  
 -   private void m_31448_(int p_31449_, double p_31450_, double p_31451_, double p_31452_, boolean p_31453_) {
-+   private void performRangedAttack(int p_31449_, me.alphamode.mclong.math.BigDecimal p_31450_, me.alphamode.mclong.math.BigDecimal p_31451_, me.alphamode.mclong.math.BigDecimal p_31452_, boolean p_31453_) {
++   private void performRangedAttack(int pHead, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, boolean pIsDangerous) {
        if (!this.m_20067_()) {
           this.m_9236_().m_5898_((Player)null, 1024, this.m_20183_(), 0);
        }
@@ -177,15 +181,16 @@
 -      double d3 = p_31450_ - d0;
 -      double d4 = p_31451_ - d1;
 -      double d5 = p_31452_ - d2;
-+      me.alphamode.mclong.math.BigDecimal d0 = this.getHeadX(p_31449_);
-+      me.alphamode.mclong.math.BigDecimal d1 = this.getHeadY(p_31449_);
-+      me.alphamode.mclong.math.BigDecimal d2 = this.getHeadZ(p_31449_);
-+      double d3 = p_31450_.subtract(d0).doubleValue();
-+      double d4 = p_31451_.subtract(d1).doubleValue();
-+      double d5 = p_31452_.subtract(d2).doubleValue();
++      me.alphamode.mclong.math.BigDecimal d0 = this.getHeadX(pHead);
++      me.alphamode.mclong.math.BigDecimal d1 = this.getHeadY(pHead);
++      me.alphamode.mclong.math.BigDecimal d2 = this.getHeadZ(pHead);
++      double d3 = pX.subtract(d0).doubleValue();
++      double d4 = pY.subtract(d1).doubleValue();
++      double d5 = pZ.subtract(d2).doubleValue();
        WitherSkull witherskull = new WitherSkull(this.m_9236_(), this, d3, d4, d5);
        witherskull.m_5602_(this);
-       if (p_31453_) {
+-      if (p_31453_) {
++      if (pIsDangerous) {
           witherskull.m_37629_(true);
        }
  

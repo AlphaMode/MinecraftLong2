@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/lighting/DataLayerStorageMap.java
 +++ b/net/minecraft/world/level/lighting/DataLayerStorageMap.java
-@@ -6,12 +_,12 @@
+@@ -6,41 +_,41 @@
  
  public abstract class DataLayerStorageMap<M extends DataLayerStorageMap<M>> {
     private static final int f_164421_ = 2;
@@ -12,45 +12,71 @@
 +   protected final it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<net.minecraft.core.SectionPos, DataLayer> f_75518_;
  
 -   protected DataLayerStorageMap(Long2ObjectOpenHashMap<DataLayer> p_75523_) {
-+   protected DataLayerStorageMap(it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<net.minecraft.core.SectionPos, DataLayer> p_75523_) {
-       this.f_75518_ = p_75523_;
+-      this.f_75518_ = p_75523_;
++   protected DataLayerStorageMap(it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<net.minecraft.core.SectionPos, DataLayer> pMap) {
++      this.f_75518_ = pMap;
        this.m_75531_();
        this.f_75521_ = true;
-@@ -19,19 +_,19 @@
+    }
  
     public abstract M m_5972_();
  
 -   public DataLayer m_75524_(long p_281841_) {
-+   public DataLayer copyDataLayer(net.minecraft.core.SectionPos p_281841_) {
-       DataLayer datalayer = this.f_75518_.get(p_281841_).m_62569_();
-       this.f_75518_.put(p_281841_, datalayer);
+-      DataLayer datalayer = this.f_75518_.get(p_281841_).m_62569_();
+-      this.f_75518_.put(p_281841_, datalayer);
++   public DataLayer copyDataLayer(net.minecraft.core.SectionPos pIndex) {
++      DataLayer datalayer = this.f_75518_.get(pIndex).m_62569_();
++      this.f_75518_.put(pIndex, datalayer);
        this.m_75531_();
        return datalayer;
     }
  
 -   public boolean m_75529_(long p_75530_) {
-+   public boolean hasLayer(net.minecraft.core.SectionPos p_75530_) {
-       return this.f_75518_.containsKey(p_75530_);
+-      return this.f_75518_.containsKey(p_75530_);
++   public boolean hasLayer(net.minecraft.core.SectionPos pSectionPos) {
++      return this.f_75518_.containsKey(pSectionPos);
     }
  
     @Nullable
 -   public DataLayer m_75532_(long p_75533_) {
-+   public DataLayer getLayer(net.minecraft.core.SectionPos p_75533_) {
++   public DataLayer getLayer(net.minecraft.core.SectionPos pSectionPos) {
        if (this.f_75521_) {
           for(int i = 0; i < 2; ++i) {
-             if (p_75533_ == this.f_75519_[i]) {
+-            if (p_75533_ == this.f_75519_[i]) {
++            if (pSectionPos == this.f_75519_[i]) {
+                return this.f_75520_[i];
+             }
+          }
+       }
+ 
+-      DataLayer datalayer = this.f_75518_.get(p_75533_);
++      DataLayer datalayer = this.f_75518_.get(pSectionPos);
+       if (datalayer == null) {
+          return null;
+       } else {
+@@ -50,7 +_,7 @@
+                this.f_75520_[j] = this.f_75520_[j - 1];
+             }
+ 
+-            this.f_75519_[0] = p_75533_;
++            this.f_75519_[0] = pSectionPos;
+             this.f_75520_[0] = datalayer;
+          }
+ 
 @@ -59,17 +_,17 @@
     }
  
     @Nullable
 -   public DataLayer m_75535_(long p_75536_) {
-+   public DataLayer removeLayer(net.minecraft.core.SectionPos p_75536_) {
-       return this.f_75518_.remove(p_75536_);
+-      return this.f_75518_.remove(p_75536_);
++   public DataLayer removeLayer(net.minecraft.core.SectionPos pSectionPos) {
++      return this.f_75518_.remove(pSectionPos);
     }
  
 -   public void m_75526_(long p_75527_, DataLayer p_75528_) {
-+   public void setLayer(net.minecraft.core.SectionPos p_75527_, DataLayer p_75528_) {
-       this.f_75518_.put(p_75527_, p_75528_);
+-      this.f_75518_.put(p_75527_, p_75528_);
++   public void setLayer(net.minecraft.core.SectionPos pSectionPos, DataLayer pArray) {
++      this.f_75518_.put(pSectionPos, pArray);
     }
  
     public void m_75531_() {

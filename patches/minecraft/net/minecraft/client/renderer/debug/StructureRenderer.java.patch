@@ -5,19 +5,20 @@
     }
  
 -   public void m_7790_(PoseStack p_113688_, MultiBufferSource p_113689_, double p_113690_, double p_113691_, double p_113692_) {
-+   public void render(PoseStack p_113688_, MultiBufferSource p_113689_, me.alphamode.mclong.math.BigDecimal p_113690_, me.alphamode.mclong.math.BigDecimal p_113691_, me.alphamode.mclong.math.BigDecimal p_113692_) {
++   public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
        Camera camera = this.f_113675_.f_91063_.m_109153_();
        LevelAccessor levelaccessor = this.f_113675_.f_91073_;
        DimensionType dimensiontype = levelaccessor.m_6042_();
 -      BlockPos blockpos = BlockPos.m_274561_(camera.m_90583_().f_82479_, 0.0D, camera.m_90583_().f_82481_);
+-      VertexConsumer vertexconsumer = p_113689_.m_6299_(RenderType.m_110504_());
 +      BlockPos blockpos = BlockPos.containing(camera.m_90583_().getX(), me.alphamode.mclong.math.BigDecimal.ZERO, camera.m_90583_().getZ());
-       VertexConsumer vertexconsumer = p_113689_.m_6299_(RenderType.m_110504_());
++      VertexConsumer vertexconsumer = pBuffer.m_6299_(RenderType.m_110504_());
        if (this.f_113676_.containsKey(dimensiontype)) {
           for(BoundingBox boundingbox : this.f_113676_.get(dimensiontype).values()) {
 -            if (blockpos.m_123314_(boundingbox.m_162394_(), 500.0D)) {
 -               LevelRenderer.m_109621_(p_113688_, vertexconsumer, (double)boundingbox.m_162395_() - p_113690_, (double)boundingbox.m_162396_() - p_113691_, (double)boundingbox.m_162398_() - p_113692_, (double)(boundingbox.m_162399_() + 1) - p_113690_, (double)(boundingbox.m_162400_() + 1) - p_113691_, (double)(boundingbox.m_162401_() + 1) - p_113692_, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F);
 +            if (blockpos.closerThan(boundingbox.m_162394_(), 500.0D)) {
-+               LevelRenderer.m_109621_(p_113688_, vertexconsumer, boundingbox.minBigX().toBigDecimal().subtract(p_113690_).doubleValue(), boundingbox.minBigY().toBigDecimal().subtract(p_113691_).doubleValue(), boundingbox.minBigZ().toBigDecimal().subtract(p_113692_).doubleValue(), (boundingbox.maxBigX().add().toBigDecimal()).subtract(p_113690_).doubleValue(), (boundingbox.maxBigY().add().toBigDecimal()).subtract(p_113691_).doubleValue(), (boundingbox.maxBigZ().add().toBigDecimal()).subtract(p_113692_).doubleValue(), 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F);
++               LevelRenderer.m_109621_(pPoseStack, vertexconsumer, boundingbox.minBigX().toBigDecimal().subtract(pCamX).doubleValue(), boundingbox.minBigY().toBigDecimal().subtract(pCamY).doubleValue(), boundingbox.minBigZ().toBigDecimal().subtract(pCamZ).doubleValue(), (boundingbox.maxBigX().add().toBigDecimal()).subtract(pCamX).doubleValue(), (boundingbox.maxBigY().add().toBigDecimal()).subtract(pCamY).doubleValue(), (boundingbox.maxBigZ().add().toBigDecimal()).subtract(pCamZ).doubleValue(), 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F);
              }
           }
        }
@@ -29,10 +30,10 @@
 +            if (blockpos.closerThan(boundingbox1.m_162394_(), 500.0D)) {
                 if (obool) {
 -                  LevelRenderer.m_109621_(p_113688_, vertexconsumer, (double)boundingbox1.m_162395_() - p_113690_, (double)boundingbox1.m_162396_() - p_113691_, (double)boundingbox1.m_162398_() - p_113692_, (double)(boundingbox1.m_162399_() + 1) - p_113690_, (double)(boundingbox1.m_162400_() + 1) - p_113691_, (double)(boundingbox1.m_162401_() + 1) - p_113692_, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F);
-+                  LevelRenderer.m_109621_(p_113688_, vertexconsumer, boundingbox1.minBigX().toBigDecimal().subtract(p_113690_).doubleValue(), boundingbox1.minBigY().toBigDecimal().subtract(p_113691_).doubleValue(), boundingbox1.minBigZ().toBigDecimal().subtract(p_113692_).doubleValue(), (boundingbox1.maxBigX().add()).toBigDecimal().subtract(p_113690_).doubleValue(), (boundingbox1.maxBigY().add()).toBigDecimal().subtract(p_113691_).doubleValue(), (boundingbox1.maxBigZ().add()).toBigDecimal().subtract(p_113692_).doubleValue(), 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F);
++                  LevelRenderer.m_109621_(pPoseStack, vertexconsumer, boundingbox1.minBigX().toBigDecimal().subtract(pCamX).doubleValue(), boundingbox1.minBigY().toBigDecimal().subtract(pCamY).doubleValue(), boundingbox1.minBigZ().toBigDecimal().subtract(pCamZ).doubleValue(), (boundingbox1.maxBigX().add()).toBigDecimal().subtract(pCamX).doubleValue(), (boundingbox1.maxBigY().add()).toBigDecimal().subtract(pCamY).doubleValue(), (boundingbox1.maxBigZ().add()).toBigDecimal().subtract(pCamZ).doubleValue(), 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F);
                 } else {
 -                  LevelRenderer.m_109621_(p_113688_, vertexconsumer, (double)boundingbox1.m_162395_() - p_113690_, (double)boundingbox1.m_162396_() - p_113691_, (double)boundingbox1.m_162398_() - p_113692_, (double)(boundingbox1.m_162399_() + 1) - p_113690_, (double)(boundingbox1.m_162400_() + 1) - p_113691_, (double)(boundingbox1.m_162401_() + 1) - p_113692_, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F);
-+                  LevelRenderer.m_109621_(p_113688_, vertexconsumer, boundingbox1.minBigX().toBigDecimal().subtract(p_113690_).doubleValue(), boundingbox1.minBigY().toBigDecimal().subtract(p_113691_).doubleValue(), boundingbox1.minBigZ().toBigDecimal().subtract(p_113692_).doubleValue(), (boundingbox1.maxBigX().add()).toBigDecimal().subtract(p_113690_).doubleValue(), (boundingbox1.maxBigY().add()).toBigDecimal().subtract(p_113691_).doubleValue(), (boundingbox1.maxBigZ().add()).toBigDecimal().subtract(p_113692_).doubleValue(), 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F);
++                  LevelRenderer.m_109621_(pPoseStack, vertexconsumer, boundingbox1.minBigX().toBigDecimal().subtract(pCamX).doubleValue(), boundingbox1.minBigY().toBigDecimal().subtract(pCamY).doubleValue(), boundingbox1.minBigZ().toBigDecimal().subtract(pCamZ).doubleValue(), (boundingbox1.maxBigX().add()).toBigDecimal().subtract(pCamX).doubleValue(), (boundingbox1.maxBigY().add()).toBigDecimal().subtract(pCamY).doubleValue(), (boundingbox1.maxBigZ().add()).toBigDecimal().subtract(pCamZ).doubleValue(), 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F);
                 }
              }
           }

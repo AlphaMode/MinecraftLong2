@@ -59,13 +59,13 @@
 -
 -   @Nullable
 -   protected abstract ChunkHolder m_7288_(long p_140780_, int p_140781_, @Nullable ChunkHolder p_140782_, int p_140783_);
-+   protected abstract boolean isChunkToRemove(ChunkPos p_140779_);
++   protected abstract boolean isChunkToRemove(ChunkPos pChunkPos);
 +
 +   @Nullable
-+   protected abstract ChunkHolder getChunk(ChunkPos p_140817_);
++   protected abstract ChunkHolder getChunk(ChunkPos pChunkPos);
 +
 +   @Nullable
-+   protected abstract ChunkHolder updateChunkScheduling(ChunkPos p_140780_, int p_140781_, @Nullable ChunkHolder p_140782_, int p_140783_);
++   protected abstract ChunkHolder updateChunkScheduling(ChunkPos pChunkPos, int pNewLevel, @Nullable ChunkHolder pHolder, int pOldLevel);
  
     public boolean m_140805_(ChunkMap p_140806_) {
        this.f_140763_.m_6410_();
@@ -97,37 +97,41 @@
                          }, j, false));
                       });
                    });
-@@ -150,19 +_,19 @@
+@@ -150,53 +_,51 @@
        }
     }
  
 -   void m_140784_(long p_140785_, Ticket<?> p_140786_) {
 -      SortedArraySet<Ticket<?>> sortedarrayset = this.m_140857_(p_140785_);
-+   void addTicket(ChunkPos p_140785_, Ticket<?> p_140786_) {
-+      SortedArraySet<Ticket<?>> sortedarrayset = this.getTickets(p_140785_);
++   void addTicket(ChunkPos pChunkPos, Ticket<?> pTicket) {
++      SortedArraySet<Ticket<?>> sortedarrayset = this.getTickets(pChunkPos);
        int i = m_140797_(sortedarrayset);
-       Ticket<?> ticket = sortedarrayset.m_14253_(p_140786_);
+-      Ticket<?> ticket = sortedarrayset.m_14253_(p_140786_);
++      Ticket<?> ticket = sortedarrayset.m_14253_(pTicket);
        ticket.m_9429_(this.f_140771_);
-       if (p_140786_.m_9433_() < i) {
+-      if (p_140786_.m_9433_() < i) {
 -         this.f_140762_.m_140715_(p_140785_, p_140786_.m_9433_(), true);
-+         this.f_140762_.update(p_140785_, p_140786_.m_9433_(), true);
++      if (pTicket.m_9433_() < i) {
++         this.f_140762_.update(pChunkPos, pTicket.m_9433_(), true);
        }
  
     }
  
 -   void m_140818_(long p_140819_, Ticket<?> p_140820_) {
 -      SortedArraySet<Ticket<?>> sortedarrayset = this.m_140857_(p_140819_);
-+   void removeTicket(ChunkPos p_140819_, Ticket<?> p_140820_) {
-+      SortedArraySet<Ticket<?>> sortedarrayset = this.getTickets(p_140819_);
-       if (sortedarrayset.remove(p_140820_)) {
+-      if (sortedarrayset.remove(p_140820_)) {
++   void removeTicket(ChunkPos pChunkPos, Ticket<?> pTicket) {
++      SortedArraySet<Ticket<?>> sortedarrayset = this.getTickets(pChunkPos);
++      if (sortedarrayset.remove(pTicket)) {
        }
  
-@@ -170,33 +_,31 @@
-          this.f_140761_.remove(p_140819_);
+       if (sortedarrayset.isEmpty()) {
+-         this.f_140761_.remove(p_140819_);
++         this.f_140761_.remove(pChunkPos);
        }
  
 -      this.f_140762_.m_140715_(p_140819_, m_140797_(sortedarrayset), false);
-+      this.f_140762_.update(p_140819_, m_140797_(sortedarrayset), false);
++      this.f_140762_.update(pChunkPos, m_140797_(sortedarrayset), false);
     }
  
     public <T> void m_140792_(TicketType<T> p_140793_, ChunkPos p_140794_, int p_140795_, T p_140796_) {
@@ -238,15 +242,18 @@
        SortedArraySet<Ticket<?>> sortedarrayset = this.f_140761_.get(p_140839_);
        return sortedarrayset != null && !sortedarrayset.isEmpty() ? sortedarrayset.m_14262_().toString() : "no_ticket";
     }
-@@ -274,7 +_,7 @@
+@@ -274,9 +_,9 @@
        return this.f_140763_.f_140886_.size();
     }
  
 -   public boolean m_140847_(long p_140848_) {
-+   public boolean hasPlayersNearby(ChunkPos p_140848_) {
++   public boolean hasPlayersNearby(ChunkPos pChunkPos) {
        this.f_140763_.m_6410_();
-       return this.f_140763_.f_140886_.containsKey(p_140848_);
+-      return this.f_140763_.f_140886_.containsKey(p_140848_);
++      return this.f_140763_.f_140886_.containsKey(pChunkPos);
     }
+ 
+    public String m_140837_() {
 @@ -285,11 +_,11 @@
  
     private void m_143207_(String p_143208_) {
@@ -290,15 +297,17 @@
           }
  
           if (entry.getValue().isEmpty()) {
-@@ -343,7 +_,7 @@
+@@ -343,8 +_,8 @@
           super(f_286988_ + 1, 16, 256);
        }
  
 -      protected int m_7031_(long p_140883_) {
-+      protected int getLevelFromSource(net.minecraft.world.level.ChunkPos p_140883_) {
-          SortedArraySet<Ticket<?>> sortedarrayset = DistanceManager.this.f_140761_.get(p_140883_);
+-         SortedArraySet<Ticket<?>> sortedarrayset = DistanceManager.this.f_140761_.get(p_140883_);
++      protected int getLevelFromSource(net.minecraft.world.level.ChunkPos pPos) {
++         SortedArraySet<Ticket<?>> sortedarrayset = DistanceManager.this.f_140761_.get(pPos);
           if (sortedarrayset == null) {
              return Integer.MAX_VALUE;
+          } else {
 @@ -352,9 +_,10 @@
           }
        }
@@ -306,8 +315,8 @@
 -      protected int m_6172_(long p_140885_) {
 -         if (!DistanceManager.this.m_7009_(p_140885_)) {
 -            ChunkHolder chunkholder = DistanceManager.this.m_7316_(p_140885_);
-+      protected int getLevel(net.minecraft.world.level.ChunkPos p_140885_) {
-+         var chunk = p_140885_;
++      protected int getLevel(net.minecraft.world.level.ChunkPos pSectionPos) {
++         var chunk = pSectionPos;
 +         if (!DistanceManager.this.isChunkToRemove(chunk)) {
 +            ChunkHolder chunkholder = DistanceManager.this.getChunk(chunk);
              if (chunkholder != null) {
@@ -319,13 +328,14 @@
  
 -      protected void m_7351_(long p_140880_, int p_140881_) {
 -         ChunkHolder chunkholder = DistanceManager.this.m_7316_(p_140880_);
-+      protected void setLevel(net.minecraft.world.level.ChunkPos p_140880_, int p_140881_) {
-+         ChunkPos pos = p_140880_;
++      protected void setLevel(net.minecraft.world.level.ChunkPos pSectionPos, int pLevel) {
++         ChunkPos pos = pSectionPos;
 +         ChunkHolder chunkholder = DistanceManager.this.getChunk(pos);
           int i = chunkholder == null ? f_286988_ : chunkholder.m_140093_();
-          if (i != p_140881_) {
+-         if (i != p_140881_) {
 -            chunkholder = DistanceManager.this.m_7288_(p_140880_, p_140881_, chunkholder, i);
-+            chunkholder = DistanceManager.this.updateChunkScheduling(pos, p_140881_, chunkholder, i);
++         if (i != pLevel) {
++            chunkholder = DistanceManager.this.updateChunkScheduling(pos, pLevel, chunkholder, i);
              if (chunkholder != null) {
                 DistanceManager.this.f_140765_.add(chunkholder);
              }
@@ -338,24 +348,26 @@
        protected final int f_140887_;
  
        protected FixedPlayerDistanceChunkTracker(int p_140891_) {
-@@ -390,29 +_,29 @@
+@@ -390,30 +_,30 @@
           this.f_140886_.defaultReturnValue((byte)(p_140891_ + 2));
        }
  
 -      protected int m_6172_(long p_140901_) {
 -         return this.f_140886_.get(p_140901_);
-+      protected int getLevel(net.minecraft.world.level.ChunkPos p_140901_) {
-+         return this.f_140886_.getByte(p_140901_);
++      protected int getLevel(net.minecraft.world.level.ChunkPos pSectionPos) {
++         return this.f_140886_.getByte(pSectionPos);
        }
  
 -      protected void m_7351_(long p_140893_, int p_140894_) {
-+      protected void setLevel(net.minecraft.world.level.ChunkPos p_140893_, int p_140894_) {
++      protected void setLevel(net.minecraft.world.level.ChunkPos pSectionPos, int pLevel) {
           byte b0;
-          if (p_140894_ > this.f_140887_) {
+-         if (p_140894_ > this.f_140887_) {
 -            b0 = this.f_140886_.remove(p_140893_);
-+            b0 = this.f_140886_.removeByte(p_140893_);
++         if (pLevel > this.f_140887_) {
++            b0 = this.f_140886_.removeByte(pSectionPos);
           } else {
-             b0 = this.f_140886_.put(p_140893_, (byte)p_140894_);
+-            b0 = this.f_140886_.put(p_140893_, (byte)p_140894_);
++            b0 = this.f_140886_.put(pSectionPos, (byte)pLevel);
           }
  
 -         this.m_8002_(p_140893_, b0, p_140894_);
@@ -369,20 +381,22 @@
 -      }
 -
 -      private boolean m_140902_(long p_140903_) {
-+         this.onLevelChange(p_140893_, b0, p_140894_);
+-         ObjectSet<ServerPlayer> objectset = DistanceManager.this.f_140760_.get(p_140903_);
++         this.onLevelChange(pSectionPos, b0, pLevel);
 +      }
 +
-+      protected void onLevelChange(net.minecraft.world.level.ChunkPos p_140895_, int p_140896_, int p_140897_) {
++      protected void onLevelChange(net.minecraft.world.level.ChunkPos pChunkPos, int pOldLevel, int pNewLevel) {
 +      }
 +
-+      protected int getLevelFromSource(ChunkPos p_140899_) {
-+         return this.havePlayer(p_140899_) ? 0 : Integer.MAX_VALUE;
++      protected int getLevelFromSource(ChunkPos pPos) {
++         return this.havePlayer(pPos) ? 0 : Integer.MAX_VALUE;
 +      }
 +
-+      private boolean havePlayer(ChunkPos p_140903_) {
-          ObjectSet<ServerPlayer> objectset = DistanceManager.this.f_140760_.get(p_140903_);
++      private boolean havePlayer(ChunkPos pChunkPos) {
++         ObjectSet<ServerPlayer> objectset = DistanceManager.this.f_140760_.get(pChunkPos);
           return objectset != null && !objectset.isEmpty();
        }
+ 
 @@ -423,10 +_,10 @@
  
        private void m_143212_(String p_143213_) {
@@ -413,8 +427,9 @@
        }
  
 -      protected void m_8002_(long p_140915_, int p_140916_, int p_140917_) {
-+      protected void onLevelChange(net.minecraft.world.level.ChunkPos p_140915_, int p_140916_, int p_140917_) {
-          this.f_140907_.add(p_140915_);
+-         this.f_140907_.add(p_140915_);
++      protected void onLevelChange(net.minecraft.world.level.ChunkPos pChunkPos, int pOldLevel, int pNewLevel) {
++         this.f_140907_.add(pChunkPos);
        }
  
        public void m_140912_(int p_140913_) {
@@ -431,8 +446,8 @@
        }
  
 -      private void m_140918_(long p_140919_, int p_140920_, boolean p_140921_, boolean p_140922_) {
-+      private void onLevelChange(net.minecraft.world.level.ChunkPos p_140919_, int p_140920_, boolean p_140921_, boolean p_140922_) {
-+         var chunkPos = p_140919_;
++      private void onLevelChange(net.minecraft.world.level.ChunkPos pChunkPos, int p_140920_, boolean p_140921_, boolean p_140922_) {
++         var chunkPos = pChunkPos;
           if (p_140921_ != p_140922_) {
 -            Ticket<?> ticket = new Ticket<>(TicketType.f_9444_, DistanceManager.f_140759_, new ChunkPos(p_140919_));
 +            Ticket<?> ticket = new Ticket<>(TicketType.f_9444_, DistanceManager.f_140759_, chunkPos);
@@ -443,7 +458,7 @@
 -                     if (this.m_140932_(this.m_6172_(p_140919_))) {
 -                        DistanceManager.this.m_140784_(p_140919_, ticket);
 -                        DistanceManager.this.f_140769_.add(p_140919_);
-+                     if (this.m_140932_(this.getLevel(p_140919_))) {
++                     if (this.m_140932_(this.getLevel(pChunkPos))) {
 +                        DistanceManager.this.addTicket(chunkPos, ticket);
 +                        DistanceManager.this.f_140769_.add(chunkPos);
                       } else {

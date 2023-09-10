@@ -4,13 +4,13 @@
        }
     }
  
-+   public static DataResult<String[]> fixedSize(java.util.stream.Stream<String> p_287579_, int p_287631_) {
-+      String[] along = p_287579_.limit((p_287631_ + 1)).toArray(String[]::new);
-+      if (along.length != p_287631_) {
++   public static DataResult<String[]> fixedSize(java.util.stream.Stream<String> pStream, int pExpectedSize) {
++      String[] along = pStream.limit((pExpectedSize + 1)).toArray(String[]::new);
++      if (along.length != pExpectedSize) {
 +         Supplier<String> supplier = () -> {
-+            return "Input is not a list of " + p_287631_ + " strings";
++            return "Input is not a list of " + pExpectedSize + " strings";
 +         };
-+         return along.length >= p_287631_ ? DataResult.error(supplier, Arrays.copyOf(along, p_287631_)) : DataResult.error(supplier);
++         return along.length >= pExpectedSize ? DataResult.error(supplier, Arrays.copyOf(along, pExpectedSize)) : DataResult.error(supplier);
 +      } else {
 +         return DataResult.success(along);
 +      }
@@ -65,12 +65,12 @@
 +      return intarraylist;
 +   }
 +
-+   public static it.unimi.dsi.fastutil.longs.LongArrayList toShuffledList(java.util.stream.LongStream p_214659_, RandomSource p_214660_) {
-+      it.unimi.dsi.fastutil.longs.LongArrayList intarraylist = it.unimi.dsi.fastutil.longs.LongArrayList.wrap(p_214659_.toArray());
++   public static it.unimi.dsi.fastutil.longs.LongArrayList toShuffledList(java.util.stream.LongStream pStream, RandomSource pRandom) {
++      it.unimi.dsi.fastutil.longs.LongArrayList intarraylist = it.unimi.dsi.fastutil.longs.LongArrayList.wrap(pStream.toArray());
 +      int i = intarraylist.size();
 +
 +      for(int j = i; j > 1; --j) {
-+         int k = p_214660_.m_188503_(j);
++         int k = pRandom.m_188503_(j);
 +         intarraylist.set(j - 1, intarraylist.set(k, intarraylist.getLong(j - 1)));
        }
  

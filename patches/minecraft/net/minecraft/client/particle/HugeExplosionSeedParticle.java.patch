@@ -5,8 +5,9 @@
     private final int f_106945_ = 8;
  
 -   HugeExplosionSeedParticle(ClientLevel p_106947_, double p_106948_, double p_106949_, double p_106950_) {
-+   HugeExplosionSeedParticle(ClientLevel p_106947_, me.alphamode.mclong.math.BigDecimal p_106948_, me.alphamode.mclong.math.BigDecimal p_106949_, me.alphamode.mclong.math.BigDecimal p_106950_) {
-       super(p_106947_, p_106948_, p_106949_, p_106950_, 0.0D, 0.0D, 0.0D);
+-      super(p_106947_, p_106948_, p_106949_, p_106950_, 0.0D, 0.0D, 0.0D);
++   HugeExplosionSeedParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      super(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D);
     }
  
     public void m_5989_() {
@@ -22,12 +23,14 @@
        }
  
        ++this.f_106944_;
-@@ -32,7 +_,7 @@
+@@ -32,8 +_,8 @@
  
     @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
 -      public Particle m_6966_(SimpleParticleType p_106969_, ClientLevel p_106970_, double p_106971_, double p_106972_, double p_106973_, double p_106974_, double p_106975_, double p_106976_) {
-+      public Particle createParticle(SimpleParticleType p_106969_, ClientLevel p_106970_, me.alphamode.mclong.math.BigDecimal p_106971_, me.alphamode.mclong.math.BigDecimal p_106972_, me.alphamode.mclong.math.BigDecimal p_106973_, double p_106974_, double p_106975_, double p_106976_) {
-          return new HugeExplosionSeedParticle(p_106970_, p_106971_, p_106972_, p_106973_);
+-         return new HugeExplosionSeedParticle(p_106970_, p_106971_, p_106972_, p_106973_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         return new HugeExplosionSeedParticle(pLevel, pX, pY, pZ);
        }
     }
+ }

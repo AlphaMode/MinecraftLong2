@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/particle/PortalParticle.java
 +++ b/net/minecraft/client/particle/PortalParticle.java
-@@ -7,11 +_,11 @@
+@@ -7,18 +_,18 @@
  
  @OnlyIn(Dist.CLIENT)
  public class PortalParticle extends TextureSheetParticle {
@@ -12,10 +12,24 @@
 +   private final me.alphamode.mclong.math.BigDecimal f_107547_;
  
 -   protected PortalParticle(ClientLevel p_107551_, double p_107552_, double p_107553_, double p_107554_, double p_107555_, double p_107556_, double p_107557_) {
-+   protected PortalParticle(ClientLevel p_107551_, me.alphamode.mclong.math.BigDecimal p_107552_, me.alphamode.mclong.math.BigDecimal p_107553_, me.alphamode.mclong.math.BigDecimal p_107554_, double p_107555_, double p_107556_, double p_107557_) {
-       super(p_107551_, p_107552_, p_107553_, p_107554_);
-       this.f_107215_ = p_107555_;
-       this.f_107216_ = p_107556_;
+-      super(p_107551_, p_107552_, p_107553_, p_107554_);
+-      this.f_107215_ = p_107555_;
+-      this.f_107216_ = p_107556_;
+-      this.f_107217_ = p_107557_;
+-      this.f_107212_ = p_107552_;
+-      this.f_107213_ = p_107553_;
+-      this.f_107214_ = p_107554_;
++   protected PortalParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      super(pLevel, pX, pY, pZ);
++      this.f_107215_ = pXSpeed;
++      this.f_107216_ = pYSpeed;
++      this.f_107217_ = pZSpeed;
++      this.f_107212_ = pX;
++      this.f_107213_ = pY;
++      this.f_107214_ = pZ;
+       this.f_107548_ = this.f_107212_;
+       this.f_107549_ = this.f_107213_;
+       this.f_107547_ = this.f_107214_;
 @@ -72,9 +_,9 @@
           float f = (float)this.f_107224_ / (float)this.f_107225_;
           float f1 = -f + f * f * 2.0F;
@@ -29,12 +43,14 @@
        }
     }
  
-@@ -86,7 +_,7 @@
+@@ -86,8 +_,8 @@
           this.f_107568_ = p_107570_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_107581_, ClientLevel p_107582_, double p_107583_, double p_107584_, double p_107585_, double p_107586_, double p_107587_, double p_107588_) {
-+      public Particle createParticle(SimpleParticleType p_107581_, ClientLevel p_107582_, me.alphamode.mclong.math.BigDecimal p_107583_, me.alphamode.mclong.math.BigDecimal p_107584_, me.alphamode.mclong.math.BigDecimal p_107585_, double p_107586_, double p_107587_, double p_107588_) {
-          PortalParticle portalparticle = new PortalParticle(p_107582_, p_107583_, p_107584_, p_107585_, p_107586_, p_107587_, p_107588_);
+-         PortalParticle portalparticle = new PortalParticle(p_107582_, p_107583_, p_107584_, p_107585_, p_107586_, p_107587_, p_107588_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         PortalParticle portalparticle = new PortalParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
           portalparticle.m_108335_(this.f_107568_);
           return portalparticle;
+       }

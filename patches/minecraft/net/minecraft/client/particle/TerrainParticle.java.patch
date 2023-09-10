@@ -1,26 +1,44 @@
 --- a/net/minecraft/client/particle/TerrainParticle.java
 +++ b/net/minecraft/client/particle/TerrainParticle.java
-@@ -16,11 +_,11 @@
+@@ -16,20 +_,20 @@
     private final float f_108277_;
     private final float f_108278_;
  
 -   public TerrainParticle(ClientLevel p_108282_, double p_108283_, double p_108284_, double p_108285_, double p_108286_, double p_108287_, double p_108288_, BlockState p_108289_) {
 -      this(p_108282_, p_108283_, p_108284_, p_108285_, p_108286_, p_108287_, p_108288_, p_108289_, BlockPos.m_274561_(p_108283_, p_108284_, p_108285_));
-+   public TerrainParticle(ClientLevel p_108282_, me.alphamode.mclong.math.BigDecimal p_108283_, me.alphamode.mclong.math.BigDecimal p_108284_, me.alphamode.mclong.math.BigDecimal p_108285_, double p_108286_, double p_108287_, double p_108288_, BlockState p_108289_) {
-+      this(p_108282_, p_108283_, p_108284_, p_108285_, p_108286_, p_108287_, p_108288_, p_108289_, BlockPos.containing(p_108283_, p_108284_, p_108285_));
++   public TerrainParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, BlockState pState) {
++      this(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, pState, BlockPos.containing(pX, pY, pZ));
     }
  
 -   public TerrainParticle(ClientLevel p_172451_, double p_172452_, double p_172453_, double p_172454_, double p_172455_, double p_172456_, double p_172457_, BlockState p_172458_, BlockPos p_172459_) {
-+   public TerrainParticle(ClientLevel p_172451_, me.alphamode.mclong.math.BigDecimal p_172452_, me.alphamode.mclong.math.BigDecimal p_172453_, me.alphamode.mclong.math.BigDecimal p_172454_, double p_172455_, double p_172456_, double p_172457_, BlockState p_172458_, BlockPos p_172459_) {
-       super(p_172451_, p_172452_, p_172453_, p_172454_, p_172455_, p_172456_, p_172457_);
-       this.f_108280_ = p_172459_;
-       this.m_108337_(Minecraft.m_91087_().m_91289_().m_110907_().m_110882_(p_172458_));
-@@ -67,7 +_,7 @@
+-      super(p_172451_, p_172452_, p_172453_, p_172454_, p_172455_, p_172456_, p_172457_);
+-      this.f_108280_ = p_172459_;
+-      this.m_108337_(Minecraft.m_91087_().m_91289_().m_110907_().m_110882_(p_172458_));
++   public TerrainParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, BlockState pState, BlockPos pPos) {
++      super(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
++      this.f_108280_ = pPos;
++      this.m_108337_(Minecraft.m_91087_().m_91289_().m_110907_().m_110882_(pState));
+       this.f_107226_ = 1.0F;
+       this.f_107227_ = 0.6F;
+       this.f_107228_ = 0.6F;
+       this.f_107229_ = 0.6F;
+-      if (!p_172458_.m_60713_(Blocks.f_50440_)) {
+-         int i = Minecraft.m_91087_().m_91298_().m_92577_(p_172458_, p_172451_, p_172459_, 0);
++      if (!pState.m_60713_(Blocks.f_50440_)) {
++         int i = Minecraft.m_91087_().m_91298_().m_92577_(pState, pLevel, pPos, 0);
+          this.f_107227_ *= (float)(i >> 16 & 255) / 255.0F;
+          this.f_107228_ *= (float)(i >> 8 & 255) / 255.0F;
+          this.f_107229_ *= (float)(i & 255) / 255.0F;
+@@ -67,9 +_,9 @@
  
     @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<BlockParticleOption> {
 -      public Particle m_6966_(BlockParticleOption p_108304_, ClientLevel p_108305_, double p_108306_, double p_108307_, double p_108308_, double p_108309_, double p_108310_, double p_108311_) {
-+      public Particle createParticle(BlockParticleOption p_108304_, ClientLevel p_108305_, me.alphamode.mclong.math.BigDecimal p_108306_, me.alphamode.mclong.math.BigDecimal p_108307_, me.alphamode.mclong.math.BigDecimal p_108308_, double p_108309_, double p_108310_, double p_108311_) {
-          BlockState blockstate = p_108304_.m_123642_();
-          return !blockstate.m_60795_() && !blockstate.m_60713_(Blocks.f_50110_) ? new TerrainParticle(p_108305_, p_108306_, p_108307_, p_108308_, p_108309_, p_108310_, p_108311_, blockstate) : null;
+-         BlockState blockstate = p_108304_.m_123642_();
+-         return !blockstate.m_60795_() && !blockstate.m_60713_(Blocks.f_50110_) ? new TerrainParticle(p_108305_, p_108306_, p_108307_, p_108308_, p_108309_, p_108310_, p_108311_, blockstate) : null;
++      public Particle createParticle(BlockParticleOption pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         BlockState blockstate = pType.m_123642_();
++         return !blockstate.m_60795_() && !blockstate.m_60713_(Blocks.f_50110_) ? new TerrainParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, blockstate) : null;
        }
+    }
+ }

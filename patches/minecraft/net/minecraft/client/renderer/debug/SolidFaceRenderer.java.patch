@@ -1,15 +1,16 @@
 --- a/net/minecraft/client/renderer/debug/SolidFaceRenderer.java
 +++ b/net/minecraft/client/renderer/debug/SolidFaceRenderer.java
-@@ -24,24 +_,24 @@
+@@ -24,30 +_,30 @@
        this.f_113666_ = p_113668_;
     }
  
 -   public void m_7790_(PoseStack p_113670_, MultiBufferSource p_113671_, double p_113672_, double p_113673_, double p_113674_) {
-+   public void render(PoseStack p_113670_, MultiBufferSource p_113671_, me.alphamode.mclong.math.BigDecimal p_113672_, me.alphamode.mclong.math.BigDecimal p_113673_, me.alphamode.mclong.math.BigDecimal p_113674_) {
-       Matrix4f matrix4f = p_113670_.m_85850_().m_252922_();
+-      Matrix4f matrix4f = p_113670_.m_85850_().m_252922_();
++   public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
++      Matrix4f matrix4f = pPoseStack.m_85850_().m_252922_();
        BlockGetter blockgetter = this.f_113666_.f_91074_.m_9236_();
 -      BlockPos blockpos = BlockPos.m_274561_(p_113672_, p_113673_, p_113674_);
-+      BlockPos blockpos = BlockPos.containing(p_113672_, p_113673_, p_113674_);
++      BlockPos blockpos = BlockPos.containing(pCamX, pCamY, pCamZ);
  
 -      for(BlockPos blockpos1 : BlockPos.m_121940_(blockpos.m_7918_(-6, -6, -6), blockpos.m_7918_(6, 6, 6))) {
 +      for(BlockPos blockpos1 : BlockPos.m_121940_(blockpos.offset(-6, -6, -6), blockpos.offset(6, 6, 6))) {
@@ -25,12 +26,64 @@
 -               float f3 = (float)(aabb1.f_82291_ - p_113672_);
 -               float f4 = (float)(aabb1.f_82292_ - p_113673_);
 -               float f5 = (float)(aabb1.f_82293_ - p_113674_);
-+               float f = (aabb1.f_82288_.subtract(p_113672_)).floatValue();
-+               float f1 = (aabb1.f_82289_.subtract(p_113673_)).floatValue();
-+               float f2 = (aabb1.f_82290_.subtract(p_113674_)).floatValue();
-+               float f3 = (aabb1.f_82291_.subtract(p_113672_)).floatValue();
-+               float f4 = (aabb1.f_82292_.subtract(p_113673_)).floatValue();
-+               float f5 = (aabb1.f_82293_.subtract(p_113674_)).floatValue();
++               float f = (aabb1.f_82288_.subtract(pCamX)).floatValue();
++               float f1 = (aabb1.f_82289_.subtract(pCamY)).floatValue();
++               float f2 = (aabb1.f_82290_.subtract(pCamZ)).floatValue();
++               float f3 = (aabb1.f_82291_.subtract(pCamX)).floatValue();
++               float f4 = (aabb1.f_82292_.subtract(pCamY)).floatValue();
++               float f5 = (aabb1.f_82293_.subtract(pCamZ)).floatValue();
                 float f6 = 1.0F;
                 float f7 = 0.0F;
                 float f8 = 0.0F;
+                float f9 = 0.5F;
+                if (blockstate.m_60783_(blockgetter, blockpos1, Direction.WEST)) {
+-                  VertexConsumer vertexconsumer = p_113671_.m_6299_(RenderType.m_269313_());
++                  VertexConsumer vertexconsumer = pBuffer.m_6299_(RenderType.m_269313_());
+                   vertexconsumer.m_252986_(matrix4f, f, f1, f2).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer.m_252986_(matrix4f, f, f1, f5).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer.m_252986_(matrix4f, f, f4, f2).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+@@ -55,7 +_,7 @@
+                }
+ 
+                if (blockstate.m_60783_(blockgetter, blockpos1, Direction.SOUTH)) {
+-                  VertexConsumer vertexconsumer1 = p_113671_.m_6299_(RenderType.m_269313_());
++                  VertexConsumer vertexconsumer1 = pBuffer.m_6299_(RenderType.m_269313_());
+                   vertexconsumer1.m_252986_(matrix4f, f, f4, f5).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer1.m_252986_(matrix4f, f, f1, f5).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer1.m_252986_(matrix4f, f3, f4, f5).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+@@ -63,7 +_,7 @@
+                }
+ 
+                if (blockstate.m_60783_(blockgetter, blockpos1, Direction.EAST)) {
+-                  VertexConsumer vertexconsumer2 = p_113671_.m_6299_(RenderType.m_269313_());
++                  VertexConsumer vertexconsumer2 = pBuffer.m_6299_(RenderType.m_269313_());
+                   vertexconsumer2.m_252986_(matrix4f, f3, f1, f5).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer2.m_252986_(matrix4f, f3, f1, f2).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer2.m_252986_(matrix4f, f3, f4, f5).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+@@ -71,7 +_,7 @@
+                }
+ 
+                if (blockstate.m_60783_(blockgetter, blockpos1, Direction.NORTH)) {
+-                  VertexConsumer vertexconsumer3 = p_113671_.m_6299_(RenderType.m_269313_());
++                  VertexConsumer vertexconsumer3 = pBuffer.m_6299_(RenderType.m_269313_());
+                   vertexconsumer3.m_252986_(matrix4f, f3, f4, f2).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer3.m_252986_(matrix4f, f3, f1, f2).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer3.m_252986_(matrix4f, f, f4, f2).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+@@ -79,7 +_,7 @@
+                }
+ 
+                if (blockstate.m_60783_(blockgetter, blockpos1, Direction.DOWN)) {
+-                  VertexConsumer vertexconsumer4 = p_113671_.m_6299_(RenderType.m_269313_());
++                  VertexConsumer vertexconsumer4 = pBuffer.m_6299_(RenderType.m_269313_());
+                   vertexconsumer4.m_252986_(matrix4f, f, f1, f2).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer4.m_252986_(matrix4f, f3, f1, f2).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer4.m_252986_(matrix4f, f, f1, f5).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+@@ -87,7 +_,7 @@
+                }
+ 
+                if (blockstate.m_60783_(blockgetter, blockpos1, Direction.UP)) {
+-                  VertexConsumer vertexconsumer5 = p_113671_.m_6299_(RenderType.m_269313_());
++                  VertexConsumer vertexconsumer5 = pBuffer.m_6299_(RenderType.m_269313_());
+                   vertexconsumer5.m_252986_(matrix4f, f, f4, f2).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer5.m_252986_(matrix4f, f, f4, f5).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();
+                   vertexconsumer5.m_252986_(matrix4f, f3, f4, f2).m_85950_(1.0F, 0.0F, 0.0F, 0.5F).m_5752_();

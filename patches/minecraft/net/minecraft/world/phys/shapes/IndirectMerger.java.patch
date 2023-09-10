@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/phys/shapes/IndirectMerger.java
 +++ b/net/minecraft/world/phys/shapes/IndirectMerger.java
-@@ -5,18 +_,19 @@
+@@ -5,22 +_,23 @@
  import it.unimi.dsi.fastutil.doubles.DoubleLists;
  
  public class IndirectMerger implements IndexMerger {
@@ -13,23 +13,31 @@
     private final int f_166022_;
  
 -   public IndirectMerger(DoubleList p_83001_, DoubleList p_83002_, boolean p_83003_, boolean p_83004_) {
-+   public IndirectMerger(it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> p_83001_, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> p_83002_, boolean p_83003_, boolean p_83004_) {
++   public IndirectMerger(it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> pLower, it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mclong.math.BigDecimal> pUpper, boolean pExcludeUpper, boolean pExcludeLower) {
        double d0 = Double.NaN;
+-      int i = p_83001_.size();
+-      int j = p_83002_.size();
 +      me.alphamode.mclong.math.BigDecimal d0REAL = me.alphamode.mclong.math.BigDecimal.ZERO;
-       int i = p_83001_.size();
-       int j = p_83002_.size();
++      int i = pLower.size();
++      int j = pUpper.size();
        int k = i + j;
 -      this.f_82997_ = new double[k];
 +      this.f_82997_ = new me.alphamode.mclong.math.BigDecimal[k];
        this.f_82998_ = new int[k];
        this.f_82999_ = new int[k];
-       boolean flag = !p_83003_;
+-      boolean flag = !p_83003_;
+-      boolean flag1 = !p_83004_;
++      boolean flag = !pExcludeUpper;
++      boolean flag1 = !pExcludeLower;
+       int l = 0;
+       int i1 = 0;
+       int j1 = 0;
 @@ -33,7 +_,7 @@
              return;
           }
  
 -         boolean flag4 = !flag2 && (flag3 || p_83001_.getDouble(i1) < p_83002_.getDouble(j1) + 1.0E-7D);
-+         boolean flag4 = !flag2 && (flag3 || p_83001_.get(i1).compareTo(p_83002_.get(j1).add(me.alphamode.mclong.core.BigConstants.EPSILON)) < 0);
++         boolean flag4 = !flag2 && (flag3 || pLower.get(i1).compareTo(pUpper.get(j1).add(me.alphamode.mclong.core.BigConstants.EPSILON)) < 0);
           if (flag4) {
              ++i1;
              if (flag && (j1 == 0 || flag3)) {
@@ -39,7 +47,7 @@
           int l1 = j1 - 1;
 -         double d1 = flag4 ? p_83001_.getDouble(k1) : p_83002_.getDouble(l1);
 -         if (!(d0 >= d1 - 1.0E-7D)) {
-+         me.alphamode.mclong.math.BigDecimal d1 = flag4 ? p_83001_.get(k1) : p_83002_.get(l1);
++         me.alphamode.mclong.math.BigDecimal d1 = flag4 ? pLower.get(k1) : pUpper.get(l1);
 +         if (Double.isNaN(d0) || !(d0REAL.compareTo(d1.subtract(me.alphamode.mclong.core.BigConstants.EPSILON)) >= 0)) {
              this.f_82998_[l] = k1;
              this.f_82999_[l] = l1;

@@ -7,9 +7,9 @@
 -   public int m_213859_(RandomSource p_226311_, WorldGenerationContext p_226312_) {
 -      int i = this.f_162047_.m_142322_(p_226312_);
 -      int j = this.f_162048_.m_142322_(p_226312_);
-+   public long sample(RandomSource p_226311_, WorldGenerationContext p_226312_) {
-+      long i = this.f_162047_.resolveY(p_226312_);
-+      long j = this.f_162048_.resolveY(p_226312_);
++   public long sample(RandomSource pRandom, WorldGenerationContext pContext) {
++      long i = this.f_162047_.resolveY(pContext);
++      long j = this.f_162048_.resolveY(pContext);
        if (j - i - this.f_162049_ + 1 <= 0) {
           f_162046_.warn("Empty height range: {}", (Object)this);
           return i;
@@ -17,9 +17,9 @@
 -         int k = Mth.m_216271_(p_226311_, i + this.f_162049_, j);
 -         int l = Mth.m_216271_(p_226311_, i, k - 1);
 -         return Mth.m_216271_(p_226311_, i, l - 1 + this.f_162049_);
-+         long k = Mth.nextLong(p_226311_, i + this.f_162049_, j);
-+         long l = Mth.nextLong(p_226311_, i, k - 1);
-+         return Mth.nextLong(p_226311_, i, l - 1 + this.f_162049_);
++         long k = Mth.nextLong(pRandom, i + this.f_162049_, j);
++         long l = Mth.nextLong(pRandom, i, k - 1);
++         return Mth.nextLong(pRandom, i, l - 1 + this.f_162049_);
        }
     }
  

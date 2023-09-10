@@ -77,13 +77,13 @@
  
 -   private void m_9312_(int p_9313_, int p_9314_, ThreadedLevelLightEngine.TaskType p_9315_, Runnable p_9316_) {
 -      this.m_9317_(p_9313_, p_9314_, this.f_9299_.m_140371_(ChunkPos.m_45589_(p_9313_, p_9314_)), p_9315_, p_9316_);
-+   private void addTask(me.alphamode.mclong.math.BigInteger p_9313_, me.alphamode.mclong.math.BigInteger p_9314_, ThreadedLevelLightEngine.TaskType p_9315_, Runnable p_9316_) {
-+      this.addTask(p_9313_, p_9314_, this.f_9299_.getChunkQueueLevel(new ChunkPos(p_9313_, p_9314_)), p_9315_, p_9316_);
++   private void addTask(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ, ThreadedLevelLightEngine.TaskType p_9315_, Runnable p_9316_) {
++      this.addTask(pChunkX, pChunkZ, this.f_9299_.getChunkQueueLevel(new ChunkPos(pChunkX, pChunkZ)), p_9315_, p_9316_);
     }
  
 -   private void m_9317_(int p_9318_, int p_9319_, IntSupplier p_9320_, ThreadedLevelLightEngine.TaskType p_9321_, Runnable p_9322_) {
 -      this.f_9300_.m_6937_(ChunkTaskPriorityQueueSorter.m_140624_(() -> {
-+   private void addTask(me.alphamode.mclong.math.BigInteger p_9318_, me.alphamode.mclong.math.BigInteger p_9319_, IntSupplier p_9320_, ThreadedLevelLightEngine.TaskType p_9321_, Runnable p_9322_) {
++   private void addTask(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ, IntSupplier p_9320_, ThreadedLevelLightEngine.TaskType p_9321_, Runnable p_9322_) {
 +      this.f_9300_.m_6937_(ChunkTaskPriorityQueueSorter.message(() -> {
           this.f_9298_.add(Pair.of(p_9321_, p_9322_));
           if (this.f_9298_.size() >= 1000) {
@@ -91,7 +91,7 @@
           }
  
 -      }, ChunkPos.m_45589_(p_9318_, p_9319_), p_9320_));
-+      }, new ChunkPos(p_9318_, p_9319_), p_9320_));
++      }, new ChunkPos(pChunkX, pChunkZ), p_9320_));
     }
  
     public void m_6462_(ChunkPos p_9370_, boolean p_9371_) {

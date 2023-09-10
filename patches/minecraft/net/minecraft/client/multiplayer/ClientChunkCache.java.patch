@@ -5,29 +5,31 @@
     }
  
 -   private static boolean m_104438_(@Nullable LevelChunk p_104439_, int p_104440_, int p_104441_) {
-+   private static boolean isValidChunk(@Nullable LevelChunk p_104439_, me.alphamode.mclong.math.BigInteger p_104440_, me.alphamode.mclong.math.BigInteger p_104441_) {
-       if (p_104439_ == null) {
+-      if (p_104439_ == null) {
++   private static boolean isValidChunk(@Nullable LevelChunk pChunk, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      if (pChunk == null) {
           return false;
        } else {
-          ChunkPos chunkpos = p_104439_.m_7697_();
+-         ChunkPos chunkpos = p_104439_.m_7697_();
 -         return chunkpos.f_45578_ == p_104440_ && chunkpos.f_45579_ == p_104441_;
-+         return chunkpos.getX().equals(p_104440_) && chunkpos.getZ().equals(p_104441_);
++         ChunkPos chunkpos = pChunk.m_7697_();
++         return chunkpos.getX().equals(pX) && chunkpos.getZ().equals(pZ);
        }
     }
  
 -   public void m_104455_(int p_104456_, int p_104457_) {
 -      if (this.f_104410_.m_104500_(p_104456_, p_104457_)) {
 -         int i = this.f_104410_.m_104481_(p_104456_, p_104457_);
-+   public void drop(me.alphamode.mclong.math.BigInteger p_104456_, me.alphamode.mclong.math.BigInteger p_104457_) {
-+      if (this.f_104410_.inRange(p_104456_, p_104457_)) {
-+         int i = this.f_104410_.getIndex(p_104456_, p_104457_);
++   public void drop(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      if (this.f_104410_.inRange(pX, pZ)) {
++         int i = this.f_104410_.getIndex(pX, pZ);
           LevelChunk levelchunk = this.f_104410_.m_104479_(i);
 -         if (m_104438_(levelchunk, p_104456_, p_104457_)) {
-+         if (isValidChunk(levelchunk, p_104456_, p_104457_)) {
++         if (isValidChunk(levelchunk, pX, pZ)) {
              this.f_104410_.m_104487_(i, levelchunk, (LevelChunk)null);
           }
  
-@@ -67,10 +_,10 @@
+@@ -67,51 +_,51 @@
     }
  
     @Nullable
@@ -35,60 +37,83 @@
 -      if (this.f_104410_.m_104500_(p_104451_, p_104452_)) {
 -         LevelChunk levelchunk = this.f_104410_.m_104479_(this.f_104410_.m_104481_(p_104451_, p_104452_));
 -         if (m_104438_(levelchunk, p_104451_, p_104452_)) {
-+   public LevelChunk getChunk(me.alphamode.mclong.math.BigInteger p_104451_, me.alphamode.mclong.math.BigInteger p_104452_, ChunkStatus p_104453_, boolean p_104454_) {
-+      if (this.f_104410_.inRange(p_104451_, p_104452_)) {
-+         LevelChunk levelchunk = this.f_104410_.m_104479_(this.f_104410_.getIndex(p_104451_, p_104452_));
-+         if (isValidChunk(levelchunk, p_104451_, p_104452_)) {
++   public LevelChunk getChunk(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ, ChunkStatus pRequiredStatus, boolean pLoad) {
++      if (this.f_104410_.inRange(pChunkX, pChunkZ)) {
++         LevelChunk levelchunk = this.f_104410_.m_104479_(this.f_104410_.getIndex(pChunkX, pChunkZ));
++         if (isValidChunk(levelchunk, pChunkX, pChunkZ)) {
              return levelchunk;
           }
        }
-@@ -82,13 +_,13 @@
+ 
+-      return p_104454_ ? this.f_104408_ : null;
++      return pLoad ? this.f_104408_ : null;
+    }
+ 
+    public BlockGetter m_7653_() {
        return this.f_104411_;
     }
  
 -   public void m_274444_(int p_275374_, int p_275226_, FriendlyByteBuf p_275745_) {
 -      if (!this.f_104410_.m_104500_(p_275374_, p_275226_)) {
-+   public void replaceBiomes(me.alphamode.mclong.math.BigInteger p_275374_, me.alphamode.mclong.math.BigInteger p_275226_, FriendlyByteBuf p_275745_) {
-+      if (!this.f_104410_.inRange(p_275374_, p_275226_)) {
-          f_104407_.warn("Ignoring chunk since it's not in the view range: {}, {}", p_275374_, p_275226_);
+-         f_104407_.warn("Ignoring chunk since it's not in the view range: {}, {}", p_275374_, p_275226_);
++   public void replaceBiomes(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, FriendlyByteBuf pBuffer) {
++      if (!this.f_104410_.inRange(pX, pZ)) {
++         f_104407_.warn("Ignoring chunk since it's not in the view range: {}, {}", pX, pZ);
        } else {
 -         int i = this.f_104410_.m_104481_(p_275374_, p_275226_);
-+         int i = this.f_104410_.getIndex(p_275374_, p_275226_);
++         int i = this.f_104410_.getIndex(pX, pZ);
           LevelChunk levelchunk = this.f_104410_.f_104466_.get(i);
 -         if (!m_104438_(levelchunk, p_275374_, p_275226_)) {
-+         if (!isValidChunk(levelchunk, p_275374_, p_275226_)) {
-             f_104407_.warn("Ignoring chunk since it's not present: {}, {}", p_275374_, p_275226_);
+-            f_104407_.warn("Ignoring chunk since it's not present: {}, {}", p_275374_, p_275226_);
++         if (!isValidChunk(levelchunk, pX, pZ)) {
++            f_104407_.warn("Ignoring chunk since it's not present: {}, {}", pX, pZ);
           } else {
-             levelchunk.m_274381_(p_275745_);
-@@ -98,15 +_,15 @@
+-            levelchunk.m_274381_(p_275745_);
++            levelchunk.m_274381_(pBuffer);
+          }
+ 
+       }
     }
  
     @Nullable
 -   public LevelChunk m_194116_(int p_194117_, int p_194118_, FriendlyByteBuf p_194119_, CompoundTag p_194120_, Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> p_194121_) {
 -      if (!this.f_104410_.m_104500_(p_194117_, p_194118_)) {
-+   public LevelChunk replaceWithPacketData(me.alphamode.mclong.math.BigInteger p_194117_, me.alphamode.mclong.math.BigInteger p_194118_, FriendlyByteBuf p_194119_, CompoundTag p_194120_, Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> p_194121_) {
-+      if (!this.f_104410_.inRange(p_194117_, p_194118_)) {
-          f_104407_.warn("Ignoring chunk since it's not in the view range: {}, {}", p_194117_, p_194118_);
+-         f_104407_.warn("Ignoring chunk since it's not in the view range: {}, {}", p_194117_, p_194118_);
++   public LevelChunk replaceWithPacketData(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, FriendlyByteBuf pBuffer, CompoundTag pTag, Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> pConsumer) {
++      if (!this.f_104410_.inRange(pX, pZ)) {
++         f_104407_.warn("Ignoring chunk since it's not in the view range: {}, {}", pX, pZ);
           return null;
        } else {
 -         int i = this.f_104410_.m_104481_(p_194117_, p_194118_);
-+         int i = this.f_104410_.getIndex(p_194117_, p_194118_);
++         int i = this.f_104410_.getIndex(pX, pZ);
           LevelChunk levelchunk = this.f_104410_.f_104466_.get(i);
-          ChunkPos chunkpos = new ChunkPos(p_194117_, p_194118_);
+-         ChunkPos chunkpos = new ChunkPos(p_194117_, p_194118_);
 -         if (!m_104438_(levelchunk, p_194117_, p_194118_)) {
-+         if (!isValidChunk(levelchunk, p_194117_, p_194118_)) {
++         ChunkPos chunkpos = new ChunkPos(pX, pZ);
++         if (!isValidChunk(levelchunk, pX, pZ)) {
              levelchunk = new LevelChunk(this.f_104411_, chunkpos);
-             levelchunk.m_187971_(p_194119_, p_194120_, p_194121_);
+-            levelchunk.m_187971_(p_194119_, p_194120_, p_194121_);
++            levelchunk.m_187971_(pBuffer, pTag, pConsumer);
              this.f_104410_.m_104484_(i, levelchunk);
-@@ -122,7 +_,7 @@
+          } else {
+-            levelchunk.m_187971_(p_194119_, p_194120_, p_194121_);
++            levelchunk.m_187971_(pBuffer, pTag, pConsumer);
+          }
+ 
+          this.f_104411_.m_171649_(chunkpos);
+@@ -122,9 +_,9 @@
     public void m_201698_(BooleanSupplier p_202421_, boolean p_202422_) {
     }
  
 -   public void m_104459_(int p_104460_, int p_104461_) {
-+   public void updateViewCenter(me.alphamode.mclong.math.BigInteger p_104460_, me.alphamode.mclong.math.BigInteger p_104461_) {
-       this.f_104410_.f_104469_ = p_104460_;
-       this.f_104410_.f_104470_ = p_104461_;
+-      this.f_104410_.f_104469_ = p_104460_;
+-      this.f_104410_.f_104470_ = p_104461_;
++   public void updateViewCenter(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      this.f_104410_.f_104469_ = pX;
++      this.f_104410_.f_104470_ = pZ;
     }
+ 
+    public void m_104416_(int p_104417_) {
 @@ -139,8 +_,8 @@
              LevelChunk levelchunk = this.f_104410_.f_104466_.get(k);
              if (levelchunk != null) {
@@ -126,8 +151,8 @@
  
 -      int m_104481_(int p_104482_, int p_104483_) {
 -         return Math.floorMod(p_104483_, this.f_104468_) * this.f_104468_ + Math.floorMod(p_104482_, this.f_104468_);
-+      int getIndex(me.alphamode.mclong.math.BigInteger p_104482_, me.alphamode.mclong.math.BigInteger p_104483_) {
-+         return me.alphamode.mclong.math.BigMath.floorMod(p_104483_, this.f_104468_).intValue() * this.f_104468_ + me.alphamode.mclong.math.BigMath.floorMod(p_104482_, this.f_104468_).intValue();
++      int getIndex(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++         return me.alphamode.mclong.math.BigMath.floorMod(pZ, this.f_104468_).intValue() * this.f_104468_ + me.alphamode.mclong.math.BigMath.floorMod(pX, this.f_104468_).intValue();
        }
  
        protected void m_104484_(int p_104485_, @Nullable LevelChunk p_104486_) {
@@ -137,8 +162,8 @@
  
 -      boolean m_104500_(int p_104501_, int p_104502_) {
 -         return Math.abs(p_104501_ - this.f_104469_) <= this.f_104467_ && Math.abs(p_104502_ - this.f_104470_) <= this.f_104467_;
-+      boolean inRange(me.alphamode.mclong.math.BigInteger p_104501_, me.alphamode.mclong.math.BigInteger p_104502_) {
-+         return p_104501_.subtract(this.f_104469_).abs().compareTo(this.f_104467_) <= 0 && p_104502_.subtract(this.f_104470_).abs().compareTo(this.f_104467_) <= 0;
++      boolean inRange(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++         return pX.subtract(this.f_104469_).abs().compareTo(this.f_104467_) <= 0 && pZ.subtract(this.f_104470_).abs().compareTo(this.f_104467_) <= 0;
        }
  
        @Nullable

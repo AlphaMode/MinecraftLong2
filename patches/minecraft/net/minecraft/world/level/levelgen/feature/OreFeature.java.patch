@@ -42,12 +42,14 @@
     }
  
 -   protected boolean m_225171_(WorldGenLevel p_225172_, RandomSource p_225173_, OreConfiguration p_225174_, double p_225175_, double p_225176_, double p_225177_, double p_225178_, double p_225179_, double p_225180_, int p_225181_, int p_225182_, int p_225183_, int p_225184_, int p_225185_) {
-+   protected boolean doPlace(WorldGenLevel p_225172_, RandomSource p_225173_, OreConfiguration p_225174_, me.alphamode.mclong.math.BigDecimal p_225175_, me.alphamode.mclong.math.BigDecimal p_225176_, me.alphamode.mclong.math.BigDecimal p_225177_, me.alphamode.mclong.math.BigDecimal p_225178_, me.alphamode.mclong.math.BigDecimal p_225179_, me.alphamode.mclong.math.BigDecimal p_225180_, me.alphamode.mclong.math.BigInteger p_225181_, long p_225182_, me.alphamode.mclong.math.BigInteger p_225183_, int p_225184_, int p_225185_) {
++   protected boolean doPlace(WorldGenLevel pLevel, RandomSource pRandom, OreConfiguration pConfig, me.alphamode.mclong.math.BigDecimal pMinX, me.alphamode.mclong.math.BigDecimal pMaxX, me.alphamode.mclong.math.BigDecimal pMinZ, me.alphamode.mclong.math.BigDecimal pMaxZ, me.alphamode.mclong.math.BigDecimal pMinY, me.alphamode.mclong.math.BigDecimal pMaxY, me.alphamode.mclong.math.BigInteger pX, long pY, me.alphamode.mclong.math.BigInteger pZ, int pWidth, int pHeight) {
        int i = 0;
-       BitSet bitset = new BitSet(p_225184_ * p_225185_ * p_225184_);
+-      BitSet bitset = new BitSet(p_225184_ * p_225185_ * p_225184_);
++      BitSet bitset = new BitSet(pWidth * pHeight * pWidth);
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-       int j = p_225174_.f_67839_;
+-      int j = p_225174_.f_67839_;
 -      double[] adouble = new double[j * 4];
++      int j = pConfig.f_67839_;
 +      me.alphamode.mclong.math.BigDecimal[] adouble = new me.alphamode.mclong.math.BigDecimal[j * 4];
  
        for(int k = 0; k < j; ++k) {
@@ -55,10 +57,11 @@
 -         double d0 = Mth.m_14139_((double)f, p_225175_, p_225176_);
 -         double d1 = Mth.m_14139_((double)f, p_225179_, p_225180_);
 -         double d2 = Mth.m_14139_((double)f, p_225177_, p_225178_);
-+         me.alphamode.mclong.math.BigDecimal d0 = Mth.lerp((double)f, p_225175_, p_225176_);
-+         me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp((double)f, p_225179_, p_225180_);
-+         me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp((double)f, p_225177_, p_225178_);
-          double d3 = p_225173_.m_188500_() * (double)j / 16.0D;
+-         double d3 = p_225173_.m_188500_() * (double)j / 16.0D;
++         me.alphamode.mclong.math.BigDecimal d0 = Mth.lerp((double)f, pMinX, pMaxX);
++         me.alphamode.mclong.math.BigDecimal d1 = Mth.lerp((double)f, pMinY, pMaxY);
++         me.alphamode.mclong.math.BigDecimal d2 = Mth.lerp((double)f, pMinZ, pMaxZ);
++         double d3 = pRandom.m_188500_() * (double)j / 16.0D;
           double d4 = ((double)(Mth.m_14031_((float)Math.PI * f) + 1.0F) * d3 + 1.0D) / 2.0D;
           adouble[k * 4 + 0] = d0;
           adouble[k * 4 + 1] = d1;
@@ -93,9 +96,12 @@
                       }
                    }
                 }
-@@ -93,42 +_,42 @@
+@@ -91,44 +_,44 @@
+          }
+       }
  
-       try (BulkSectionAccess bulksectionaccess = new BulkSectionAccess(p_225172_)) {
+-      try (BulkSectionAccess bulksectionaccess = new BulkSectionAccess(p_225172_)) {
++      try (BulkSectionAccess bulksectionaccess = new BulkSectionAccess(pLevel)) {
           for(int j4 = 0; j4 < j; ++j4) {
 -            double d9 = adouble[j4 * 4 + 3];
 -            if (!(d9 < 0.0D)) {
@@ -113,9 +119,9 @@
 +               me.alphamode.mclong.math.BigDecimal d11 = adouble[j4 * 4 + 0];
 +               me.alphamode.mclong.math.BigDecimal d13 = adouble[j4 * 4 + 1];
 +               me.alphamode.mclong.math.BigDecimal d15 = adouble[j4 * 4 + 2];
-+               me.alphamode.mclong.math.BigInteger k4 = Mth.lfloor(d11.subtract(d9)).max(p_225181_);
-+               me.alphamode.mclong.math.BigInteger l = Mth.lfloor(d13.subtract(d9)).max(p_225182_);
-+               me.alphamode.mclong.math.BigInteger i1 = Mth.lfloor(d15.subtract(d9)).max(p_225183_);
++               me.alphamode.mclong.math.BigInteger k4 = Mth.lfloor(d11.subtract(d9)).max(pX);
++               me.alphamode.mclong.math.BigInteger l = Mth.lfloor(d13.subtract(d9)).max(pY);
++               me.alphamode.mclong.math.BigInteger i1 = Mth.lfloor(d15.subtract(d9)).max(pZ);
 +               me.alphamode.mclong.math.BigInteger j1 = Mth.lfloor(d11.add(d9)).max(k4);
 +               me.alphamode.mclong.math.BigInteger k1 = Mth.lfloor(d13.add(d9)).max(l);
 +               me.alphamode.mclong.math.BigInteger l1 = Mth.lfloor(d15.add(d9)).max(i1);
@@ -138,13 +144,14 @@
 +                        if (d5.multiply(d5).add(d6.multiply(d6)).compareTo(me.alphamode.mclong.math.BigDecimal.ONE) < 0) {
 +                           for(me.alphamode.mclong.math.BigInteger k2 = i1; k2.compareTo(l1) <= 0; k2 = k2.add()) {
 +                              me.alphamode.mclong.math.BigDecimal d7 = (k2.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).subtract(d15)).divide(d9);
-+                              if (d5.multiply(d5).add(d6.multiply(d6)).add(d7.multiply(d7)).compareTo(me.alphamode.mclong.math.BigDecimal.ONE) < 0 && !p_225172_.isOutsideBuildHeight(j2.longValue())) {
-+                                 int l2 = i2.subtract(p_225181_).add((j2.subtract(p_225182_))).multiply(p_225184_).add((k2.subtract(p_225183_)).multiply(p_225184_).multiply(p_225185_)).intValue();
++                              if (d5.multiply(d5).add(d6.multiply(d6)).add(d7.multiply(d7)).compareTo(me.alphamode.mclong.math.BigDecimal.ONE) < 0 && !pLevel.isOutsideBuildHeight(j2.longValue())) {
++                                 int l2 = i2.subtract(pX).add((j2.subtract(pY))).multiply(pWidth).add((k2.subtract(pZ)).multiply(pWidth).multiply(pHeight)).intValue();
                                   if (!bitset.get(l2)) {
                                      bitset.set(l2);
 -                                    blockpos$mutableblockpos.m_122178_(i2, j2, k2);
+-                                    if (p_225172_.m_180807_(blockpos$mutableblockpos)) {
 +                                    blockpos$mutableblockpos.set(i2, j2, k2);
-                                     if (p_225172_.m_180807_(blockpos$mutableblockpos)) {
++                                    if (pLevel.m_180807_(blockpos$mutableblockpos)) {
                                         LevelChunkSection levelchunksection = bulksectionaccess.m_156104_(blockpos$mutableblockpos);
                                         if (levelchunksection != null) {
 -                                          int i3 = SectionPos.m_123207_(i2);
@@ -156,9 +163,11 @@
 +                                          me.alphamode.mclong.math.BigInteger k3 = SectionPos.sectionRelative(k2);
 +                                          BlockState blockstate = levelchunksection.getBlockState(i3, j3, k3);
  
-                                           for(OreConfiguration.TargetBlockState oreconfiguration$targetblockstate : p_225174_.f_161005_) {
-                                              if (m_225186_(blockstate, bulksectionaccess::m_156110_, p_225173_, p_225174_, oreconfiguration$targetblockstate, blockpos$mutableblockpos)) {
+-                                          for(OreConfiguration.TargetBlockState oreconfiguration$targetblockstate : p_225174_.f_161005_) {
+-                                             if (m_225186_(blockstate, bulksectionaccess::m_156110_, p_225173_, p_225174_, oreconfiguration$targetblockstate, blockpos$mutableblockpos)) {
 -                                                levelchunksection.m_62991_(i3, j3, k3, oreconfiguration$targetblockstate.f_161033_, false);
++                                          for(OreConfiguration.TargetBlockState oreconfiguration$targetblockstate : pConfig.f_161005_) {
++                                             if (m_225186_(blockstate, bulksectionaccess::m_156110_, pRandom, pConfig, oreconfiguration$targetblockstate, blockpos$mutableblockpos)) {
 +                                                levelchunksection.setBlockState(i3, j3, k3, oreconfiguration$targetblockstate.f_161033_, false);
                                                  ++i;
                                                  break;

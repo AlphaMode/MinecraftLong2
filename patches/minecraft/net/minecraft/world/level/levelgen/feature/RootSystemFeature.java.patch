@@ -23,37 +23,43 @@
 -   private static void m_225222_(BlockPos p_225223_, int p_225224_, WorldGenLevel p_225225_, RootSystemConfiguration p_225226_, RandomSource p_225227_) {
 -      int i = p_225223_.m_123341_();
 -      int j = p_225223_.m_123343_();
-+   private static void placeDirt(BlockPos p_225223_, long p_225224_, WorldGenLevel p_225225_, RootSystemConfiguration p_225226_, RandomSource p_225227_) {
-+      long i = p_225223_.getX();
-+      long j = p_225223_.getZ();
-       BlockPos.MutableBlockPos blockpos$mutableblockpos = p_225223_.m_122032_();
+-      BlockPos.MutableBlockPos blockpos$mutableblockpos = p_225223_.m_122032_();
++   private static void placeDirt(BlockPos pPos, long p_225224_, WorldGenLevel pLevel, RootSystemConfiguration pConfig, RandomSource pRandom) {
++      long i = pPos.getX();
++      long j = pPos.getZ();
++      BlockPos.MutableBlockPos blockpos$mutableblockpos = pPos.m_122032_();
  
 -      for(int k = p_225223_.m_123342_(); k < p_225224_; ++k) {
 -         m_225209_(p_225225_, p_225226_, p_225227_, i, j, blockpos$mutableblockpos.m_122178_(i, k, j));
-+      for(long k = p_225223_.getY(); k < p_225224_; ++k) {
-+         placeRootedDirt(p_225225_, p_225226_, p_225227_, i, j, blockpos$mutableblockpos.set(i, k, j));
++      for(long k = pPos.getY(); k < p_225224_; ++k) {
++         placeRootedDirt(pLevel, pConfig, pRandom, i, j, blockpos$mutableblockpos.set(i, k, j));
        }
  
     }
  
 -   private static void m_225209_(WorldGenLevel p_225210_, RootSystemConfiguration p_225211_, RandomSource p_225212_, int p_225213_, int p_225214_, BlockPos.MutableBlockPos p_225215_) {
-+   private static void placeRootedDirt(WorldGenLevel p_225210_, RootSystemConfiguration p_225211_, RandomSource p_225212_, long p_225213_, long p_225214_, BlockPos.MutableBlockPos p_225215_) {
-       int i = p_225211_.f_161104_;
+-      int i = p_225211_.f_161104_;
++   private static void placeRootedDirt(WorldGenLevel pLevel, RootSystemConfiguration pConfig, RandomSource pRandom, long pX, long pZ, BlockPos.MutableBlockPos pPos) {
++      int i = pConfig.f_161104_;
        Predicate<BlockState> predicate = (p_204762_) -> {
-          return p_204762_.m_204336_(p_225211_.f_161105_);
+-         return p_204762_.m_204336_(p_225211_.f_161105_);
++         return p_204762_.m_204336_(pConfig.f_161105_);
        };
  
-       for(int j = 0; j < p_225211_.f_161107_; ++j) {
+-      for(int j = 0; j < p_225211_.f_161107_; ++j) {
 -         p_225215_.m_122154_(p_225215_, p_225212_.m_188503_(i) - p_225212_.m_188503_(i), 0, p_225212_.m_188503_(i) - p_225212_.m_188503_(i));
-+         p_225215_.setWithOffset(p_225215_, p_225212_.m_188503_(i) - p_225212_.m_188503_(i), 0, p_225212_.m_188503_(i) - p_225212_.m_188503_(i));
-          if (predicate.test(p_225210_.m_8055_(p_225215_))) {
-             p_225210_.m_7731_(p_225215_, p_225211_.f_161106_.m_213972_(p_225212_, p_225215_), 2);
+-         if (predicate.test(p_225210_.m_8055_(p_225215_))) {
+-            p_225210_.m_7731_(p_225215_, p_225211_.f_161106_.m_213972_(p_225212_, p_225215_), 2);
++      for(int j = 0; j < pConfig.f_161107_; ++j) {
++         pPos.setWithOffset(pPos, pRandom.m_188503_(i) - pRandom.m_188503_(i), 0, pRandom.m_188503_(i) - pRandom.m_188503_(i));
++         if (predicate.test(pLevel.m_8055_(pPos))) {
++            pLevel.m_7731_(pPos, pConfig.f_161106_.m_213972_(pRandom, pPos), 2);
           }
  
 -         p_225215_.m_142451_(p_225213_);
 -         p_225215_.m_142443_(p_225214_);
-+         p_225215_.setX(p_225213_);
-+         p_225215_.setZ(p_225214_);
++         pPos.setX(pX);
++         pPos.setZ(pZ);
        }
  
     }

@@ -7,9 +7,9 @@
 -   public void m_110850_(double p_110851_, double p_110852_) {
 -      int i = Mth.m_14165_(p_110851_);
 -      int j = Mth.m_14165_(p_110852_);
-+   public void repositionCamera(me.alphamode.mclong.math.BigDecimal p_110851_, me.alphamode.mclong.math.BigDecimal  p_110852_) {
-+      me.alphamode.mclong.math.BigInteger i = Mth.lceil(p_110851_);
-+      me.alphamode.mclong.math.BigInteger j = Mth.lceil(p_110852_);
++   public void repositionCamera(me.alphamode.mclong.math.BigDecimal pViewEntityX, me.alphamode.mclong.math.BigDecimal  pViewEntityZ) {
++      me.alphamode.mclong.math.BigInteger i = Mth.lceil(pViewEntityX);
++      me.alphamode.mclong.math.BigInteger j = Mth.lceil(pViewEntityZ);
  
        for(int k = 0; k < this.f_110841_; ++k) {
           int l = this.f_110841_ * 16;
@@ -45,12 +45,13 @@
 -      int i = Math.floorMod(p_110860_, this.f_110841_);
 -      int j = Math.floorMod(p_110861_ - this.f_110839_.m_151560_(), this.f_110840_);
 -      int k = Math.floorMod(p_110862_, this.f_110842_);
-+   public void setDirty(me.alphamode.mclong.math.BigInteger p_110860_, me.alphamode.mclong.math.BigInteger p_110861_, me.alphamode.mclong.math.BigInteger p_110862_, boolean p_110863_) {
-+      int i = me.alphamode.mclong.math.BigMath.floorMod(p_110860_, this.f_110841_).intValue();
-+      int j = me.alphamode.mclong.math.BigMath.floorMod(p_110861_.subtract(this.f_110839_.getMinSection()), this.f_110840_).intValue();
-+      int k = me.alphamode.mclong.math.BigMath.floorMod(p_110862_, this.f_110842_).intValue();
++   public void setDirty(me.alphamode.mclong.math.BigInteger pSectionX, me.alphamode.mclong.math.BigInteger pSectionY, me.alphamode.mclong.math.BigInteger pSectionZ, boolean pReRenderOnMainThread) {
++      int i = me.alphamode.mclong.math.BigMath.floorMod(pSectionX, this.f_110841_).intValue();
++      int j = me.alphamode.mclong.math.BigMath.floorMod(pSectionY.subtract(this.f_110839_.getMinSection()), this.f_110840_).intValue();
++      int k = me.alphamode.mclong.math.BigMath.floorMod(pSectionZ, this.f_110842_).intValue();
        ChunkRenderDispatcher.RenderChunk chunkrenderdispatcher$renderchunk = this.f_110843_[this.m_110855_(i, j, k)];
-       chunkrenderdispatcher$renderchunk.m_112828_(p_110863_);
+-      chunkrenderdispatcher$renderchunk.m_112828_(p_110863_);
++      chunkrenderdispatcher$renderchunk.m_112828_(pReRenderOnMainThread);
     }
  
     @Nullable

@@ -69,7 +69,7 @@
                          BlockPos blockpos = p_225148_.m_160008_(blockpos$mutableblockpos);
                          if (DripstoneUtils.m_159659_(p_225146_, blockpos)) {
                             flag = true;
-@@ -178,11 +_,11 @@
+@@ -178,14 +_,14 @@
     }
  
     static final class WindOffsetter {
@@ -79,10 +79,16 @@
        private final Vec3 f_160001_;
  
 -      WindOffsetter(int p_225150_, RandomSource p_225151_, FloatProvider p_225152_) {
-+      WindOffsetter(long p_225150_, RandomSource p_225151_, FloatProvider p_225152_) {
-          this.f_160000_ = p_225150_;
-          float f = p_225152_.m_214084_(p_225151_);
-          float f1 = Mth.m_216283_(p_225151_, 0.0F, (float)Math.PI);
+-         this.f_160000_ = p_225150_;
+-         float f = p_225152_.m_214084_(p_225151_);
+-         float f1 = Mth.m_216283_(p_225151_, 0.0F, (float)Math.PI);
++      WindOffsetter(long pOriginY, RandomSource pRandom, FloatProvider pMagnitude) {
++         this.f_160000_ = pOriginY;
++         float f = pMagnitude.m_214084_(pRandom);
++         float f1 = Mth.m_216283_(pRandom, 0.0F, (float)Math.PI);
+          this.f_160001_ = new Vec3((double)(Mth.m_14089_(f1) * f), 0.0D, (double)(Mth.m_14031_(f1) * f));
+       }
+ 
 @@ -202,9 +_,9 @@
           if (this.f_160001_ == null) {
              return p_160009_;

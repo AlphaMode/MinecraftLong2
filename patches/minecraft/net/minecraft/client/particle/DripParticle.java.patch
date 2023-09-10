@@ -1,14 +1,20 @@
 --- a/net/minecraft/client/particle/DripParticle.java
 +++ b/net/minecraft/client/particle/DripParticle.java
-@@ -20,7 +_,7 @@
+@@ -20,11 +_,11 @@
     private final Fluid f_106049_;
     protected boolean f_106048_;
  
 -   DripParticle(ClientLevel p_106051_, double p_106052_, double p_106053_, double p_106054_, Fluid p_106055_) {
-+   DripParticle(ClientLevel p_106051_, me.alphamode.mclong.math.BigDecimal p_106052_, me.alphamode.mclong.math.BigDecimal p_106053_, me.alphamode.mclong.math.BigDecimal p_106054_, Fluid p_106055_) {
-       super(p_106051_, p_106052_, p_106053_, p_106054_);
+-      super(p_106051_, p_106052_, p_106053_, p_106054_);
++   DripParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, Fluid pType) {
++      super(pLevel, pX, pY, pZ);
        this.m_107250_(0.01F, 0.01F);
        this.f_107226_ = 0.06F;
+-      this.f_106049_ = p_106055_;
++      this.f_106049_ = pType;
+    }
+ 
+    protected Fluid m_171928_() {
 @@ -53,9 +_,9 @@
              this.f_107216_ *= (double)0.98F;
              this.f_107217_ *= (double)0.98F;
@@ -21,135 +27,183 @@
                    this.m_107274_();
                 }
  
-@@ -74,35 +_,35 @@
+@@ -74,96 +_,96 @@
     protected void m_5949_() {
     }
  
 -   public static TextureSheetParticle m_272020_(SimpleParticleType p_272626_, ClientLevel p_273102_, double p_273456_, double p_272984_, double p_273398_, double p_272880_, double p_273725_, double p_273051_) {
-+   public static TextureSheetParticle createWaterHangParticle(SimpleParticleType p_272626_, ClientLevel p_273102_, me.alphamode.mclong.math.BigDecimal p_273456_, me.alphamode.mclong.math.BigDecimal p_272984_, me.alphamode.mclong.math.BigDecimal p_273398_, double p_272880_, double p_273725_, double p_273051_) {
-       DripParticle dripparticle = new DripParticle.DripHangParticle(p_273102_, p_273456_, p_272984_, p_273398_, Fluids.f_76193_, ParticleTypes.f_123804_);
-       dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
-       return dripparticle;
-    }
- 
+-      DripParticle dripparticle = new DripParticle.DripHangParticle(p_273102_, p_273456_, p_272984_, p_273398_, Fluids.f_76193_, ParticleTypes.f_123804_);
+-      dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
+-      return dripparticle;
+-   }
+-
 -   public static TextureSheetParticle m_271915_(SimpleParticleType p_273627_, ClientLevel p_273486_, double p_273309_, double p_273125_, double p_272992_, double p_273177_, double p_273537_, double p_272846_) {
-+   public static TextureSheetParticle createWaterFallParticle(SimpleParticleType p_273627_, ClientLevel p_273486_, me.alphamode.mclong.math.BigDecimal p_273309_, me.alphamode.mclong.math.BigDecimal p_273125_, me.alphamode.mclong.math.BigDecimal p_272992_, double p_273177_, double p_273537_, double p_272846_) {
-       DripParticle dripparticle = new DripParticle.FallAndLandParticle(p_273486_, p_273309_, p_273125_, p_272992_, Fluids.f_76193_, ParticleTypes.f_123769_);
-       dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
-       return dripparticle;
-    }
- 
+-      DripParticle dripparticle = new DripParticle.FallAndLandParticle(p_273486_, p_273309_, p_273125_, p_272992_, Fluids.f_76193_, ParticleTypes.f_123769_);
+-      dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
+-      return dripparticle;
+-   }
+-
 -   public static TextureSheetParticle m_272109_(SimpleParticleType p_273228_, ClientLevel p_273622_, double p_273666_, double p_273570_, double p_273214_, double p_273664_, double p_273595_, double p_272690_) {
-+   public static TextureSheetParticle createLavaHangParticle(SimpleParticleType p_273228_, ClientLevel p_273622_, me.alphamode.mclong.math.BigDecimal p_273666_, me.alphamode.mclong.math.BigDecimal p_273570_, me.alphamode.mclong.math.BigDecimal p_273214_, double p_273664_, double p_273595_, double p_272690_) {
-       return new DripParticle.CoolingDripHangParticle(p_273622_, p_273666_, p_273570_, p_273214_, Fluids.f_76195_, ParticleTypes.f_123801_);
-    }
- 
+-      return new DripParticle.CoolingDripHangParticle(p_273622_, p_273666_, p_273570_, p_273214_, Fluids.f_76195_, ParticleTypes.f_123801_);
+-   }
+-
 -   public static TextureSheetParticle m_272026_(SimpleParticleType p_273238_, ClientLevel p_273752_, double p_272651_, double p_273625_, double p_273136_, double p_273204_, double p_272797_, double p_273362_) {
-+   public static TextureSheetParticle createLavaFallParticle(SimpleParticleType p_273238_, ClientLevel p_273752_, me.alphamode.mclong.math.BigDecimal p_272651_, me.alphamode.mclong.math.BigDecimal p_273625_, me.alphamode.mclong.math.BigDecimal p_273136_, double p_273204_, double p_272797_, double p_273362_) {
-       DripParticle dripparticle = new DripParticle.FallAndLandParticle(p_273752_, p_272651_, p_273625_, p_273136_, Fluids.f_76195_, ParticleTypes.f_123802_);
-       dripparticle.m_107253_(1.0F, 0.2857143F, 0.083333336F);
-       return dripparticle;
-    }
- 
+-      DripParticle dripparticle = new DripParticle.FallAndLandParticle(p_273752_, p_272651_, p_273625_, p_273136_, Fluids.f_76195_, ParticleTypes.f_123802_);
+-      dripparticle.m_107253_(1.0F, 0.2857143F, 0.083333336F);
+-      return dripparticle;
+-   }
+-
 -   public static TextureSheetParticle m_271885_(SimpleParticleType p_273607_, ClientLevel p_272692_, double p_273544_, double p_272768_, double p_272726_, double p_273719_, double p_272833_, double p_272949_) {
-+   public static TextureSheetParticle createLavaLandParticle(SimpleParticleType p_273607_, ClientLevel p_272692_, me.alphamode.mclong.math.BigDecimal p_273544_, me.alphamode.mclong.math.BigDecimal p_272768_, me.alphamode.mclong.math.BigDecimal p_272726_, double p_273719_, double p_272833_, double p_272949_) {
-       DripParticle dripparticle = new DripParticle.DripLandParticle(p_272692_, p_273544_, p_272768_, p_272726_, Fluids.f_76195_);
-       dripparticle.m_107253_(1.0F, 0.2857143F, 0.083333336F);
-       return dripparticle;
-    }
- 
+-      DripParticle dripparticle = new DripParticle.DripLandParticle(p_272692_, p_273544_, p_272768_, p_272726_, Fluids.f_76195_);
+-      dripparticle.m_107253_(1.0F, 0.2857143F, 0.083333336F);
+-      return dripparticle;
+-   }
+-
 -   public static TextureSheetParticle m_272107_(SimpleParticleType p_273557_, ClientLevel p_273367_, double p_272749_, double p_272697_, double p_272849_, double p_273144_, double p_273170_, double p_272932_) {
-+   public static TextureSheetParticle createHoneyHangParticle(SimpleParticleType p_273557_, ClientLevel p_273367_, me.alphamode.mclong.math.BigDecimal p_272749_, me.alphamode.mclong.math.BigDecimal p_272697_, me.alphamode.mclong.math.BigDecimal p_272849_, double p_273144_, double p_273170_, double p_272932_) {
-       DripParticle.DripHangParticle dripparticle$driphangparticle = new DripParticle.DripHangParticle(p_273367_, p_272749_, p_272697_, p_272849_, Fluids.f_76191_, ParticleTypes.f_123780_);
+-      DripParticle.DripHangParticle dripparticle$driphangparticle = new DripParticle.DripHangParticle(p_273367_, p_272749_, p_272697_, p_272849_, Fluids.f_76191_, ParticleTypes.f_123780_);
++   public static TextureSheetParticle createWaterHangParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.DripHangParticle(pLevel, pX, pY, pZ, Fluids.f_76193_, ParticleTypes.f_123804_);
++      dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
++      return dripparticle;
++   }
++
++   public static TextureSheetParticle createWaterFallParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.FallAndLandParticle(pLevel, pX, pY, pZ, Fluids.f_76193_, ParticleTypes.f_123769_);
++      dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
++      return dripparticle;
++   }
++
++   public static TextureSheetParticle createLavaHangParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      return new DripParticle.CoolingDripHangParticle(pLevel, pX, pY, pZ, Fluids.f_76195_, ParticleTypes.f_123801_);
++   }
++
++   public static TextureSheetParticle createLavaFallParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.FallAndLandParticle(pLevel, pX, pY, pZ, Fluids.f_76195_, ParticleTypes.f_123802_);
++      dripparticle.m_107253_(1.0F, 0.2857143F, 0.083333336F);
++      return dripparticle;
++   }
++
++   public static TextureSheetParticle createLavaLandParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.DripLandParticle(pLevel, pX, pY, pZ, Fluids.f_76195_);
++      dripparticle.m_107253_(1.0F, 0.2857143F, 0.083333336F);
++      return dripparticle;
++   }
++
++   public static TextureSheetParticle createHoneyHangParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle.DripHangParticle dripparticle$driphangparticle = new DripParticle.DripHangParticle(pLevel, pX, pY, pZ, Fluids.f_76191_, ParticleTypes.f_123780_);
        dripparticle$driphangparticle.f_107226_ *= 0.01F;
        dripparticle$driphangparticle.f_107225_ = 100;
-@@ -110,43 +_,43 @@
+       dripparticle$driphangparticle.m_107253_(0.622F, 0.508F, 0.082F);
        return dripparticle$driphangparticle;
     }
  
 -   public static TextureSheetParticle m_272030_(SimpleParticleType p_273140_, ClientLevel p_273042_, double p_272969_, double p_273737_, double p_273454_, double p_273211_, double p_273723_, double p_273474_) {
-+   public static TextureSheetParticle createHoneyFallParticle(SimpleParticleType p_273140_, ClientLevel p_273042_, me.alphamode.mclong.math.BigDecimal p_272969_, me.alphamode.mclong.math.BigDecimal p_273737_, me.alphamode.mclong.math.BigDecimal p_273454_, double p_273211_, double p_273723_, double p_273474_) {
-       DripParticle dripparticle = new DripParticle.HoneyFallAndLandParticle(p_273042_, p_272969_, p_273737_, p_273454_, Fluids.f_76191_, ParticleTypes.f_123781_);
+-      DripParticle dripparticle = new DripParticle.HoneyFallAndLandParticle(p_273042_, p_272969_, p_273737_, p_273454_, Fluids.f_76191_, ParticleTypes.f_123781_);
++   public static TextureSheetParticle createHoneyFallParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.HoneyFallAndLandParticle(pLevel, pX, pY, pZ, Fluids.f_76191_, ParticleTypes.f_123781_);
        dripparticle.f_107226_ = 0.01F;
        dripparticle.m_107253_(0.582F, 0.448F, 0.082F);
        return dripparticle;
     }
  
 -   public static TextureSheetParticle m_271744_(SimpleParticleType p_273477_, ClientLevel p_273770_, double p_272822_, double p_273147_, double p_272597_, double p_273614_, double p_273085_, double p_273097_) {
-+   public static TextureSheetParticle createHoneyLandParticle(SimpleParticleType p_273477_, ClientLevel p_273770_, me.alphamode.mclong.math.BigDecimal p_272822_, me.alphamode.mclong.math.BigDecimal p_273147_, me.alphamode.mclong.math.BigDecimal p_272597_, double p_273614_, double p_273085_, double p_273097_) {
-       DripParticle dripparticle = new DripParticle.DripLandParticle(p_273770_, p_272822_, p_273147_, p_272597_, Fluids.f_76191_);
+-      DripParticle dripparticle = new DripParticle.DripLandParticle(p_273770_, p_272822_, p_273147_, p_272597_, Fluids.f_76191_);
++   public static TextureSheetParticle createHoneyLandParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.DripLandParticle(pLevel, pX, pY, pZ, Fluids.f_76191_);
        dripparticle.f_107225_ = (int)(128.0D / (Math.random() * 0.8D + 0.2D));
        dripparticle.m_107253_(0.522F, 0.408F, 0.082F);
        return dripparticle;
     }
  
 -   public static TextureSheetParticle m_272002_(SimpleParticleType p_273781_, ClientLevel p_272876_, double p_273499_, double p_273028_, double p_273663_, double p_273004_, double p_272801_, double p_272665_) {
-+   public static TextureSheetParticle createDripstoneWaterHangParticle(SimpleParticleType p_273781_, ClientLevel p_272876_, me.alphamode.mclong.math.BigDecimal p_273499_, me.alphamode.mclong.math.BigDecimal p_273028_, me.alphamode.mclong.math.BigDecimal p_273663_, double p_273004_, double p_272801_, double p_272665_) {
-       DripParticle dripparticle = new DripParticle.DripHangParticle(p_272876_, p_273499_, p_273028_, p_273663_, Fluids.f_76193_, ParticleTypes.f_175825_);
-       dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
-       return dripparticle;
-    }
- 
+-      DripParticle dripparticle = new DripParticle.DripHangParticle(p_272876_, p_273499_, p_273028_, p_273663_, Fluids.f_76193_, ParticleTypes.f_175825_);
+-      dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
+-      return dripparticle;
+-   }
+-
 -   public static TextureSheetParticle m_271993_(SimpleParticleType p_272684_, ClientLevel p_273226_, double p_273142_, double p_273070_, double p_273153_, double p_273735_, double p_273317_, double p_273234_) {
-+   public static TextureSheetParticle createDripstoneWaterFallParticle(SimpleParticleType p_272684_, ClientLevel p_273226_, me.alphamode.mclong.math.BigDecimal p_273142_, me.alphamode.mclong.math.BigDecimal p_273070_, me.alphamode.mclong.math.BigDecimal p_273153_, double p_273735_, double p_273317_, double p_273234_) {
-       DripParticle dripparticle = new DripParticle.DripstoneFallAndLandParticle(p_273226_, p_273142_, p_273070_, p_273153_, Fluids.f_76193_, ParticleTypes.f_123769_);
-       dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
-       return dripparticle;
-    }
- 
+-      DripParticle dripparticle = new DripParticle.DripstoneFallAndLandParticle(p_273226_, p_273142_, p_273070_, p_273153_, Fluids.f_76193_, ParticleTypes.f_123769_);
+-      dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
+-      return dripparticle;
+-   }
+-
 -   public static TextureSheetParticle m_271789_(SimpleParticleType p_273453_, ClientLevel p_273616_, double p_272691_, double p_272725_, double p_273259_, double p_273634_, double p_273065_, double p_273428_) {
-+   public static TextureSheetParticle createDripstoneLavaHangParticle(SimpleParticleType p_273453_, ClientLevel p_273616_, me.alphamode.mclong.math.BigDecimal p_272691_, me.alphamode.mclong.math.BigDecimal p_272725_, me.alphamode.mclong.math.BigDecimal p_273259_, double p_273634_, double p_273065_, double p_273428_) {
-       return new DripParticle.CoolingDripHangParticle(p_273616_, p_272691_, p_272725_, p_273259_, Fluids.f_76195_, ParticleTypes.f_175823_);
-    }
- 
+-      return new DripParticle.CoolingDripHangParticle(p_273616_, p_272691_, p_272725_, p_273259_, Fluids.f_76195_, ParticleTypes.f_175823_);
+-   }
+-
 -   public static TextureSheetParticle m_271760_(SimpleParticleType p_272890_, ClientLevel p_273172_, double p_272954_, double p_272803_, double p_273427_, double p_273081_, double p_273047_, double p_272960_) {
-+   public static TextureSheetParticle createDripstoneLavaFallParticle(SimpleParticleType p_272890_, ClientLevel p_273172_, me.alphamode.mclong.math.BigDecimal p_272954_, me.alphamode.mclong.math.BigDecimal p_272803_, me.alphamode.mclong.math.BigDecimal p_273427_, double p_273081_, double p_273047_, double p_272960_) {
-       DripParticle dripparticle = new DripParticle.DripstoneFallAndLandParticle(p_273172_, p_272954_, p_272803_, p_273427_, Fluids.f_76195_, ParticleTypes.f_123802_);
+-      DripParticle dripparticle = new DripParticle.DripstoneFallAndLandParticle(p_273172_, p_272954_, p_272803_, p_273427_, Fluids.f_76195_, ParticleTypes.f_123802_);
++   public static TextureSheetParticle createDripstoneWaterHangParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.DripHangParticle(pLevel, pX, pY, pZ, Fluids.f_76193_, ParticleTypes.f_175825_);
++      dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
++      return dripparticle;
++   }
++
++   public static TextureSheetParticle createDripstoneWaterFallParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.DripstoneFallAndLandParticle(pLevel, pX, pY, pZ, Fluids.f_76193_, ParticleTypes.f_123769_);
++      dripparticle.m_107253_(0.2F, 0.3F, 1.0F);
++      return dripparticle;
++   }
++
++   public static TextureSheetParticle createDripstoneLavaHangParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      return new DripParticle.CoolingDripHangParticle(pLevel, pX, pY, pZ, Fluids.f_76195_, ParticleTypes.f_175823_);
++   }
++
++   public static TextureSheetParticle createDripstoneLavaFallParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.DripstoneFallAndLandParticle(pLevel, pX, pY, pZ, Fluids.f_76195_, ParticleTypes.f_123802_);
        dripparticle.m_107253_(1.0F, 0.2857143F, 0.083333336F);
        return dripparticle;
     }
  
 -   public static TextureSheetParticle m_272129_(SimpleParticleType p_273349_, ClientLevel p_272672_, double p_272820_, double p_273386_, double p_272886_, double p_272935_, double p_273715_, double p_273202_) {
-+   public static TextureSheetParticle createNectarFallParticle(SimpleParticleType p_273349_, ClientLevel p_272672_, me.alphamode.mclong.math.BigDecimal p_272820_, me.alphamode.mclong.math.BigDecimal p_273386_, me.alphamode.mclong.math.BigDecimal p_272886_, double p_272935_, double p_273715_, double p_273202_) {
-       DripParticle dripparticle = new DripParticle.FallingParticle(p_272672_, p_272820_, p_273386_, p_272886_, Fluids.f_76191_);
+-      DripParticle dripparticle = new DripParticle.FallingParticle(p_272672_, p_272820_, p_273386_, p_272886_, Fluids.f_76191_);
++   public static TextureSheetParticle createNectarFallParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.FallingParticle(pLevel, pX, pY, pZ, Fluids.f_76191_);
        dripparticle.f_107225_ = (int)(16.0D / (Math.random() * 0.8D + 0.2D));
        dripparticle.f_107226_ = 0.007F;
-@@ -154,7 +_,7 @@
+       dripparticle.m_107253_(0.92F, 0.782F, 0.72F);
        return dripparticle;
     }
  
 -   public static TextureSheetParticle m_272261_(SimpleParticleType p_273654_, ClientLevel p_272678_, double p_272637_, double p_273253_, double p_273293_, double p_273363_, double p_273132_, double p_273215_) {
-+   public static TextureSheetParticle createSporeBlossomFallParticle(SimpleParticleType p_273654_, ClientLevel p_272678_, me.alphamode.mclong.math.BigDecimal p_272637_, me.alphamode.mclong.math.BigDecimal p_273253_, me.alphamode.mclong.math.BigDecimal p_273293_, double p_273363_, double p_273132_, double p_273215_) {
-       int i = (int)(64.0F / Mth.m_216283_(p_272678_.m_213780_(), 0.1F, 0.9F));
-       DripParticle dripparticle = new DripParticle.FallingParticle(p_272678_, p_272637_, p_273253_, p_273293_, Fluids.f_76191_, i);
+-      int i = (int)(64.0F / Mth.m_216283_(p_272678_.m_213780_(), 0.1F, 0.9F));
+-      DripParticle dripparticle = new DripParticle.FallingParticle(p_272678_, p_272637_, p_273253_, p_273293_, Fluids.f_76191_, i);
++   public static TextureSheetParticle createSporeBlossomFallParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      int i = (int)(64.0F / Mth.m_216283_(pLevel.m_213780_(), 0.1F, 0.9F));
++      DripParticle dripparticle = new DripParticle.FallingParticle(pLevel, pX, pY, pZ, Fluids.f_76191_, i);
        dripparticle.f_107226_ = 0.005F;
-@@ -162,7 +_,7 @@
+       dripparticle.m_107253_(0.32F, 0.5F, 0.22F);
        return dripparticle;
     }
  
 -   public static TextureSheetParticle m_271935_(SimpleParticleType p_273120_, ClientLevel p_272664_, double p_272879_, double p_272592_, double p_272967_, double p_272834_, double p_273440_, double p_272888_) {
-+   public static TextureSheetParticle createObsidianTearHangParticle(SimpleParticleType p_273120_, ClientLevel p_272664_, me.alphamode.mclong.math.BigDecimal p_272879_, me.alphamode.mclong.math.BigDecimal p_272592_, me.alphamode.mclong.math.BigDecimal p_272967_, double p_272834_, double p_273440_, double p_272888_) {
-       DripParticle.DripHangParticle dripparticle$driphangparticle = new DripParticle.DripHangParticle(p_272664_, p_272879_, p_272592_, p_272967_, Fluids.f_76191_, ParticleTypes.f_123787_);
+-      DripParticle.DripHangParticle dripparticle$driphangparticle = new DripParticle.DripHangParticle(p_272664_, p_272879_, p_272592_, p_272967_, Fluids.f_76191_, ParticleTypes.f_123787_);
++   public static TextureSheetParticle createObsidianTearHangParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle.DripHangParticle dripparticle$driphangparticle = new DripParticle.DripHangParticle(pLevel, pX, pY, pZ, Fluids.f_76191_, ParticleTypes.f_123787_);
        dripparticle$driphangparticle.f_106048_ = true;
        dripparticle$driphangparticle.f_107226_ *= 0.01F;
-@@ -171,7 +_,7 @@
+       dripparticle$driphangparticle.f_107225_ = 100;
+@@ -171,16 +_,16 @@
        return dripparticle$driphangparticle;
     }
  
 -   public static TextureSheetParticle m_271941_(SimpleParticleType p_272859_, ClientLevel p_273478_, double p_273621_, double p_273279_, double p_273227_, double p_273061_, double p_273257_, double p_273164_) {
-+   public static TextureSheetParticle createObsidianTearFallParticle(SimpleParticleType p_272859_, ClientLevel p_273478_, me.alphamode.mclong.math.BigDecimal p_273621_, me.alphamode.mclong.math.BigDecimal p_273279_, me.alphamode.mclong.math.BigDecimal p_273227_, double p_273061_, double p_273257_, double p_273164_) {
-       DripParticle dripparticle = new DripParticle.FallAndLandParticle(p_273478_, p_273621_, p_273279_, p_273227_, Fluids.f_76191_, ParticleTypes.f_123788_);
+-      DripParticle dripparticle = new DripParticle.FallAndLandParticle(p_273478_, p_273621_, p_273279_, p_273227_, Fluids.f_76191_, ParticleTypes.f_123788_);
++   public static TextureSheetParticle createObsidianTearFallParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.FallAndLandParticle(pLevel, pX, pY, pZ, Fluids.f_76191_, ParticleTypes.f_123788_);
        dripparticle.f_106048_ = true;
        dripparticle.f_107226_ = 0.01F;
-@@ -179,7 +_,7 @@
+       dripparticle.m_107253_(0.51171875F, 0.03125F, 0.890625F);
        return dripparticle;
     }
  
 -   public static TextureSheetParticle m_272251_(SimpleParticleType p_272836_, ClientLevel p_273162_, double p_273543_, double p_273247_, double p_272921_, double p_273397_, double p_273472_, double p_273488_) {
-+   public static TextureSheetParticle createObsidianTearLandParticle(SimpleParticleType p_272836_, ClientLevel p_273162_, me.alphamode.mclong.math.BigDecimal p_273543_, me.alphamode.mclong.math.BigDecimal p_273247_, me.alphamode.mclong.math.BigDecimal p_272921_, double p_273397_, double p_273472_, double p_273488_) {
-       DripParticle dripparticle = new DripParticle.DripLandParticle(p_273162_, p_273543_, p_273247_, p_272921_, Fluids.f_76191_);
+-      DripParticle dripparticle = new DripParticle.DripLandParticle(p_273162_, p_273543_, p_273247_, p_272921_, Fluids.f_76191_);
++   public static TextureSheetParticle createObsidianTearLandParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++      DripParticle dripparticle = new DripParticle.DripLandParticle(pLevel, pX, pY, pZ, Fluids.f_76191_);
        dripparticle.f_106048_ = true;
        dripparticle.f_107225_ = (int)(28.0D / (Math.random() * 0.8D + 0.2D));
+       dripparticle.m_107253_(0.51171875F, 0.03125F, 0.890625F);
 @@ -189,7 +_,7 @@
  
     @OnlyIn(Dist.CLIENT)
@@ -159,15 +213,19 @@
           super(p_106068_, p_106069_, p_106070_, p_106071_, p_106072_, p_106073_);
        }
  
-@@ -205,7 +_,7 @@
+@@ -205,9 +_,9 @@
     static class DripHangParticle extends DripParticle {
        private final ParticleOptions f_106083_;
  
 -      DripHangParticle(ClientLevel p_106085_, double p_106086_, double p_106087_, double p_106088_, Fluid p_106089_, ParticleOptions p_106090_) {
-+      DripHangParticle(ClientLevel p_106085_, me.alphamode.mclong.math.BigDecimal p_106086_, me.alphamode.mclong.math.BigDecimal p_106087_, me.alphamode.mclong.math.BigDecimal p_106088_, Fluid p_106089_, ParticleOptions p_106090_) {
-          super(p_106085_, p_106086_, p_106087_, p_106088_, p_106089_);
-          this.f_106083_ = p_106090_;
+-         super(p_106085_, p_106086_, p_106087_, p_106088_, p_106089_);
+-         this.f_106083_ = p_106090_;
++      DripHangParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, Fluid pType, ParticleOptions pFallingParticle) {
++         super(pLevel, pX, pY, pZ, pType);
++         this.f_106083_ = pFallingParticle;
           this.f_107226_ *= 0.02F;
+          this.f_107225_ = 40;
+       }
 @@ -215,7 +_,7 @@
        protected void m_5956_() {
           if (this.f_107225_-- <= 0) {
@@ -207,16 +265,18 @@
           }
  
        }
-@@ -257,7 +_,7 @@
+@@ -257,15 +_,15 @@
     static class FallAndLandParticle extends DripParticle.FallingParticle {
        protected final ParticleOptions f_106114_;
  
 -      FallAndLandParticle(ClientLevel p_106116_, double p_106117_, double p_106118_, double p_106119_, Fluid p_106120_, ParticleOptions p_106121_) {
-+      FallAndLandParticle(ClientLevel p_106116_, me.alphamode.mclong.math.BigDecimal p_106117_, me.alphamode.mclong.math.BigDecimal p_106118_, me.alphamode.mclong.math.BigDecimal p_106119_, Fluid p_106120_, ParticleOptions p_106121_) {
-          super(p_106116_, p_106117_, p_106118_, p_106119_, p_106120_);
-          this.f_106114_ = p_106121_;
+-         super(p_106116_, p_106117_, p_106118_, p_106119_, p_106120_);
+-         this.f_106114_ = p_106121_;
++      FallAndLandParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, Fluid pType, ParticleOptions pLandParticle) {
++         super(pLevel, pX, pY, pZ, pType);
++         this.f_106114_ = pLandParticle;
        }
-@@ -265,7 +_,7 @@
+ 
        protected void m_5949_() {
           if (this.f_107218_) {
              this.m_107274_();
@@ -225,20 +285,25 @@
           }
  
        }
-@@ -273,11 +_,11 @@
+@@ -273,13 +_,13 @@
  
     @OnlyIn(Dist.CLIENT)
     static class FallingParticle extends DripParticle {
 -      FallingParticle(ClientLevel p_106132_, double p_106133_, double p_106134_, double p_106135_, Fluid p_106136_) {
-+      FallingParticle(ClientLevel p_106132_, me.alphamode.mclong.math.BigDecimal p_106133_, me.alphamode.mclong.math.BigDecimal p_106134_, me.alphamode.mclong.math.BigDecimal p_106135_, Fluid p_106136_) {
-          this(p_106132_, p_106133_, p_106134_, p_106135_, p_106136_, (int)(64.0D / (Math.random() * 0.8D + 0.2D)));
+-         this(p_106132_, p_106133_, p_106134_, p_106135_, p_106136_, (int)(64.0D / (Math.random() * 0.8D + 0.2D)));
++      FallingParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, Fluid pType) {
++         this(pLevel, pX, pY, pZ, pType, (int)(64.0D / (Math.random() * 0.8D + 0.2D)));
        }
  
 -      FallingParticle(ClientLevel p_172022_, double p_172023_, double p_172024_, double p_172025_, Fluid p_172026_, int p_172027_) {
-+      FallingParticle(ClientLevel p_172022_, me.alphamode.mclong.math.BigDecimal p_172023_, me.alphamode.mclong.math.BigDecimal p_172024_, me.alphamode.mclong.math.BigDecimal p_172025_, Fluid p_172026_, int p_172027_) {
-          super(p_172022_, p_172023_, p_172024_, p_172025_, p_172026_);
-          this.f_107225_ = p_172027_;
+-         super(p_172022_, p_172023_, p_172024_, p_172025_, p_172026_);
+-         this.f_107225_ = p_172027_;
++      FallingParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, Fluid pType, int pLifetime) {
++         super(pLevel, pX, pY, pZ, pType);
++         this.f_107225_ = pLifetime;
        }
+ 
+       protected void m_5949_() {
 @@ -292,16 +_,16 @@
  
     @OnlyIn(Dist.CLIENT)

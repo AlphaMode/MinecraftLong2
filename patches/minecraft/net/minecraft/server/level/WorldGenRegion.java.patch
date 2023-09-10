@@ -6,53 +6,63 @@
  
 -   public boolean m_215159_(ChunkPos p_215160_, int p_215161_) {
 -      return this.f_9479_.m_7726_().f_8325_.m_223451_(p_215160_, p_215161_);
-+   public boolean isOldChunkAround(ChunkPos p_215160_, long p_215161_) {
-+      return this.f_9479_.m_7726_().f_8325_.isOldChunkAround(p_215160_, p_215161_);
++   public boolean isOldChunkAround(ChunkPos pPos, long p_215161_) {
++      return this.f_9479_.m_7726_().f_8325_.isOldChunkAround(pPos, p_215161_);
     }
  
     public ChunkPos m_143488_() {
-@@ -117,17 +_,17 @@
+@@ -117,43 +_,43 @@
        this.f_143482_ = p_143498_;
     }
  
 -   public ChunkAccess m_6325_(int p_9507_, int p_9508_) {
 -      return this.m_46819_(p_9507_, p_9508_, ChunkStatus.f_62314_);
-+   public ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger p_9507_, me.alphamode.mclong.math.BigInteger p_9508_) {
-+      return this.getChunk(p_9507_, p_9508_, ChunkStatus.f_62314_);
++   public ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
++      return this.getChunk(pChunkX, pChunkZ, ChunkStatus.f_62314_);
     }
  
     @Nullable
 -   public ChunkAccess m_6522_(int p_9514_, int p_9515_, ChunkStatus p_9516_, boolean p_9517_) {
-+   public ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger p_9514_, me.alphamode.mclong.math.BigInteger p_9515_, ChunkStatus p_9516_, boolean p_9517_) {
++   public ChunkAccess getChunk(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ, ChunkStatus pRequiredStatus, boolean pNonnull) {
        ChunkAccess chunkaccess;
 -      if (this.m_7232_(p_9514_, p_9515_)) {
 -         int i = p_9514_ - this.f_9487_.f_45578_;
 -         int j = p_9515_ - this.f_9487_.f_45579_;
 -         chunkaccess = this.f_9475_.get(i + j * this.f_9478_);
-+      if (this.hasChunk(p_9514_, p_9515_)) {
-+         long i = p_9514_.subtract(this.f_9487_.getX()).longValue();
-+         long j = p_9515_.subtract(this.f_9487_.getZ()).longValue();
+-         if (chunkaccess.m_6415_().m_62427_(p_9516_)) {
++      if (this.hasChunk(pX, pZ)) {
++         long i = pX.subtract(this.f_9487_.getX()).longValue();
++         long j = pZ.subtract(this.f_9487_.getZ()).longValue();
 +         chunkaccess = this.f_9475_.get((int) (i + j * this.f_9478_));
-          if (chunkaccess.m_6415_().m_62427_(p_9516_)) {
++         if (chunkaccess.m_6415_().m_62427_(pRequiredStatus)) {
              return chunkaccess;
           }
-@@ -139,7 +_,7 @@
+       } else {
+          chunkaccess = null;
+       }
+ 
+-      if (!p_9517_) {
++      if (!pNonnull) {
           return null;
        } else {
-          f_9474_.error("Requested chunk : {} {}", p_9514_, p_9515_);
+-         f_9474_.error("Requested chunk : {} {}", p_9514_, p_9515_);
 -         f_9474_.error("Region bounds : {} {} | {} {}", this.f_9487_.f_45578_, this.f_9487_.f_45579_, this.f_9488_.f_45578_, this.f_9488_.f_45579_);
++         f_9474_.error("Requested chunk : {} {}", pX, pZ);
 +         f_9474_.error("Region bounds : {} {} | {} {}", this.f_9487_.getX(), this.f_9487_.getZ(), this.f_9488_.getX(), this.f_9488_.getZ());
           if (chunkaccess != null) {
-             throw (RuntimeException)Util.m_137570_(new RuntimeException(String.format(Locale.ROOT, "Chunk is not of correct status. Expecting %s, got %s | %s %s", p_9516_, chunkaccess.m_6415_(), p_9514_, p_9515_)));
+-            throw (RuntimeException)Util.m_137570_(new RuntimeException(String.format(Locale.ROOT, "Chunk is not of correct status. Expecting %s, got %s | %s %s", p_9516_, chunkaccess.m_6415_(), p_9514_, p_9515_)));
++            throw (RuntimeException)Util.m_137570_(new RuntimeException(String.format(Locale.ROOT, "Chunk is not of correct status. Expecting %s, got %s | %s %s", pRequiredStatus, chunkaccess.m_6415_(), pX, pZ)));
           } else {
-@@ -148,12 +_,12 @@
+-            throw (RuntimeException)Util.m_137570_(new RuntimeException(String.format(Locale.ROOT, "We are asking a region for a chunk out of bound | %s %s", p_9514_, p_9515_)));
++            throw (RuntimeException)Util.m_137570_(new RuntimeException(String.format(Locale.ROOT, "We are asking a region for a chunk out of bound | %s %s", pX, pZ)));
+          }
        }
     }
  
 -   public boolean m_7232_(int p_9574_, int p_9575_) {
 -      return p_9574_ >= this.f_9487_.f_45578_ && p_9574_ <= this.f_9488_.f_45578_ && p_9575_ >= this.f_9487_.f_45579_ && p_9575_ <= this.f_9488_.f_45579_;
-+   public boolean hasChunk(me.alphamode.mclong.math.BigInteger p_9574_, me.alphamode.mclong.math.BigInteger p_9575_) {
-+      return p_9574_.compareTo(this.f_9487_.getX()) >= 0 && p_9574_.compareTo(this.f_9488_.getX()) <= 0 && p_9575_.compareTo(this.f_9487_.getZ()) >= 0 && p_9575_.compareTo(this.f_9488_.getZ()) <= 0;
++   public boolean hasChunk(me.alphamode.mclong.math.BigInteger pChunkX, me.alphamode.mclong.math.BigInteger pChunkZ) {
++      return pChunkX.compareTo(this.f_9487_.getX()) >= 0 && pChunkX.compareTo(this.f_9488_.getX()) <= 0 && pChunkZ.compareTo(this.f_9487_.getZ()) >= 0 && pChunkZ.compareTo(this.f_9488_.getZ()) <= 0;
     }
  
     public BlockState m_8055_(BlockPos p_9587_) {
@@ -66,7 +76,7 @@
     }
  
 +   @Nullable
-+   public Player getNearestPlayer(me.alphamode.mclong.math.BigDecimal p_9501_, me.alphamode.mclong.math.BigDecimal p_9502_, me.alphamode.mclong.math.BigDecimal p_9503_, double p_9504_, Predicate<Entity> p_9505_) {
++   public Player getNearestPlayer(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pDistance, Predicate<Entity> pPredicate) {
 +      return null;
 +   }
 +
@@ -79,8 +89,8 @@
  
 -   public Holder<Biome> m_203675_(int p_203787_, int p_203788_, int p_203789_) {
 -      return this.f_9479_.m_203675_(p_203787_, p_203788_, p_203789_);
-+   public Holder<Biome> getUncachedNoiseBiome(me.alphamode.mclong.math.BigInteger p_203787_, me.alphamode.mclong.math.BigInteger p_203788_, me.alphamode.mclong.math.BigInteger p_203789_) {
-+      return this.f_9479_.getUncachedNoiseBiome(p_203787_, p_203788_, p_203789_);
++   public Holder<Biome> getUncachedNoiseBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.f_9479_.getUncachedNoiseBiome(pX, pY, pZ);
     }
  
     public float m_7717_(Direction p_9555_, boolean p_9556_) {
@@ -146,15 +156,15 @@
  
 -   public int m_6924_(Heightmap.Types p_9535_, int p_9536_, int p_9537_) {
 -      return this.m_6325_(SectionPos.m_123171_(p_9536_), SectionPos.m_123171_(p_9537_)).m_5885_(p_9535_, p_9536_ & 15, p_9537_ & 15) + 1;
-+   public long getHeight(Heightmap.Types p_9535_, me.alphamode.mclong.math.BigInteger p_9536_, me.alphamode.mclong.math.BigInteger p_9537_) {
-+      return this.getChunk(SectionPos.blockToSectionCoord(p_9536_), SectionPos.blockToSectionCoord(p_9537_)).getHeight(p_9535_, p_9536_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), p_9537_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN)) + 1;
++   public long getHeight(Heightmap.Types pHeightmapType, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.getChunk(SectionPos.blockToSectionCoord(pX), SectionPos.blockToSectionCoord(pZ)).getHeight(pHeightmapType, pX.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), pZ.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN)) + 1;
     }
  
     public void m_5594_(@Nullable Player p_9528_, BlockPos p_9529_, SoundEvent p_9530_, SoundSource p_9531_, float p_9532_, float p_9533_) {
     }
  
 -   public void m_7106_(ParticleOptions p_9561_, double p_9562_, double p_9563_, double p_9564_, double p_9565_, double p_9566_, double p_9567_) {
-+   public void addParticle(ParticleOptions p_9561_, me.alphamode.mclong.math.BigDecimal p_9562_, me.alphamode.mclong.math.BigDecimal p_9563_, me.alphamode.mclong.math.BigDecimal p_9564_, double p_9565_, double p_9566_, double p_9567_) {
++   public void addParticle(ParticleOptions pParticleData, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
     }
  
     public void m_5898_(@Nullable Player p_9523_, int p_9524_, BlockPos p_9525_, int p_9526_) {

@@ -5,14 +5,14 @@
     }
  
 -   public void m_113457_(PoseStack p_113458_, MultiBufferSource.BufferSource p_113459_, double p_113460_, double p_113461_, double p_113462_) {
-+   public void render(PoseStack p_113458_, MultiBufferSource.BufferSource p_113459_, me.alphamode.mclong.math.BigDecimal p_113460_, me.alphamode.mclong.math.BigDecimal p_113461_, me.alphamode.mclong.math.BigDecimal p_113462_) {
++   public void render(PoseStack pPoseStack, MultiBufferSource.BufferSource pBufferSource, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ) {
        if (this.f_113431_ && !Minecraft.m_91087_().m_91299_()) {
 -         this.f_113415_.m_7790_(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
-+         this.f_113415_.render(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
++         this.f_113415_.render(pPoseStack, pBufferSource, pCamX, pCamY, pCamZ);
        }
  
 -      this.f_113430_.m_7790_(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
-+      this.f_113430_.render(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
++      this.f_113430_.render(pPoseStack, pBufferSource, pCamX, pCamY, pCamZ);
     }
  
     public static Optional<Entity> m_113448_(@Nullable Entity p_113449_, int p_113450_) {
@@ -43,7 +43,7 @@
     @OnlyIn(Dist.CLIENT)
     public interface SimpleDebugRenderer {
 -      void m_7790_(PoseStack p_113507_, MultiBufferSource p_113508_, double p_113509_, double p_113510_, double p_113511_);
-+      void render(PoseStack p_113507_, MultiBufferSource p_113508_, me.alphamode.mclong.math.BigDecimal p_113509_, me.alphamode.mclong.math.BigDecimal p_113510_, me.alphamode.mclong.math.BigDecimal p_113511_);
++      void render(PoseStack pPoseStack, MultiBufferSource pBuffer, me.alphamode.mclong.math.BigDecimal pCamX, me.alphamode.mclong.math.BigDecimal pCamY, me.alphamode.mclong.math.BigDecimal pCamZ);
  
        default void m_5630_() {
        }

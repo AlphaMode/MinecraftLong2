@@ -9,7 +9,7 @@
     }
  
     public static SimpleSoundInstance m_119752_(SoundEvent p_119753_, float p_119754_) {
-@@ -25,38 +_,38 @@
+@@ -25,47 +_,47 @@
     }
  
     public static SimpleSoundInstance m_119755_(SoundEvent p_119756_, float p_119757_, float p_119758_) {
@@ -37,22 +37,50 @@
     }
  
 -   public static SimpleSoundInstance m_235127_(SoundEvent p_235128_, RandomSource p_235129_, double p_235130_, double p_235131_, double p_235132_) {
-+   public static SimpleSoundInstance forAmbientMood(SoundEvent p_235128_, RandomSource p_235129_, me.alphamode.mclong.math.BigDecimal p_235130_, me.alphamode.mclong.math.BigDecimal p_235131_, me.alphamode.mclong.math.BigDecimal p_235132_) {
-       return new SimpleSoundInstance(p_235128_, SoundSource.AMBIENT, 1.0F, 1.0F, p_235129_, false, 0, SoundInstance.Attenuation.LINEAR, p_235130_, p_235131_, p_235132_);
-    }
- 
+-      return new SimpleSoundInstance(p_235128_, SoundSource.AMBIENT, 1.0F, 1.0F, p_235129_, false, 0, SoundInstance.Attenuation.LINEAR, p_235130_, p_235131_, p_235132_);
+-   }
+-
 -   public SimpleSoundInstance(SoundEvent p_235100_, SoundSource p_235101_, float p_235102_, float p_235103_, RandomSource p_235104_, double p_235105_, double p_235106_, double p_235107_) {
-+   public SimpleSoundInstance(SoundEvent p_235100_, SoundSource p_235101_, float p_235102_, float p_235103_, RandomSource p_235104_, me.alphamode.mclong.math.BigDecimal p_235105_, me.alphamode.mclong.math.BigDecimal p_235106_, me.alphamode.mclong.math.BigDecimal p_235107_) {
-       this(p_235100_, p_235101_, p_235102_, p_235103_, p_235104_, false, 0, SoundInstance.Attenuation.LINEAR, p_235105_, p_235106_, p_235107_);
-    }
- 
+-      this(p_235100_, p_235101_, p_235102_, p_235103_, p_235104_, false, 0, SoundInstance.Attenuation.LINEAR, p_235105_, p_235106_, p_235107_);
+-   }
+-
 -   private SimpleSoundInstance(SoundEvent p_235116_, SoundSource p_235117_, float p_235118_, float p_235119_, RandomSource p_235120_, boolean p_235121_, int p_235122_, SoundInstance.Attenuation p_235123_, double p_235124_, double p_235125_, double p_235126_) {
-+   private SimpleSoundInstance(SoundEvent p_235116_, SoundSource p_235117_, float p_235118_, float p_235119_, RandomSource p_235120_, boolean p_235121_, int p_235122_, SoundInstance.Attenuation p_235123_, me.alphamode.mclong.math.BigDecimal p_235124_, me.alphamode.mclong.math.BigDecimal p_235125_, me.alphamode.mclong.math.BigDecimal p_235126_) {
-       this(p_235116_.m_11660_(), p_235117_, p_235118_, p_235119_, p_235120_, p_235121_, p_235122_, p_235123_, p_235124_, p_235125_, p_235126_, false);
-    }
- 
+-      this(p_235116_.m_11660_(), p_235117_, p_235118_, p_235119_, p_235120_, p_235121_, p_235122_, p_235123_, p_235124_, p_235125_, p_235126_, false);
+-   }
+-
 -   public SimpleSoundInstance(ResourceLocation p_235087_, SoundSource p_235088_, float p_235089_, float p_235090_, RandomSource p_235091_, boolean p_235092_, int p_235093_, SoundInstance.Attenuation p_235094_, double p_235095_, double p_235096_, double p_235097_, boolean p_235098_) {
-+   public SimpleSoundInstance(ResourceLocation p_235087_, SoundSource p_235088_, float p_235089_, float p_235090_, RandomSource p_235091_, boolean p_235092_, int p_235093_, SoundInstance.Attenuation p_235094_, me.alphamode.mclong.math.BigDecimal p_235095_, me.alphamode.mclong.math.BigDecimal p_235096_, me.alphamode.mclong.math.BigDecimal p_235097_, boolean p_235098_) {
-       super(p_235087_, p_235088_, p_235091_);
-       this.f_119573_ = p_235089_;
-       this.f_119574_ = p_235090_;
+-      super(p_235087_, p_235088_, p_235091_);
+-      this.f_119573_ = p_235089_;
+-      this.f_119574_ = p_235090_;
+-      this.f_119575_ = p_235095_;
+-      this.f_119576_ = p_235096_;
+-      this.f_119577_ = p_235097_;
+-      this.f_119578_ = p_235092_;
+-      this.f_119579_ = p_235093_;
+-      this.f_119580_ = p_235094_;
+-      this.f_119582_ = p_235098_;
++   public static SimpleSoundInstance forAmbientMood(SoundEvent pSoundEvent, RandomSource pRandom, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      return new SimpleSoundInstance(pSoundEvent, SoundSource.AMBIENT, 1.0F, 1.0F, pRandom, false, 0, SoundInstance.Attenuation.LINEAR, pX, pY, pZ);
++   }
++
++   public SimpleSoundInstance(SoundEvent pSoundEvent, SoundSource pSource, float pVolume, float pPitch, RandomSource pRandom, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      this(pSoundEvent, pSource, pVolume, pPitch, pRandom, false, 0, SoundInstance.Attenuation.LINEAR, pX, pY, pZ);
++   }
++
++   private SimpleSoundInstance(SoundEvent pSoundEvent, SoundSource pSource, float pVolume, float pPitch, RandomSource pRandom, boolean pLooping, int pDelay, SoundInstance.Attenuation pAttenuation, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      this(pSoundEvent.m_11660_(), pSource, pVolume, pPitch, pRandom, pLooping, pDelay, pAttenuation, pX, pY, pZ, false);
++   }
++
++   public SimpleSoundInstance(ResourceLocation pLocation, SoundSource pSource, float pVolume, float pPitch, RandomSource pRandom, boolean pLooping, int pDelay, SoundInstance.Attenuation pAttenuation, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, boolean pRelative) {
++      super(pLocation, pSource, pRandom);
++      this.f_119573_ = pVolume;
++      this.f_119574_ = pPitch;
++      this.f_119575_ = pX;
++      this.f_119576_ = pY;
++      this.f_119577_ = pZ;
++      this.f_119578_ = pLooping;
++      this.f_119579_ = pDelay;
++      this.f_119580_ = pAttenuation;
++      this.f_119582_ = pRelative;
+    }
+ }

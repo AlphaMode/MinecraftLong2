@@ -15,8 +15,8 @@
     @Nullable
 -   public final Path m_26524_(double p_26525_, double p_26526_, double p_26527_, int p_26528_) {
 -      return this.m_7864_(BlockPos.m_274561_(p_26525_, p_26526_, p_26527_), p_26528_);
-+   public final Path createPath(me.alphamode.mclong.math.BigDecimal p_26525_, me.alphamode.mclong.math.BigDecimal p_26526_, me.alphamode.mclong.math.BigDecimal p_26527_, int p_26528_) {
-+      return this.m_7864_(BlockPos.containing(p_26525_, p_26526_, p_26527_), p_26528_);
++   public final Path createPath(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, int pAccuracy) {
++      return this.m_7864_(BlockPos.containing(pX, pY, pZ), pAccuracy);
     }
  
     @Nullable
@@ -47,8 +47,8 @@
  
 -   public boolean m_26519_(double p_26520_, double p_26521_, double p_26522_, double p_26523_) {
 -      return this.m_26536_(this.m_26524_(p_26520_, p_26521_, p_26522_, 1), p_26523_);
-+   public boolean moveTo(me.alphamode.mclong.math.BigDecimal p_26520_, me.alphamode.mclong.math.BigDecimal p_26521_, me.alphamode.mclong.math.BigDecimal p_26522_, double p_26523_) {
-+      return this.m_26536_(this.createPath(p_26520_, p_26521_, p_26522_, 1), p_26523_);
++   public boolean moveTo(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pSpeed) {
++      return this.m_26536_(this.createPath(pX, pY, pZ, 1), pSpeed);
     }
  
     public boolean m_5624_(Entity p_26532_, double p_26533_) {
@@ -74,9 +74,9 @@
 -   protected double m_183345_(Vec3 p_186132_) {
 -      BlockPos blockpos = BlockPos.m_274446_(p_186132_);
 -      return this.f_26495_.m_8055_(blockpos.m_7495_()).m_60795_() ? p_186132_.f_82480_ : WalkNodeEvaluator.m_77611_(this.f_26495_, blockpos);
-+   protected me.alphamode.mclong.math.BigDecimal getGroundY(Vec3 p_186132_) {
-+      BlockPos blockpos = BlockPos.containing(p_186132_);
-+      return this.f_26495_.m_8055_(blockpos.below()).m_60795_() ? p_186132_.getY() : me.alphamode.mclong.math.BigDecimal.valueOf(WalkNodeEvaluator.m_77611_(this.f_26495_, blockpos));
++   protected me.alphamode.mclong.math.BigDecimal getGroundY(Vec3 pVec) {
++      BlockPos blockpos = BlockPos.containing(pVec);
++      return this.f_26495_.m_8055_(blockpos.below()).m_60795_() ? pVec.getY() : me.alphamode.mclong.math.BigDecimal.valueOf(WalkNodeEvaluator.m_77611_(this.f_26495_, blockpos));
     }
  
     protected void m_7636_() {

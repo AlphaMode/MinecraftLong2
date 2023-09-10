@@ -38,30 +38,39 @@
        int f_189560_;
  
        protected Context(SurfaceSystem p_224616_, RandomState p_224617_, ChunkAccess p_224618_, NoiseChunk p_224619_, Function<BlockPos, Holder<Biome>> p_224620_, Registry<Biome> p_224621_, WorldGenerationContext p_224622_) {
-@@ -288,18 +_,18 @@
+@@ -288,57 +_,57 @@
           this.f_189544_ = p_224622_;
        }
  
 -      protected void m_189569_(int p_189570_, int p_189571_) {
-+      protected void updateXZ(me.alphamode.mclong.math.BigInteger p_189570_, me.alphamode.mclong.math.BigInteger p_189571_) {
++      protected void updateXZ(me.alphamode.mclong.math.BigInteger pBlockX, me.alphamode.mclong.math.BigInteger pBlockZ) {
           ++this.f_189545_;
           ++this.f_189553_;
-          this.f_189546_ = p_189570_;
-          this.f_189547_ = p_189571_;
+-         this.f_189546_ = p_189570_;
+-         this.f_189547_ = p_189571_;
 -         this.f_189548_ = this.f_189535_.m_189927_(p_189570_, p_189571_);
-+         this.f_189548_ = this.f_189535_.getSurfaceDepth(p_189570_, p_189571_);
++         this.f_189546_ = pBlockX;
++         this.f_189547_ = pBlockZ;
++         this.f_189548_ = this.f_189535_.getSurfaceDepth(pBlockX, pBlockZ);
        }
  
 -      protected void m_189576_(int p_189577_, int p_189578_, int p_189579_, int p_189580_, int p_189581_, int p_189582_) {
-+      protected void updateY(int p_189577_, long p_189578_, long p_189579_, me.alphamode.mclong.math.BigInteger p_189580_, me.alphamode.mclong.math.BigInteger p_189581_, me.alphamode.mclong.math.BigInteger p_189582_) {
++      protected void updateY(int pStoneDepthAbove, long pStoneDepthBelow, long pWaterHeight, me.alphamode.mclong.math.BigInteger pBlockX, me.alphamode.mclong.math.BigInteger pBlockY, me.alphamode.mclong.math.BigInteger pBlockZ) {
           ++this.f_189553_;
           this.f_189555_ = Suppliers.memoize(() -> {
 -            return this.f_189542_.apply(this.f_189554_.m_122178_(p_189580_, p_189581_, p_189582_));
-+            return this.f_189542_.apply(this.f_189554_.set(p_189580_, p_189581_, p_189582_));
++            return this.f_189542_.apply(this.f_189554_.set(pBlockX, pBlockY, pBlockZ));
           });
-          this.f_189557_ = p_189581_;
-          this.f_189558_ = p_189579_;
-@@ -310,35 +_,35 @@
+-         this.f_189557_ = p_189581_;
+-         this.f_189558_ = p_189579_;
+-         this.f_189559_ = p_189578_;
+-         this.f_189560_ = p_189577_;
++         this.f_189557_ = pBlockY;
++         this.f_189558_ = pWaterHeight;
++         this.f_189559_ = pStoneDepthBelow;
++         this.f_189560_ = pStoneDepthAbove;
+       }
+ 
        protected double m_202181_() {
           if (this.f_189549_ != this.f_189545_) {
              this.f_189549_ = this.f_189545_;
@@ -74,14 +83,14 @@
  
 -      private static int m_198280_(int p_198281_) {
 -         return p_198281_ >> 4;
-+      private static me.alphamode.mclong.math.BigInteger blockCoordToSurfaceCell(me.alphamode.mclong.math.BigInteger p_198281_) {
-+         return p_198281_.shiftRight(4);
++      private static me.alphamode.mclong.math.BigInteger blockCoordToSurfaceCell(me.alphamode.mclong.math.BigInteger pBlockCoord) {
++         return pBlockCoord.shiftRight(4);
        }
  
 -      private static int m_198282_(int p_198283_) {
 -         return p_198283_ << 4;
-+      private static me.alphamode.mclong.math.BigInteger surfaceCellToBlockCoord(me.alphamode.mclong.math.BigInteger p_198283_) {
-+         return p_198283_.shiftLeft(4);
++      private static me.alphamode.mclong.math.BigInteger surfaceCellToBlockCoord(me.alphamode.mclong.math.BigInteger pSurfaceCell) {
++         return pSurfaceCell.shiftLeft(4);
        }
  
        protected int m_189583_() {
@@ -204,7 +213,7 @@
     protected interface SurfaceRule {
        @Nullable
 -      BlockState m_183550_(int p_189774_, int p_189775_, int p_189776_);
-+      BlockState tryApply(me.alphamode.mclong.math.BigInteger p_189774_, me.alphamode.mclong.math.BigInteger p_189775_, me.alphamode.mclong.math.BigInteger p_189776_);
++      BlockState tryApply(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ);
     }
  
     static enum Temperature implements SurfaceRules.ConditionSource {

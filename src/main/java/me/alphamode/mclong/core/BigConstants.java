@@ -31,6 +31,7 @@ public class BigConstants {
     public static final BigDecimal PARTICLE = BigDecimal.valueOf(0.125D);
     public static final BigDecimal PARTICLES = BigDecimal.valueOf(0.25D);
     public static final BigDecimal EPSILON = BigDecimal.valueOf(1.0E-7D);
+    public static final BigDecimal NEG_EPSILON = BigDecimal.valueOf(-1.0E-7D);
     public static final BigDecimal ENTITY = BigDecimal.valueOf(1.0E-6D);
     public static final BigDecimal AABB = BigDecimal.valueOf(0.5D);
     public static final BigDecimal LEASH = BigDecimal.valueOf(0.375D);

@@ -17,7 +17,7 @@
           }
        }
  
-@@ -58,16 +_,16 @@
+@@ -58,18 +_,18 @@
     }
  
     public List<StructureStart> m_220504_(SectionPos p_220505_, Structure p_220506_) {
@@ -33,21 +33,24 @@
 -      for(long i : p_220482_) {
 -         SectionPos sectionpos = SectionPos.m_123196_(new ChunkPos(i), this.f_220460_.m_151560_());
 -         StructureStart structurestart = this.m_220512_(sectionpos, p_220481_, this.f_220460_.m_46819_(sectionpos.m_123170_(), sectionpos.m_123222_(), ChunkStatus.f_62315_));
-+   public void fillStartsForStructure(Structure p_220481_, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> p_220482_, Consumer<StructureStart> p_220483_) {
-+      for(ChunkPos i : p_220482_) {
++   public void fillStartsForStructure(Structure pStructure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> pStructureRefs, Consumer<StructureStart> pStartConsumer) {
++      for(ChunkPos i : pStructureRefs) {
 +         SectionPos sectionpos = SectionPos.of(i, this.f_220460_.getMinSection());
-+         StructureStart structurestart = this.m_220512_(sectionpos, p_220481_, this.f_220460_.getChunk(sectionpos.getBigX(), sectionpos.getBigZ(), ChunkStatus.f_62315_));
++         StructureStart structurestart = this.m_220512_(sectionpos, pStructure, this.f_220460_.getChunk(sectionpos.getBigX(), sectionpos.getBigZ(), ChunkStatus.f_62315_));
           if (structurestart != null && structurestart.m_73603_()) {
-             p_220483_.accept(structurestart);
+-            p_220483_.accept(structurestart);
++            pStartConsumer.accept(structurestart);
           }
+       }
+ 
 @@ -84,8 +_,8 @@
        p_220520_.m_213792_(p_220518_, p_220519_);
     }
  
 -   public void m_220507_(SectionPos p_220508_, Structure p_220509_, long p_220510_, StructureAccess p_220511_) {
 -      p_220511_.m_213843_(p_220509_, p_220510_);
-+   public void addReferenceForStructure(SectionPos p_220508_, Structure p_220509_, ChunkPos p_220510_, StructureAccess p_220511_) {
-+      p_220511_.addReferenceForStructure(p_220509_, p_220510_);
++   public void addReferenceForStructure(SectionPos pSectionPos, Structure pStructure, ChunkPos pReference, StructureAccess pStructureAccess) {
++      pStructureAccess.addReferenceForStructure(pStructure, pReference);
     }
  
     public boolean m_220467_() {

@@ -1,18 +1,27 @@
 --- a/net/minecraft/world/entity/projectile/AbstractHurtingProjectile.java
 +++ b/net/minecraft/world/entity/projectile/AbstractHurtingProjectile.java
-@@ -24,9 +_,9 @@
+@@ -24,21 +_,21 @@
        super(p_36833_, p_36834_);
     }
  
 -   public AbstractHurtingProjectile(EntityType<? extends AbstractHurtingProjectile> p_36817_, double p_36818_, double p_36819_, double p_36820_, double p_36821_, double p_36822_, double p_36823_, Level p_36824_) {
-+   public AbstractHurtingProjectile(EntityType<? extends AbstractHurtingProjectile> p_36817_, me.alphamode.mclong.math.BigDecimal p_36818_, me.alphamode.mclong.math.BigDecimal p_36819_, me.alphamode.mclong.math.BigDecimal p_36820_, double p_36821_, double p_36822_, double p_36823_, Level p_36824_) {
-       this(p_36817_, p_36824_);
+-      this(p_36817_, p_36824_);
 -      this.m_7678_(p_36818_, p_36819_, p_36820_, this.m_146908_(), this.m_146909_());
-+      this.moveTo(p_36818_, p_36819_, p_36820_, this.m_146908_(), this.m_146909_());
++   public AbstractHurtingProjectile(EntityType<? extends AbstractHurtingProjectile> pEntityType, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
++      this(pEntityType, pLevel);
++      this.moveTo(pX, pY, pZ, this.m_146908_(), this.m_146909_());
        this.m_20090_();
-       double d0 = Math.sqrt(p_36821_ * p_36821_ + p_36822_ * p_36822_ + p_36823_ * p_36823_);
+-      double d0 = Math.sqrt(p_36821_ * p_36821_ + p_36822_ * p_36822_ + p_36823_ * p_36823_);
++      double d0 = Math.sqrt(pOffsetX * pOffsetX + pOffsetY * pOffsetY + pOffsetZ * pOffsetZ);
        if (d0 != 0.0D) {
-@@ -38,7 +_,7 @@
+-         this.f_36813_ = p_36821_ / d0 * 0.1D;
+-         this.f_36814_ = p_36822_ / d0 * 0.1D;
+-         this.f_36815_ = p_36823_ / d0 * 0.1D;
++         this.f_36813_ = pOffsetX / d0 * 0.1D;
++         this.f_36814_ = pOffsetY / d0 * 0.1D;
++         this.f_36815_ = pOffsetZ / d0 * 0.1D;
+       }
+ 
     }
  
     public AbstractHurtingProjectile(EntityType<? extends AbstractHurtingProjectile> p_36826_, LivingEntity p_36827_, double p_36828_, double p_36829_, double p_36830_, Level p_36831_) {

@@ -1,14 +1,16 @@
 --- a/net/minecraft/client/particle/LavaParticle.java
 +++ b/net/minecraft/client/particle/LavaParticle.java
-@@ -8,7 +_,7 @@
+@@ -8,8 +_,8 @@
  
  @OnlyIn(Dist.CLIENT)
  public class LavaParticle extends TextureSheetParticle {
 -   LavaParticle(ClientLevel p_107074_, double p_107075_, double p_107076_, double p_107077_) {
-+   LavaParticle(ClientLevel p_107074_, me.alphamode.mclong.math.BigDecimal p_107075_, me.alphamode.mclong.math.BigDecimal p_107076_, me.alphamode.mclong.math.BigDecimal p_107077_) {
-       super(p_107074_, p_107075_, p_107076_, p_107077_, 0.0D, 0.0D, 0.0D);
+-      super(p_107074_, p_107075_, p_107076_, p_107077_, 0.0D, 0.0D, 0.0D);
++   LavaParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      super(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D);
        this.f_107226_ = 0.75F;
        this.f_172258_ = 0.999F;
+       this.f_107215_ *= (double)0.8F;
 @@ -41,7 +_,7 @@
        if (!this.f_107220_) {
           float f = (float)this.f_107224_ / (float)this.f_107225_;
@@ -18,12 +20,14 @@
           }
        }
  
-@@ -55,7 +_,7 @@
+@@ -55,8 +_,8 @@
           this.f_107090_ = p_107092_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_107103_, ClientLevel p_107104_, double p_107105_, double p_107106_, double p_107107_, double p_107108_, double p_107109_, double p_107110_) {
-+      public Particle createParticle(SimpleParticleType p_107103_, ClientLevel p_107104_, me.alphamode.mclong.math.BigDecimal p_107105_, me.alphamode.mclong.math.BigDecimal p_107106_, me.alphamode.mclong.math.BigDecimal p_107107_, double p_107108_, double p_107109_, double p_107110_) {
-          LavaParticle lavaparticle = new LavaParticle(p_107104_, p_107105_, p_107106_, p_107107_);
+-         LavaParticle lavaparticle = new LavaParticle(p_107104_, p_107105_, p_107106_, p_107107_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         LavaParticle lavaparticle = new LavaParticle(pLevel, pX, pY, pZ);
           lavaparticle.m_108335_(this.f_107090_);
           return lavaparticle;
+       }

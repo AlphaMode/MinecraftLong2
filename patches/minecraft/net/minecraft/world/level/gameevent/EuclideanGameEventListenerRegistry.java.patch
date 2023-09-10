@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java
 +++ b/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java
-@@ -16,10 +_,10 @@
+@@ -16,13 +_,13 @@
     private final List<GameEventListener> f_244008_ = Lists.newArrayList();
     private boolean f_244249_;
     private final ServerLevel f_244607_;
@@ -9,10 +9,16 @@
     private final EuclideanGameEventListenerRegistry.OnEmptyAction f_279576_;
  
 -   public EuclideanGameEventListenerRegistry(ServerLevel p_281505_, int p_283450_, EuclideanGameEventListenerRegistry.OnEmptyAction p_282325_) {
-+   public EuclideanGameEventListenerRegistry(ServerLevel p_281505_, long p_283450_, EuclideanGameEventListenerRegistry.OnEmptyAction p_282325_) {
-       this.f_244607_ = p_281505_;
-       this.f_279540_ = p_283450_;
-       this.f_279576_ = p_282325_;
+-      this.f_244607_ = p_281505_;
+-      this.f_279540_ = p_283450_;
+-      this.f_279576_ = p_282325_;
++   public EuclideanGameEventListenerRegistry(ServerLevel pLevel, long pSectionY, EuclideanGameEventListenerRegistry.OnEmptyAction pOnEmptyAction) {
++      this.f_244607_ = pLevel;
++      this.f_279540_ = pSectionY;
++      this.f_279576_ = pOnEmptyAction;
+    }
+ 
+    public boolean m_245428_() {
 @@ -47,7 +_,7 @@
        }
  

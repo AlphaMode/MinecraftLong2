@@ -1,20 +1,35 @@
 --- a/net/minecraft/client/particle/AttackSweepParticle.java
 +++ b/net/minecraft/client/particle/AttackSweepParticle.java
-@@ -9,7 +_,7 @@
+@@ -9,16 +_,16 @@
  public class AttackSweepParticle extends TextureSheetParticle {
     private final SpriteSet f_105544_;
  
 -   AttackSweepParticle(ClientLevel p_105546_, double p_105547_, double p_105548_, double p_105549_, double p_105550_, SpriteSet p_105551_) {
-+   AttackSweepParticle(ClientLevel p_105546_, me.alphamode.mclong.math.BigDecimal p_105547_, me.alphamode.mclong.math.BigDecimal p_105548_, me.alphamode.mclong.math.BigDecimal p_105549_, double p_105550_, SpriteSet p_105551_) {
-       super(p_105546_, p_105547_, p_105548_, p_105549_, 0.0D, 0.0D, 0.0D);
-       this.f_105544_ = p_105551_;
+-      super(p_105546_, p_105547_, p_105548_, p_105549_, 0.0D, 0.0D, 0.0D);
+-      this.f_105544_ = p_105551_;
++   AttackSweepParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
++      super(pLevel, pX, pY, pZ, 0.0D, 0.0D, 0.0D);
++      this.f_105544_ = pSprites;
        this.f_107225_ = 4;
-@@ -48,7 +_,7 @@
+       float f = this.f_107223_.m_188501_() * 0.6F + 0.4F;
+       this.f_107227_ = f;
+       this.f_107228_ = f;
+       this.f_107229_ = f;
+-      this.f_107663_ = 1.0F - (float)p_105550_ * 0.5F;
+-      this.m_108339_(p_105551_);
++      this.f_107663_ = 1.0F - (float)pQuadSizeMultiplier * 0.5F;
++      this.m_108339_(pSprites);
+    }
+ 
+    public int m_6355_(float p_105562_) {
+@@ -48,8 +_,8 @@
           this.f_105564_ = p_105566_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_105577_, ClientLevel p_105578_, double p_105579_, double p_105580_, double p_105581_, double p_105582_, double p_105583_, double p_105584_) {
-+      public Particle createParticle(SimpleParticleType p_105577_, ClientLevel p_105578_, me.alphamode.mclong.math.BigDecimal p_105579_, me.alphamode.mclong.math.BigDecimal p_105580_, me.alphamode.mclong.math.BigDecimal p_105581_, double p_105582_, double p_105583_, double p_105584_) {
-          return new AttackSweepParticle(p_105578_, p_105579_, p_105580_, p_105581_, p_105582_, this.f_105564_);
+-         return new AttackSweepParticle(p_105578_, p_105579_, p_105580_, p_105581_, p_105582_, this.f_105564_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         return new AttackSweepParticle(pLevel, pX, pY, pZ, pXSpeed, this.f_105564_);
        }
     }
+ }

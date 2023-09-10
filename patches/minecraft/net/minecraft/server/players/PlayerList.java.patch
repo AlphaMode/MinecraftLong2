@@ -58,23 +58,26 @@
        }
  
        return serverplayer;
-@@ -615,14 +_,14 @@
+@@ -615,15 +_,15 @@
        return null;
     }
  
 -   public void m_11241_(@Nullable Player p_11242_, double p_11243_, double p_11244_, double p_11245_, double p_11246_, ResourceKey<Level> p_11247_, Packet<?> p_11248_) {
-+   public void broadcast(@Nullable Player p_11242_, me.alphamode.mclong.math.BigDecimal p_11243_, me.alphamode.mclong.math.BigDecimal p_11244_, me.alphamode.mclong.math.BigDecimal p_11245_, double p_11246_, ResourceKey<Level> p_11247_, Packet<?> p_11248_) {
++   public void broadcast(@Nullable Player pExcept, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pRadius, ResourceKey<Level> pDimension, Packet<?> pPacket) {
        for(int i = 0; i < this.f_11196_.size(); ++i) {
           ServerPlayer serverplayer = this.f_11196_.get(i);
-          if (serverplayer != p_11242_ && serverplayer.m_9236_().m_46472_() == p_11247_) {
+-         if (serverplayer != p_11242_ && serverplayer.m_9236_().m_46472_() == p_11247_) {
 -            double d0 = p_11243_ - serverplayer.m_20185_();
 -            double d1 = p_11244_ - serverplayer.m_20186_();
 -            double d2 = p_11245_ - serverplayer.m_20189_();
 -            if (d0 * d0 + d1 * d1 + d2 * d2 < p_11246_ * p_11246_) {
-+            me.alphamode.mclong.math.BigDecimal d0 = p_11243_.subtract(serverplayer.getBigX());
-+            me.alphamode.mclong.math.BigDecimal d1 = p_11244_.subtract(serverplayer.getBigY());
-+            me.alphamode.mclong.math.BigDecimal d2 = p_11245_.subtract(serverplayer.getBigZ());
-+            if (d0.multiply(d0).add(d1.multiply(d1)).add(d2.multiply(d2)).compareTo(p_11246_ * p_11246_) < 0) {
-                serverplayer.f_8906_.m_9829_(p_11248_);
+-               serverplayer.f_8906_.m_9829_(p_11248_);
++         if (serverplayer != pExcept && serverplayer.m_9236_().m_46472_() == pDimension) {
++            me.alphamode.mclong.math.BigDecimal d0 = pX.subtract(serverplayer.getBigX());
++            me.alphamode.mclong.math.BigDecimal d1 = pY.subtract(serverplayer.getBigY());
++            me.alphamode.mclong.math.BigDecimal d2 = pZ.subtract(serverplayer.getBigZ());
++            if (d0.multiply(d0).add(d1.multiply(d1)).add(d2.multiply(d2)).compareTo(pRadius * pRadius) < 0) {
++               serverplayer.f_8906_.m_9829_(pPacket);
              }
           }
+       }

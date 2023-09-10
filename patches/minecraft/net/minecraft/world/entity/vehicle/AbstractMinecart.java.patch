@@ -13,25 +13,52 @@
     private double f_38074_;
     private double f_38075_;
     private double f_38076_;
-@@ -91,15 +_,15 @@
+@@ -91,27 +_,27 @@
        this.f_19850_ = true;
     }
  
 -   protected AbstractMinecart(EntityType<?> p_38090_, Level p_38091_, double p_38092_, double p_38093_, double p_38094_) {
-+   protected AbstractMinecart(EntityType<?> p_38090_, Level p_38091_, me.alphamode.mclong.math.BigDecimal p_38092_, me.alphamode.mclong.math.BigDecimal p_38093_, me.alphamode.mclong.math.BigDecimal p_38094_) {
-       this(p_38090_, p_38091_);
+-      this(p_38090_, p_38091_);
 -      this.m_6034_(p_38092_, p_38093_, p_38094_);
-+      this.setPos(p_38092_, p_38093_, p_38094_);
-       this.f_19854_ = p_38092_;
-       this.f_19855_ = p_38093_;
-       this.f_19856_ = p_38094_;
+-      this.f_19854_ = p_38092_;
+-      this.f_19855_ = p_38093_;
+-      this.f_19856_ = p_38094_;
++   protected AbstractMinecart(EntityType<?> pEntityType, Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      this(pEntityType, pLevel);
++      this.setPos(pX, pY, pZ);
++      this.f_19854_ = pX;
++      this.f_19855_ = pY;
++      this.f_19856_ = pZ;
     }
  
 -   public static AbstractMinecart m_38119_(Level p_38120_, double p_38121_, double p_38122_, double p_38123_, AbstractMinecart.Type p_38124_) {
-+   public static AbstractMinecart createMinecart(Level p_38120_, me.alphamode.mclong.math.BigDecimal p_38121_, me.alphamode.mclong.math.BigDecimal p_38122_, me.alphamode.mclong.math.BigDecimal p_38123_, AbstractMinecart.Type p_38124_) {
-       if (p_38124_ == AbstractMinecart.Type.CHEST) {
-          return new MinecartChest(p_38120_, p_38121_, p_38122_, p_38123_);
-       } else if (p_38124_ == AbstractMinecart.Type.FURNACE) {
+-      if (p_38124_ == AbstractMinecart.Type.CHEST) {
+-         return new MinecartChest(p_38120_, p_38121_, p_38122_, p_38123_);
+-      } else if (p_38124_ == AbstractMinecart.Type.FURNACE) {
+-         return new MinecartFurnace(p_38120_, p_38121_, p_38122_, p_38123_);
+-      } else if (p_38124_ == AbstractMinecart.Type.TNT) {
+-         return new MinecartTNT(p_38120_, p_38121_, p_38122_, p_38123_);
+-      } else if (p_38124_ == AbstractMinecart.Type.SPAWNER) {
+-         return new MinecartSpawner(p_38120_, p_38121_, p_38122_, p_38123_);
+-      } else if (p_38124_ == AbstractMinecart.Type.HOPPER) {
+-         return new MinecartHopper(p_38120_, p_38121_, p_38122_, p_38123_);
++   public static AbstractMinecart createMinecart(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, AbstractMinecart.Type pType) {
++      if (pType == AbstractMinecart.Type.CHEST) {
++         return new MinecartChest(pLevel, pX, pY, pZ);
++      } else if (pType == AbstractMinecart.Type.FURNACE) {
++         return new MinecartFurnace(pLevel, pX, pY, pZ);
++      } else if (pType == AbstractMinecart.Type.TNT) {
++         return new MinecartTNT(pLevel, pX, pY, pZ);
++      } else if (pType == AbstractMinecart.Type.SPAWNER) {
++         return new MinecartSpawner(pLevel, pX, pY, pZ);
++      } else if (pType == AbstractMinecart.Type.HOPPER) {
++         return new MinecartHopper(pLevel, pX, pY, pZ);
+       } else {
+-         return (AbstractMinecart)(p_38124_ == AbstractMinecart.Type.COMMAND_BLOCK ? new MinecartCommandBlock(p_38120_, p_38121_, p_38122_, p_38123_) : new Minecart(p_38120_, p_38121_, p_38122_, p_38123_));
++         return (AbstractMinecart)(pType == AbstractMinecart.Type.COMMAND_BLOCK ? new MinecartCommandBlock(pLevel, pX, pY, pZ) : new Minecart(pLevel, pX, pY, pZ));
+       }
+    }
+ 
 @@ -160,13 +_,13 @@
  
              for(int i : f_38067_.get(pose)) {
@@ -124,7 +151,7 @@
     }
  
 -   public void m_6025_(int p_38111_, int p_38112_, int p_38113_, boolean p_38114_) {
-+   public void activateMinecart(long p_38111_, long p_38112_, long p_38113_, boolean p_38114_) {
++   public void activateMinecart(long pX, long pY, long pZ, boolean pPowered) {
     }
  
     protected void m_38163_() {
@@ -333,12 +360,24 @@
                          this.m_20256_(vec32.m_82542_(0.2D, 1.0D, 0.2D));
                          this.m_5997_(d7 - d0, 0.0D, d8 - d1);
                          p_38165_.m_20256_(vec33.m_82542_(0.2D, 1.0D, 0.2D));
-@@ -733,7 +_,7 @@
+@@ -733,13 +_,13 @@
        }
     }
  
 -   public void m_6453_(double p_38102_, double p_38103_, double p_38104_, float p_38105_, float p_38106_, int p_38107_, boolean p_38108_) {
-+   public void lerpTo(me.alphamode.mclong.math.BigDecimal p_38102_, me.alphamode.mclong.math.BigDecimal p_38103_, me.alphamode.mclong.math.BigDecimal p_38104_, float p_38105_, float p_38106_, int p_38107_, boolean p_38108_) {
-       this.f_38071_ = p_38102_;
-       this.f_38072_ = p_38103_;
-       this.f_38073_ = p_38104_;
+-      this.f_38071_ = p_38102_;
+-      this.f_38072_ = p_38103_;
+-      this.f_38073_ = p_38104_;
+-      this.f_38074_ = (double)p_38105_;
+-      this.f_38075_ = (double)p_38106_;
+-      this.f_38070_ = p_38107_ + 2;
++   public void lerpTo(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYaw, float pPitch, int pPosRotationIncrements, boolean pTeleport) {
++      this.f_38071_ = pX;
++      this.f_38072_ = pY;
++      this.f_38073_ = pZ;
++      this.f_38074_ = (double)pYaw;
++      this.f_38075_ = (double)pPitch;
++      this.f_38070_ = pPosRotationIncrements + 2;
+       this.m_20334_(this.f_38076_, this.f_38077_, this.f_38078_);
+    }
+ 

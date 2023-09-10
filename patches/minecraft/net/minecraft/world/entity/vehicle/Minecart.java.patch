@@ -1,20 +1,24 @@
 --- a/net/minecraft/world/entity/vehicle/Minecart.java
 +++ b/net/minecraft/world/entity/vehicle/Minecart.java
-@@ -13,7 +_,7 @@
+@@ -13,8 +_,8 @@
        super(p_38470_, p_38471_);
     }
  
 -   public Minecart(Level p_38473_, double p_38474_, double p_38475_, double p_38476_) {
-+   public Minecart(Level p_38473_, me.alphamode.mclong.math.BigDecimal p_38474_, me.alphamode.mclong.math.BigDecimal p_38475_, me.alphamode.mclong.math.BigDecimal p_38476_) {
-       super(EntityType.f_20469_, p_38473_, p_38474_, p_38475_, p_38476_);
+-      super(EntityType.f_20469_, p_38473_, p_38474_, p_38475_, p_38476_);
++   public Minecart(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      super(EntityType.f_20469_, pLevel, pX, pY, pZ);
     }
  
-@@ -33,7 +_,7 @@
+    public InteractionResult m_6096_(Player p_38483_, InteractionHand p_38484_) {
+@@ -33,8 +_,8 @@
        return Items.f_42449_;
     }
  
 -   public void m_6025_(int p_38478_, int p_38479_, int p_38480_, boolean p_38481_) {
-+   public void activateMinecart(long p_38478_, long p_38479_, long p_38480_, boolean p_38481_) {
-       if (p_38481_) {
+-      if (p_38481_) {
++   public void activateMinecart(long pX, long pY, long pZ, boolean pReceivingPower) {
++      if (pReceivingPower) {
           if (this.m_20160_()) {
              this.m_20153_();
+          }

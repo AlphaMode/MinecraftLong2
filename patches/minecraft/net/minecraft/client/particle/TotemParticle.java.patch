@@ -1,20 +1,35 @@
 --- a/net/minecraft/client/particle/TotemParticle.java
 +++ b/net/minecraft/client/particle/TotemParticle.java
-@@ -7,7 +_,7 @@
+@@ -7,15 +_,15 @@
  
  @OnlyIn(Dist.CLIENT)
  public class TotemParticle extends SimpleAnimatedParticle {
 -   TotemParticle(ClientLevel p_108346_, double p_108347_, double p_108348_, double p_108349_, double p_108350_, double p_108351_, double p_108352_, SpriteSet p_108353_) {
-+   TotemParticle(ClientLevel p_108346_, me.alphamode.mclong.math.BigDecimal p_108347_, me.alphamode.mclong.math.BigDecimal p_108348_, me.alphamode.mclong.math.BigDecimal p_108349_, double p_108350_, double p_108351_, double p_108352_, SpriteSet p_108353_) {
-       super(p_108346_, p_108347_, p_108348_, p_108349_, p_108353_, 1.25F);
+-      super(p_108346_, p_108347_, p_108348_, p_108349_, p_108353_, 1.25F);
++   TotemParticle(ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed, SpriteSet pSprites) {
++      super(pLevel, pX, pY, pZ, pSprites, 1.25F);
        this.f_172258_ = 0.6F;
-       this.f_107215_ = p_108350_;
-@@ -32,7 +_,7 @@
+-      this.f_107215_ = p_108350_;
+-      this.f_107216_ = p_108351_;
+-      this.f_107217_ = p_108352_;
++      this.f_107215_ = pXSpeed;
++      this.f_107216_ = pYSpeed;
++      this.f_107217_ = pZSpeed;
+       this.f_107663_ *= 0.75F;
+       this.f_107225_ = 60 + this.f_107223_.m_188503_(12);
+-      this.m_108339_(p_108353_);
++      this.m_108339_(pSprites);
+       if (this.f_107223_.m_188503_(4) == 0) {
+          this.m_107253_(0.6F + this.f_107223_.m_188501_() * 0.2F, 0.6F + this.f_107223_.m_188501_() * 0.3F, this.f_107223_.m_188501_() * 0.2F);
+       } else {
+@@ -32,8 +_,8 @@
           this.f_108364_ = p_108366_;
        }
  
 -      public Particle m_6966_(SimpleParticleType p_108377_, ClientLevel p_108378_, double p_108379_, double p_108380_, double p_108381_, double p_108382_, double p_108383_, double p_108384_) {
-+      public Particle createParticle(SimpleParticleType p_108377_, ClientLevel p_108378_, me.alphamode.mclong.math.BigDecimal p_108379_, me.alphamode.mclong.math.BigDecimal p_108380_, me.alphamode.mclong.math.BigDecimal p_108381_, double p_108382_, double p_108383_, double p_108384_) {
-          return new TotemParticle(p_108378_, p_108379_, p_108380_, p_108381_, p_108382_, p_108383_, p_108384_, this.f_108364_);
+-         return new TotemParticle(p_108378_, p_108379_, p_108380_, p_108381_, p_108382_, p_108383_, p_108384_, this.f_108364_);
++      public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
++         return new TotemParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, this.f_108364_);
        }
     }
+ }

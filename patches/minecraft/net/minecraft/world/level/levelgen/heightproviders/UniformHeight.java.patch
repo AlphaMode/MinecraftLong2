@@ -7,9 +7,9 @@
 -   public int m_213859_(RandomSource p_226308_, WorldGenerationContext p_226309_) {
 -      int i = this.f_162025_.m_142322_(p_226309_);
 -      int j = this.f_162026_.m_142322_(p_226309_);
-+   public long sample(RandomSource p_226308_, WorldGenerationContext p_226309_) {
-+      long i = this.f_162025_.resolveY(p_226309_);
-+      long j = this.f_162026_.resolveY(p_226309_);
++   public long sample(RandomSource pRandom, WorldGenerationContext pContext) {
++      long i = this.f_162025_.resolveY(pContext);
++      long j = this.f_162026_.resolveY(pContext);
        if (i > j) {
           if (this.f_198374_.add((long)i << 32 | (long)j)) {
              f_162024_.warn("Empty height range: {}", (Object)this);
@@ -18,7 +18,7 @@
           return i;
        } else {
 -         return Mth.m_216287_(p_226308_, i, j);
-+         return Mth.randomBetweenInclusive(p_226308_, i, j);
++         return Mth.randomBetweenInclusive(pRandom, i, j);
        }
     }
  

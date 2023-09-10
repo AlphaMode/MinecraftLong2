@@ -23,16 +23,17 @@
     }
  
 -   public GameEventListenerRegistry m_246686_(int p_251193_) {
-+   public GameEventListenerRegistry getListenerRegistry(long p_251193_) {
++   public GameEventListenerRegistry getListenerRegistry(long pSectionY) {
        Level level = this.f_62776_;
        if (level instanceof ServerLevel serverlevel) {
-          return this.f_244451_.computeIfAbsent(p_251193_, (p_281221_) -> {
+-         return this.f_244451_.computeIfAbsent(p_251193_, (p_281221_) -> {
 -            return new EuclideanGameEventListenerRegistry(serverlevel, p_251193_, this::m_280642_);
-+            return new EuclideanGameEventListenerRegistry(serverlevel, p_251193_, this::removeGameEventListenerRegistry);
++         return this.f_244451_.computeIfAbsent(pSectionY, (p_281221_) -> {
++            return new EuclideanGameEventListenerRegistry(serverlevel, pSectionY, this::removeGameEventListenerRegistry);
           });
        } else {
 -         return super.m_246686_(p_251193_);
-+         return super.getListenerRegistry(p_251193_);
++         return super.getListenerRegistry(pSectionY);
        }
     }
  
@@ -88,16 +89,16 @@
     }
  
 -   public FluidState m_62814_(int p_62815_, int p_62816_, int p_62817_) {
-+   public FluidState getFluidState(me.alphamode.mclong.math.BigInteger p_62815_, me.alphamode.mclong.math.BigInteger p_62816_, me.alphamode.mclong.math.BigInteger p_62817_) {
++   public FluidState getFluidState(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
        try {
 -         int i = this.m_151564_(p_62816_);
-+         long i = this.getSectionIndex(p_62816_.longValue());
++         long i = this.getSectionIndex(pY.longValue());
           if (i >= 0 && i < this.f_187612_.length) {
 -            LevelChunkSection levelchunksection = this.f_187612_[i];
 +            LevelChunkSection levelchunksection = this.f_187612_[(int) i]; // TODO: long support
              if (!levelchunksection.m_188008_()) {
 -               return levelchunksection.m_63007_(p_62815_ & 15, p_62816_ & 15, p_62817_ & 15);
-+               return levelchunksection.getFluidState(p_62815_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), p_62816_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), p_62817_.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN));
++               return levelchunksection.getFluidState(pX.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), pY.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN), pZ.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN));
              }
           }
  
@@ -106,7 +107,7 @@
           CrashReportCategory crashreportcategory = crashreport.m_127514_("Block being got");
           crashreportcategory.m_128165_("Location", () -> {
 -            return CrashReportCategory.m_178942_(this, p_62815_, p_62816_, p_62817_);
-+            return CrashReportCategory.formatLocation(this, p_62815_, p_62816_, p_62817_);
++            return CrashReportCategory.formatLocation(this, pX, pY, pZ);
           });
           throw new ReportedException(crashreport);
        }

@@ -18,10 +18,11 @@
     }
  
 -   void m_157509_(long p_157510_, EntitySection<T> p_157511_) {
-+   void removeSectionIfEmpty(SectionPos p_157510_, EntitySection<T> p_157511_) {
-       if (p_157511_.m_156833_()) {
+-      if (p_157511_.m_156833_()) {
 -         this.f_157495_.m_156897_(p_157510_);
-+         this.f_157495_.remove(p_157510_);
++   void removeSectionIfEmpty(SectionPos pSectionKey, EntitySection<T> pSection) {
++      if (pSection.m_156833_()) {
++         this.f_157495_.remove(pSectionKey);
        }
  
     }
@@ -60,44 +61,46 @@
           Visibility visibility = p_157545_.m_156838_(p_157529_);
           boolean flag = visibility.m_157694_();
           boolean flag1 = p_157529_.m_157694_();
-@@ -177,50 +_,49 @@
+@@ -177,56 +_,55 @@
        });
     }
  
 -   private void m_157555_(long p_157556_) {
-+   private void ensureChunkQueuedForLoad(ChunkPos p_157556_) {
-       PersistentEntitySectionManager.ChunkLoadStatus persistententitysectionmanager$chunkloadstatus = this.f_157498_.get(p_157556_);
+-      PersistentEntitySectionManager.ChunkLoadStatus persistententitysectionmanager$chunkloadstatus = this.f_157498_.get(p_157556_);
++   private void ensureChunkQueuedForLoad(ChunkPos pChunkPosValue) {
++      PersistentEntitySectionManager.ChunkLoadStatus persistententitysectionmanager$chunkloadstatus = this.f_157498_.get(pChunkPosValue);
        if (persistententitysectionmanager$chunkloadstatus == PersistentEntitySectionManager.ChunkLoadStatus.FRESH) {
 -         this.m_157562_(p_157556_);
-+         this.requestChunkLoad(p_157556_);
++         this.requestChunkLoad(pChunkPosValue);
        }
  
     }
  
 -   private boolean m_157512_(long p_157513_, Consumer<T> p_157514_) {
-+   private boolean storeChunkSections(ChunkPos p_157513_, Consumer<T> p_157514_) {
-       PersistentEntitySectionManager.ChunkLoadStatus persistententitysectionmanager$chunkloadstatus = this.f_157498_.get(p_157513_);
+-      PersistentEntitySectionManager.ChunkLoadStatus persistententitysectionmanager$chunkloadstatus = this.f_157498_.get(p_157513_);
++   private boolean storeChunkSections(ChunkPos pChunkPosValue, Consumer<T> p_157514_) {
++      PersistentEntitySectionManager.ChunkLoadStatus persistententitysectionmanager$chunkloadstatus = this.f_157498_.get(pChunkPosValue);
        if (persistententitysectionmanager$chunkloadstatus == PersistentEntitySectionManager.ChunkLoadStatus.PENDING) {
           return false;
        } else {
 -         List<T> list = this.f_157495_.m_156888_(p_157513_).flatMap((p_157542_) -> {
-+         List<T> list = this.f_157495_.getExistingSectionsInChunk(p_157513_).flatMap((p_157542_) -> {
++         List<T> list = this.f_157495_.getExistingSectionsInChunk(pChunkPosValue).flatMap((p_157542_) -> {
              return p_157542_.m_156845_().filter(EntityAccess::m_142391_);
           }).collect(Collectors.toList());
           if (list.isEmpty()) {
              if (persistententitysectionmanager$chunkloadstatus == PersistentEntitySectionManager.ChunkLoadStatus.LOADED) {
 -               this.f_157493_.m_141971_(new ChunkEntities<>(new ChunkPos(p_157513_), ImmutableList.of()));
-+               this.f_157493_.m_141971_(new ChunkEntities<>(p_157513_, ImmutableList.of()));
++               this.f_157493_.m_141971_(new ChunkEntities<>(pChunkPosValue, ImmutableList.of()));
              }
  
              return true;
           } else if (persistententitysectionmanager$chunkloadstatus == PersistentEntitySectionManager.ChunkLoadStatus.FRESH) {
 -            this.m_157562_(p_157513_);
-+            this.requestChunkLoad(p_157513_);
++            this.requestChunkLoad(pChunkPosValue);
              return false;
           } else {
 -            this.f_157493_.m_141971_(new ChunkEntities<>(new ChunkPos(p_157513_), list));
-+            this.f_157493_.m_141971_(new ChunkEntities<>(p_157513_, list));
++            this.f_157493_.m_141971_(new ChunkEntities<>(pChunkPosValue, list));
              list.forEach(p_157514_);
              return true;
           }
@@ -105,24 +108,32 @@
     }
  
 -   private void m_157562_(long p_157563_) {
-+   private void requestChunkLoad(ChunkPos p_157563_) {
-       this.f_157498_.put(p_157563_, PersistentEntitySectionManager.ChunkLoadStatus.PENDING);
+-      this.f_157498_.put(p_157563_, PersistentEntitySectionManager.ChunkLoadStatus.PENDING);
 -      ChunkPos chunkpos = new ChunkPos(p_157563_);
 -      this.f_157493_.m_141930_(chunkpos).thenAccept(this.f_157500_::add).exceptionally((p_157532_) -> {
 -         f_157490_.error("Failed to read chunk {}", chunkpos, p_157532_);
-+      this.f_157493_.m_141930_(p_157563_).thenAccept(this.f_157500_::add).exceptionally((p_157532_) -> {
-+         f_157490_.error("Failed to read chunk {}", p_157563_, p_157532_);
++   private void requestChunkLoad(ChunkPos pChunkPosValue) {
++      this.f_157498_.put(pChunkPosValue, PersistentEntitySectionManager.ChunkLoadStatus.PENDING);
++      this.f_157493_.m_141930_(pChunkPosValue).thenAccept(this.f_157500_::add).exceptionally((p_157532_) -> {
++         f_157490_.error("Failed to read chunk {}", pChunkPosValue, p_157532_);
           return null;
        });
     }
  
 -   private boolean m_157568_(long p_157569_) {
 -      boolean flag = this.m_157512_(p_157569_, (p_157595_) -> {
-+   private boolean processChunkUnload(ChunkPos p_157569_) {
-+      boolean flag = this.storeChunkSections(p_157569_, (p_157595_) -> {
++   private boolean processChunkUnload(ChunkPos pChunkPosValue) {
++      boolean flag = this.storeChunkSections(pChunkPosValue, (p_157595_) -> {
           p_157595_.m_142429_().forEach(this::m_157585_);
        });
        if (!flag) {
+          return false;
+       } else {
+-         this.f_157498_.remove(p_157569_);
++         this.f_157498_.remove(pChunkPosValue);
+          return true;
+       }
+    }
 @@ -237,8 +_,8 @@
     }
  
@@ -208,8 +219,9 @@
     }
  
 -   public boolean m_157507_(long p_157508_) {
-+   public boolean areEntitiesLoaded(ChunkPos p_157508_) {
-       return this.f_157498_.get(p_157508_) == PersistentEntitySectionManager.ChunkLoadStatus.LOADED;
+-      return this.f_157498_.get(p_157508_) == PersistentEntitySectionManager.ChunkLoadStatus.LOADED;
++   public boolean areEntitiesLoaded(ChunkPos pChunkPos) {
++      return this.f_157498_.get(pChunkPos) == PersistentEntitySectionManager.ChunkLoadStatus.LOADED;
     }
  
     public void m_157548_(Writer p_157549_) throws IOException {
@@ -228,7 +240,7 @@
                 } catch (IOException ioexception) {
                    throw new UncheckedIOException(ioexception);
                 }
-@@ -349,10 +_,10 @@
+@@ -349,26 +_,26 @@
  
     class Callback implements EntityInLevelCallback {
        private final T f_157609_;
@@ -237,11 +249,14 @@
        private EntitySection<T> f_157611_;
  
 -      Callback(T p_157614_, long p_157615_, EntitySection<T> p_157616_) {
-+      Callback(T p_157614_, SectionPos p_157615_, EntitySection<T> p_157616_) {
-          this.f_157609_ = p_157614_;
-          this.f_157610_ = p_157615_;
-          this.f_157611_ = p_157616_;
-@@ -360,15 +_,15 @@
+-         this.f_157609_ = p_157614_;
+-         this.f_157610_ = p_157615_;
+-         this.f_157611_ = p_157616_;
++      Callback(T pEntity, SectionPos pCurrentSectionKey, EntitySection<T> pCurrentSection) {
++         this.f_157609_ = pEntity;
++         this.f_157610_ = pCurrentSectionKey;
++         this.f_157611_ = pCurrentSection;
+       }
  
        public void m_142044_() {
           BlockPos blockpos = this.f_157609_.m_20183_();

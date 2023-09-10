@@ -19,16 +19,17 @@
  
 -   protected Node m_5676_(int p_77325_, int p_77326_, int p_77327_) {
 -      return this.f_77314_.computeIfAbsent(Node.m_77295_(p_77325_, p_77326_, p_77327_), (p_77332_) -> {
-+   protected Node getNode(me.alphamode.mclong.math.BigInteger p_77325_, me.alphamode.mclong.math.BigInteger p_77326_, me.alphamode.mclong.math.BigInteger p_77327_) {
-+      return this.f_77314_.computeIfAbsent(Node.createHash(p_77325_.longValue(), p_77326_.longValue(), p_77327_.longValue()), (p_77332_) -> {
-          return new Node(p_77325_, p_77326_, p_77327_);
+-         return new Node(p_77325_, p_77326_, p_77327_);
++   protected Node getNode(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.f_77314_.computeIfAbsent(Node.createHash(pX.longValue(), pY.longValue(), pZ.longValue()), (p_77332_) -> {
++         return new Node(pX, pY, pZ);
        });
     }
  
     public abstract Node m_7171_();
  
 -   public abstract Target m_7568_(double p_77322_, double p_77323_, double p_77324_);
-+   public abstract Target getGoal(me.alphamode.mclong.math.BigDecimal p_77322_, me.alphamode.mclong.math.BigDecimal p_77323_, me.alphamode.mclong.math.BigDecimal p_77324_);
++   public abstract Target getGoal(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ);
  
     protected Target m_230615_(Node p_230616_) {
        return new Target(p_230616_);
@@ -37,10 +38,10 @@
     public abstract int m_6065_(Node[] p_77353_, Node p_77354_);
  
 -   public abstract BlockPathTypes m_7209_(BlockGetter p_77337_, int p_77338_, int p_77339_, int p_77340_, Mob p_77341_);
-+   public abstract BlockPathTypes getBlockPathType(BlockGetter p_77337_, me.alphamode.mclong.math.BigInteger p_77338_, me.alphamode.mclong.math.BigInteger p_77339_, me.alphamode.mclong.math.BigInteger p_77340_, Mob p_77341_);
++   public abstract BlockPathTypes getBlockPathType(BlockGetter pLevel, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ, Mob pMob);
  
 -   public abstract BlockPathTypes m_8086_(BlockGetter p_77333_, int p_77334_, int p_77335_, int p_77336_);
-+   public abstract BlockPathTypes getBlockPathType(BlockGetter p_77333_, me.alphamode.mclong.math.BigInteger p_77334_, me.alphamode.mclong.math.BigInteger p_77335_, me.alphamode.mclong.math.BigInteger p_77336_);
++   public abstract BlockPathTypes getBlockPathType(BlockGetter pLevel, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ);
  
     public void m_77351_(boolean p_77352_) {
        this.f_77318_ = p_77352_;

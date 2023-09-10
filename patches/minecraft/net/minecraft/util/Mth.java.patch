@@ -17,8 +17,8 @@
        return Math.abs(p_14155_);
     }
  
-+   public static long abs(long p_14041_) {
-+      return Math.abs(p_14041_);
++   public static long abs(long pValue) {
++      return Math.abs(pValue);
 +   }
 +
     public static int m_14040_(int p_14041_) {
@@ -28,9 +28,9 @@
        return p_14166_ > (double)i ? i + 1 : i;
     }
  
-+   public static long lceil(double p_14166_) {
-+      long i = (long)p_14166_;
-+      return p_14166_ > (double)i ? i + 1 : i;
++   public static long lceil(double pValue) {
++      long i = (long)pValue;
++      return pValue > (double)i ? i + 1 : i;
 +   }
 +
 +   public static me.alphamode.mclong.math.BigInteger lceil(me.alphamode.mclong.math.BigDecimal val) {
@@ -41,12 +41,12 @@
        return Math.min(Math.max(p_14046_, p_14047_), p_14048_);
     }
  
-+   public static long clamp(long p_14046_, long p_14047_, long p_14048_) {
-+      return Math.min(Math.max(p_14046_, p_14047_), p_14048_);
++   public static long clamp(long pValue, long pMin, long pMax) {
++      return Math.min(Math.max(pValue, pMin), pMax);
 +   }
 +
-+   public static me.alphamode.mclong.math.BigInteger clamp(me.alphamode.mclong.math.BigInteger p_14046_, me.alphamode.mclong.math.BigInteger p_14047_, me.alphamode.mclong.math.BigInteger p_14048_) {
-+      return p_14046_.max(p_14047_).min(p_14048_);
++   public static me.alphamode.mclong.math.BigInteger clamp(me.alphamode.mclong.math.BigInteger pValue, me.alphamode.mclong.math.BigInteger pMin, me.alphamode.mclong.math.BigInteger pMax) {
++      return pValue.max(pMin).min(pMax);
 +   }
 +
     public static float m_14036_(float p_14037_, float p_14038_, float p_14039_) {
@@ -56,15 +56,15 @@
        return p_14009_ < p_14010_ ? p_14010_ : Math.min(p_14009_, p_14011_);
     }
  
-+   public static me.alphamode.mclong.math.BigDecimal clamp(me.alphamode.mclong.math.BigDecimal p_14009_, me.alphamode.mclong.math.BigDecimal p_14010_, me.alphamode.mclong.math.BigDecimal p_14011_) {
-+      return p_14009_.compareTo(p_14010_) < 0 ? p_14010_ : p_14009_.min(p_14011_);
++   public static me.alphamode.mclong.math.BigDecimal clamp(me.alphamode.mclong.math.BigDecimal pValue, me.alphamode.mclong.math.BigDecimal pMin, me.alphamode.mclong.math.BigDecimal pMax) {
++      return pValue.compareTo(pMin) < 0 ? pMin : pValue.min(pMax);
 +   }
 +
-+   public static me.alphamode.mclong.math.BigDecimal clampedLerp(me.alphamode.mclong.math.BigDecimal p_14086_, me.alphamode.mclong.math.BigDecimal p_14087_, me.alphamode.mclong.math.BigDecimal p_14088_) {
-+      if (p_14088_.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0) {
-+         return p_14086_;
++   public static me.alphamode.mclong.math.BigDecimal clampedLerp(me.alphamode.mclong.math.BigDecimal pStart, me.alphamode.mclong.math.BigDecimal pEnd, me.alphamode.mclong.math.BigDecimal pDelta) {
++      if (pDelta.compareTo(me.alphamode.mclong.math.BigDecimal.ZERO) < 0) {
++         return pStart;
 +      } else {
-+         return p_14088_.compareTo(me.alphamode.mclong.math.BigDecimal.ONE) > 0 ? p_14087_ : lerp(p_14088_, p_14086_, p_14087_);
++         return pDelta.compareTo(me.alphamode.mclong.math.BigDecimal.ONE) > 0 ? pEnd : lerp(pDelta, pStart, pEnd);
 +      }
 +   }
 +
@@ -75,24 +75,24 @@
        return Math.max(p_14006_, p_14007_);
     }
  
-+   public static long longFloorDiv(long p_14043_, long p_14044_) {
-+      return Math.floorDiv(p_14043_, p_14044_);
++   public static long longFloorDiv(long pDividend, long pDivisor) {
++      return Math.floorDiv(pDividend, pDivisor);
 +   }
 +
-+   public static me.alphamode.mclong.math.BigInteger floorDiv(me.alphamode.mclong.math.BigInteger p_14043_, me.alphamode.mclong.math.BigInteger p_14044_) {
-+      return me.alphamode.mclong.math.BigMath.floorDiv(p_14043_, p_14044_);
++   public static me.alphamode.mclong.math.BigInteger floorDiv(me.alphamode.mclong.math.BigInteger pDividend, me.alphamode.mclong.math.BigInteger pDivisor) {
++      return me.alphamode.mclong.math.BigMath.floorDiv(pDividend, pDivisor);
 +   }
 +
-+   public static me.alphamode.mclong.math.BigInteger floorDiv(me.alphamode.mclong.math.BigInteger p_14043_, long p_14044_) {
-+      return me.alphamode.mclong.math.BigMath.floorDiv(p_14043_, p_14044_);
++   public static me.alphamode.mclong.math.BigInteger floorDiv(me.alphamode.mclong.math.BigInteger pDividend, long pDivisor) {
++      return me.alphamode.mclong.math.BigMath.floorDiv(pDividend, pDivisor);
 +   }
 +
     public static int m_14042_(int p_14043_, int p_14044_) {
        return Math.floorDiv(p_14043_, p_14044_);
     }
  
-+   public static long nextLong(RandomSource p_216272_, long p_216273_, long p_216274_) {
-+      return p_216273_ >= p_216274_ ? p_216273_ : p_216272_.nextLong(p_216274_ - p_216273_ + 1) + p_216273_;
++   public static long nextLong(RandomSource pRandom, long pMinimum, long pMaximum) {
++      return pMinimum >= pMaximum ? pMinimum : pRandom.nextLong(pMaximum - pMinimum + 1) + pMinimum;
 +   }
 +
     public static int m_216271_(RandomSource p_216272_, int p_216273_, int p_216274_) {
@@ -102,8 +102,8 @@
        return p_216265_ >= p_216266_ ? p_216265_ : p_216264_.m_188500_() * (p_216266_ - p_216265_) + p_216265_;
     }
  
-+   public static me.alphamode.mclong.math.BigDecimal nextDouble(RandomSource p_216264_, me.alphamode.mclong.math.BigDecimal p_216265_, me.alphamode.mclong.math.BigDecimal p_216266_) {
-+      return p_216265_.compareTo(p_216266_) >= 0 ? p_216265_ : me.alphamode.mclong.math.BigDecimal.valueOf(p_216264_.m_188500_()).multiply((p_216266_.subtract(p_216265_))).add(p_216265_);
++   public static me.alphamode.mclong.math.BigDecimal nextDouble(RandomSource pRandom, me.alphamode.mclong.math.BigDecimal pMinimum, me.alphamode.mclong.math.BigDecimal pMaximum) {
++      return pMinimum.compareTo(pMaximum) >= 0 ? pMinimum : me.alphamode.mclong.math.BigDecimal.valueOf(pRandom.m_188500_()).multiply((pMaximum.subtract(pMinimum))).add(pMinimum);
 +   }
 +
     public static boolean m_14033_(float p_14034_, float p_14035_) {
@@ -121,12 +121,12 @@
        return Math.floorMod(p_14101_, p_14102_);
     }
  
-+   public static long positiveModulo(long p_14101_, long p_14102_) {
-+      return Math.floorMod(p_14101_, p_14102_);
++   public static long positiveModulo(long pX, long pY) {
++      return Math.floorMod(pX, pY);
 +   }
 +
-+   public static me.alphamode.mclong.math.BigInteger positiveModulo(me.alphamode.mclong.math.BigInteger p_14101_, long p_14102_) {
-+      return me.alphamode.mclong.math.BigMath.floorMod(p_14101_, p_14102_);
++   public static me.alphamode.mclong.math.BigInteger positiveModulo(me.alphamode.mclong.math.BigInteger pX, long pY) {
++      return me.alphamode.mclong.math.BigMath.floorMod(pX, pY);
 +   }
 +
     public static float m_14091_(float p_14092_, float p_14093_) {
@@ -137,8 +137,9 @@
     }
  
 -   public static boolean m_14152_(int p_14153_) {
-+   public static long smallestEncompassingPowerOfTwo(long p_14126_) {
-+      long i = p_14126_ - 1;
+-      return p_14153_ != 0 && (p_14153_ & p_14153_ - 1) == 0;
++   public static long smallestEncompassingPowerOfTwo(long pValue) {
++      long i = pValue - 1;
 +      i |= i >> 1;
 +      i |= i >> 2;
 +      i |= i >> 4;
@@ -147,28 +148,28 @@
 +      return i + 1;
 +   }
 +
-+   public static boolean isPowerOfTwo(long p_14153_) {
-       return p_14153_ != 0 && (p_14153_ & p_14153_ - 1) == 0;
++   public static boolean isPowerOfTwo(long pValue) {
++      return pValue != 0 && (pValue & pValue - 1) == 0;
     }
  
     public static int m_14163_(int p_14164_) {
 -      p_14164_ = m_14152_(p_14164_) ? p_14164_ : m_14125_(p_14164_);
 +      p_14164_ = isPowerOfTwo(p_14164_) ? p_14164_ : m_14125_(p_14164_);
-+      return f_13997_[(int)((long)p_14164_ * 125613361L >> 27) & 31];
-+   }
-+
-+   public static long ceillog2(long p_14164_) {
-+      p_14164_ = isPowerOfTwo(p_14164_) ? p_14164_ : smallestEncompassingPowerOfTwo(p_14164_);
        return f_13997_[(int)((long)p_14164_ * 125613361L >> 27) & 31];
     }
  
++   public static long ceillog2(long pValue) {
++      pValue = isPowerOfTwo(pValue) ? pValue : smallestEncompassingPowerOfTwo(pValue);
++      return f_13997_[(int)((long)pValue * 125613361L >> 27) & 31];
++   }
++
     public static int m_14173_(int p_14174_) {
 -      return m_14163_(p_14174_) - (m_14152_(p_14174_) ? 0 : 1);
 +      return m_14163_(p_14174_) - (isPowerOfTwo(p_14174_) ? 0 : 1);
     }
  
     public static int m_14159_(float p_14160_, float p_14161_, float p_14162_) {
-@@ -265,15 +_,19 @@
+@@ -265,16 +_,20 @@
        return p_14186_ - (double)m_14134_(p_14186_);
     }
  
@@ -181,28 +182,30 @@
 -   /** @deprecated */
 -   @Deprecated
 -   public static long m_14130_(int p_14131_, int p_14132_, int p_14133_) {
-+   public static me.alphamode.mclong.math.BigDecimal frac(me.alphamode.mclong.math.BigDecimal p_14186_) {
-+      return p_14186_.subtract(lfloor(p_14186_).toBigDecimal());
+-      long i = (long)(p_14131_ * 3129871) ^ (long)p_14133_ * 116129781L ^ (long)p_14132_;
++   public static me.alphamode.mclong.math.BigDecimal frac(me.alphamode.mclong.math.BigDecimal pNumber) {
++      return pNumber.subtract(lfloor(pNumber).toBigDecimal());
 +   }
 +
 +   /** @deprecated */
 +   @Deprecated
-+   public static long getSeed(me.alphamode.mclong.core.Vec3l p_14058_) {
-+      return getSeed(p_14058_.getX(), p_14058_.getY(), p_14058_.getZ());
++   public static long getSeed(me.alphamode.mclong.core.Vec3l pPos) {
++      return getSeed(pPos.getX(), pPos.getY(), pPos.getZ());
 +   }
 +
 +   /** @deprecated */
 +   @Deprecated
-+   public static long getSeed(long p_14131_, long p_14132_, long p_14133_) {
-       long i = (long)(p_14131_ * 3129871) ^ (long)p_14133_ * 116129781L ^ (long)p_14132_;
++   public static long getSeed(long pX, long pY, long pZ) {
++      long i = (long)(pX * 3129871) ^ (long)pZ * 116129781L ^ (long)pY;
        i = i * i * 42317861L + i * 11L;
        return i >> 16;
+    }
 @@ -289,6 +_,10 @@
        return m_216261_(f_13996_);
     }
  
-+   public static me.alphamode.mclong.math.BigDecimal inverseLerp(me.alphamode.mclong.math.BigDecimal p_14113_, me.alphamode.mclong.math.BigDecimal p_14114_, me.alphamode.mclong.math.BigDecimal p_14115_) {
-+      return (p_14113_.subtract(p_14114_)).divide((p_14115_.subtract(p_14114_)));
++   public static me.alphamode.mclong.math.BigDecimal inverseLerp(me.alphamode.mclong.math.BigDecimal pDelta, me.alphamode.mclong.math.BigDecimal pStart, me.alphamode.mclong.math.BigDecimal pEnd) {
++      return (pDelta.subtract(pStart)).divide((pEnd.subtract(pStart)));
 +   }
 +
     public static double m_14112_(double p_14113_, double p_14114_, double p_14115_) {
@@ -267,20 +270,20 @@
        return p_14141_ + p_14140_ * (p_14142_ - p_14141_);
     }
  
-+   public static me.alphamode.mclong.math.BigDecimal lerp(me.alphamode.mclong.math.BigDecimal p_14140_, me.alphamode.mclong.math.BigDecimal p_14141_, me.alphamode.mclong.math.BigDecimal p_14142_) {
-+      return p_14141_.add(p_14140_.multiply(p_14142_.subtract(p_14141_)));
++   public static me.alphamode.mclong.math.BigDecimal lerp(me.alphamode.mclong.math.BigDecimal pDelta, me.alphamode.mclong.math.BigDecimal pStart, me.alphamode.mclong.math.BigDecimal pEnd) {
++      return pStart.add(pDelta.multiply(pEnd.subtract(pStart)));
 +   }
 +
-+   public static me.alphamode.mclong.math.BigDecimal lerp(double p_14140_, me.alphamode.mclong.math.BigDecimal p_14141_, me.alphamode.mclong.math.BigDecimal p_14142_) {
-+      return p_14141_.add(me.alphamode.mclong.math.BigDecimal.valueOf(p_14140_).multiply(p_14142_.subtract(p_14141_)));
++   public static me.alphamode.mclong.math.BigDecimal lerp(double pDelta, me.alphamode.mclong.math.BigDecimal pStart, me.alphamode.mclong.math.BigDecimal pEnd) {
++      return pStart.add(me.alphamode.mclong.math.BigDecimal.valueOf(pDelta).multiply(pEnd.subtract(pStart)));
 +   }
 +
-+   public static me.alphamode.mclong.math.BigDecimal lerp2(me.alphamode.mclong.math.BigDecimal p_14013_, me.alphamode.mclong.math.BigDecimal p_14014_, me.alphamode.mclong.math.BigDecimal p_14015_, me.alphamode.mclong.math.BigDecimal p_14016_, me.alphamode.mclong.math.BigDecimal p_14017_, me.alphamode.mclong.math.BigDecimal p_14018_) {
-+      return lerp(p_14014_, lerp(p_14013_, p_14015_, p_14016_), lerp(p_14013_, p_14017_, p_14018_));
++   public static me.alphamode.mclong.math.BigDecimal lerp2(me.alphamode.mclong.math.BigDecimal pDelta1, me.alphamode.mclong.math.BigDecimal pDelta2, me.alphamode.mclong.math.BigDecimal pStart1, me.alphamode.mclong.math.BigDecimal pEnd1, me.alphamode.mclong.math.BigDecimal pStart2, me.alphamode.mclong.math.BigDecimal pEnd2) {
++      return lerp(pDelta2, lerp(pDelta1, pStart1, pEnd1), lerp(pDelta1, pStart2, pEnd2));
 +   }
 +
-+   public static me.alphamode.mclong.math.BigDecimal lerp3(me.alphamode.mclong.math.BigDecimal p_14020_, me.alphamode.mclong.math.BigDecimal p_14021_, me.alphamode.mclong.math.BigDecimal p_14022_, me.alphamode.mclong.math.BigDecimal p_14023_, me.alphamode.mclong.math.BigDecimal p_14024_, me.alphamode.mclong.math.BigDecimal p_14025_, me.alphamode.mclong.math.BigDecimal p_14026_, me.alphamode.mclong.math.BigDecimal p_14027_, me.alphamode.mclong.math.BigDecimal p_14028_, me.alphamode.mclong.math.BigDecimal p_14029_, me.alphamode.mclong.math.BigDecimal p_14030_) {
-+      return lerp(p_14022_, lerp2(p_14020_, p_14021_, p_14023_, p_14024_, p_14025_, p_14026_), lerp2(p_14020_, p_14021_, p_14027_, p_14028_, p_14029_, p_14030_));
++   public static me.alphamode.mclong.math.BigDecimal lerp3(me.alphamode.mclong.math.BigDecimal pDelta1, me.alphamode.mclong.math.BigDecimal pDelta2, me.alphamode.mclong.math.BigDecimal pDelta3, me.alphamode.mclong.math.BigDecimal pStart1, me.alphamode.mclong.math.BigDecimal pEnd1, me.alphamode.mclong.math.BigDecimal pStart2, me.alphamode.mclong.math.BigDecimal pEnd2, me.alphamode.mclong.math.BigDecimal pStart3, me.alphamode.mclong.math.BigDecimal pEnd3, me.alphamode.mclong.math.BigDecimal pStart4, me.alphamode.mclong.math.BigDecimal pEnd4) {
++      return lerp(pDelta3, lerp2(pDelta1, pDelta2, pStart1, pEnd1, pStart2, pEnd2), lerp2(pDelta1, pDelta2, pStart3, pEnd3, pStart4, pEnd4));
 +   }
 +
     public static double m_14012_(double p_14013_, double p_14014_, double p_14015_, double p_14016_, double p_14017_, double p_14018_) {
@@ -290,8 +293,8 @@
        return p_14198_ * p_14198_ * p_14198_ * (p_14198_ * (p_14198_ * 6.0D - 15.0D) + 10.0D);
     }
  
-+   public static me.alphamode.mclong.math.BigDecimal smoothstep(me.alphamode.mclong.math.BigDecimal p_14198_) {
-+      return p_14198_.multiply(p_14198_).multiply(p_14198_).multiply((p_14198_.multiply((p_14198_.multiply(me.alphamode.mclong.core.BigConstants.SIX).subtract(me.alphamode.mclong.core.BigConstants.FIFTEEN))).add(me.alphamode.mclong.core.BigConstants.TEN)));
++   public static me.alphamode.mclong.math.BigDecimal smoothstep(me.alphamode.mclong.math.BigDecimal pInput) {
++      return pInput.multiply(pInput).multiply(pInput).multiply((pInput.multiply((pInput.multiply(me.alphamode.mclong.core.BigConstants.SIX).subtract(me.alphamode.mclong.core.BigConstants.FIFTEEN))).add(me.alphamode.mclong.core.BigConstants.TEN)));
 +   }
 +
     public static double m_144946_(double p_144947_) {
@@ -316,8 +319,8 @@
        return p_144953_ * p_144953_;
     }
  
-+   public static me.alphamode.mclong.math.BigDecimal square(me.alphamode.mclong.math.BigDecimal p_144953_) {
-+      return p_144953_.multiply(p_144953_);
++   public static me.alphamode.mclong.math.BigDecimal square(me.alphamode.mclong.math.BigDecimal pValue) {
++      return pValue.multiply(pValue);
 +   }
 +
     public static int m_144944_(int p_144945_) {
@@ -327,24 +330,24 @@
        return p_184644_ * p_184644_;
     }
  
-+   public static me.alphamode.mclong.math.BigInteger square(me.alphamode.mclong.math.BigInteger p_184644_) {
-+      return p_184644_.multiply(p_184644_);
++   public static me.alphamode.mclong.math.BigInteger square(me.alphamode.mclong.math.BigInteger pValue) {
++      return pValue.multiply(pValue);
 +   }
 +
     public static double m_144851_(double p_144852_, double p_144853_, double p_144854_, double p_144855_, double p_144856_) {
        return m_14085_(p_144855_, p_144856_, m_14112_(p_144852_, p_144853_, p_144854_));
     }
  
-+   public static me.alphamode.mclong.math.BigDecimal clampedMap(me.alphamode.mclong.math.BigDecimal p_144852_, me.alphamode.mclong.math.BigDecimal p_144853_, me.alphamode.mclong.math.BigDecimal p_144854_, me.alphamode.mclong.math.BigDecimal p_144855_, me.alphamode.mclong.math.BigDecimal p_144856_) {
-+      return clampedLerp(p_144855_, p_144856_, inverseLerp(p_144852_, p_144853_, p_144854_));
++   public static me.alphamode.mclong.math.BigDecimal clampedMap(me.alphamode.mclong.math.BigDecimal pInput, me.alphamode.mclong.math.BigDecimal pInputMin, me.alphamode.mclong.math.BigDecimal pInputMax, me.alphamode.mclong.math.BigDecimal pOuputMin, me.alphamode.mclong.math.BigDecimal pOutputMax) {
++      return clampedLerp(pOuputMin, pOutputMax, inverseLerp(pInput, pInputMin, pInputMax));
 +   }
 +
     public static float m_184631_(float p_184632_, float p_184633_, float p_184634_, float p_184635_, float p_184636_) {
        return m_144920_(p_184635_, p_184636_, m_184655_(p_184632_, p_184633_, p_184634_));
     }
  
-+   public static me.alphamode.mclong.math.BigDecimal map(me.alphamode.mclong.math.BigDecimal p_144915_, me.alphamode.mclong.math.BigDecimal p_144916_, me.alphamode.mclong.math.BigDecimal p_144917_, me.alphamode.mclong.math.BigDecimal p_144918_, me.alphamode.mclong.math.BigDecimal p_144919_) {
-+      return lerp(inverseLerp(p_144915_, p_144916_, p_144917_), p_144918_, p_144919_);
++   public static me.alphamode.mclong.math.BigDecimal map(me.alphamode.mclong.math.BigDecimal pInput, me.alphamode.mclong.math.BigDecimal pInputMin, me.alphamode.mclong.math.BigDecimal pInputMax, me.alphamode.mclong.math.BigDecimal pOutputMin, me.alphamode.mclong.math.BigDecimal pOutputMax) {
++      return lerp(inverseLerp(pInput, pInputMin, pInputMax), pOutputMin, pOutputMax);
 +   }
 +
     public static double m_144914_(double p_144915_, double p_144916_, double p_144917_, double p_144918_, double p_144919_) {
@@ -354,8 +357,8 @@
        return p_216288_.m_188503_(p_216290_ - p_216289_ + 1) + p_216289_;
     }
  
-+   public static long randomBetweenInclusive(RandomSource p_216288_, long p_216289_, long p_216290_) {
-+      return p_216288_.nextLong(p_216290_ - p_216289_ + 1) + p_216289_;
++   public static long randomBetweenInclusive(RandomSource pRandom, long pMinInclusive, long pMaxInclusive) {
++      return pRandom.nextLong(pMaxInclusive - pMinInclusive + 1) + pMinInclusive;
 +   }
 +
     public static float m_216283_(RandomSource p_216284_, float p_216285_, float p_216286_) {
@@ -365,20 +368,20 @@
        return Math.sqrt(m_211589_(p_184646_, p_184647_));
     }
  
-+   public static me.alphamode.mclong.math.BigDecimal lengthSquared(me.alphamode.mclong.math.BigDecimal p_211590_, me.alphamode.mclong.math.BigDecimal p_211591_) {
-+      return p_211590_.multiply(p_211590_).add(p_211591_.multiply(p_211591_));
++   public static me.alphamode.mclong.math.BigDecimal lengthSquared(me.alphamode.mclong.math.BigDecimal pXDistance, me.alphamode.mclong.math.BigDecimal pYDistance) {
++      return pXDistance.multiply(pXDistance).add(pYDistance.multiply(pYDistance));
 +   }
 +
-+   public static me.alphamode.mclong.math.BigDecimal length(me.alphamode.mclong.math.BigDecimal p_184646_, me.alphamode.mclong.math.BigDecimal p_184647_) {
-+      return lengthSquared(p_184646_, p_184647_).sqrt();
++   public static me.alphamode.mclong.math.BigDecimal length(me.alphamode.mclong.math.BigDecimal pXDistance, me.alphamode.mclong.math.BigDecimal pYDistance) {
++      return lengthSquared(pXDistance, pYDistance).sqrt();
 +   }
 +
-+   public static me.alphamode.mclong.math.BigDecimal lengthSquared(me.alphamode.mclong.math.BigDecimal p_211593_, me.alphamode.mclong.math.BigDecimal p_211594_, me.alphamode.mclong.math.BigDecimal p_211595_) {
-+      return p_211593_.multiply(p_211593_).add(p_211594_.multiply(p_211594_)).add(p_211595_.multiply(p_211595_));
++   public static me.alphamode.mclong.math.BigDecimal lengthSquared(me.alphamode.mclong.math.BigDecimal pXDistance, me.alphamode.mclong.math.BigDecimal pYDistance, me.alphamode.mclong.math.BigDecimal pZDistance) {
++      return pXDistance.multiply(pXDistance).add(pYDistance.multiply(pYDistance)).add(pZDistance.multiply(pZDistance));
 +   }
 +
-+   public static me.alphamode.mclong.math.BigDecimal length(me.alphamode.mclong.math.BigDecimal p_184649_, me.alphamode.mclong.math.BigDecimal p_184650_, me.alphamode.mclong.math.BigDecimal p_184651_) {
-+      return lengthSquared(p_184649_, p_184650_, p_184651_).sqrt();
++   public static me.alphamode.mclong.math.BigDecimal length(me.alphamode.mclong.math.BigDecimal pXDistance, me.alphamode.mclong.math.BigDecimal pYDistance, me.alphamode.mclong.math.BigDecimal pZDistance) {
++      return lengthSquared(pXDistance, pYDistance, pZDistance).sqrt();
 +   }
 +
     public static double m_211592_(double p_211593_, double p_211594_, double p_211595_) {
@@ -390,37 +393,46 @@
  
 -   public static IntStream m_216295_(int p_216296_, int p_216297_, int p_216298_) {
 -      return m_216250_(p_216296_, p_216297_, p_216298_, 1);
-+   public static java.util.stream.LongStream outFromOrigin(long p_216296_, long p_216297_, long p_216298_) {
-+      return outFromOrigin(p_216296_, p_216297_, p_216298_, 1);
++   public static java.util.stream.LongStream outFromOrigin(long pInput, long pLowerBound, long pUpperBound) {
++      return outFromOrigin(pInput, pLowerBound, pUpperBound, 1);
     }
  
 -   public static IntStream m_216250_(int p_216251_, int p_216252_, int p_216253_, int p_216254_) {
-+   public static java.util.stream.LongStream outFromOrigin(long p_216251_, long p_216252_, long p_216253_, long p_216254_) {
-       if (p_216252_ > p_216253_) {
-          throw new IllegalArgumentException(String.format(Locale.ROOT, "upperbound %d expected to be > lowerBound %d", p_216253_, p_216252_));
-       } else if (p_216254_ < 1) {
-          throw new IllegalArgumentException(String.format(Locale.ROOT, "steps expected to be >= 1, was %d", p_216254_));
+-      if (p_216252_ > p_216253_) {
+-         throw new IllegalArgumentException(String.format(Locale.ROOT, "upperbound %d expected to be > lowerBound %d", p_216253_, p_216252_));
+-      } else if (p_216254_ < 1) {
+-         throw new IllegalArgumentException(String.format(Locale.ROOT, "steps expected to be >= 1, was %d", p_216254_));
++   public static java.util.stream.LongStream outFromOrigin(long pInput, long pLowerBound, long pUpperBound, long pSteps) {
++      if (pLowerBound > pUpperBound) {
++         throw new IllegalArgumentException(String.format(Locale.ROOT, "upperbound %d expected to be > lowerBound %d", pUpperBound, pLowerBound));
++      } else if (pSteps < 1) {
++         throw new IllegalArgumentException(String.format(Locale.ROOT, "steps expected to be >= 1, was %d", pSteps));
        } else {
 -         return p_216251_ >= p_216252_ && p_216251_ <= p_216253_ ? IntStream.iterate(p_216251_, (p_216282_) -> {
 -            int i = Math.abs(p_216251_ - p_216282_);
-+         return p_216251_ >= p_216252_ && p_216251_ <= p_216253_ ? java.util.stream.LongStream.iterate(p_216251_, (p_216282_) -> {
-+            long i = Math.abs(p_216251_ - p_216282_);
-             return p_216251_ - i >= p_216252_ || p_216251_ + i <= p_216253_;
+-            return p_216251_ - i >= p_216252_ || p_216251_ + i <= p_216253_;
++         return pInput >= pLowerBound && pInput <= pUpperBound ? java.util.stream.LongStream.iterate(pInput, (p_216282_) -> {
++            long i = Math.abs(pInput - p_216282_);
++            return pInput - i >= pLowerBound || pInput + i <= pUpperBound;
           }, (p_216260_) -> {
-             boolean flag = p_216260_ <= p_216251_;
+-            boolean flag = p_216260_ <= p_216251_;
 -            int i = Math.abs(p_216251_ - p_216260_);
-+            long i = Math.abs(p_216251_ - p_216260_);
-             boolean flag1 = p_216251_ + i + p_216254_ <= p_216253_;
+-            boolean flag1 = p_216251_ + i + p_216254_ <= p_216253_;
++            boolean flag = p_216260_ <= pInput;
++            long i = Math.abs(pInput - p_216260_);
++            boolean flag1 = pInput + i + pSteps <= pUpperBound;
              if (!flag || !flag1) {
 -               int j = p_216251_ - i - (flag ? p_216254_ : 0);
-+               long j = p_216251_ - i - (flag ? p_216254_ : 0);
-                if (j >= p_216252_) {
+-               if (j >= p_216252_) {
++               long j = pInput - i - (flag ? pSteps : 0);
++               if (j >= pLowerBound) {
                    return j;
                 }
              }
  
-             return p_216251_ + i + p_216254_;
+-            return p_216251_ + i + p_216254_;
 -         }) : IntStream.empty();
++            return pInput + i + pSteps;
 +         }) : java.util.stream.LongStream.empty();
        }
 +   }

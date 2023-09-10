@@ -1,29 +1,32 @@
 --- a/net/minecraft/server/level/PlayerMap.java
 +++ b/net/minecraft/server/level/PlayerMap.java
-@@ -7,15 +_,15 @@
+@@ -7,16 +_,16 @@
  public final class PlayerMap {
     private final Object2BooleanMap<ServerPlayer> f_8241_ = new Object2BooleanOpenHashMap<>();
  
 -   public Set<ServerPlayer> m_183926_(long p_183927_) {
-+   public Set<ServerPlayer> getPlayers(net.minecraft.world.level.ChunkPos p_183927_) {
++   public Set<ServerPlayer> getPlayers(net.minecraft.world.level.ChunkPos pChunkPos) {
        return this.f_8241_.keySet();
     }
  
 -   public void m_8252_(long p_8253_, ServerPlayer p_8254_, boolean p_8255_) {
-+   public void addPlayer(net.minecraft.world.level.ChunkPos p_8253_, ServerPlayer p_8254_, boolean p_8255_) {
-       this.f_8241_.put(p_8254_, p_8255_);
+-      this.f_8241_.put(p_8254_, p_8255_);
++   public void addPlayer(net.minecraft.world.level.ChunkPos pChunkPos, ServerPlayer pPlayer, boolean pCanGenerateChunks) {
++      this.f_8241_.put(pPlayer, pCanGenerateChunks);
     }
  
 -   public void m_8249_(long p_8250_, ServerPlayer p_8251_) {
-+   public void removePlayer(net.minecraft.world.level.ChunkPos p_8250_, ServerPlayer p_8251_) {
-       this.f_8241_.removeBoolean(p_8251_);
+-      this.f_8241_.removeBoolean(p_8251_);
++   public void removePlayer(net.minecraft.world.level.ChunkPos pChunkPos, ServerPlayer pPlayer) {
++      this.f_8241_.removeBoolean(pPlayer);
     }
  
+    public void m_8256_(ServerPlayer p_8257_) {
 @@ -35,6 +_,6 @@
        return this.f_8241_.getBoolean(p_8263_);
     }
  
 -   public void m_8245_(long p_8246_, long p_8247_, ServerPlayer p_8248_) {
-+   public void updatePlayer(net.minecraft.core.SectionPos p_8246_, net.minecraft.core.SectionPos p_8247_, ServerPlayer p_8248_) {
++   public void updatePlayer(net.minecraft.core.SectionPos pOldChunkPos, net.minecraft.core.SectionPos pNewChunkPos, ServerPlayer pPlayer) {
     }
  }

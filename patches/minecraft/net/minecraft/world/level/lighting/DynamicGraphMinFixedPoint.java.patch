@@ -25,7 +25,7 @@
              protected void rehash(int p_75611_) {
                 if (p_75611_ > p_75545_) {
                    super.rehash(p_75611_);
-@@ -33,42 +_,44 @@
+@@ -33,89 +_,91 @@
        }
     }
  
@@ -46,10 +46,11 @@
 -   public void m_75581_(LongPredicate p_75582_) {
 -      LongList longlist = new LongArrayList();
 -      this.f_75539_.keySet().forEach((long p_75586_) -> {
-+   public void removeIf(java.util.function.Predicate<Pos> p_75582_) {
+-         if (p_75582_.test(p_75586_)) {
++   public void removeIf(java.util.function.Predicate<Pos> pPredicate) {
 +      it.unimi.dsi.fastutil.objects.ObjectList<Pos> longlist = new it.unimi.dsi.fastutil.objects.ObjectArrayList<>();
 +      this.f_75539_.keySet().forEach((Pos p_75586_) -> {
-          if (p_75582_.test(p_75586_)) {
++         if (pPredicate.test(p_75586_)) {
              longlist.add(p_75586_);
           }
  
@@ -66,48 +67,62 @@
 -      this.m_75576_(p_75602_, p_75602_, this.f_75537_ - 1, false);
 +   protected abstract Pos createPosFromBlockPos(net.minecraft.core.BlockPos blockPos);
 +
-+   protected void checkNode(net.minecraft.core.BlockPos p_75602_) {
-+      this.checkEdge(createPosFromBlockPos(p_75602_), createPosFromBlockPos(p_75602_), this.f_75537_ - 1, false);
++   protected void checkNode(net.minecraft.core.BlockPos pLevelPos) {
++      this.checkEdge(createPosFromBlockPos(pLevelPos), createPosFromBlockPos(pLevelPos), this.f_75537_ - 1, false);
     }
  
 -   protected void m_75576_(long p_75577_, long p_75578_, int p_75579_, boolean p_75580_) {
 -      this.m_75569_(p_75577_, p_75578_, p_75579_, this.m_6172_(p_75578_), this.f_75539_.get(p_75578_) & 255, p_75580_);
-+   protected void checkEdge(Pos p_75577_, Pos p_75578_, int p_75579_, boolean p_75580_) {
-+      this.checkEdge(p_75577_, p_75578_, p_75579_, this.getLevel(p_75578_), this.f_75539_.getByte(p_75578_) & 255, p_75580_);
++   protected void checkEdge(Pos pFromPos, Pos pToPos, int pNewLevel, boolean pIsDecreasing) {
++      this.checkEdge(pFromPos, pToPos, pNewLevel, this.getLevel(pToPos), this.f_75539_.getByte(pToPos) & 255, pIsDecreasing);
        this.f_75541_ = !this.f_278118_.m_278192_();
     }
  
 -   private void m_75569_(long p_75570_, long p_75571_, int p_75572_, int p_75573_, int p_75574_, boolean p_75575_) {
 -      if (!this.m_6163_(p_75571_)) {
-+   private void checkEdge(Pos p_75570_, Pos p_75571_, int p_75572_, int p_75573_, int p_75574_, boolean p_75575_) {
-+      if (!this.isSource(p_75571_)) {
-          p_75572_ = Mth.m_14045_(p_75572_, 0, this.f_75537_ - 1);
-          p_75573_ = Mth.m_14045_(p_75573_, 0, this.f_75537_ - 1);
-          boolean flag = p_75574_ == 255;
-@@ -80,42 +_,42 @@
-          if (p_75575_) {
-             i = Math.min(p_75574_, p_75572_);
-          } else {
--            i = Mth.m_14045_(this.m_6357_(p_75571_, p_75570_, p_75572_), 0, this.f_75537_ - 1);
-+            i = Mth.m_14045_(this.getComputedLevel(p_75571_, p_75570_, p_75572_), 0, this.f_75537_ - 1);
+-         p_75572_ = Mth.m_14045_(p_75572_, 0, this.f_75537_ - 1);
+-         p_75573_ = Mth.m_14045_(p_75573_, 0, this.f_75537_ - 1);
+-         boolean flag = p_75574_ == 255;
++   private void checkEdge(Pos pFromPos, Pos pToPos, int pNewLevel, int pPreviousLevel, int pPropagationLevel, boolean pIsDecreasing) {
++      if (!this.isSource(pToPos)) {
++         pNewLevel = Mth.m_14045_(pNewLevel, 0, this.f_75537_ - 1);
++         pPreviousLevel = Mth.m_14045_(pPreviousLevel, 0, this.f_75537_ - 1);
++         boolean flag = pPropagationLevel == 255;
+          if (flag) {
+-            p_75574_ = p_75573_;
++            pPropagationLevel = pPreviousLevel;
           }
  
-          int j = this.m_278160_(p_75573_, p_75574_);
-          if (p_75573_ != i) {
-             int k = this.m_278160_(p_75573_, i);
+          int i;
+-         if (p_75575_) {
+-            i = Math.min(p_75574_, p_75572_);
++         if (pIsDecreasing) {
++            i = Math.min(pPropagationLevel, pNewLevel);
+          } else {
+-            i = Mth.m_14045_(this.m_6357_(p_75571_, p_75570_, p_75572_), 0, this.f_75537_ - 1);
++            i = Mth.m_14045_(this.getComputedLevel(pToPos, pFromPos, pNewLevel), 0, this.f_75537_ - 1);
+          }
+ 
+-         int j = this.m_278160_(p_75573_, p_75574_);
+-         if (p_75573_ != i) {
+-            int k = this.m_278160_(p_75573_, i);
++         int j = this.m_278160_(pPreviousLevel, pPropagationLevel);
++         if (pPreviousLevel != i) {
++            int k = this.m_278160_(pPreviousLevel, i);
              if (j != k && !flag) {
 -               this.f_278118_.m_278203_(p_75571_, j, k);
-+               this.f_278118_.dequeue(p_75571_, j, k);
++               this.f_278118_.dequeue(pToPos, j, k);
              }
  
 -            this.f_278118_.m_278202_(p_75571_, k);
-+            this.f_278118_.enqueue(p_75571_, k);
-             this.f_75539_.put(p_75571_, (byte)i);
+-            this.f_75539_.put(p_75571_, (byte)i);
++            this.f_278118_.enqueue(pToPos, k);
++            this.f_75539_.put(pToPos, (byte)i);
           } else if (!flag) {
 -            this.f_278118_.m_278203_(p_75571_, j, this.f_75537_);
 -            this.f_75539_.remove(p_75571_);
-+            this.f_278118_.dequeue(p_75571_, j, this.f_75537_);
-+            this.f_75539_.removeByte(p_75571_);
++            this.f_278118_.dequeue(pToPos, j, this.f_75537_);
++            this.f_75539_.removeByte(pToPos);
           }
  
        }
@@ -116,25 +131,26 @@
 -   protected final void m_75593_(long p_75594_, long p_75595_, int p_75596_, boolean p_75597_) {
 -      int i = this.f_75539_.get(p_75595_) & 255;
 -      int j = Mth.m_14045_(this.m_6359_(p_75594_, p_75595_, p_75596_), 0, this.f_75537_ - 1);
-+   protected final void checkNeighbor(Pos p_75594_, Pos p_75595_, int p_75596_, boolean p_75597_) {
-+      int i = this.f_75539_.getByte(p_75595_) & 255;
-+      int j = Mth.m_14045_(this.computeLevelFromNeighbor(p_75594_, p_75595_, p_75596_), 0, this.f_75537_ - 1);
-       if (p_75597_) {
+-      if (p_75597_) {
 -         this.m_75569_(p_75594_, p_75595_, j, this.m_6172_(p_75595_), i, p_75597_);
-+         this.checkEdge(p_75594_, p_75595_, j, this.getLevel(p_75595_), i, true);
++   protected final void checkNeighbor(Pos pFromPos, Pos pToPos, int pSourceLevel, boolean pIsDecreasing) {
++      int i = this.f_75539_.getByte(pToPos) & 255;
++      int j = Mth.m_14045_(this.computeLevelFromNeighbor(pFromPos, pToPos, pSourceLevel), 0, this.f_75537_ - 1);
++      if (pIsDecreasing) {
++         this.checkEdge(pFromPos, pToPos, j, this.getLevel(pToPos), i, true);
        } else {
           boolean flag = i == 255;
           int k;
           if (flag) {
 -            k = Mth.m_14045_(this.m_6172_(p_75595_), 0, this.f_75537_ - 1);
-+            k = Mth.m_14045_(this.getLevel(p_75595_), 0, this.f_75537_ - 1);
++            k = Mth.m_14045_(this.getLevel(pToPos), 0, this.f_75537_ - 1);
           } else {
              k = i;
           }
  
           if (j == k) {
 -            this.m_75569_(p_75594_, p_75595_, this.f_75537_ - 1, flag ? k : this.m_6172_(p_75595_), i, p_75597_);
-+            this.checkEdge(p_75594_, p_75595_, this.f_75537_ - 1, flag ? k : this.getLevel(p_75595_), i, false);
++            this.checkEdge(pFromPos, pToPos, this.f_75537_ - 1, flag ? k : this.getLevel(pToPos), i, false);
           }
        }
  
@@ -173,7 +189,7 @@
  
 -   protected boolean m_6163_(long p_75551_) {
 -      return p_75551_ == Long.MAX_VALUE;
-+   protected boolean isSource(Pos p_75551_) {
++   protected boolean isSource(Pos pPos) {
 +      return false;
     }
  
@@ -186,13 +202,13 @@
 -   protected abstract void m_7351_(long p_75552_, int p_75553_);
 -
 -   protected abstract int m_6359_(long p_75590_, long p_75591_, int p_75592_);
-+   protected abstract int getComputedLevel(Pos p_75566_, Pos p_75567_, int p_75568_);
++   protected abstract int getComputedLevel(Pos pPos, Pos pExcludedSourcePos, int pLevel);
 +
-+   protected abstract void checkNeighborsAfterUpdate(Pos p_75563_, int p_75564_, boolean p_75565_);
++   protected abstract void checkNeighborsAfterUpdate(Pos pPos, int pLevel, boolean pIsDecreasing);
 +
-+   protected abstract int getLevel(Pos p_75599_);
++   protected abstract int getLevel(Pos pChunkPos);
 +
-+   protected abstract void setLevel(Pos p_75552_, int p_75553_);
++   protected abstract void setLevel(Pos pChunkPos, int pLevel);
 +
-+   protected abstract int computeLevelFromNeighbor(Pos p_75590_, Pos p_75591_, int p_75592_);
++   protected abstract int computeLevelFromNeighbor(Pos pStartPos, Pos pEndPos, int pStartLevel);
  }

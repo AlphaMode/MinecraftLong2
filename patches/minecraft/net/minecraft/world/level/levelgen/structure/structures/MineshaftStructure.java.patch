@@ -14,30 +14,36 @@
     }
  
 -   private int m_227965_(StructurePiecesBuilder p_227966_, Structure.GenerationContext p_227967_) {
-+   private long generatePiecesAndAdjust(StructurePiecesBuilder p_227966_, Structure.GenerationContext p_227967_) {
-       ChunkPos chunkpos = p_227967_.f_226628_();
-       WorldgenRandom worldgenrandom = p_227967_.f_226626_();
-       ChunkGenerator chunkgenerator = p_227967_.f_226622_();
+-      ChunkPos chunkpos = p_227967_.f_226628_();
+-      WorldgenRandom worldgenrandom = p_227967_.f_226626_();
+-      ChunkGenerator chunkgenerator = p_227967_.f_226622_();
 -      MineshaftPieces.MineShaftRoom mineshaftpieces$mineshaftroom = new MineshaftPieces.MineShaftRoom(0, worldgenrandom, chunkpos.m_151382_(2), chunkpos.m_151391_(2), this.f_227958_);
-+      MineshaftPieces.MineShaftRoom mineshaftpieces$mineshaftroom = new MineshaftPieces.MineShaftRoom(0, worldgenrandom, chunkpos.getBlockX(2), chunkpos.getBlockZ(2), this.f_227958_);
-       p_227966_.m_142679_(mineshaftpieces$mineshaftroom);
-       mineshaftpieces$mineshaftroom.m_214092_(mineshaftpieces$mineshaftroom, p_227966_, worldgenrandom);
+-      p_227966_.m_142679_(mineshaftpieces$mineshaftroom);
+-      mineshaftpieces$mineshaftroom.m_214092_(mineshaftpieces$mineshaftroom, p_227966_, worldgenrandom);
 -      int i = chunkgenerator.m_6337_();
++   private long generatePiecesAndAdjust(StructurePiecesBuilder pBuilder, Structure.GenerationContext pContext) {
++      ChunkPos chunkpos = pContext.f_226628_();
++      WorldgenRandom worldgenrandom = pContext.f_226626_();
++      ChunkGenerator chunkgenerator = pContext.f_226622_();
++      MineshaftPieces.MineShaftRoom mineshaftpieces$mineshaftroom = new MineshaftPieces.MineShaftRoom(0, worldgenrandom, chunkpos.getBlockX(2), chunkpos.getBlockZ(2), this.f_227958_);
++      pBuilder.m_142679_(mineshaftpieces$mineshaftroom);
++      mineshaftpieces$mineshaftroom.m_214092_(mineshaftpieces$mineshaftroom, pBuilder, worldgenrandom);
 +      long i = chunkgenerator.getSeaLevel();
        if (this.f_227958_ == MineshaftStructure.Type.MESA) {
-          BlockPos blockpos = p_227966_.m_192798_().m_162394_();
+-         BlockPos blockpos = p_227966_.m_192798_().m_162394_();
 -         int j = chunkgenerator.m_214096_(blockpos.m_123341_(), blockpos.m_123343_(), Heightmap.Types.WORLD_SURFACE_WG, p_227967_.f_226629_(), p_227967_.f_226624_());
 -         int k = j <= i ? i : Mth.m_216287_(worldgenrandom, i, j);
 -         int l = k - blockpos.m_123342_();
 -         p_227966_.m_192781_(l);
-+         long j = chunkgenerator.getBaseHeight(blockpos.getBigX(), blockpos.getBigZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227967_.f_226629_(), p_227967_.f_226624_());
++         BlockPos blockpos = pBuilder.m_192798_().m_162394_();
++         long j = chunkgenerator.getBaseHeight(blockpos.getBigX(), blockpos.getBigZ(), Heightmap.Types.WORLD_SURFACE_WG, pContext.f_226629_(), pContext.f_226624_());
 +         long k = j <= i ? i : Mth.randomBetweenInclusive(worldgenrandom, i, j);
 +         long l = k - blockpos.getY();
-+         p_227966_.offsetPiecesVertically(l);
++         pBuilder.offsetPiecesVertically(l);
           return l;
        } else {
 -         return p_227966_.m_226965_(i, chunkgenerator.m_142062_(), worldgenrandom, 10);
-+         return p_227966_.moveBelowSeaLevel(i, chunkgenerator.getMinY(), worldgenrandom, 10);
++         return pBuilder.moveBelowSeaLevel(i, chunkgenerator.getMinY(), worldgenrandom, 10);
        }
     }
  
