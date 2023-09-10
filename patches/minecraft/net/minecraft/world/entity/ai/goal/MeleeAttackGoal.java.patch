@@ -1,0 +1,39 @@
+--- a/net/minecraft/world/entity/ai/goal/MeleeAttackGoal.java
++++ b/net/minecraft/world/entity/ai/goal/MeleeAttackGoal.java
+@@ -13,9 +_,9 @@
+    private final double f_25541_;
+    private final boolean f_25542_;
+    private Path f_25543_;
+-   private double f_25544_;
+-   private double f_25545_;
+-   private double f_25546_;
++   private me.alphamode.mclong.math.BigDecimal f_25544_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_25545_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_25546_ = me.alphamode.mclong.math.BigDecimal.ZERO;
+    private int f_25547_;
+    private int f_25548_;
+    private final int f_25549_ = 20;
+@@ -45,7 +_,7 @@
+             if (this.f_25543_ != null) {
+                return true;
+             } else {
+-               return this.m_6639_(livingentity) >= this.f_25540_.m_20275_(livingentity.m_20185_(), livingentity.m_20186_(), livingentity.m_20189_());
++               return this.m_6639_(livingentity) >= this.f_25540_.distanceToSqr(livingentity.getBigX(), livingentity.getBigY(), livingentity.getBigZ());
+             }
+          }
+       }
+@@ -93,10 +_,10 @@
+          this.f_25540_.m_21563_().m_24960_(livingentity, 30.0F, 30.0F);
+          double d0 = this.f_25540_.m_262793_(livingentity);
+          this.f_25547_ = Math.max(this.f_25547_ - 1, 0);
+-         if ((this.f_25542_ || this.f_25540_.m_21574_().m_148306_(livingentity)) && this.f_25547_ <= 0 && (this.f_25544_ == 0.0D && this.f_25545_ == 0.0D && this.f_25546_ == 0.0D || livingentity.m_20275_(this.f_25544_, this.f_25545_, this.f_25546_) >= 1.0D || this.f_25540_.m_217043_().m_188501_() < 0.05F)) {
+-            this.f_25544_ = livingentity.m_20185_();
+-            this.f_25545_ = livingentity.m_20186_();
+-            this.f_25546_ = livingentity.m_20189_();
++         if ((this.f_25542_ || this.f_25540_.m_21574_().m_148306_(livingentity)) && this.f_25547_ <= 0 && (this.f_25544_.equals(me.alphamode.mclong.math.BigDecimal.ZERO) && this.f_25545_.equals(me.alphamode.mclong.math.BigDecimal.ZERO) && this.f_25546_.equals(me.alphamode.mclong.math.BigDecimal.ZERO) || livingentity.distanceToSqr(this.f_25544_, this.f_25545_, this.f_25546_) >= 1.0D || this.f_25540_.m_217043_().m_188501_() < 0.05F)) {
++            this.f_25544_ = livingentity.getBigX();
++            this.f_25545_ = livingentity.getBigY();
++            this.f_25546_ = livingentity.getBigZ();
+             this.f_25547_ = 4 + this.f_25540_.m_217043_().m_188503_(7);
+             if (d0 > 1024.0D) {
+                this.f_25547_ += 10;

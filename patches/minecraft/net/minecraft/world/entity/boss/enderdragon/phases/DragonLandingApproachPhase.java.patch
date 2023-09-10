@@ -5,19 +5,19 @@
           int i = this.f_31176_.m_31155_();
           BlockPos blockpos = this.f_31176_.m_9236_().m_5452_(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EndPodiumFeature.m_287210_(this.f_31176_.m_287165_()));
 -         Player player = this.f_31176_.m_9236_().m_45949_(f_31253_, this.f_31176_, (double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_());
-+         Player player = this.f_31176_.m_9236_().m_45949_(f_31253_, this.f_31176_, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
++         Player player = this.f_31176_.m_9236_().getNearestPlayer(f_31253_, this.f_31176_, blockpos.getBigDecX(), blockpos.getBigDecY(), blockpos.getBigDecZ());
           int j;
           if (player != null) {
              Vec3 vec3 = (new Vec3(player.m_20185_(), 0.0D, player.m_20189_())).m_82541_();
 -            j = this.f_31176_.m_31170_(-vec3.f_82479_ * 40.0D, 105.0D, -vec3.f_82481_ * 40.0D);
-+            j = this.f_31176_.m_31170_(-vec3.m_7096_() * 40.0D, 105.0D, -vec3.m_7094_() * 40.0D);
++            j = this.f_31176_.findClosestNode(vec3.getX().negate().multiply(me.alphamode.mclong.core.BigConstants.FORTY), me.alphamode.mclong.core.BigConstants.DRAGON, vec3.getZ().negate().multiply(me.alphamode.mclong.core.BigConstants.FORTY));
           } else {
 -            j = this.f_31176_.m_31170_(40.0D, (double)blockpos.m_123342_(), 0.0D);
-+            j = this.f_31176_.m_31170_(40.0D, (double)blockpos.getY(), 0.0D);
++            j = this.f_31176_.findClosestNode(me.alphamode.mclong.core.BigConstants.FORTY, blockpos.getBigDecY(), me.alphamode.mclong.math.BigDecimal.ZERO);
           }
  
 -         Node node = new Node(blockpos.m_123341_(), blockpos.m_123342_(), blockpos.m_123343_());
-+         Node node = new Node(blockpos.getX(), blockpos.getY(), blockpos.getZ());
++         Node node = new Node(blockpos.getBigX(), blockpos.getBigY(), blockpos.getBigZ());
           this.f_31254_ = this.f_31176_.m_31104_(i, j, node);
           if (this.f_31254_ != null) {
              this.f_31254_.m_77374_();

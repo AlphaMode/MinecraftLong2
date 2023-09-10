@@ -181,22 +181,26 @@
           }), Util.m_183991_()).whenCompleteAsync((p_224309_, p_224310_) -> {
              for(LevelChunkSection levelchunksection1 : set) {
                 levelchunksection1.m_63006_();
-@@ -267,22 +_,22 @@
+@@ -267,69 +_,70 @@
        }
     }
  
 -   private ChunkAccess m_224284_(Blender p_224285_, StructureManager p_224286_, RandomState p_224287_, ChunkAccess p_224288_, int p_224289_, int p_224290_) {
-+   private ChunkAccess doFill(Blender p_224285_, StructureManager p_224286_, RandomState p_224287_, ChunkAccess p_224288_, long p_224289_, long p_224290_) {
-       NoiseChunk noisechunk = p_224288_.m_223012_((p_224255_) -> {
+-      NoiseChunk noisechunk = p_224288_.m_223012_((p_224255_) -> {
++   private ChunkAccess doFill(Blender p_224285_, StructureManager p_224286_, RandomState p_224287_, ChunkAccess chunk, long p_224289_, long p_224290_) {
++      NoiseChunk noisechunk = chunk.m_223012_((p_224255_) -> {
           return this.m_224256_(p_224255_, p_224286_, p_224285_, p_224287_);
        });
-       Heightmap heightmap = p_224288_.m_6005_(Heightmap.Types.OCEAN_FLOOR_WG);
-       Heightmap heightmap1 = p_224288_.m_6005_(Heightmap.Types.WORLD_SURFACE_WG);
-       ChunkPos chunkpos = p_224288_.m_7697_();
+-      Heightmap heightmap = p_224288_.m_6005_(Heightmap.Types.OCEAN_FLOOR_WG);
+-      Heightmap heightmap1 = p_224288_.m_6005_(Heightmap.Types.WORLD_SURFACE_WG);
+-      ChunkPos chunkpos = p_224288_.m_7697_();
 -      int i = chunkpos.m_45604_();
 -      int j = chunkpos.m_45605_();
-+      me.alphamode.mclong.math.BigInteger i = chunkpos.getMinBigBlockX();
-+      me.alphamode.mclong.math.BigInteger j = chunkpos.getMinBigBlockZ();
++      Heightmap oceanHeightmap = chunk.m_6005_(Heightmap.Types.OCEAN_FLOOR_WG);
++      Heightmap surfaceHeightmap = chunk.m_6005_(Heightmap.Types.WORLD_SURFACE_WG);
++      ChunkPos chunkpos = chunk.m_7697_();
++      me.alphamode.mclong.math.BigInteger minX = chunkpos.getMinBigBlockX();
++      me.alphamode.mclong.math.BigInteger minZ = chunkpos.getMinBigBlockZ();
        Aquifer aquifer = noisechunk.m_188817_();
        noisechunk.m_188791_();
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
@@ -204,79 +208,103 @@
 -      int l = noisechunk.m_224363_();
 -      int i1 = 16 / k;
 -      int j1 = 16 / k;
-+      long k = noisechunk.cellWidth();
-+      long l = noisechunk.cellHeight();
-+      long i1 = 16 / k;
-+      long j1 = 16 / k;
++      long cellWidth = noisechunk.cellWidth();
++      long cellHeight = noisechunk.cellHeight();
++      long i1 = 16 / cellWidth;
++      long j1 = 16 / cellWidth;
  
-       for(int k1 = 0; k1 < i1; ++k1) {
-          noisechunk.m_188749_(k1);
-@@ -291,44 +_,45 @@
-             int i2 = p_224288_.m_151559_() - 1;
-             LevelChunkSection levelchunksection = p_224288_.m_183278_(i2);
+-      for(int k1 = 0; k1 < i1; ++k1) {
+-         noisechunk.m_188749_(k1);
++      for(int cellX = 0; cellX < i1; ++cellX) {
++         noisechunk.m_188749_(cellX);
  
+          for(int l1 = 0; l1 < j1; ++l1) {
+-            int i2 = p_224288_.m_151559_() - 1;
+-            LevelChunkSection levelchunksection = p_224288_.m_183278_(i2);
+-
 -            for(int j2 = p_224290_ - 1; j2 >= 0; --j2) {
 -               noisechunk.m_188810_(j2, l1);
-+            for(long j2 = p_224290_ - 1; j2 >= 0; --j2) {
-+               noisechunk.selectCellYZ(j2, l1);
- 
+-
 -               for(int k2 = l - 1; k2 >= 0; --k2) {
 -                  int l2 = (p_224289_ + j2) * l + k2;
 -                  int i3 = l2 & 15;
 -                  int j3 = p_224288_.m_151564_(l2);
-+               for(long k2 = l - 1; k2 >= 0; --k2) {
-+                  long l2 = (p_224289_ + j2) * l + k2;
-+                  long i3 = l2 & 15;
-+                  int j3 = p_224288_.getSectionIndex(l2);
-                   if (i2 != j3) {
-                      i2 = j3;
-                      levelchunksection = p_224288_.m_183278_(j3);
+-                  if (i2 != j3) {
+-                     i2 = j3;
+-                     levelchunksection = p_224288_.m_183278_(j3);
++            int lastIndex = chunk.m_151559_() - 1;
++            LevelChunkSection levelchunksection = chunk.m_183278_(lastIndex);
++
++            for(long j2 = p_224290_ - 1; j2 >= 0; --j2) {
++               noisechunk.selectCellYZ(j2, l1);
++
++               for(long cellY = cellHeight - 1; cellY >= 0; --cellY) {
++                  long y = (p_224289_ + j2) * cellHeight + cellY;
++                  long sectionY = y & 15;
++                  int sectionIndex = chunk.getSectionIndex(y);
++                  if (lastIndex != sectionIndex) {
++                     lastIndex = sectionIndex;
++                     levelchunksection = chunk.m_183278_(sectionIndex);
                    }
  
-                   double d0 = (double)k2 / (double)l;
+-                  double d0 = (double)k2 / (double)l;
 -                  noisechunk.m_209191_(l2, d0);
-+                  noisechunk.updateForY(l2, d0);
- 
-                   for(int k3 = 0; k3 < k; ++k3) {
+-
+-                  for(int k3 = 0; k3 < k; ++k3) {
 -                     int l3 = i + k1 * k + k3;
 -                     int i4 = l3 & 15;
-+                     me.alphamode.mclong.math.BigInteger l3 = i.add(k1 * k + k3);
-+                     me.alphamode.mclong.math.BigInteger i4 = l3.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
-                      double d1 = (double)k3 / (double)k;
+-                     double d1 = (double)k3 / (double)k;
 -                     noisechunk.m_209230_(l3, d1);
-+                     noisechunk.updateForX(l3, d1);
- 
-                      for(int j4 = 0; j4 < k; ++j4) {
+-
+-                     for(int j4 = 0; j4 < k; ++j4) {
 -                        int k4 = j + l1 * k + j4;
 -                        int l4 = k4 & 15;
-+                        me.alphamode.mclong.math.BigInteger k4 = j.add(l1 * k + j4);
-+                        me.alphamode.mclong.math.BigInteger l4 = k4.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
-                         double d2 = (double)j4 / (double)k;
+-                        double d2 = (double)j4 / (double)k;
 -                        noisechunk.m_209241_(k4, d2);
-+                        noisechunk.updateForZ(k4, d2);
++                  double d0 = (double)cellY / (double)cellHeight;
++                  noisechunk.updateForY(y, d0);
++
++                  for(int widthX = 0; widthX < cellWidth; ++widthX) {
++                     me.alphamode.mclong.math.BigInteger x = minX.add(cellX * cellWidth + widthX);
++                     me.alphamode.mclong.math.BigInteger sectionX = x.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++                     double d1 = (double)widthX / (double)cellWidth;
++                     noisechunk.updateForX(x, d1);
++
++                     for(int widthZ = 0; widthZ < cellWidth; ++widthZ) {
++                        me.alphamode.mclong.math.BigInteger z = minZ.add(l1 * cellWidth + widthZ);
++                        me.alphamode.mclong.math.BigInteger sectionZ = z.and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN);
++                        double d2 = (double)widthZ / (double)cellWidth;
++                        noisechunk.updateForZ(z, d2);
                          BlockState blockstate = noisechunk.m_209247_();
                          if (blockstate == null) {
                             blockstate = this.f_64318_.m_203334_().f_64440_();
                          }
  
 -                        blockstate = this.m_198231_(noisechunk, l3, l2, k4, blockstate);
-+                        var y = me.alphamode.mclong.math.BigInteger.valueOf(l2);
-+                        blockstate = this.debugPreliminarySurfaceLevel(noisechunk, l3, me.alphamode.mclong.math.BigInteger.valueOf(l2), y, blockstate);
-                         if (blockstate != f_64321_ && !SharedConstants.m_183707_(p_224288_.m_7697_())) {
+-                        if (blockstate != f_64321_ && !SharedConstants.m_183707_(p_224288_.m_7697_())) {
 -                           levelchunksection.m_62991_(i4, i3, l4, blockstate, false);
 -                           heightmap.m_64249_(i4, l2, l4, blockstate);
 -                           heightmap1.m_64249_(i4, l2, l4, blockstate);
-+                           levelchunksection.setBlockState(i4, me.alphamode.mclong.math.BigInteger.valueOf(i3), l4, blockstate, false);
-+                           heightmap.update(i4, y, l4, blockstate);
-+                           heightmap1.update(i4, y, l4, blockstate);
++                        var bigY = me.alphamode.mclong.math.BigInteger.valueOf(y);
++                        blockstate = this.debugPreliminarySurfaceLevel(noisechunk, x, bigY, bigY, blockstate);
++                        if (blockstate != f_64321_ && !SharedConstants.m_183707_(chunk.m_7697_())) {
++                           levelchunksection.setBlockState(sectionX, me.alphamode.mclong.math.BigInteger.valueOf(sectionY), sectionZ, blockstate, false);
++                           oceanHeightmap.update(sectionX, bigY, sectionZ, blockstate);
++                           surfaceHeightmap.update(sectionX, bigY, sectionZ, blockstate);
                             if (aquifer.m_142203_() && !blockstate.m_60819_().m_76178_()) {
 -                              blockpos$mutableblockpos.m_122178_(l3, l2, k4);
-+                              blockpos$mutableblockpos.set(l3, y, k4);
-                               p_224288_.m_8113_(blockpos$mutableblockpos);
+-                              p_224288_.m_8113_(blockpos$mutableblockpos);
++                              blockpos$mutableblockpos.set(x, bigY, z);
++                              chunk.m_8113_(blockpos$mutableblockpos);
                             }
                          }
-@@ -345,28 +_,28 @@
-       return p_224288_;
+                      }
+@@ -342,31 +_,31 @@
+       }
+ 
+       noisechunk.m_209248_();
+-      return p_224288_;
++      return chunk;
     }
  
 -   private BlockState m_198231_(NoiseChunk p_198232_, int p_198233_, int p_198234_, int p_198235_, BlockState p_198236_) {
@@ -298,7 +326,7 @@
 -   public int m_142062_() {
 -      return this.f_64318_.m_203334_().f_64439_().f_158688_();
 +   public long getMinY() {
-+      return this.f_64318_.m_203334_().f_64439_().minY();
++      return -800;//this.settings.value().noiseSettings().minY();
     }
  
     public void m_6929_(WorldGenRegion p_64379_) {

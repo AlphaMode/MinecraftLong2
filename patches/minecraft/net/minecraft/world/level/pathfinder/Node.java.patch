@@ -8,38 +8,32 @@
 -   public final int f_77272_;
 -   public final int f_77273_;
 -   private final int f_77283_;
-+   public final long f_77271_;
-+   public final long f_77272_;
-+   public final long f_77273_;
++   public final me.alphamode.mclong.math.BigInteger f_77271_;
++   public final me.alphamode.mclong.math.BigInteger f_77272_;
++   public final me.alphamode.mclong.math.BigInteger f_77273_;
 +   private final long f_77283_;
     public int f_77274_ = -1;
     public float f_77275_;
     public float f_77276_;
-@@ -22,14 +_,18 @@
+@@ -22,14 +_,14 @@
     public float f_77281_;
     public BlockPathTypes f_77282_ = BlockPathTypes.BLOCKED;
  
 -   public Node(int p_77285_, int p_77286_, int p_77287_) {
-+   public Node(long p_77285_, long p_77286_, long p_77287_) {
++   public Node(me.alphamode.mclong.math.BigInteger p_77285_, me.alphamode.mclong.math.BigInteger p_77286_, me.alphamode.mclong.math.BigInteger p_77287_) {
        this.f_77271_ = p_77285_;
        this.f_77272_ = p_77286_;
        this.f_77273_ = p_77287_;
 -      this.f_77283_ = m_77295_(p_77285_, p_77286_, p_77287_);
--   }
--
++      this.f_77283_ = createHash(p_77285_.longValue(), p_77286_.longValue(), p_77287_.longValue());
+    }
+ 
 -   public Node m_77289_(int p_77290_, int p_77291_, int p_77292_) {
-+      this.f_77283_ = createHash(p_77285_, p_77286_, p_77287_);
-+   }
-+
-+   public Node(int p_77285_, int p_77286_, int p_77287_) {
-+      this((long) p_77285_, p_77286_, p_77287_);
-+   }
-+
-+   public Node cloneAndMove(long p_77290_, long p_77291_, long p_77292_) {
++   public Node cloneAndMove(me.alphamode.mclong.math.BigInteger p_77290_, me.alphamode.mclong.math.BigInteger p_77291_, me.alphamode.mclong.math.BigInteger p_77292_) {
        Node node = new Node(p_77290_, p_77291_, p_77292_);
        node.f_77274_ = this.f_77274_;
        node.f_77275_ = this.f_77275_;
-@@ -43,10 +_,15 @@
+@@ -43,55 +_,60 @@
        return node;
     }
  
@@ -53,48 +47,88 @@
 +   }
 +
     public float m_77293_(Node p_77294_) {
-       float f = (float)(p_77294_.f_77271_ - this.f_77271_);
-       float f1 = (float)(p_77294_.f_77272_ - this.f_77272_);
-@@ -61,9 +_,9 @@
+-      float f = (float)(p_77294_.f_77271_ - this.f_77271_);
+-      float f1 = (float)(p_77294_.f_77272_ - this.f_77272_);
+-      float f2 = (float)(p_77294_.f_77273_ - this.f_77273_);
++      float f = (float)(p_77294_.f_77271_.subtract(this.f_77271_).floatValue());
++      float f1 = (float)(p_77294_.f_77272_.subtract(this.f_77272_).floatValue());
++      float f2 = (float)(p_77294_.f_77273_.subtract(this.f_77273_).floatValue());
+       return Mth.m_14116_(f * f + f1 * f1 + f2 * f2);
+    }
+ 
+    public float m_230613_(Node p_230614_) {
+-      float f = (float)(p_230614_.f_77271_ - this.f_77271_);
+-      float f1 = (float)(p_230614_.f_77273_ - this.f_77273_);
++      float f = (float)(p_230614_.f_77271_.subtract(this.f_77271_).floatValue());
++      float f1 = (float)(p_230614_.f_77273_.subtract(this.f_77273_).floatValue());
+       return Mth.m_14116_(f * f + f1 * f1);
     }
  
     public float m_164697_(BlockPos p_164698_) {
 -      float f = (float)(p_164698_.m_123341_() - this.f_77271_);
 -      float f1 = (float)(p_164698_.m_123342_() - this.f_77272_);
 -      float f2 = (float)(p_164698_.m_123343_() - this.f_77273_);
-+      float f = (float)(p_164698_.getX() - this.f_77271_);
-+      float f1 = (float)(p_164698_.getY() - this.f_77272_);
-+      float f2 = (float)(p_164698_.getZ() - this.f_77273_);
++      float f = (float)(p_164698_.getBigX().subtract(this.f_77271_).floatValue());
++      float f1 = (float)(p_164698_.getBigY().subtract(this.f_77272_).floatValue());
++      float f2 = (float)(p_164698_.getBigZ().subtract(this.f_77273_).floatValue());
        return Mth.m_14116_(f * f + f1 * f1 + f2 * f2);
     }
  
-@@ -75,9 +_,9 @@
+    public float m_77299_(Node p_77300_) {
+-      float f = (float)(p_77300_.f_77271_ - this.f_77271_);
+-      float f1 = (float)(p_77300_.f_77272_ - this.f_77272_);
+-      float f2 = (float)(p_77300_.f_77273_ - this.f_77273_);
++      float f = (float)(p_77300_.f_77271_.subtract(this.f_77271_).floatValue());
++      float f1 = (float)(p_77300_.f_77272_.subtract(this.f_77272_).floatValue());
++      float f2 = (float)(p_77300_.f_77273_.subtract(this.f_77273_).floatValue());
+       return f * f + f1 * f1 + f2 * f2;
     }
  
     public float m_164702_(BlockPos p_164703_) {
 -      float f = (float)(p_164703_.m_123341_() - this.f_77271_);
 -      float f1 = (float)(p_164703_.m_123342_() - this.f_77272_);
 -      float f2 = (float)(p_164703_.m_123343_() - this.f_77273_);
-+      float f = (float)(p_164703_.getX() - this.f_77271_);
-+      float f1 = (float)(p_164703_.getY() - this.f_77272_);
-+      float f2 = (float)(p_164703_.getZ() - this.f_77273_);
++      float f = (float)(p_164703_.getBigX().subtract(this.f_77271_).floatValue());
++      float f1 = (float)(p_164703_.getBigY().subtract(this.f_77272_).floatValue());
++      float f2 = (float)(p_164703_.getBigZ().subtract(this.f_77273_).floatValue());
        return f * f + f1 * f1 + f2 * f2;
     }
  
-@@ -89,9 +_,9 @@
+    public float m_77304_(Node p_77305_) {
+-      float f = (float)Math.abs(p_77305_.f_77271_ - this.f_77271_);
+-      float f1 = (float)Math.abs(p_77305_.f_77272_ - this.f_77272_);
+-      float f2 = (float)Math.abs(p_77305_.f_77273_ - this.f_77273_);
++      float f = (float)Math.abs(p_77305_.f_77271_.subtract(this.f_77271_).floatValue());
++      float f1 = (float)Math.abs(p_77305_.f_77272_.subtract(this.f_77272_).floatValue());
++      float f2 = (float)Math.abs(p_77305_.f_77273_.subtract(this.f_77273_).floatValue());
+       return f + f1 + f2;
     }
  
     public float m_77306_(BlockPos p_77307_) {
 -      float f = (float)Math.abs(p_77307_.m_123341_() - this.f_77271_);
 -      float f1 = (float)Math.abs(p_77307_.m_123342_() - this.f_77272_);
 -      float f2 = (float)Math.abs(p_77307_.m_123343_() - this.f_77273_);
-+      float f = (float)Math.abs(p_77307_.getX() - this.f_77271_);
-+      float f1 = (float)Math.abs(p_77307_.getY() - this.f_77272_);
-+      float f2 = (float)Math.abs(p_77307_.getZ() - this.f_77273_);
++      float f = (float)Math.abs(p_77307_.getBigX().subtract(this.f_77271_).floatValue());
++      float f1 = (float)Math.abs(p_77307_.getBigY().subtract(this.f_77272_).floatValue());
++      float f2 = (float)Math.abs(p_77307_.getBigZ().subtract(this.f_77273_).floatValue());
        return f + f1 + f2;
     }
  
-@@ -112,7 +_,7 @@
+@@ -100,19 +_,19 @@
+    }
+ 
+    public Vec3 m_164701_() {
+-      return new Vec3((double)this.f_77271_, (double)this.f_77272_, (double)this.f_77273_);
++      return new Vec3(this.f_77271_.toBigDecimal(), this.f_77272_.toBigDecimal(), this.f_77273_.toBigDecimal());
+    }
+ 
+    public boolean equals(Object p_77309_) {
+       if (!(p_77309_ instanceof Node node)) {
+          return false;
+       } else {
+-         return this.f_77283_ == node.f_77283_ && this.f_77271_ == node.f_77271_ && this.f_77272_ == node.f_77272_ && this.f_77273_ == node.f_77273_;
++         return this.f_77283_ == node.f_77283_ && this.f_77271_.equals(node.f_77271_) && this.f_77272_.equals(node.f_77272_) && this.f_77273_.equals(node.f_77273_);
+       }
     }
  
     public int hashCode() {
@@ -110,9 +144,9 @@
 -      p_164700_.writeInt(this.f_77271_);
 -      p_164700_.writeInt(this.f_77272_);
 -      p_164700_.writeInt(this.f_77273_);
-+      p_164700_.writeLong(this.f_77271_);
-+      p_164700_.writeLong(this.f_77272_);
-+      p_164700_.writeLong(this.f_77273_);
++      p_164700_.m_130070_(this.f_77271_.toString());
++      p_164700_.m_130070_(this.f_77272_.toString());
++      p_164700_.m_130070_(this.f_77273_.toString());
        p_164700_.writeFloat(this.f_77280_);
        p_164700_.writeFloat(this.f_77281_);
        p_164700_.writeBoolean(this.f_77279_);
@@ -121,7 +155,7 @@
  
     public static Node m_77301_(FriendlyByteBuf p_77302_) {
 -      Node node = new Node(p_77302_.readInt(), p_77302_.readInt(), p_77302_.readInt());
-+      Node node = new Node(p_77302_.readLong(), p_77302_.readLong(), p_77302_.readLong());
++      Node node = new Node(new me.alphamode.mclong.math.BigInteger(p_77302_.m_130277_()), new me.alphamode.mclong.math.BigInteger(p_77302_.m_130277_()), new me.alphamode.mclong.math.BigInteger(p_77302_.m_130277_()));
        m_262841_(p_77302_, node);
        return node;
     }

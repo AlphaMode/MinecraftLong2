@@ -8,16 +8,17 @@
 +      return !this.f_77313_.m_20069_() ? super.m_7171_() : this.m_230631_(new BlockPos(Mth.lfloor(this.f_77313_.m_20191_().f_82288_), Mth.lfloor(this.f_77313_.m_20191_().f_82289_.add(me.alphamode.mclong.core.BigConstants.AABB)), Mth.lfloor(this.f_77313_.m_20191_().f_82290_)));
     }
  
-    public Target m_7568_(double p_164662_, double p_164663_, double p_164664_) {
+-   public Target m_7568_(double p_164662_, double p_164663_, double p_164664_) {
 -      return this.m_230615_(this.m_5676_(Mth.m_14107_(p_164662_), Mth.m_14107_(p_164663_ + 0.5D), Mth.m_14107_(p_164664_)));
-+      return this.m_230615_(this.getNode(Mth.m_14134_(p_164662_), Mth.m_14134_(p_164663_ + 0.5D), Mth.m_14134_(p_164664_)));
++   public Target getGoal(me.alphamode.mclong.math.BigDecimal p_164662_, me.alphamode.mclong.math.BigDecimal p_164663_, me.alphamode.mclong.math.BigDecimal p_164664_) {
++      return this.m_230615_(this.getNode(Mth.lfloor(p_164662_), Mth.lfloor(p_164663_.add(me.alphamode.mclong.core.BigConstants.AABB)), Mth.lfloor(p_164664_)));
     }
  
     public int m_6065_(Node[] p_164676_, Node p_164677_) {
        int i = super.m_6065_(p_164676_, p_164677_);
 -      BlockPathTypes blockpathtypes = this.m_77567_(this.f_77313_, p_164677_.f_77271_, p_164677_.f_77272_ + 1, p_164677_.f_77273_);
 -      BlockPathTypes blockpathtypes1 = this.m_77567_(this.f_77313_, p_164677_.f_77271_, p_164677_.f_77272_, p_164677_.f_77273_);
-+      BlockPathTypes blockpathtypes = this.getCachedBlockType(this.f_77313_, p_164677_.f_77271_, p_164677_.f_77272_ + 1, p_164677_.f_77273_);
++      BlockPathTypes blockpathtypes = this.getCachedBlockType(this.f_77313_, p_164677_.f_77271_, p_164677_.f_77272_.add(), p_164677_.f_77273_);
 +      BlockPathTypes blockpathtypes1 = this.getCachedBlockType(this.f_77313_, p_164677_.f_77271_, p_164677_.f_77272_, p_164677_.f_77273_);
        int j;
        if (this.f_77313_.m_21439_(blockpathtypes) >= 0.0F && blockpathtypes1 != BlockPathTypes.STICKY_HONEY) {
@@ -28,17 +29,26 @@
        double d0 = this.m_142213_(new BlockPos(p_164677_.f_77271_, p_164677_.f_77272_, p_164677_.f_77273_));
 -      Node node = this.m_164725_(p_164677_.f_77271_, p_164677_.f_77272_ + 1, p_164677_.f_77273_, Math.max(0, j - 1), d0, Direction.UP, blockpathtypes1);
 -      Node node1 = this.m_164725_(p_164677_.f_77271_, p_164677_.f_77272_ - 1, p_164677_.f_77273_, j, d0, Direction.DOWN, blockpathtypes1);
-+      Node node = this.findAcceptedNode(p_164677_.f_77271_, p_164677_.f_77272_ + 1, p_164677_.f_77273_, Math.max(0, j - 1), d0, Direction.UP, blockpathtypes1);
-+      Node node1 = this.findAcceptedNode(p_164677_.f_77271_, p_164677_.f_77272_ - 1, p_164677_.f_77273_, j, d0, Direction.DOWN, blockpathtypes1);
++      Node node = this.findAcceptedNode(p_164677_.f_77271_, p_164677_.f_77272_.add(), p_164677_.f_77273_, Math.max(0, j - 1), d0, Direction.UP, blockpathtypes1);
++      Node node1 = this.findAcceptedNode(p_164677_.f_77271_, p_164677_.f_77272_.subtract(), p_164677_.f_77273_, j, d0, Direction.DOWN, blockpathtypes1);
        if (this.m_230610_(node, p_164677_)) {
           p_164676_[i++] = node;
+       }
+@@ -64,7 +_,7 @@
+ 
+       for(int k = 0; k < i; ++k) {
+          Node node2 = p_164676_[k];
+-         if (node2.f_77282_ == BlockPathTypes.WATER && this.f_164655_ && node2.f_77272_ < this.f_77313_.m_9236_().m_5736_() - 10) {
++         if (node2.f_77282_ == BlockPathTypes.WATER && this.f_164655_ && node2.f_77272_.compareTo(this.f_77313_.m_9236_().m_5736_() - 10) < 0) {
+             ++node2.f_77281_;
+          }
        }
 @@ -80,12 +_,12 @@
        return true;
     }
  
 -   public BlockPathTypes m_8086_(BlockGetter p_164666_, int p_164667_, int p_164668_, int p_164669_) {
-+   public BlockPathTypes getBlockPathType(BlockGetter p_164666_, long p_164667_, long p_164668_, long p_164669_) {
++   public BlockPathTypes getBlockPathType(BlockGetter p_164666_, me.alphamode.mclong.math.BigInteger p_164667_, me.alphamode.mclong.math.BigInteger p_164668_, me.alphamode.mclong.math.BigInteger p_164669_) {
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 -      BlockPathTypes blockpathtypes = m_77643_(p_164666_, blockpos$mutableblockpos.m_122178_(p_164667_, p_164668_, p_164669_));
 +      BlockPathTypes blockpathtypes = m_77643_(p_164666_, blockpos$mutableblockpos.set(p_164667_, p_164668_, p_164669_));

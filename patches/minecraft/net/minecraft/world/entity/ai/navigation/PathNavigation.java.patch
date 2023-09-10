@@ -9,6 +9,17 @@
     protected long f_26502_;
     protected long f_26503_;
     protected double f_26504_;
+@@ -94,8 +_,8 @@
+    }
+ 
+    @Nullable
+-   public final Path m_26524_(double p_26525_, double p_26526_, double p_26527_, int p_26528_) {
+-      return this.m_7864_(BlockPos.m_274561_(p_26525_, p_26526_, p_26527_), p_26528_);
++   public final Path createPath(me.alphamode.mclong.math.BigDecimal p_26525_, me.alphamode.mclong.math.BigDecimal p_26526_, me.alphamode.mclong.math.BigDecimal p_26527_, int p_26528_) {
++      return this.m_7864_(BlockPos.containing(p_26525_, p_26526_, p_26527_), p_26528_);
+    }
+ 
+    @Nullable
 @@ -132,7 +_,7 @@
     protected Path m_148222_(Set<BlockPos> p_148223_, int p_148224_, boolean p_148225_, int p_148226_, float p_148227_) {
        if (p_148223_.isEmpty()) {
@@ -30,6 +41,17 @@
           Path path = this.f_26512_.m_77427_(pathnavigationregion, this.f_26494_, p_148223_, p_148227_, p_148226_, this.f_26511_);
           this.f_26495_.m_46473_().m_7238_();
           if (path != null && path.m_77406_() != null) {
+@@ -155,8 +_,8 @@
+       }
+    }
+ 
+-   public boolean m_26519_(double p_26520_, double p_26521_, double p_26522_, double p_26523_) {
+-      return this.m_26536_(this.m_26524_(p_26520_, p_26521_, p_26522_, 1), p_26523_);
++   public boolean moveTo(me.alphamode.mclong.math.BigDecimal p_26520_, me.alphamode.mclong.math.BigDecimal p_26521_, me.alphamode.mclong.math.BigDecimal p_26522_, double p_26523_) {
++      return this.m_26536_(this.createPath(p_26520_, p_26521_, p_26522_, 1), p_26523_);
+    }
+ 
+    public boolean m_5624_(Entity p_26532_, double p_26533_) {
 @@ -207,7 +_,7 @@
           } else if (this.f_26496_ != null && !this.f_26496_.m_77392_()) {
              Vec3 vec3 = this.m_7475_();
@@ -117,10 +139,11 @@
              BlockState blockstate = this.f_26495_.m_8055_(new BlockPos(node.f_77271_, node.f_77272_, node.f_77273_));
              if (blockstate.m_204336_(BlockTags.f_144269_)) {
 -               this.f_26496_.m_77377_(i, node.m_77289_(node.f_77271_, node.f_77272_ + 1, node.f_77273_));
-+               this.f_26496_.m_77377_(i, node.cloneAndMove(node.f_77271_, node.f_77272_ + 1, node.f_77273_));
-                if (node1 != null && node.f_77272_ >= node1.f_77272_) {
+-               if (node1 != null && node.f_77272_ >= node1.f_77272_) {
 -                  this.f_26496_.m_77377_(i + 1, node.m_77289_(node1.f_77271_, node.f_77272_ + 1, node1.f_77273_));
-+                  this.f_26496_.m_77377_(i + 1, node.cloneAndMove(node1.f_77271_, node.f_77272_ + 1, node1.f_77273_));
++               this.f_26496_.m_77377_(i, node.cloneAndMove(node.f_77271_, node.f_77272_.add(), node.f_77273_));
++               if (node1 != null && node.f_77272_.compareTo(node1.f_77272_) >= 0) {
++                  this.f_26496_.m_77377_(i + 1, node.cloneAndMove(node1.f_77271_, node.f_77272_.add(), node1.f_77273_));
                 }
              }
           }
@@ -139,11 +162,13 @@
        return this.f_26495_.m_8055_(blockpos).m_60804_(this.f_26495_, blockpos);
     }
  
-@@ -388,7 +_,7 @@
+@@ -387,8 +_,8 @@
+          return false;
        } else if (this.f_26496_ != null && !this.f_26496_.m_77392_() && this.f_26496_.m_77398_() != 0) {
           Node node = this.f_26496_.m_77395_();
-          Vec3 vec3 = new Vec3(((double)node.f_77271_ + this.f_26494_.m_20185_()) / 2.0D, ((double)node.f_77272_ + this.f_26494_.m_20186_()) / 2.0D, ((double)node.f_77273_ + this.f_26494_.m_20189_()) / 2.0D);
+-         Vec3 vec3 = new Vec3(((double)node.f_77271_ + this.f_26494_.m_20185_()) / 2.0D, ((double)node.f_77272_ + this.f_26494_.m_20186_()) / 2.0D, ((double)node.f_77273_ + this.f_26494_.m_20189_()) / 2.0D);
 -         return p_200904_.m_203195_(vec3, (double)(this.f_26496_.m_77398_() - this.f_26496_.m_77399_()));
++         Vec3 vec3 = new Vec3((node.f_77271_.toBigDecimal().add(this.f_26494_.getBigX())).divide(me.alphamode.mclong.core.BigConstants.TWO), (node.f_77272_.toBigDecimal().add(this.f_26494_.getBigY())).divide(me.alphamode.mclong.core.BigConstants.TWO), (node.f_77273_.toBigDecimal().add(this.f_26494_.getBigZ())).divide(me.alphamode.mclong.core.BigConstants.TWO));
 +         return p_200904_.closerToCenterThan(vec3, (double)(this.f_26496_.m_77398_() - this.f_26496_.m_77399_()));
        } else {
           return false;

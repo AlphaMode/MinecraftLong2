@@ -33,6 +33,10 @@ plugins {
 
 Util.init() //Init all our extension methods!
 
+tasks.withType(JavaCompile).each {
+    it.options.compilerArgs.add('--enable-preview')
+}
+
 ext {
     JAR_SIGNER = null
     if (project.hasProperty('keystore')) {

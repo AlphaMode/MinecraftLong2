@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/entity/ai/goal/FollowMobGoal.java
++++ b/net/minecraft/world/entity/ai/goal/FollowMobGoal.java
+@@ -82,10 +_,10 @@
+             } else {
+                this.f_25265_.m_26573_();
+                LookControl lookcontrol = this.f_25263_.m_21563_();
+-               if (d3 <= (double)this.f_25267_ || lookcontrol.m_24969_() == this.f_25261_.m_20185_() && lookcontrol.m_24970_() == this.f_25261_.m_20186_() && lookcontrol.m_24971_() == this.f_25261_.m_20189_()) {
+-                  double d4 = this.f_25263_.m_20185_() - this.f_25261_.m_20185_();
+-                  double d5 = this.f_25263_.m_20189_() - this.f_25261_.m_20189_();
+-                  this.f_25265_.m_26519_(this.f_25261_.m_20185_() - d4, this.f_25261_.m_20186_(), this.f_25261_.m_20189_() - d5, this.f_25264_);
++               if (d3 <= (double)this.f_25267_ || lookcontrol.getWantedX().equals(this.f_25261_.getBigX()) && lookcontrol.getWantedY().equals(this.f_25261_.getBigY()) && lookcontrol.getWantedZ().equals(this.f_25261_.getBigZ())) {
++                  me.alphamode.mclong.math.BigDecimal d4 = this.f_25263_.getBigX().subtract(this.f_25261_.getBigX());
++                  me.alphamode.mclong.math.BigDecimal d5 = this.f_25263_.getBigZ().subtract(this.f_25261_.getBigZ());
++                  this.f_25265_.moveTo(this.f_25261_.getBigX().subtract(d4), this.f_25261_.getBigY(), this.f_25261_.getBigZ().subtract(d5), this.f_25264_);
+                }
+ 
+             }

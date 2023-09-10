@@ -1,19 +1,23 @@
 --- a/net/minecraft/world/entity/decoration/LeashFenceKnotEntity.java
 +++ b/net/minecraft/world/entity/decoration/LeashFenceKnotEntity.java
-@@ -34,11 +_,11 @@
+@@ -34,14 +_,14 @@
  
     public LeashFenceKnotEntity(Level p_31831_, BlockPos p_31832_) {
        super(EntityType.f_20464_, p_31831_, p_31832_);
 -      this.m_6034_((double)p_31832_.m_123341_(), (double)p_31832_.m_123342_(), (double)p_31832_.m_123343_());
-+      this.m_6034_((double)p_31832_.getX(), (double)p_31832_.getY(), (double)p_31832_.getZ());
++      this.setPos(p_31832_.getBigDecX(), p_31832_.getBigDecY(), p_31832_.getBigDecZ());
     }
  
     protected void m_7087_() {
 -      this.m_20343_((double)this.f_31698_.m_123341_() + 0.5D, (double)this.f_31698_.m_123342_() + 0.375D, (double)this.f_31698_.m_123343_() + 0.5D);
-+      this.m_20343_((double)this.f_31698_.getX() + 0.5D, (double)this.f_31698_.getY() + 0.375D, (double)this.f_31698_.getZ() + 0.5D);
++      this.setPosRaw(this.f_31698_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), this.f_31698_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.LEASH), this.f_31698_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB));
        double d0 = (double)this.m_6095_().m_20678_() / 2.0D;
        double d1 = (double)this.m_6095_().m_20679_();
-       this.m_20011_(new AABB(this.m_20185_() - d0, this.m_20186_(), this.m_20189_() - d0, this.m_20185_() + d0, this.m_20186_() + d1, this.m_20189_() + d0));
+-      this.m_20011_(new AABB(this.m_20185_() - d0, this.m_20186_(), this.m_20189_() - d0, this.m_20185_() + d0, this.m_20186_() + d1, this.m_20189_() + d0));
++      this.m_20011_(new AABB(this.getBigX().subtract(d0), this.getBigY(), this.getBigZ().subtract(d0), this.getBigX().add(d0), this.getBigY().add(d1), this.getBigZ().add(d0)));
+    }
+ 
+    public void m_6022_(Direction p_31848_) {
 @@ -114,9 +_,9 @@
     }
  

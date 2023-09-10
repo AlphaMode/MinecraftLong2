@@ -1,5 +1,18 @@
 --- a/net/minecraft/world/entity/ai/goal/MoveTowardsTargetGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/MoveTowardsTargetGoal.java
+@@ -11,9 +_,9 @@
+    private final PathfinderMob f_25638_;
+    @Nullable
+    private LivingEntity f_25639_;
+-   private double f_25640_;
+-   private double f_25641_;
+-   private double f_25642_;
++   private me.alphamode.mclong.math.BigDecimal f_25640_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_25641_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_25642_ = me.alphamode.mclong.math.BigDecimal.ZERO;
+    private final double f_25643_;
+    private final float f_25644_;
+ 
 @@ -35,9 +_,9 @@
           if (vec3 == null) {
              return false;
@@ -7,9 +20,17 @@
 -            this.f_25640_ = vec3.f_82479_;
 -            this.f_25641_ = vec3.f_82480_;
 -            this.f_25642_ = vec3.f_82481_;
-+            this.f_25640_ = vec3.m_7096_();
-+            this.f_25641_ = vec3.m_7098_();
-+            this.f_25642_ = vec3.m_7094_();
++            this.f_25640_ = vec3.getX();
++            this.f_25641_ = vec3.getY();
++            this.f_25642_ = vec3.getZ();
              return true;
           }
        }
+@@ -52,6 +_,6 @@
+    }
+ 
+    public void m_8056_() {
+-      this.f_25638_.m_21573_().m_26519_(this.f_25640_, this.f_25641_, this.f_25642_, this.f_25643_);
++      this.f_25638_.m_21573_().moveTo(this.f_25640_, this.f_25641_, this.f_25642_, this.f_25643_);
+    }
+ }

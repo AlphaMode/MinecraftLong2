@@ -38,7 +38,7 @@
                 float f = i == p_270189_.m_77399_() ? 1.0F : 0.0F;
                 float f1 = i == p_270189_.m_77399_() ? 0.0F : 1.0F;
 -               DebugRenderer.m_269311_(p_270399_, p_270359_, (new AABB((double)((float)node.f_77271_ + 0.5F - p_270841_), (double)((float)node.f_77272_ + 0.01F * (float)i), (double)((float)node.f_77273_ + 0.5F - p_270841_), (double)((float)node.f_77271_ + 0.5F + p_270841_), (double)((float)node.f_77272_ + 0.25F + 0.01F * (float)i), (double)((float)node.f_77273_ + 0.5F + p_270841_))).m_82386_(-p_270187_, -p_270252_, -p_270371_), f, 0.0F, f1, 0.5F);
-+               DebugRenderer.m_269311_(p_270399_, p_270359_, (new AABB((double)((float)node.f_77271_ + 0.5F - p_270841_), (double)((float)node.f_77272_ + 0.01F * (float)i), (double)((float)node.f_77273_ + 0.5F - p_270841_), (double)((float)node.f_77271_ + 0.5F + p_270841_), (double)((float)node.f_77272_ + 0.25F + 0.01F * (float)i), (double)((float)node.f_77273_ + 0.5F + p_270841_))).move(p_270187_.negate(), p_270252_.negate(), p_270371_.negate()), f, 0.0F, f1, 0.5F);
++               DebugRenderer.m_269311_(p_270399_, p_270359_, (new AABB((node.f_77271_.toBigDecimal().add(0.5F - p_270841_)), (node.f_77272_.toBigDecimal().add(0.01F * (float)i)), (node.f_77273_.toBigDecimal().add(0.5F - p_270841_)), (node.f_77271_.toBigDecimal().add(0.5F + p_270841_)), (node.f_77272_.toBigDecimal().add(0.25F + 0.01F * (float)i)), (node.f_77273_.toBigDecimal().add(0.5F + p_270841_)))).move(p_270187_.negate(), p_270252_.negate(), p_270371_.negate()), f, 0.0F, f1, 0.5F);
              }
           }
        }
@@ -48,7 +48,7 @@
 -            if (m_113634_(node2.m_77288_(), p_270187_, p_270252_, p_270371_) <= 80.0F) {
 -               DebugRenderer.m_269311_(p_270399_, p_270359_, (new AABB((double)((float)node2.f_77271_ + 0.5F - p_270841_ / 2.0F), (double)((float)node2.f_77272_ + 0.01F), (double)((float)node2.f_77273_ + 0.5F - p_270841_ / 2.0F), (double)((float)node2.f_77271_ + 0.5F + p_270841_ / 2.0F), (double)node2.f_77272_ + 0.1D, (double)((float)node2.f_77273_ + 0.5F + p_270841_ / 2.0F))).m_82386_(-p_270187_, -p_270252_, -p_270371_), 1.0F, 0.8F, 0.8F, 0.5F);
 +            if (distanceToCamera(node2.m_77288_(), p_270187_, p_270252_, p_270371_) <= 80.0F) {
-+               DebugRenderer.m_269311_(p_270399_, p_270359_, (new AABB((double)((float)node2.f_77271_ + 0.5F - p_270841_ / 2.0F), (double)((float)node2.f_77272_ + 0.01F), (double)((float)node2.f_77273_ + 0.5F - p_270841_ / 2.0F), (double)((float)node2.f_77271_ + 0.5F + p_270841_ / 2.0F), (double)node2.f_77272_ + 0.1D, (double)((float)node2.f_77273_ + 0.5F + p_270841_ / 2.0F))).move(p_270187_.negate(), p_270252_.negate(), p_270371_.negate()), 1.0F, 0.8F, 0.8F, 0.5F);
++               DebugRenderer.m_269311_(p_270399_, p_270359_, (new AABB((node2.f_77271_.toBigDecimal().add(0.5F - p_270841_ / 2.0F)), (node2.f_77272_.toBigDecimal().add(0.01F)), (node2.f_77273_.toBigDecimal().add(0.5F - p_270841_ / 2.0F)), (node2.f_77271_.toBigDecimal().add(0.5F + p_270841_ / 2.0F)), node2.f_77272_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.POINT_ONE), (node2.f_77273_.toBigDecimal().add(0.5F + p_270841_ / 2.0F)))).move(p_270187_.negate(), p_270252_.negate(), p_270371_.negate()), 1.0F, 0.8F, 0.8F, 0.5F);
              }
           }
  
@@ -56,20 +56,23 @@
 -            if (m_113634_(node3.m_77288_(), p_270187_, p_270252_, p_270371_) <= 80.0F) {
 -               DebugRenderer.m_269311_(p_270399_, p_270359_, (new AABB((double)((float)node3.f_77271_ + 0.5F - p_270841_ / 2.0F), (double)((float)node3.f_77272_ + 0.01F), (double)((float)node3.f_77273_ + 0.5F - p_270841_ / 2.0F), (double)((float)node3.f_77271_ + 0.5F + p_270841_ / 2.0F), (double)node3.f_77272_ + 0.1D, (double)((float)node3.f_77273_ + 0.5F + p_270841_ / 2.0F))).m_82386_(-p_270187_, -p_270252_, -p_270371_), 0.8F, 1.0F, 1.0F, 0.5F);
 +            if (distanceToCamera(node3.m_77288_(), p_270187_, p_270252_, p_270371_) <= 80.0F) {
-+               DebugRenderer.m_269311_(p_270399_, p_270359_, (new AABB((double)((float)node3.f_77271_ + 0.5F - p_270841_ / 2.0F), (double)((float)node3.f_77272_ + 0.01F), (double)((float)node3.f_77273_ + 0.5F - p_270841_ / 2.0F), (double)((float)node3.f_77271_ + 0.5F + p_270841_ / 2.0F), (double)node3.f_77272_ + 0.1D, (double)((float)node3.f_77273_ + 0.5F + p_270841_ / 2.0F))).move(p_270187_.negate(), p_270252_.negate(), p_270371_.negate()), 0.8F, 1.0F, 1.0F, 0.5F);
++               DebugRenderer.m_269311_(p_270399_, p_270359_, (new AABB((node3.f_77271_.toBigDecimal().add(0.5F - p_270841_ / 2.0F)), (node3.f_77272_.toBigDecimal().add(0.01F)), (node3.f_77273_.toBigDecimal().add(0.5F - p_270841_ / 2.0F)), (node3.f_77271_.toBigDecimal().add(0.5F + p_270841_ / 2.0F)), node3.f_77272_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.POINT_ONE), (node3.f_77273_.toBigDecimal().add(0.5F + p_270841_ / 2.0F)))).move(p_270187_.negate(), p_270252_.negate(), p_270371_.negate()), 0.8F, 1.0F, 1.0F, 0.5F);
              }
           }
        }
-@@ -89,7 +_,7 @@
+@@ -89,31 +_,31 @@
        if (p_270748_) {
           for(int j = 0; j < p_270189_.m_77398_(); ++j) {
              Node node1 = p_270189_.m_77375_(j);
 -            if (m_113634_(node1.m_77288_(), p_270187_, p_270252_, p_270371_) <= 80.0F) {
+-               DebugRenderer.m_269439_(p_270399_, p_270359_, String.valueOf((Object)node1.f_77282_), (double)node1.f_77271_ + 0.5D, (double)node1.f_77272_ + 0.75D, (double)node1.f_77273_ + 0.5D, -1, 0.02F, true, 0.0F, true);
+-               DebugRenderer.m_269439_(p_270399_, p_270359_, String.format(Locale.ROOT, "%.2f", node1.f_77281_), (double)node1.f_77271_ + 0.5D, (double)node1.f_77272_ + 0.25D, (double)node1.f_77273_ + 0.5D, -1, 0.02F, true, 0.0F, true);
 +            if (distanceToCamera(node1.m_77288_(), p_270187_, p_270252_, p_270371_) <= 80.0F) {
-                DebugRenderer.m_269439_(p_270399_, p_270359_, String.valueOf((Object)node1.f_77282_), (double)node1.f_77271_ + 0.5D, (double)node1.f_77272_ + 0.75D, (double)node1.f_77273_ + 0.5D, -1, 0.02F, true, 0.0F, true);
-                DebugRenderer.m_269439_(p_270399_, p_270359_, String.format(Locale.ROOT, "%.2f", node1.f_77281_), (double)node1.f_77271_ + 0.5D, (double)node1.f_77272_ + 0.25D, (double)node1.f_77273_ + 0.5D, -1, 0.02F, true, 0.0F, true);
++               DebugRenderer.m_269439_(p_270399_, p_270359_, String.valueOf((Object)node1.f_77282_), node1.f_77271_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).doubleValue(), node1.f_77272_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.TEXT).doubleValue(), node1.f_77273_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).doubleValue(), -1, 0.02F, true, 0.0F, true);
++               DebugRenderer.m_269439_(p_270399_, p_270359_, String.format(Locale.ROOT, "%.2f", node1.f_77281_), node1.f_77271_.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB).doubleValue(), node1.f_77272_.doubleValue() + 0.25D, node1.f_77273_.doubleValue() + 0.5D, -1, 0.02F, true, 0.0F, true);
              }
-@@ -98,22 +_,22 @@
+          }
+       }
  
     }
  
@@ -85,7 +88,7 @@
              int l = j >> 8 & 255;
              int i1 = j & 255;
 -            p_270602_.m_252986_(p_270666_.m_85850_().m_252922_(), (float)((double)node.f_77271_ - p_270524_ + 0.5D), (float)((double)node.f_77272_ - p_270163_ + 0.5D), (float)((double)node.f_77273_ - p_270176_ + 0.5D)).m_6122_(k, l, i1, 255).m_5752_();
-+            p_270602_.m_252986_(p_270666_.m_85850_().m_252922_(), (float)((double)node.f_77271_ - p_270524_.doubleValue() + 0.5D), (float)((double)node.f_77272_ - p_270163_.doubleValue() + 0.5D), (float)((double)node.f_77273_ - p_270176_.doubleValue() + 0.5D)).m_6122_(k, l, i1, 255).m_5752_();
++            p_270602_.m_252986_(p_270666_.m_85850_().m_252922_(), (float)((double)node.f_77271_.doubleValue() - p_270524_.doubleValue() + 0.5D), (float)((double)node.f_77272_.doubleValue() - p_270163_.doubleValue() + 0.5D), (float)((double)node.f_77273_.doubleValue() - p_270176_.doubleValue() + 0.5D)).m_6122_(k, l, i1, 255).m_5752_();
           }
        }
  

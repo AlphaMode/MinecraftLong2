@@ -1,42 +1,96 @@
 --- a/net/minecraft/world/level/EntityGetter.java
 +++ b/net/minecraft/world/level/EntityGetter.java
-@@ -89,14 +_,38 @@
+@@ -71,13 +_,13 @@
     }
  
     @Nullable
+-   default Player m_5788_(double p_45919_, double p_45920_, double p_45921_, double p_45922_, @Nullable Predicate<Entity> p_45923_) {
 +   default Player getNearestPlayer(me.alphamode.mclong.math.BigDecimal p_45919_, me.alphamode.mclong.math.BigDecimal p_45920_, me.alphamode.mclong.math.BigDecimal p_45921_, double p_45922_, @Nullable Predicate<Entity> p_45923_) {
-+      me.alphamode.mclong.math.BigDecimal d0 = me.alphamode.mclong.math.BigDecimal.ONE.negate();
-+      Player player = null;
-+
-+      for(Player player1 : this.m_6907_()) {
-+         if (p_45923_ == null || p_45923_.test(player1)) {
-+            me.alphamode.mclong.math.BigDecimal d1 = player1.distanceToSqr(p_45919_, p_45920_, p_45921_);
-+            if ((p_45922_ < 0.0D || d1.compareTo(p_45922_ * p_45922_) < 0) && (d0.equals(me.alphamode.mclong.math.BigDecimal.ONE.negate()) || d1.compareTo(d0) < 0)) {
-+               d0 = d1;
-+               player = player1;
-+            }
-+         }
-+      }
-+
-+      return player;
-+   }
-+
-+   @Nullable
+       double d0 = -1.0D;
+       Player player = null;
+ 
+       for(Player player1 : this.m_6907_()) {
+          if (p_45923_ == null || p_45923_.test(player1)) {
+-            double d1 = player1.m_20275_(p_45919_, p_45920_, p_45921_);
++            double d1 = player1.distanceToSqr(p_45919_, p_45920_, p_45921_);
+             if ((p_45922_ < 0.0D || d1 < p_45922_ * p_45922_) && (d0 == -1.0D || d1 < d0)) {
+                d0 = d1;
+                player = player1;
+@@ -90,19 +_,19 @@
+ 
+    @Nullable
     default Player m_45930_(Entity p_45931_, double p_45932_) {
 -      return this.m_45924_(p_45931_.m_20185_(), p_45931_.m_20186_(), p_45931_.m_20189_(), p_45932_, false);
 +      return this.getNearestPlayer(p_45931_.getBigX(), p_45931_.getBigY(), p_45931_.getBigZ(), p_45932_, false);
     }
  
     @Nullable
-    default Player m_45924_(double p_45925_, double p_45926_, double p_45927_, double p_45928_, boolean p_45929_) {
-       Predicate<Entity> predicate = p_45929_ ? EntitySelector.f_20406_ : EntitySelector.f_20408_;
-       return this.m_5788_(p_45925_, p_45926_, p_45927_, p_45928_, predicate);
-+   }
-+
-+   @Nullable
+-   default Player m_45924_(double p_45925_, double p_45926_, double p_45927_, double p_45928_, boolean p_45929_) {
 +   default Player getNearestPlayer(me.alphamode.mclong.math.BigDecimal p_45925_, me.alphamode.mclong.math.BigDecimal p_45926_, me.alphamode.mclong.math.BigDecimal p_45927_, double p_45928_, boolean p_45929_) {
-+      Predicate<Entity> predicate = p_45929_ ? EntitySelector.f_20406_ : EntitySelector.f_20408_;
+       Predicate<Entity> predicate = p_45929_ ? EntitySelector.f_20406_ : EntitySelector.f_20408_;
+-      return this.m_5788_(p_45925_, p_45926_, p_45927_, p_45928_, predicate);
 +      return this.getNearestPlayer(p_45925_, p_45926_, p_45927_, p_45928_, predicate);
     }
  
-    default boolean m_45914_(double p_45915_, double p_45916_, double p_45917_, double p_45918_) {
+-   default boolean m_45914_(double p_45915_, double p_45916_, double p_45917_, double p_45918_) {
++   default boolean hasNearbyAlivePlayer(me.alphamode.mclong.math.BigDecimal p_45915_, me.alphamode.mclong.math.BigDecimal p_45916_, me.alphamode.mclong.math.BigDecimal p_45917_, double p_45918_) {
+       for(Player player : this.m_6907_()) {
+          if (EntitySelector.f_20408_.test(player) && EntitySelector.f_20403_.test(player)) {
+-            double d0 = player.m_20275_(p_45915_, p_45916_, p_45917_);
++            double d0 = player.distanceToSqr(p_45915_, p_45916_, p_45917_);
+             if (p_45918_ < 0.0D || d0 < p_45918_ * p_45918_) {
+                return true;
+             }
+@@ -114,34 +_,34 @@
+ 
+    @Nullable
+    default Player m_45946_(TargetingConditions p_45947_, LivingEntity p_45948_) {
+-      return this.m_45982_(this.m_6907_(), p_45947_, p_45948_, p_45948_.m_20185_(), p_45948_.m_20186_(), p_45948_.m_20189_());
+-   }
+-
+-   @Nullable
+-   default Player m_45949_(TargetingConditions p_45950_, LivingEntity p_45951_, double p_45952_, double p_45953_, double p_45954_) {
+-      return this.m_45982_(this.m_6907_(), p_45950_, p_45951_, p_45952_, p_45953_, p_45954_);
+-   }
+-
+-   @Nullable
+-   default Player m_45941_(TargetingConditions p_45942_, double p_45943_, double p_45944_, double p_45945_) {
+-      return this.m_45982_(this.m_6907_(), p_45942_, (LivingEntity)null, p_45943_, p_45944_, p_45945_);
+-   }
+-
+-   @Nullable
+-   default <T extends LivingEntity> T m_45963_(Class<? extends T> p_45964_, TargetingConditions p_45965_, @Nullable LivingEntity p_45966_, double p_45967_, double p_45968_, double p_45969_, AABB p_45970_) {
+-      return this.m_45982_(this.m_6443_(p_45964_, p_45970_, (p_186454_) -> {
++      return this.getNearestEntity(this.m_6907_(), p_45947_, p_45948_, p_45948_.getBigX(), p_45948_.getBigY(), p_45948_.getBigZ());
++   }
++
++   @Nullable
++   default Player getNearestPlayer(TargetingConditions p_45950_, LivingEntity p_45951_, me.alphamode.mclong.math.BigDecimal p_45952_, me.alphamode.mclong.math.BigDecimal p_45953_, me.alphamode.mclong.math.BigDecimal p_45954_) {
++      return this.getNearestEntity(this.m_6907_(), p_45950_, p_45951_, p_45952_, p_45953_, p_45954_);
++   }
++
++   @Nullable
++   default Player getNearestPlayer(TargetingConditions p_45942_, me.alphamode.mclong.math.BigDecimal p_45943_, me.alphamode.mclong.math.BigDecimal p_45944_, me.alphamode.mclong.math.BigDecimal p_45945_) {
++      return this.getNearestEntity(this.m_6907_(), p_45942_, (LivingEntity)null, p_45943_, p_45944_, p_45945_);
++   }
++
++   @Nullable
++   default <T extends LivingEntity> T getNearestEntity(Class<? extends T> p_45964_, TargetingConditions p_45965_, @Nullable LivingEntity p_45966_, me.alphamode.mclong.math.BigDecimal p_45967_, me.alphamode.mclong.math.BigDecimal p_45968_, me.alphamode.mclong.math.BigDecimal p_45969_, AABB p_45970_) {
++      return this.getNearestEntity(this.m_6443_(p_45964_, p_45970_, (p_186454_) -> {
+          return true;
+       }), p_45965_, p_45966_, p_45967_, p_45968_, p_45969_);
+    }
+ 
+    @Nullable
+-   default <T extends LivingEntity> T m_45982_(List<? extends T> p_45983_, TargetingConditions p_45984_, @Nullable LivingEntity p_45985_, double p_45986_, double p_45987_, double p_45988_) {
++   default <T extends LivingEntity> T getNearestEntity(List<? extends T> p_45983_, TargetingConditions p_45984_, @Nullable LivingEntity p_45985_, me.alphamode.mclong.math.BigDecimal p_45986_, me.alphamode.mclong.math.BigDecimal p_45987_, me.alphamode.mclong.math.BigDecimal p_45988_) {
+       double d0 = -1.0D;
+       T t = null;
+ 
+       for(T t1 : p_45983_) {
+          if (p_45984_.m_26885_(p_45985_, t1)) {
+-            double d1 = t1.m_20275_(p_45986_, p_45987_, p_45988_);
++            double d1 = t1.distanceToSqr(p_45986_, p_45987_, p_45988_);
+             if (d0 == -1.0D || d1 < d0) {
+                d0 = d1;
+                t = t1;

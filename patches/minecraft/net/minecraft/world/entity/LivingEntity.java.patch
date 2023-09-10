@@ -452,7 +452,24 @@
        }
  
     }
-@@ -3038,8 +_,8 @@
+@@ -3027,30 +_,30 @@
+       return this.f_20937_;
+    }
+ 
+-   public boolean m_20984_(double p_20985_, double p_20986_, double p_20987_, boolean p_20988_) {
+-      double d0 = this.m_20185_();
+-      double d1 = this.m_20186_();
+-      double d2 = this.m_20189_();
+-      double d3 = p_20986_;
++   public boolean randomTeleport(me.alphamode.mclong.math.BigDecimal p_20985_, me.alphamode.mclong.math.BigDecimal p_20986_, me.alphamode.mclong.math.BigDecimal p_20987_, boolean p_20988_) {
++      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX();
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigY();
++      me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ();
++      me.alphamode.mclong.math.BigDecimal d3 = p_20986_;
+       boolean flag = false;
+-      BlockPos blockpos = BlockPos.m_274561_(p_20985_, p_20986_, p_20987_);
++      BlockPos blockpos = BlockPos.containing(p_20985_, p_20986_, p_20987_);
+       Level level = this.m_9236_();
        if (level.m_46805_(blockpos)) {
           boolean flag1 = false;
  
@@ -463,12 +480,34 @@
              BlockState blockstate = level.m_8055_(blockpos1);
              if (blockstate.m_280555_()) {
                 flag1 = true;
+             } else {
+-               --d3;
++               d3 = d3.subtract(me.alphamode.mclong.math.BigDecimal.ONE);
+                blockpos = blockpos1;
+             }
+          }
+ 
+          if (flag1) {
+-            this.m_6021_(p_20985_, d3, p_20987_);
++            this.teleportTo(p_20985_, d3, p_20987_);
+             if (level.m_45786_(this) && !level.m_46855_(this.m_20191_())) {
+                flag = true;
+             }
+@@ -3058,7 +_,7 @@
+       }
+ 
+       if (!flag) {
+-         this.m_6021_(d0, d1, d2);
++         this.teleportTo(d0, d1, d2);
+          return false;
+       } else {
+          if (p_20988_) {
 @@ -3139,7 +_,7 @@
     }
  
     private void m_21080_(BlockPos p_21081_) {
 -      this.m_6034_((double)p_21081_.m_123341_() + 0.5D, (double)p_21081_.m_123342_() + 0.6875D, (double)p_21081_.m_123343_() + 0.5D);
-+      this.m_6034_((double)p_21081_.getX() + 0.5D, (double)p_21081_.getY() + 0.6875D, (double)p_21081_.getZ() + 0.5D);
++      this.setPos(p_21081_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), p_21081_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.BED), p_21081_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB));
     }
  
     private boolean m_21334_() {

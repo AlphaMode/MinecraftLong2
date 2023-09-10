@@ -1,5 +1,18 @@
 --- a/net/minecraft/world/entity/ai/goal/PanicGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/PanicGoal.java
+@@ -14,9 +_,9 @@
+    public static final int f_198171_ = 1;
+    protected final PathfinderMob f_25684_;
+    protected final double f_25685_;
+-   protected double f_25686_;
+-   protected double f_25687_;
+-   protected double f_25688_;
++   protected me.alphamode.mclong.math.BigDecimal f_25686_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   protected me.alphamode.mclong.math.BigDecimal f_25687_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   protected me.alphamode.mclong.math.BigDecimal f_25688_ = me.alphamode.mclong.math.BigDecimal.ZERO;
+    protected boolean f_25689_;
+ 
+    public PanicGoal(PathfinderMob p_25691_, double p_25692_) {
 @@ -32,9 +_,9 @@
           if (this.f_25684_.m_6060_()) {
              BlockPos blockpos = this.m_198172_(this.f_25684_.m_9236_(), this.f_25684_, 5);
@@ -7,9 +20,9 @@
 -               this.f_25686_ = (double)blockpos.m_123341_();
 -               this.f_25687_ = (double)blockpos.m_123342_();
 -               this.f_25688_ = (double)blockpos.m_123343_();
-+               this.f_25686_ = (double)blockpos.getX();
-+               this.f_25687_ = (double)blockpos.getY();
-+               this.f_25688_ = (double)blockpos.getZ();
++               this.f_25686_ = blockpos.getBigDecX();
++               this.f_25687_ = blockpos.getBigDecY();
++               this.f_25688_ = blockpos.getBigDecZ();
                 return true;
              }
           }
@@ -20,9 +33,18 @@
 -         this.f_25686_ = vec3.f_82479_;
 -         this.f_25687_ = vec3.f_82480_;
 -         this.f_25688_ = vec3.f_82481_;
-+         this.f_25686_ = vec3.m_7096_();
-+         this.f_25687_ = vec3.m_7098_();
-+         this.f_25688_ = vec3.m_7094_();
++         this.f_25686_ = vec3.getX();
++         this.f_25687_ = vec3.getY();
++         this.f_25688_ = vec3.getZ();
           return true;
        }
     }
+@@ -64,7 +_,7 @@
+    }
+ 
+    public void m_8056_() {
+-      this.f_25684_.m_21573_().m_26519_(this.f_25686_, this.f_25687_, this.f_25688_, this.f_25685_);
++      this.f_25684_.m_21573_().moveTo(this.f_25686_, this.f_25687_, this.f_25688_, this.f_25685_);
+       this.f_25689_ = true;
+    }
+ 

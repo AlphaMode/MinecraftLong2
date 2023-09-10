@@ -1,5 +1,18 @@
 --- a/net/minecraft/world/entity/ai/goal/FleeSunGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/FleeSunGoal.java
+@@ -11,9 +_,9 @@
+ 
+ public class FleeSunGoal extends Goal {
+    protected final PathfinderMob f_25214_;
+-   private double f_25215_;
+-   private double f_25216_;
+-   private double f_25217_;
++   private me.alphamode.mclong.math.BigDecimal f_25215_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_25216_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_25217_ = me.alphamode.mclong.math.BigDecimal.ZERO;
+    private final double f_25218_;
+    private final Level f_25219_;
+ 
 @@ -43,9 +_,9 @@
        if (vec3 == null) {
           return false;
@@ -7,12 +20,21 @@
 -         this.f_25215_ = vec3.f_82479_;
 -         this.f_25216_ = vec3.f_82480_;
 -         this.f_25217_ = vec3.f_82481_;
-+         this.f_25215_ = vec3.m_7096_();
-+         this.f_25216_ = vec3.m_7098_();
-+         this.f_25217_ = vec3.m_7094_();
++         this.f_25215_ = vec3.getX();
++         this.f_25216_ = vec3.getY();
++         this.f_25217_ = vec3.getZ();
           return true;
        }
     }
+@@ -55,7 +_,7 @@
+    }
+ 
+    public void m_8056_() {
+-      this.f_25214_.m_21573_().m_26519_(this.f_25215_, this.f_25216_, this.f_25217_, this.f_25218_);
++      this.f_25214_.m_21573_().moveTo(this.f_25215_, this.f_25216_, this.f_25217_, this.f_25218_);
+    }
+ 
+    @Nullable
 @@ -64,9 +_,9 @@
        BlockPos blockpos = this.f_25214_.m_20183_();
  

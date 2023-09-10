@@ -23,7 +23,7 @@
           BlockPos blockpos = path.m_77406_();
           if (blockpos != null) {
 -            double d0 = this.m_20275_((double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_());
-+            double d0 = this.m_20275_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
++            double d0 = this.distanceToSqr(blockpos.getBigDecX(), blockpos.getBigDecY(), blockpos.getBigDecZ());
              if (d0 < 4.0D) {
                 return true;
              }
@@ -38,6 +38,19 @@
        }
  
        public void m_8056_() {
+@@ -302,9 +_,9 @@
+ 
+    static class DrownedGoToWaterGoal extends Goal {
+       private final PathfinderMob f_32418_;
+-      private double f_32419_;
+-      private double f_32420_;
+-      private double f_32421_;
++      private me.alphamode.mclong.math.BigDecimal f_32419_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++      private me.alphamode.mclong.math.BigDecimal f_32420_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++      private me.alphamode.mclong.math.BigDecimal f_32421_ = me.alphamode.mclong.math.BigDecimal.ZERO;
+       private final double f_32422_;
+       private final Level f_32423_;
+ 
 @@ -325,9 +_,9 @@
              if (vec3 == null) {
                 return false;
@@ -45,12 +58,21 @@
 -               this.f_32419_ = vec3.f_82479_;
 -               this.f_32420_ = vec3.f_82480_;
 -               this.f_32421_ = vec3.f_82481_;
-+               this.f_32419_ = vec3.m_7096_();
-+               this.f_32420_ = vec3.m_7098_();
-+               this.f_32421_ = vec3.m_7094_();
++               this.f_32419_ = vec3.getX();
++               this.f_32420_ = vec3.getY();
++               this.f_32421_ = vec3.getZ();
                 return true;
              }
           }
+@@ -338,7 +_,7 @@
+       }
+ 
+       public void m_8056_() {
+-         this.f_32418_.m_21573_().m_26519_(this.f_32419_, this.f_32420_, this.f_32421_, this.f_32422_);
++         this.f_32418_.m_21573_().moveTo(this.f_32419_, this.f_32420_, this.f_32421_, this.f_32422_);
+       }
+ 
+       @Nullable
 @@ -347,9 +_,9 @@
           BlockPos blockpos = this.f_32418_.m_20183_();
  
@@ -81,7 +103,7 @@
              }
  
 -            this.f_32435_.m_21573_().m_26519_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, this.f_32436_);
-+            this.f_32435_.m_21573_().m_26519_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), this.f_32436_);
++            this.f_32435_.m_21573_().moveTo(vec3.getX(), vec3.getY(), vec3.getZ(), this.f_32436_);
           }
  
        }

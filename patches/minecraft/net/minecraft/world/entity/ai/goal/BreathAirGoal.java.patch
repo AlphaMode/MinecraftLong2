@@ -5,16 +5,20 @@
  
     private void m_25112_() {
 -      Iterable<BlockPos> iterable = BlockPos.m_121976_(Mth.m_14107_(this.f_25101_.m_20185_() - 1.0D), this.f_25101_.m_146904_(), Mth.m_14107_(this.f_25101_.m_20189_() - 1.0D), Mth.m_14107_(this.f_25101_.m_20185_() + 1.0D), Mth.m_14107_(this.f_25101_.m_20186_() + 8.0D), Mth.m_14107_(this.f_25101_.m_20189_() + 1.0D));
-+      Iterable<BlockPos> iterable = BlockPos.betweenClosed(Mth.m_14134_(this.f_25101_.m_20185_() - 1.0D), this.f_25101_.getBlockY(), Mth.m_14134_(this.f_25101_.m_20189_() - 1.0D), Mth.m_14134_(this.f_25101_.m_20185_() + 1.0D), Mth.m_14134_(this.f_25101_.m_20186_() + 8.0D), Mth.m_14134_(this.f_25101_.m_20189_() + 1.0D));
++      Iterable<BlockPos> iterable = BlockPos.betweenClosed(Mth.lfloor(this.f_25101_.getBigX().subtract()), this.f_25101_.getBigBlockY(), Mth.lfloor(this.f_25101_.getBigZ().subtract()), Mth.lfloor(this.f_25101_.getBigX().add()), Mth.lfloor(this.f_25101_.getBigY().add(me.alphamode.mclong.core.BigConstants.EIGHT)), Mth.lfloor(this.f_25101_.getBigZ().add()));
        BlockPos blockpos = null;
  
        for(BlockPos blockpos1 : iterable) {
-@@ -50,7 +_,7 @@
-          blockpos = BlockPos.m_274561_(this.f_25101_.m_20185_(), this.f_25101_.m_20186_() + 8.0D, this.f_25101_.m_20189_());
+@@ -47,10 +_,10 @@
+       }
+ 
+       if (blockpos == null) {
+-         blockpos = BlockPos.m_274561_(this.f_25101_.m_20185_(), this.f_25101_.m_20186_() + 8.0D, this.f_25101_.m_20189_());
++         blockpos = BlockPos.containing(this.f_25101_.getBigX(), this.f_25101_.getBigY().add(me.alphamode.mclong.core.BigConstants.EIGHT), this.f_25101_.getBigZ());
        }
  
 -      this.f_25101_.m_21573_().m_26519_((double)blockpos.m_123341_(), (double)(blockpos.m_123342_() + 1), (double)blockpos.m_123343_(), 1.0D);
-+      this.f_25101_.m_21573_().m_26519_((double)blockpos.getX(), (double)(blockpos.getY() + 1), (double)blockpos.getZ(), 1.0D);
++      this.f_25101_.m_21573_().moveTo(blockpos.getBigDecX(), (blockpos.getBigDecY().add()), blockpos.getBigDecZ(), 1.0D);
     }
  
     public void m_8037_() {

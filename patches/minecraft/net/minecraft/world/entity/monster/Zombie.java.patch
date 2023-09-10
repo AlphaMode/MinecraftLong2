@@ -1,27 +1,35 @@
 --- a/net/minecraft/world/entity/monster/Zombie.java
 +++ b/net/minecraft/world/entity/monster/Zombie.java
-@@ -275,15 +_,15 @@
+@@ -275,21 +_,21 @@
           }
  
           if (livingentity != null && this.m_9236_().m_46791_() == Difficulty.HARD && (double)this.f_19796_.m_188501_() < this.m_21133_(Attributes.f_22287_) && this.m_9236_().m_46469_().m_46207_(GameRules.f_46134_)) {
 -            int i = Mth.m_14107_(this.m_20185_());
 -            int j = Mth.m_14107_(this.m_20186_());
 -            int k = Mth.m_14107_(this.m_20189_());
-+            long i = Mth.m_14134_(this.m_20185_());
-+            long j = Mth.m_14134_(this.m_20186_());
-+            long k = Mth.m_14134_(this.m_20189_());
++            me.alphamode.mclong.math.BigInteger i = Mth.lfloor(this.getBigX());
++            me.alphamode.mclong.math.BigInteger j = Mth.lfloor(this.getBigY());
++            me.alphamode.mclong.math.BigInteger k = Mth.lfloor(this.getBigZ());
              Zombie zombie = new Zombie(this.m_9236_());
  
              for(int l = 0; l < 50; ++l) {
 -               int i1 = i + Mth.m_216271_(this.f_19796_, 7, 40) * Mth.m_216271_(this.f_19796_, -1, 1);
 -               int j1 = j + Mth.m_216271_(this.f_19796_, 7, 40) * Mth.m_216271_(this.f_19796_, -1, 1);
 -               int k1 = k + Mth.m_216271_(this.f_19796_, 7, 40) * Mth.m_216271_(this.f_19796_, -1, 1);
-+               long i1 = i + Mth.nextLong(this.f_19796_, 7, 40) * Mth.nextLong(this.f_19796_, -1, 1);
-+               long j1 = j + Mth.nextLong(this.f_19796_, 7, 40) * Mth.nextLong(this.f_19796_, -1, 1);
-+               long k1 = k + Mth.nextLong(this.f_19796_, 7, 40) * Mth.nextLong(this.f_19796_, -1, 1);
++               me.alphamode.mclong.math.BigInteger i1 = i.add(Mth.nextLong(this.f_19796_, 7, 40) * Mth.nextLong(this.f_19796_, -1, 1));
++               me.alphamode.mclong.math.BigInteger j1 = j.add(Mth.nextLong(this.f_19796_, 7, 40) * Mth.nextLong(this.f_19796_, -1, 1));
++               me.alphamode.mclong.math.BigInteger k1 = k.add(Mth.nextLong(this.f_19796_, 7, 40) * Mth.nextLong(this.f_19796_, -1, 1));
                 BlockPos blockpos = new BlockPos(i1, j1, k1);
                 EntityType<?> entitytype = zombie.m_6095_();
                 SpawnPlacements.Type spawnplacements$type = SpawnPlacements.m_21752_(entitytype);
+                if (NaturalSpawner.m_47051_(spawnplacements$type, this.m_9236_(), blockpos, entitytype) && SpawnPlacements.m_217074_(entitytype, serverlevel, MobSpawnType.REINFORCEMENT, blockpos, this.m_9236_().f_46441_)) {
+-                  zombie.m_6034_((double)i1, (double)j1, (double)k1);
+-                  if (!this.m_9236_().m_45914_((double)i1, (double)j1, (double)k1, 7.0D) && this.m_9236_().m_45784_(zombie) && this.m_9236_().m_45786_(zombie) && !this.m_9236_().m_46855_(zombie.m_20191_())) {
++                  zombie.setPos(i1, j1, k1);
++                  if (!this.m_9236_().hasNearbyAlivePlayer(i1.toBigDecimal(), j1.toBigDecimal(), k1.toBigDecimal(), 7.0D) && this.m_9236_().m_45784_(zombie) && this.m_9236_().m_45786_(zombie) && !this.m_9236_().m_46855_(zombie.m_20191_())) {
+                      zombie.m_6710_(livingentity);
+                      zombie.m_6518_(serverlevel, this.m_9236_().m_6436_(zombie.m_20183_()), MobSpawnType.REINFORCEMENT, (SpawnGroupData)null, (CompoundTag)null);
+                      serverlevel.m_47205_(zombie);
 @@ -434,7 +_,7 @@
                 } else if ((double)randomsource.m_188501_() < 0.05D) {
                    Chicken chicken1 = EntityType.f_20555_.m_20615_(this.m_9236_());

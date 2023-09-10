@@ -47,14 +47,24 @@
  
           this.f_31352_ = new Vec3(d0, d1, d2);
        }
-@@ -156,8 +_,8 @@
+@@ -155,14 +_,14 @@
+    public void m_31358_(LivingEntity p_31359_) {
        this.f_31353_ = p_31359_;
        int i = this.f_31176_.m_31155_();
-       int j = this.f_31176_.m_31170_(this.f_31353_.m_20185_(), this.f_31353_.m_20186_(), this.f_31353_.m_20189_());
+-      int j = this.f_31176_.m_31170_(this.f_31353_.m_20185_(), this.f_31353_.m_20186_(), this.f_31353_.m_20189_());
 -      int k = this.f_31353_.m_146903_();
 -      int l = this.f_31353_.m_146907_();
-+      long k = this.f_31353_.getBlockX();
-+      long l = this.f_31353_.getBlockZ();
-       double d0 = (double)k - this.f_31176_.m_20185_();
-       double d1 = (double)l - this.f_31176_.m_20189_();
+-      double d0 = (double)k - this.f_31176_.m_20185_();
+-      double d1 = (double)l - this.f_31176_.m_20189_();
++      int j = this.f_31176_.findClosestNode(this.f_31353_.getBigX(), this.f_31353_.getBigY(), this.f_31353_.getBigZ());
++      me.alphamode.mclong.math.BigInteger k = this.f_31353_.getBigBlockX();
++      me.alphamode.mclong.math.BigInteger l = this.f_31353_.getBigBlockZ();
++      double d0 = k.toBigDecimal().subtract(this.f_31176_.getBigX()).doubleValue();
++      double d1 = l.toBigDecimal().subtract(this.f_31176_.getBigZ()).doubleValue();
        double d2 = Math.sqrt(d0 * d0 + d1 * d1);
+       double d3 = Math.min((double)0.4F + d2 / 80.0D - 1.0D, 10.0D);
+-      int i1 = Mth.m_14107_(this.f_31353_.m_20186_() + d3);
++      me.alphamode.mclong.math.BigInteger i1 = Mth.lfloor(this.f_31353_.getBigY().add(d3));
+       Node node = new Node(k, i1, l);
+       this.f_31351_ = this.f_31176_.m_31104_(i, j, node);
+       if (this.f_31351_ != null) {

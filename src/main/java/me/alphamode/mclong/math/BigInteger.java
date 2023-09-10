@@ -4,10 +4,12 @@ import me.alphamode.mclong.core.BigConstants;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class BigInteger extends Number implements Comparable<BigInteger> {
-    public static final BigInteger ZERO = new BigInteger(java.math.BigInteger.ZERO, 0);
-    public static final BigInteger ONE = new BigInteger(java.math.BigInteger.ONE, 1);
+    public static final BigInteger ZERO = new BigInteger(0);
+    public static final BigInteger ONE = new BigInteger(1);
+    @Nullable
     private final java.math.BigInteger backing;
     private final long longBacking;
 
@@ -17,35 +19,48 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger(java.math.BigInteger backing, long longBacking) {
+        this(backing, longBacking, false);
+    }
+
+    public BigInteger(java.math.BigInteger backing, long longBacking, boolean constant) {
+        if (backing != null && !BigConstants.Ints.BIG_MODE && !constant)
+            throw new IllegalStateException("Trying to use Big Integer when Big Integer mode is off!");
         this.backing = backing;
         this.longBacking = longBacking;
     }
 
     public BigInteger(String backing) {
-        this.backing = backing.isEmpty() ? java.math.BigInteger.ZERO : new java.math.BigInteger(backing);
-        this.longBacking = this.backing.longValue();
+        this.backing = BigConstants.Ints.BIG_MODE ? backing.isEmpty() ? java.math.BigInteger.ZERO : new java.math.BigInteger(backing) : null;
+        this.longBacking = Long.parseLong(backing);
     }
 
     public BigInteger(java.math.BigInteger backing) {
+        if (!BigConstants.Ints.BIG_MODE)
+            throw new IllegalStateException("Trying to use Big Integer when Big Integer mode is off!");
         this.backing = backing;
         this.longBacking = backing.longValue();
     }
 
     public BigInteger(long backing) {
         this.longBacking = backing;
-        this.backing = java.math.BigInteger.valueOf(this.longBacking);
+        this.backing = BigConstants.Ints.BIG_MODE ? java.math.BigInteger.valueOf(this.longBacking) : null;
     }
 
     public BigInteger(double backing) {
         this.longBacking = Mth.lfloor(backing);
-        this.backing = java.math.BigInteger.valueOf(this.longBacking);
+        this.backing = BigConstants.Ints.BIG_MODE ? java.math.BigInteger.valueOf(this.longBacking) : null;
     }
 
     public static BigInteger valueOf(long val) {
-        return new BigInteger(java.math.BigInteger.valueOf(val), val);
+        return new BigInteger(BigConstants.Ints.BIG_MODE ? java.math.BigInteger.valueOf(val) : null, val);
+    }
+
+    public static BigInteger constant(long val) {
+        return new BigInteger(java.math.BigInteger.valueOf(val), val, true);
     }
 
 
+    @Nullable
     public java.math.BigInteger getBacking() {
         return backing;
     }
@@ -237,8 +252,12 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         return Long.toString(this.longBacking);
     }
 
+    private BigDecimal cachedDecimal;
+
     public BigDecimal toBigDecimal() {
-        return new BigDecimal(this);
+        if (this.cachedDecimal == null)
+            this.cachedDecimal = new BigDecimal(this);
+        return this.cachedDecimal;
     }
 
     public int signum() {

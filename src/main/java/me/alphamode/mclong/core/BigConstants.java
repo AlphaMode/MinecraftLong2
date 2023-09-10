@@ -33,6 +33,8 @@ public class BigConstants {
     public static final BigDecimal EPSILON = BigDecimal.valueOf(1.0E-7D);
     public static final BigDecimal ENTITY = BigDecimal.valueOf(1.0E-6D);
     public static final BigDecimal AABB = BigDecimal.valueOf(0.5D);
+    public static final BigDecimal LEASH = BigDecimal.valueOf(0.375D);
+    public static final BigDecimal BED = BigDecimal.valueOf(0.6875D);
     public static final BigDecimal GOLEM = BigDecimal.valueOf(0.05D);
     public static final BigDecimal TWO = BigDecimal.valueOf(2.0D);
     public static final BigDecimal FIVE = BigDecimal.valueOf(5.0D);
@@ -43,20 +45,23 @@ public class BigConstants {
     public static final BigDecimal BREAK_PROGRESS = BigDecimal.valueOf(1024.0D);
     public static final BigDecimal BIG_VAL = BigDecimal.valueOf(2048.0D);
     public static final BigDecimal EPSILON_EQUAL = BigDecimal.valueOf(1.0E-5F);
+    public static final BigDecimal FORTY = BigDecimal.valueOf(40.0D);
+    public static final BigDecimal DRAGON = BigDecimal.valueOf(105.0D);
+    public static final BigDecimal TEXT = BigDecimal.valueOf(0.75D);
 
     public static class Ints {
-        public static final BigInteger WORLD_HEIGHT_LIMIT = BigInteger.valueOf(4096L);
-        public static final BigInteger TWO = BigInteger.valueOf(2);
-        public static final BigInteger EIGHT = BigInteger.valueOf(8);
-        public static final BigInteger THREE = BigInteger.valueOf(3);
-        public static final BigInteger TWELVE = BigInteger.valueOf(12);
-        public static final BigInteger TEN = BigInteger.valueOf(10);
-        public static final BigInteger FOUR = BigInteger.valueOf(4);
-        public static final BigInteger FIVE = BigInteger.valueOf(5);
+        public static final BigInteger WORLD_HEIGHT_LIMIT = BigInteger.constant(4096L);
+        public static final BigInteger TWO = BigInteger.constant(2);
+        public static final BigInteger EIGHT = BigInteger.constant(8);
+        public static final BigInteger THREE = BigInteger.constant(3);
+        public static final BigInteger TWELVE = BigInteger.constant(12);
+        public static final BigInteger TEN = BigInteger.constant(10);
+        public static final BigInteger FOUR = BigInteger.constant(4);
+        public static final BigInteger FIVE = BigInteger.constant(5);
         public static boolean BIG_MODE = true;
-        public static final BigInteger FIFTEEN = BigInteger.valueOf(15);
-        public static final BigInteger SIXTEEN = BigInteger.valueOf(16);
-        public static final BigInteger SIXTY = BigInteger.valueOf(60);
-        public static final BigInteger SEVEN = BigInteger.valueOf(7);
+        public static final BigInteger FIFTEEN = BigInteger.constant(15);
+        public static final BigInteger SIXTEEN = BigInteger.constant(16);
+        public static final BigInteger SIXTY = BigInteger.constant(60);
+        public static final BigInteger SEVEN = BigInteger.constant(7);
     }
 }

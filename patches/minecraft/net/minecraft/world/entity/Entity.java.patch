@@ -533,27 +533,23 @@
        this.f_19854_ = d0;
        this.f_19855_ = d1;
        this.f_19856_ = d2;
-@@ -1386,10 +_,17 @@
+@@ -1386,11 +_,11 @@
        return Mth.m_14116_(f * f + f1 * f1 + f2 * f2);
     }
  
-+   public me.alphamode.mclong.math.BigDecimal distanceToSqr(me.alphamode.mclong.math.BigDecimal p_20276_, me.alphamode.mclong.math.BigDecimal p_20277_, me.alphamode.mclong.math.BigDecimal p_20278_) {
-+      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().subtract(p_20276_);
-+      me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().subtract(p_20277_);
-+      me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().subtract(p_20278_);
-+      return d0.multiply(d0).add(d1.multiply(d1)).add(d2.multiply(d2));
-+   }
-+
-    public double m_20275_(double p_20276_, double p_20277_, double p_20278_) {
+-   public double m_20275_(double p_20276_, double p_20277_, double p_20278_) {
 -      double d0 = this.m_20185_() - p_20276_;
 -      double d1 = this.m_20186_() - p_20277_;
 -      double d2 = this.m_20189_() - p_20278_;
-+      double d0 = this.getBigX().subtract(p_20276_).doubleValue();
-+      double d1 = this.getBigY().subtract(p_20277_).doubleValue();
-+      double d2 = this.getBigZ().subtract(p_20278_).doubleValue();
-       return d0 * d0 + d1 * d1 + d2 * d2;
+-      return d0 * d0 + d1 * d1 + d2 * d2;
++   public double distanceToSqr(me.alphamode.mclong.math.BigDecimal p_20276_, me.alphamode.mclong.math.BigDecimal p_20277_, me.alphamode.mclong.math.BigDecimal p_20278_) {
++      me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().subtract(p_20276_);
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().subtract(p_20277_);
++      me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().subtract(p_20278_);
++      return d0.multiply(d0).add(d1.multiply(d1)).add(d2.multiply(d2)).doubleValue();
     }
  
+    public double m_20280_(Entity p_20281_) {
 @@ -1398,9 +_,9 @@
     }
  
@@ -839,15 +835,23 @@
        p_20051_.m_128165_("Entity's Passengers", () -> {
           return this.m_20197_().toString();
        });
-@@ -2600,7 +_,7 @@
+@@ -2596,12 +_,12 @@
+       return this.f_19804_.m_135370_(f_19834_);
+    }
+ 
+-   public final void m_20324_(double p_20325_, double p_20326_, double p_20327_) {
++   public final void teleportToWithTicket(me.alphamode.mclong.math.BigDecimal p_20325_, me.alphamode.mclong.math.BigDecimal p_20326_, me.alphamode.mclong.math.BigDecimal p_20327_) {
        if (this.m_9236_() instanceof ServerLevel) {
-          ChunkPos chunkpos = new ChunkPos(BlockPos.m_274561_(p_20325_, p_20326_, p_20327_));
+-         ChunkPos chunkpos = new ChunkPos(BlockPos.m_274561_(p_20325_, p_20326_, p_20327_));
++         ChunkPos chunkpos = new ChunkPos(BlockPos.containing(p_20325_, p_20326_, p_20327_));
           ((ServerLevel)this.m_9236_()).m_7726_().m_8387_(TicketType.f_9448_, chunkpos, 0, this.m_19879_());
 -         this.m_9236_().m_6325_(chunkpos.f_45578_, chunkpos.f_45579_);
+-         this.m_6021_(p_20325_, p_20326_, p_20327_);
 +         this.f_19853_.getChunk(chunkpos.getX(), chunkpos.getZ());
-          this.m_6021_(p_20325_, p_20326_, p_20327_);
++         this.teleportTo(p_20325_, p_20326_, p_20327_);
        }
     }
+ 
 @@ -2628,8 +_,31 @@
        return true;
     }
@@ -1015,7 +1019,7 @@
     }
  
     public double m_204036_(TagKey<Fluid> p_204037_) {
-@@ -3124,68 +_,135 @@
+@@ -3124,68 +_,139 @@
        this.m_20256_(new Vec3(p_20335_, p_20336_, p_20337_));
     }
  
@@ -1069,6 +1073,10 @@
 +
 +   public final long getBlockY() {
 +      return this.f_19826_.getY();
++   }
++
++   public final me.alphamode.mclong.math.BigInteger getBigBlockY() {
++      return this.f_19826_.getBigY();
 +   }
 +
 +   public final me.alphamode.mclong.math.BigDecimal getBigDecBlockY() {

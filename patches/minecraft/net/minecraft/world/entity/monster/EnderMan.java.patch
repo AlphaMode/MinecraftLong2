@@ -18,20 +18,40 @@
           }
        }
  
-@@ -261,16 +_,16 @@
-       Vec3 vec3 = new Vec3(this.m_20185_() - p_32501_.m_20185_(), this.m_20227_(0.5D) - p_32501_.m_20188_(), this.m_20189_() - p_32501_.m_20189_());
+@@ -248,29 +_,29 @@
+ 
+    protected boolean m_32529_() {
+       if (!this.m_9236_().m_5776_() && this.m_6084_()) {
+-         double d0 = this.m_20185_() + (this.f_19796_.m_188500_() - 0.5D) * 64.0D;
+-         double d1 = this.m_20186_() + (double)(this.f_19796_.m_188503_(64) - 32);
+-         double d2 = this.m_20189_() + (this.f_19796_.m_188500_() - 0.5D) * 64.0D;
+-         return this.m_32543_(d0, d1, d2);
++         me.alphamode.mclong.math.BigDecimal d0 = this.getBigX().add((this.f_19796_.m_188500_() - 0.5D) * 64.0D);
++         me.alphamode.mclong.math.BigDecimal d1 = this.getBigY().add((double)(this.f_19796_.m_188503_(64) - 32));
++         me.alphamode.mclong.math.BigDecimal d2 = this.getBigZ().add((this.f_19796_.m_188500_() - 0.5D) * 64.0D);
++         return this.teleport(d0, d1, d2);
+       } else {
+          return false;
+       }
+    }
+ 
+    boolean m_32500_(Entity p_32501_) {
+-      Vec3 vec3 = new Vec3(this.m_20185_() - p_32501_.m_20185_(), this.m_20227_(0.5D) - p_32501_.m_20188_(), this.m_20189_() - p_32501_.m_20189_());
++      Vec3 vec3 = new Vec3(this.getBigX().subtract(p_32501_.getBigX()), this.getBigY(0.5D).subtract(p_32501_.getEyeBigY()), this.getBigZ().subtract(p_32501_.getBigZ()));
        vec3 = vec3.m_82541_();
        double d0 = 16.0D;
 -      double d1 = this.m_20185_() + (this.f_19796_.m_188500_() - 0.5D) * 8.0D - vec3.f_82479_ * 16.0D;
 -      double d2 = this.m_20186_() + (double)(this.f_19796_.m_188503_(16) - 8) - vec3.f_82480_ * 16.0D;
 -      double d3 = this.m_20189_() + (this.f_19796_.m_188500_() - 0.5D) * 8.0D - vec3.f_82481_ * 16.0D;
-+      double d1 = this.m_20185_() + (this.f_19796_.m_188500_() - 0.5D) * 8.0D - vec3.m_7096_() * 16.0D;
-+      double d2 = this.m_20186_() + (double)(this.f_19796_.m_188503_(16) - 8) - vec3.m_7098_() * 16.0D;
-+      double d3 = this.m_20189_() + (this.f_19796_.m_188500_() - 0.5D) * 8.0D - vec3.m_7094_() * 16.0D;
-       return this.m_32543_(d1, d2, d3);
+-      return this.m_32543_(d1, d2, d3);
++      me.alphamode.mclong.math.BigDecimal d1 = this.getBigX().add((this.f_19796_.m_188500_() - 0.5D) * 8.0D - vec3.m_7096_() * 16.0D);
++      me.alphamode.mclong.math.BigDecimal d2 = this.getBigY().add((double)(this.f_19796_.m_188503_(16) - 8) - vec3.m_7098_() * 16.0D);
++      me.alphamode.mclong.math.BigDecimal d3 = this.getBigZ().add((this.f_19796_.m_188500_() - 0.5D) * 8.0D - vec3.m_7094_() * 16.0D);
++      return this.teleport(d1, d2, d3);
     }
  
-    private boolean m_32543_(double p_32544_, double p_32545_, double p_32546_) {
+-   private boolean m_32543_(double p_32544_, double p_32545_, double p_32546_) {
++   private boolean teleport(me.alphamode.mclong.math.BigDecimal p_32544_, me.alphamode.mclong.math.BigDecimal p_32545_, me.alphamode.mclong.math.BigDecimal p_32546_) {
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_32544_, p_32545_, p_32546_);
  
 -      while(blockpos$mutableblockpos.m_123342_() > this.m_9236_().m_141937_() && !this.m_9236_().m_8055_(blockpos$mutableblockpos).m_280555_()) {
@@ -39,7 +59,12 @@
           blockpos$mutableblockpos.m_122173_(Direction.DOWN);
        }
  
-@@ -283,7 +_,7 @@
+@@ -279,11 +_,11 @@
+       boolean flag1 = blockstate.m_60819_().m_205070_(FluidTags.f_13131_);
+       if (flag && !flag1) {
+          Vec3 vec3 = this.m_20182_();
+-         boolean flag2 = this.m_20984_(p_32544_, p_32545_, p_32546_, true);
++         boolean flag2 = this.randomTeleport(p_32544_, p_32545_, p_32546_, true);
           if (flag2) {
              this.m_9236_().m_214171_(GameEvent.f_238175_, vec3, GameEvent.Context.m_223717_(this));
              if (!this.m_20067_()) {
@@ -48,6 +73,15 @@
                 this.m_5496_(SoundEvents.f_11852_, 1.0F, 1.0F);
              }
           }
+@@ -405,7 +_,7 @@
+       }
+ 
+       public void m_8037_() {
+-         this.f_32547_.m_21563_().m_24946_(this.f_32548_.m_20185_(), this.f_32548_.m_20188_(), this.f_32548_.m_20189_());
++         this.f_32547_.m_21563_().setLookAt(this.f_32548_.getBigX(), this.f_32548_.getEyeBigY(), this.f_32548_.getBigZ());
+       }
+    }
+ 
 @@ -429,12 +_,12 @@
        public void m_8037_() {
           RandomSource randomsource = this.f_32554_.m_217043_();

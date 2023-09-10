@@ -1,15 +1,26 @@
 --- a/net/minecraft/world/entity/ai/goal/AvoidEntityGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/AvoidEntityGoal.java
-@@ -62,10 +_,10 @@
+@@ -53,19 +_,19 @@
+    }
+ 
+    public boolean m_8036_() {
+-      this.f_25016_ = this.f_25015_.m_9236_().m_45982_(this.f_25015_.m_9236_().m_6443_(this.f_25020_, this.f_25015_.m_20191_().m_82377_((double)this.f_25017_, 3.0D, (double)this.f_25017_), (p_148078_) -> {
++      this.f_25016_ = this.f_25015_.m_9236_().getNearestEntity(this.f_25015_.m_9236_().m_6443_(this.f_25020_, this.f_25015_.m_20191_().m_82377_((double)this.f_25017_, 3.0D, (double)this.f_25017_), (p_148078_) -> {
+          return true;
+-      }), this.f_25025_, this.f_25015_, this.f_25015_.m_20185_(), this.f_25015_.m_20186_(), this.f_25015_.m_20189_());
++      }), this.f_25025_, this.f_25015_, this.f_25015_.getBigX(), this.f_25015_.getBigY(), this.f_25015_.getBigZ());
+       if (this.f_25016_ == null) {
+          return false;
+       } else {
           Vec3 vec3 = DefaultRandomPos.m_148407_(this.f_25015_, 16, 7, this.f_25016_.m_20182_());
           if (vec3 == null) {
              return false;
 -         } else if (this.f_25016_.m_20275_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_) < this.f_25016_.m_20280_(this.f_25015_)) {
-+         } else if (this.f_25016_.m_20275_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_()) < this.f_25016_.m_20280_(this.f_25015_)) {
++         } else if (this.f_25016_.distanceToSqr(vec3.getX(), vec3.getY(), vec3.getZ()) < this.f_25016_.m_20280_(this.f_25015_)) {
              return false;
           } else {
 -            this.f_25018_ = this.f_25019_.m_26524_(vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, 0);
-+            this.f_25018_ = this.f_25019_.m_26524_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), 0);
++            this.f_25018_ = this.f_25019_.createPath(vec3.getX(), vec3.getY(), vec3.getZ(), 0);
              return this.f_25018_ != null;
           }
        }

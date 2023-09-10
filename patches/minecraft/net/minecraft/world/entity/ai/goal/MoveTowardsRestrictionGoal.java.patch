@@ -1,5 +1,18 @@
 --- a/net/minecraft/world/entity/ai/goal/MoveTowardsRestrictionGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/MoveTowardsRestrictionGoal.java
+@@ -7,9 +_,9 @@
+ 
+ public class MoveTowardsRestrictionGoal extends Goal {
+    private final PathfinderMob f_25627_;
+-   private double f_25628_;
+-   private double f_25629_;
+-   private double f_25630_;
++   private me.alphamode.mclong.math.BigDecimal f_25628_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_25629_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_25630_ = me.alphamode.mclong.math.BigDecimal.ZERO;
+    private final double f_25631_;
+ 
+    public MoveTowardsRestrictionGoal(PathfinderMob p_25633_, double p_25634_) {
 @@ -22,13 +_,13 @@
        if (this.f_25627_.m_21533_()) {
           return false;
@@ -12,9 +25,17 @@
 -            this.f_25628_ = vec3.f_82479_;
 -            this.f_25629_ = vec3.f_82480_;
 -            this.f_25630_ = vec3.f_82481_;
-+            this.f_25628_ = vec3.m_7096_();
-+            this.f_25629_ = vec3.m_7098_();
-+            this.f_25630_ = vec3.m_7094_();
++            this.f_25628_ = vec3.getX();
++            this.f_25629_ = vec3.getY();
++            this.f_25630_ = vec3.getZ();
              return true;
           }
        }
+@@ -39,6 +_,6 @@
+    }
+ 
+    public void m_8056_() {
+-      this.f_25627_.m_21573_().m_26519_(this.f_25628_, this.f_25629_, this.f_25630_, this.f_25631_);
++      this.f_25627_.m_21573_().moveTo(this.f_25628_, this.f_25629_, this.f_25630_, this.f_25631_);
+    }
+ }

@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/entity/ai/goal/LookAtPlayerGoal.java
++++ b/net/minecraft/world/entity/ai/goal/LookAtPlayerGoal.java
+@@ -55,11 +_,11 @@
+          }
+ 
+          if (this.f_25516_ == Player.class) {
+-            this.f_25513_ = this.f_25512_.m_9236_().m_45949_(this.f_25517_, this.f_25512_, this.f_25512_.m_20185_(), this.f_25512_.m_20188_(), this.f_25512_.m_20189_());
++            this.f_25513_ = this.f_25512_.m_9236_().getNearestPlayer(this.f_25517_, this.f_25512_, this.f_25512_.getBigX(), this.f_25512_.getEyeBigY(), this.f_25512_.getBigZ());
+          } else {
+-            this.f_25513_ = this.f_25512_.m_9236_().m_45982_(this.f_25512_.m_9236_().m_6443_(this.f_25516_, this.f_25512_.m_20191_().m_82377_((double)this.f_25514_, 3.0D, (double)this.f_25514_), (p_148124_) -> {
++            this.f_25513_ = this.f_25512_.m_9236_().getNearestEntity(this.f_25512_.m_9236_().m_6443_(this.f_25516_, this.f_25512_.m_20191_().m_82377_((double)this.f_25514_, 3.0D, (double)this.f_25514_), (p_148124_) -> {
+                return true;
+-            }), this.f_25517_, this.f_25512_, this.f_25512_.m_20185_(), this.f_25512_.m_20188_(), this.f_25512_.m_20189_());
++            }), this.f_25517_, this.f_25512_, this.f_25512_.getBigX(), this.f_25512_.getEyeBigY(), this.f_25512_.getBigZ());
+          }
+ 
+          return this.f_25513_ != null;
+@@ -86,8 +_,8 @@
+ 
+    public void m_8037_() {
+       if (this.f_25513_.m_6084_()) {
+-         double d0 = this.f_148116_ ? this.f_25512_.m_20188_() : this.f_25513_.m_20188_();
+-         this.f_25512_.m_21563_().m_24946_(this.f_25513_.m_20185_(), d0, this.f_25513_.m_20189_());
++         me.alphamode.mclong.math.BigDecimal d0 = this.f_148116_ ? this.f_25512_.getEyeBigY() : this.f_25513_.getEyeBigY();
++         this.f_25512_.m_21563_().setLookAt(this.f_25513_.getBigX(), d0, this.f_25513_.getBigZ());
+          --this.f_25518_;
+       }
+    }

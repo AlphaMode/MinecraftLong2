@@ -1,11 +1,24 @@
 --- a/net/minecraft/world/entity/PathfinderMob.java
 +++ b/net/minecraft/world/entity/PathfinderMob.java
-@@ -58,7 +_,7 @@
+@@ -49,16 +_,16 @@
+             this.m_21455_(true, true);
+             this.f_21345_.m_25355_(Goal.Flag.MOVE);
+          } else if (f > 6.0F) {
+-            double d0 = (entity.m_20185_() - this.m_20185_()) / (double)f;
+-            double d1 = (entity.m_20186_() - this.m_20186_()) / (double)f;
+-            double d2 = (entity.m_20189_() - this.m_20189_()) / (double)f;
++            double d0 = (entity.getBigX().subtract(this.getBigX()).doubleValue()) / (double)f;
++            double d1 = (entity.getBigY().subtract(this.getBigY()).doubleValue()) / (double)f;
++            double d2 = (entity.getBigZ().subtract(this.getBigZ()).doubleValue()) / (double)f;
+             this.m_20256_(this.m_20184_().m_82520_(Math.copySign(d0 * d0 * 0.4D, d0), Math.copySign(d1 * d1 * 0.4D, d1), Math.copySign(d2 * d2 * 0.4D, d2)));
+             this.m_245125_();
+          } else if (this.m_213814_()) {
              this.f_21345_.m_25374_(Goal.Flag.MOVE);
              float f1 = 2.0F;
-             Vec3 vec3 = (new Vec3(entity.m_20185_() - this.m_20185_(), entity.m_20186_() - this.m_20186_(), entity.m_20189_() - this.m_20189_())).m_82541_().m_82490_((double)Math.max(f - 2.0F, 0.0F));
+-            Vec3 vec3 = (new Vec3(entity.m_20185_() - this.m_20185_(), entity.m_20186_() - this.m_20186_(), entity.m_20189_() - this.m_20189_())).m_82541_().m_82490_((double)Math.max(f - 2.0F, 0.0F));
 -            this.m_21573_().m_26519_(this.m_20185_() + vec3.f_82479_, this.m_20186_() + vec3.f_82480_, this.m_20189_() + vec3.f_82481_, this.m_5823_());
-+            this.m_21573_().m_26519_(this.m_20185_() + vec3.m_7096_(), this.m_20186_() + vec3.m_7098_(), this.m_20189_() + vec3.m_7094_(), this.m_5823_());
++            Vec3 vec3 = (new Vec3(entity.getBigX().subtract(this.getBigX()), entity.getBigY().subtract(this.getBigY()), entity.getBigZ().subtract(this.getBigZ()))).m_82541_().m_82490_((double)Math.max(f - 2.0F, 0.0F));
++            this.m_21573_().moveTo(this.getBigX().add(vec3.getX()), this.getBigY().add(vec3.getY()), this.getBigZ().add(vec3.getZ()), this.m_5823_());
           }
        }
  

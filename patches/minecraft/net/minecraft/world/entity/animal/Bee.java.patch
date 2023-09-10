@@ -42,7 +42,7 @@
        if (vec31 != null) {
           this.f_21344_.m_26529_(0.5F);
 -         this.f_21344_.m_26519_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, 1.0D);
-+         this.f_21344_.m_26519_(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), 1.0D);
++         this.f_21344_.moveTo(vec31.getX(), vec31.getY(), vec31.getZ(), 1.0D);
        }
     }
  
@@ -78,7 +78,7 @@
        private boolean m_27990_(BlockPos p_27991_) {
           Bee.this.f_21344_.m_26529_(10.0F);
 -         Bee.this.f_21344_.m_26519_((double)p_27991_.m_123341_(), (double)p_27991_.m_123342_(), (double)p_27991_.m_123343_(), 1.0D);
-+         Bee.this.f_21344_.m_26519_((double)p_27991_.getX(), (double)p_27991_.getY(), (double)p_27991_.getZ(), 1.0D);
++         Bee.this.f_21344_.moveTo(p_27991_.getBigDecX(), p_27991_.getBigDecY(), p_27991_.getBigDecZ(), 1.0D);
           return Bee.this.f_21344_.m_26570_() != null && Bee.this.f_21344_.m_26570_().m_77403_();
        }
  
@@ -105,7 +105,7 @@
              if (optional.isPresent()) {
                 Bee.this.f_27697_ = optional.get();
 -               Bee.this.f_21344_.m_26519_((double)Bee.this.f_27697_.m_123341_() + 0.5D, (double)Bee.this.f_27697_.m_123342_() + 0.5D, (double)Bee.this.f_27697_.m_123343_() + 0.5D, (double)1.2F);
-+               Bee.this.f_21344_.m_26519_((double)Bee.this.f_27697_.getX() + 0.5D, (double)Bee.this.f_27697_.getY() + 0.5D, (double)Bee.this.f_27697_.getZ() + 0.5D, (double)1.2F);
++               Bee.this.f_21344_.moveTo(Bee.this.f_27697_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), Bee.this.f_27697_.getBigDecY().add(me.alphamode.mclong.core.BigConstants.AABB), Bee.this.f_27697_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), (double)1.2F);
                 return true;
              } else {
                 Bee.this.f_27714_ = Mth.m_216271_(Bee.this.f_19796_, 20, 60);
@@ -118,6 +118,15 @@
              if (vec3.m_82554_(Bee.this.m_20182_()) > 1.0D) {
                 this.f_28067_ = vec3;
                 this.m_28088_();
+@@ -1126,7 +_,7 @@
+                         flag1 = false;
+                      }
+ 
+-                     Bee.this.m_21563_().m_24946_(vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_());
++                     Bee.this.m_21563_().setLookAt(vec3.getX(), vec3.getY(), vec3.getZ());
+                   }
+ 
+                   if (flag1) {
 @@ -1145,7 +_,7 @@
        }
  

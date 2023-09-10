@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/entity/EntitySelector.java
++++ b/net/minecraft/world/entity/EntitySelector.java
+@@ -30,10 +_,10 @@
+    private EntitySelector() {
+    }
+ 
+-   public static Predicate<Entity> m_20410_(double p_20411_, double p_20412_, double p_20413_, double p_20414_) {
++   public static Predicate<Entity> withinDistance(me.alphamode.mclong.math.BigDecimal p_20411_, me.alphamode.mclong.math.BigDecimal p_20412_, me.alphamode.mclong.math.BigDecimal p_20413_, double p_20414_) {
+       double d0 = p_20414_ * p_20414_;
+       return (p_20420_) -> {
+-         return p_20420_ != null && p_20420_.m_20275_(p_20411_, p_20412_, p_20413_) <= d0;
++         return p_20420_ != null && p_20420_.distanceToSqr(p_20411_, p_20412_, p_20413_) <= d0;
+       };
+    }
+ 

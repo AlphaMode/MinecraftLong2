@@ -27,19 +27,21 @@
           boolean flag = !p_155137_.m_8055_(blockpos).m_60812_(p_155137_, blockpos).m_83281_();
           if (flag && p_155142_ != BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY) {
              return false;
-@@ -206,9 +_,9 @@
+@@ -206,10 +_,10 @@
  
                       float f = entity.m_20205_();
                       double d3 = flag ? 0.0D : 0.55D + (double)(f / 2.0F);
 -                     double d0 = (double)p_155138_.m_123341_() + 0.5D + d3 * (double)direction.m_122429_();
 -                     double d1 = (double)p_155138_.m_123342_() + 0.5D - (double)(entity.m_20206_() / 2.0F);
 -                     double d2 = (double)p_155138_.m_123343_() + 0.5D + d3 * (double)direction.m_122431_();
-+                     double d0 = (double)p_155138_.getX() + 0.5D + d3 * (double)direction.m_122429_();
-+                     double d1 = (double)p_155138_.getY() + 0.5D - (double)(entity.m_20206_() / 2.0F);
-+                     double d2 = (double)p_155138_.getZ() + 0.5D + d3 * (double)direction.m_122431_();
-                      entity.m_7678_(d0, d1, d2, entity.m_146908_(), entity.m_146909_());
+-                     entity.m_7678_(d0, d1, d2, entity.m_146908_(), entity.m_146909_());
++                     me.alphamode.mclong.math.BigDecimal d0 = p_155138_.getBigDecX().add(0.5D + d3 * (double)direction.m_122429_());
++                     me.alphamode.mclong.math.BigDecimal d1 = p_155138_.getBigDecY().add(0.5D - (double)(entity.m_20206_() / 2.0F));
++                     me.alphamode.mclong.math.BigDecimal d2 = p_155138_.getBigDecZ().add(0.5D + d3 * (double)direction.m_122431_());
++                     entity.moveTo(d0, d1, d2, entity.m_146908_(), entity.m_146909_());
                    }
  
+                   p_155137_.m_5594_((Player)null, p_155138_, SoundEvents.f_11696_, SoundSource.BLOCKS, 1.0F, 1.0F);
 @@ -269,10 +_,10 @@
     public static void m_155144_(Level p_155145_, BlockPos p_155146_, BlockState p_155147_, BeehiveBlockEntity p_155148_) {
        m_155149_(p_155145_, p_155146_, p_155147_, p_155148_.f_58732_, p_155148_.f_58733_);

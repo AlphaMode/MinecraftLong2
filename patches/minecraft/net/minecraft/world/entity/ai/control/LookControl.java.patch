@@ -1,19 +1,95 @@
 --- a/net/minecraft/world/entity/ai/control/LookControl.java
 +++ b/net/minecraft/world/entity/ai/control/LookControl.java
-@@ -21,7 +_,7 @@
+@@ -12,31 +_,31 @@
+    protected float f_24938_;
+    protected float f_24939_;
+    protected int f_186068_;
+-   protected double f_24941_;
+-   protected double f_24942_;
+-   protected double f_24943_;
++   protected me.alphamode.mclong.math.BigDecimal f_24941_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   protected me.alphamode.mclong.math.BigDecimal f_24942_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   protected me.alphamode.mclong.math.BigDecimal f_24943_ = me.alphamode.mclong.math.BigDecimal.ZERO;
+ 
+    public LookControl(Mob p_24945_) {
+       this.f_24937_ = p_24945_;
     }
  
     public void m_24964_(Vec3 p_24965_) {
 -      this.m_24946_(p_24965_.f_82479_, p_24965_.f_82480_, p_24965_.f_82481_);
-+      this.m_24946_(p_24965_.m_7096_(), p_24965_.m_7098_(), p_24965_.m_7094_());
++      this.setLookAt(p_24965_.getX(), p_24965_.getY(), p_24965_.getZ());
     }
  
     public void m_148051_(Entity p_148052_) {
-@@ -113,6 +_,6 @@
+-      this.m_24946_(p_148052_.m_20185_(), m_24966_(p_148052_), p_148052_.m_20189_());
++      this.setLookAt(p_148052_.getBigX(), getWantedY(p_148052_), p_148052_.getBigZ());
     }
  
-    private static double m_24966_(Entity p_24967_) {
+    public void m_24960_(Entity p_24961_, float p_24962_, float p_24963_) {
+-      this.m_24950_(p_24961_.m_20185_(), m_24966_(p_24961_), p_24961_.m_20189_(), p_24962_, p_24963_);
+-   }
+-
+-   public void m_24946_(double p_24947_, double p_24948_, double p_24949_) {
+-      this.m_24950_(p_24947_, p_24948_, p_24949_, (float)this.f_24937_.m_21529_(), (float)this.f_24937_.m_8132_());
+-   }
+-
+-   public void m_24950_(double p_24951_, double p_24952_, double p_24953_, float p_24954_, float p_24955_) {
++      this.setLookAt(p_24961_.getBigX(), getWantedY(p_24961_), p_24961_.getBigZ(), p_24962_, p_24963_);
++   }
++
++   public void setLookAt(me.alphamode.mclong.math.BigDecimal p_24947_, me.alphamode.mclong.math.BigDecimal p_24948_, me.alphamode.mclong.math.BigDecimal p_24949_) {
++      this.setLookAt(p_24947_, p_24948_, p_24949_, (float)this.f_24937_.m_21529_(), (float)this.f_24937_.m_8132_());
++   }
++
++   public void setLookAt(me.alphamode.mclong.math.BigDecimal p_24951_, me.alphamode.mclong.math.BigDecimal p_24952_, me.alphamode.mclong.math.BigDecimal p_24953_, float p_24954_, float p_24955_) {
+       this.f_24941_ = p_24951_;
+       this.f_24942_ = p_24952_;
+       this.f_24943_ = p_24953_;
+@@ -80,29 +_,29 @@
+       return this.f_186068_ > 0;
+    }
+ 
+-   public double m_24969_() {
++   public me.alphamode.mclong.math.BigDecimal getWantedX() {
+       return this.f_24941_;
+    }
+ 
+-   public double m_24970_() {
++   public me.alphamode.mclong.math.BigDecimal getWantedY() {
+       return this.f_24942_;
+    }
+ 
+-   public double m_24971_() {
++   public me.alphamode.mclong.math.BigDecimal getWantedZ() {
+       return this.f_24943_;
+    }
+ 
+    protected Optional<Float> m_180897_() {
+-      double d0 = this.f_24941_ - this.f_24937_.m_20185_();
+-      double d1 = this.f_24942_ - this.f_24937_.m_20188_();
+-      double d2 = this.f_24943_ - this.f_24937_.m_20189_();
++      double d0 = this.f_24941_.subtract(this.f_24937_.getBigX()).doubleValue();
++      double d1 = this.f_24942_.subtract(this.f_24937_.getEyeBigY()).doubleValue();
++      double d2 = this.f_24943_.subtract(this.f_24937_.getBigZ()).doubleValue();
+       double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+       return !(Math.abs(d1) > (double)1.0E-5F) && !(Math.abs(d3) > (double)1.0E-5F) ? Optional.empty() : Optional.of((float)(-(Mth.m_14136_(d1, d3) * (double)(180F / (float)Math.PI))));
+    }
+ 
+    protected Optional<Float> m_180896_() {
+-      double d0 = this.f_24941_ - this.f_24937_.m_20185_();
+-      double d1 = this.f_24943_ - this.f_24937_.m_20189_();
++      double d0 = this.f_24941_.subtract(this.f_24937_.getBigX()).doubleValue();
++      double d1 = this.f_24943_.subtract(this.f_24937_.getBigZ()).doubleValue();
+       return !(Math.abs(d1) > (double)1.0E-5F) && !(Math.abs(d0) > (double)1.0E-5F) ? Optional.empty() : Optional.of((float)(Mth.m_14136_(d1, d0) * (double)(180F / (float)Math.PI)) - 90.0F);
+    }
+ 
+@@ -112,7 +_,7 @@
+       return p_24957_ + f1;
+    }
+ 
+-   private static double m_24966_(Entity p_24967_) {
 -      return p_24967_ instanceof LivingEntity ? p_24967_.m_20188_() : (p_24967_.m_20191_().f_82289_ + p_24967_.m_20191_().f_82292_) / 2.0D;
-+      return p_24967_ instanceof LivingEntity ? p_24967_.m_20188_() : (p_24967_.m_20191_().f_82289_.doubleValue() + p_24967_.m_20191_().f_82292_.doubleValue()) / 2.0D;
++   private static me.alphamode.mclong.math.BigDecimal getWantedY(Entity p_24967_) {
++      return p_24967_ instanceof LivingEntity ? p_24967_.getEyeBigY() : (p_24967_.m_20191_().f_82289_.add(p_24967_.m_20191_().f_82292_)).divide(me.alphamode.mclong.core.BigConstants.TWO);
     }
  }

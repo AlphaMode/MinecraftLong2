@@ -14,12 +14,13 @@
  
     public Node m_7171_() {
 -      return this.m_5676_(Mth.m_14107_(this.f_77313_.m_20191_().f_82288_), Mth.m_14107_(this.f_77313_.m_20191_().f_82289_ + 0.5D), Mth.m_14107_(this.f_77313_.m_20191_().f_82290_));
-+      return this.getNode(Mth.lfloor(this.f_77313_.m_20191_().f_82288_).longValue(), Mth.m_14134_(this.f_77313_.m_20191_().f_82289_.doubleValue() + 0.5D), Mth.lfloor(this.f_77313_.m_20191_().f_82290_).longValue());
++      return this.getNode(Mth.lfloor(this.f_77313_.m_20191_().f_82288_), Mth.lfloor(this.f_77313_.m_20191_().f_82289_.add(me.alphamode.mclong.core.BigConstants.AABB)), Mth.lfloor(this.f_77313_.m_20191_().f_82290_));
     }
  
-    public Target m_7568_(double p_77459_, double p_77460_, double p_77461_) {
+-   public Target m_7568_(double p_77459_, double p_77460_, double p_77461_) {
 -      return this.m_230615_(this.m_5676_(Mth.m_14107_(p_77459_), Mth.m_14107_(p_77460_), Mth.m_14107_(p_77461_)));
-+      return this.m_230615_(this.getNode(Mth.m_14134_(p_77459_), Mth.m_14134_(p_77460_), Mth.m_14134_(p_77461_)));
++   public Target getGoal(me.alphamode.mclong.math.BigDecimal p_77459_, me.alphamode.mclong.math.BigDecimal p_77460_, me.alphamode.mclong.math.BigDecimal p_77461_) {
++      return this.m_230615_(this.getNode(Mth.lfloor(p_77459_), Mth.lfloor(p_77460_), Mth.lfloor(p_77461_)));
     }
  
     public int m_6065_(Node[] p_77483_, Node p_77484_) {
@@ -28,7 +29,7 @@
  
        for(Direction direction : Direction.values()) {
 -         Node node = this.m_262844_(p_77484_.f_77271_ + direction.m_122429_(), p_77484_.f_77272_ + direction.m_122430_(), p_77484_.f_77273_ + direction.m_122431_());
-+         Node node = this.findAcceptedNode(p_77484_.f_77271_ + direction.m_122429_(), p_77484_.f_77272_ + direction.m_122430_(), p_77484_.f_77273_ + direction.m_122431_());
++         Node node = this.findAcceptedNode(p_77484_.f_77271_.add(direction.m_122429_()), p_77484_.f_77272_.add(direction.m_122430_()), p_77484_.f_77273_.add(direction.m_122431_()));
           map.put(direction, node);
           if (this.m_192961_(node)) {
              p_77483_[i++] = node;
@@ -37,7 +38,7 @@
        for(Direction direction1 : Direction.Plane.HORIZONTAL) {
           Direction direction2 = direction1.m_122427_();
 -         Node node1 = this.m_262844_(p_77484_.f_77271_ + direction1.m_122429_() + direction2.m_122429_(), p_77484_.f_77272_, p_77484_.f_77273_ + direction1.m_122431_() + direction2.m_122431_());
-+         Node node1 = this.findAcceptedNode(p_77484_.f_77271_ + direction1.m_122429_() + direction2.m_122429_(), p_77484_.f_77272_, p_77484_.f_77273_ + direction1.m_122431_() + direction2.m_122431_());
++         Node node1 = this.findAcceptedNode(p_77484_.f_77271_.add(direction1.m_122429_() + direction2.m_122429_()), p_77484_.f_77272_, p_77484_.f_77273_.add(direction1.m_122431_() + direction2.m_122431_()));
           if (this.m_192963_(node1, map.get(direction1), map.get(direction2))) {
              p_77483_[i++] = node1;
           }
@@ -46,7 +47,7 @@
  
     @Nullable
 -   protected Node m_262844_(int p_263032_, int p_263066_, int p_263105_) {
-+   protected Node findAcceptedNode(long p_263032_, long p_263066_, long p_263105_) {
++   protected Node findAcceptedNode(me.alphamode.mclong.math.BigInteger p_263032_, me.alphamode.mclong.math.BigInteger p_263066_, me.alphamode.mclong.math.BigInteger p_263105_) {
        Node node = null;
 -      BlockPathTypes blockpathtypes = this.m_192967_(p_263032_, p_263066_, p_263105_);
 +      BlockPathTypes blockpathtypes = this.getCachedBlockType(p_263032_, p_263066_, p_263105_);
@@ -65,7 +66,7 @@
 -   protected BlockPathTypes m_192967_(int p_192968_, int p_192969_, int p_192970_) {
 -      return this.f_192951_.computeIfAbsent(BlockPos.m_121882_(p_192968_, p_192969_, p_192970_), (p_192957_) -> {
 -         return this.m_8086_(this.f_77312_, p_192968_, p_192969_, p_192970_);
-+   protected BlockPathTypes getCachedBlockType(long p_192968_, long p_192969_, long p_192970_) {
++   protected BlockPathTypes getCachedBlockType(me.alphamode.mclong.math.BigInteger p_192968_, me.alphamode.mclong.math.BigInteger p_192969_, me.alphamode.mclong.math.BigInteger p_192970_) {
 +      return this.f_192951_.computeIfAbsent(new BlockPos(p_192968_, p_192969_, p_192970_), (p_192957_) -> {
 +         return this.getBlockPathType(this.f_77312_, p_192968_, p_192969_, p_192970_);
        });
@@ -73,12 +74,12 @@
  
 -   public BlockPathTypes m_8086_(BlockGetter p_77467_, int p_77468_, int p_77469_, int p_77470_) {
 -      return this.m_7209_(p_77467_, p_77468_, p_77469_, p_77470_, this.f_77313_);
-+   public BlockPathTypes getBlockPathType(BlockGetter p_77467_, long p_77468_, long p_77469_, long p_77470_) {
++   public BlockPathTypes getBlockPathType(BlockGetter p_77467_, me.alphamode.mclong.math.BigInteger p_77468_, me.alphamode.mclong.math.BigInteger p_77469_, me.alphamode.mclong.math.BigInteger p_77470_) {
 +      return this.getBlockPathType(p_77467_, p_77468_, p_77469_, p_77470_, this.f_77313_);
     }
  
 -   public BlockPathTypes m_7209_(BlockGetter p_77472_, int p_77473_, int p_77474_, int p_77475_, Mob p_77476_) {
-+   public BlockPathTypes getBlockPathType(BlockGetter p_77472_, long p_77473_, long p_77474_, long p_77475_, Mob p_77476_) {
++   public BlockPathTypes getBlockPathType(BlockGetter p_77472_, me.alphamode.mclong.math.BigInteger p_77473_, me.alphamode.mclong.math.BigInteger p_77474_, me.alphamode.mclong.math.BigInteger p_77475_, Mob p_77476_) {
        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
 -      for(int i = p_77473_; i < p_77473_ + this.f_77315_; ++i) {
@@ -87,9 +88,9 @@
 -               FluidState fluidstate = p_77472_.m_6425_(blockpos$mutableblockpos.m_122178_(i, j, k));
 -               BlockState blockstate = p_77472_.m_8055_(blockpos$mutableblockpos.m_122178_(i, j, k));
 -               if (fluidstate.m_76178_() && blockstate.m_60647_(p_77472_, blockpos$mutableblockpos.m_7495_(), PathComputationType.WATER) && blockstate.m_60795_()) {
-+      for(long i = p_77473_; i < p_77473_ + this.f_77315_; ++i) {
-+         for(long j = p_77474_; j < p_77474_ + this.f_77316_; ++j) {
-+            for(long k = p_77475_; k < p_77475_ + this.f_77317_; ++k) {
++      for(me.alphamode.mclong.math.BigInteger i = p_77473_; i.compareTo(p_77473_.add(this.f_77315_)) < 0; i = i.add()) {
++         for(me.alphamode.mclong.math.BigInteger j = p_77474_; j.compareTo(p_77474_.add(this.f_77316_)) < 0; j = j.add()) {
++            for(me.alphamode.mclong.math.BigInteger k = p_77475_; k.compareTo(p_77475_.add(this.f_77317_)) < 0; k = k.add()) {
 +               FluidState fluidstate = p_77472_.m_6425_(blockpos$mutableblockpos.set(i, j, k));
 +               BlockState blockstate = p_77472_.m_8055_(blockpos$mutableblockpos.set(i, j, k));
 +               if (fluidstate.m_76178_() && blockstate.m_60647_(p_77472_, blockpos$mutableblockpos.below(), PathComputationType.WATER) && blockstate.m_60795_()) {

@@ -1,0 +1,25 @@
+--- a/net/minecraft/world/entity/boss/enderdragon/phases/DragonSittingScanningPhase.java
++++ b/net/minecraft/world/entity/boss/enderdragon/phases/DragonSittingScanningPhase.java
+@@ -24,7 +_,7 @@
+ 
+    public void m_6989_() {
+       ++this.f_31339_;
+-      LivingEntity livingentity = this.f_31176_.m_9236_().m_45949_(this.f_31338_, this.f_31176_, this.f_31176_.m_20185_(), this.f_31176_.m_20186_(), this.f_31176_.m_20189_());
++      LivingEntity livingentity = this.f_31176_.m_9236_().getNearestPlayer(this.f_31338_, this.f_31176_, this.f_31176_.getBigX(), this.f_31176_.getBigY(), this.f_31176_.getBigZ());
+       if (livingentity != null) {
+          if (this.f_31339_ > 25) {
+             this.f_31176_.m_31157_().m_31416_(EnderDragonPhase.f_31384_);
+@@ -49,11 +_,11 @@
+             }
+          }
+       } else if (this.f_31339_ >= 100) {
+-         livingentity = this.f_31176_.m_9236_().m_45949_(f_31337_, this.f_31176_, this.f_31176_.m_20185_(), this.f_31176_.m_20186_(), this.f_31176_.m_20189_());
++         livingentity = this.f_31176_.m_9236_().getNearestPlayer(f_31337_, this.f_31176_, this.f_31176_.getBigX(), this.f_31176_.getBigY(), this.f_31176_.getBigZ());
+          this.f_31176_.m_31157_().m_31416_(EnderDragonPhase.f_31381_);
+          if (livingentity != null) {
+             this.f_31176_.m_31157_().m_31416_(EnderDragonPhase.f_31385_);
+-            this.f_31176_.m_31157_().m_31418_(EnderDragonPhase.f_31385_).m_31207_(new Vec3(livingentity.m_20185_(), livingentity.m_20186_(), livingentity.m_20189_()));
++            this.f_31176_.m_31157_().m_31418_(EnderDragonPhase.f_31385_).m_31207_(new Vec3(livingentity.getBigX(), livingentity.getBigY(), livingentity.getBigZ()));
+          }
+       }
+ 

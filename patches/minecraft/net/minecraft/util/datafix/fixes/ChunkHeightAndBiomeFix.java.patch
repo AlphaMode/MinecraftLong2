@@ -1,0 +1,29 @@
+--- a/net/minecraft/util/datafix/fixes/ChunkHeightAndBiomeFix.java
++++ b/net/minecraft/util/datafix/fixes/ChunkHeightAndBiomeFix.java
+@@ -41,7 +_,7 @@
+    private static final String f_184845_ = "ChunkHeightAndBiomeFix";
+    private static final int f_184846_ = 16;
+    private static final int f_184847_ = 24;
+-   private static final int f_184848_ = -4;
++   private static final int f_184848_ = -50;
+    public static final int f_196581_ = 4096;
+    private static final int f_196582_ = 64;
+    private static final int f_184850_ = 9;
+@@ -77,7 +_,7 @@
+             String s1 = optionaldynamic.get("generator").asString().result().orElse("");
+             boolean flag = "minecraft:overworld".equals(s);
+             MutableBoolean mutableboolean = new MutableBoolean();
+-            int i = flag ? -4 : 0;
++            int i = flag ? f_184848_ : 0;
+             Dynamic<?>[] dynamic1 = m_184906_(dynamic, flag, i, mutableboolean);
+             Dynamic<?> dynamic2 = m_184969_(dynamic.createList(Stream.of(dynamic.createMap(ImmutableMap.of(dynamic.createString("Name"), dynamic.createString("minecraft:air"))))));
+             Set<String> set = Sets.newHashSet();
+@@ -274,7 +_,7 @@
+             p_196610_.forEach((p_196601_, p_196602_) -> {
+                try {
+                   p_196601_.asString().result().map(Integer::parseInt).ifPresent((p_196607_) -> {
+-                     int i = p_196607_ - -4;
++                     int i = p_196607_ - f_184848_;
+                      map.put(p_196601_.createString(Integer.toString(i)), p_196602_);
+                   });
+                } catch (NumberFormatException numberformatexception) {

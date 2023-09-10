@@ -1,0 +1,50 @@
+--- a/net/minecraft/world/entity/ai/goal/TemptGoal.java
++++ b/net/minecraft/world/entity/ai/goal/TemptGoal.java
+@@ -13,9 +_,9 @@
+    private final TargetingConditions f_148137_;
+    protected final PathfinderMob f_25924_;
+    private final double f_25927_;
+-   private double f_25928_;
+-   private double f_25929_;
+-   private double f_25930_;
++   private me.alphamode.mclong.math.BigDecimal f_25928_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_25929_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   private me.alphamode.mclong.math.BigDecimal f_25930_ = me.alphamode.mclong.math.BigDecimal.ZERO;
+    private double f_25931_;
+    private double f_25932_;
+    @Nullable
+@@ -51,7 +_,7 @@
+    public boolean m_8045_() {
+       if (this.m_7497_()) {
+          if (this.f_25924_.m_20280_(this.f_25925_) < 36.0D) {
+-            if (this.f_25925_.m_20275_(this.f_25928_, this.f_25929_, this.f_25930_) > 0.010000000000000002D) {
++            if (this.f_25925_.distanceToSqr(this.f_25928_, this.f_25929_, this.f_25930_) > 0.010000000000000002D) {
+                return false;
+             }
+ 
+@@ -59,9 +_,9 @@
+                return false;
+             }
+          } else {
+-            this.f_25928_ = this.f_25925_.m_20185_();
+-            this.f_25929_ = this.f_25925_.m_20186_();
+-            this.f_25930_ = this.f_25925_.m_20189_();
++            this.f_25928_ = this.f_25925_.getBigX();
++            this.f_25929_ = this.f_25925_.getBigY();
++            this.f_25930_ = this.f_25925_.getBigZ();
+          }
+ 
+          this.f_25931_ = (double)this.f_25925_.m_146909_();
+@@ -76,9 +_,9 @@
+    }
+ 
+    public void m_8056_() {
+-      this.f_25928_ = this.f_25925_.m_20185_();
+-      this.f_25929_ = this.f_25925_.m_20186_();
+-      this.f_25930_ = this.f_25925_.m_20189_();
++      this.f_25928_ = this.f_25925_.getBigX();
++      this.f_25929_ = this.f_25925_.getBigY();
++      this.f_25930_ = this.f_25925_.getBigZ();
+       this.f_25934_ = true;
+    }
+ 

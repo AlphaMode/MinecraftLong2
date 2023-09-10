@@ -1,5 +1,18 @@
 --- a/net/minecraft/world/entity/ai/goal/RandomStrollGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/RandomStrollGoal.java
+@@ -9,9 +_,9 @@
+ public class RandomStrollGoal extends Goal {
+    public static final int f_148133_ = 120;
+    protected final PathfinderMob f_25725_;
+-   protected double f_25726_;
+-   protected double f_25727_;
+-   protected double f_25728_;
++   protected me.alphamode.mclong.math.BigDecimal f_25726_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   protected me.alphamode.mclong.math.BigDecimal f_25727_ = me.alphamode.mclong.math.BigDecimal.ZERO;
++   protected me.alphamode.mclong.math.BigDecimal f_25728_ = me.alphamode.mclong.math.BigDecimal.ZERO;
+    protected final double f_25729_;
+    protected int f_25730_;
+    protected boolean f_25731_;
 @@ -51,9 +_,9 @@
           if (vec3 == null) {
              return false;
@@ -7,9 +20,18 @@
 -            this.f_25726_ = vec3.f_82479_;
 -            this.f_25727_ = vec3.f_82480_;
 -            this.f_25728_ = vec3.f_82481_;
-+            this.f_25726_ = vec3.m_7096_();
-+            this.f_25727_ = vec3.m_7098_();
-+            this.f_25728_ = vec3.m_7094_();
++            this.f_25726_ = vec3.getX();
++            this.f_25727_ = vec3.getY();
++            this.f_25728_ = vec3.getZ();
              this.f_25731_ = false;
              return true;
           }
+@@ -70,7 +_,7 @@
+    }
+ 
+    public void m_8056_() {
+-      this.f_25725_.m_21573_().m_26519_(this.f_25726_, this.f_25727_, this.f_25728_, this.f_25729_);
++      this.f_25725_.m_21573_().moveTo(this.f_25726_, this.f_25727_, this.f_25728_, this.f_25729_);
+    }
+ 
+    public void m_8041_() {

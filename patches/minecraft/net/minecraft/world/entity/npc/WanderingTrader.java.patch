@@ -14,13 +14,14 @@
           if (blockpos != null && WanderingTrader.this.f_21344_.m_26571_()) {
              if (this.m_35903_(blockpos, 10.0D)) {
 -               Vec3 vec3 = (new Vec3((double)blockpos.m_123341_() - this.f_35893_.m_20185_(), (double)blockpos.m_123342_() - this.f_35893_.m_20186_(), (double)blockpos.m_123343_() - this.f_35893_.m_20189_())).m_82541_();
-+               Vec3 vec3 = (new Vec3((double)blockpos.getX() - this.f_35893_.m_20185_(), (double)blockpos.getY() - this.f_35893_.m_20186_(), (double)blockpos.getZ() - this.f_35893_.m_20189_())).m_82541_();
-                Vec3 vec31 = vec3.m_82490_(10.0D).m_82520_(this.f_35893_.m_20185_(), this.f_35893_.m_20186_(), this.f_35893_.m_20189_());
+-               Vec3 vec31 = vec3.m_82490_(10.0D).m_82520_(this.f_35893_.m_20185_(), this.f_35893_.m_20186_(), this.f_35893_.m_20189_());
 -               WanderingTrader.this.f_21344_.m_26519_(vec31.f_82479_, vec31.f_82480_, vec31.f_82481_, this.f_35895_);
-+               WanderingTrader.this.f_21344_.m_26519_(vec31.m_7096_(), vec31.m_7098_(), vec31.m_7094_(), this.f_35895_);
++               Vec3 vec3 = (new Vec3(blockpos.getBigDecX().subtract(this.f_35893_.getBigX()), blockpos.getBigDecY().subtract(this.f_35893_.getBigY()), blockpos.getBigDecZ().subtract(this.f_35893_.getBigZ()))).m_82541_();
++               Vec3 vec31 = vec3.m_82490_(10.0D).add(this.f_35893_.getBigX(), this.f_35893_.getBigY(), this.f_35893_.getBigZ());
++               WanderingTrader.this.f_21344_.moveTo(vec31.getX(), vec31.getY(), vec31.getZ(), this.f_35895_);
              } else {
 -               WanderingTrader.this.f_21344_.m_26519_((double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_(), this.f_35895_);
-+               WanderingTrader.this.f_21344_.m_26519_((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), this.f_35895_);
++               WanderingTrader.this.f_21344_.moveTo(blockpos.getBigDecX(), blockpos.getBigDecY(), blockpos.getBigDecZ(), this.f_35895_);
              }
           }
  
