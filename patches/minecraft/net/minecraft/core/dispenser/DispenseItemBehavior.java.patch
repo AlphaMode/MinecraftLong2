@@ -1,5 +1,73 @@
 --- a/net/minecraft/core/dispenser/DispenseItemBehavior.java
 +++ b/net/minecraft/core/dispenser/DispenseItemBehavior.java
+@@ -89,14 +_,14 @@
+    static void m_123402_() {
+       DispenserBlock.m_52672_(Items.f_42412_, new AbstractProjectileDispenseBehavior() {
+          protected Projectile m_6895_(Level p_123407_, Position p_123408_, ItemStack p_123409_) {
+-            Arrow arrow = new Arrow(p_123407_, p_123408_.m_7096_(), p_123408_.m_7098_(), p_123408_.m_7094_());
++            Arrow arrow = new Arrow(p_123407_, p_123408_.getX(), p_123408_.getY(), p_123408_.getZ());
+             arrow.f_36705_ = AbstractArrow.Pickup.ALLOWED;
+             return arrow;
+          }
+       });
+       DispenserBlock.m_52672_(Items.f_42738_, new AbstractProjectileDispenseBehavior() {
+          protected Projectile m_6895_(Level p_123420_, Position p_123421_, ItemStack p_123422_) {
+-            Arrow arrow = new Arrow(p_123420_, p_123421_.m_7096_(), p_123421_.m_7098_(), p_123421_.m_7094_());
++            Arrow arrow = new Arrow(p_123420_, p_123421_.getX(), p_123421_.getY(), p_123421_.getZ());
+             arrow.m_36878_(p_123422_);
+             arrow.f_36705_ = AbstractArrow.Pickup.ALLOWED;
+             return arrow;
+@@ -104,28 +_,28 @@
+       });
+       DispenserBlock.m_52672_(Items.f_42737_, new AbstractProjectileDispenseBehavior() {
+          protected Projectile m_6895_(Level p_123456_, Position p_123457_, ItemStack p_123458_) {
+-            AbstractArrow abstractarrow = new SpectralArrow(p_123456_, p_123457_.m_7096_(), p_123457_.m_7098_(), p_123457_.m_7094_());
++            AbstractArrow abstractarrow = new SpectralArrow(p_123456_, p_123457_.getX(), p_123457_.getY(), p_123457_.getZ());
+             abstractarrow.f_36705_ = AbstractArrow.Pickup.ALLOWED;
+             return abstractarrow;
+          }
+       });
+       DispenserBlock.m_52672_(Items.f_42521_, new AbstractProjectileDispenseBehavior() {
+          protected Projectile m_6895_(Level p_123468_, Position p_123469_, ItemStack p_123470_) {
+-            return Util.m_137469_(new ThrownEgg(p_123468_, p_123469_.m_7096_(), p_123469_.m_7098_(), p_123469_.m_7094_()), (p_123466_) -> {
++            return Util.m_137469_(new ThrownEgg(p_123468_, p_123469_.getX(), p_123469_.getY(), p_123469_.getZ()), (p_123466_) -> {
+                p_123466_.m_37446_(p_123470_);
+             });
+          }
+       });
+       DispenserBlock.m_52672_(Items.f_42452_, new AbstractProjectileDispenseBehavior() {
+          protected Projectile m_6895_(Level p_123476_, Position p_123477_, ItemStack p_123478_) {
+-            return Util.m_137469_(new Snowball(p_123476_, p_123477_.m_7096_(), p_123477_.m_7098_(), p_123477_.m_7094_()), (p_123474_) -> {
++            return Util.m_137469_(new Snowball(p_123476_, p_123477_.getX(), p_123477_.getY(), p_123477_.getZ()), (p_123474_) -> {
+                p_123474_.m_37446_(p_123478_);
+             });
+          }
+       });
+       DispenserBlock.m_52672_(Items.f_42612_, new AbstractProjectileDispenseBehavior() {
+          protected Projectile m_6895_(Level p_123485_, Position p_123486_, ItemStack p_123487_) {
+-            return Util.m_137469_(new ThrownExperienceBottle(p_123485_, p_123486_.m_7096_(), p_123486_.m_7098_(), p_123486_.m_7094_()), (p_123483_) -> {
++            return Util.m_137469_(new ThrownExperienceBottle(p_123485_, p_123486_.getX(), p_123486_.getY(), p_123486_.getZ()), (p_123483_) -> {
+                p_123483_.m_37446_(p_123487_);
+             });
+          }
+@@ -142,7 +_,7 @@
+          public ItemStack m_6115_(BlockSource p_123491_, ItemStack p_123492_) {
+             return (new AbstractProjectileDispenseBehavior() {
+                protected Projectile m_6895_(Level p_123501_, Position p_123502_, ItemStack p_123503_) {
+-                  return Util.m_137469_(new ThrownPotion(p_123501_, p_123502_.m_7096_(), p_123502_.m_7098_(), p_123502_.m_7094_()), (p_123499_) -> {
++                  return Util.m_137469_(new ThrownPotion(p_123501_, p_123502_.getX(), p_123502_.getY(), p_123502_.getZ()), (p_123499_) -> {
+                      p_123499_.m_37446_(p_123503_);
+                   });
+                }
+@@ -161,7 +_,7 @@
+          public ItemStack m_6115_(BlockSource p_123507_, ItemStack p_123508_) {
+             return (new AbstractProjectileDispenseBehavior() {
+                protected Projectile m_6895_(Level p_123517_, Position p_123518_, ItemStack p_123519_) {
+-                  return Util.m_137469_(new ThrownPotion(p_123517_, p_123518_.m_7096_(), p_123518_.m_7098_(), p_123518_.m_7094_()), (p_123515_) -> {
++                  return Util.m_137469_(new ThrownPotion(p_123517_, p_123518_.getX(), p_123518_.getY(), p_123518_.getZ()), (p_123515_) -> {
+                      p_123515_.m_37446_(p_123519_);
+                   });
+                }
 @@ -182,7 +_,7 @@
              EntityType<?> entitytype = ((SpawnEggItem)p_123524_.m_41720_()).m_43228_(p_123524_.m_41783_());
  
@@ -45,6 +113,15 @@
  
              for(AbstractChestedHorse abstractchestedhorse : p_123541_.m_7727_().m_6443_(AbstractChestedHorse.class, new AABB(blockpos), (p_289249_) -> {
                 return p_289249_.m_6084_() && !p_289249_.m_30502_();
+@@ -291,7 +_,7 @@
+       DispenserBlock.m_52672_(Items.f_42688_, new DefaultDispenseItemBehavior() {
+          public ItemStack m_7498_(BlockSource p_123547_, ItemStack p_123548_) {
+             Direction direction = p_123547_.m_6414_().m_61143_(DispenserBlock.f_52659_);
+-            FireworkRocketEntity fireworkrocketentity = new FireworkRocketEntity(p_123547_.m_7727_(), p_123548_, p_123547_.m_7096_(), p_123547_.m_7098_(), p_123547_.m_7096_(), true);
++            FireworkRocketEntity fireworkrocketentity = new FireworkRocketEntity(p_123547_.m_7727_(), p_123548_, p_123547_.getX(), p_123547_.getY(), p_123547_.getX(), true);
+             DispenseItemBehavior.m_123395_(p_123547_, fireworkrocketentity, direction);
+             fireworkrocketentity.m_6686_((double)direction.m_122429_(), (double)direction.m_122430_(), (double)direction.m_122431_(), 0.5F, 1.0F);
+             p_123547_.m_7727_().m_7967_(fireworkrocketentity);
 @@ -307,9 +_,9 @@
           public ItemStack m_7498_(BlockSource p_123556_, ItemStack p_123557_) {
              Direction direction = p_123556_.m_6414_().m_61143_(DispenserBlock.f_52659_);
@@ -101,7 +178,7 @@
 -            BlockPos blockpos = p_123425_.m_7961_().m_121945_(p_123425_.m_6414_().m_61143_(DispenserBlock.f_52659_));
 -            PrimedTnt primedtnt = new PrimedTnt(level, (double)blockpos.m_123341_() + 0.5D, (double)blockpos.m_123342_(), (double)blockpos.m_123343_() + 0.5D, (LivingEntity)null);
 +            BlockPos blockpos = p_123425_.m_7961_().relative(p_123425_.m_6414_().m_61143_(DispenserBlock.f_52659_));
-+            PrimedTnt primedtnt = new PrimedTnt(level, (double)blockpos.getX() + 0.5D, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5D, (LivingEntity)null);
++            PrimedTnt primedtnt = new PrimedTnt(level, blockpos.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), blockpos.getBigDecY(), blockpos.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), (LivingEntity)null);
              level.m_7967_(primedtnt);
 -            level.m_6263_((Player)null, primedtnt.m_20185_(), primedtnt.m_20186_(), primedtnt.m_20189_(), SoundEvents.f_12512_, SoundSource.BLOCKS, 1.0F, 1.0F);
 +            level.playSound((Player)null, primedtnt.getBigX(), primedtnt.getBigY(), primedtnt.getBigZ(), SoundEvents.f_12512_, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -169,3 +246,11 @@
                       }
                    }
  
+@@ -620,6 +_,6 @@
+    }
+ 
+    static void m_123395_(BlockSource p_123396_, Entity p_123397_, Direction p_123398_) {
+-      p_123397_.m_6034_(p_123396_.m_7096_() + (double)p_123398_.m_122429_() * (0.5000099999997474D - (double)p_123397_.m_20205_() / 2.0D), p_123396_.m_7098_() + (double)p_123398_.m_122430_() * (0.5000099999997474D - (double)p_123397_.m_20206_() / 2.0D) - (double)p_123397_.m_20206_() / 2.0D, p_123396_.m_7094_() + (double)p_123398_.m_122431_() * (0.5000099999997474D - (double)p_123397_.m_20205_() / 2.0D));
++      p_123397_.setPos(p_123396_.getX().add((double)p_123398_.m_122429_() * (0.5000099999997474D - (double)p_123397_.m_20205_() / 2.0D)), p_123396_.getY().add((double)p_123398_.m_122430_() * (0.5000099999997474D - (double)p_123397_.m_20206_() / 2.0D) - (double)p_123397_.m_20206_() / 2.0D), p_123396_.getZ().add((double)p_123398_.m_122431_() * (0.5000099999997474D - (double)p_123397_.m_20205_() / 2.0D)));
+    }
+ }

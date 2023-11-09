@@ -59,26 +59,30 @@
     public static BlockPos m_217863_(PathfinderMob p_217864_, int p_217865_, RandomSource p_217866_, BlockPos p_217867_) {
 -      int i = p_217867_.m_123341_();
 -      int j = p_217867_.m_123343_();
-+      long i = p_217867_.getX();
-+      long j = p_217867_.getZ();
++      me.alphamode.mclong.math.BigInteger i = p_217867_.getBigX();
++      me.alphamode.mclong.math.BigInteger j = p_217867_.getBigZ();
        if (p_217864_.m_21536_() && p_217865_ > 1) {
           BlockPos blockpos = p_217864_.m_21534_();
 -         if (p_217864_.m_20185_() > (double)blockpos.m_123341_()) {
-+         if (p_217864_.m_20185_() > (double)blockpos.getX()) {
-             i -= p_217866_.m_188503_(p_217865_ / 2);
+-            i -= p_217866_.m_188503_(p_217865_ / 2);
++         if (p_217864_.getBigX().compareTo(blockpos.getBigDecX()) > 0) {
++            i = i.subtract(p_217866_.m_188503_(p_217865_ / 2));
           } else {
-             i += p_217866_.m_188503_(p_217865_ / 2);
+-            i += p_217866_.m_188503_(p_217865_ / 2);
++            i = i.add(p_217866_.m_188503_(p_217865_ / 2));
           }
  
 -         if (p_217864_.m_20189_() > (double)blockpos.m_123343_()) {
-+         if (p_217864_.m_20189_() > (double)blockpos.getZ()) {
-             j -= p_217866_.m_188503_(p_217865_ / 2);
+-            j -= p_217866_.m_188503_(p_217865_ / 2);
++         if (p_217864_.getBigZ().compareTo(blockpos.getBigDecZ()) > 0) {
++            j = j.subtract(p_217866_.m_188503_(p_217865_ / 2));
           } else {
-             j += p_217866_.m_188503_(p_217865_ / 2);
+-            j += p_217866_.m_188503_(p_217865_ / 2);
++            j = j.add(p_217866_.m_188503_(p_217865_ / 2));
           }
        }
  
 -      return BlockPos.m_274561_((double)i + p_217864_.m_20185_(), (double)p_217867_.m_123342_() + p_217864_.m_20186_(), (double)j + p_217864_.m_20189_());
-+      return BlockPos.m_274561_((double)i + p_217864_.m_20185_(), (double)p_217867_.getY() + p_217864_.m_20186_(), (double)j + p_217864_.m_20189_());
++      return BlockPos.containing(i.toBigDecimal().add(p_217864_.getBigX()), p_217867_.getBigDecY().add(p_217864_.getBigY()), j.toBigDecimal().add(p_217864_.getBigZ()));
     }
  }

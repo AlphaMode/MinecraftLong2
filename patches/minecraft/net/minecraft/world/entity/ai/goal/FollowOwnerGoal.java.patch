@@ -5,7 +5,7 @@
           int k = this.m_25300_(-1, 1);
           int l = this.m_25300_(-3, 3);
 -         boolean flag = this.m_25303_(blockpos.m_123341_() + j, blockpos.m_123342_() + k, blockpos.m_123343_() + l);
-+         boolean flag = this.maybeTeleportTo(blockpos.getX() + j, blockpos.getY() + k, blockpos.getZ() + l);
++         boolean flag = this.maybeTeleportTo(blockpos.getBigX().add(j), blockpos.getBigY().add(k), blockpos.getBigZ().add(l));
           if (flag) {
              return;
           }
@@ -15,15 +15,15 @@
  
 -   private boolean m_25303_(int p_25304_, int p_25305_, int p_25306_) {
 -      if (Math.abs((double)p_25304_ - this.f_25284_.m_20185_()) < 2.0D && Math.abs((double)p_25306_ - this.f_25284_.m_20189_()) < 2.0D) {
-+   private boolean maybeTeleportTo(long pX, long pY, long pZ) {
-+      if (Math.abs((double)pX - this.f_25284_.m_20185_()) < 2.0D && Math.abs((double)pZ - this.f_25284_.m_20189_()) < 2.0D) {
++   private boolean maybeTeleportTo(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      if (pX.toBigDecimal().subtract(this.f_25284_.getBigX()).abs().compareTo(me.alphamode.mclong.core.BigConstants.TWO) < 0 && pZ.toBigDecimal().subtract(this.f_25284_.getBigZ()).abs().compareTo(me.alphamode.mclong.core.BigConstants.TWO) < 0) {
           return false;
 -      } else if (!this.m_25307_(new BlockPos(p_25304_, p_25305_, p_25306_))) {
 +      } else if (!this.m_25307_(new BlockPos(pX, pY, pZ))) {
           return false;
        } else {
 -         this.f_25283_.m_7678_((double)p_25304_ + 0.5D, (double)p_25305_, (double)p_25306_ + 0.5D, this.f_25283_.m_146908_(), this.f_25283_.m_146909_());
-+         this.f_25283_.m_7678_((double)pX + 0.5D, (double)pY, (double)pZ + 0.5D, this.f_25283_.m_146908_(), this.f_25283_.m_146909_());
++         this.f_25283_.moveTo(pX.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB), pY.toBigDecimal(), pZ.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB), this.f_25283_.m_146908_(), this.f_25283_.m_146909_());
           this.f_25287_.m_26573_();
           return true;
        }

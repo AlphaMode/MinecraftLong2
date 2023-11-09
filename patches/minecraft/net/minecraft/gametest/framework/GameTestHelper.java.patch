@@ -5,7 +5,7 @@
        ServerLevel serverlevel = this.m_177100_();
        Vec3 vec3 = this.m_177227_(new Vec3((double)p_177191_, (double)p_177192_, (double)p_177193_));
 -      ItemEntity itementity = new ItemEntity(serverlevel, vec3.f_82479_, vec3.f_82480_, vec3.f_82481_, new ItemStack(p_177190_, 1));
-+      ItemEntity itementity = new ItemEntity(serverlevel, vec3.m_7096_(), vec3.m_7098_(), vec3.m_7094_(), new ItemStack(p_177190_, 1));
++      ItemEntity itementity = new ItemEntity(serverlevel, vec3.getX(), vec3.getY(), vec3.getZ(), new ItemStack(p_177190_, 1));
        itementity.m_20334_(0.0D, 0.0D, 0.0D);
        serverlevel.m_7967_(itementity);
        return itementity;
@@ -31,6 +31,17 @@
           serverlevel.m_7967_(e);
           return e;
        }
+@@ -131,8 +_,8 @@
+       return e;
+    }
+ 
+-   public <E extends Mob> E m_177321_(EntityType<E> p_177322_, int p_177323_, int p_177324_, int p_177325_) {
+-      return this.m_177329_(p_177322_, new BlockPos(p_177323_, p_177324_, p_177325_));
++   public <E extends Mob> E spawnWithNoFreeWill(EntityType<E> pType, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
++      return this.m_177329_(pType, new BlockPos(pX, pY, pZ));
+    }
+ 
+    public <E extends Mob> E m_177326_(EntityType<E> p_177327_, Vec3 p_177328_) {
 @@ -174,7 +_,7 @@
  
     public void m_246440_(BlockPos p_250131_, Player p_251507_) {

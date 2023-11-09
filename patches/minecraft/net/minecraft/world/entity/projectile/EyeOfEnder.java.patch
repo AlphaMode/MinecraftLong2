@@ -13,6 +13,19 @@
     private int f_36953_;
     private boolean f_36954_;
  
+@@ -28,9 +_,9 @@
+       super(p_36957_, p_36958_);
+    }
+ 
+-   public EyeOfEnder(Level p_36960_, double p_36961_, double p_36962_, double p_36963_) {
+-      this(EntityType.f_20571_, p_36960_);
+-      this.m_6034_(p_36961_, p_36962_, p_36963_);
++   public EyeOfEnder(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      this(EntityType.f_20571_, pLevel);
++      this.setPos(pX, pY, pZ);
+    }
+ 
+    public void m_36972_(ItemStack p_36973_) {
 @@ -64,19 +_,19 @@
     }
  
@@ -79,7 +92,7 @@
           vec3 = new Vec3(Math.cos((double)f1) * d6, d7 + ((double)j - d7) * (double)0.015F, Math.sin((double)f1) * d6);
           this.m_20256_(vec3);
        }
-@@ -125,14 +_,14 @@
+@@ -125,26 +_,26 @@
        float f2 = 0.25F;
        if (this.m_20069_()) {
           for(int i = 0; i < 4; ++i) {
@@ -97,7 +110,12 @@
           ++this.f_36953_;
           if (this.f_36953_ > 80 && !this.m_9236_().f_46443_) {
              this.m_5496_(SoundEvents.f_11897_, 1.0F, 1.0F);
-@@ -144,7 +_,7 @@
+             this.m_146870_();
+             if (this.f_36954_) {
+-               this.m_9236_().m_7967_(new ItemEntity(this.m_9236_(), this.m_20185_(), this.m_20186_(), this.m_20189_(), this.m_7846_()));
++               this.m_9236_().m_7967_(new ItemEntity(this.m_9236_(), this.getBigX(), this.getBigY(), this.getBigZ(), this.m_7846_()));
+             } else {
+                this.m_9236_().m_46796_(2003, this.m_20183_(), 0);
              }
           }
        } else {

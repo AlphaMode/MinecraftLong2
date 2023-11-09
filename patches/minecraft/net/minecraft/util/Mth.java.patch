@@ -71,7 +71,7 @@
     public static double m_14085_(double p_14086_, double p_14087_, double p_14088_) {
        if (p_14088_ < 0.0D) {
           return p_14086_;
-@@ -123,10 +_,26 @@
+@@ -123,6 +_,18 @@
        return Math.max(p_14006_, p_14007_);
     }
  
@@ -89,14 +89,6 @@
 +
     public static int m_14042_(int p_14043_, int p_14044_) {
        return Math.floorDiv(p_14043_, p_14044_);
-    }
- 
-+   public static long nextLong(RandomSource pRandom, long pMinimum, long pMaximum) {
-+      return pMinimum >= pMaximum ? pMinimum : pRandom.nextLong(pMaximum - pMinimum + 1) + pMinimum;
-+   }
-+
-    public static int m_216271_(RandomSource p_216272_, int p_216273_, int p_216274_) {
-       return p_216273_ >= p_216274_ ? p_216273_ : p_216272_.m_188503_(p_216274_ - p_216273_ + 1) + p_216273_;
     }
 @@ -139,6 +_,10 @@
        return p_216265_ >= p_216266_ ? p_216265_ : p_216264_.m_188500_() * (p_216266_ - p_216265_) + p_216265_;
@@ -358,7 +350,7 @@
     }
  
 +   public static long randomBetweenInclusive(RandomSource pRandom, long pMinInclusive, long pMaxInclusive) {
-+      return pRandom.nextLong(pMaxInclusive - pMinInclusive + 1) + pMinInclusive;
++      return pRandom.m_188503_((int) (pMaxInclusive - pMinInclusive + 1)) + pMinInclusive;
 +   }
 +
     public static float m_216283_(RandomSource p_216284_, float p_216285_, float p_216286_) {

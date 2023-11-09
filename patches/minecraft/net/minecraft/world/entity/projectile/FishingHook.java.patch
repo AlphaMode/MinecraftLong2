@@ -1,6 +1,18 @@
 --- a/net/minecraft/world/entity/projectile/FishingHook.java
 +++ b/net/minecraft/world/entity/projectile/FishingHook.java
-@@ -93,8 +_,8 @@
+@@ -85,16 +_,16 @@
+       float f3 = Mth.m_14031_(-f1 * ((float)Math.PI / 180F) - (float)Math.PI);
+       float f4 = -Mth.m_14089_(-f * ((float)Math.PI / 180F));
+       float f5 = Mth.m_14031_(-f * ((float)Math.PI / 180F));
+-      double d0 = p_37106_.m_20185_() - (double)f3 * 0.3D;
+-      double d1 = p_37106_.m_20188_();
+-      double d2 = p_37106_.m_20189_() - (double)f2 * 0.3D;
+-      this.m_7678_(d0, d1, d2, f1, f);
++      me.alphamode.mclong.math.BigDecimal d0 = p_37106_.getBigX().add((double)f3 * 0.3D);
++      me.alphamode.mclong.math.BigDecimal d1 = p_37106_.getEyeBigY();
++      me.alphamode.mclong.math.BigDecimal d2 = p_37106_.getBigZ().subtract((double)f2 * 0.3D);
++      this.moveTo(d0, d1, d2, f1, f);
+       Vec3 vec3 = new Vec3((double)(-f3), (double)Mth.m_14036_(-(f5 / f4), -5.0F, 5.0F), (double)(-f2));
        double d3 = vec3.m_82553_();
        vec3 = vec3.m_82542_(0.6D / d3 + this.f_19796_.m_216328_(0.5D, 0.0103365D), 0.6D / d3 + this.f_19796_.m_216328_(0.5D, 0.0103365D), 0.6D / d3 + this.f_19796_.m_216328_(0.5D, 0.0103365D));
        this.m_20256_(vec3);
@@ -29,6 +41,15 @@
     }
  
     public void m_8119_() {
+@@ -171,7 +_,7 @@
+             if (this.f_37095_ == FishingHook.FishHookState.HOOKED_IN_ENTITY) {
+                if (this.f_37094_ != null) {
+                   if (!this.f_37094_.m_213877_() && this.f_37094_.m_9236_().m_46472_() == this.m_9236_().m_46472_()) {
+-                     this.m_6034_(this.f_37094_.m_20185_(), this.f_37094_.m_20227_(0.8D), this.f_37094_.m_20189_());
++                     this.setPos(this.f_37094_.getBigX(), this.f_37094_.getBigY(0.8D), this.f_37094_.getBigZ());
+                   } else {
+                      this.m_150157_((Entity)null);
+                      this.f_37095_ = FishingHook.FishHookState.FLYING;
 @@ -183,12 +_,12 @@
  
              if (this.f_37095_ == FishingHook.FishHookState.BOBBING) {
@@ -116,7 +137,18 @@
           switch (fishinghook$openwatertype1) {
              case INVALID:
                 return false;
-@@ -422,7 +_,7 @@
+@@ -415,14 +_,14 @@
+             CriteriaTriggers.f_10553_.m_40416_((ServerPlayer)player, p_37157_, this, list);
+ 
+             for(ItemStack itemstack : list) {
+-               ItemEntity itementity = new ItemEntity(this.m_9236_(), this.m_20185_(), this.m_20186_(), this.m_20189_(), itemstack);
+-               double d0 = player.m_20185_() - this.m_20185_();
+-               double d1 = player.m_20186_() - this.m_20186_();
+-               double d2 = player.m_20189_() - this.m_20189_();
++               ItemEntity itementity = new ItemEntity(this.m_9236_(), this.getBigX(), this.getBigY(), this.getBigZ(), itemstack);
++               double d0 = player.getBigX().subtract(this.getBigX()).doubleValue();
++               double d1 = player.getBigY().subtract(this.getBigY()).doubleValue();
++               double d2 = player.getBigZ().subtract(this.getBigZ()).doubleValue();
                 double d3 = 0.1D;
                 itementity.m_20334_(d0 * 0.1D, d1 * 0.1D + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08D, d2 * 0.1D);
                 this.m_9236_().m_7967_(itementity);

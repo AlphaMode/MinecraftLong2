@@ -21,7 +21,7 @@
        if (this.f_113366_ != null) {
           Map<ChunkPos, String> map = this.f_113366_.f_113379_.getNow((Map<ChunkPos, String>)null);
 -         double d1 = this.f_113363_.f_91063_.m_109153_().m_90583_().f_82480_ * 0.85D;
-+         double d1 = this.f_113363_.f_91063_.m_109153_().m_90583_().m_7098_() * 0.85D;
++         me.alphamode.mclong.math.BigDecimal d1 = this.f_113363_.f_91063_.m_109153_().m_90583_().getY().multiply(0.85D);
  
           for(Map.Entry<ChunkPos, String> entry : this.f_113366_.f_113378_.entrySet()) {
              ChunkPos chunkpos = entry.getKey();
@@ -30,7 +30,7 @@
  
              for(String s1 : astring) {
 -               DebugRenderer.m_269439_(p_113370_, p_113371_, s1, (double)SectionPos.m_175554_(chunkpos.f_45578_, 8), d1 + (double)i, (double)SectionPos.m_175554_(chunkpos.f_45579_, 8), -1, 0.15F, true, 0.0F, true);
-+               DebugRenderer.m_269439_(pPoseStack, pBuffer, s1, (double)SectionPos.sectionToBlockCoord(chunkpos.x(), 8), d1 + (double)i, (double)SectionPos.sectionToBlockCoord(chunkpos.z(), 8), -1, 0.15F, true, 0.0F, true);
++               DebugRenderer.renderFloatingText(pPoseStack, pBuffer, s1, SectionPos.sectionToBlockCoord(chunkpos.getX(), 8).toBigDecimal(), d1.add((double)i), SectionPos.sectionToBlockCoord(chunkpos.getZ(), 8).toBigDecimal(), -1, 0.15F, true, 0.0F, true);
                 i -= 2;
              }
           }

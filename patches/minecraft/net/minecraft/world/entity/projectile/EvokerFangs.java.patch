@@ -1,5 +1,24 @@
 --- a/net/minecraft/world/entity/projectile/EvokerFangs.java
 +++ b/net/minecraft/world/entity/projectile/EvokerFangs.java
+@@ -29,12 +_,12 @@
+       super(p_36923_, p_36924_);
+    }
+ 
+-   public EvokerFangs(Level p_36926_, double p_36927_, double p_36928_, double p_36929_, float p_36930_, int p_36931_, LivingEntity p_36932_) {
+-      this(EntityType.f_20569_, p_36926_);
+-      this.f_36916_ = p_36931_;
+-      this.m_36938_(p_36932_);
+-      this.m_146922_(p_36930_ * (180F / (float)Math.PI));
+-      this.m_6034_(p_36927_, p_36928_, p_36929_);
++   public EvokerFangs(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, float pYRot, int pWarmupDelay, LivingEntity pOwner) {
++      this(EntityType.f_20569_, pLevel);
++      this.f_36916_ = pWarmupDelay;
++      this.m_36938_(pOwner);
++      this.m_146922_(pYRot * (180F / (float)Math.PI));
++      this.setPos(pX, pY, pZ);
+    }
+ 
+    protected void m_8097_() {
 @@ -80,13 +_,13 @@
              --this.f_36918_;
              if (this.f_36918_ == 14) {

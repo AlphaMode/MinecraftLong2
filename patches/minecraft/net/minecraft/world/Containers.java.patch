@@ -1,20 +1,56 @@
 --- a/net/minecraft/world/Containers.java
 +++ b/net/minecraft/world/Containers.java
-@@ -10,7 +_,7 @@
+@@ -10,39 +_,39 @@
  
  public class Containers {
     public static void m_19002_(Level p_19003_, BlockPos p_19004_, Container p_19005_) {
 -      m_18986_(p_19003_, (double)p_19004_.m_123341_(), (double)p_19004_.m_123342_(), (double)p_19004_.m_123343_(), p_19005_);
-+      m_18986_(p_19003_, (double)p_19004_.getX(), (double)p_19004_.getY(), (double)p_19004_.getZ(), p_19005_);
++      dropContents(p_19003_, p_19004_.getBigDecX(), p_19004_.getBigDecY(), p_19004_.getBigDecZ(), p_19005_);
     }
  
     public static void m_18998_(Level p_18999_, Entity p_19000_, Container p_19001_) {
-@@ -26,7 +_,7 @@
+-      m_18986_(p_18999_, p_19000_.m_20185_(), p_19000_.m_20186_(), p_19000_.m_20189_(), p_19001_);
++      dropContents(p_18999_, p_19000_.getBigX(), p_19000_.getBigY(), p_19000_.getBigZ(), p_19001_);
+    }
+ 
+-   private static void m_18986_(Level p_18987_, double p_18988_, double p_18989_, double p_18990_, Container p_18991_) {
+-      for(int i = 0; i < p_18991_.m_6643_(); ++i) {
+-         m_18992_(p_18987_, p_18988_, p_18989_, p_18990_, p_18991_.m_8020_(i));
++   private static void dropContents(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, Container pInventory) {
++      for(int i = 0; i < pInventory.m_6643_(); ++i) {
++         dropItemStack(pLevel, pX, pY, pZ, pInventory.m_8020_(i));
+       }
+ 
+    }
  
     public static void m_19010_(Level p_19011_, BlockPos p_19012_, NonNullList<ItemStack> p_19013_) {
        p_19013_.forEach((p_19009_) -> {
 -         m_18992_(p_19011_, (double)p_19012_.m_123341_(), (double)p_19012_.m_123342_(), (double)p_19012_.m_123343_(), p_19009_);
-+         m_18992_(p_19011_, (double)p_19012_.getX(), (double)p_19012_.getY(), (double)p_19012_.getZ(), p_19009_);
++         dropItemStack(p_19011_, p_19012_.getBigDecX(), p_19012_.getBigDecY(), p_19012_.getBigDecZ(), p_19009_);
        });
     }
  
+-   public static void m_18992_(Level p_18993_, double p_18994_, double p_18995_, double p_18996_, ItemStack p_18997_) {
++   public static void dropItemStack(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, ItemStack pStack) {
+       double d0 = (double)EntityType.f_20461_.m_20678_();
+       double d1 = 1.0D - d0;
+       double d2 = d0 / 2.0D;
+-      double d3 = Math.floor(p_18994_) + p_18993_.f_46441_.m_188500_() * d1 + d2;
+-      double d4 = Math.floor(p_18995_) + p_18993_.f_46441_.m_188500_() * d1;
+-      double d5 = Math.floor(p_18996_) + p_18993_.f_46441_.m_188500_() * d1 + d2;
++      me.alphamode.mclong.math.BigDecimal d3 = pX.floor().toBigDecimal().add(pLevel.f_46441_.m_188500_() * d1 + d2);
++      me.alphamode.mclong.math.BigDecimal d4 = pY.floor().toBigDecimal().add(pLevel.f_46441_.m_188500_() * d1);
++      me.alphamode.mclong.math.BigDecimal d5 = pZ.floor().toBigDecimal().add(pLevel.f_46441_.m_188500_() * d1 + d2);
+ 
+-      while(!p_18997_.m_41619_()) {
+-         ItemEntity itementity = new ItemEntity(p_18993_, d3, d4, d5, p_18997_.m_41620_(p_18993_.f_46441_.m_188503_(21) + 10));
++      while(!pStack.m_41619_()) {
++         ItemEntity itementity = new ItemEntity(pLevel, d3, d4, d5, pStack.m_41620_(pLevel.f_46441_.m_188503_(21) + 10));
+          float f = 0.05F;
+-         itementity.m_20334_(p_18993_.f_46441_.m_216328_(0.0D, 0.11485000171139836D), p_18993_.f_46441_.m_216328_(0.2D, 0.11485000171139836D), p_18993_.f_46441_.m_216328_(0.0D, 0.11485000171139836D));
+-         p_18993_.m_7967_(itementity);
++         itementity.m_20334_(pLevel.f_46441_.m_216328_(0.0D, 0.11485000171139836D), pLevel.f_46441_.m_216328_(0.2D, 0.11485000171139836D), pLevel.f_46441_.m_216328_(0.0D, 0.11485000171139836D));
++         pLevel.m_7967_(itementity);
+       }
+ 
+    }

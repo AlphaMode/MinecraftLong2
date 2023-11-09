@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/item/EndCrystalItem.java
 +++ b/net/minecraft/world/item/EndCrystalItem.java
-@@ -26,13 +_,13 @@
+@@ -26,19 +_,19 @@
        if (!blockstate.m_60713_(Blocks.f_50080_) && !blockstate.m_60713_(Blocks.f_50752_)) {
           return InteractionResult.FAIL;
        } else {
@@ -12,9 +12,17 @@
 -            double d0 = (double)blockpos1.m_123341_();
 -            double d1 = (double)blockpos1.m_123342_();
 -            double d2 = (double)blockpos1.m_123343_();
-+            double d0 = (double)blockpos1.getX();
-+            double d1 = (double)blockpos1.getY();
-+            double d2 = (double)blockpos1.getZ();
-             List<Entity> list = level.m_45933_((Entity)null, new AABB(d0, d1, d2, d0 + 1.0D, d1 + 2.0D, d2 + 1.0D));
+-            List<Entity> list = level.m_45933_((Entity)null, new AABB(d0, d1, d2, d0 + 1.0D, d1 + 2.0D, d2 + 1.0D));
++            me.alphamode.mclong.math.BigDecimal d0 = blockpos1.getBigDecX();
++            me.alphamode.mclong.math.BigDecimal d1 = blockpos1.getBigDecY();
++            me.alphamode.mclong.math.BigDecimal d2 = blockpos1.getBigDecZ();
++            List<Entity> list = level.m_45933_((Entity)null, new AABB(d0, d1, d2, d0.add(), d1.add(me.alphamode.mclong.core.BigConstants.TWO), d2.add()));
              if (!list.isEmpty()) {
                 return InteractionResult.FAIL;
+             } else {
+                if (level instanceof ServerLevel) {
+-                  EndCrystal endcrystal = new EndCrystal(level, d0 + 0.5D, d1, d2 + 0.5D);
++                  EndCrystal endcrystal = new EndCrystal(level, d0.add(me.alphamode.mclong.core.BigConstants.AABB), d1, d2.add(me.alphamode.mclong.core.BigConstants.AABB));
+                   endcrystal.m_31056_(false);
+                   level.m_7967_(endcrystal);
+                   level.m_142346_(p_41176_.m_43723_(), GameEvent.f_157810_, blockpos1);

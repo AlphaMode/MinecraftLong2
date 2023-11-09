@@ -1,18 +1,30 @@
 --- a/net/minecraft/world/entity/item/PrimedTnt.java
 +++ b/net/minecraft/world/entity/item/PrimedTnt.java
-@@ -32,9 +_,9 @@
-       double d0 = p_32079_.f_46441_.m_188500_() * (double)((float)Math.PI * 2F);
+@@ -26,16 +_,16 @@
+       this.f_19850_ = true;
+    }
+ 
+-   public PrimedTnt(Level p_32079_, double p_32080_, double p_32081_, double p_32082_, @Nullable LivingEntity p_32083_) {
+-      this(EntityType.f_20515_, p_32079_);
+-      this.m_6034_(p_32080_, p_32081_, p_32082_);
+-      double d0 = p_32079_.f_46441_.m_188500_() * (double)((float)Math.PI * 2F);
++   public PrimedTnt(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, @Nullable LivingEntity pOwner) {
++      this(EntityType.f_20515_, pLevel);
++      this.setPos(pX, pY, pZ);
++      double d0 = pLevel.f_46441_.m_188500_() * (double)((float)Math.PI * 2F);
        this.m_20334_(-Math.sin(d0) * 0.02D, (double)0.2F, -Math.cos(d0) * 0.02D);
        this.m_32085_(80);
 -      this.f_19854_ = p_32080_;
 -      this.f_19855_ = p_32081_;
 -      this.f_19856_ = p_32082_;
-+      this.f_19854_ = me.alphamode.mclong.math.BigDecimal.valueOf(p_32080_);
-+      this.f_19855_ = me.alphamode.mclong.math.BigDecimal.valueOf(p_32081_);
-+      this.f_19856_ = me.alphamode.mclong.math.BigDecimal.valueOf(p_32082_);
-       this.f_32072_ = p_32083_;
+-      this.f_32072_ = p_32083_;
++      this.f_19854_ = pX;
++      this.f_19855_ = pY;
++      this.f_19856_ = pZ;
++      this.f_32072_ = pOwner;
     }
  
+    protected void m_8097_() {
 @@ -71,7 +_,7 @@
        } else {
           this.m_20073_();

@@ -22,7 +22,7 @@
  
           for(ItemStack itemstack : list) {
 -            ItemEntity itementity = new ItemEntity(serverlevel, (double)blockpos.m_123341_(), (double)blockpos.m_123342_(), (double)blockpos.m_123343_(), itemstack);
-+            ItemEntity itementity = new ItemEntity(serverlevel, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), itemstack);
++            ItemEntity itementity = new ItemEntity(serverlevel, blockpos.getBigDecX(), blockpos.getBigDecY(), blockpos.getBigDecZ(), itemstack);
              itementity.m_32060_();
              serverlevel.m_7967_(itementity);
           }
@@ -46,6 +46,15 @@
              }
           }
        }
+@@ -314,7 +_,7 @@
+ 
+    public void m_27563_(ServerLevel p_277923_, Animal p_277857_) {
+       ItemStack itemstack = new ItemStack(Items.f_276468_);
+-      ItemEntity itementity = new ItemEntity(p_277923_, this.m_20182_().m_7096_(), this.m_20182_().m_7098_(), this.m_20182_().m_7094_(), itemstack);
++      ItemEntity itementity = new ItemEntity(p_277923_, this.m_20182_().getX(), this.m_20182_().getY(), this.m_20182_().getZ(), itemstack);
+       itementity.m_32060_();
+       this.m_277117_(p_277923_, p_277857_, (AgeableMob)null);
+       this.m_5496_(SoundEvents.f_279531_, 1.0F, (this.f_19796_.m_188501_() - this.f_19796_.m_188501_()) * 0.2F + 0.5F);
 @@ -359,7 +_,7 @@
  
     private void m_272136_() {

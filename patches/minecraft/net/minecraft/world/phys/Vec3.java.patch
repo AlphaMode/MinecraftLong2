@@ -13,44 +13,46 @@
  
     public static Vec3 m_82501_(int p_82502_) {
        double d0 = (double)(p_82502_ >> 16 & 255) / 255.0D;
-@@ -31,30 +_,42 @@
+@@ -31,30 +_,34 @@
        return new Vec3(d0, d1, d2);
     }
  
 -   public static Vec3 m_82528_(Vec3i p_82529_) {
 -      return new Vec3((double)p_82529_.m_123341_(), (double)p_82529_.m_123342_(), (double)p_82529_.m_123343_());
-+   public static Vec3 atLowerCornerOf(me.alphamode.mclong.core.Vec3l pToCopy) {
-+      return new Vec3(pToCopy.getBigDecX(), pToCopy.getBigDecY(), pToCopy.getBigDecZ());
-    }
- 
-    public static Vec3 m_272021_(Vec3i p_272866_, double p_273680_, double p_273668_, double p_273687_) {
-       return new Vec3((double)p_272866_.m_123341_() + p_273680_, (double)p_272866_.m_123342_() + p_273668_, (double)p_272866_.m_123343_() + p_273687_);
-    }
- 
-+   public static Vec3 atLowerCornerWithOffset(me.alphamode.mclong.core.Vec3l pToCopy, double pOffsetX, double pOffsetY, double pOffsetZ) {
-+      return new Vec3(pToCopy.getBigDecX().add(pOffsetX), pToCopy.getBigDecY().add(pOffsetY), pToCopy.getBigDecZ().add(pOffsetZ));
-+   }
-+
-    public static Vec3 m_82512_(Vec3i p_82513_) {
-       return m_272021_(p_82513_, 0.5D, 0.5D, 0.5D);
-    }
- 
+-   }
+-
+-   public static Vec3 m_272021_(Vec3i p_272866_, double p_273680_, double p_273668_, double p_273687_) {
+-      return new Vec3((double)p_272866_.m_123341_() + p_273680_, (double)p_272866_.m_123342_() + p_273668_, (double)p_272866_.m_123343_() + p_273687_);
+-   }
+-
+-   public static Vec3 m_82512_(Vec3i p_82513_) {
+-      return m_272021_(p_82513_, 0.5D, 0.5D, 0.5D);
+-   }
+-
 -   public static Vec3 m_82539_(Vec3i p_82540_) {
 -      return m_272021_(p_82540_, 0.5D, 0.0D, 0.5D);
 -   }
 -
 -   public static Vec3 m_82514_(Vec3i p_82515_, double p_82516_) {
 -      return m_272021_(p_82515_, 0.5D, p_82516_, 0.5D);
++   public static Vec3 atLowerCornerOf(me.alphamode.mclong.core.Vec3l pToCopy) {
++      return new Vec3(pToCopy.getBigDecX(), pToCopy.getBigDecY(), pToCopy.getBigDecZ());
++   }
++
++   public static Vec3 atLowerCornerWithOffset(me.alphamode.mclong.core.Vec3l pToCopy, me.alphamode.mclong.math.BigDecimal pOffsetX, me.alphamode.mclong.math.BigDecimal pOffsetY, me.alphamode.mclong.math.BigDecimal pOffsetZ) {
++      return new Vec3(pToCopy.getBigDecX().add(pOffsetX), pToCopy.getBigDecY().add(pOffsetY), pToCopy.getBigDecZ().add(pOffsetZ));
++   }
++
 +   public static Vec3 atCenterOf(me.alphamode.mclong.core.Vec3l pToCopy) {
-+      return atLowerCornerWithOffset(pToCopy, 0.5D, 0.5D, 0.5D);
++      return atLowerCornerWithOffset(pToCopy, me.alphamode.mclong.core.BigConstants.AABB, me.alphamode.mclong.core.BigConstants.AABB, me.alphamode.mclong.core.BigConstants.AABB);
 +   }
 +
 +   public static Vec3 atBottomCenterOf(me.alphamode.mclong.core.Vec3l pToCopy) {
-+      return atLowerCornerWithOffset(pToCopy, 0.5D, 0.0D, 0.5D);
++      return atLowerCornerWithOffset(pToCopy, me.alphamode.mclong.core.BigConstants.AABB, me.alphamode.mclong.math.BigDecimal.ZERO, me.alphamode.mclong.core.BigConstants.AABB);
 +   }
 +
 +   public static Vec3 upFromBottomCenterOf(me.alphamode.mclong.core.Vec3l pToCopy, double pVerticalOffset) {
-+      return atLowerCornerWithOffset(pToCopy, 0.5D, pVerticalOffset, 0.5D);
++      return atLowerCornerWithOffset(pToCopy, me.alphamode.mclong.core.BigConstants.AABB, me.alphamode.mclong.math.BigDecimal.valueOf(pVerticalOffset), me.alphamode.mclong.core.BigConstants.AABB);
 +   }
 +
 +   public Vec3(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {

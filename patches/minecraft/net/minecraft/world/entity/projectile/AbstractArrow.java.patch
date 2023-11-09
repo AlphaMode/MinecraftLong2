@@ -1,5 +1,23 @@
 --- a/net/minecraft/world/entity/projectile/AbstractArrow.java
 +++ b/net/minecraft/world/entity/projectile/AbstractArrow.java
+@@ -70,13 +_,13 @@
+       super(p_36721_, p_36722_);
+    }
+ 
+-   protected AbstractArrow(EntityType<? extends AbstractArrow> p_36711_, double p_36712_, double p_36713_, double p_36714_, Level p_36715_) {
+-      this(p_36711_, p_36715_);
+-      this.m_6034_(p_36712_, p_36713_, p_36714_);
++   protected AbstractArrow(EntityType<? extends AbstractArrow> pEntityType, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, Level pLevel) {
++      this(pEntityType, pLevel);
++      this.setPos(pX, pY, pZ);
+    }
+ 
+    protected AbstractArrow(EntityType<? extends AbstractArrow> p_36717_, LivingEntity p_36718_, Level p_36719_) {
+-      this(p_36717_, p_36718_.m_20185_(), p_36718_.m_20188_() - (double)0.1F, p_36718_.m_20189_(), p_36719_);
++      this(p_36717_, p_36718_.getBigX(), p_36718_.getEyeBigY().subtract(me.alphamode.mclong.core.BigConstants.POINT_ONE), p_36718_.getBigZ(), p_36719_);
+       this.m_5602_(p_36718_);
+       if (p_36718_ instanceof Player) {
+          this.f_36705_ = AbstractArrow.Pickup.ALLOWED;
 @@ -108,9 +_,9 @@
        this.f_36697_ = 0;
     }

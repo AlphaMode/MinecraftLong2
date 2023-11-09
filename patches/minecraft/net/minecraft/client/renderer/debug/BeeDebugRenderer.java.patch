@@ -47,31 +47,36 @@
        }
  
     }
-@@ -251,9 +_,9 @@
+@@ -251,21 +_,21 @@
     private static void m_269380_(PoseStack p_270438_, MultiBufferSource p_270244_, String p_270486_, BlockPos p_270062_, int p_270574_, int p_270228_) {
        double d0 = 1.3D;
        double d1 = 0.2D;
 -      double d2 = (double)p_270062_.m_123341_() + 0.5D;
 -      double d3 = (double)p_270062_.m_123342_() + 1.3D + (double)p_270574_ * 0.2D;
 -      double d4 = (double)p_270062_.m_123343_() + 0.5D;
-+      double d2 = (double)p_270062_.getX() + 0.5D;
-+      double d3 = (double)p_270062_.getY() + 1.3D + (double)p_270574_ * 0.2D;
-+      double d4 = (double)p_270062_.getZ() + 0.5D;
-       DebugRenderer.m_269439_(p_270438_, p_270244_, p_270486_, d2, d3, d4, p_270228_, 0.02F, true, 0.0F, true);
+-      DebugRenderer.m_269439_(p_270438_, p_270244_, p_270486_, d2, d3, d4, p_270228_, 0.02F, true, 0.0F, true);
++      me.alphamode.mclong.math.BigDecimal d2 = p_270062_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB);
++      me.alphamode.mclong.math.BigDecimal d3 = p_270062_.getBigDecY().add(1.3D + (double)p_270574_ * 0.2D);
++      me.alphamode.mclong.math.BigDecimal d4 = p_270062_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB);
++      DebugRenderer.renderFloatingText(p_270438_, p_270244_, p_270486_, d2, d3, d4, p_270228_, 0.02F, true, 0.0F, true);
     }
  
-@@ -261,9 +_,9 @@
+    private static void m_269015_(PoseStack p_270426_, MultiBufferSource p_270600_, Position p_270548_, int p_270592_, String p_270198_, int p_270792_, float p_270938_) {
        double d0 = 2.4D;
        double d1 = 0.25D;
        BlockPos blockpos = BlockPos.m_274446_(p_270548_);
 -      double d2 = (double)blockpos.m_123341_() + 0.5D;
-+      double d2 = (double)blockpos.getX() + 0.5D;
-       double d3 = p_270548_.m_7098_() + 2.4D + (double)p_270592_ * 0.25D;
+-      double d3 = p_270548_.m_7098_() + 2.4D + (double)p_270592_ * 0.25D;
 -      double d4 = (double)blockpos.m_123343_() + 0.5D;
-+      double d4 = (double)blockpos.getZ() + 0.5D;
++      me.alphamode.mclong.math.BigDecimal d2 = blockpos.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB);
++      me.alphamode.mclong.math.BigDecimal d3 = p_270548_.getY().add(2.4D + (double)p_270592_ * 0.25D);
++      me.alphamode.mclong.math.BigDecimal d4 = blockpos.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB);
        float f = 0.5F;
-       DebugRenderer.m_269439_(p_270426_, p_270600_, p_270198_, d2, d3, d4, p_270792_, p_270938_, false, 0.5F, true);
+-      DebugRenderer.m_269439_(p_270426_, p_270600_, p_270198_, d2, d3, d4, p_270792_, p_270938_, false, 0.5F, true);
++      DebugRenderer.renderFloatingText(p_270426_, p_270600_, p_270198_, d2, d3, d4, p_270792_, p_270938_, false, 0.5F, true);
     }
+ 
+    private Camera m_113154_() {
 @@ -277,9 +_,9 @@
     }
  
@@ -84,9 +89,12 @@
     }
  
     private boolean m_113142_(BeeDebugRenderer.BeeInfo p_113143_) {
-@@ -290,7 +_,7 @@
+@@ -288,9 +_,9 @@
+ 
+    private boolean m_113147_(BeeDebugRenderer.BeeInfo p_113148_) {
        Player player = this.f_113048_.f_91074_;
-       BlockPos blockpos = BlockPos.m_274561_(player.m_20185_(), p_113148_.f_113159_.m_7098_(), player.m_20189_());
+-      BlockPos blockpos = BlockPos.m_274561_(player.m_20185_(), p_113148_.f_113159_.m_7098_(), player.m_20189_());
++      BlockPos blockpos = BlockPos.containing(player.getBigX(), p_113148_.f_113159_.getY(), player.getBigZ());
        BlockPos blockpos1 = BlockPos.m_274446_(p_113148_.f_113159_);
 -      return blockpos.m_123314_(blockpos1, 30.0D);
 +      return blockpos.closerThan(blockpos1, 30.0D);

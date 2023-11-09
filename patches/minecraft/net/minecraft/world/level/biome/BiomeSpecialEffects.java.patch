@@ -1,0 +1,34 @@
+--- a/net/minecraft/world/level/biome/BiomeSpecialEffects.java
++++ b/net/minecraft/world/level/biome/BiomeSpecialEffects.java
+@@ -203,18 +_,18 @@
+ 
+    public static enum GrassColorModifier implements StringRepresentable {
+       NONE("none") {
+-         public int m_6583_(double p_48081_, double p_48082_, int p_48083_) {
++         public int modifyColor(me.alphamode.mclong.math.BigDecimal p_48081_, me.alphamode.mclong.math.BigDecimal p_48082_, int p_48083_) {
+             return p_48083_;
+          }
+       },
+       DARK_FOREST("dark_forest") {
+-         public int m_6583_(double p_48089_, double p_48090_, int p_48091_) {
++         public int modifyColor(me.alphamode.mclong.math.BigDecimal p_48089_, me.alphamode.mclong.math.BigDecimal p_48090_, int p_48091_) {
+             return (p_48091_ & 16711422) + 2634762 >> 1;
+          }
+       },
+       SWAMP("swamp") {
+-         public int m_6583_(double p_48097_, double p_48098_, int p_48099_) {
+-            double d0 = Biome.f_47433_.m_75449_(p_48097_ * 0.0225D, p_48098_ * 0.0225D, false);
++         public int modifyColor(me.alphamode.mclong.math.BigDecimal p_48097_, me.alphamode.mclong.math.BigDecimal p_48098_, int p_48099_) {
++            double d0 = Biome.f_47433_.m_75449_(p_48097_.doubleValue() * 0.0225D, p_48098_.doubleValue() * 0.0225D, false);
+             return d0 < -0.1D ? 5011004 : 6975545;
+          }
+       };
+@@ -222,7 +_,7 @@
+       private final String f_48051_;
+       public static final Codec<BiomeSpecialEffects.GrassColorModifier> f_48050_ = StringRepresentable.m_216439_(BiomeSpecialEffects.GrassColorModifier::values);
+ 
+-      public abstract int m_6583_(double p_48065_, double p_48066_, int p_48067_);
++      public abstract int modifyColor(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pZ, int pGrassColor);
+ 
+       GrassColorModifier(String p_48058_) {
+          this.f_48051_ = p_48058_;

@@ -1,5 +1,61 @@
 --- a/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 +++ b/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
+@@ -39,39 +_,39 @@
+       super(p_37027_, p_37028_);
+    }
+ 
+-   public FireworkRocketEntity(Level p_37030_, double p_37031_, double p_37032_, double p_37033_, ItemStack p_37034_) {
+-      super(EntityType.f_20451_, p_37030_);
++   public FireworkRocketEntity(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, ItemStack pStack) {
++      super(EntityType.f_20451_, pLevel);
+       this.f_37022_ = 0;
+-      this.m_6034_(p_37031_, p_37032_, p_37033_);
++      this.setPos(pX, pY, pZ);
+       int i = 1;
+-      if (!p_37034_.m_41619_() && p_37034_.m_41782_()) {
+-         this.f_19804_.m_135381_(f_37019_, p_37034_.m_41777_());
+-         i += p_37034_.m_41698_("Fireworks").m_128445_("Flight");
++      if (!pStack.m_41619_() && pStack.m_41782_()) {
++         this.f_19804_.m_135381_(f_37019_, pStack.m_41777_());
++         i += pStack.m_41698_("Fireworks").m_128445_("Flight");
+       }
+ 
+       this.m_20334_(this.f_19796_.m_216328_(0.0D, 0.002297D), 0.05D, this.f_19796_.m_216328_(0.0D, 0.002297D));
+       this.f_37023_ = 10 * i + this.f_19796_.m_188503_(6) + this.f_19796_.m_188503_(7);
+    }
+ 
+-   public FireworkRocketEntity(Level p_37036_, @Nullable Entity p_37037_, double p_37038_, double p_37039_, double p_37040_, ItemStack p_37041_) {
+-      this(p_37036_, p_37038_, p_37039_, p_37040_, p_37041_);
+-      this.m_5602_(p_37037_);
++   public FireworkRocketEntity(Level pLevel, @Nullable Entity pShooter, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, ItemStack pStack) {
++      this(pLevel, pX, pY, pZ, pStack);
++      this.m_5602_(pShooter);
+    }
+ 
+    public FireworkRocketEntity(Level p_37058_, ItemStack p_37059_, LivingEntity p_37060_) {
+-      this(p_37058_, p_37060_, p_37060_.m_20185_(), p_37060_.m_20186_(), p_37060_.m_20189_(), p_37059_);
++      this(p_37058_, p_37060_, p_37060_.getBigX(), p_37060_.getBigY(), p_37060_.getBigZ(), p_37059_);
+       this.f_19804_.m_135381_(f_37020_, OptionalInt.of(p_37060_.m_19879_()));
+       this.f_37024_ = p_37060_;
+    }
+ 
+-   public FireworkRocketEntity(Level p_37043_, ItemStack p_37044_, double p_37045_, double p_37046_, double p_37047_, boolean p_37048_) {
+-      this(p_37043_, p_37045_, p_37046_, p_37047_, p_37044_);
+-      this.f_19804_.m_135381_(f_37021_, p_37048_);
++   public FireworkRocketEntity(Level pLevel, ItemStack pStack, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, boolean pShotAtAngle) {
++      this(pLevel, pX, pY, pZ, pStack);
++      this.f_19804_.m_135381_(f_37021_, pShotAtAngle);
+    }
+ 
+-   public FireworkRocketEntity(Level p_37050_, ItemStack p_37051_, Entity p_37052_, double p_37053_, double p_37054_, double p_37055_, boolean p_37056_) {
+-      this(p_37050_, p_37051_, p_37053_, p_37054_, p_37055_, p_37056_);
+-      this.m_5602_(p_37052_);
++   public FireworkRocketEntity(Level pLevel, ItemStack pStack, Entity pShooter, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, boolean pShotAtAngle) {
++      this(pLevel, pStack, pX, pY, pZ, pShotAtAngle);
++      this.m_5602_(pShooter);
+    }
+ 
+    protected void m_8097_() {
 @@ -84,8 +_,8 @@
        return p_37065_ < 4096.0D && !this.m_37088_();
     }
@@ -23,7 +79,7 @@
              }
  
 -            this.m_6034_(this.f_37024_.m_20185_() + vec3.f_82479_, this.f_37024_.m_20186_() + vec3.f_82480_, this.f_37024_.m_20189_() + vec3.f_82481_);
-+            this.m_6034_(this.f_37024_.m_20185_() + vec3.m_7096_(), this.f_37024_.m_20186_() + vec3.m_7098_(), this.f_37024_.m_20189_() + vec3.m_7094_());
++            this.setPos(this.f_37024_.getBigX().add(vec3.getX()), this.f_37024_.getBigY().add(vec3.getY()), this.f_37024_.getBigZ().add(vec3.getZ()));
              this.m_20256_(this.f_37024_.m_20184_());
           }
        } else {

@@ -1,6 +1,34 @@
 --- a/net/minecraft/world/entity/monster/Evoker.java
 +++ b/net/minecraft/world/entity/monster/Evoker.java
-@@ -172,7 +_,7 @@
+@@ -149,30 +_,30 @@
+          if (Evoker.this.m_20280_(livingentity) < 9.0D) {
+             for(int i = 0; i < 5; ++i) {
+                float f1 = f + (float)i * (float)Math.PI * 0.4F;
+-               this.m_32672_(Evoker.this.m_20185_() + (double)Mth.m_14089_(f1) * 1.5D, Evoker.this.m_20189_() + (double)Mth.m_14031_(f1) * 1.5D, d0, d1, f1, 0);
++               this.createSpellEntity(Evoker.this.getBigX().add((double)Mth.m_14089_(f1) * 1.5D), Evoker.this.getBigZ().add((double)Mth.m_14031_(f1) * 1.5D), d0, d1, f1, 0);
+             }
+ 
+             for(int k = 0; k < 8; ++k) {
+                float f2 = f + (float)k * (float)Math.PI * 2.0F / 8.0F + 1.2566371F;
+-               this.m_32672_(Evoker.this.m_20185_() + (double)Mth.m_14089_(f2) * 2.5D, Evoker.this.m_20189_() + (double)Mth.m_14031_(f2) * 2.5D, d0, d1, f2, 3);
++               this.createSpellEntity(Evoker.this.getBigX().add((double)Mth.m_14089_(f2) * 2.5D), Evoker.this.getBigZ().add((double)Mth.m_14031_(f2) * 2.5D), d0, d1, f2, 3);
+             }
+          } else {
+             for(int l = 0; l < 16; ++l) {
+                double d2 = 1.25D * (double)(l + 1);
+                int j = 1 * l;
+-               this.m_32672_(Evoker.this.m_20185_() + (double)Mth.m_14089_(f) * d2, Evoker.this.m_20189_() + (double)Mth.m_14031_(f) * d2, d0, d1, f, j);
++               this.createSpellEntity(Evoker.this.getBigX().add((double)Mth.m_14089_(f) * d2), Evoker.this.getBigZ().add((double)Mth.m_14031_(f) * d2), d0, d1, f, j);
+             }
+          }
+ 
+       }
+ 
+-      private void m_32672_(double p_32673_, double p_32674_, double p_32675_, double p_32676_, float p_32677_, int p_32678_) {
+-         BlockPos blockpos = BlockPos.m_274561_(p_32673_, p_32676_, p_32674_);
++      private void createSpellEntity(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pZ, double pMinY, double pMaxY, float pYRot, int pWarmupDelay) {
++         BlockPos blockpos = BlockPos.containing(pX, pMaxY, pZ);
+          boolean flag = false;
           double d0 = 0.0D;
  
           do {
@@ -16,11 +44,11 @@
 -            blockpos = blockpos.m_7495_();
 -         } while(blockpos.m_123342_() >= Mth.m_14107_(p_32675_) - 1);
 +            blockpos = blockpos.below();
-+         } while(blockpos.getY() >= Mth.m_14134_(p_32675_) - 1);
++         } while(blockpos.getY() >= Mth.m_14134_(pMinY) - 1);
  
           if (flag) {
 -            Evoker.this.m_9236_().m_7967_(new EvokerFangs(Evoker.this.m_9236_(), p_32673_, (double)blockpos.m_123342_() + d0, p_32674_, p_32677_, p_32678_, Evoker.this));
-+            Evoker.this.m_9236_().m_7967_(new EvokerFangs(Evoker.this.m_9236_(), p_32673_, (double)blockpos.getY() + d0, p_32674_, p_32677_, p_32678_, Evoker.this));
++            Evoker.this.m_9236_().m_7967_(new EvokerFangs(Evoker.this.m_9236_(), pX, blockpos.getBigDecY().add(d0), pZ, pYRot, pWarmupDelay, Evoker.this));
           }
  
        }

@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/debug/GameTestDebugRenderer.java
 +++ b/net/minecraft/client/renderer/debug/GameTestDebugRenderer.java
-@@ -22,22 +_,22 @@
+@@ -22,23 +_,23 @@
        this.f_113512_.clear();
     }
  
@@ -22,9 +22,11 @@
 -         double d0 = (double)p_270918_.m_123341_() + 0.5D;
 -         double d1 = (double)p_270918_.m_123342_() + 1.2D;
 -         double d2 = (double)p_270918_.m_123343_() + 0.5D;
-+         double d0 = (double)p_270918_.getX() + 0.5D;
-+         double d1 = (double)p_270918_.getY() + 1.2D;
-+         double d2 = (double)p_270918_.getZ() + 0.5D;
-          DebugRenderer.m_269439_(p_270274_, p_271018_, p_270827_.f_113533_, d0, d1, d2, -1, 0.01F, true, 0.0F, true);
+-         DebugRenderer.m_269439_(p_270274_, p_271018_, p_270827_.f_113533_, d0, d1, d2, -1, 0.01F, true, 0.0F, true);
++         me.alphamode.mclong.math.BigDecimal d0 = p_270918_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB);
++         me.alphamode.mclong.math.BigDecimal d1 = p_270918_.getBigDecY().add(1.2D);
++         me.alphamode.mclong.math.BigDecimal d2 = p_270918_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB);
++         DebugRenderer.renderFloatingText(p_270274_, p_271018_, p_270827_.f_113533_, d0, d1, d2, -1, 0.01F, true, 0.0F, true);
        }
  
+    }

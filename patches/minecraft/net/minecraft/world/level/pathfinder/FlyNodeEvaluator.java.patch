@@ -9,18 +9,34 @@
     private static final float f_262722_ = 1.5F;
     private static final int f_262734_ = 10;
  
-@@ -32,9 +_,9 @@
+@@ -32,20 +_,20 @@
     }
  
     public Node m_7171_() {
 -      int i;
-+      long i;
++      me.alphamode.mclong.math.BigInteger i;
        if (this.m_77361_() && this.f_77313_.m_20069_()) {
 -         i = this.f_77313_.m_146904_();
-+         i = this.f_77313_.getBlockY();
-          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_());
+-         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_());
++         i = this.f_77313_.getBigBlockY();
++         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(this.f_77313_.getBigX(), i.toBigDecimal(), this.f_77313_.getBigZ());
  
           for(BlockState blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos); blockstate.m_60713_(Blocks.f_49990_); blockstate = this.f_77312_.m_8055_(blockpos$mutableblockpos)) {
+-            ++i;
+-            blockpos$mutableblockpos.m_122169_(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_());
++            i = i.add();
++            blockpos$mutableblockpos.set(this.f_77313_.getBigX(), i.toBigDecimal(), this.f_77313_.getBigZ());
+          }
+       } else {
+-         i = Mth.m_14107_(this.f_77313_.m_20186_() + 0.5D);
++         i = Mth.lfloor(this.f_77313_.getBigY().add(me.alphamode.mclong.core.BigConstants.AABB));
+       }
+ 
+-      BlockPos blockpos1 = BlockPos.m_274561_(this.f_77313_.m_20185_(), (double)i, this.f_77313_.m_20189_());
++      BlockPos blockpos1 = BlockPos.containing(this.f_77313_.getBigX(), i.toBigDecimal(), this.f_77313_.getBigZ());
+       if (!this.m_262494_(blockpos1)) {
+          for(BlockPos blockpos : this.m_262869_(this.f_77313_)) {
+             if (this.m_262494_(blockpos)) {
 @@ -62,138 +_,138 @@
        return this.f_77313_.m_21439_(blockpathtypes) >= 0.0F;
     }
@@ -280,7 +296,7 @@
           double d2 = Math.max(0.0D, (1.5D - aabb.m_82376_()) / 2.0D);
           AABB aabb1 = aabb.m_82377_(d1, d2, d0);
 -         return BlockPos.m_235641_(p_263108_.m_217043_(), 10, Mth.m_14107_(aabb1.f_82288_), Mth.m_14107_(aabb1.f_82289_), Mth.m_14107_(aabb1.f_82290_), Mth.m_14107_(aabb1.f_82291_), Mth.m_14107_(aabb1.f_82292_), Mth.m_14107_(aabb1.f_82293_));
-+         return BlockPos.randomBetweenClosed(p_263108_.m_217043_(), 10, Mth.lfloor(aabb1.f_82288_).longValue(), Mth.lfloor(aabb1.f_82289_).longValue(), Mth.lfloor(aabb1.f_82290_).longValue(), Mth.lfloor(aabb1.f_82291_).longValue(), Mth.lfloor(aabb1.f_82292_).longValue(), Mth.lfloor(aabb1.f_82293_).longValue());
++         return BlockPos.randomBetweenClosed(p_263108_.m_217043_(), 10, Mth.lfloor(aabb1.f_82288_), Mth.lfloor(aabb1.f_82289_), Mth.lfloor(aabb1.f_82290_), Mth.lfloor(aabb1.f_82291_), Mth.lfloor(aabb1.f_82292_), Mth.lfloor(aabb1.f_82293_));
        }
     }
  }

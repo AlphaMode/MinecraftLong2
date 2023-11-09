@@ -21,18 +21,22 @@
              return m_156568_(p_156551_);
           } else {
              try {
-@@ -66,12 +_,12 @@
+@@ -66,12 +_,15 @@
     }
  
     private static ChunkPos m_156570_(CompoundTag p_156571_) {
 -      int[] aint = p_156571_.m_128465_("Position");
-+      long[] aint = p_156571_.m_128467_("Position");
-       return new ChunkPos(aint[0], aint[1]);
+-      return new ChunkPos(aint[0], aint[1]);
++      CompoundTag aint = p_156571_.m_128469_("Position");
++      return new ChunkPos(new me.alphamode.mclong.math.BigInteger(aint.m_128461_("x")), new me.alphamode.mclong.math.BigInteger(aint.m_128461_("z")));
     }
  
     private static void m_156562_(CompoundTag p_156563_, ChunkPos p_156564_) {
 -      p_156563_.m_128365_("Position", new IntArrayTag(new int[]{p_156564_.f_45578_, p_156564_.f_45579_}));
-+      p_156563_.m_128365_("Position", new net.minecraft.nbt.LongArrayTag(new long[]{p_156564_.x(), p_156564_.z()}));
++      CompoundTag pos = new CompoundTag();
++      pos.m_128359_("x", p_156564_.getX().toString());
++      pos.m_128359_("z", p_156564_.getZ().toString());
++      p_156563_.m_128365_("Position", pos);
     }
  
     private static ChunkEntities<Entity> m_156568_(ChunkPos p_156569_) {

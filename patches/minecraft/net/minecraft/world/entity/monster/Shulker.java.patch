@@ -1,11 +1,18 @@
 --- a/net/minecraft/world/entity/monster/Shulker.java
 +++ b/net/minecraft/world/entity/monster/Shulker.java
-@@ -296,7 +_,7 @@
+@@ -291,12 +_,12 @@
+    public void m_20256_(Vec3 p_149804_) {
+    }
+ 
+-   public void m_6034_(double p_33449_, double p_33450_, double p_33451_) {
++   public void setPos(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
+       BlockPos blockpos = this.m_20183_();
        if (this.m_20159_()) {
-          super.m_6034_(p_33449_, p_33450_, p_33451_);
+-         super.m_6034_(p_33449_, p_33450_, p_33451_);
++         super.setPos(pX, pY, pZ);
        } else {
 -         super.m_6034_((double)Mth.m_14107_(p_33449_) + 0.5D, (double)Mth.m_14107_(p_33450_ + 0.5D), (double)Mth.m_14107_(p_33451_) + 0.5D);
-+         super.m_6034_((double)Mth.m_14134_(p_33449_) + 0.5D, (double)Mth.m_14134_(p_33450_ + 0.5D), (double)Mth.m_14134_(p_33451_) + 0.5D);
++         super.setPos(Mth.lfloor(pX).toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB), Mth.lfloor(pY.add(me.alphamode.mclong.core.BigConstants.AABB)).toBigDecimal(), Mth.lfloor(pZ).toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB));
        }
  
        if (this.f_19797_ != 0) {
@@ -45,7 +52,7 @@
                    this.m_149788_(direction);
                    this.m_5496_(SoundEvents.f_12418_, 1.0F, 1.0F);
 -                  this.m_6034_((double)blockpos1.m_123341_() + 0.5D, (double)blockpos1.m_123342_(), (double)blockpos1.m_123343_() + 0.5D);
-+                  this.m_6034_((double)blockpos1.getX() + 0.5D, (double)blockpos1.getY(), (double)blockpos1.getZ() + 0.5D);
++                  this.setPos(blockpos1.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), blockpos1.getBigDecY(), blockpos1.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB));
                    this.m_9236_().m_220407_(GameEvent.f_238175_, blockpos, GameEvent.Context.m_223717_(this));
                    this.f_19804_.m_135381_(f_33401_, (byte)0);
                    this.m_6710_((LivingEntity)null);

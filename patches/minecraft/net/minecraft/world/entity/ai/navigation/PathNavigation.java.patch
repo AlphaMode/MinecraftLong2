@@ -61,7 +61,7 @@
                 this.f_26496_.m_77374_();
              }
           }
-@@ -215,23 +_,23 @@
+@@ -215,24 +_,24 @@
           DebugPackets.m_133703_(this.f_26495_, this.f_26494_, this.f_26496_, this.f_26505_);
           if (!this.m_26571_()) {
              Vec3 vec32 = this.f_26496_.m_77380_(this.f_26494_);
@@ -86,13 +86,15 @@
 -      double d0 = Math.abs(this.f_26494_.m_20185_() - ((double)vec3i.m_123341_() + 0.5D));
 -      double d1 = Math.abs(this.f_26494_.m_20186_() - (double)vec3i.m_123342_());
 -      double d2 = Math.abs(this.f_26494_.m_20189_() - ((double)vec3i.m_123343_() + 0.5D));
+-      boolean flag = d0 < (double)this.f_26505_ && d2 < (double)this.f_26505_ && d1 < 1.0D;
 +      me.alphamode.mclong.core.Vec3l vec3i = this.f_26496_.m_77400_();
-+      double d0 = Math.abs(this.f_26494_.m_20185_() - ((double)vec3i.getX() + 0.5D));
-+      double d1 = Math.abs(this.f_26494_.m_20186_() - (double)vec3i.getY());
-+      double d2 = Math.abs(this.f_26494_.m_20189_() - ((double)vec3i.getZ() + 0.5D));
-       boolean flag = d0 < (double)this.f_26505_ && d2 < (double)this.f_26505_ && d1 < 1.0D;
++      me.alphamode.mclong.math.BigDecimal d0 = this.f_26494_.getBigX().subtract((vec3i.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB))).abs();
++      me.alphamode.mclong.math.BigDecimal d1 = this.f_26494_.getBigY().subtract(vec3i.getBigDecY()).abs();
++      me.alphamode.mclong.math.BigDecimal d2 = this.f_26494_.getBigZ().subtract((vec3i.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB))).abs();
++      boolean flag = d0.compareTo((double)this.f_26505_) < 0 && d2.compareTo((double)this.f_26505_) < 0 && d1.compareTo(me.alphamode.mclong.math.BigDecimal.ONE) < 0;
        if (flag || this.m_264193_(this.f_26496_.m_77401_().f_77282_) && this.m_26559_(vec3)) {
           this.f_26496_.m_77374_();
+       }
 @@ -244,13 +_,13 @@
        if (this.f_26496_.m_77399_() + 1 >= this.f_26496_.m_77398_()) {
           return false;

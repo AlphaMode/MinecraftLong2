@@ -23,10 +23,28 @@
     private void m_28601_(ItemStack p_28602_) {
        if (!p_28602_.m_41619_() && !this.m_9236_().f_46443_) {
 -         ItemEntity itementity = new ItemEntity(this.m_9236_(), this.m_20185_() + this.m_20154_().f_82479_, this.m_20186_() + 1.0D, this.m_20189_() + this.m_20154_().f_82481_, p_28602_);
-+         ItemEntity itementity = new ItemEntity(this.m_9236_(), this.m_20185_() + this.m_20154_().m_7096_(), this.m_20186_() + 1.0D, this.m_20189_() + this.m_20154_().m_7094_(), p_28602_);
++         ItemEntity itementity = new ItemEntity(this.m_9236_(), this.getBigX().add(this.m_20154_().getX()), this.getBigY().add(me.alphamode.mclong.math.BigDecimal.ONE), this.getBigZ().add(this.m_20154_().getZ()), p_28602_);
           itementity.m_32010_(40);
           itementity.m_32052_(this.m_20148_());
           this.m_5496_(SoundEvents.f_11952_, 1.0F, 1.0F);
+@@ -474,7 +_,7 @@
+    }
+ 
+    private void m_28605_(ItemStack p_28606_) {
+-      ItemEntity itementity = new ItemEntity(this.m_9236_(), this.m_20185_(), this.m_20186_(), this.m_20189_(), p_28606_);
++      ItemEntity itementity = new ItemEntity(this.m_9236_(), this.getBigX(), this.getBigY(), this.getBigZ(), p_28606_);
+       this.m_9236_().m_7967_(itementity);
+    }
+ 
+@@ -673,7 +_,7 @@
+          double d4 = d2 == 0.0D ? d1 * (double)((float)j / 6.0F) : d3 / d2;
+ 
+          for(int k = 1; k < 4; ++k) {
+-            if (!p_28472_.m_9236_().m_8055_(BlockPos.m_274561_(p_28472_.m_20185_() + d4, p_28472_.m_20186_() + (double)k, p_28472_.m_20189_() + d3)).m_247087_()) {
++            if (!p_28472_.m_9236_().m_8055_(BlockPos.containing(p_28472_.getBigX().add(d4), p_28472_.getBigY().add((double)k), p_28472_.getBigZ().add(d3))).m_247087_()) {
+                return false;
+             }
+          }
 @@ -786,7 +_,7 @@
        private final TargetingConditions f_28657_ = TargetingConditions.m_148352_().m_26883_(12.0D).m_148355_().m_26888_(Fox.this.new FoxAlertableEntitiesSelector());
  

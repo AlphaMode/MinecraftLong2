@@ -7,19 +7,20 @@
 -public class BlockPos extends Vec3i {
 -   public static final Codec<BlockPos> f_121852_ = Codec.INT_STREAM.comapFlatMap((p_121967_) -> {
 -      return Util.m_137539_(p_121967_, 3).map((p_175270_) -> {
+-         return new BlockPos(p_175270_[0], p_175270_[1], p_175270_[2]);
 +public class BlockPos extends me.alphamode.mclong.core.Vec3l {
 +   public static final BlockPos MAX_VALUE = new BlockPos(java.lang.Long.MAX_VALUE, java.lang.Long.MAX_VALUE, java.lang.Long.MAX_VALUE);
-+   public static final Codec<BlockPos> f_121852_ = Codec.LONG_STREAM.comapFlatMap((p_121967_) -> {
-+      return Util.m_287262_(p_121967_, 3).map((p_175270_) -> {
-          return new BlockPos(p_175270_[0], p_175270_[1], p_175270_[2]);
++   public static final Codec<BlockPos> f_121852_ = me.alphamode.mclong.core.ModdedCodec.STRING_STREAM.comapFlatMap((p_121967_) -> {
++      return Util.fixedSize(p_121967_, 3).map((p_175270_) -> {
++         return new BlockPos(new me.alphamode.mclong.math.BigInteger(p_175270_[0]), new me.alphamode.mclong.math.BigInteger(p_175270_[1]), new me.alphamode.mclong.math.BigInteger(p_175270_[2]));
        });
     }, (p_121924_) -> {
 -      return IntStream.of(p_121924_.m_123341_(), p_121924_.m_123342_(), p_121924_.m_123343_());
-+      return java.util.stream.LongStream.of(p_121924_.getX(), p_121924_.getY(), p_121924_.getZ());
++      return java.util.stream.Stream.of(p_121924_.getBigX().toString(), p_121924_.getBigY().toString(), p_121924_.getBigZ().toString());
     }).stable();
     private static final Logger f_121854_ = LogUtils.getLogger();
     public static final BlockPos f_121853_ = new BlockPos(0, 0, 0);
-@@ -47,149 +_,177 @@
+@@ -47,149 +_,169 @@
     private static final int f_121861_ = f_121857_;
     private static final int f_121862_ = f_121857_ + f_121856_;
  
@@ -29,6 +30,31 @@
 -
 -   public BlockPos(Vec3i p_121877_) {
 -      this(p_121877_.m_123341_(), p_121877_.m_123342_(), p_121877_.m_123343_());
+-   }
+-
+-   public static long m_121915_(long p_121916_, Direction p_121917_) {
+-      return m_121910_(p_121916_, p_121917_.m_122429_(), p_121917_.m_122430_(), p_121917_.m_122431_());
+-   }
+-
+-   public static long m_121910_(long p_121911_, int p_121912_, int p_121913_, int p_121914_) {
+-      return m_121882_(m_121983_(p_121911_) + p_121912_, m_122008_(p_121911_) + p_121913_, m_122015_(p_121911_) + p_121914_);
+-   }
+-
+-   public static int m_121983_(long p_121984_) {
+-      return (int)(p_121984_ << 64 - f_121862_ - f_121855_ >> 64 - f_121855_);
+-   }
+-
+-   public static int m_122008_(long p_122009_) {
+-      return (int)(p_122009_ << 64 - f_121857_ >> 64 - f_121857_);
+-   }
+-
+-   public static int m_122015_(long p_122016_) {
+-      return (int)(p_122016_ << 64 - f_121861_ - f_121856_ >> 64 - f_121856_);
+-   }
+-
+-   public static BlockPos m_122022_(long p_122023_) {
+-      return new BlockPos(m_121983_(p_122023_), m_122008_(p_122023_), m_122015_(p_122023_));
+-   }
 +   public BlockPos(long pX, long pY, long pZ) {
 +      super(pX, pY, pZ);
 +   }
@@ -47,49 +73,19 @@
 +
 +   public BlockPos(me.alphamode.mclong.core.Vec3l pVector) {
 +      this(pVector.getBigX(), pVector.getBigY(), pVector.getBigZ());
-    }
- 
-    public static long m_121915_(long p_121916_, Direction p_121917_) {
--      return m_121910_(p_121916_, p_121917_.m_122429_(), p_121917_.m_122430_(), p_121917_.m_122431_());
--   }
--
--   public static long m_121910_(long p_121911_, int p_121912_, int p_121913_, int p_121914_) {
--      return m_121882_(m_121983_(p_121911_) + p_121912_, m_122008_(p_121911_) + p_121913_, m_122015_(p_121911_) + p_121914_);
--   }
--
--   public static int m_121983_(long p_121984_) {
--      return (int)(p_121984_ << 64 - f_121862_ - f_121855_ >> 64 - f_121855_);
--   }
--
--   public static int m_122008_(long p_122009_) {
--      return (int)(p_122009_ << 64 - f_121857_ >> 64 - f_121857_);
--   }
--
--   public static int m_122015_(long p_122016_) {
--      return (int)(p_122016_ << 64 - f_121861_ - f_121856_ >> 64 - f_121856_);
-+      return offset(p_121916_, p_121917_.m_122429_(), p_121917_.m_122430_(), p_121917_.m_122431_());
 +   }
 +
-+   public static long offset(long pPos, long pDx, long pDy, long pDz) {
-+      return asLong(getX(pPos) + pDx, getY(pPos) + pDy, getZ(pPos) + pDz);
-+   }
-+
-+   public static long getX(long pPackedPos) {
-+      return (pPackedPos << 64 - f_121862_ - f_121855_ >> 64 - f_121855_);
-+   }
-+
-+   public static long getY(long pPackedPos) {
-+      return (pPackedPos << 64 - f_121857_ >> 64 - f_121857_);
-+   }
-+
-+   public static long getZ(long pPackedPos) {
-+      return (pPackedPos << 64 - f_121861_ - f_121856_ >> 64 - f_121856_);
-    }
- 
-    public static BlockPos m_122022_(long p_122023_) {
--      return new BlockPos(m_121983_(p_122023_), m_122008_(p_122023_), m_122015_(p_122023_));
-+      return new BlockPos(getX(p_122023_), getY(p_122023_), getZ(p_122023_));
-    }
++//   public static long getX(long pPackedPos) {
++//      return (pPackedPos << 64 - X_OFFSET - PACKED_X_LENGTH >> 64 - PACKED_X_LENGTH);
++//   }
++//
++//   public static long getY(long pPackedPos) {
++//      return (pPackedPos << 64 - PACKED_Y_LENGTH >> 64 - PACKED_Y_LENGTH);
++//   }
++//
++//   public static long getZ(long pPackedPos) {
++//      return (pPackedPos << 64 - Z_OFFSET - PACKED_Z_LENGTH >> 64 - PACKED_Z_LENGTH);
++//   }
  
     public static BlockPos m_274561_(double p_275310_, double p_275414_, double p_275737_) {
 -      return new BlockPos(Mth.m_14107_(p_275310_), Mth.m_14107_(p_275414_), Mth.m_14107_(p_275737_));
@@ -98,6 +94,10 @@
 +
 +   public static BlockPos containing(me.alphamode.mclong.math.BigDecimal x, me.alphamode.mclong.math.BigDecimal y, me.alphamode.mclong.math.BigDecimal z) {
 +      return new BlockPos(Mth.lfloor(x), Mth.lfloor(y), Mth.lfloor(z));
++   }
++
++   public static BlockPos containing(me.alphamode.mclong.math.BigDecimal x, double y, me.alphamode.mclong.math.BigDecimal z) {
++      return new BlockPos(Mth.lfloor(x), Mth.m_14134_(y), Mth.lfloor(z));
     }
  
     public static BlockPos m_274446_(Position p_275443_) {
@@ -321,7 +321,7 @@
 -   public BlockPos m_7724_(Vec3i p_122011_) {
 -      return new BlockPos(this.m_123342_() * p_122011_.m_123343_() - this.m_123343_() * p_122011_.m_123342_(), this.m_123343_() * p_122011_.m_123341_() - this.m_123341_() * p_122011_.m_123343_(), this.m_123341_() * p_122011_.m_123342_() - this.m_123342_() * p_122011_.m_123341_());
 +   public BlockPos cross(me.alphamode.mclong.core.Vec3l pVector) {
-+      return new BlockPos(this.getY() * pVector.getZ() - this.getZ() * pVector.getY(), this.getZ() * pVector.getX() - this.getX() * pVector.getZ(), this.getX() * pVector.getY() - this.getY() * pVector.getX());
++      return new BlockPos(this.getBigY().multiply(pVector.getBigZ()).subtract(this.getBigZ().multiply(pVector.getBigY())), this.getBigZ().multiply(pVector.getBigX()).subtract(this.getBigX().multiply(pVector.getBigZ())), this.getBigX().multiply(pVector.getBigY()).subtract(this.getBigY().multiply(pVector.getBigX())));
     }
  
 -   public BlockPos m_175288_(int p_175289_) {
@@ -341,7 +341,7 @@
  
     public static Iterable<BlockPos> m_235650_(RandomSource p_235651_, int p_235652_, BlockPos p_235653_, int p_235654_) {
 -      return m_235641_(p_235651_, p_235652_, p_235653_.m_123341_() - p_235654_, p_235653_.m_123342_() - p_235654_, p_235653_.m_123343_() - p_235654_, p_235653_.m_123341_() + p_235654_, p_235653_.m_123342_() + p_235654_, p_235653_.m_123343_() + p_235654_);
-+      return randomBetweenClosed(p_235651_, p_235652_, p_235653_.getX() - p_235654_, p_235653_.getY() - p_235654_, p_235653_.getZ() - p_235654_, p_235653_.getX() + p_235654_, p_235653_.getY() + p_235654_, p_235653_.getZ() + p_235654_);
++      return randomBetweenClosed(p_235651_, p_235652_, p_235653_.getBigX().subtract(p_235654_), p_235653_.getBigY().subtract(p_235654_), p_235653_.getBigZ().subtract(p_235654_), p_235653_.getBigX().add(p_235654_), p_235653_.getBigY().add(p_235654_), p_235653_.getBigZ().add(p_235654_));
     }
  
     /** @deprecated */
@@ -355,10 +355,10 @@
 -      int i = p_235647_ - p_235644_ + 1;
 -      int j = p_235648_ - p_235645_ + 1;
 -      int k = p_235649_ - p_235646_ + 1;
-+   public static Iterable<BlockPos> randomBetweenClosed(RandomSource pRandom, long pAmount, long pMinX, long pMinY, long pMinZ, long pMaxX, long pMaxY, long pMaxZ) {
-+      long i = pMaxX - pMinX + 1;
-+      long j = pMaxY - pMinY + 1;
-+      long k = pMaxZ - pMinZ + 1;
++   public static Iterable<BlockPos> randomBetweenClosed(RandomSource pRandom, int pAmount, me.alphamode.mclong.math.BigInteger pMinX, me.alphamode.mclong.math.BigInteger pMinY, me.alphamode.mclong.math.BigInteger pMinZ, me.alphamode.mclong.math.BigInteger pMaxX, me.alphamode.mclong.math.BigInteger pMaxY, me.alphamode.mclong.math.BigInteger pMaxZ) {
++      int i = pMaxX.subtract(pMinX).add().intValue();
++      int j = pMaxY.subtract(pMinY).add().intValue();
++      int k = pMaxZ.subtract(pMinZ).add().intValue();
        return () -> {
           return new AbstractIterator<BlockPos>() {
              final BlockPos.MutableBlockPos f_122039_ = new BlockPos.MutableBlockPos();
@@ -370,7 +370,7 @@
                    return this.endOfData();
                 } else {
 -                  BlockPos blockpos = this.f_122039_.m_122178_(p_235644_ + p_235642_.m_188503_(i), p_235645_ + p_235642_.m_188503_(j), p_235646_ + p_235642_.m_188503_(k));
-+                  BlockPos blockpos = this.f_122039_.set(pMinX + pRandom.nextLong(i), pMinY + pRandom.nextLong(j), pMinZ + pRandom.nextLong(k));
++                  BlockPos blockpos = this.f_122039_.set(pMinX.add(pRandom.m_188503_(i)), pMinY.add(pRandom.m_188503_(j)), pMinZ.add(pRandom.m_188503_(k)));
                    --this.f_122040_;
                    return blockpos;
                 }
@@ -637,7 +637,7 @@
              ++i;
              if (i >= p_277666_) {
                 return i;
-@@ -439,110 +_,161 @@
+@@ -439,110 +_,157 @@
           this(0, 0, 0);
        }
  
@@ -727,6 +727,26 @@
 -
 -      public BlockPos.MutableBlockPos m_122190_(Vec3i p_122191_) {
 -         return this.m_122178_(p_122191_.m_123341_(), p_122191_.m_123342_(), p_122191_.m_123343_());
+-      }
+-
+-      public BlockPos.MutableBlockPos m_122188_(long p_122189_) {
+-         return this.m_122178_(m_121983_(p_122189_), m_122008_(p_122189_), m_122015_(p_122189_));
+-      }
+-
+-      public BlockPos.MutableBlockPos m_122139_(AxisCycle p_122140_, int p_122141_, int p_122142_, int p_122143_) {
+-         return this.m_122178_(p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.X), p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.Y), p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.Z));
+-      }
+-
+-      public BlockPos.MutableBlockPos m_122159_(Vec3i p_122160_, Direction p_122161_) {
+-         return this.m_122178_(p_122160_.m_123341_() + p_122161_.m_122429_(), p_122160_.m_123342_() + p_122161_.m_122430_(), p_122160_.m_123343_() + p_122161_.m_122431_());
+-      }
+-
+-      public BlockPos.MutableBlockPos m_122154_(Vec3i p_122155_, int p_122156_, int p_122157_, int p_122158_) {
+-         return this.m_122178_(p_122155_.m_123341_() + p_122156_, p_122155_.m_123342_() + p_122157_, p_122155_.m_123343_() + p_122158_);
+-      }
+-
+-      public BlockPos.MutableBlockPos m_175306_(Vec3i p_175307_, Vec3i p_175308_) {
+-         return this.m_122178_(p_175307_.m_123341_() + p_175308_.m_123341_(), p_175307_.m_123342_() + p_175308_.m_123342_(), p_175307_.m_123343_() + p_175308_.m_123343_());
 +         return this.set(Mth.m_14134_(p_122170_), Mth.m_14134_(p_122171_), Mth.m_14134_(p_122172_));
 +      }
 +
@@ -746,27 +766,6 @@
 +
 +      public BlockPos.MutableBlockPos set(me.alphamode.mclong.core.Vec3l pVector) {
 +         return this.set(pVector.getBigX(), pVector.getBigY(), pVector.getBigZ());
-       }
- 
-       public BlockPos.MutableBlockPos m_122188_(long p_122189_) {
--         return this.m_122178_(m_121983_(p_122189_), m_122008_(p_122189_), m_122015_(p_122189_));
--      }
--
--      public BlockPos.MutableBlockPos m_122139_(AxisCycle p_122140_, int p_122141_, int p_122142_, int p_122143_) {
--         return this.m_122178_(p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.X), p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.Y), p_122140_.m_7758_(p_122141_, p_122142_, p_122143_, Direction.Axis.Z));
--      }
--
--      public BlockPos.MutableBlockPos m_122159_(Vec3i p_122160_, Direction p_122161_) {
--         return this.m_122178_(p_122160_.m_123341_() + p_122161_.m_122429_(), p_122160_.m_123342_() + p_122161_.m_122430_(), p_122160_.m_123343_() + p_122161_.m_122431_());
--      }
--
--      public BlockPos.MutableBlockPos m_122154_(Vec3i p_122155_, int p_122156_, int p_122157_, int p_122158_) {
--         return this.m_122178_(p_122155_.m_123341_() + p_122156_, p_122155_.m_123342_() + p_122157_, p_122155_.m_123343_() + p_122158_);
--      }
--
--      public BlockPos.MutableBlockPos m_175306_(Vec3i p_175307_, Vec3i p_175308_) {
--         return this.m_122178_(p_175307_.m_123341_() + p_175308_.m_123341_(), p_175307_.m_123342_() + p_175308_.m_123342_(), p_175307_.m_123343_() + p_175308_.m_123343_());
-+         return this.set(getX(p_122189_), getY(p_122189_), getZ(p_122189_));
 +      }
 +
 +      public BlockPos.MutableBlockPos set(AxisCycle pCycle, long pX, long pY, long pZ) {
@@ -815,7 +814,7 @@
 +      }
 +
 +      public BlockPos.MutableBlockPos move(me.alphamode.mclong.core.Vec3l pOffset) {
-+         return this.set(this.getBigX().add(pOffset.getBigX()), this.getBigY().add(pOffset.getY()), this.getBigZ().add(pOffset.getBigZ()));
++         return this.set(this.getBigX().add(pOffset.getBigX()), this.getBigY().add(pOffset.getBigY()), this.getBigZ().add(pOffset.getBigZ()));
 +      }
 +
 +      public BlockPos.MutableBlockPos clamp(Direction.Axis pAxis, me.alphamode.mclong.math.BigInteger pMin, me.alphamode.mclong.math.BigInteger pMax) {

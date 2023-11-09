@@ -1,5 +1,23 @@
 --- a/net/minecraft/world/entity/projectile/ThrowableProjectile.java
 +++ b/net/minecraft/world/entity/projectile/ThrowableProjectile.java
+@@ -18,13 +_,13 @@
+       super(p_37466_, p_37467_);
+    }
+ 
+-   protected ThrowableProjectile(EntityType<? extends ThrowableProjectile> p_37456_, double p_37457_, double p_37458_, double p_37459_, Level p_37460_) {
+-      this(p_37456_, p_37460_);
+-      this.m_6034_(p_37457_, p_37458_, p_37459_);
++   protected ThrowableProjectile(EntityType<? extends ThrowableProjectile> pEntityType, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, Level pLevel) {
++      this(pEntityType, pLevel);
++      this.setPos(pX, pY, pZ);
+    }
+ 
+    protected ThrowableProjectile(EntityType<? extends ThrowableProjectile> p_37462_, LivingEntity p_37463_, Level p_37464_) {
+-      this(p_37462_, p_37463_.m_20185_(), p_37463_.m_20188_() - (double)0.1F, p_37463_.m_20189_(), p_37464_);
++      this(p_37462_, p_37463_.getBigX(), p_37463_.getEyeBigY().subtract(me.alphamode.mclong.core.BigConstants.POINT_ONE), p_37463_.getBigZ(), p_37464_);
+       this.m_5602_(p_37463_);
+    }
+ 
 @@ -64,15 +_,15 @@
  
        this.m_20101_();

@@ -142,7 +142,7 @@
           return optional.get();
        } else {
 -         AABB aabb = (new AABB(blockpos, new BlockPos(blockpos.m_123341_(), this.m_151558_(), blockpos.m_123343_()))).m_82400_(3.0D);
-+         AABB aabb = (new AABB(blockpos, new BlockPos(blockpos.getX(), this.getMaxBuildHeight(), blockpos.getZ()))).m_82400_(3.0D);
++         AABB aabb = (new AABB(blockpos, new BlockPos(blockpos.getBigX(), this.getMaxBuildHeight(), blockpos.getBigZ()))).m_82400_(3.0D);
           List<LivingEntity> list = this.m_6443_(LivingEntity.class, aabb, (p_289308_) -> {
              return p_289308_ != null && p_289308_.m_6084_() && this.m_45527_(p_289308_.m_20183_());
           });
@@ -163,9 +163,9 @@
 -            double d0 = (double)p_8613_.m_123341_() - serverplayer.m_20185_();
 -            double d1 = (double)p_8613_.m_123342_() - serverplayer.m_20186_();
 -            double d2 = (double)p_8613_.m_123343_() - serverplayer.m_20189_();
-+            double d0 = (double)p_8613_.getX() - serverplayer.m_20185_();
-+            double d1 = (double)p_8613_.getY() - serverplayer.m_20186_();
-+            double d2 = (double)p_8613_.getZ() - serverplayer.m_20189_();
++            double d0 = p_8613_.getBigDecX().subtract(serverplayer.getBigX()).doubleValue();
++            double d1 = p_8613_.getBigDecY().subtract(serverplayer.getBigY()).doubleValue();
++            double d2 = p_8613_.getBigDecZ().subtract(serverplayer.getBigZ()).doubleValue();
              if (d0 * d0 + d1 * d1 + d2 * d2 < 1024.0D) {
                 serverplayer.f_8906_.m_9829_(new ClientboundBlockDestructionPacket(p_8612_, p_8613_, p_8614_));
              }
@@ -327,7 +327,7 @@
        for(TickingBlockEntity tickingblockentity : this.f_151512_) {
           BlockPos blockpos = tickingblockentity.m_142689_();
 -         csvoutput.m_13624_(blockpos.m_123341_(), blockpos.m_123342_(), blockpos.m_123343_(), tickingblockentity.m_142280_());
-+         csvoutput.m_13624_(blockpos.getX(), blockpos.getY(), blockpos.getZ(), tickingblockentity.m_142280_());
++         csvoutput.m_13624_(blockpos.getBigX(), blockpos.getBigY(), blockpos.getBigZ(), tickingblockentity.m_142280_());
        }
  
     }
@@ -348,14 +348,14 @@
 -      int j = blockpos.m_123342_() - 2;
 -      int k = blockpos.m_123343_();
 -      BlockPos.m_121976_(i - 2, j + 1, k - 2, i + 2, j + 3, k + 2).forEach((p_207578_) -> {
-+      long i = blockpos.getX();
-+      long j = blockpos.getY() - 2;
-+      long k = blockpos.getZ();
-+      BlockPos.betweenClosed(i - 2, j + 1, k - 2, i + 2, j + 3, k + 2).forEach((p_207578_) -> {
++      me.alphamode.mclong.math.BigInteger i = blockpos.getBigX();
++      me.alphamode.mclong.math.BigInteger j = blockpos.getBigY().subtract(me.alphamode.mclong.core.BigConstants.Ints.TWO);
++      me.alphamode.mclong.math.BigInteger k = blockpos.getBigZ();
++      BlockPos.betweenClosed(i.subtract(me.alphamode.mclong.core.BigConstants.Ints.TWO), j.add(), k.subtract(me.alphamode.mclong.core.BigConstants.Ints.TWO), i.add(me.alphamode.mclong.core.BigConstants.Ints.TWO), j.add(me.alphamode.mclong.core.BigConstants.Ints.THREE), k.add(me.alphamode.mclong.core.BigConstants.Ints.TWO)).forEach((p_207578_) -> {
           p_8618_.m_46597_(p_207578_, Blocks.f_50016_.m_49966_());
        });
 -      BlockPos.m_121976_(i - 2, j, k - 2, i + 2, j, k + 2).forEach((p_184101_) -> {
-+      BlockPos.betweenClosed(i - 2, j, k - 2, i + 2, j, k + 2).forEach((p_184101_) -> {
++      BlockPos.betweenClosed(i.subtract(me.alphamode.mclong.core.BigConstants.Ints.TWO), j, k.subtract(me.alphamode.mclong.core.BigConstants.Ints.TWO), i.add(me.alphamode.mclong.core.BigConstants.Ints.TWO), j, k.add(me.alphamode.mclong.core.BigConstants.Ints.TWO)).forEach((p_184101_) -> {
           p_8618_.m_46597_(p_184101_, Blocks.f_50080_.m_49966_());
        });
     }

@@ -14,37 +14,22 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     public static final BigDecimal REAL_ZERO = BigDecimal.valueOf(0E-9);
     public static final BigDecimal ONE = BigDecimal.valueOf(1);
 
-    private java.math.BigDecimal backing;
-    private final double doubleBacking;
+    private final java.math.BigDecimal backing;
 
     public BigDecimal(java.math.BigDecimal val) {
-        if (!BigConstants.BIG_MODE)
-            throw new IllegalStateException("Using big decimal is not support when big mode is off!");
         this.backing = val;
-        this.doubleBacking = this.backing.doubleValue();
     }
 
     private BigDecimal(double val) {
-        this.backing = BigConstants.BIG_MODE ? new java.math.BigDecimal(val, PRECISION) : null;
-        this.doubleBacking = val;
+        this.backing = new java.math.BigDecimal(val, PRECISION);
     }
 
     public BigDecimal(String val) {
-        java.math.BigDecimal backing = null;
-        if (BigConstants.BIG_MODE) {
-            try {
-                backing = new java.math.BigDecimal(val);
-            } catch (NumberFormatException e) {
-                backing = new java.math.BigDecimal(Double.parseDouble(val), PRECISION);
-            }
-        }
-        this.backing = backing;
-        this.doubleBacking = Double.parseDouble(val);
+        this.backing = new java.math.BigDecimal(val);
     }
 
     public BigDecimal(me.alphamode.mclong.math.BigInteger val) {
-        this.backing = BigConstants.BIG_MODE ? BigConstants.Ints.BIG_MODE ? new java.math.BigDecimal(val.getBacking(), PRECISION) : new java.math.BigDecimal(val.longValue(), PRECISION) : null;
-        this.doubleBacking = val.doubleValue();
+        this.backing = new java.math.BigDecimal(val.getBacking(), PRECISION);
     }
 
     public static BigDecimal valueOf(double val) {
@@ -52,25 +37,15 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     public BigDecimal negate() {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.negate(PRECISION));
-        return new BigDecimal(-doubleBacking);
+        return new BigDecimal(this.backing.negate(PRECISION));
     }
 
     public BigDecimal add(BigDecimal val) {
-        ensureValid();
-        val.ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.add(val.backing, PRECISION));
-        return new BigDecimal(this.doubleBacking + val.doubleBacking);
+        return new BigDecimal(this.backing.add(val.backing, PRECISION));
     }
 
     public BigDecimal add(double val) {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.add(new java.math.BigDecimal(val, PRECISION)));
-        return new BigDecimal(this.doubleBacking + val);
+        return new BigDecimal(this.backing.add(new java.math.BigDecimal(val, PRECISION)));
     }
 
     public BigDecimal add() {
@@ -78,125 +53,72 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     public BigDecimal multiply(BigDecimal val) {
-        ensureValid();
-        val.ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.multiply(val.backing, PRECISION));
-        return new BigDecimal(this.doubleBacking * val.doubleBacking);
+        return new BigDecimal(this.backing.multiply(val.backing, PRECISION));
     }
 
     public BigDecimal multiply(double val) {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.multiply(new java.math.BigDecimal(val, PRECISION)));
-        return new BigDecimal(this.doubleBacking * val);
+        return new BigDecimal(this.backing.multiply(new java.math.BigDecimal(val, PRECISION)));
     }
 
     public BigDecimal sqrt() {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.sqrt(MathContext.DECIMAL128));
-        return new BigDecimal(Math.sqrt(this.doubleBacking));
+        return new BigDecimal(this.backing.sqrt(MathContext.DECIMAL128));
     }
 
     public BigDecimal subtract() {
-        ensureValid();
         return subtract(ONE);
     }
 
     public BigDecimal subtract(BigDecimal val) {
-        ensureValid();
-        val.ensureValid();
-        if (BigConstants.BIG_MODE) {
-            return new BigDecimal(this.backing.subtract(val.backing, PRECISION));
-        }
-        return new BigDecimal(this.doubleBacking - val.doubleBacking);
+        return new BigDecimal(this.backing.subtract(val.backing, PRECISION));
     }
 
     public BigDecimal subtract(double val) {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.subtract(new java.math.BigDecimal(val, PRECISION)));
-        return new BigDecimal(this.doubleBacking - val);
+        return new BigDecimal(this.backing.subtract(new java.math.BigDecimal(val, PRECISION)));
     }
 
     @Override
     public int compareTo(@NotNull BigDecimal o) {
-        ensureValid();
-        o.ensureValid();
-        if (BigConstants.BIG_MODE)
-            return this.backing.compareTo(o.backing);
-        return Double.compare(this.doubleBacking, o.doubleBacking);
+        return this.backing.compareTo(o.backing);
     }
 
     public int compareTo(double o) {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return this.backing.compareTo(new java.math.BigDecimal(o, PRECISION));
-        return Double.compare(this.doubleBacking, o);
+        return this.backing.compareTo(new java.math.BigDecimal(o, PRECISION));
     }
 
     @Override
     public int intValue() {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return this.backing.intValue();
-        return Mth.floor(this.doubleBacking);
+        return this.backing.intValue();
     }
 
     @Override
     public long longValue() {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return this.backing.longValue();
-        return Mth.lfloor(this.doubleBacking);
+        return this.backing.longValue();
     }
 
     @Override
     public float floatValue() {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return this.backing.floatValue();
-        return (float) this.doubleBacking;
+        return this.backing.floatValue();
     }
 
     @Override
     public double doubleValue() {
-        return this.doubleBacking;
+        return this.backing.doubleValue();
     }
 
     public me.alphamode.mclong.math.BigInteger toBigInteger() {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigInteger(this.backing.toBigInteger(), this.doubleBacking);
-        return new BigInteger(this.doubleBacking);
+        return new BigInteger(this.backing.toBigInteger());
     }
 
     public BigDecimal setScale(int i, RoundingMode roundingMode) {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.setScale(i, roundingMode));
-        if (roundingMode == RoundingMode.CEILING)
-            return new BigDecimal(Mth.lceil(this.doubleBacking));
-        if (roundingMode == RoundingMode.FLOOR)
-            return new BigDecimal(Math.floor(this.doubleBacking));
-        return new BigDecimal(Math.round(this.doubleBacking));
+        return new BigDecimal(this.backing.setScale(i, roundingMode));
     }
 
     public BigDecimal min(BigDecimal val) {
-        ensureValid();
-        val.ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.min(val.backing));
-        return new BigDecimal(Math.min(this.doubleBacking, val.doubleBacking));
+        return new BigDecimal(this.backing.min(val.backing));
     }
 
     public BigDecimal max(BigDecimal val) {
-        ensureValid();
-        val.ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.max(val.backing));
-        return new BigDecimal(Math.max(this.doubleBacking, val.doubleBacking));
+        return new BigDecimal(this.backing.max(val.backing));
     }
 
     /**
@@ -205,35 +127,29 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
      * rounding must be performed to generate a result with the given
      * scale, the specified rounding mode is applied.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
-     * @param  roundingMode rounding mode to apply.
+     * @param divisor      value by which this {@code BigDecimal} is to be divided.
+     * @param roundingMode rounding mode to apply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor==0}, or
-     *         {@code roundingMode==RoundingMode.UNNECESSARY} and
-     *         {@code this.scale()} is insufficient to represent the result
-     *         of the division exactly.
+     *                             {@code roundingMode==RoundingMode.UNNECESSARY} and
+     *                             {@code this.scale()} is insufficient to represent the result
+     *                             of the division exactly.
      * @since 1.5
      */
     public BigDecimal divide(BigDecimal divisor, RoundingMode roundingMode) {
-        ensureValid();
-        divisor.ensureValid();
-        if (equals(ZERO) || divisor.equals(ZERO))
+        if (equals(ZERO) || divisor.equals(ZERO)) {
             return ZERO;
-        if (BigConstants.BIG_MODE) {
-            try {
-                return new BigDecimal(this.backing.divide(divisor.backing, roundingMode));
-            } catch (ArithmeticException e) {
-                System.out.println("WTF");
-            }
         }
-        return new BigDecimal(this.doubleBacking / divisor.doubleBacking);
+        try {
+            return new BigDecimal(this.backing.divide(divisor.backing, roundingMode));
+        } catch (ArithmeticException e) {
+            System.out.println("WTF");
+        }
+        throw new RuntimeException("Failed to divide " + this + " by " + divisor);
     }
 
     public BigDecimal divide(double divisor, RoundingMode mode) {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.divide(new java.math.BigDecimal(divisor, PRECISION), mode));
-        return new BigDecimal(this.doubleBacking / divisor);
+        return new BigDecimal(this.backing.divide(new java.math.BigDecimal(divisor, PRECISION), mode));
     }
 
     /**
@@ -243,71 +159,45 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
      * represented (because it has a non-terminating decimal
      * expansion) an {@code ArithmeticException} is thrown.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
-     * @throws ArithmeticException if the exact quotient does not have a
-     *         terminating decimal expansion, including dividing by zero
+     * @param divisor value by which this {@code BigDecimal} is to be divided.
      * @return {@code this / divisor}
-     * @since 1.5
+     * @throws ArithmeticException if the exact quotient does not have a
+     *                             terminating decimal expansion, including dividing by zero
      * @author Joseph D. Darcy
+     * @since 1.5
      */
     public BigDecimal divide(BigDecimal divisor) {
-        ensureValid();
-        divisor.ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.divide(divisor.backing, RoundingMode.HALF_UP));
-        return new BigDecimal(this.doubleBacking / divisor.doubleBacking);
+        return new BigDecimal(this.backing.divide(divisor.backing, RoundingMode.HALF_UP));
     }
 
     public BigDecimal divide(double divisor) {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.divide(new java.math.BigDecimal(divisor, PRECISION), RoundingMode.HALF_UP));
-        return new BigDecimal(this.doubleBacking / divisor);
+        return new BigDecimal(this.backing.divide(new java.math.BigDecimal(divisor, PRECISION), RoundingMode.HALF_UP));
     }
 
     public BigDecimal pow(int n) {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.pow(n, PRECISION));
-        return new BigDecimal(Math.pow(this.doubleBacking, n));
+        return new BigDecimal(this.backing.pow(n, PRECISION));
     }
 
     public BigDecimal abs() {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return new BigDecimal(this.backing.abs(PRECISION));
-        return new BigDecimal(Math.abs(this.doubleBacking));
+        return new BigDecimal(this.backing.abs(PRECISION));
     }
 
     @Override
     public int hashCode() {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return this.backing.hashCode();
-        return Double.hashCode(this.doubleBacking);
+        return this.backing.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        ensureValid();
-        if (BigConstants.BIG_MODE) {
-            if (obj instanceof BigDecimal other) {
-                other.ensureValid();
-                return this.backing.equals(other.backing);
-            }
-            return this.backing.equals(obj);
+        if (obj instanceof BigDecimal other) {
+            return this.backing.equals(other.backing);
         }
-        if (obj instanceof BigDecimal other)
-            return this.doubleBacking == other.doubleBacking;
-        return false;
+        return this.backing.equals(obj);
     }
 
     @Override
     public String toString() {
-        ensureValid();
-        if (BigConstants.BIG_MODE)
-            return this.backing.toString();
-        return Double.toString(this.doubleBacking);
+        return this.backing.toString();
     }
 
     public java.math.BigDecimal getBacking() {
@@ -315,13 +205,6 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     public BigInteger floor() {
-        ensureValid();
-        long val = Mth.lfloor(this.doubleBacking);
-        return BigConstants.Ints.BIG_MODE && BigConstants.BIG_MODE ? new BigInteger(this.backing.setScale(0, RoundingMode.FLOOR).toBigInteger(), val) : new BigInteger(val);
-    }
-
-    public void ensureValid() {
-        if (BigConstants.BIG_MODE && backing == null)
-            this.backing = new java.math.BigDecimal(this.doubleBacking, PRECISION);
+        return new BigInteger(this.backing.toBigInteger());
     }
 }

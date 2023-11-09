@@ -5,7 +5,7 @@
     public void m_7592_(Level p_57441_, BlockPos p_57442_, Explosion p_57443_) {
        if (!p_57441_.f_46443_) {
 -         PrimedTnt primedtnt = new PrimedTnt(p_57441_, (double)p_57442_.m_123341_() + 0.5D, (double)p_57442_.m_123342_(), (double)p_57442_.m_123343_() + 0.5D, p_57443_.m_252906_());
-+         PrimedTnt primedtnt = new PrimedTnt(p_57441_, (double)p_57442_.getX() + 0.5D, (double)p_57442_.getY(), (double)p_57442_.getZ() + 0.5D, p_57443_.m_252906_());
++         PrimedTnt primedtnt = new PrimedTnt(p_57441_, p_57442_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), p_57442_.getBigDecY(), p_57442_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), p_57443_.m_252906_());
           int i = primedtnt.m_32100_();
           primedtnt.m_32085_((short)(p_57441_.f_46441_.m_188503_(i / 4) + i / 8));
           p_57441_.m_7967_(primedtnt);
@@ -14,7 +14,7 @@
     private static void m_57436_(Level p_57437_, BlockPos p_57438_, @Nullable LivingEntity p_57439_) {
        if (!p_57437_.f_46443_) {
 -         PrimedTnt primedtnt = new PrimedTnt(p_57437_, (double)p_57438_.m_123341_() + 0.5D, (double)p_57438_.m_123342_(), (double)p_57438_.m_123343_() + 0.5D, p_57439_);
-+         PrimedTnt primedtnt = new PrimedTnt(p_57437_, (double)p_57438_.getX() + 0.5D, (double)p_57438_.getY(), (double)p_57438_.getZ() + 0.5D, p_57439_);
++         PrimedTnt primedtnt = new PrimedTnt(p_57437_, p_57438_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), p_57438_.getBigDecY(), p_57438_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), p_57439_);
           p_57437_.m_7967_(primedtnt);
 -         p_57437_.m_6263_((Player)null, primedtnt.m_20185_(), primedtnt.m_20186_(), primedtnt.m_20189_(), SoundEvents.f_12512_, SoundSource.BLOCKS, 1.0F, 1.0F);
 +         p_57437_.playSound((Player)null, primedtnt.getBigX(), primedtnt.getBigY(), primedtnt.getBigZ(), SoundEvents.f_12512_, SoundSource.BLOCKS, 1.0F, 1.0F);

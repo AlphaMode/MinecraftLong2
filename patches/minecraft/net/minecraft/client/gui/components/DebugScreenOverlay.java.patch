@@ -18,27 +18,17 @@
           List<String> list = Lists.newArrayList("Minecraft " + SharedConstants.m_183709_().m_132493_() + " (" + this.f_94030_.m_91388_() + "/" + ClientBrandRetriever.getClientModName() + ("release".equalsIgnoreCase(this.f_94030_.m_91389_()) ? "" : "/" + this.f_94030_.m_91389_()) + ")", this.f_94030_.f_90977_, s, this.f_94030_.f_91060_.m_109820_(), this.f_94030_.f_91060_.m_109822_(), "P: " + this.f_94030_.f_91061_.m_107403_() + ". T: " + this.f_94030_.f_91073_.m_104813_(), this.f_94030_.f_91073_.m_46464_());
           String s2 = this.m_94082_();
           if (s2 != null) {
-@@ -215,9 +_,20 @@
+@@ -215,9 +_,10 @@
  
           list.add(this.f_94030_.f_91073_.m_46472_().m_135782_() + " FC: " + longset.size());
           list.add("");
 -         list.add(String.format(Locale.ROOT, "XYZ: %.3f / %.5f / %.3f", this.f_94030_.m_91288_().m_20185_(), this.f_94030_.m_91288_().m_20186_(), this.f_94030_.m_91288_().m_20189_()));
 -         list.add(String.format(Locale.ROOT, "Block: %d %d %d [%d %d %d]", blockpos.m_123341_(), blockpos.m_123342_(), blockpos.m_123343_(), blockpos.m_123341_() & 15, blockpos.m_123342_() & 15, blockpos.m_123343_() & 15));
 -         list.add(String.format(Locale.ROOT, "Chunk: %d %d %d [%d %d in r.%d.%d.mca]", chunkpos.f_45578_, SectionPos.m_123171_(blockpos.m_123342_()), chunkpos.f_45579_, chunkpos.m_45613_(), chunkpos.m_45614_(), chunkpos.m_45610_(), chunkpos.m_45612_()));
-+         if (me.alphamode.mclong.core.BigConstants.BIG_MODE) {
-+            list.add(String.format(Locale.ROOT, "Legacy XYZ: %.3f / %.5f / %.3f", this.f_94030_.m_91288_().m_20185_(), this.f_94030_.m_91288_().m_20186_(), this.f_94030_.m_91288_().m_20189_()));
-+            list.add(String.format(Locale.ROOT, "XYZ: %.3f / %.5f / %.3f", this.f_94030_.m_91288_().getBigX().getBacking(), this.f_94030_.m_91288_().getBigY().getBacking(), this.f_94030_.m_91288_().getBigZ().getBacking()));
-+         } else
-+            list.add(String.format(Locale.ROOT, "XYZ: %.3f / %.5f / %.3f", this.f_94030_.m_91288_().m_20185_(), this.f_94030_.m_91288_().m_20186_(), this.f_94030_.m_91288_().m_20189_()));
-+         if (me.alphamode.mclong.core.BigConstants.Ints.BIG_MODE) {
-+            list.add(String.format(Locale.ROOT, "Block: %d %d %d [%d %d %d]", blockpos.getBigX().getBacking(), blockpos.getBigY().getBacking(), blockpos.getBigZ().getBacking(), blockpos.getBigX().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).getBacking(), blockpos.getBigY().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).getBacking(), blockpos.getBigZ().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).getBacking()));
-+            list.add(String.format(Locale.ROOT, "Chunk: %d %d %d [%d %d in r.%d.%d.mca]", chunkpos.x(), SectionPos.blockToSectionCoord(blockpos.getBigY()).getBacking(), chunkpos.z(), chunkpos.getRegionLocalX().getBacking(), chunkpos.getRegionLocalZ().getBacking(), chunkpos.getRegionX().getBacking(), chunkpos.getRegionZ().getBacking()));
-+         } else {
-+            list.add(String.format(Locale.ROOT, "Block: %d %d %d [%d %d %d]", blockpos.getX(), blockpos.getY(), blockpos.getZ(), blockpos.getX() & 15, blockpos.getY() & 15, blockpos.getZ() & 15));
-+            list.add(String.format(Locale.ROOT, "Chunk: %d %d %d [%d %d in r.%d.%d.mca]", chunkpos.x(), SectionPos.blockToSectionCoord(blockpos.getY()), chunkpos.z(), chunkpos.getRegionLocalX().longValue(), chunkpos.getRegionLocalZ().longValue(), chunkpos.getRegionX().longValue(), chunkpos.getRegionZ().longValue()));
-+         }
-+         list.add("Big Decimal mode: " + (me.alphamode.mclong.core.BigConstants.BIG_MODE ? ChatFormatting.GREEN + "true" : ChatFormatting.RED + "false"));
-+         list.add("Big Integer mode: " + (me.alphamode.mclong.core.BigConstants.Ints.BIG_MODE ? ChatFormatting.GREEN + "true" : ChatFormatting.RED + "false"));
++
++         list.add(String.format(Locale.ROOT, "XYZ: %.3f / %.5f / %.3f", this.f_94030_.m_91288_().getBigX().getBacking(), this.f_94030_.m_91288_().getBigY().getBacking(), this.f_94030_.m_91288_().getBigZ().getBacking()));
++         list.add(String.format(Locale.ROOT, "Block: %d %d %d [%d %d %d]", blockpos.getBigX().getBacking(), blockpos.getBigY().getBacking(), blockpos.getBigZ().getBacking(), blockpos.getBigX().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).getBacking(), blockpos.getBigY().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).getBacking(), blockpos.getBigZ().and(me.alphamode.mclong.core.BigConstants.Ints.FIFTEEN).getBacking()));
++         list.add(String.format(Locale.ROOT, "Chunk: %d %d %d [%d %d in r.%d.%d.mca]", chunkpos.x(), SectionPos.blockToSectionCoord(blockpos.getBigY()).getBacking(), chunkpos.z(), chunkpos.getRegionLocalX().getBacking(), chunkpos.getRegionLocalZ().getBacking(), chunkpos.getRegionX().getBacking(), chunkpos.getRegionZ().getBacking()));
           list.add(String.format(Locale.ROOT, "Facing: %s (%s) (%.1f / %.1f)", direction, s1, Mth.m_14177_(entity.m_146908_()), Mth.m_14177_(entity.m_146909_())));
           LevelChunk levelchunk = this.m_94085_();
           if (levelchunk.m_6430_()) {

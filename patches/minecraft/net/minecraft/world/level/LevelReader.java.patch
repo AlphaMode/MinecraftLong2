@@ -47,7 +47,7 @@
 -   }
 -
 -   Holder<Biome> m_203675_(int p_204159_, int p_204160_, int p_204161_);
-+      return p_46837_.m_130045_(this.m_204166_(p_46836_).m_203334_(), (double)p_46836_.getX(), (double)p_46836_.getZ());
++      return p_46837_.getColor(this.m_204166_(p_46836_).m_203334_(), p_46836_.getBigDecX(), p_46836_.getBigDecZ());
 +   }
 +
 +   default Holder<Biome> getNoiseBiome(me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ) {
@@ -64,15 +64,13 @@
     DimensionType m_6042_();
  
 -   default int m_141937_() {
--      return this.m_6042_().f_156647_();
 +   default long getMinBuildHeight() {
-+      return -800;//this.dimensionType().minY();
+       return this.m_6042_().f_156647_();
     }
  
 -   default int m_141928_() {
--      return this.m_6042_().f_156648_();
 +   default long getHeight() {
-+      return 1600;//this.dimensionType().height();
+       return this.m_6042_().f_156648_();
     }
  
     default BlockPos m_5452_(Heightmap.Types p_46830_, BlockPos p_46831_) {
@@ -86,7 +84,7 @@
  
     default boolean m_46861_(BlockPos p_46862_) {
 -      if (p_46862_.m_123342_() >= this.m_5736_()) {
-+      if (p_46862_.getY() >= this.m_5736_()) {
++      if (p_46862_.getBigY().compareTo(this.m_5736_()) >= 0) {
           return this.m_45527_(p_46862_);
        } else {
 -         BlockPos blockpos = new BlockPos(p_46862_.m_123341_(), this.m_5736_(), p_46862_.m_123343_());
@@ -95,7 +93,7 @@
              return false;
           } else {
 -            for(BlockPos blockpos1 = blockpos.m_7495_(); blockpos1.m_123342_() > p_46862_.m_123342_(); blockpos1 = blockpos1.m_7495_()) {
-+            for(BlockPos blockpos1 = blockpos.below(); blockpos1.getY() > p_46862_.getY(); blockpos1 = blockpos1.below()) {
++            for(BlockPos blockpos1 = blockpos.below(); blockpos1.getBigY().compareTo(p_46862_.getBigY()) > 0; blockpos1 = blockpos1.below()) {
                 BlockState blockstate = this.m_8055_(blockpos1);
                 if (blockstate.m_60739_(this, blockpos1) > 0 && !blockstate.m_278721_()) {
                    return false;

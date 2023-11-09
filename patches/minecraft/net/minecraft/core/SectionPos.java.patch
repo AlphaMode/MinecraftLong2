@@ -158,7 +158,7 @@
     }
  
     public static int m_123204_(short p_123205_) {
-@@ -104,84 +_,128 @@
+@@ -104,84 +_,112 @@
        return p_123228_ >>> 4 & 15;
     }
  
@@ -242,6 +242,10 @@
 -
 -   public int m_123248_() {
 -      return m_175554_(this.m_123222_(), 15);
+-   }
+-
+-   public static long m_123235_(long p_123236_) {
+-      return m_123209_(m_123171_(BlockPos.m_121983_(p_123236_)), m_123171_(BlockPos.m_122008_(p_123236_)), m_123171_(BlockPos.m_122015_(p_123236_)));
 +      return new BlockPos(this.relativeToBlockX(p_123246_), this.relativeToBlockY(p_123246_), this.relativeToBlockZ(p_123246_));
 +   }
 +
@@ -317,33 +321,16 @@
 +      return sectionToBlockCoord(this.getBigZ());
 +   }
 +
-+   public long maxBlockX() {
-+      return sectionToBlockCoord(this.x(), 15);
-+   }
-+
-+   public long maxBlockY() {
-+      return sectionToBlockCoord(this.y(), 15);
-+   }
-+
-+   public long maxBlockZ() {
-+      return sectionToBlockCoord(this.z(), 15);
-+   }
-+
-+   public me.alphamode.mclong.math.BigInteger maxBlockBigX() {
++   public me.alphamode.mclong.math.BigInteger maxBlockX() {
 +      return sectionToBlockCoord(this.getBigX(), 15);
 +   }
 +
-+   public me.alphamode.mclong.math.BigInteger maxBlockBigY() {
++   public me.alphamode.mclong.math.BigInteger maxBlockY() {
 +      return sectionToBlockCoord(this.getBigY(), 15);
 +   }
 +
-+   public me.alphamode.mclong.math.BigInteger maxBlockBigZ() {
++   public me.alphamode.mclong.math.BigInteger maxBlockZ() {
 +      return sectionToBlockCoord(this.getBigZ(), 15);
-    }
- 
-    public static long m_123235_(long p_123236_) {
--      return m_123209_(m_123171_(BlockPos.m_121983_(p_123236_)), m_123171_(BlockPos.m_122008_(p_123236_)), m_123171_(BlockPos.m_122015_(p_123236_)));
-+      return asLong(blockToSectionCoord(BlockPos.getX(p_123236_)), blockToSectionCoord(BlockPos.getY(p_123236_)), blockToSectionCoord(BlockPos.getZ(p_123236_)));
     }
  
     public static long m_284454_(int p_285381_, int p_285068_) {
@@ -356,7 +343,7 @@
     }
  
     public static long m_123240_(long p_123241_) {
-@@ -189,61 +_,61 @@
+@@ -189,61 +_,57 @@
     }
  
     public BlockPos m_123249_() {
@@ -386,25 +373,26 @@
 -      i |= ((long)p_123210_ & 4194303L) << 42;
 -      i |= ((long)p_123211_ & 1048575L) << 0;
 -      return i | ((long)p_123212_ & 4194303L) << 20;
+-   }
+-
+-   public long m_123252_() {
+-      return m_123209_(this.m_123170_(), this.m_123206_(), this.m_123222_());
+-   }
+-
+-   public SectionPos m_7918_(int p_175571_, int p_175572_, int p_175573_) {
+-      return p_175571_ == 0 && p_175572_ == 0 && p_175573_ == 0 ? this : new SectionPos(this.m_123170_() + p_175571_, this.m_123206_() + p_175572_, this.m_123222_() + p_175573_);
 +      i |= ((long)pX & 4194303L) << 42;
 +      i |= ((long)pY & 1048575L) << 0;
 +      return i | ((long)pZ & 4194303L) << 20;
-    }
- 
-    public long m_123252_() {
--      return m_123209_(this.m_123170_(), this.m_123206_(), this.m_123222_());
-+      return asLong(this.x(), this.y(), this.z());
-    }
- 
--   public SectionPos m_7918_(int p_175571_, int p_175572_, int p_175573_) {
--      return p_175571_ == 0 && p_175572_ == 0 && p_175573_ == 0 ? this : new SectionPos(this.m_123170_() + p_175571_, this.m_123206_() + p_175572_, this.m_123222_() + p_175573_);
++   }
++
 +   public SectionPos offset(long pDx, long pDy, long pDz) {
 +      return pDx == 0 && pDy == 0 && pDz == 0 ? this : new SectionPos(this.getBigX().add(pDx), this.getBigY().add(pDy), this.getBigZ().add(pDz));
     }
  
     public Stream<BlockPos> m_123253_() {
 -      return BlockPos.m_121886_(this.m_123229_(), this.m_123234_(), this.m_123239_(), this.m_123244_(), this.m_123247_(), this.m_123248_());
-+      return BlockPos.betweenClosedStream(this.minBlockBigX(), this.minBlockBigY(), this.minBlockBigZ(), this.maxBlockBigX(), this.maxBlockBigY(), this.maxBlockBigZ());
++      return BlockPos.betweenClosedStream(this.minBlockBigX(), this.minBlockBigY(), this.minBlockBigZ(), this.maxBlockX(), this.maxBlockY(), this.maxBlockZ());
     }
  
     public static Stream<SectionPos> m_123201_(SectionPos p_123202_, int p_123203_) {

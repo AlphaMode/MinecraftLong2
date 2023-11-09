@@ -30,7 +30,7 @@
 -            double d6 = Math.max(Math.abs(d3), Math.abs(d5));
 -            d0 = (double)p_20993_.m_123341_() + 0.5D + d3 / d6 * 0.5D;
 -            d2 = (double)p_20993_.m_123343_() + 0.5D + d5 / d6 * 0.5D;
-+         if (p_20993_.getX() != blockpos.getX() || p_20993_.getZ() != blockpos.getZ()) {
++         if (!p_20993_.getBigX().equals(blockpos.getBigX()) || !p_20993_.getBigZ().equals(blockpos.getBigZ())) {
 +            me.alphamode.mclong.math.BigDecimal d3 = d0.subtract(p_20993_.getBigDecX()).subtract(me.alphamode.mclong.core.BigConstants.AABB);
 +            me.alphamode.mclong.math.BigDecimal d5 = d2.subtract(p_20993_.getBigDecZ()).subtract(me.alphamode.mclong.core.BigConstants.AABB);
 +            me.alphamode.mclong.math.BigDecimal d6 = d3.abs().max(d5.abs());
@@ -102,9 +102,9 @@
 -         p_21145_.m_128405_("SleepingX", p_21099_.m_123341_());
 -         p_21145_.m_128405_("SleepingY", p_21099_.m_123342_());
 -         p_21145_.m_128405_("SleepingZ", p_21099_.m_123343_());
-+         p_21145_.m_128356_("SleepingX", p_21099_.getX());
-+         p_21145_.m_128356_("SleepingY", p_21099_.getY());
-+         p_21145_.m_128356_("SleepingZ", p_21099_.getZ());
++         p_21145_.m_128359_("SleepingX", p_21099_.getBigX().toString());
++         p_21145_.m_128359_("SleepingY", p_21099_.getBigY().toString());
++         p_21145_.m_128359_("SleepingZ", p_21099_.getBigZ().toString());
        });
        DataResult<Tag> dataresult = this.f_20939_.m_21914_(NbtOps.f_128958_);
        dataresult.resultOrPartial(f_201943_::error).ifPresent((p_21102_) -> {
@@ -113,7 +113,7 @@
  
        if (p_21096_.m_128425_("SleepingX", 99) && p_21096_.m_128425_("SleepingY", 99) && p_21096_.m_128425_("SleepingZ", 99)) {
 -         BlockPos blockpos = new BlockPos(p_21096_.m_128451_("SleepingX"), p_21096_.m_128451_("SleepingY"), p_21096_.m_128451_("SleepingZ"));
-+         BlockPos blockpos = new BlockPos(p_21096_.m_128454_("SleepingX"), p_21096_.m_128454_("SleepingY"), p_21096_.m_128454_("SleepingZ"));
++         BlockPos blockpos = new BlockPos(new me.alphamode.mclong.math.BigInteger(p_21096_.m_128461_("SleepingX")), new me.alphamode.mclong.math.BigInteger(p_21096_.m_128461_("SleepingY")), new me.alphamode.mclong.math.BigInteger(p_21096_.m_128461_("SleepingZ")));
           this.m_21250_(blockpos);
           this.f_19804_.m_135381_(f_19806_, Pose.SLEEPING);
           if (!this.f_19803_) {
@@ -144,6 +144,15 @@
           }
  
           this.m_21060_(p_21279_, 5);
+@@ -1325,7 +_,7 @@
+             }
+ 
+             if (!flag) {
+-               ItemEntity itementity = new ItemEntity(this.m_9236_(), this.m_20185_(), this.m_20186_(), this.m_20189_(), new ItemStack(Items.f_41951_));
++               ItemEntity itementity = new ItemEntity(this.m_9236_(), this.getBigX(), this.getBigY(), this.getBigZ(), new ItemStack(Items.f_41951_));
+                this.m_9236_().m_7967_(itementity);
+             }
+          }
 @@ -1391,7 +_,7 @@
           this.f_19812_ = true;
           Vec3 vec3 = this.m_20184_();
@@ -169,9 +178,9 @@
 -         int i = Mth.m_14107_(this.m_20185_());
 -         int j = Mth.m_14107_(this.m_20186_() - (double)0.2F);
 -         int k = Mth.m_14107_(this.m_20189_());
-+         long i = Mth.m_14134_(this.m_20185_());
-+         long j = Mth.m_14134_(this.m_20186_() - (double)0.2F);
-+         long k = Mth.m_14134_(this.m_20189_());
++         me.alphamode.mclong.math.BigInteger i = Mth.lfloor(this.getBigX());
++         me.alphamode.mclong.math.BigInteger j = Mth.lfloor(this.getBigY().subtract(me.alphamode.mclong.core.BigConstants.FALL_SOUND));
++         me.alphamode.mclong.math.BigInteger k = Mth.lfloor(this.getBigZ());
           BlockState blockstate = this.m_9236_().m_8055_(new BlockPos(i, j, k));
           if (!blockstate.m_60795_()) {
              SoundType soundtype = blockstate.m_60827_();
@@ -487,7 +496,7 @@
  
 -         while(!flag1 && blockpos.m_123342_() > level.m_141937_()) {
 -            BlockPos blockpos1 = blockpos.m_7495_();
-+         while(!flag1 && blockpos.getY() > level.getMinBuildHeight()) {
++         while(!flag1 && blockpos.getBigY().compareTo(level.getMinBuildHeight()) > 0) {
 +            BlockPos blockpos1 = blockpos.below();
              BlockState blockstate = level.m_8055_(blockpos1);
              if (blockstate.m_280555_()) {

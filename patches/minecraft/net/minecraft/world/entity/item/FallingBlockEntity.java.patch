@@ -1,21 +1,31 @@
 --- a/net/minecraft/world/entity/item/FallingBlockEntity.java
 +++ b/net/minecraft/world/entity/item/FallingBlockEntity.java
-@@ -69,14 +_,14 @@
+@@ -63,20 +_,20 @@
+       super(p_31950_, p_31951_);
+    }
+ 
+-   private FallingBlockEntity(Level p_31953_, double p_31954_, double p_31955_, double p_31956_, BlockState p_31957_) {
+-      this(EntityType.f_20450_, p_31953_);
+-      this.f_31946_ = p_31957_;
++   private FallingBlockEntity(Level pLevel, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, BlockState pState) {
++      this(EntityType.f_20450_, pLevel);
++      this.f_31946_ = pState;
        this.f_19850_ = true;
-       this.m_6034_(p_31954_, p_31955_, p_31956_);
+-      this.m_6034_(p_31954_, p_31955_, p_31956_);
++      this.setPos(pX, pY, pZ);
        this.m_20256_(Vec3.f_82478_);
 -      this.f_19854_ = p_31954_;
 -      this.f_19855_ = p_31955_;
 -      this.f_19856_ = p_31956_;
-+      this.f_19854_ = me.alphamode.mclong.math.BigDecimal.valueOf(p_31954_);
-+      this.f_19855_ = me.alphamode.mclong.math.BigDecimal.valueOf(p_31955_);
-+      this.f_19856_ = me.alphamode.mclong.math.BigDecimal.valueOf(p_31956_);
++      this.f_19854_ = pX;
++      this.f_19855_ = pY;
++      this.f_19856_ = pZ;
        this.m_31959_(this.m_20183_());
     }
  
     public static FallingBlockEntity m_201971_(Level p_201972_, BlockPos p_201973_, BlockState p_201974_) {
 -      FallingBlockEntity fallingblockentity = new FallingBlockEntity(p_201972_, (double)p_201973_.m_123341_() + 0.5D, (double)p_201973_.m_123342_(), (double)p_201973_.m_123343_() + 0.5D, p_201974_.m_61138_(BlockStateProperties.f_61362_) ? p_201974_.m_61124_(BlockStateProperties.f_61362_, Boolean.valueOf(false)) : p_201974_);
-+      FallingBlockEntity fallingblockentity = new FallingBlockEntity(p_201972_, (double)p_201973_.getX() + 0.5D, (double)p_201973_.getY(), (double)p_201973_.getZ() + 0.5D, p_201974_.m_61138_(BlockStateProperties.f_61362_) ? p_201974_.m_61124_(BlockStateProperties.f_61362_, Boolean.valueOf(false)) : p_201974_);
++      FallingBlockEntity fallingblockentity = new FallingBlockEntity(p_201972_, p_201973_.getBigDecX().add(me.alphamode.mclong.core.BigConstants.AABB), p_201973_.getBigDecY(), p_201973_.getBigDecZ().add(me.alphamode.mclong.core.BigConstants.AABB), p_201974_.m_61138_(BlockStateProperties.f_61362_) ? p_201974_.m_61124_(BlockStateProperties.f_61362_, Boolean.valueOf(false)) : p_201974_);
        p_201972_.m_7731_(p_201973_, p_201974_.m_60819_().m_76188_(), 3);
        p_201972_.m_7967_(fallingblockentity);
        return fallingblockentity;

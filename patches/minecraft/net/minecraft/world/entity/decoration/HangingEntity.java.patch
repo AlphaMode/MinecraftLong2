@@ -79,3 +79,23 @@
           f_238173_.error("Hanging entity at invalid position: {}", (Object)blockpos);
        } else {
           this.f_31698_ = blockpos;
+@@ -202,7 +_,7 @@
+    public abstract void m_7084_();
+ 
+    public ItemEntity m_5552_(ItemStack p_31722_, float p_31723_) {
+-      ItemEntity itementity = new ItemEntity(this.m_9236_(), this.m_20185_() + (double)((float)this.f_31699_.m_122429_() * 0.15F), this.m_20186_() + (double)p_31723_, this.m_20189_() + (double)((float)this.f_31699_.m_122431_() * 0.15F), p_31722_);
++      ItemEntity itementity = new ItemEntity(this.m_9236_(), this.getBigX().add((double)((float)this.f_31699_.m_122429_() * 0.15F)), this.getBigY().add((double)p_31723_), this.getBigZ().add((double)((float)this.f_31699_.m_122431_() * 0.15F)), p_31722_);
+       itementity.m_32060_();
+       this.m_9236_().m_7967_(itementity);
+       return itementity;
+@@ -212,8 +_,8 @@
+       return false;
+    }
+ 
+-   public void m_6034_(double p_31739_, double p_31740_, double p_31741_) {
+-      this.f_31698_ = BlockPos.m_274561_(p_31739_, p_31740_, p_31741_);
++   public void setPos(me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ) {
++      this.f_31698_ = BlockPos.containing(pX, pY, pZ);
+       this.m_7087_();
+       this.f_19812_ = true;
+    }

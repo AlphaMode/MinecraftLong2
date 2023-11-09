@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/biome/BiomeManager.java
 +++ b/net/minecraft/world/level/biome/BiomeManager.java
-@@ -8,7 +_,7 @@
+@@ -8,16 +_,21 @@
  import net.minecraft.util.Mth;
  
  public class BiomeManager {
@@ -9,7 +9,23 @@
     private static final int f_186673_ = 2;
     private static final int f_186674_ = 4;
     private static final int f_186675_ = 3;
-@@ -29,72 +_,72 @@
+    private final BiomeManager.NoiseBiomeSource f_47862_;
+-   private final long f_47863_;
++   private final me.alphamode.mclong.math.BigInteger f_47863_;
+ 
+    public BiomeManager(BiomeManager.NoiseBiomeSource p_186677_, long p_186678_) {
+       this.f_47862_ = p_186677_;
+-      this.f_47863_ = p_186678_;
++      this.f_47863_ = me.alphamode.mclong.math.BigInteger.valueOf(p_186678_);
++   }
++
++   public BiomeManager(BiomeManager.NoiseBiomeSource pNoiseBiomeSource, me.alphamode.mclong.math.BigInteger pBiomeZoomSeed) {
++      this.f_47862_ = pNoiseBiomeSource;
++      this.f_47863_ = pBiomeZoomSeed;
+    }
+ 
+    public static long m_47877_(long p_47878_) {
+@@ -29,80 +_,80 @@
     }
  
     public Holder<Biome> m_204214_(BlockPos p_204215_) {
@@ -53,7 +69,7 @@
 +         me.alphamode.mclong.math.BigDecimal d4 = flag ? d0 : d0.subtract(me.alphamode.mclong.math.BigDecimal.ONE);
 +         me.alphamode.mclong.math.BigDecimal d5 = flag1 ? d1 : d1.subtract(me.alphamode.mclong.math.BigDecimal.ONE);
 +         me.alphamode.mclong.math.BigDecimal d6 = flag2 ? d2 : d2.subtract(me.alphamode.mclong.math.BigDecimal.ONE);
-+         me.alphamode.mclong.math.BigDecimal d7 = getFiddledDistance(this.f_47863_, i2.longValue(), j2.longValue(), k2.longValue(), d4, d5, d6);
++         me.alphamode.mclong.math.BigDecimal d7 = getFiddledDistance(this.f_47863_, i2, j2, k2, d4, d5, d6);
 +         if (d3.compareTo(d7) > 0) {
              k1 = l1;
              d3 = d7;
@@ -100,6 +116,17 @@
 -      $$7 = LinearCongruentialGenerator.m_13972_($$7, (long)p_186681_);
 -      $$7 = LinearCongruentialGenerator.m_13972_($$7, (long)p_186682_);
 -      $$7 = LinearCongruentialGenerator.m_13972_($$7, (long)p_186683_);
+-      double d0 = m_186689_($$7);
+-      $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186680_);
+-      double d1 = m_186689_($$7);
+-      $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186680_);
+-      double d2 = m_186689_($$7);
+-      return Mth.m_144952_(p_186686_ + d2) + Mth.m_144952_(p_186685_ + d1) + Mth.m_144952_(p_186684_ + d0);
+-   }
+-
+-   private static double m_186689_(long p_186690_) {
+-      double d0 = (double)Math.floorMod(p_186690_ >> 24, 1024) / 1024.0D;
+-      return (d0 - 0.5D) * 0.9D;
 +      me.alphamode.mclong.math.BigInteger i = QuartPos.fromBlock(p_204217_.getBigX());
 +      me.alphamode.mclong.math.BigInteger j = QuartPos.fromBlock(p_204217_.getBigY());
 +      me.alphamode.mclong.math.BigInteger k = QuartPos.fromBlock(p_204217_.getBigZ());
@@ -110,26 +137,24 @@
 +      return this.f_47862_.getNoiseBiome(pX, pY, pZ);
 +   }
 +
-+   private static me.alphamode.mclong.math.BigDecimal getFiddledDistance(long pSeed, long pX, long pY, long pZ, me.alphamode.mclong.math.BigDecimal pXNoise, me.alphamode.mclong.math.BigDecimal pYNoise, me.alphamode.mclong.math.BigDecimal pZNoise) {
-+      long $$7 = LinearCongruentialGenerator.m_13972_(pSeed, pX);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, pY);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, pZ);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, pX);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, pY);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, pZ);
-       double d0 = m_186689_($$7);
--      $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186680_);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, pSeed);
-       double d1 = m_186689_($$7);
--      $$7 = LinearCongruentialGenerator.m_13972_($$7, p_186680_);
-+      $$7 = LinearCongruentialGenerator.m_13972_($$7, pSeed);
-       double d2 = m_186689_($$7);
--      return Mth.m_144952_(p_186686_ + d2) + Mth.m_144952_(p_186685_ + d1) + Mth.m_144952_(p_186684_ + d0);
++   private static me.alphamode.mclong.math.BigDecimal getFiddledDistance(me.alphamode.mclong.math.BigInteger pSeed, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ, me.alphamode.mclong.math.BigDecimal pXNoise, me.alphamode.mclong.math.BigDecimal pYNoise, me.alphamode.mclong.math.BigDecimal pZNoise) {
++      me.alphamode.mclong.math.BigInteger $$7 = LinearCongruentialGenerator.next(pSeed, pX);
++      $$7 = LinearCongruentialGenerator.next($$7, pY);
++      $$7 = LinearCongruentialGenerator.next($$7, pZ);
++      $$7 = LinearCongruentialGenerator.next($$7, pX);
++      $$7 = LinearCongruentialGenerator.next($$7, pY);
++      $$7 = LinearCongruentialGenerator.next($$7, pZ);
++      me.alphamode.mclong.math.BigDecimal d0 = getFiddle($$7);
++      $$7 = LinearCongruentialGenerator.next($$7, pSeed);
++      me.alphamode.mclong.math.BigDecimal d1 = getFiddle($$7);
++      $$7 = LinearCongruentialGenerator.next($$7, pSeed);
++      me.alphamode.mclong.math.BigDecimal d2 = getFiddle($$7);
 +      return Mth.square(pZNoise.add(d2)).add(Mth.square(pYNoise.add(d1))).add(Mth.square(pXNoise.add(d0)));
-    }
- 
-    private static double m_186689_(long p_186690_) {
-@@ -103,6 +_,6 @@
++   }
++
++   private static me.alphamode.mclong.math.BigDecimal getFiddle(me.alphamode.mclong.math.BigInteger pSeed) {
++      me.alphamode.mclong.math.BigDecimal d0 = me.alphamode.mclong.math.BigMath.floorMod(pSeed.shiftRight(24), 1024).toBigDecimal().divide(me.alphamode.mclong.core.BigConstants.BREAK_PROGRESS);
++      return (d0.subtract(me.alphamode.mclong.core.BigConstants.AABB)).multiply(me.alphamode.mclong.core.BigConstants.FIDDLE);
     }
  
     public interface NoiseBiomeSource {

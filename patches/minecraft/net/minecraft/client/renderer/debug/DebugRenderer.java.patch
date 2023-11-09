@@ -25,20 +25,64 @@
     }
  
     public static void m_269008_(PoseStack p_270616_, MultiBufferSource p_270769_, double p_270653_, double p_270967_, double p_270556_, double p_270724_, double p_270427_, double p_270138_, float p_270391_, float p_270093_, float p_270312_, float p_270567_) {
-@@ -169,9 +_,9 @@
+@@ -152,40 +_,40 @@
+       LevelRenderer.m_269208_(p_270616_, vertexconsumer, p_270653_, p_270967_, p_270556_, p_270724_, p_270427_, p_270138_, p_270391_, p_270093_, p_270312_, p_270567_);
+    }
+ 
+-   public static void m_269055_(PoseStack p_270671_, MultiBufferSource p_271023_, String p_270521_, int p_270729_, int p_270562_, int p_270828_, int p_270164_) {
+-      m_269271_(p_270671_, p_271023_, p_270521_, (double)p_270729_ + 0.5D, (double)p_270562_ + 0.5D, (double)p_270828_ + 0.5D, p_270164_);
+-   }
+-
+-   public static void m_269271_(PoseStack p_270905_, MultiBufferSource p_270581_, String p_270305_, double p_270645_, double p_270746_, double p_270364_, int p_270977_) {
+-      m_269569_(p_270905_, p_270581_, p_270305_, p_270645_, p_270746_, p_270364_, p_270977_, 0.02F);
+-   }
+-
+-   public static void m_269569_(PoseStack p_270216_, MultiBufferSource p_270684_, String p_270564_, double p_270935_, double p_270856_, double p_270908_, int p_270180_, float p_270685_) {
+-      m_269439_(p_270216_, p_270684_, p_270564_, p_270935_, p_270856_, p_270908_, p_270180_, p_270685_, true, 0.0F, false);
+-   }
+-
+-   public static void m_269439_(PoseStack p_270649_, MultiBufferSource p_270695_, String p_270703_, double p_270942_, double p_270292_, double p_270885_, int p_270956_, float p_270657_, boolean p_270731_, float p_270825_, boolean p_270222_) {
++   public static void renderFloatingText(PoseStack pPoseStack, MultiBufferSource pBuffer, String pText, me.alphamode.mclong.math.BigInteger pX, me.alphamode.mclong.math.BigInteger pY, me.alphamode.mclong.math.BigInteger pZ, int pColor) {
++      renderFloatingText(pPoseStack, pBuffer, pText, pX.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB), pY.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB), pZ.toBigDecimal().add(me.alphamode.mclong.core.BigConstants.AABB), pColor);
++   }
++
++   public static void renderFloatingText(PoseStack pPoseStack, MultiBufferSource pBuffer, String pText, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, int pColor) {
++      renderFloatingText(pPoseStack, pBuffer, pText, pX, pY, pZ, pColor, 0.02F);
++   }
++
++   public static void renderFloatingText(PoseStack pPoseStack, MultiBufferSource pBuffer, String pText, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, int pColor, float pScale) {
++      renderFloatingText(pPoseStack, pBuffer, pText, pX, pY, pZ, pColor, pScale, true, 0.0F, false);
++   }
++
++   public static void renderFloatingText(PoseStack pPoseStack, MultiBufferSource pBuffer, String pText, me.alphamode.mclong.math.BigDecimal pX, me.alphamode.mclong.math.BigDecimal pY, me.alphamode.mclong.math.BigDecimal pZ, int pColor, float pScale, boolean p_270731_, float p_270825_, boolean pTransparent) {
+       Minecraft minecraft = Minecraft.m_91087_();
        Camera camera = minecraft.f_91063_.m_109153_();
        if (camera.m_90593_() && minecraft.m_91290_().f_114360_ != null) {
           Font font = minecraft.f_91062_;
 -         double d0 = camera.m_90583_().f_82479_;
 -         double d1 = camera.m_90583_().f_82480_;
 -         double d2 = camera.m_90583_().f_82481_;
-+         double d0 = camera.m_90583_().m_7096_();
-+         double d1 = camera.m_90583_().m_7098_();
-+         double d2 = camera.m_90583_().m_7094_();
-          p_270649_.m_85836_();
-          p_270649_.m_252880_((float)(p_270942_ - d0), (float)(p_270292_ - d1) + 0.07F, (float)(p_270885_ - d2));
-          p_270649_.m_252931_((new Matrix4f()).rotation(camera.m_253121_()));
-@@ -185,7 +_,7 @@
+-         p_270649_.m_85836_();
+-         p_270649_.m_252880_((float)(p_270942_ - d0), (float)(p_270292_ - d1) + 0.07F, (float)(p_270885_ - d2));
+-         p_270649_.m_252931_((new Matrix4f()).rotation(camera.m_253121_()));
+-         p_270649_.m_85841_(-p_270657_, -p_270657_, p_270657_);
+-         float f = p_270731_ ? (float)(-font.m_92895_(p_270703_)) / 2.0F : 0.0F;
+-         f -= p_270825_ / p_270657_;
+-         font.m_271703_(p_270703_, f, 0.0F, p_270956_, false, p_270649_.m_85850_().m_252922_(), p_270695_, p_270222_ ? Font.DisplayMode.SEE_THROUGH : Font.DisplayMode.NORMAL, 0, 15728880);
+-         p_270649_.m_85849_();
++         me.alphamode.mclong.math.BigDecimal d0 = camera.m_90583_().getX();
++         me.alphamode.mclong.math.BigDecimal d1 = camera.m_90583_().getY();
++         me.alphamode.mclong.math.BigDecimal d2 = camera.m_90583_().getZ();
++         pPoseStack.m_85836_();
++         pPoseStack.m_252880_((float)(pX.subtract(d0)).floatValue(), (float)(pY.subtract(d1)).floatValue() + 0.07F, (float)(pZ.subtract(d2)).floatValue());
++         pPoseStack.m_252931_((new Matrix4f()).rotation(camera.m_253121_()));
++         pPoseStack.m_85841_(-pScale, -pScale, pScale);
++         float f = p_270731_ ? (float)(-font.m_92895_(pText)) / 2.0F : 0.0F;
++         f -= p_270825_ / pScale;
++         font.m_271703_(pText, f, 0.0F, pColor, false, pPoseStack.m_85850_().m_252922_(), pBuffer, pTransparent ? Font.DisplayMode.SEE_THROUGH : Font.DisplayMode.NORMAL, 0, 15728880);
++         pPoseStack.m_85849_();
+       }
+    }
  
     @OnlyIn(Dist.CLIENT)
     public interface SimpleDebugRenderer {

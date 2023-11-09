@@ -14,15 +14,16 @@ import me.alphamode.mclong.math.BigDecimal;
 import me.alphamode.mclong.math.BigInteger;
 import java.util.function.Function;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 @Immutable
 public class Vec3l implements Comparable<Vec3l> {
-    public static final Codec<Vec3l> CODEC = Codec.LONG_STREAM.comapFlatMap((p_123318_) -> {
+    public static final Codec<Vec3l> CODEC = ModdedCodec.STRING_STREAM.comapFlatMap((p_123318_) -> {
         return Util.fixedSize(p_123318_, 3).map((p_175586_) -> {
-            return new Vec3l(p_175586_[0], p_175586_[1], p_175586_[2]);
+            return new Vec3l(new BigInteger(p_175586_[0]), new BigInteger(p_175586_[1]), new BigInteger(p_175586_[2]));
         });
     }, (p_123313_) -> {
-        return LongStream.of(p_123313_.getX(), p_123313_.getY(), p_123313_.getZ());
+        return Stream.of(p_123313_.getBigX().toString(), p_123313_.getBigY().toString(), p_123313_.getBigZ().toString());
     });
     public static final Vec3l ZERO = new Vec3l(0, 0, 0);
     private BigInteger x;
@@ -31,7 +32,7 @@ public class Vec3l implements Comparable<Vec3l> {
 
     private static Function<Vec3l, DataResult<Vec3l>> checkOffsetAxes(int p_194646_) {
         return (p_194649_) -> {
-            return Math.abs(p_194649_.getX()) < p_194646_ && Math.abs(p_194649_.getY()) < p_194646_ && Math.abs(p_194649_.getZ()) < p_194646_ ? DataResult.success(p_194649_) : DataResult.error(() -> "Position out of range, expected at most " + p_194646_ + ": " + p_194649_);
+            return p_194649_.getBigX().abs().compareTo(p_194646_) < 0 && p_194649_.getBigY().abs().compareTo(p_194646_) < 0 && p_194649_.getBigZ().abs().compareTo(p_194646_) < 0 ? DataResult.success(p_194649_) : DataResult.error(() -> "Position out of range, expected at most " + p_194646_ + ": " + p_194649_);
         };
     }
 
@@ -75,14 +76,14 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public int hashCode() {
-        return (int) ((this.getY() + this.getZ() * 31) * 31 + this.getX());
+        return (int) ((this.getBigY().add(this.getBigZ()).multiply(31)).multiply(31).add(this.getBigX())).intValue();
     }
 
     public int compareTo(Vec3l p_123330_) {
         if (this.getBigY().equals(p_123330_.getBigY())) {
             return (int) (this.getBigZ().equals(p_123330_.getBigZ()) ? this.getBigX().subtract(p_123330_.getBigX()) : this.getBigZ().subtract(p_123330_.getBigZ())).intValue();
         } else {
-            return (int) (this.getY() - p_123330_.getY());
+            return (int) (this.getBigY().subtract(p_123330_.getBigY())).intValue();
         }
     }
 
@@ -153,7 +154,7 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public Vec3l offset(double p_175587_, double p_175588_, double p_175589_) {
-        return p_175587_ == 0.0D && p_175588_ == 0.0D && p_175589_ == 0.0D ? this : new Vec3l((double) this.getX() + p_175587_, (double) this.getY() + p_175588_, (double) this.getZ() + p_175589_);
+        return p_175587_ == 0.0D && p_175588_ == 0.0D && p_175589_ == 0.0D ? this : new Vec3l(this.getBigDecX().add(p_175587_), this.getBigDecY().add(p_175588_), this.getBigDecZ().add(p_175589_));
     }
 
     public Vec3l offset(long p_175593_, long p_175594_, long p_175595_) {
@@ -248,7 +249,7 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public Vec3l cross(Vec3l p_123325_) {
-        return new Vec3l(this.getY() * p_123325_.getZ() - this.getZ() * p_123325_.getY(), this.getZ() * p_123325_.getX() - this.getX() * p_123325_.getZ(), this.getX() * p_123325_.getY() - this.getY() * p_123325_.getX());
+        return new Vec3l(this.getBigY().multiply(p_123325_.getBigZ()).subtract(this.getBigZ().multiply(p_123325_.getBigY())), this.getBigZ().multiply(p_123325_.getBigX()).subtract(this.getBigX().multiply(p_123325_.getBigZ())), this.getBigX().multiply(p_123325_.getBigY()).subtract(this.getBigY().multiply(p_123325_.getBigX())));
     }
 
     public boolean closerThan(Vec3l p_123315_, double p_123316_) {

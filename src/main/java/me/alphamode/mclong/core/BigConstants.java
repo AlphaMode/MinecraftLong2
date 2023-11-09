@@ -8,8 +8,11 @@ import org.slf4j.Logger;
 public class BigConstants {
     public static final BigDecimal POINT_ONE = BigDecimal.valueOf(0.1D);
     public static final BigDecimal DISTANCE = BigDecimal.valueOf(256.0D);
+    public static final BigDecimal COMPOSTER = BigDecimal.valueOf(1.01D);
     public static final BigDecimal NINE = BigDecimal.valueOf(9.0D);
     public static final BigDecimal BEE = BigDecimal.valueOf(0.3F);
+    public static final BigDecimal GAME_EVENT = BigDecimal.valueOf(1.8F);
+    public static final BigDecimal GAME_EVENT_TWO = BigDecimal.valueOf(0.85F);
     public static final BigDecimal BOAT = BigDecimal.valueOf(0.7D);
     public static final BigDecimal GUARDIAN = BigDecimal.valueOf(1.5D);
     public static final BigDecimal MINECART = BigDecimal.valueOf(0.8D);
@@ -19,7 +22,7 @@ public class BigConstants {
     public static final BigDecimal TEN = BigDecimal.valueOf(10.0D);
     public static final BigDecimal SIX = BigDecimal.valueOf(6.0D);
     public static final BigDecimal FIFTEEN = BigDecimal.valueOf(15.0D);
-    public static boolean BIG_MODE = true;
+//    public static boolean BIG_MODE = false;
 
     public static final Logger LOGGER = LogUtils.getLogger();
 
@@ -37,11 +40,13 @@ public class BigConstants {
     public static final BigDecimal LEASH = BigDecimal.valueOf(0.375D);
     public static final BigDecimal BED = BigDecimal.valueOf(0.6875D);
     public static final BigDecimal GOLEM = BigDecimal.valueOf(0.05D);
+    public static final BigDecimal FIDDLE = BigDecimal.valueOf(0.9D);
     public static final BigDecimal TWO = BigDecimal.valueOf(2.0D);
     public static final BigDecimal FIVE = BigDecimal.valueOf(5.0D);
     public static final BigDecimal EIGHT = BigDecimal.valueOf(8.0D);
     public static final BigDecimal VAL = BigDecimal.valueOf(0.33F);
     public static final BigDecimal TWELVE = BigDecimal.valueOf(12.0D);
+    public static final BigDecimal FALL_SOUND = BigDecimal.valueOf(0.2F);
     public static final BigDecimal SIXTEEN = BigDecimal.valueOf(16.0D);
     public static final BigDecimal BREAK_PROGRESS = BigDecimal.valueOf(1024.0D);
     public static final BigDecimal BIG_VAL = BigDecimal.valueOf(2048.0D);
@@ -59,7 +64,7 @@ public class BigConstants {
         public static final BigInteger TEN = BigInteger.constant(10);
         public static final BigInteger FOUR = BigInteger.constant(4);
         public static final BigInteger FIVE = BigInteger.constant(5);
-        public static boolean BIG_MODE = true;
+//        public static boolean BIG_MODE = false;
         public static final BigInteger FIFTEEN = BigInteger.constant(15);
         public static final BigInteger SIXTEEN = BigInteger.constant(16);
         public static final BigInteger SIXTY = BigInteger.constant(60);

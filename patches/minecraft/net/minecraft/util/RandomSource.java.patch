@@ -1,16 +1,20 @@
 --- a/net/minecraft/util/RandomSource.java
 +++ b/net/minecraft/util/RandomSource.java
-@@ -44,7 +_,13 @@
-       return this.m_188503_(p_216334_ - p_216333_ + 1) + p_216333_;
+@@ -40,11 +_,15 @@
+ 
+    int m_188503_(int p_216331_);
+ 
+-   default int m_216332_(int p_216333_, int p_216334_) {
+-      return this.m_188503_(p_216334_ - p_216333_ + 1) + p_216333_;
++   default int nextIntBetweenInclusive(long pMin, long pMax) {
++      return (int) (this.m_188503_((int) (pMax - pMin + 1)) + pMin);
     }
  
-+   default long nextLongBetweenInclusive(long pMin, long pMax) {
-+      return this.nextLong(pMax - pMin + 1) + pMin;
-+   }
-+
     long m_188505_();
 +
-+   long nextLong(long off);
++   default long nextLong(long off) {
++      return m_188503_((int) off);
++   }
  
     boolean m_188499_();
  
